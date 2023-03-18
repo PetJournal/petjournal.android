@@ -5,9 +5,7 @@ ext {
     moshiKotlinVersion = "1.12.0"
 
     dependencies = [
-
-
-            koinCompose :"io.insert-koin:koin-androidx-compose:$koinVersion",
+            koinCompose            : "io.insert-koin:koin-androidx-compose:$koinVersion",
             koinCore               : "io.insert-koin:koin-core:$koinVersion",
             koinAndroid            : "io.insert-koin:koin-android:$koinVersion",
 
