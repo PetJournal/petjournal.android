@@ -71,4 +71,7 @@ dependencies {
     // Navigation Component
     implementation "androidx.navigation:navigation-compose:2.4.0-alpha10"
 
+    // Icons
+    implementation 'androidx.compose.material:material-icons-extended:1.1.1'
+
 }

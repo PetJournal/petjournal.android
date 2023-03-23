@@ -40,7 +40,7 @@ fun HomeScreen(navController: NavController) {
                     CircleShape
                 )
                 .clickable {
-                    navController.navigate("detail")
+                    navController.navigate("login")
                 }
         )
     }
