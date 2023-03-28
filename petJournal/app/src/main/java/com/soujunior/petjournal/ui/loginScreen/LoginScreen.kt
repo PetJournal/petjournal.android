@@ -78,6 +78,10 @@ fun LoginScreen(navController: NavController) {
                     value = emailField.value,
                     onValueChange = { emailField.value = it },
                     label = { Text(text = "Digitar e-mail") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        backgroundColor = Color(0xFFd9d9d9),
+                        //contentColor = Color.White
+                    ),
                     placeholder = { Text(text = "Digitar e-mail") },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(0.8f)
@@ -92,6 +96,10 @@ fun LoginScreen(navController: NavController) {
                     value = passwordField.value,
                     onValueChange = { passwordField.value = it },
                     label = { Text(text = "Digitar senha") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(backgroundColor = Color(0xFFd9d9d9),
+                        //contentColor = Color.White
+                    )
+                    ,
                     visualTransformation = visualTransformation,
                     trailingIcon = {
                         if (passwordField.value.isNotBlank()) {
