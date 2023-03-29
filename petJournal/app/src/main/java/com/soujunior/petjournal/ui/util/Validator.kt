@@ -8,6 +8,7 @@ fun isValidLenght(input: String): Boolean {
         input.length < 3 || input.length > 30 && input.isNotEmpty()
     } else false
 }
+
 /**
  * Se a String de entrada contiver algum caractere que corresponda à expressão regular, a função
  * retornará true, caso contrário, ela retornará false. Portanto, para usar essa função, basta
@@ -16,4 +17,9 @@ fun isValidLenght(input: String): Boolean {
 fun hasSpecialCharOrNumber(input: String): Boolean {
     val regex = Regex("[^a-zA-Z ]")
     return regex.containsMatchIn(input)
+}
+
+fun isEmail(input: String): Boolean {
+    val emailRegex = Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+    return emailRegex.matches(input)
 }
