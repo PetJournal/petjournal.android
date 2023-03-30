@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
@@ -20,7 +21,7 @@ import com.soujunior.petjournal.ui.util.AlertText
 import com.soujunior.petjournal.ui.util.hasSpecialCharOrNumber
 import com.soujunior.petjournal.ui.util.isEmail
 import com.soujunior.petjournal.ui.util.isValidLenght
-
+import com.soujunior.petjournal.ui.util.mask.mobileNumberFilter
 
 private var localNameState = compositionLocalOf { mutableStateOf("") }
 private var localLastNameState = compositionLocalOf { mutableStateOf("") }
@@ -43,12 +44,12 @@ fun Code(navController: NavController) {
         verticalArrangement = Arrangement.Top
     ) {
         val name by localNameState.current
-        val lastName by localLastNameState.current
         val email by localEmailState.current
-        val phoneNumber by localPhoneNumberState.current
-        val password by localPasswordState.current
-        val confirmPassword by localConfirmPasswordState.current
         val check by localCheckedState.current
+        val lastName by localLastNameState.current
+        val password by localPasswordState.current
+        val phoneNumber by localPhoneNumberState.current
+        val confirmPassword by localConfirmPasswordState.current
 
         var enableButton = false
 
@@ -57,6 +58,7 @@ fun Code(navController: NavController) {
 
         CreateTitleAndSubtitle()
         Form(paddingForm, roundedCornerShape)
+
 
         if (name.isNotEmpty() &&
             lastName.isNotBlank() &&
@@ -108,7 +110,7 @@ fun CreateTitleAndSubtitle() {
 }
 
 @Composable
-fun Name(padding: Modifier, roundedCornerShape: RoundedCornerShape) {
+fun Name(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
     var name by localNameState.current
     var showErrorLenght by remember { mutableStateOf(false) }
     var showErrorCharacter by remember { mutableStateOf(false) }
@@ -126,21 +128,21 @@ fun Name(padding: Modifier, roundedCornerShape: RoundedCornerShape) {
             unfocusedBorderColor = Color.Gray,
             textColor = Color.Blue
         ),
-        modifier = padding.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = roundedCornerShape,
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
         isError = showErrorLenght || showErrorCharacter
     )
     if (showErrorLenght) {
-        AlertText(padding = padding, textMessage = "O Nome precisa ter entre 3 e 30 caracteres..")
+        AlertText(modifier, textMessage = "O Nome precisa ter entre 3 e 30 caracteres..")
     }
     if (showErrorCharacter) {
-        AlertText(padding = padding, textMessage = "Caracteres especiais não são permitidos!")
+        AlertText(modifier, textMessage = "Caracteres especiais não são permitidos!")
     }
 }
 
 @Composable
-fun LastName(padding: Modifier, roundedCornerShape: RoundedCornerShape) {
+fun LastName(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
     var lastName by localLastNameState.current
     var showErrorLenght by remember { mutableStateOf(false) }
     var showErrorCharacter by remember { mutableStateOf(false) }
@@ -156,24 +158,23 @@ fun LastName(padding: Modifier, roundedCornerShape: RoundedCornerShape) {
             textColor = Color.Blue
         ),
         label = { Text("Last Name") },
-        modifier = padding.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = roundedCornerShape,
         isError = showErrorLenght || showErrorCharacter
     )
     if (showErrorLenght) {
         AlertText(
-            padding = padding,
+            modifier,
             textMessage = "O Sobrenome precisa ter entre 3 e 30 caracteres.."
         )
     }
     if (showErrorCharacter) {
-        AlertText(padding = padding, textMessage = "Caracteres especiais não são permitidos!")
+        AlertText(modifier, textMessage = "Caracteres especiais não são permitidos!")
     }
 }
 
 @Composable
-fun Email(padding: Modifier, roundedCornerShape: RoundedCornerShape) {
-    //TODO: Exibe mensagem de erro mas não impede nada
+fun Email(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
     var email by localEmailState.current
     var inFocus by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf(false) }
@@ -188,7 +189,7 @@ fun Email(padding: Modifier, roundedCornerShape: RoundedCornerShape) {
             textColor = Color.Blue
         ),
         label = { Text("Email") },
-        modifier = padding
+        modifier = modifier
             .fillMaxWidth()
             .onFocusChanged {
                 inFocus = if (it.hasFocus)
@@ -203,35 +204,47 @@ fun Email(padding: Modifier, roundedCornerShape: RoundedCornerShape) {
 
     if (!inFocus && !isEmail(email) && email.isNotBlank() && (email.length) > 7) {
         error = true
-        AlertText(padding = padding, textMessage = "Forneça um email no formato correto")
+        AlertText(modifier, textMessage = "Forneça um email no formato correto")
     } else {
         error = false
     }
 }
 
-//TODO: Original
+
 @Composable
-fun PhoneNumber(padding: Modifier, roundedCornerShape: RoundedCornerShape) {
+fun PhoneNumber(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
     var phoneNumber by localPhoneNumberState.current
+    var inFocus by remember { mutableStateOf(false) }
     OutlinedTextField(
         value = phoneNumber,
-        onValueChange = { newPhoneNumber -> phoneNumber = newPhoneNumber },
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone),
-        visualTransformation = VisualTransformation.None,
+        onValueChange = {
+            if (it.length <= 11) phoneNumber = it
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        visualTransformation = { mobileNumberFilter(it) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             unfocusedBorderColor = Color.Gray,
             textColor = Color.Blue
         ),
+        textStyle = TextStyle(fontSize = 25.sp),
+        label = { Text("Phone Number") },
+        placeholder = { Text("Phone Number") },
+        modifier = modifier
+            .fillMaxWidth()
+            .onFocusChanged {
+                inFocus = if (it.hasFocus)
+                    it.hasFocus
+                else {
+                    it.hasFocus
+                }
+            },
         shape = roundedCornerShape,
-        label = { Text("Telefone") },
-        modifier = padding.fillMaxWidth(),
-        isError = true
     )
 }
 
 
 @Composable
-fun Password(padding: Modifier, roundedCornerShape: RoundedCornerShape) {
+fun Password(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
     var password by localPasswordState.current
     var confirmPassword by localConfirmPasswordState.current
 
@@ -245,7 +258,7 @@ fun Password(padding: Modifier, roundedCornerShape: RoundedCornerShape) {
         ),
         label = { Text("Senha") },
         shape = roundedCornerShape,
-        modifier = padding.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     )
 
     OutlinedTextField(
@@ -259,12 +272,12 @@ fun Password(padding: Modifier, roundedCornerShape: RoundedCornerShape) {
             Text("Confirmar Senha")
         },
         shape = RoundedCornerShape(30.dp),
-        modifier = padding.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     )
 }
 
 @Composable
-fun PrivacyPolicyCheckbox(padding: Modifier) {
+fun PrivacyPolicyCheckbox(modifier: Modifier) {
     var checked by localCheckedState.current
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -281,21 +294,20 @@ fun PrivacyPolicyCheckbox(padding: Modifier) {
         )
         Text(
             text = "Eu concordo com a política de privacidade",
-            modifier = padding.fillMaxWidth()
+            modifier = modifier.fillMaxWidth()
         )
     }
 }
 
 @Composable
-fun Form(padding: Modifier, roundedCornerShape: RoundedCornerShape) {
-    Name(padding = padding, roundedCornerShape = roundedCornerShape)
-    LastName(padding = padding, roundedCornerShape = roundedCornerShape)
-    Email(padding = padding, roundedCornerShape = roundedCornerShape)
-    PhoneNumber(padding = padding,roundedCornerShape = roundedCornerShape)
-    Password(padding = padding, roundedCornerShape = roundedCornerShape)
-    PrivacyPolicyCheckbox(padding = padding)
+fun Form(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
+    Name(modifier = modifier, roundedCornerShape = roundedCornerShape)
+    LastName(modifier = modifier, roundedCornerShape = roundedCornerShape)
+    Email(modifier = modifier, roundedCornerShape = roundedCornerShape)
+    PhoneNumber(modifier = modifier, roundedCornerShape = roundedCornerShape)
+    Password(modifier = modifier, roundedCornerShape = roundedCornerShape)
+    PrivacyPolicyCheckbox(modifier = modifier)
 }
-
 
 fun click(
     name: String,
