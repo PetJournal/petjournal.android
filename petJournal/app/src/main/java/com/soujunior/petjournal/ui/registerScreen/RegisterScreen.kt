@@ -17,10 +17,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.soujunior.petjournal.ui.util.AlertText
-import com.soujunior.petjournal.ui.util.hasSpecialCharOrNumber
-import com.soujunior.petjournal.ui.util.isEmail
-import com.soujunior.petjournal.ui.util.isValidLenght
+import com.soujunior.petjournal.ui.util.*
 import com.soujunior.petjournal.ui.util.mask.mobileNumberFilter
 
 private var localNameState = compositionLocalOf { mutableStateOf("") }
@@ -45,34 +42,29 @@ fun Code(navController: NavController) {
     ) {
         val name by localNameState.current
         val email by localEmailState.current
-        val check by localCheckedState.current
         val lastName by localLastNameState.current
         val password by localPasswordState.current
         val phoneNumber by localPhoneNumberState.current
         val confirmPassword by localConfirmPasswordState.current
-
+        val checkPrivacyPolicy by localCheckedState.current
         var enableButton = false
-
         val paddingForm = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp)
         val roundedCornerShape = RoundedCornerShape(30.dp)
 
         CreateTitleAndSubtitle()
         Form(paddingForm, roundedCornerShape)
-
-
         if (name.isNotEmpty() &&
             lastName.isNotBlank() &&
             email.isNotBlank() &&
             phoneNumber.isNotBlank() &&
             password.isNotBlank() &&
             confirmPassword.isNotBlank() &&
-            check
+            checkPrivacyPolicy
         ) {
             enableButton = true
         }
-
-        Button(
-            onClick = {
+        ButtonRegister(
+            submit = {
                 click(
                     name,
                     lastName,
@@ -80,15 +72,12 @@ fun Code(navController: NavController) {
                     phoneNumber,
                     password,
                     confirmPassword,
-                    check
+                    checkPrivacyPolicy
                 )
             },
-            enabled = enableButton,
-            modifier = paddingForm.fillMaxWidth(),
-            shape = RoundedCornerShape(topEnd = 20.dp, bottomStart = 20.dp)
-        ) {
-            Text(text = "Cadastrar", fontSize = 20.sp)
-        }
+            modifier = paddingForm,
+            enableButton = enableButton
+        )
     }
 }
 
@@ -210,7 +199,6 @@ fun Email(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
     }
 }
 
-
 @Composable
 fun PhoneNumber(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
     var phoneNumber by localPhoneNumberState.current
@@ -232,23 +220,20 @@ fun PhoneNumber(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
         modifier = modifier
             .fillMaxWidth()
             .onFocusChanged {
-                inFocus = if (it.hasFocus)
-                    it.hasFocus
-                else {
-                    it.hasFocus
-                }
+                inFocus = if (it.hasFocus) it.hasFocus
+                else it.hasFocus
             },
         shape = roundedCornerShape,
     )
 }
 
-
 @Composable
 fun Password(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
     var password by localPasswordState.current
     var confirmPassword by localConfirmPasswordState.current
+    var inFocusPwd by remember { mutableStateOf(false) }
+    var inFocusConfirmPwd by remember { mutableStateOf(false) }
 
-    //TODO: Adicionar verificação de caracteres
     OutlinedTextField(
         value = password,
         onValueChange = { newPassword -> password = newPassword },
@@ -258,21 +243,56 @@ fun Password(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
         ),
         label = { Text("Senha") },
         shape = roundedCornerShape,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .onFocusChanged {
+
+                inFocusPwd = if (it.hasFocus) it.hasFocus else it.hasFocus
+            }
     )
 
+    if (inFocusPwd) {
+        val listItens = countCharacters(password)
+        var count = 0
+        if (listItens[0] < 2) AlertText(textMessage = "Pelo menos duas letras Maiusculas (ex: F, G, ...)") else count++
+        if (listItens[1] < 2) AlertText(textMessage = "Pelo menos duas letras Minusculas (ex: f, g, ...)") else count++
+        if (listItens[2] < 2) AlertText(textMessage = "Pelo menos dois Simbolos (ex: %, &, ...)") else count++
+        if (listItens[3] < 2) AlertText(textMessage = "Pelo menos dois Numeros (ex: 2, 5, ...)") else count++
+        if (count == 4) {
+            Log.e("testar", "Esta em foco e a senha esta cumprindo os requisitos. Count: $count")
+            /*TODO: Esta cumprindo todos os requisitos -> Contorno deve ser modificado?*/
+        }
+    } else {
+        Log.e("testar", "Não esta em foco: ${inFocusPwd}")
+    }
+}
+@Composable
+fun ConfirmPassword(modifier: Modifier, roundedCornerShape: RoundedCornerShape){
+    var password by localPasswordState.current
+    var confirmPassword by localConfirmPasswordState.current
+    var colorBorder = Color.Gray
     OutlinedTextField(
         value = confirmPassword,
-        onValueChange = { newConfirmPassword -> confirmPassword = newConfirmPassword },
+        onValueChange = { newConfirmPassword ->
+            confirmPassword = newConfirmPassword
+            if (confirmPassword != password) {
+                Log.i("testar", "diferente")
+                colorBorder = Color.Gray
+            } else {
+                Log.i("testar", "igual")
+                colorBorder = Color.Green
+            }
+        },
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            unfocusedBorderColor = Color.Gray,
+            unfocusedBorderColor = colorBorder,
             textColor = Color.Blue
         ),
         label = {
             Text("Confirmar Senha")
         },
-        shape = RoundedCornerShape(30.dp),
-        modifier = modifier.fillMaxWidth()
+        shape = roundedCornerShape,
+        modifier = modifier
+            .fillMaxWidth()
     )
 }
 
@@ -306,7 +326,20 @@ fun Form(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
     Email(modifier = modifier, roundedCornerShape = roundedCornerShape)
     PhoneNumber(modifier = modifier, roundedCornerShape = roundedCornerShape)
     Password(modifier = modifier, roundedCornerShape = roundedCornerShape)
+    ConfirmPassword(modifier = modifier, roundedCornerShape = roundedCornerShape)
     PrivacyPolicyCheckbox(modifier = modifier)
+}
+
+@Composable
+fun ButtonRegister(submit: () -> Unit, modifier: Modifier, enableButton: Boolean) {
+    Button(
+        onClick = { submit() },
+        enabled = enableButton,
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(topEnd = 20.dp, bottomStart = 20.dp)
+    ) {
+        Text(text = "Cadastrar", fontSize = 20.sp)
+    }
 }
 
 fun click(
@@ -318,12 +351,10 @@ fun click(
     confirmPassword: String,
     check: Boolean,
 ) {
+    //TODO: Adicionar verificação antes da ação de click, para saber se todos os campos estão seguindo as recomendações
     if (check) {
         Log.i(
-            "click ->",
-            "$name, $lastName, $email, $phoneNumber, $password, $confirmPassword, $check"
+            "testar", "$name, $lastName, $email, $phoneNumber, $password, $confirmPassword, $check"
         )
     }
 }
-
-
