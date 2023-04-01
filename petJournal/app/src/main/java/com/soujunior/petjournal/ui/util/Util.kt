@@ -23,3 +23,19 @@ fun isEmail(input: String): Boolean {
     val emailRegex = Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
     return emailRegex.matches(input)
 }
+
+fun countCharacters(str: String): List<Int> {
+    var digitosMaiusculos = 0
+    var digitosMinusculos = 0
+    var simbolos = 0
+    var numeros = 0
+    for (c in str) {
+        when {
+            c.isUpperCase() -> digitosMaiusculos++
+            c.isLowerCase() -> digitosMinusculos++
+            c.isDigit() -> numeros++
+            else -> simbolos++
+        }
+    }
+    return listOf(digitosMaiusculos, digitosMinusculos, simbolos, numeros)
+}
