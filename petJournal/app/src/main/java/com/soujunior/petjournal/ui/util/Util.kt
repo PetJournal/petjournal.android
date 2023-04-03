@@ -15,7 +15,7 @@ fun isValidLenght(input: String): Boolean {
  * call the function and pass the String you want to check as an argument. the return value
  * will be true if the String contains any special characters or numbers, or false if it does not.*/
 fun hasSpecialCharOrNumber(input: String): Boolean {
-    val regex = Regex("[^a-zA-Z ]")
+    val regex = Regex("[^a-zA-ZÀ-ÖØ-öø-ÿ ]")
     return regex.containsMatchIn(input)
 }
 
