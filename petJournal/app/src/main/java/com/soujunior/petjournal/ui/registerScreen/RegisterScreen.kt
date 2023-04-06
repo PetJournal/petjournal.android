@@ -1,7 +1,10 @@
 package com.soujunior.petjournal.ui.registerScreen
 
 import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -12,9 +15,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -25,6 +29,7 @@ import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.util.*
 import com.soujunior.petjournal.ui.util.mask.mobileNumberFilter
+import org.koin.androidx.compose.getViewModel
 
 private var localNameState = compositionLocalOf { mutableStateOf("") }
 private var localNameError = compositionLocalOf { mutableStateOf(false) }
@@ -47,69 +52,102 @@ fun RegisterScreen(navController: NavController) {
 
 @Composable
 fun MyApp(navController: NavController) {
+    val RegisterScreenViewModel: RegisterScreenViewModel = getViewModel()
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background),
         horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Top,
     ) {
-        val name by localNameState.current
-        val nameError by localNameError.current
-        val email by localEmailState.current
-        val emailError by localEmailError.current
-        val lastName by localLastNameState.current
-        val lastNameError by localLastNameError.current
-        val password by localPasswordState.current
-        val passwordError by localPasswordError.current
-        val phoneNumber by localPhoneNumberState.current
-        val phoneNumberError by localPhoneNumberError.current
-        val confirmPassword by localConfirmPasswordState.current
-        val confirmPasswordError by localConfirmPasswordError.current
-        val checkPrivacyPolicy by localCheckedState.current
-        var enableButton = false
-        val padding = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp)
-        val roundedCornerShape = RoundedCornerShape(30.dp)
-
-        CreateTitleAndSubtitle(padding)
-        Form(padding, roundedCornerShape)
-
-        if (name.isNotEmpty() && lastName.isNotBlank() && email.isNotBlank() &&
-            phoneNumber.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank() &&
-            checkPrivacyPolicy
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Top,
         ) {
-            enableButton = (!nameError && !emailError && !lastNameError && !passwordError && !phoneNumberError && !confirmPasswordError)
-        }
-        ButtonRegister(
-            submit = {
-                click(
-                    name,
-                    lastName,
-                    email,
-                    phoneNumber,
-                    password,
-                    confirmPassword,
-                    checkPrivacyPolicy
+            item {
+                val padding = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp)
+                val roundedCornerShape = RoundedCornerShape(5.dp)
+                CreateTitleAndSubtitle()
+                Form(padding, roundedCornerShape)
+            }
+            item {
+                val name by localNameState.current
+                val nameError by localNameError.current
+                val email by localEmailState.current
+                val emailError by localEmailError.current
+                val lastName by localLastNameState.current
+                val lastNameError by localLastNameError.current
+                val password by localPasswordState.current
+                val passwordError by localPasswordError.current
+                val phoneNumber by localPhoneNumberState.current
+                val phoneNumberError by localPhoneNumberError.current
+                val confirmPassword by localConfirmPasswordState.current
+                val confirmPasswordError by localConfirmPasswordError.current
+                val checkPrivacyPolicy by localCheckedState.current
+                var enableButton = false
+                val padding = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp)
+
+                enableButton =
+                    if (name.isNotEmpty() && lastName.isNotBlank() && email.isNotBlank() &&
+                        phoneNumber.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank() &&
+                        checkPrivacyPolicy
+                    ) {
+                        (!nameError && !emailError && !lastNameError && !passwordError && !phoneNumberError && !confirmPasswordError)
+                    } else {
+                        false
+                    }
+                ButtonRegister(
+                    submit = {
+                        click(
+                            name,
+                            lastName,
+                            email,
+                            phoneNumber,
+                            password,
+                            confirmPassword,
+                            checkPrivacyPolicy
+                        )
+                    },
+                    modifier = padding,
+                    enableButton = enableButton
                 )
-            },
-            modifier = padding,
-            enableButton = enableButton
-        )
+
+            }
+        }
     }
 }
 
 @Composable
-private fun CreateTitleAndSubtitle(modifier: Modifier) {
-    Text(
-        text = "PetJournal",
-        fontSize = 30.sp,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(start = 8.dp, top = 16.dp)
-    )
-
-    Text(
-        text = "Inscreva-se",
-        fontSize = 25.sp,
-        modifier = modifier
-    )
+private fun CreateTitleAndSubtitle() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.logo_pet_journal_white),
+            contentDescription = "Imagem logo",
+            modifier = Modifier
+                .size(width = 150.dp, height = 150.dp)
+                .padding(top = 44.dp)
+        )
+    }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Text(
+            text = "Inscreva-se",
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily(Font(R.font.fredoka_regular)),
+            modifier = Modifier.padding(start = 8.dp, top = 16.dp),
+            color = MaterialTheme.colors.primary
+        )
+    }
 }
 
 @Composable
@@ -121,13 +159,20 @@ private fun Name(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
     var inFocus by remember { mutableStateOf(false) }
     OutlinedTextField(
         value = name,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = MaterialTheme.colors.primary,
-            unfocusedBorderColor = Color.Gray
-        ),
         onValueChange = { name = it },
-        label = { Text("Nome") },
-        placeholder = { Text("eg: Thayna") },
+        textStyle = TextStyle(fontSize = 20.sp, color = MaterialTheme.colors.primary),
+        label = {
+            Text(
+                text = "Nome",
+                fontFamily = FontFamily(Font(R.font.fredoka_regular)),
+            )
+        },
+        placeholder = {
+            Text(
+                text = "eg: Thayna",
+                fontFamily = FontFamily(Font(R.font.fredoka_regular))
+            )
+        },
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
         isError = showErrorLenght || showErrorCharacter,
         shape = roundedCornerShape,
@@ -166,12 +211,14 @@ private fun LastName(modifier: Modifier, roundedCornerShape: RoundedCornerShape)
     OutlinedTextField(
         value = lastName,
         onValueChange = { lastName = it },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = MaterialTheme.colors.primary,
-            unfocusedBorderColor = Color.Gray
-        ),
-        label = { Text("Sobrenome") },
-        placeholder = { Text("eg: Oliveira") },
+        textStyle = TextStyle(fontSize = 20.sp, color = MaterialTheme.colors.primary),
+        label = { Text(text = "Sobrenome", fontFamily = FontFamily(Font(R.font.fredoka_regular))) },
+        placeholder = {
+            Text(
+                text = "eg: Oliveira",
+                fontFamily = FontFamily(Font(R.font.fredoka_regular))
+            )
+        },
         isError = showErrorLenght || showErrorCharacter,
         shape = roundedCornerShape,
         modifier = modifier
@@ -211,12 +258,14 @@ private fun Email(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
         onValueChange = { newEmail -> email = newEmail },
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
         visualTransformation = VisualTransformation.None,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = MaterialTheme.colors.primary,
-            unfocusedBorderColor = Color.Gray
-        ),
-        label = { Text("Email") },
-        placeholder = { Text("eg: exemple@petjournal.com") },
+        textStyle = TextStyle(fontSize = 20.sp, color = MaterialTheme.colors.primary),
+        label = { Text(text = "Email", fontFamily = FontFamily(Font(R.font.fredoka_regular))) },
+        placeholder = {
+            Text(
+                text = "eg: exemple@petjournal.com",
+                fontFamily = FontFamily(Font(R.font.fredoka_regular))
+            )
+        },
         isError = emailError,
         shape = roundedCornerShape,
         modifier = modifier
@@ -249,13 +298,14 @@ private fun PhoneNumber(modifier: Modifier, roundedCornerShape: RoundedCornerSha
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         visualTransformation = { mobileNumberFilter(it) },
-        textStyle = TextStyle(fontSize = 25.sp),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = MaterialTheme.colors.primary,
-            unfocusedBorderColor = Color.Gray
-        ),
-        label = { Text("Telefone") },
-        placeholder = { Text("eg: 91 9 1234-4567") },
+        textStyle = TextStyle(fontSize = 20.sp, color = MaterialTheme.colors.primary),
+        label = { Text(text = "Telefone", fontFamily = FontFamily(Font(R.font.fredoka_regular))) },
+        placeholder = {
+            Text(
+                text = "eg: 91 9 1234-4567",
+                fontFamily = FontFamily(Font(R.font.fredoka_regular)),
+            )
+        },
         isError = phoneNumberError,
         shape = roundedCornerShape,
         modifier = modifier
@@ -283,26 +333,20 @@ private fun Password(modifier: Modifier, roundedCornerShape: RoundedCornerShape)
     OutlinedTextField(
         value = password,
         onValueChange = { newPassword -> password = newPassword },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = MaterialTheme.colors.primary,
-            unfocusedBorderColor = Color.Gray
-        ),
         visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+        textStyle = TextStyle(fontSize = 20.sp, color = MaterialTheme.colors.primary),
         trailingIcon = {
-
-
             val (icon, iconColor) = if (showPassword) {
                 Pair(
                     Icons.Filled.Visibility,
-                    colorResource(id = R.color.black)
+                    MaterialTheme.colors.primary
                 )
             } else {
                 Pair(
                     Icons.Filled.VisibilityOff,
-                    colorResource(id = R.color.black)
+                    MaterialTheme.colors.primary
                 )
             }
-
             IconButton(onClick = { showPassword = !showPassword }) {
                 Icon(
                     icon,
@@ -310,10 +354,15 @@ private fun Password(modifier: Modifier, roundedCornerShape: RoundedCornerShape)
                     tint = iconColor
                 )
             }
-                       },
+        },
         singleLine = true,
-        label = { Text("Senha") },
-        placeholder = { Text("Senha") },
+        label = { Text(text = "Senha", fontFamily = FontFamily(Font(R.font.fredoka_regular))) },
+        placeholder = {
+            Text(
+                text = "Senha",
+                fontFamily = FontFamily(Font(R.font.fredoka_regular)),
+            )
+        },
         isError = passwordError,
         shape = roundedCornerShape,
         modifier = modifier
@@ -330,39 +379,31 @@ private fun Password(modifier: Modifier, roundedCornerShape: RoundedCornerShape)
         if (listItens[2] < 2) AlertText(textMessage = "Pelo menos dois Simbolos (ex: %, &, ...)") else count++
         if (listItens[3] < 2) AlertText(textMessage = "Pelo menos dois Numeros (ex: 2, 5, ...)") else count++
         passwordError = count != 4
-    } else {
     }
 }
 
 @Composable
 private fun ConfirmPassword(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
-    var password by localPasswordState.current
+    val password by localPasswordState.current
     var confirmPassword by localConfirmPasswordState.current
     var confirmPasswordError by localConfirmPasswordError.current
     var showPassword by remember { mutableStateOf(false) }
 
     OutlinedTextField(
         value = confirmPassword,
-        onValueChange = {
-            confirmPassword = it
-            confirmPasswordError =
-                (confirmPassword != password) && (password.isNotBlank()) && (password.isNotEmpty())
-        },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = MaterialTheme.colors.primary,
-            unfocusedBorderColor = Color.Gray
-        ),
+        onValueChange = { confirmPassword = it },
+        textStyle = TextStyle(fontSize = 20.sp, color = MaterialTheme.colors.primary),
         visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
         trailingIcon = {
             val (icon, iconColor) = if (showPassword) {
                 Pair(
                     Icons.Filled.Visibility,
-                    colorResource(id = R.color.black)
+                    MaterialTheme.colors.primary
                 )
             } else {
                 Pair(
                     Icons.Filled.VisibilityOff,
-                    colorResource(id = R.color.black)
+                    MaterialTheme.colors.primary
                 )
             }
 
@@ -376,12 +417,24 @@ private fun ConfirmPassword(modifier: Modifier, roundedCornerShape: RoundedCorne
         },
         singleLine = true,
         isError = confirmPasswordError,
-        label = { Text("Confirmar Senha") },
-        placeholder = { Text("Confirmar Senha") },
+        label = {
+            Text(
+                text = "Confirmar Senha",
+                fontFamily = FontFamily(Font(R.font.fredoka_regular))
+            )
+        },
+        placeholder = {
+            Text(
+                text = "Confirmar Senha",
+                fontFamily = FontFamily(Font(R.font.fredoka_regular))
+            )
+        },
         shape = roundedCornerShape,
         modifier = modifier
             .fillMaxWidth()
     )
+    if (password.isNotBlank())
+        confirmPasswordError = confirmPassword != password
 }
 
 @Composable
@@ -397,13 +450,11 @@ private fun PrivacyPolicyCheckbox() {
         Checkbox(
             checked = checked,
             onCheckedChange = { checked = it },
-            colors = CheckboxDefaults.colors(
-                checkedColor = MaterialTheme.colors.primary,
-                uncheckedColor = Color.Gray
-            )
         )
         Text(
             text = "Eu concordo com a política de privacidade",
+            fontFamily = FontFamily(Font(R.font.fredoka_regular)),
+            color = MaterialTheme.colors.primary
         )
     }
 }
@@ -421,13 +472,33 @@ private fun Form(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
 
 @Composable
 private fun ButtonRegister(submit: () -> Unit, modifier: Modifier, enableButton: Boolean) {
-    Button(
-        onClick = { submit() },
-        enabled = enableButton,
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(topEnd = 20.dp, bottomStart = 20.dp)
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .padding(start = 0.dp, end = 0.dp, top = 16.dp)
+            .fillMaxWidth()
     ) {
-        Text(text = "Cadastrar", fontSize = 20.sp)
+        Button(
+            onClick = { submit() },
+            enabled = enableButton,
+            modifier = Modifier
+                .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 16.dp)
+
+                .size(height = 50.dp, width = 200.dp),
+            shape = RoundedCornerShape(
+                topStart = 40.dp,
+                bottomStart = 40.dp,
+                topEnd = 40.dp,
+                bottomEnd = 40.dp
+            )
+        ) {
+            Text(
+                text = "Cadastrar",
+                fontSize = 20.sp,
+                fontFamily = FontFamily(Font(R.font.fredoka_regular)),
+            )
+        }
     }
 }
 

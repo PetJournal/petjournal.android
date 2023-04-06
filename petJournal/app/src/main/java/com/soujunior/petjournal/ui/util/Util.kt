@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.ui.util
 
+import android.util.Log
+
 /**
  * isValidLength = will return True if the String field is not Blank, the length of the String
  * is not less than 3 or greater than 30, and if the String field is not empty */
@@ -46,5 +48,6 @@ fun countCharacters(str: String): List<Int> {
             else -> simbolos++
         }
     }
+    Log.e("testar", "M:$digitosMaiusculos,  m: $digitosMinusculos, s: $simbolos, numer: $numeros")
     return listOf(digitosMaiusculos, digitosMinusculos, simbolos, numeros)
 }
