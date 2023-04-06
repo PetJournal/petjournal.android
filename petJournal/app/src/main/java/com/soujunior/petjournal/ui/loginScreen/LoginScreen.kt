@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -27,6 +28,7 @@ import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.primaryColor
 import com.soujunior.petjournal.ui.theme.whiteBackgroundColor
+import com.soujunior.petjournal.ui.util.isValidEmail
 import org.koin.androidx.compose.getViewModel
 
 private var localEmailState = compositionLocalOf { mutableStateOf("") }
@@ -65,8 +67,8 @@ fun MyApp(navController: NavController) {
             Spacer(modifier = Modifier.padding(20.dp))
 
             //Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Form()
-                Spacer(modifier = Modifier.padding(80.dp))
+            Form()
+            Spacer(modifier = Modifier.padding(80.dp))
             //}
             Footer()
         }
@@ -81,7 +83,10 @@ private fun Footer() {
     var password by localPasswordState.current
     var isLoginVisible = false
 
-    if (email.isNotEmpty() && password.isNotEmpty()) {
+    /*if (email.isNotEmpty() && password.isNotEmpty()) {
+        isLoginVisible = true
+    }*/
+    if (isValidEmail(email) && password.length>=8) {
         isLoginVisible = true
     }
 
@@ -175,6 +180,7 @@ fun RememberForgotPassword() {
 @Composable
 fun Password() {
     var passwordField by localPasswordState.current
+    var inFocus by remember { mutableStateOf(false) }
     val isPasswordVisible = remember { mutableStateOf(false) }
     val visualTransformation = if (isPasswordVisible.value)
         VisualTransformation.None
@@ -196,14 +202,31 @@ fun Password() {
         },
         placeholder = { Text(text = "Digitar senha") },
         singleLine = true,
-        modifier = Modifier.fillMaxWidth(0.8f)
+        modifier = Modifier
+            .fillMaxWidth(0.8f)
+            .onFocusChanged {
+                inFocus = if (it.hasFocus) {
+                    it.hasFocus
+                } else {
+                    it.hasFocus
+                }
+            }
     )
+
+    if ((!inFocus && passwordField.length <= 8) && passwordField.isNotEmpty()) {
+        Text(
+            text = "Digite a senha correta",
+            modifier = Modifier.padding(32.dp, 8.dp, 16.dp)
+        )
+    }
 
 }
 
 @Composable
 fun Email() {
     var emailField by localEmailState.current
+    var inFocus by remember { mutableStateOf(false) }
+
     OutlinedTextField(
         value = emailField,
         onValueChange = { emailField = it },
@@ -216,10 +239,24 @@ fun Email() {
         singleLine = true,
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
         visualTransformation = VisualTransformation.None,
-        modifier = Modifier.fillMaxWidth(0.8f)
+        modifier = Modifier
+            .fillMaxWidth(0.8f)
+            .onFocusChanged {
+                inFocus = if (it.hasFocus) {
+                    it.hasFocus
+                } else {
+                    it.hasFocus
+                }
+            }
     )
-    Spacer(modifier = Modifier.padding(8.dp))
+    if ((!inFocus && !isValidEmail(emailField)) && emailField.length >= 1) {
+        Text(
+            text = "Digite o email correto",
+            modifier = Modifier.padding(32.dp, 8.dp, 16.dp)
+        )
+    }
 
+    Spacer(modifier = Modifier.padding(8.dp))
 }
 
 @Composable
@@ -236,3 +273,18 @@ fun PasswordVisibleIcon(passwordVisible: MutableState<Boolean>) {
     }
 
 }
+
+
+// Senha tamanho minimo 8
+
+// ABAIXO APOS CLICAR NO BOTAO IRA CONFIRMAR NO SERVIDOR OS DADOS E CASO FOR INCORRETO MOSTRAR E LIMPAR
+/*AlertDialog(
+            onDismissRequest = { *//* Não faz nada *//* },
+            title = { Text("Dados incorretos!") },
+            text = { Text("Por favor, verifique o endereço de email, senha e tente novamente.") },
+            confirmButton = {
+                Button(onClick = { *//* FUNÇÃO LIMPAR CAMPOS EMAIL/SENHA *//* }) {
+                    Text("OK")
+                }
+            }
+        )*/
