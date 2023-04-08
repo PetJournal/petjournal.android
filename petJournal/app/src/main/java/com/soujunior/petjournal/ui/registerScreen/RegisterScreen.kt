@@ -2,7 +2,6 @@ package com.soujunior.petjournal.ui.registerScreen
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -55,8 +54,7 @@ fun MyApp(navController: NavController) {
     val RegisterScreenViewModel: RegisterScreenViewModel = getViewModel()
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.background),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top,
     ) {
@@ -145,7 +143,6 @@ private fun CreateTitleAndSubtitle() {
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily(Font(R.font.fredoka_regular)),
             modifier = Modifier.padding(start = 8.dp, top = 16.dp),
-            color = MaterialTheme.colors.primary
         )
     }
 }
@@ -160,7 +157,9 @@ private fun Name(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
     OutlinedTextField(
         value = name,
         onValueChange = { name = it },
-        textStyle = TextStyle(fontSize = 20.sp, color = MaterialTheme.colors.primary),
+        textStyle = TextStyle(
+            fontSize = 20.sp,
+        ),
         label = {
             Text(
                 text = "Nome",
@@ -173,6 +172,7 @@ private fun Name(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
                 fontFamily = FontFamily(Font(R.font.fredoka_regular))
             )
         },
+        colors = TextFieldDefaults.outlinedTextFieldColors(),
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
         isError = showErrorLenght || showErrorCharacter,
         shape = roundedCornerShape,
@@ -185,6 +185,7 @@ private fun Name(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
                     it.hasFocus
                 }
             }
+
     )
     if (isValidLenght(name) && !inFocus) {
         showErrorLenght = isValidLenght(name)
@@ -211,7 +212,9 @@ private fun LastName(modifier: Modifier, roundedCornerShape: RoundedCornerShape)
     OutlinedTextField(
         value = lastName,
         onValueChange = { lastName = it },
-        textStyle = TextStyle(fontSize = 20.sp, color = MaterialTheme.colors.primary),
+        textStyle = TextStyle(
+            fontSize = 20.sp,
+        ),
         label = { Text(text = "Sobrenome", fontFamily = FontFamily(Font(R.font.fredoka_regular))) },
         placeholder = {
             Text(
@@ -258,7 +261,9 @@ private fun Email(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
         onValueChange = { newEmail -> email = newEmail },
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
         visualTransformation = VisualTransformation.None,
-        textStyle = TextStyle(fontSize = 20.sp, color = MaterialTheme.colors.primary),
+        textStyle = TextStyle(
+            fontSize = 20.sp,
+        ),
         label = { Text(text = "Email", fontFamily = FontFamily(Font(R.font.fredoka_regular))) },
         placeholder = {
             Text(
@@ -298,8 +303,15 @@ private fun PhoneNumber(modifier: Modifier, roundedCornerShape: RoundedCornerSha
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         visualTransformation = { mobileNumberFilter(it) },
-        textStyle = TextStyle(fontSize = 20.sp, color = MaterialTheme.colors.primary),
-        label = { Text(text = "Telefone", fontFamily = FontFamily(Font(R.font.fredoka_regular))) },
+        textStyle = TextStyle(
+            fontSize = 20.sp,
+        ),
+        label = {
+            Text(
+                text = "Telefone",
+                fontFamily = FontFamily(Font(R.font.fredoka_regular))
+            )
+        },
         placeholder = {
             Text(
                 text = "eg: 91 9 1234-4567",
@@ -315,6 +327,7 @@ private fun PhoneNumber(modifier: Modifier, roundedCornerShape: RoundedCornerSha
                 else it.hasFocus
             },
     )
+
     if (!inFocus && (phoneNumber.length in 1..10)) {
         phoneNumberError = true
         AlertText(textMessage = "Complete o número de telefone!")
@@ -334,7 +347,9 @@ private fun Password(modifier: Modifier, roundedCornerShape: RoundedCornerShape)
         value = password,
         onValueChange = { newPassword -> password = newPassword },
         visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
-        textStyle = TextStyle(fontSize = 20.sp, color = MaterialTheme.colors.primary),
+        textStyle = TextStyle(
+            fontSize = 20.sp,
+        ),
         trailingIcon = {
             val (icon, iconColor) = if (showPassword) {
                 Pair(
@@ -392,7 +407,9 @@ private fun ConfirmPassword(modifier: Modifier, roundedCornerShape: RoundedCorne
     OutlinedTextField(
         value = confirmPassword,
         onValueChange = { confirmPassword = it },
-        textStyle = TextStyle(fontSize = 20.sp, color = MaterialTheme.colors.primary),
+        textStyle = TextStyle(
+            fontSize = 20.sp,
+        ),
         visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
         trailingIcon = {
             val (icon, iconColor) = if (showPassword) {
@@ -454,7 +471,6 @@ private fun PrivacyPolicyCheckbox() {
         Text(
             text = "Eu concordo com a política de privacidade",
             fontFamily = FontFamily(Font(R.font.fredoka_regular)),
-            color = MaterialTheme.colors.primary
         )
     }
 }
