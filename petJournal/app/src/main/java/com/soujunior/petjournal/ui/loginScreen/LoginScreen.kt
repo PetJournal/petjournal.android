@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.theme.primaryColor
-import com.soujunior.petjournal.ui.theme.whiteBackgroundColor
+//import com.soujunior.petjournal.ui.theme.primaryColor
+//import com.soujunior.petjournal.ui.theme.whiteBackgroundColor
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -42,7 +42,8 @@ fun LoginScreen(navController: NavController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White), contentAlignment = Alignment.TopCenter
+                //.background(Color.White),
+            ,contentAlignment = Alignment.TopCenter
         ) {
             /*Icon(painter = painterResource(id = R.drawable.logo_pet_journal), contentDescription = null )*/
             Image(
@@ -59,7 +60,7 @@ fun LoginScreen(navController: NavController) {
                 .fillMaxWidth()
                 .fillMaxHeight(0.80f)
                 .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .background(whiteBackgroundColor)
+                //.background(whiteBackgroundColor)
                 .padding(10.dp)
         ) {
 
@@ -128,10 +129,10 @@ fun LoginScreen(navController: NavController) {
                 Spacer(modifier = Modifier.padding(20.dp))
                 Button(
                     onClick = {},
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = primaryColor,
+                    /*colors = ButtonDefaults.buttonColors(
+                        //backgroundColor = primaryColor,
                         contentColor = Color.White
-                    ),
+                    )*/
                     modifier = Modifier
                         .clip(RoundedCornerShape(30.dp, 30.dp, 30.dp, 30.dp))
                         .fillMaxWidth(0.8f)
