@@ -21,7 +21,12 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text(text = "PetJournal") },
+                            title = {
+                                Text(
+                                    text = "PetJournal",
+                                    style = MaterialTheme.typography.h1
+                                )
+                            },
                             backgroundColor = MaterialTheme.colors.background
                         )
                     },

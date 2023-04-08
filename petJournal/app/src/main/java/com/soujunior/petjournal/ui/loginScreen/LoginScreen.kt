@@ -141,7 +141,6 @@ fun LoginScreen(navController: NavController) {
                     Text(
                         text = "Acessar conta", letterSpacing = 0.75.sp, fontSize = 20.sp
                     )
-
                 }
                 Spacer(modifier = Modifier.padding(20.dp))
                 Text(

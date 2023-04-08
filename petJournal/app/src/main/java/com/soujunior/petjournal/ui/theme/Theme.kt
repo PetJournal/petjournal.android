@@ -54,7 +54,8 @@ fun PetJournalTheme(
     }
     MaterialTheme(
         colors = colors,
-        typography = MaterialTheme.typography,
+        typography = Typography,
         content = content,
+
     )
 }

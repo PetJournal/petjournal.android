@@ -18,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -139,9 +138,7 @@ private fun CreateTitleAndSubtitle() {
     ) {
         Text(
             text = "Inscreva-se",
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily(Font(R.font.fredoka_regular)),
+            style = MaterialTheme.typography.h2,
             modifier = Modifier.padding(start = 8.dp, top = 16.dp),
         )
     }
@@ -163,13 +160,13 @@ private fun Name(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
         label = {
             Text(
                 text = "Nome",
-                fontFamily = FontFamily(Font(R.font.fredoka_regular)),
+                style = MaterialTheme.typography.body1
             )
         },
         placeholder = {
             Text(
                 text = "eg: Thayna",
-                fontFamily = FontFamily(Font(R.font.fredoka_regular))
+                style = MaterialTheme.typography.body1
             )
         },
         colors = TextFieldDefaults.outlinedTextFieldColors(),
@@ -215,11 +212,16 @@ private fun LastName(modifier: Modifier, roundedCornerShape: RoundedCornerShape)
         textStyle = TextStyle(
             fontSize = 20.sp,
         ),
-        label = { Text(text = "Sobrenome", fontFamily = FontFamily(Font(R.font.fredoka_regular))) },
+        label = {
+            Text(
+                text = "Sobrenome",
+                style = MaterialTheme.typography.body1
+            )
+        },
         placeholder = {
             Text(
                 text = "eg: Oliveira",
-                fontFamily = FontFamily(Font(R.font.fredoka_regular))
+                style = MaterialTheme.typography.body1
             )
         },
         isError = showErrorLenght || showErrorCharacter,
@@ -264,11 +266,16 @@ private fun Email(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
         textStyle = TextStyle(
             fontSize = 20.sp,
         ),
-        label = { Text(text = "Email", fontFamily = FontFamily(Font(R.font.fredoka_regular))) },
+        label = {
+            Text(
+                text = "Email",
+                style = MaterialTheme.typography.body1
+            )
+        },
         placeholder = {
             Text(
                 text = "eg: exemple@petjournal.com",
-                fontFamily = FontFamily(Font(R.font.fredoka_regular))
+                style = MaterialTheme.typography.body1
             )
         },
         isError = emailError,
@@ -309,13 +316,13 @@ private fun PhoneNumber(modifier: Modifier, roundedCornerShape: RoundedCornerSha
         label = {
             Text(
                 text = "Telefone",
-                fontFamily = FontFamily(Font(R.font.fredoka_regular))
+                style = MaterialTheme.typography.body1
             )
         },
         placeholder = {
             Text(
                 text = "eg: 91 9 1234-4567",
-                fontFamily = FontFamily(Font(R.font.fredoka_regular)),
+                style = MaterialTheme.typography.body1
             )
         },
         isError = phoneNumberError,
@@ -375,7 +382,7 @@ private fun Password(modifier: Modifier, roundedCornerShape: RoundedCornerShape)
         placeholder = {
             Text(
                 text = "Senha",
-                fontFamily = FontFamily(Font(R.font.fredoka_regular)),
+                style = MaterialTheme.typography.body1
             )
         },
         isError = passwordError,
@@ -437,13 +444,13 @@ private fun ConfirmPassword(modifier: Modifier, roundedCornerShape: RoundedCorne
         label = {
             Text(
                 text = "Confirmar Senha",
-                fontFamily = FontFamily(Font(R.font.fredoka_regular))
+                style = MaterialTheme.typography.body1
             )
         },
         placeholder = {
             Text(
                 text = "Confirmar Senha",
-                fontFamily = FontFamily(Font(R.font.fredoka_regular))
+                style = MaterialTheme.typography.body1
             )
         },
         shape = roundedCornerShape,
@@ -500,7 +507,6 @@ private fun ButtonRegister(submit: () -> Unit, modifier: Modifier, enableButton:
             enabled = enableButton,
             modifier = Modifier
                 .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 16.dp)
-
                 .size(height = 50.dp, width = 200.dp),
             shape = RoundedCornerShape(
                 topStart = 40.dp,
@@ -508,6 +514,7 @@ private fun ButtonRegister(submit: () -> Unit, modifier: Modifier, enableButton:
                 topEnd = 40.dp,
                 bottomEnd = 40.dp
             )
+
         ) {
             Text(
                 text = "Cadastrar",
