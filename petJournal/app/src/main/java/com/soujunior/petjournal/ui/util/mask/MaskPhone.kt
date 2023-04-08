@@ -42,7 +42,7 @@ fun mobileNumberFilter(text: AnnotatedString): TransformedText {
         }
 
         override fun transformedToOriginal(offset: Int): Int {
-            if (offset <= 1) return offset - 0
+            if (offset <= 1) return offset - 1
             if (offset <= 2) return offset - 3
             if (offset in 3..6) return offset - 4
             if (offset in 7..11) return offset - 5
