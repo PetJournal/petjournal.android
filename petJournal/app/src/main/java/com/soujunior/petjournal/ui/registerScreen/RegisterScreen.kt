@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.theme.Shapes
 import com.soujunior.petjournal.ui.util.*
 import com.soujunior.petjournal.ui.util.mask.mobileNumberFilter
 import org.koin.androidx.compose.getViewModel
@@ -66,7 +67,7 @@ fun MyApp(navController: NavController) {
             item {
                 val padding = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp)
                 val roundedCornerShape = RoundedCornerShape(5.dp)
-                CreateTitleAndSubtitle()
+                CreateTitleAndImageLogo()
                 Form(padding, roundedCornerShape)
             }
             item {
@@ -117,7 +118,7 @@ fun MyApp(navController: NavController) {
 }
 
 @Composable
-private fun CreateTitleAndSubtitle() {
+private fun CreateTitleAndImageLogo() {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -128,7 +129,7 @@ private fun CreateTitleAndSubtitle() {
             contentDescription = "Imagem logo",
             modifier = Modifier
                 .size(width = 150.dp, height = 150.dp)
-                .padding(top = 44.dp)
+                .padding(top = 20.dp)
         )
     }
     Row(
@@ -172,7 +173,7 @@ private fun Name(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
         colors = TextFieldDefaults.outlinedTextFieldColors(),
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
         isError = showErrorLenght || showErrorCharacter,
-        shape = roundedCornerShape,
+        shape = Shapes.small,
         modifier = modifier
             .fillMaxWidth()
             .onFocusChanged {
@@ -225,7 +226,7 @@ private fun LastName(modifier: Modifier, roundedCornerShape: RoundedCornerShape)
             )
         },
         isError = showErrorLenght || showErrorCharacter,
-        shape = roundedCornerShape,
+        shape = Shapes.small,
         modifier = modifier
             .fillMaxWidth()
             .onFocusChanged {
@@ -279,7 +280,7 @@ private fun Email(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
             )
         },
         isError = emailError,
-        shape = roundedCornerShape,
+        shape = Shapes.small,
         modifier = modifier
             .fillMaxWidth()
             .onFocusChanged {
@@ -326,7 +327,7 @@ private fun PhoneNumber(modifier: Modifier, roundedCornerShape: RoundedCornerSha
             )
         },
         isError = phoneNumberError,
-        shape = roundedCornerShape,
+        shape = Shapes.small,
         modifier = modifier
             .fillMaxWidth()
             .onFocusChanged {
@@ -386,7 +387,7 @@ private fun Password(modifier: Modifier, roundedCornerShape: RoundedCornerShape)
             )
         },
         isError = passwordError,
-        shape = roundedCornerShape,
+        shape = Shapes.small,
         modifier = modifier
             .fillMaxWidth()
             .onFocusChanged {
@@ -453,7 +454,7 @@ private fun ConfirmPassword(modifier: Modifier, roundedCornerShape: RoundedCorne
                 style = MaterialTheme.typography.body1
             )
         },
-        shape = roundedCornerShape,
+        shape = Shapes.small,
         modifier = modifier
             .fillMaxWidth()
     )
@@ -499,7 +500,6 @@ private fun ButtonRegister(submit: () -> Unit, modifier: Modifier, enableButton:
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
-            .padding(start = 0.dp, end = 0.dp, top = 16.dp)
             .fillMaxWidth()
     ) {
         Button(
@@ -508,18 +508,12 @@ private fun ButtonRegister(submit: () -> Unit, modifier: Modifier, enableButton:
             modifier = Modifier
                 .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 16.dp)
                 .size(height = 50.dp, width = 200.dp),
-            shape = RoundedCornerShape(
-                topStart = 40.dp,
-                bottomStart = 40.dp,
-                topEnd = 40.dp,
-                bottomEnd = 40.dp
-            )
+            shape = Shapes.large
 
         ) {
             Text(
                 text = "Cadastrar",
-                fontSize = 20.sp,
-                fontFamily = FontFamily(Font(R.font.fredoka_regular)),
+                style = MaterialTheme.typography.button
             )
         }
     }
