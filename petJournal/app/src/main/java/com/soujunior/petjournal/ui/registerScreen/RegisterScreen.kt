@@ -66,9 +66,8 @@ fun MyApp(navController: NavController) {
         ) {
             item {
                 val padding = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp)
-                val roundedCornerShape = RoundedCornerShape(5.dp)
                 CreateTitleAndImageLogo()
-                Form(padding, roundedCornerShape)
+                Form(padding)
             }
             item {
                 val name by localNameState.current
@@ -146,7 +145,7 @@ private fun CreateTitleAndImageLogo() {
 }
 
 @Composable
-private fun Name(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
+private fun Name(modifier: Modifier) {
     var name by localNameState.current
     var nameError by localNameError.current
     var showErrorLenght by remember { mutableStateOf(false) }
@@ -201,7 +200,7 @@ private fun Name(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
 }
 
 @Composable
-private fun LastName(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
+private fun LastName(modifier: Modifier) {
     var lastName by localLastNameState.current
     var lastNameError by localLastNameError.current
     var showErrorLenght by remember { mutableStateOf(false) }
@@ -254,7 +253,7 @@ private fun LastName(modifier: Modifier, roundedCornerShape: RoundedCornerShape)
 }
 
 @Composable
-private fun Email(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
+private fun Email(modifier: Modifier) {
     var email by localEmailState.current
     var emailError by localEmailError.current
     var inFocus by remember { mutableStateOf(false) }
@@ -300,7 +299,7 @@ private fun Email(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
 }
 
 @Composable
-private fun PhoneNumber(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
+private fun PhoneNumber(modifier: Modifier) {
     var phoneNumber by localPhoneNumberState.current
     var phoneNumberError by localPhoneNumberError.current
     var inFocus by remember { mutableStateOf(false) }
@@ -345,7 +344,7 @@ private fun PhoneNumber(modifier: Modifier, roundedCornerShape: RoundedCornerSha
 }
 
 @Composable
-private fun Password(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
+private fun Password(modifier: Modifier) {
     var password by localPasswordState.current
     var passwordError by localPasswordError.current
     var inFocusPwd by remember { mutableStateOf(false) }
@@ -406,7 +405,7 @@ private fun Password(modifier: Modifier, roundedCornerShape: RoundedCornerShape)
 }
 
 @Composable
-private fun ConfirmPassword(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
+private fun ConfirmPassword(modifier: Modifier) {
     val password by localPasswordState.current
     var confirmPassword by localConfirmPasswordState.current
     var confirmPasswordError by localConfirmPasswordError.current
@@ -484,13 +483,13 @@ private fun PrivacyPolicyCheckbox() {
 }
 
 @Composable
-private fun Form(modifier: Modifier, roundedCornerShape: RoundedCornerShape) {
-    Name(modifier = modifier, roundedCornerShape = roundedCornerShape)
-    LastName(modifier = modifier, roundedCornerShape = roundedCornerShape)
-    Email(modifier = modifier, roundedCornerShape = roundedCornerShape)
-    PhoneNumber(modifier = modifier, roundedCornerShape = roundedCornerShape)
-    Password(modifier = modifier, roundedCornerShape = roundedCornerShape)
-    ConfirmPassword(modifier = modifier, roundedCornerShape = roundedCornerShape)
+private fun Form(modifier: Modifier) {
+    Name(modifier = modifier)
+    LastName(modifier = modifier)
+    Email(modifier = modifier)
+    PhoneNumber(modifier = modifier)
+    Password(modifier = modifier)
+    ConfirmPassword(modifier = modifier)
     PrivacyPolicyCheckbox()
 }
 
