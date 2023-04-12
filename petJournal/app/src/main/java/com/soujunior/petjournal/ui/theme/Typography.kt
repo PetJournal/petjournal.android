@@ -66,7 +66,7 @@ val Typography = Typography(
     ),
     button = TextStyle(
         fontFamily = FontFamily(FredokaBold),
-        fontSize = 14.sp,
+        fontSize = 18.sp,
         letterSpacing = 1.25.sp
     ),
     caption = TextStyle(
