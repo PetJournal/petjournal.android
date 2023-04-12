@@ -29,6 +29,7 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.primaryColor
 import com.soujunior.petjournal.ui.theme.whiteBackgroundColor
 import com.soujunior.petjournal.ui.util.isValidEmail
+
 import org.koin.androidx.compose.getViewModel
 
 private var localEmailState = compositionLocalOf { mutableStateOf("") }
@@ -44,6 +45,7 @@ fun LoginScreen(navController: NavController) {
 fun MyApp(navController: NavController) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
         Header()
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
@@ -52,7 +54,7 @@ fun MyApp(navController: NavController) {
                 .fillMaxWidth()
                 .fillMaxHeight(0.80f)
                 .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .background(whiteBackgroundColor)
+                //.background(whiteBackgroundColor)
                 .padding(10.dp)
         ) {
             Text(
@@ -163,6 +165,7 @@ fun RememberForgotPassword() {
                     checked = checked,
                     onCheckedChange = { checked_ -> checked = checked_ },
                     colors = CheckboxDefaults.colors(Color(primaryColor.value))
+
                 )
                 Text(text = "Lembrar")
             }
