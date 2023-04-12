@@ -2,9 +2,6 @@ package com.soujunior.petjournal.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-//val primaryColor = Color(0xFF9A0963)
-//val whiteBackgroundColor = Color(0xFFFFFFFF)
-
 val light_primary = Color(0xFFB90063)
 val light_onPrimary = Color(0xFFFFFFFF)
 val light_secondary = Color(0xFFB90063)
