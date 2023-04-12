@@ -26,8 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.theme.primaryColor
-import com.soujunior.petjournal.ui.theme.whiteBackgroundColor
+import com.soujunior.petjournal.ui.theme.light_primary
 import com.soujunior.petjournal.ui.util.isValidEmail
 
 import org.koin.androidx.compose.getViewModel
@@ -59,18 +58,17 @@ fun MyApp(navController: NavController) {
         ) {
             Text(
                 text = "Acessar conta",
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 1.sp
-                ),
-                fontSize = 28.sp
-            )
+                style = MaterialTheme.typography.h2,
 
-            Spacer(modifier = Modifier.padding(20.dp))
+                )
+
+            Spacer(modifier = Modifier.padding(top = 40.dp))
 
             //Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Form()
-            Spacer(modifier = Modifier.padding(80.dp))
+
+            Spacer(modifier = Modifier.padding(top = 100.dp))
+
             //}
             Footer()
         }
@@ -88,16 +86,16 @@ private fun Footer() {
     /*if (email.isNotEmpty() && password.isNotEmpty()) {
         isLoginVisible = true
     }*/
-    if (isValidEmail(email) && password.length>=8) {
+    if (isValidEmail(email) && password.length >= 8) {
         isLoginVisible = true
     }
 
     ButtonLogin(isLoginVisible = isLoginVisible)
-
-    Spacer(modifier = Modifier.padding(20.dp))
+    Spacer(modifier = Modifier.padding(top = 20.dp))
 
     Text(
         text = "Não tem uma conta? Inscrever-se",
+        style = MaterialTheme.typography.body1,
         modifier = Modifier.clickable(onClick = {})
     )
 }
@@ -108,16 +106,16 @@ private fun ButtonLogin(isLoginVisible: Boolean) {
         onClick = {},
         enabled = isLoginVisible,
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = primaryColor,
-            contentColor = Color.White
+
         ),
         modifier = Modifier
             .clip(RoundedCornerShape(30.dp, 30.dp, 30.dp, 30.dp))
-            .fillMaxWidth(0.8f)
+            .fillMaxWidth(0.6f)
             .height(60.dp)
     ) {
         Text(
-            text = "Acessar conta", letterSpacing = 0.75.sp, fontSize = 20.sp
+            text = "Continuar",
+            style = MaterialTheme.typography.button,
         )
     }
 }
@@ -134,10 +132,9 @@ private fun Header() {
             painter = painterResource(id = R.drawable.logo_pet_journal_white),
             contentDescription = ""
         )
-        Spacer(modifier = Modifier.padding(40.dp))
+
     }
 
-    Spacer(modifier = Modifier.padding(20.dp))
 }
 
 @Composable
@@ -155,7 +152,7 @@ fun RememberForgotPassword() {
         mutableStateOf(true)
     }
     Row(
-        modifier = Modifier.fillMaxWidth(0.85f),
+        modifier = Modifier.fillMaxWidth(0.95f),
         verticalAlignment = Alignment.CenterVertically,
         //horizontalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -164,14 +161,18 @@ fun RememberForgotPassword() {
                 Checkbox(
                     checked = checked,
                     onCheckedChange = { checked_ -> checked = checked_ },
-                    colors = CheckboxDefaults.colors(Color(primaryColor.value))
+                    colors = CheckboxDefaults.colors(Color(light_primary.value))
 
                 )
-                Text(text = "Lembrar")
+                Text(
+                    text = "Lembrar",
+                    style = MaterialTheme.typography.body1,
+                )
             }
         }
         Text(
             text = "Esqueci minha senha",
+            style = MaterialTheme.typography.body1,
             modifier = Modifier
                 //.align(Alignment.End)
                 .padding(0.dp, 0.dp, 10.dp, 0.dp)
@@ -192,21 +193,27 @@ fun Password() {
     OutlinedTextField(
         value = passwordField,
         onValueChange = { passwordField = it },
-        label = { Text(text = "Digitar senha") },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color(0xFFd9d9d9),
-            //contentColor = Color.White
-        ),
+        label = {
+            Text(
+                text = "Senha",
+                style = MaterialTheme.typography.body1,
+            )
+        },
         visualTransformation = visualTransformation,
         trailingIcon = {
             if (passwordField.isNotBlank()) {
                 PasswordVisibleIcon(isPasswordVisible)
             } else null
         },
-        placeholder = { Text(text = "Digitar senha") },
+        placeholder = {
+            Text(
+                text = "Digitar senha",
+                style = MaterialTheme.typography.body1,
+            )
+        },
         singleLine = true,
         modifier = Modifier
-            .fillMaxWidth(0.8f)
+            .fillMaxWidth(0.9f)
             .onFocusChanged {
                 inFocus = if (it.hasFocus) {
                     it.hasFocus
@@ -219,6 +226,7 @@ fun Password() {
     if ((!inFocus && passwordField.length <= 8) && passwordField.isNotEmpty()) {
         Text(
             text = "Digite a senha correta",
+            style = MaterialTheme.typography.body1,
             modifier = Modifier.padding(32.dp, 8.dp, 16.dp)
         )
     }
@@ -230,20 +238,27 @@ fun Email() {
     var emailField by localEmailState.current
     var inFocus by remember { mutableStateOf(false) }
 
+
     OutlinedTextField(
         value = emailField,
         onValueChange = { emailField = it },
-        label = { Text(text = "Digitar e-mail") },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color(0xFFd9d9d9),
-            //contentColor = Color.White
-        ),
-        placeholder = { Text(text = "Digitar e-mail") },
+        label = {
+            Text(
+                text = "Loguin",
+                style = MaterialTheme.typography.body1,
+            )
+        },
+        placeholder = {
+            Text(
+                text = "Digitar e-mail",
+                style = MaterialTheme.typography.body1,
+            )
+        },
         singleLine = true,
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
         visualTransformation = VisualTransformation.None,
         modifier = Modifier
-            .fillMaxWidth(0.8f)
+            .fillMaxWidth(0.9f)
             .onFocusChanged {
                 inFocus = if (it.hasFocus) {
                     it.hasFocus
@@ -255,6 +270,7 @@ fun Email() {
     if ((!inFocus && !isValidEmail(emailField)) && emailField.length >= 1) {
         Text(
             text = "Digite o email correto",
+            style = MaterialTheme.typography.body1,
             modifier = Modifier.padding(32.dp, 8.dp, 16.dp)
         )
     }

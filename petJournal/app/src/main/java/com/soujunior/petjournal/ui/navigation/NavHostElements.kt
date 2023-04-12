@@ -13,7 +13,7 @@ import com.soujunior.petjournal.ui.registerScreen.RegisterScreen
 fun navHostElements() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "register") {
+    NavHost(navController = navController, startDestination = "login") {
         composable("home") { HomeScreen(navController) }
         composable("detail") { DetailScreen(navController) }
         composable("login") { LoginScreen(navController) }
