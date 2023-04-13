@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -562,185 +564,26 @@ fun BoxWithPrivacyPolicyText() {
             }
         }
         LazyColumn {
-            item { Doc_one() }
-            item { Doc_two() }
-            item { Doc_three() }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_0_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_0_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_1_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_1_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_2_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_2_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_3_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_3_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_4_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_4_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_5_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_5_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_6_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_6_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_7_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_7_text), style = MaterialTheme.typography.body1) }
         }
     }
 }
 
-@Composable
-fun Doc_one() {
-    AndroidView(
-        factory = { context -> TextView(context) },
-        update = {
-            it.text = HtmlCompat.fromHtml(
-                """
-                  <html>
-                    <b>Política de privacidade</b>
-                    <br>
-                    <p style="text-align: justify">
-                    O site PetJournal é de propriedade da empresa SouJunior Labs, que é a controladora 
-                    de seus dados pessoais.
-                    </p>
-                    <p style="text-align: justify">
-                    Nós adotamos esta Política de Privacidade, que determina como nós estamos 
-                    processando as informações coletadas pelo site PetJournal e também explica por 
-                    quais razões nós precisamos coletar dados pessoais sobre você. Portanto, você 
-                    deve ler esta Política de Privacidade antes de usar o site PetJournal .
-                    </p>
-                    <p style="text-align: justify">
-                    Nós cuidamos dos seus dados pessoais e assumimos a responsabilidade de garantir 
-                    a confidencialidade e segurança de suas informações pessiais.
-                    </p>
-                    <br>
-                    <b>Estes são as informações pessoais que coletamos:</b>
-                    <p style="text-align: justify">
-                    Quando você visita o site PetJournal , nós automaticamente coletamos certas 
-                    informações sobre seu dispositivo, incluindo informações sobre seu navegador, 
-                    endereço IP, fuso horário e alguns dos cookies instalados no seu sispositivo. 
-                    Além disso, quando você navega pelo Site, nós coletamos informações sobre as 
-                    páginas individuais ou produtos que você visualiza, sobre quais sites ou termos 
-                    de busca redirecionaram você para nosso Site, e sobre como você interage com o Site. 
-                    Nós nos referimos a essas informações coletadas automaticamente como "Informações 
-                    sobre o dispositivo". Além disso, nós podemos coletar dados pessoais que você 
-                    fornecer (incluindo, mas não limitado a: Nome, Sobrenome, Endereço, informações 
-                    de pagamento, etc) durante o processo de registro para poder cumprir o acordo.
-                    </p>
-                    <br>
-                    <b>Por que fazemos o processamento dos seus dados?</b>
-                    <p style="text-align: justify">
-                    Nossa maior prioridade é a segurança dos dados pessoais dos usuários e, portanto, 
-                    nós podemos processar apenas dados mínimos, apenas enquanto for absolutamente 
-                    necessário para a manutenção do site. Informações coletadas automaticamente são 
-                    usadas para identificar possíveis casos de abuso e estabelecer dados estatísticos 
-                    sobre o uso do site. Esses dados estatísticos não pe agregada de outras formas que 
-                    permitam a identificação de usuários específicos do sistema.
-                    </p>
-                    <p style="text-align: justify">
-                    Você pode visitar o site sem nos contar sobre quem você é ou relevar qualquer 
-                    informação que possa ser usada por outra pessoa para identificar você individualmente. 
-                    Se, apesar disso, você quiser utilizar algum dos recursos do site, ou quiser receber 
-                    nossa newsletter, ou quiser conceder outros detalhes através do preencimento e 
-                    envio de formulários, você poderá fornecer dados pessoais para nós, como seu email, 
-                    nome, sobrenome, cidade de residência, organização e número de telefone. Você pode 
-                    escolher não fornecer dados pessoais para nós, mas, dessa forma, talvez você não 
-                    consiga usar alguns dos resursos do site.
-                    </p>
-                  </html>  
-                """.trimIndent(),
-                HtmlCompat.FROM_HTML_MODE_COMPACT
-            )
-        }
-    )
-}
-
-@Composable
-fun Doc_two() {
-    AndroidView(
-        factory = { context -> TextView(context) },
-        update = {
-            it.text = HtmlCompat.fromHtml(
-                """
-                <html>
-                    <p style="text-align: justify">
-                    Por exemplo, você não vai conseguir receber nossa Newsletter ou entrar em contato 
-                    conosco diretamente pelo nosso site. Usuários que não tenham certeza sobre quais 
-                    informações pessoais são obrigatórias são convidados a entrarem em contato conosco 
-                    pelo e-mail joaosilvavictor@hotmail.com.br.
-                    </p>
-                    
-                    <br>
-                    <b>Seus direitos:</b>
-                    <p style="text-align: justify">
-                    Se você morar na Europa, estes são os direitos 
-                    garantidos quando aos seus dados pessoais:
-                    </p>
-                    <ul>
-                      <li>O direito de ser informado.</li>
-                      <li>O direito ao acesso.</li>
-                      <li>O direito à retificação.</li>
-                      <li>O direito de deletar.</li>
-                      <li>O direito de restringir o processamento.</li>
-                      <li>O direito da portabilidade de dados.</li>
-                      <li>O direito à objeção.</li>
-                      <li>Direitos em relação a tomadas de decisão automáticas e à perfilagem.</li>
-                    </ul>
-        
-                    <p style="text-align: justify">
-                    Se você quiser exercitar esses direitos, por favor
-                    entre em contato conosco usando os dados de contato abaixo.
-                    </p>
-                    <p style="text-align: justify">
-                    Adicionalmente, se você mora na Europa, nós afirmamos que estamos processando 
-                    suas informações com a finalidade de cumprir contratos que possamos ter firmado 
-                    com você (por exemplo, se você fizer uma compra no nosso Site), ou para excercer 
-                    os interesses legítimos da nossa empresa listados acima. Além disso, por favor 
-                    saiba que suas informações poder ser transferidas para fora da Europa, incluindo 
-                    para o Canadá e os Estados Unidos da América.
-                    </p>
-        
-                    <br>
-                    <b>Links para outros sites:</b>
-                    <p style="text-align: justify">
-                    Nosso site pode conter links para outros sites que não são controlados por nós 
-                    e/ou não são de nossa propriedade. Por favor esteja ciente de que nós não somos 
-                    responsáveis pelas políticas de privacidade de tais sites e organizações terceiras. 
-                    Nós incentivamos você a estar ciente de quando sair do nosso site, e também 
-                    incentivamos você a ler a política de privacidade de cada um dos sites que podem 
-                    coletar suas informações pessoais.
-                    </p>
-        
-                    <br>
-                    <b>Segurança das informações:</b>
-                    <p style="text-align: justify">Nós garantimos que as informações que você fornece 
-                    estão em servidores e computadores armazenados em ambientes seguros e controlados, 
-                    protegidos de acessos, usos e divulgações não-autorizadas. Nós matemos medidas de 
-                    segurança administrativas, técnicas e físicas razoáveis, com finalidade de proteger 
-                    os dados pessoais sob nossa custódia de de acessos, usos, modificações e divulgações 
-                    não-autorizadas. Apesar disso, nenhuma transmissão de dados pela Internet ou por 
-                    sistemas sem fio pode ser garantida.
-                    </p>
-                    <br>
-                </html>
-                """.trimIndent(),
-                HtmlCompat.FROM_HTML_MODE_COMPACT
-            )
-        }
-    )
-}
-
-@Composable
-fun Doc_three() {
-    AndroidView(
-        factory = { context -> TextView(context) },
-        update = {
-            it.text = HtmlCompat.fromHtml(
-                """ <html> 
-                    <b>Declaração legal:</b>
-                    <p style="text-align: justify">
-                    Nós vamos divulgar qualquer informação que coletarmos, usarmos ou recebermos caso 
-                    tal divulgação seja solicitada ou permitida por lei, de forma a cumprir intimações 
-                    ou processos judiciais similares, e também quando considerarmos em boa fé que a 
-                    divulgação é necessária para a proteção de nossos direitos, para a proteção da 
-                    segurança de outros, para investigações de fraude ou para responder a uma 
-                    solicitação do governo.
-                    </p>
-
-                    <br>
-                    <b>Informações de contato:</b>
-                    <p style="text-align: justify">
-                    Se você quiser entrar em contato conosco para 
-                    saber mais sobre esta Política de Privacidade, ou quiser acessar quaisquer 
-                    informações relativas aos seus direitos individuais e às suas Informações 
-                    Pessoais, você poderá enviar um e-mail para o endereço joaosilvavictor@hotmail.com.br.
-                    </p>
-                </html>
-                """.trimIndent(), HtmlCompat.FROM_HTML_MODE_COMPACT
-            )
-        }
-    )
-}
 
 private fun click(
     name: String, lastName: String, email: String, phoneNumber: String,
