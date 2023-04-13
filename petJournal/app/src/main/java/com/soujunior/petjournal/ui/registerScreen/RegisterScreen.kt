@@ -189,8 +189,7 @@ private fun Name(modifier: Modifier) {
                 else {
                     it.hasFocus
                 }
-            }
-
+            },
     )
     if (isValidLenght(name) && !inFocus) {
         showErrorLenght = isValidLenght(name)
@@ -380,7 +379,7 @@ private fun Password(modifier: Modifier) {
             IconButton(onClick = { showPassword = !showPassword }) {
                 Icon(
                     icon,
-                    contentDescription = "Visibility",
+                    contentDescription = "Modifica a visibilidade do campo senha",
                     tint = iconColor
                 )
             }
@@ -442,7 +441,7 @@ private fun ConfirmPassword(modifier: Modifier) {
             IconButton(onClick = { showPassword = !showPassword }) {
                 Icon(
                     icon,
-                    contentDescription = "Visibility",
+                    contentDescription = "Modifica a visibilidade do campo confirmar senha",
                     tint = iconColor
                 )
             }
@@ -495,7 +494,6 @@ private fun ButtonRegister(submit: () -> Unit, enableButton: Boolean) {
                 .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 16.dp)
                 .size(height = 50.dp, width = 200.dp),
             shape = Shapes.large
-
         ) {
             Text(
                 text = "Cadastrar",
