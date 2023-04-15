@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.loginScreen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,20 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.registerScreen.components.ImageLogo
 import com.soujunior.petjournal.ui.theme.light_primary
-import com.soujunior.petjournal.ui.util.isValidEmail
-
-import org.koin.androidx.compose.getViewModel
+import com.soujunior.petjournal.ui.util.isEmail
 
 private var localEmailState = compositionLocalOf { mutableStateOf("") }
 private var localPasswordState = compositionLocalOf { mutableStateOf("") }
@@ -44,32 +37,26 @@ fun LoginScreen(navController: NavController) {
 fun MyApp(navController: NavController) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
         Header()
-
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
-            //Pra escalar na tela de registro verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.80f)
                 .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                //.background(whiteBackgroundColor)
                 .padding(10.dp)
+                .background(MaterialTheme.colors.background)
         ) {
+
+
             Text(
                 text = "Acessar conta",
                 style = MaterialTheme.typography.h2,
 
                 )
-
             Spacer(modifier = Modifier.padding(top = 40.dp))
-
-            //Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Form()
-
             Spacer(modifier = Modifier.padding(top = 100.dp))
-
-            //}
             Footer()
         }
 
@@ -86,7 +73,7 @@ private fun Footer() {
     /*if (email.isNotEmpty() && password.isNotEmpty()) {
         isLoginVisible = true
     }*/
-    if (isValidEmail(email) && password.length >= 8) {
+    if (isEmail(email) && password.length >= 8) {
         isLoginVisible = true
     }
 
@@ -124,22 +111,15 @@ private fun ButtonLogin(isLoginVisible: Boolean) {
 private fun Header() {
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White), contentAlignment = Alignment.TopCenter
+            .fillMaxSize(), contentAlignment = Alignment.TopCenter
     ) {
-        /*Icon(painter = painterResource(id = R.drawable.logo_pet_journal), contentDescription = null )*/
-        Image(
-            painter = painterResource(id = R.drawable.logo_pet_journal_white),
-            contentDescription = ""
-        )
-
+        ImageLogo()
     }
 
 }
 
 @Composable
 private fun Form() {
-
     Email()
     Password()
     RememberForgotPassword()
@@ -147,14 +127,10 @@ private fun Form() {
 
 @Composable
 fun RememberForgotPassword() {
-
-    var checked by remember {
-        mutableStateOf(true)
-    }
+    var checked by remember { mutableStateOf(true) }
     Row(
         modifier = Modifier.fillMaxWidth(0.95f),
         verticalAlignment = Alignment.CenterVertically,
-        //horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         Box(Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -162,7 +138,6 @@ fun RememberForgotPassword() {
                     checked = checked,
                     onCheckedChange = { checked_ -> checked = checked_ },
                     colors = CheckboxDefaults.colors(Color(light_primary.value))
-
                 )
                 Text(
                     text = "Lembrar",
@@ -174,7 +149,6 @@ fun RememberForgotPassword() {
             text = "Esqueci minha senha",
             style = MaterialTheme.typography.body1,
             modifier = Modifier
-                //.align(Alignment.End)
                 .padding(0.dp, 0.dp, 10.dp, 0.dp)
                 .clickable(onClick = {}),
         )
@@ -186,8 +160,7 @@ fun Password() {
     var passwordField by localPasswordState.current
     var inFocus by remember { mutableStateOf(false) }
     val isPasswordVisible = remember { mutableStateOf(false) }
-    val visualTransformation = if (isPasswordVisible.value)
-        VisualTransformation.None
+    val visualTransformation = if (isPasswordVisible.value) VisualTransformation.None
     else PasswordVisualTransformation()
 
     OutlinedTextField(
@@ -267,7 +240,7 @@ fun Email() {
                 }
             }
     )
-    if ((!inFocus && !isValidEmail(emailField)) && emailField.length >= 1) {
+    if ((!inFocus && !isEmail(emailField)) && emailField.length >= 1) {
         Text(
             text = "Digite o email correto",
             style = MaterialTheme.typography.body1,

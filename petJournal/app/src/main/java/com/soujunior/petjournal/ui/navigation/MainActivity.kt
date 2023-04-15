@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.navigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
@@ -36,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     },
                     backgroundColor = MaterialTheme.colors.background,
                     content = {
-                        Box(modifier = Modifier.padding(it)) { navHostElements() }
+                        Box(modifier = Modifier.padding(it).background(MaterialTheme.colors.background)) { navHostElements() }
                     }
                 )
             }
