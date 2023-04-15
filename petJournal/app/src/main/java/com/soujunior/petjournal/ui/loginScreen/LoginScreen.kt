@@ -57,7 +57,7 @@ fun MyApp(navController: NavController) {
             Spacer(modifier = Modifier.padding(top = 40.dp))
             Form()
             Spacer(modifier = Modifier.padding(top = 100.dp))
-            Footer()
+            Footer(navController)
         }
 
     }
@@ -65,7 +65,7 @@ fun MyApp(navController: NavController) {
 }
 
 @Composable
-private fun Footer() {
+private fun Footer(navController: NavController) {
     var email by localEmailState.current
     var password by localPasswordState.current
     var isLoginVisible = false
@@ -83,7 +83,7 @@ private fun Footer() {
     Text(
         text = "Não tem uma conta? Inscrever-se",
         style = MaterialTheme.typography.body1,
-        modifier = Modifier.clickable(onClick = {})
+        modifier = Modifier.clickable(onClick = { navController.navigate("register") })
     )
 }
 
