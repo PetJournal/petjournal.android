@@ -1,13 +1,17 @@
 package com.soujunior.petjournal.ui.registerScreen
 
 import android.util.Log
+import android.widget.TextView
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
@@ -15,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -23,6 +28,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
+import androidx.core.text.HtmlCompat
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.Shapes
@@ -43,6 +51,7 @@ private var localPasswordError = compositionLocalOf { mutableStateOf(false) }
 private var localConfirmPasswordState = compositionLocalOf { mutableStateOf("") }
 private var localConfirmPasswordError = compositionLocalOf { mutableStateOf(false) }
 private var localCheckedState = compositionLocalOf { mutableStateOf(false) }
+private var showPrivacyPolicy = compositionLocalOf { mutableStateOf(false) }
 
 @Composable
 fun RegisterScreen(navController: NavController) {
@@ -52,6 +61,7 @@ fun RegisterScreen(navController: NavController) {
 @Composable
 fun MyApp(navController: NavController) {
     val RegisterScreenViewModel: RegisterScreenViewModel = getViewModel()
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -107,10 +117,8 @@ fun MyApp(navController: NavController) {
                             checkPrivacyPolicy
                         )
                     },
-                    modifier = padding,
                     enableButton = enableButton
                 )
-
             }
         }
     }
@@ -181,8 +189,7 @@ private fun Name(modifier: Modifier) {
                 else {
                     it.hasFocus
                 }
-            }
-
+            },
     )
     if (isValidLenght(name) && !inFocus) {
         showErrorLenght = isValidLenght(name)
@@ -372,7 +379,7 @@ private fun Password(modifier: Modifier) {
             IconButton(onClick = { showPassword = !showPassword }) {
                 Icon(
                     icon,
-                    contentDescription = "Visibility",
+                    contentDescription = "Modifica a visibilidade do campo senha",
                     tint = iconColor
                 )
             }
@@ -434,7 +441,7 @@ private fun ConfirmPassword(modifier: Modifier) {
             IconButton(onClick = { showPassword = !showPassword }) {
                 Icon(
                     icon,
-                    contentDescription = "Visibility",
+                    contentDescription = "Modifica a visibilidade do campo confirmar senha",
                     tint = iconColor
                 )
             }
@@ -462,27 +469,6 @@ private fun ConfirmPassword(modifier: Modifier) {
 }
 
 @Composable
-private fun PrivacyPolicyCheckbox() {
-    var checked by localCheckedState.current
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .padding(start = 0.dp, end = 0.dp, top = 16.dp)
-            .fillMaxWidth()
-    ) {
-        Checkbox(
-            checked = checked,
-            onCheckedChange = { checked = it },
-        )
-        Text(
-            text = "Eu concordo com a política de privacidade",
-            fontFamily = FontFamily(Font(R.font.fredoka_regular)),
-        )
-    }
-}
-
-@Composable
 private fun Form(modifier: Modifier) {
     Name(modifier = modifier)
     LastName(modifier = modifier)
@@ -494,7 +480,7 @@ private fun Form(modifier: Modifier) {
 }
 
 @Composable
-private fun ButtonRegister(submit: () -> Unit, modifier: Modifier, enableButton: Boolean) {
+private fun ButtonRegister(submit: () -> Unit, enableButton: Boolean) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -508,7 +494,6 @@ private fun ButtonRegister(submit: () -> Unit, modifier: Modifier, enableButton:
                 .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 16.dp)
                 .size(height = 50.dp, width = 200.dp),
             shape = Shapes.large
-
         ) {
             Text(
                 text = "Cadastrar",
@@ -518,15 +503,91 @@ private fun ButtonRegister(submit: () -> Unit, modifier: Modifier, enableButton:
     }
 }
 
+@Composable
+private fun PrivacyPolicyCheckbox() {
+    var showPrivacyPolicy by showPrivacyPolicy.current
+    var checked by localCheckedState.current
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .padding(start = 0.dp, end = 0.dp, top = 16.dp)
+            .fillMaxWidth()
+    ) {
+        Column {
+            Checkbox(
+                checked = checked,
+                onCheckedChange = { checked = it },
+                modifier = Modifier.clickable { }
+            )
+        }
+        Column {
+            Text(
+                text = "Eu concordo com a política de privacidade",
+                modifier = Modifier.clickable(onClick = { showPrivacyPolicy = true }),
+                style = MaterialTheme.typography.body1
+            )
+        }
+    }
+    if (showPrivacyPolicy) {
+        Dialog(
+            onDismissRequest = { showPrivacyPolicy = false },
+            content = { BoxWithPrivacyPolicyText() }
+        )
+    }
+}
+
+@Composable
+fun BoxWithPrivacyPolicyText() {
+    var showPrivacyPolicy by showPrivacyPolicy.current
+    Column(
+        modifier = Modifier
+            .size(800.dp)
+            .background(MaterialTheme.colors.background)
+            .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.TopEnd
+        ) {
+            IconButton(
+                onClick = { showPrivacyPolicy = false }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Botão para fechar a caixa"
+                )
+            }
+        }
+        LazyColumn {
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_0_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_0_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_1_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_1_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_2_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_2_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_3_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_3_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_4_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_4_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_5_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_5_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_6_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_6_text), style = MaterialTheme.typography.body1) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_7_title), style = MaterialTheme.typography.h3) }
+            item { Text( text = stringResource(id = R.string.privacy_policy_item_7_text), style = MaterialTheme.typography.body1) }
+        }
+    }
+}
+
+
 private fun click(
-    name: String,
-    lastName: String,
-    email: String,
-    phoneNumber: String,
-    password: String,
-    confirmPassword: String,
-    check: Boolean,
+    name: String, lastName: String, email: String, phoneNumber: String,
+    password: String, confirmPassword: String, check: Boolean,
 ) {
+
     if (check) {
         Log.i(
             "testar", "$name, $lastName, $email, $phoneNumber, $password, $confirmPassword, $check"
