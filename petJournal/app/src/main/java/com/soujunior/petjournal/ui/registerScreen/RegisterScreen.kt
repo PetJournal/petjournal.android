@@ -33,6 +33,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.text.HtmlCompat
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.registerScreen.components.ImageLogo
 import com.soujunior.petjournal.ui.theme.Shapes
 import com.soujunior.petjournal.ui.util.*
 import com.soujunior.petjournal.ui.util.mask.mobileNumberFilter
@@ -131,13 +132,7 @@ private fun CreateTitleAndImageLogo() {
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo_pet_journal_white),
-            contentDescription = "Imagem logo",
-            modifier = Modifier
-                .size(width = 150.dp, height = 150.dp)
-                .padding(top = 20.dp)
-        )
+        ImageLogo()
     }
     Row(
         verticalAlignment = Alignment.CenterVertically,
