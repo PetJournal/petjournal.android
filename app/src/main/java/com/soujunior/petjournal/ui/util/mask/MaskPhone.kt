@@ -30,16 +30,19 @@ fun mobileNumberFilter(text: AnnotatedString): TransformedText {
         }
         pushStyle(SpanStyle(color = Color.LightGray))
         append(mask.takeLast(mask.length - length))
+
     }.toAnnotatedString()
 
 
     val phoneNumberOffsetTranslator = object : OffsetMapping {
         override fun originalToTransformed(offset: Int): Int {
-            if (offset <= 3) return offset
-            if (offset <= 7) return offset + 1
-            if (offset <= 14) return offset + 5
+            if (offset <= 1) return offset
+            if (offset <= 2) return offset + 3
+            if (offset in 3..6) return offset + 4
+            if (offset in 7..11) return offset + 5
 
             return 16
+
         }
 
         override fun transformedToOriginal(offset: Int): Int {
