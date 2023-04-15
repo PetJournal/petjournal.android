@@ -8,6 +8,7 @@ import com.soujunior.petjournal.ui.detailScreen.DetailScreen
 import com.soujunior.petjournal.ui.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.registerScreen.RegisterScreen
+import com.soujunior.petjournal.ui.welcomeScreen.WelcomeScreen
 
 @Composable
 fun navHostElements() {
@@ -18,6 +19,7 @@ fun navHostElements() {
         composable("detail") { DetailScreen(navController) }
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
+        composable("welcome") { WelcomeScreen(navController) }
         /** outras telas aqui */
     }
 }

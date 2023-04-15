@@ -11,13 +11,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PetJournal"
+        android:theme="@style/Theme.App.Loading"
         tools:targetApi="31">
         <activity
             android:name=".ui.navigation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.PetJournal">
+            android:theme="@style/Theme.App.Loading">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
