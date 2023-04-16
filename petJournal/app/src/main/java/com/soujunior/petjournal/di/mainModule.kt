@@ -22,7 +22,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 val mainModule = module {
     factory { RegisterUseCase(get()) }
-    single<AuthRepository> { AuthRepositoryImpl(get()) }
+    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     single {
         Moshi.Builder()
             .add(KotlinJsonAdapterFactory())

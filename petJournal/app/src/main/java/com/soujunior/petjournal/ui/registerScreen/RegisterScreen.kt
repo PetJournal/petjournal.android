@@ -1,8 +1,6 @@
 package com.soujunior.petjournal.ui.registerScreen
 
 import android.util.Log
-import android.widget.TextView
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,14 +9,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -28,10 +25,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
-import androidx.core.text.HtmlCompat
 import androidx.navigation.NavController
+import com.soujunior.domain.entities.auth.RegisterModel
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.registerScreen.components.ImageLogo
 import com.soujunior.petjournal.ui.theme.Shapes
@@ -39,29 +35,44 @@ import com.soujunior.petjournal.ui.util.*
 import com.soujunior.petjournal.ui.util.mask.mobileNumberFilter
 import org.koin.androidx.compose.getViewModel
 
-private var localNameState = compositionLocalOf { mutableStateOf("") }
+private var localNameState = compositionLocalOf { mutableStateOf("GUSTAVO") }
 private var localNameError = compositionLocalOf { mutableStateOf(false) }
-private var localLastNameState = compositionLocalOf { mutableStateOf("") }
+private var localLastNameState = compositionLocalOf { mutableStateOf("OLIVEIRA") }
 private var localLastNameError = compositionLocalOf { mutableStateOf(false) }
-private var localEmailState = compositionLocalOf { mutableStateOf("") }
+private var localEmailState = compositionLocalOf { mutableStateOf("GUSTAVO@HOTMAIL.COM") }
 private var localEmailError = compositionLocalOf { mutableStateOf(false) }
-private var localPhoneNumberState = compositionLocalOf { mutableStateOf("") }
+private var localPhoneNumberState = compositionLocalOf { mutableStateOf("91985158445") }
 private var localPhoneNumberError = compositionLocalOf { mutableStateOf(false) }
-private var localPasswordState = compositionLocalOf { mutableStateOf("") }
+private var localPasswordState = compositionLocalOf { mutableStateOf("ggGG12@#") }
 private var localPasswordError = compositionLocalOf { mutableStateOf(false) }
-private var localConfirmPasswordState = compositionLocalOf { mutableStateOf("") }
+private var localConfirmPasswordState = compositionLocalOf { mutableStateOf("ggGG12@#") }
 private var localConfirmPasswordError = compositionLocalOf { mutableStateOf(false) }
 private var localCheckedState = compositionLocalOf { mutableStateOf(false) }
 private var showPrivacyPolicy = compositionLocalOf { mutableStateOf(false) }
 
 @Composable
 fun RegisterScreen(navController: NavController) {
-    MyApp(navController)
+    val registerScreenViewModel: RegisterScreenViewModel = getViewModel()
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    SideEffect {
+        registerScreenViewModel.formSuccess.observe(lifecycleOwner) { formSuccessValue ->
+            //TODO: Sucesso ->
+            // Dialog com parabens
+            // Chamar metodo de login logo em seguida
+            // Ser encaminhado para a tela Home
+            //TODO: Falha ->
+            // Exibir uma mensagem avisando do erro
+        }
+    }
+
+
+    MyApp(navController, registerScreenViewModel)
+    //setupObservers(registerScreenViewModel)
 }
 
 @Composable
-fun MyApp(navController: NavController) {
-    val RegisterScreenViewModel: RegisterScreenViewModel = getViewModel()
+fun MyApp(navController: NavController, RegisterScreenViewModel: RegisterScreenViewModel) {
 
     Column(
         modifier = Modifier
@@ -108,14 +119,16 @@ fun MyApp(navController: NavController) {
                     }
                 ButtonRegister(
                     submit = {
-                        click(
-                            name,
-                            lastName,
-                            email,
-                            phoneNumber,
-                            password,
-                            confirmPassword,
-                            checkPrivacyPolicy
+                        postForm(
+                            RegisterModel(
+                                name = name,
+                                lastName = lastName,
+                                email = email,
+                                phoneNumber = phoneNumber,
+                                password = password,
+                                privacyPolicy = checkPrivacyPolicy
+                            ),
+                            RegisterScreenViewModel
                         )
                     },
                     enableButton = enableButton
@@ -557,35 +570,114 @@ fun BoxWithPrivacyPolicyText() {
             }
         }
         LazyColumn {
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_0_title), style = MaterialTheme.typography.h3) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_0_text), style = MaterialTheme.typography.body1) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_1_title), style = MaterialTheme.typography.h3) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_1_text), style = MaterialTheme.typography.body1) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_2_title), style = MaterialTheme.typography.h3) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_2_text), style = MaterialTheme.typography.body1) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_3_title), style = MaterialTheme.typography.h3) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_3_text), style = MaterialTheme.typography.body1) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_4_title), style = MaterialTheme.typography.h3) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_4_text), style = MaterialTheme.typography.body1) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_5_title), style = MaterialTheme.typography.h3) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_5_text), style = MaterialTheme.typography.body1) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_6_title), style = MaterialTheme.typography.h3) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_6_text), style = MaterialTheme.typography.body1) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_7_title), style = MaterialTheme.typography.h3) }
-            item { Text( text = stringResource(id = R.string.privacy_policy_item_7_text), style = MaterialTheme.typography.body1) }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_0_title),
+                    style = MaterialTheme.typography.h3
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_0_text),
+                    style = MaterialTheme.typography.body1
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_1_title),
+                    style = MaterialTheme.typography.h3
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_1_text),
+                    style = MaterialTheme.typography.body1
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_2_title),
+                    style = MaterialTheme.typography.h3
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_2_text),
+                    style = MaterialTheme.typography.body1
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_3_title),
+                    style = MaterialTheme.typography.h3
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_3_text),
+                    style = MaterialTheme.typography.body1
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_4_title),
+                    style = MaterialTheme.typography.h3
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_4_text),
+                    style = MaterialTheme.typography.body1
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_5_title),
+                    style = MaterialTheme.typography.h3
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_5_text),
+                    style = MaterialTheme.typography.body1
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_6_title),
+                    style = MaterialTheme.typography.h3
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_6_text),
+                    style = MaterialTheme.typography.body1
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_7_title),
+                    style = MaterialTheme.typography.h3
+                )
+            }
+            item {
+                Text(
+                    text = stringResource(id = R.string.privacy_policy_item_7_text),
+                    style = MaterialTheme.typography.body1
+                )
+            }
         }
     }
 }
 
-
-private fun click(
-    name: String, lastName: String, email: String, phoneNumber: String,
-    password: String, confirmPassword: String, check: Boolean,
-) {
-
-    if (check) {
-        Log.i(
-            "testar", "$name, $lastName, $email, $phoneNumber, $password, $confirmPassword, $check"
-        )
+private fun postForm(form: RegisterModel, RegisterScreenViewModel: RegisterScreenViewModel) {
+    if (form.privacyPolicy) {
+        RegisterScreenViewModel.postForm(form)
     }
 }
+
+/*private fun setupObservers(RegisterScreenViewModel: RegisterScreenViewModel) {
+    RegisterScreenViewModel.formSuccess.observe()
+}*/
+
+private fun success() {}

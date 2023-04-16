@@ -48,6 +48,5 @@ fun countCharacters(str: String): List<Int> {
             else -> simbolos++
         }
     }
-    Log.e("testar", "M:$digitosMaiusculos,  m: $digitosMinusculos, s: $simbolos, numer: $numeros")
     return listOf(digitosMaiusculos, digitosMinusculos, simbolos, numeros)
 }
