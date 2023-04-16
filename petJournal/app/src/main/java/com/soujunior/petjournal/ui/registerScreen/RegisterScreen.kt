@@ -35,17 +35,17 @@ import com.soujunior.petjournal.ui.util.*
 import com.soujunior.petjournal.ui.util.mask.mobileNumberFilter
 import org.koin.androidx.compose.getViewModel
 
-private var localNameState = compositionLocalOf { mutableStateOf("GUSTAVO") }
+private var localNameState = compositionLocalOf { mutableStateOf("") }
 private var localNameError = compositionLocalOf { mutableStateOf(false) }
-private var localLastNameState = compositionLocalOf { mutableStateOf("OLIVEIRA") }
+private var localLastNameState = compositionLocalOf { mutableStateOf("") }
 private var localLastNameError = compositionLocalOf { mutableStateOf(false) }
-private var localEmailState = compositionLocalOf { mutableStateOf("GUSTAVO@HOTMAIL.COM") }
+private var localEmailState = compositionLocalOf { mutableStateOf("") }
 private var localEmailError = compositionLocalOf { mutableStateOf(false) }
-private var localPhoneNumberState = compositionLocalOf { mutableStateOf("91985158445") }
+private var localPhoneNumberState = compositionLocalOf { mutableStateOf("") }
 private var localPhoneNumberError = compositionLocalOf { mutableStateOf(false) }
-private var localPasswordState = compositionLocalOf { mutableStateOf("ggGG12@#") }
+private var localPasswordState = compositionLocalOf { mutableStateOf("") }
 private var localPasswordError = compositionLocalOf { mutableStateOf(false) }
-private var localConfirmPasswordState = compositionLocalOf { mutableStateOf("ggGG12@#") }
+private var localConfirmPasswordState = compositionLocalOf { mutableStateOf("") }
 private var localConfirmPasswordError = compositionLocalOf { mutableStateOf(false) }
 private var localCheckedState = compositionLocalOf { mutableStateOf(false) }
 private var showPrivacyPolicy = compositionLocalOf { mutableStateOf(false) }
