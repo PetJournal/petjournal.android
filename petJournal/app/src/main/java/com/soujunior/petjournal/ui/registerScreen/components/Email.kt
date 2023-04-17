@@ -55,7 +55,7 @@ fun Email(modifier: Modifier) {
                 }
             }
     )
-    if (!inFocus && !isEmail(email) && email.isNotBlank() && (email.length) >= 1) {
+    if (!isEmail(email) && email.isNotBlank() && (email.length) >= 1) {
         emailError = true
         AlertText(textMessage = "Forneça um email no formato correto.")
     } else {

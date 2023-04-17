@@ -53,7 +53,7 @@ fun PhoneNumber(modifier: Modifier) {
             },
     )
 
-    if (!inFocus && (phoneNumber.length in 1..10)) {
+    if (phoneNumber.length in 1..10) {
         phoneNumberError = true
         AlertText(textMessage = "Complete o número de telefone!")
     } else {
