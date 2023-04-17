@@ -39,6 +39,6 @@ val mainModule = module {
 
     viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl() }
     viewModel<DetailScreenViewModel> { DetailScreenViewModelImpl() }
-    viewModel<LoginScreenViewModel> { LoginScreenViewModelImpl() }
+    viewModel<LoginScreenViewModel> { LoginScreenViewModelImpl(get()) }
     viewModel<RegisterScreenViewModel> { RegisterScreenViewModelImpl(get()) }
 }
