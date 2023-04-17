@@ -5,6 +5,7 @@ import android.util.Log
 import com.soujunior.data.api.Service
 import com.soujunior.data.util.Util
 import com.soujunior.domain.entities.auth.ApiResponseCode
+import com.soujunior.domain.entities.auth.LoginModel
 import com.soujunior.domain.entities.auth.RegisterModel
 import com.soujunior.domain.exceptions.NoConnection
 import com.soujunior.domain.repository.AuthRepository
@@ -24,6 +25,17 @@ class AuthRepositoryImpl(private val service: Service, private val context: Cont
         }
         else{
             throw NoConnection("Erro na conexão com a internet!")
+        }
+    }
+
+    override suspend fun login(form: LoginModel): ApiResponseCode {
+        val deferredResponse = service.login(form).awaitResponse()
+        return if( deferredResponse.isSuccessful) {
+            ApiResponseCode(deferredResponse.code(), "Logado com sucesso")
+        } else {
+            val errorBody = deferredResponse.errorBody()?.string()
+            val errorMessage = errorBody ?: "Erro desconhecido"
+            ApiResponseCode(deferredResponse.code(), errorMessage)
         }
     }
 }
