@@ -1,7 +1,6 @@
-package com.gusoliveira.domain.usecase.base
+package com.soujunior.domain.usecase.base
 
 import android.util.Log
-import com.soujunior.domain.usecase.base.DataResult
 import kotlinx.coroutines.*
 
 abstract class BaseUseCase<in Params, out R> {
@@ -16,8 +15,7 @@ abstract class BaseUseCase<in Params, out R> {
                 val result = withContext(Dispatchers.IO) { doWork(value) }
                 DataResult.Success(result)
             } catch (e: Throwable) {
-                Log.e("LogSucesso", "BaseUseCase - FALHA- $e")
-                DataResult.Failure
+                DataResult.Failure(e)
             }
         }
     }
