@@ -19,7 +19,6 @@ class MockService : Service {
 
         return object : Call<ApiResponseCode> {
             override fun enqueue(callback: Callback<ApiResponseCode>) {
-                //
                 when (responseCode.code) {
                     in 100..299 -> {
                         callback.onResponse(this, Response.success(responseCode.code, responseCode))
