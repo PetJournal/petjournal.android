@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.registerScreen.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
@@ -11,18 +12,18 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.soujunior.petjournal.ui.registerScreen.state.StatesRegister
+import com.soujunior.petjournal.ui.states.States
 import com.soujunior.petjournal.ui.theme.Shapes
 import com.soujunior.petjournal.ui.util.AlertText
 import com.soujunior.petjournal.ui.util.isEmail
 
 @Composable
-fun Email(modifier: Modifier) {
-    var email by StatesRegister.localEmailState.current
-    var emailError by StatesRegister.localEmailError.current
+fun Email(modifier: Modifier = Modifier, isRegister: Boolean = true) {
+    var email by States.localEmailState.current
+    var emailError by States.localEmailError.current
     var inFocus by remember { mutableStateOf(false) }
-
     OutlinedTextField(
         value = email,
         onValueChange = { newEmail -> email = newEmail },
@@ -47,6 +48,7 @@ fun Email(modifier: Modifier) {
         shape = Shapes.small,
         modifier = modifier
             .fillMaxWidth()
+            .padding(start = 20.dp, end = 20.dp, top = 16.dp)
             .onFocusChanged {
                 inFocus = if (it.hasFocus)
                     it.hasFocus
@@ -55,7 +57,7 @@ fun Email(modifier: Modifier) {
                 }
             }
     )
-    if (!isEmail(email) && email.isNotBlank() && (email.length) >= 1) {
+    if (isRegister && !isEmail(email) && email.isNotBlank() && (email.length) >= 1) {
         emailError = true
         AlertText(textMessage = "Forneça um email no formato correto.")
     } else {

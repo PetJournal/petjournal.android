@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.registerScreen.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -13,17 +14,19 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.registerScreen.state.StatesRegister
+import com.soujunior.petjournal.ui.states.States
 import com.soujunior.petjournal.ui.theme.Shapes
 import com.soujunior.petjournal.ui.util.AlertText
 import com.soujunior.petjournal.ui.util.countCharacters
 
 @Composable
-fun Password(modifier: Modifier) {
-    var password by StatesRegister.localPasswordState.current
-    var passwordError by StatesRegister.localPasswordError.current
+fun Password(modifier: Modifier = Modifier, isRegister: Boolean = true) {
+    var password by States.localPasswordState.current
+    var passwordError by States.localPasswordError.current
     var inFocusPwd by remember { mutableStateOf(false) }
     var showPassword by remember { mutableStateOf(false) }
 
@@ -66,11 +69,12 @@ fun Password(modifier: Modifier) {
         shape = Shapes.small,
         modifier = modifier
             .fillMaxWidth()
+            .padding(start = 20.dp, end = 20.dp, top = 16.dp)
             .onFocusChanged {
                 inFocusPwd = if (it.hasFocus) it.hasFocus else it.hasFocus
             }
     )
-    if (inFocusPwd) {
+    if (inFocusPwd && isRegister) {
         val listItens = countCharacters(password)
         var count = 0
         if (listItens[0] < 2) AlertText(textMessage = "Pelo menos duas letras Maiusculas (ex: F, G, ...)") else count++

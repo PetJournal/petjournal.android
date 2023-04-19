@@ -8,9 +8,9 @@ import androidx.compose.ui.Modifier
 fun Form(modifier: Modifier) {
     Name(modifier = modifier)
     LastName(modifier = modifier)
-    Email(modifier = modifier)
+    Email()
     PhoneNumber(modifier = modifier)
-    Password(modifier = modifier)
+    Password()
     ConfirmPassword(modifier = modifier)
     PrivacyPolicyCheckbox()
 }

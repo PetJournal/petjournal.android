@@ -15,6 +15,7 @@ import com.soujunior.domain.entities.auth.RegisterModel
 import com.soujunior.petjournal.ui.registerScreen.RegisterScreenViewModel
 import com.soujunior.petjournal.ui.registerScreen.postForm
 import com.soujunior.petjournal.ui.registerScreen.state.StatesRegister
+import com.soujunior.petjournal.ui.states.States
 
 @Composable
 fun MyApp(navController: NavController, RegisterScreenViewModel: RegisterScreenViewModel) {
@@ -39,16 +40,16 @@ fun MyApp(navController: NavController, RegisterScreenViewModel: RegisterScreenV
             item {
                 val name by StatesRegister.localNameState.current
                 val nameError by StatesRegister.localNameError.current
-                val email by StatesRegister.localEmailState.current
-                val emailError by StatesRegister.localEmailError.current
+                val email by States.localEmailState.current
+                val emailError by States.localEmailError.current
                 val lastName by StatesRegister.localLastNameState.current
                 val lastNameError by StatesRegister.localLastNameError.current
-                val password by StatesRegister.localPasswordState.current
-                val passwordError by StatesRegister.localPasswordError.current
+                val password by States.localPasswordState.current
+                val passwordError by States.localPasswordError.current
                 val phoneNumber by StatesRegister.localPhoneNumberState.current
                 val phoneNumberError by StatesRegister.localPhoneNumberError.current
-                val confirmPassword by StatesRegister.localConfirmPasswordState.current
-                val confirmPasswordError by StatesRegister.localConfirmPasswordError.current
+                val confirmPassword by States.localConfirmPasswordState.current
+                val confirmPasswordError by States.localConfirmPasswordError.current
                 val checkPrivacyPolicy by StatesRegister.localCheckedState.current
                 var enableButton = false
                 val padding = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp)

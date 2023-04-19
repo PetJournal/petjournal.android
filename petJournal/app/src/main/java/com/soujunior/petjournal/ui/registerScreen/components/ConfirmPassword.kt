@@ -11,14 +11,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
-import com.soujunior.petjournal.ui.registerScreen.state.StatesRegister
+import com.soujunior.petjournal.ui.states.States
 import com.soujunior.petjournal.ui.theme.Shapes
 
 @Composable
 fun ConfirmPassword(modifier: Modifier) {
-    val password by StatesRegister.localPasswordState.current
-    var confirmPassword by StatesRegister.localConfirmPasswordState.current
-    var confirmPasswordError by StatesRegister.localConfirmPasswordError.current
+    val password by States.localPasswordState.current
+    var confirmPassword by States.localConfirmPasswordState.current
+    var confirmPasswordError by States.localConfirmPasswordError.current
     var showPassword by remember { mutableStateOf(false) }
 
     OutlinedTextField(
