@@ -23,6 +23,7 @@ fun HandleLoginResponse(navController: NavController, loginScreenViewModel: Logi
     SideEffect {
         loginScreenViewModel.success.observe(lifecycleOwner) { success ->
             Toast.makeText(context, "Sucesso: $success", Toast.LENGTH_LONG + 3).show()
+            navController.navigate("mainContent")
         }
         loginScreenViewModel.error.observe(lifecycleOwner) { error ->
             Toast.makeText(context, "Erro: $error", Toast.LENGTH_LONG + 3).show()

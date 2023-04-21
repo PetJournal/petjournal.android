@@ -9,27 +9,31 @@ import com.soujunior.petjournal.ui.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.registerScreen.RegisterScreen
 import com.soujunior.petjournal.ui.splashScreen.SplashScreen
-import com.soujunior.petjournal.ui.welcomeScreen.WelcomeScreen
 
 @Composable
-fun Apresentation(){
+fun Presentation(){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "splash") {
         composable("splash") { SplashScreen(navController)}
-        composable("mainContent") { MainContent() }
+        composable("accountManager") { AccountManager() }
     }
 }
 
 @Composable
-fun NavHostElements() {
+fun NavHostAccountManager() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "login") {
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
-        composable("home") { HomeScreen(navController) }
-        composable("detail") { DetailScreen(navController) }
-        composable("welcome") { WelcomeScreen(navController) }
-        /** outras telas aqui */
+        composable("mainContent") { (MainContent()) }
     }
 }
 
+@Composable
+fun NavHostMainContent() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "login") {
+        composable("home") { HomeScreen(navController) }
+        composable("detail") { DetailScreen(navController) }
+    }
+}
