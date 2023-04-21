@@ -16,8 +16,9 @@ import com.soujunior.petjournal.ui.registerScreen.components.ImageLogo
 @Composable
 fun MyApp(navController: NavController) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-            ImageLogo()
+        Box(modifier = Modifier.fillMaxSize().padding(), contentAlignment = Alignment.TopCenter) {
+
+            ImageLogo(modifier = Modifier.size(200.dp))
         }
 
         Column(
@@ -34,7 +35,7 @@ fun MyApp(navController: NavController) {
                     text = "Acessar conta",
                     style = MaterialTheme.typography.h2,
                 )
-                Spacer(modifier = Modifier.padding(top = 40.dp))
+                Spacer(modifier = Modifier.padding(top = 100.dp))
                 Form()
                 Spacer(modifier = Modifier.padding(top = 100.dp))
                 Footer(navController)
