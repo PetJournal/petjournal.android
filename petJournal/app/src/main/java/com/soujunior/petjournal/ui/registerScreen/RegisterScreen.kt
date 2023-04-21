@@ -13,26 +13,24 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun RegisterScreen(navController: NavController) {
     val registerScreenViewModel: RegisterScreenViewModel = getViewModel()
-    HandleRegisterResponse(registerScreenViewModel)
+    HandleRegisterResponse(navController, registerScreenViewModel)
     MyApp(navController, registerScreenViewModel)
 }
 
 @Composable
-fun HandleRegisterResponse(registerScreenViewModel: RegisterScreenViewModel) {
+fun HandleRegisterResponse(
+    navController: NavController,
+    registerScreenViewModel: RegisterScreenViewModel
+) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
     SideEffect {
-        registerScreenViewModel.formSuccess.observe(lifecycleOwner) { success ->
-            //TODO: Sucesso ->
-            // Dialog com parabens
-            // Chamar metodo de login logo em seguida
-            // Ser encaminhado para a tela Home
-            Toast.makeText(context, "Mensagem de sucesso: $success", Toast.LENGTH_SHORT).show()
+        registerScreenViewModel.success.observe(lifecycleOwner) { success ->
+            navController.navigate("login")
+            Toast.makeText(context, "Faça seu login!", Toast.LENGTH_SHORT).show()
         }
-        registerScreenViewModel.formError.observe(lifecycleOwner) { error ->
-            Toast.makeText(context, "Mensagem de Erro: $error", Toast.LENGTH_SHORT).show()
-            //TODO: Falha ->
-            // Exibir uma mensagem avisando do erro
+        registerScreenViewModel.error.observe(lifecycleOwner) { error ->
+            Toast.makeText(context, "Erro: $error", Toast.LENGTH_SHORT).show()
         }
     }
 }

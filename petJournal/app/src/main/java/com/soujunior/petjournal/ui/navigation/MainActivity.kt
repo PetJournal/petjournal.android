@@ -10,38 +10,45 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.soujunior.petjournal.ui.splashScreen.SplashScreen
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen().apply {
-
-        }
         setContent {
             PetJournalTheme {
-                Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            title = {
-                                Text(
-                                    text = "PetJournal",
-                                    style = MaterialTheme.typography.h1
-                                )
-                            },
-                            backgroundColor = MaterialTheme.colors.background
-                        )
-                    },
-                    backgroundColor = MaterialTheme.colors.background,
-                    content = {
-                        Box(modifier = Modifier.padding(it).background(MaterialTheme.colors.background)) { navHostElements() }
-                    }
-                )
+                Apresentation()
             }
         }
     }
 }
 
+@Composable
+fun MainContent() {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "PetJournal",
+                        style = MaterialTheme.typography.h1
+                    )
+                },
+                backgroundColor = MaterialTheme.colors.background
+            )
+        },
+        backgroundColor = MaterialTheme.colors.background,
+        content = {
+            Box(
+                modifier = Modifier
+                    .padding(it)
+                    .background(MaterialTheme.colors.background)
+            ) { NavHostElements() }
+        }
+    )
+}

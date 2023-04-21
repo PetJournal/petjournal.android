@@ -7,7 +7,6 @@ import com.soujunior.domain.repository.AuthRepository
 class LoginUseCase (
     private val repository : AuthRepository
     ) : BaseUseCase<LoginModel, String>(){
-    //TODO: refatorar de modo que o codigo aqui não seja igual ao codigo do cadastro
     override suspend fun doWork(value: LoginModel?): String {
         return if (value != null) {
             val result = repository.login(value)
@@ -21,5 +20,4 @@ class LoginUseCase (
             }
         } else throw Error("Houve um erro desconhecido!")
     }
-
 }

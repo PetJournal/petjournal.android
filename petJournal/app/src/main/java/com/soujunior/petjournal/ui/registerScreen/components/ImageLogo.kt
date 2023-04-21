@@ -11,11 +11,9 @@ import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 
 @Composable
-fun ImageLogo(
-    modifier: Modifier = Modifier.size(width = 150.dp, height = 150.dp).padding(top = 20.dp)) {
-    val imageLight = painterResource(id = R.drawable.logo_pet_journal_white)
-    val imageDark = painterResource(id = R.drawable.logo_pet_journal_purple)
-
+fun ImageLogo(modifier: Modifier = Modifier.size(width = 150.dp, height = 150.dp).padding(top = 20.dp)) {
+    val imageLight = painterResource(id = R.drawable.logo_purple)
+    val imageDark = painterResource(id = R.drawable.logo_pink)
     val image = if (isSystemInDarkTheme()) imageDark else imageLight
 
     Image(

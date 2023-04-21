@@ -12,5 +12,4 @@ object StatesRegister {
     var localPhoneNumberError = compositionLocalOf { mutableStateOf(false) }
     var localCheckedState = compositionLocalOf { mutableStateOf(false) }
     var showPrivacyPolicy = compositionLocalOf { mutableStateOf(false) }
-    var MessageDialog = compositionLocalOf { mutableStateOf(false) }
 }

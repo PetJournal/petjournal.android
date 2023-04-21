@@ -10,8 +10,8 @@ class RegisterScreenViewModelImpl(
     private val registerUseCase: RegisterUseCase
 ) : RegisterScreenViewModel() {
 
-    override val formSuccess = MutableLiveData<String>()
-    override val formError = MutableLiveData<String>()
+    override val success = MutableLiveData<String>()
+    override val error = MutableLiveData<String>()
 
     override fun postForm(form: RegisterModel) {
         viewModelScope.launch {
@@ -21,14 +21,14 @@ class RegisterScreenViewModelImpl(
     }
 
     override fun success(resultPostRegister: String) {
-        this.formSuccess.value = resultPostRegister
+        this.success.value = resultPostRegister
     }
 
     override fun failed(exception: Throwable?) {
         if (exception is Error) {
-            this.formError.value = exception.message
+            this.error.value = exception.message
         } else {
-            this.formError.value = "lançar um erro aqui fixo"
+            this.error.value = "lançar um erro aqui fixo"
         }
     }
 

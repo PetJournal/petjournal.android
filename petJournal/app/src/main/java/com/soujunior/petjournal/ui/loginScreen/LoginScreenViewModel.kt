@@ -6,8 +6,8 @@ import com.soujunior.domain.entities.auth.LoginModel
 
 abstract class LoginScreenViewModel : ViewModel() {
 
-    abstract val loginSuccess: LiveData<String>
-    abstract val loginError: LiveData<String>
+    abstract val success: LiveData<String>
+    abstract val error: LiveData<String>
 
     abstract fun postForm(form: LoginModel)
     abstract fun failed(exception: Throwable?)

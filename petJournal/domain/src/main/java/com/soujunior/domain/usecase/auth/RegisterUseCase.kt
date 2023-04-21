@@ -19,12 +19,5 @@ class RegisterUseCase(
                 else -> throw Error("Erro desconhecido")
             }
         } else throw Error("Houve um erro desconhecido!")
-
     }
 }
-
-/**
-403 - email já existe
-203 - sucesso ao cadastrar
-400 - Falta parametro
- */

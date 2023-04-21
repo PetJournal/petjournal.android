@@ -9,7 +9,7 @@ val light_onSecondary = Color(0xFFFFFFFF)
 val light_error = Color(0xFFBA1A1A)
 val light_background = Color(0xFFFFFFFE)
 val light_onBackground = Color(0xFF201A1B)
-val light_surface = Color(0xFF8D8B8C)
+val light_surface = Color(0xFFF8EDF3)
 val light_onSurface = Color(0xFF201A1B)
 val light_onError = Color(0xFFFFFFFF)
 
@@ -26,3 +26,5 @@ val dark_onBackground = Color(0xFFFFFFFF)
 val dark_surface = Color(0xFF222222)
 val dark_onSurface = Color(0xFFFFFFFF)
 
+
+val background_splash = Color(0xFF9A0963)
