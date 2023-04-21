@@ -11,22 +11,37 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import com.soujunior.petjournal.ui.splashScreen.SplashScreen
+import androidx.core.view.WindowCompat
+import androidx.navigation.NavHostController
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
-import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            WindowCompat.setDecorFitsSystemWindows(window, true)
             PetJournalTheme {
-                Apresentation()
+                Presentation()
             }
         }
     }
 }
+
+@Composable
+fun AccountManager() {
+    Scaffold(
+        backgroundColor = MaterialTheme.colors.background,
+        content = {
+            Box(
+                modifier = Modifier
+                    .padding(it)
+                    .background(MaterialTheme.colors.background)
+            ) { NavHostAccountManager() }
+        }
+    )
+}
+
 
 @Composable
 fun MainContent() {
@@ -48,7 +63,7 @@ fun MainContent() {
                 modifier = Modifier
                     .padding(it)
                     .background(MaterialTheme.colors.background)
-            ) { NavHostElements() }
+            ) { NavHostMainContent() }
         }
     )
 }
