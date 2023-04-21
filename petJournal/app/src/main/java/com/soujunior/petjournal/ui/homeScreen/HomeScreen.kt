@@ -27,7 +27,7 @@ fun HomeScreen(navController: NavController) {
     ) {
         Row {
             Image(
-                painter = painterResource(R.drawable.avatar_limpo),
+                painter = painterResource(R.drawable.logo_lilac),
                 contentDescription = "Contact profile picture",
                 modifier = Modifier
                     .size(150.dp)
@@ -45,7 +45,7 @@ fun HomeScreen(navController: NavController) {
         }
         Row {
             Image(
-                painter = painterResource(R.drawable.avatar_limpo),
+                painter = painterResource(R.drawable.logo_blue),
                 contentDescription = "Contact profile picture",
                 modifier = Modifier
                     .size(150.dp)

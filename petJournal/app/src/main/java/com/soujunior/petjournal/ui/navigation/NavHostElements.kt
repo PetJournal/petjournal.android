@@ -32,7 +32,7 @@ fun NavHostAccountManager() {
 @Composable
 fun NavHostMainContent() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "login") {
+    NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
         composable("detail") { DetailScreen(navController) }
     }
