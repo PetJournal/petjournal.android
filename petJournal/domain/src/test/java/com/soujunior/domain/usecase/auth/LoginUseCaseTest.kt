@@ -22,7 +22,7 @@ class LoginUseCaseTest {
 
 
     @Test
-    fun `failure Server Error code 100`() = runBlocking {
+    fun `failure Server Error in user login code 100`() = runBlocking {
         coEvery { repository.login(formLogin) } returns ApiResponseCode(
             100,
             "The server is still processing the request."
@@ -36,7 +36,7 @@ class LoginUseCaseTest {
     }
 
     @Test
-    fun `successful user authentication code 200`() = runBlocking {
+    fun `successful in user login code 200`() = runBlocking {
         coEvery { repository.login(formLogin) } returns ApiResponseCode(200, "Success")
         val loginUseCase = LoginUseCase(repository = repository)
 
@@ -46,7 +46,7 @@ class LoginUseCaseTest {
     }
 
     @Test
-    fun `failure There is some data missing from the form code 300`() = runBlocking {
+    fun `failure There is some data missing from the form in user login code 300`() = runBlocking {
         coEvery { repository.login(formLogin) } returns ApiResponseCode(
             300,
             "There is some data missing from the form"
@@ -59,7 +59,7 @@ class LoginUseCaseTest {
     }
 
     @Test
-    fun `failure Client Error code 400`() = runBlocking {
+    fun `failure Client Error in user login code 400`() = runBlocking {
         coEvery { repository.login(formLogin) } returns ApiResponseCode(400, "Bad Request")
         val loginUseCase = LoginUseCase(repository = repository)
 
@@ -69,7 +69,7 @@ class LoginUseCaseTest {
     }
 
     @Test
-    fun `failure Error processing request Error code 500`() = runBlocking {
+    fun `failure Error processing request Error in user login code 500`() = runBlocking {
         coEvery { repository.login(formLogin) } returns ApiResponseCode(
             500,
             "Error processing request"
