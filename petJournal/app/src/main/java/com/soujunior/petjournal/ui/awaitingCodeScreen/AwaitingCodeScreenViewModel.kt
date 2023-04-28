@@ -12,6 +12,6 @@ abstract class AwaitingCodeScreenViewModel : ViewModel() {
     abstract fun postForm(form: AwaitingCodeModel)
 
     abstract fun failed(exception: Throwable?)
-    abstract fun success(exception: Throwable?)
+    abstract fun success(resultPostAwaitingCode: String)
 
 }

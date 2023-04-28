@@ -28,8 +28,9 @@ class AwaitingCodeScreenViewModelImpl(
             this.error.value = "Erro desconhecido!"
         }
     }
+    override fun success(resultPostAwaitingCode: String) {
 
-    override fun success(exception: Throwable?) {
+        this.success.value = resultPostAwaitingCode
 
     }
 
