@@ -1,8 +1,9 @@
 package com.soujunior.domain.usecase.auth
 
+import com.soujunior.domain.usecase.base.BaseUseCase
 import com.soujunior.domain.entities.auth.AwaitingCodeModel
 import com.soujunior.domain.repository.AuthRepository
-import com.soujunior.domain.usecase.base.BaseUseCase
+
 
 
 class AwaitingCodeUseCase (

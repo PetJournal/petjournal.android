@@ -4,6 +4,7 @@ import com.soujunior.data.api.Service
 import com.soujunior.data.model.MockService
 import com.soujunior.data.repository.AuthRepositoryImpl
 import com.soujunior.domain.repository.AuthRepository
+import com.soujunior.domain.usecase.auth.AwaitingCodeUseCase
 import com.soujunior.domain.usecase.auth.LoginUseCase
 import com.soujunior.domain.usecase.auth.RegisterUseCase
 import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreenViewModel
@@ -26,6 +27,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 val mainModule = module {
     factory { RegisterUseCase(get()) }
     factory { LoginUseCase(get()) }
+    factory { AwaitingCodeUseCase(get()) }
     single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     single {
         Moshi.Builder()

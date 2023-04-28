@@ -3,6 +3,7 @@ package com.soujunior.data.model
 import android.util.Log
 import com.soujunior.data.api.Service
 import com.soujunior.domain.entities.auth.ApiResponseCode
+import com.soujunior.domain.entities.auth.AwaitingCodeModel
 import com.soujunior.domain.entities.auth.LoginModel
 import com.soujunior.domain.entities.auth.RegisterModel
 import okhttp3.MediaType
@@ -101,5 +102,9 @@ class MockService : Service {
             }
 
         }
+    }
+
+    override fun awaitingCode(awaitingCode: AwaitingCodeModel): Call<ApiResponseCode> {
+        TODO("Not yet implemented")
     }
 }

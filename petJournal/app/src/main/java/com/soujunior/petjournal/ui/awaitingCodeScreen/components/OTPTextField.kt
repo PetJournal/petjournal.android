@@ -60,7 +60,7 @@ private fun TextFieldSingleView(index: Int, text: String) {
     val borderS = 2.5
     val isFocused = text.length == index
     val char = when {
-        index == text.length -> "0"
+        index == text.length -> "" // Por algo aqui como placeholder caso não tenha nada
         index > text.length -> ""
         else -> text[index].toString()
     }
