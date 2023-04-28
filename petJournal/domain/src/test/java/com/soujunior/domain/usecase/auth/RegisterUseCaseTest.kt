@@ -23,7 +23,6 @@ class RegisterUseCaseTest {
 
     private val repository = mockk<AuthRepository>(relaxed = true)
 
-
     @Test
     fun `failure Server Error in the user registry code 100`() = runBlocking {
         coEvery { repository.register(formRegister) } returns ApiResponseCode(
