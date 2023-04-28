@@ -18,64 +18,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun VerificationCodeInput() {
     var otpValue by remember { mutableStateOf("") }
-    val borderS = 2.5
-
-    BasicTextField(
-        value = otpValue,
-        onValueChange = {
-            if (it.length <= 6) {
-                otpValue = it
-            }
-        },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.NumberPassword
-        ),
-        decorationBox = {
-
-            Row(horizontalArrangement = Arrangement.Center) {
-
-                repeat(6) {
-                    val char = when {
-                        it >= otpValue.length -> ""
-                        else -> otpValue[it].toString()
-                    }
-                    val isFocused = otpValue.length == it
-                    Text(
-                        modifier = Modifier
-                            .width(56.dp)
-                            .height(70.dp)
-                            .background(
-                                when {
-                                    char.isNotEmpty() -> Color.White
-                                    else -> Color.LightGray
-                                }, RoundedCornerShape(8.dp)
-                            )
-                            .border(
-                                borderS.dp,
-                                if (isFocused) {
-                                    Color.Black
-                                } else {
-                                    when {
-                                        char.isEmpty() -> Color(0xFBAFD9DB)
-                                        else -> Color(0xFB9A0963)
-                                    }
-                                }, RoundedCornerShape(8.dp)
-                            )
-                            .padding(12.dp, 12.dp),
-                        text = char,
-                        style = MaterialTheme.typography.h4,
-                        color = Color.Black,
-                        textAlign = TextAlign.Center
-                    )
-                    if (it < 5) {
-                        Spacer(modifier = Modifier.width(12.dp))
-                    }
-
-                }
-
-            }
-        }
-    )
+    OTPTextField(
+        otpText = otpValue,
+        onOtpTextChange = { value, otpInputFilled -> otpValue = value })
     Text(
         text = "Reenviar código?",
         modifier = Modifier

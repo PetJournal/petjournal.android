@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.soujunior.domain.entities.auth.LoginModel
-import com.soujunior.petjournal.ui.loginScreen.AwaitingCodeScreenViewModel
+import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreenViewModel
 import com.soujunior.petjournal.ui.loginScreen.LoginScreenViewModel
 import com.soujunior.petjournal.ui.loginScreen.postFormLogin
 import com.soujunior.petjournal.ui.states.States
