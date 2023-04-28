@@ -15,13 +15,6 @@ import com.soujunior.petjournal.ui.registerScreen.components.ImageLogo
 
 @Composable
 fun MyApp(navController: NavController) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .padding(), contentAlignment = Alignment.TopCenter) {
-
-        ImageLogo(modifier = Modifier.size(200.dp))
-    }
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
@@ -29,7 +22,8 @@ fun MyApp(navController: NavController) {
             .fillMaxWidth()
             .fillMaxHeight(0.80f)
             .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-            .padding(10.dp)
+            .padding(horizontal = 16.dp)
+            .padding(top = 32.dp)
             .background(MaterialTheme.colors.background),
         content = {
             Header()

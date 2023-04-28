@@ -13,7 +13,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun Footer() {
     val awaitingCodeScreenViewModel: AwaitingCodeScreenViewModel = getViewModel()
-    var isCodeFilled = false
+    var isCodeFilled = true
 
     /*if (textfield do otp.length == 6) {
         isCodeFilled = true
