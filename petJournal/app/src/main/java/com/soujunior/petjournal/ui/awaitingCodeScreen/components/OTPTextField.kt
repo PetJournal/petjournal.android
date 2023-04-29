@@ -67,8 +67,8 @@ private fun TextFieldSingleView(index: Int, text: String) {
 
     Text(
         modifier = Modifier
-            .width(56.dp)
-            .height(70.dp)
+            .width(50.dp) // 52 e 64
+            .height(62.5.dp)
             .background(
                 when {
                     char.isNotEmpty() -> Color.White
@@ -89,7 +89,7 @@ private fun TextFieldSingleView(index: Int, text: String) {
             )
             .padding(12.dp, 12.dp),
         text = char,
-        style = MaterialTheme.typography.h4,
+        style = MaterialTheme.typography.h2,
         color = Color.Black,
         textAlign = TextAlign.Center
     )
