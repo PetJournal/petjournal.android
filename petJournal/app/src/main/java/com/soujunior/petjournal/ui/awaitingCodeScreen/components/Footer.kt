@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.awaitingCodeScreen.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,23 +20,16 @@ fun Footer() {
         isCodeFilled = true
     }*/
 
-    Column(
-        verticalArrangement = Arrangement.Bottom,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp, horizontal = 16.dp)
-    ) {
+    Spacer(modifier = Modifier.padding(32.dp))
 
+    ButtonSend(isCodeFilled = isCodeFilled, awaitingCodeScreenViewModel)
 
-        ButtonSend(isCodeFilled = isCodeFilled, awaitingCodeScreenViewModel)
+    Spacer(modifier = Modifier.padding(8.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
+    Text(
+        text = "Dica: Caso não encontre o e-mail na sua caixa de entrada, verifique a pasta de Spam!",
+        style = MaterialTheme.typography.subtitle1,
+        textAlign = TextAlign.Center
+    )
 
-        Text(
-            text = "Dica: Caso não encontre o e-mail na sua caixa de entrada, verifique a pasta de Spam!",
-            //style = MaterialTheme.typography.body2,
-            textAlign = TextAlign.Center
-        )
-    }
 }

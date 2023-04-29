@@ -19,7 +19,7 @@ import com.soujunior.petjournal.ui.registerScreen.components.ImageLogo
 fun Header() {
         ImageLogo(modifier = Modifier.size(200.dp))
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.padding(16.dp))
 
         Text(
             text = "Acabamos de enviar um código para seu e-mail",
@@ -28,7 +28,7 @@ fun Header() {
             //modifier = Modifier.padding(horizontal = 16.dp)
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.padding(16.dp))
 
         Text(
             text = "Insira no campo abaixo o código de verificação de 6 digitos enviado para o seu email.",
@@ -37,7 +37,7 @@ fun Header() {
             //modifier = Modifier.padding(horizontal = 16.dp)
         )
 
-        Spacer(modifier = Modifier.height(64.dp))
+        Spacer(modifier = Modifier.padding(32.dp))
 
 
 }
