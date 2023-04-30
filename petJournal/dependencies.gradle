@@ -24,4 +24,6 @@ ext {
     testMockk = "io.mockk:mockk:1.12.5"
     testAssertk = "com.willowtreeapps.assertk:assertk-jvm:0.25"
     testKotlinxCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    androidTestJunit = "androidx.test.ext:junit:1.1.5"
+    androidTestExpresso = "androidx.test.espresso:espresso-core:3.5.1"
 }
