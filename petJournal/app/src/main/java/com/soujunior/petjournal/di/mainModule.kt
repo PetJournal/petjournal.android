@@ -4,8 +4,11 @@ import com.soujunior.data.api.Service
 import com.soujunior.data.model.MockService
 import com.soujunior.data.repository.AuthRepositoryImpl
 import com.soujunior.domain.repository.AuthRepository
+import com.soujunior.domain.usecase.auth.AwaitingCodeUseCase
 import com.soujunior.domain.usecase.auth.LoginUseCase
 import com.soujunior.domain.usecase.auth.RegisterUseCase
+import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreenViewModel
+import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreenViewModelImpl
 import com.soujunior.petjournal.ui.detailScreen.DetailScreenViewModel
 import com.soujunior.petjournal.ui.detailScreen.DetailScreenViewModelImpl
 import com.soujunior.petjournal.ui.homeScreen.HomeScreenViewModel
@@ -24,6 +27,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 val mainModule = module {
     factory { RegisterUseCase(get()) }
     factory { LoginUseCase(get()) }
+    factory { AwaitingCodeUseCase(get()) }
     single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     single {
         Moshi.Builder()
@@ -43,4 +47,5 @@ val mainModule = module {
     viewModel<DetailScreenViewModel> { DetailScreenViewModelImpl() }
     viewModel<LoginScreenViewModel> { LoginScreenViewModelImpl(get()) }
     viewModel<RegisterScreenViewModel> { RegisterScreenViewModelImpl(get()) }
+    viewModel<AwaitingCodeScreenViewModel> { AwaitingCodeScreenViewModelImpl(get()) }
 }

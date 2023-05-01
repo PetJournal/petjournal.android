@@ -4,6 +4,7 @@ import android.content.Context
 import com.soujunior.data.api.Service
 import com.soujunior.data.util.Util
 import com.soujunior.domain.entities.auth.ApiResponseCode
+import com.soujunior.domain.entities.auth.AwaitingCodeModel
 import com.soujunior.domain.entities.auth.LoginModel
 import com.soujunior.domain.entities.auth.RegisterModel
 import com.soujunior.domain.repository.AuthRepository
@@ -33,6 +34,19 @@ class AuthRepositoryImpl(
         val deferredResponse = service.login(form).awaitResponse()
         return if (deferredResponse.isSuccessful) {
             ApiResponseCode(deferredResponse.code(), "Logado com sucesso")
+        } else {
+            val errorMessage = deferredResponse.errorBody()?.string() ?: "Erro desconhecido"
+            ApiResponseCode(deferredResponse.code(), errorMessage)
+        }
+    }
+
+    override suspend fun awaitingCode(form: AwaitingCodeModel): ApiResponseCode {
+        if (!Util.statusInternet(context)) {
+            throw Error("Erro na conexão com a internet!")
+        }
+        val deferredResponse = service.awaitingCode(form).awaitResponse()
+        return if (deferredResponse.isSuccessful) {
+            ApiResponseCode(deferredResponse.code(), "Sucesso, crie sua nova senha!")
         } else {
             val errorMessage = deferredResponse.errorBody()?.string() ?: "Erro desconhecido"
             ApiResponseCode(deferredResponse.code(), errorMessage)

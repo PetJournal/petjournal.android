@@ -5,17 +5,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.ui.detailScreen.DetailScreen
-import com.soujunior.petjournal.ui.forgotPasswordScreen.ForgotPasswordScreen
 import com.soujunior.petjournal.ui.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.loginScreen.LoginScreen
+import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreen
 import com.soujunior.petjournal.ui.registerScreen.RegisterScreen
 import com.soujunior.petjournal.ui.splashScreen.SplashScreen
 
+
 @Composable
-fun Presentation(){
+fun Presentation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "splash") {
-        composable("splash") { SplashScreen(navController)}
+        composable("splash") { SplashScreen(navController) }
         composable("accountManager") { AccountManager() }
     }
 }
@@ -23,11 +24,11 @@ fun Presentation(){
 @Composable
 fun NavHostAccountManager() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "login") {
+    NavHost(navController = navController, startDestination = "awaitingCode") {
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
         composable("mainContent") { (MainContent()) }
-        composable("forgotPasswordScreen") { ForgotPasswordScreen(navController) }
+        composable("awaitingCode") { AwaitingCodeScreen(navController) }
     }
 }
 
@@ -37,6 +38,5 @@ fun NavHostMainContent() {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
         composable("detail") { DetailScreen(navController) }
-
     }
 }
