@@ -28,7 +28,7 @@ class RegisterScreenViewModelImpl(
         if (exception is Error) {
             this.error.value = exception.message
         } else {
-            this.error.value = "lançar um erro aqui fixo"
+            this.error.value = "lançar um erro aqui"
         }
     }
 
