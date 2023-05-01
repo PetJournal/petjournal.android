@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.ui.detailScreen.DetailScreen
+import com.soujunior.petjournal.ui.forgotPasswordScreen.ForgotPasswordScreen
 import com.soujunior.petjournal.ui.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.registerScreen.RegisterScreen
@@ -26,6 +27,7 @@ fun NavHostAccountManager() {
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
         composable("mainContent") { (MainContent()) }
+        composable("forgotPasswordScreen") { ForgotPasswordScreen(navController) }
     }
 }
 
@@ -35,5 +37,6 @@ fun NavHostMainContent() {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
         composable("detail") { DetailScreen(navController) }
+
     }
 }
