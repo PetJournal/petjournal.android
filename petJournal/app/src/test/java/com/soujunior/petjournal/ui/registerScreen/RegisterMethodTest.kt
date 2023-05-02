@@ -1,4 +1,4 @@
-package com.soujunior.petjournal
+package com.soujunior.petjournal.ui.registerScreen
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import assertk.assertThat
@@ -48,7 +48,7 @@ class RegisterMethodTest() {
     }
 
     @Test
-    fun `when postForm is called, success should be updated correctly`() = runBlocking {
+    fun `when postForm in register is called, success should be updated correctly`() = runBlocking {
         coEvery { registerUseCase.execute(formRegister) } returns DataResult.Success("success")
 
         viewModel.postForm(formRegister)
@@ -64,7 +64,7 @@ class RegisterMethodTest() {
 
 
     @Test
-    fun `when postForm is called and receive a exception, error should be updated correctly`() = runBlocking {
+    fun `when postForm in register is called and receive a exception, error should be updated correctly`() = runBlocking {
         coEvery { registerUseCase.execute(formRegister) } returns DataResult.Failure(Error("error message"))
 
         viewModel.postForm(formRegister)
