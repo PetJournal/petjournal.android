@@ -61,4 +61,20 @@ class RegisterMethodTest() {
 
         latch.await()
     }
+
+
+    @Test
+    fun `when postForm is called and receive a exception, error should be updated correctly`() = runBlocking {
+        coEvery { registerUseCase.execute(formRegister) } returns DataResult.Failure(Error("error message"))
+
+        viewModel.postForm(formRegister)
+
+        val latch = CountDownLatch(1)
+        viewModel.error.observeForever {
+            assertThat(it).isEqualTo("error message")
+            latch.countDown()
+        }
+
+        latch.await()
+    }
 }
