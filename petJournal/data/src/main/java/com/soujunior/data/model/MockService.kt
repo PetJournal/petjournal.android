@@ -4,6 +4,7 @@ import android.util.Log
 import com.soujunior.data.api.Service
 import com.soujunior.domain.entities.auth.ApiResponseCode
 import com.soujunior.domain.entities.auth.AwaitingCodeModel
+import com.soujunior.domain.entities.auth.ForgotPasswordModel
 import com.soujunior.domain.entities.auth.LoginModel
 import com.soujunior.domain.entities.auth.RegisterModel
 import okhttp3.MediaType
@@ -105,6 +106,10 @@ class MockService : Service {
     }
 
     override fun awaitingCode(awaitingCode: AwaitingCodeModel): Call<ApiResponseCode> {
+        TODO("Not yet implemented")
+    }
+
+    override fun forgotPassword(forgotPassword: ForgotPasswordModel): Call<ApiResponseCode> {
         TODO("Not yet implemented")
     }
 }
