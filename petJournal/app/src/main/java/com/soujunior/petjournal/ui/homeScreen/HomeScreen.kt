@@ -3,9 +3,7 @@ package com.soujunior.petjournal.ui.homeScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -24,24 +22,45 @@ import org.koin.androidx.compose.getViewModel
 fun HomeScreen(navController: NavController) {
     val HomeScreenViewModel: DetailScreenViewModel = getViewModel()
     /**Conteúdo para tela principal*/
-    Box(
+    Column(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
     ) {
-        Image(
-            painter = painterResource(R.drawable.avatar_limpo),
-            contentDescription = "Contact profile picture",
-            modifier = Modifier
-                .size(150.dp)
-                .clip(CircleShape)
-                .border(
-                    2.0.dp,
-                    MaterialTheme.colors.secondary,
-                    CircleShape
-                )
-                .clickable {
-                    navController.navigate("detail")
-                }
-        )
+        Row {
+            Image(
+                painter = painterResource(R.drawable.logo_lilac),
+                contentDescription = "Contact profile picture",
+                modifier = Modifier
+                    .size(150.dp)
+                    .clip(CircleShape)
+                    .border(
+                        2.0.dp,
+                        MaterialTheme.colors.secondary,
+                        CircleShape
+                    )
+                    .clickable {
+                        navController.navigate("register")
+                    }
+            )
+
+        }
+        Row {
+            Image(
+                painter = painterResource(R.drawable.logo_blue),
+                contentDescription = "Contact profile picture",
+                modifier = Modifier
+                    .size(150.dp)
+                    .clip(CircleShape)
+                    .border(
+                        2.0.dp,
+                        MaterialTheme.colors.secondary,
+                        CircleShape
+                    )
+                    .clickable {
+                        navController.navigate("login")
+                    }
+            )
+
+        }
+
     }
 }

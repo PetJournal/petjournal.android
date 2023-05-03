@@ -25,7 +25,7 @@ fun DetailScreen(navController: NavController) {
     ) {
             Row(modifier = Modifier.width(IntrinsicSize.Max)) {
                 Image(
-                    painter = painterResource(R.drawable.avatar_limpo),
+                    painter = painterResource(R.drawable.logo_lilac),
                     contentDescription = "Contact profile picture",
                     modifier = Modifier
                         .size(150.dp)

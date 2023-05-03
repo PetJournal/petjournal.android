@@ -6,7 +6,14 @@ plugins {
 android {
     namespace 'com.soujunior.petjournal'
     compileSdk 33
-
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
     defaultConfig {
         applicationId "com.soujunior.petjournal"
         minSdk 24
@@ -51,24 +58,44 @@ dependencies {
     implementation(project(":data"))
 
     def dependencies = rootProject.ext.dependencies
+    implementation dependencies.coreKtx
+    implementation dependencies.lifecycleKtx
+
     implementation dependencies.koinCore
     implementation dependencies.koinAndroid
     implementation dependencies.koinCompose
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
+    implementation dependencies.retrofit2Retrofit
+    implementation dependencies.moshiKotlin
+    implementation dependencies.retrofit2ConverterMoshi
+
+    //MATERIAL 2
+    implementation "androidx.compose.material:material:$compose_ui_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
+    //MATERIAL 3 - MATERIAL YOU
+    implementation 'com.google.android.material:material:1.8.0'
+    // MATERIAL 3 - STATUS BAR
+    implementation 'com.google.accompanist:accompanist-systemuicontroller:0.30.1'
+    implementation "androidx.navigation:navigation-compose:2.6.0-beta01"
+    //COMPOSE
+    implementation "androidx.activity:activity-compose:1.7.1"
     implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
-    implementation 'androidx.compose.material:material:1.2.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    //TESTE - COMPOSE
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
-    // Navigation Component
-    implementation "androidx.navigation:navigation-compose:2.4.0-alpha10"
+    testImplementation 'androidx.arch.core:core-testing:2.2.0'
+    implementation "androidx.work:work-runtime-ktx:2.8.1"
+    androidTestImplementation "androidx.test:rules:1.5.0"
+    androidTestImplementation "androidx.test:runner:1.5.2"
 
+    testImplementation testJunit
+    testImplementation testMockk
+    testImplementation testAssertk
+    testImplementation testKotlinxCoroutines
+    androidTestImplementation androidTestJunit
+    androidTestImplementation androidTestExpresso
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    <style name="Theme.App.Loading" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#9A0963</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/avatar_limpo</item>
+        <item name="postSplashScreenTheme">@style/Theme.PetJournal</item>
+    </style>-->
+
+</resources>
