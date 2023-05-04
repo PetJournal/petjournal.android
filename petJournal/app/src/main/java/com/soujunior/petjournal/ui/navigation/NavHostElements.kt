@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreen
 import com.soujunior.petjournal.ui.detailScreen.DetailScreen
 import com.soujunior.petjournal.ui.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.loginScreen.LoginScreen
-import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreen
 import com.soujunior.petjournal.ui.registerScreen.RegisterScreen
 import com.soujunior.petjournal.ui.splashScreen.SplashScreen
 
@@ -24,7 +24,7 @@ fun Presentation() {
 @Composable
 fun NavHostAccountManager() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "awaitingCode") {
+    NavHost(navController = navController, startDestination = "login") {
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
         composable("mainContent") { (MainContent()) }
