@@ -12,12 +12,19 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
+import androidx.navigation.NavHostController
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { Presentation() }
+        setContent {
+            WindowCompat.setDecorFitsSystemWindows(window, true)
+            PetJournalTheme {
+                Presentation()
+            }
+        }
     }
 }
 
