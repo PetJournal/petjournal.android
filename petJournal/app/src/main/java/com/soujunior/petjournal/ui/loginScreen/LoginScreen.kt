@@ -16,6 +16,7 @@ fun LoginScreen(navController: NavController) {
     HandleLoginResponse(navController, loginScreenViewModel)
     MyApp(navController)
 }
+
 @Composable
 fun HandleLoginResponse(navController: NavController, loginScreenViewModel: LoginScreenViewModel) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -30,6 +31,7 @@ fun HandleLoginResponse(navController: NavController, loginScreenViewModel: Logi
         }
     }
 }
+
 fun postFormLogin(form: LoginModel, loginScreenViewModel: LoginScreenViewModel) {
     loginScreenViewModel.postForm(form)
 }
