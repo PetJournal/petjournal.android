@@ -12,9 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.soujunior.petjournal.ui.theme.DarkColors
-import com.soujunior.petjournal.ui.theme.LightColors
+/*import com.soujunior.petjournal.ui.theme.DarkColors
+import com.soujunior.petjournal.ui.theme.LightColors*/
 
+//TODO:
 @Composable
 fun TextViewCompBody1(text : String, pStart : Int, pTop : Int, alignment : Alignment.Vertical, arrangement : Arrangement.Horizontal, withTheme : Boolean) {
     val darkTheme = isSystemInDarkTheme()
