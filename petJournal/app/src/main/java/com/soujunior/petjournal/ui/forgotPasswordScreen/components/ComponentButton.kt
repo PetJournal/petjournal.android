@@ -1,13 +1,14 @@
 package com.soujunior.petjournal.ui.forgotPasswordScreen.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,8 +20,13 @@ import com.soujunior.petjournal.ui.theme.Shapes
 
 @Composable
 fun ComponentButton(submit: () -> Unit, modifier: Modifier, enableButton: Boolean,
-                    text : String, top : Int, colorButton : ButtonColors, colorText : Color, border : BorderStroke?) {
+                    text : String, top : Int, withTheme : Boolean) {
 
+    val darkTheme = isSystemInDarkTheme()
+    val colorB =
+        if (darkTheme)  Color(0xFFFF4081) else Color(0xFFB90063)
+    val colorT =
+        if (darkTheme)  Color(0xFFFF4081) else Color(0xFFB90063)
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -34,13 +40,13 @@ fun ComponentButton(submit: () -> Unit, modifier: Modifier, enableButton: Boolea
                 .padding(start = 20.dp, end = 20.dp, top = top.dp)
                 .size(height = 50.dp, width = 200.dp),
             shape = Shapes.large,
-            colors = colorButton,
-            border= border,
+            colors =  ButtonDefaults.buttonColors(backgroundColor = if (withTheme) colorB else Color.White),
+            border = BorderStroke(2.dp, if(!enableButton) Color.Unspecified else colorB)
 
         ) {
             Text(
                 text = text,
-                color= colorText,
+                color = if (!withTheme){ if (!enableButton) Color.Gray else colorT } else {Color.Unspecified},
                 style = MaterialTheme.typography.button
             )
         }

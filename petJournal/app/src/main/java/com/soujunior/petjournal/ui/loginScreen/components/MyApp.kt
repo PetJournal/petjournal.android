@@ -28,16 +28,16 @@ fun MyApp(navController: NavController) {
                 .fillMaxWidth()
                 .fillMaxHeight(0.80f)
                 .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .padding(10.dp)
+                .padding(30.dp)
                 .background(MaterialTheme.colors.background),
             content = {
                 Text(
                     text = "Acessar conta",
                     style = MaterialTheme.typography.h2,
                 )
-                Spacer(modifier = Modifier.padding(top = 100.dp))
-                Form()
-                Spacer(modifier = Modifier.padding(top = 100.dp))
+                Spacer(modifier = Modifier.padding(top = 50.dp))
+                Form(navController)
+                Spacer(modifier = Modifier.padding(top = 70.dp))
                 Footer(navController)
             }
         )

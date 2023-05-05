@@ -16,11 +16,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.soujunior.petjournal.ui.forgotPasswordScreen.ForgotPasswordScreen
 import com.soujunior.petjournal.ui.states.States
 import com.soujunior.petjournal.ui.theme.light_primary
 
 @Composable
-fun RememberForgotPassword() {
+fun RememberForgotPassword(navController: NavController) {
+
     var checked by States.checked.current
     Row(
         modifier = Modifier.fillMaxWidth(0.95f),
@@ -44,7 +48,7 @@ fun RememberForgotPassword() {
             style = MaterialTheme.typography.body1,
             modifier = Modifier
                 .padding(0.dp, 0.dp, 10.dp, 0.dp)
-                .clickable(onClick = {}),
+                .clickable(onClick = { navController.navigate("forgotPasswordScreen")}),
         )
     }
 }

@@ -1,44 +1,43 @@
 package com.soujunior.petjournal.ui.forgotPasswordScreen
 
-import android.util.Log
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import android.widget.Toast
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-
-import androidx.compose.ui.text.input.KeyboardType
-
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.navigation.NavController
-import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.forgotPasswordScreen.components.ComponentButton
-import com.soujunior.petjournal.ui.forgotPasswordScreen.components.CreateLogoView
-import com.soujunior.petjournal.ui.forgotPasswordScreen.components.EditTextComponent
-import com.soujunior.petjournal.ui.forgotPasswordScreen.components.MyApp
-import com.soujunior.petjournal.ui.forgotPasswordScreen.components.TextViewCompBody1
-import com.soujunior.petjournal.ui.forgotPasswordScreen.components.TextViewCompH2
-import com.soujunior.petjournal.ui.registerScreen.components.ImageLogo
-import com.soujunior.petjournal.ui.states.States
-import com.soujunior.petjournal.ui.theme.Shapes
-import com.soujunior.petjournal.ui.util.*
+import com.soujunior.domain.entities.auth.ForgotPasswordModel
+import com.soujunior.petjournal.ui.forgotPasswordScreen.components.ForgotPasswordScreenMain
+import org.koin.androidx.compose.getViewModel
 
 
 @Composable
 fun ForgotPasswordScreen(navController: NavController) {
-    MyApp(navController)
+    val forgotPasswordScreenViewModel: ForgotPasswordScreenViewModel = getViewModel()
+    HandleForgotPassResponse(navController, forgotPasswordScreenViewModel)
+    ForgotPasswordScreenMain(navController,forgotPasswordScreenViewModel)
+}
+
+
+@Composable
+fun HandleForgotPassResponse(
+    navController: NavController,
+    forgotPasswordScreenViewModel: ForgotPasswordScreenViewModel
+) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
+    SideEffect {
+        forgotPasswordScreenViewModel.success.observe(lifecycleOwner) { success ->
+            navController.navigate("awaitingCode")
+            Toast.makeText(context, "Codigo enviado para o email de cadastro!", Toast.LENGTH_SHORT).show()
+        }
+        forgotPasswordScreenViewModel.error.observe(lifecycleOwner) { error ->
+            Toast.makeText(context, "Erro: $error", Toast.LENGTH_SHORT).show()
+        }
+    }
+}
+
+fun postForm(form : ForgotPasswordModel, forgotPasswordScreenViewModel : ForgotPasswordScreenViewModel) {
+    forgotPasswordScreenViewModel.postForm(form)
 }
 
 

@@ -13,23 +13,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.registerScreen.components.ImageLogo
 
 
 @Composable
-fun CreateLogoView(logo : Int, width : Int, height : Int, top : Int,
-                   alignment : Alignment.Vertical, arrangement : Arrangement.Horizontal ) {
+fun CreateLogoView() {
 
     Row(
-        verticalAlignment = alignment,
-        horizontalArrangement = arrangement,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Image(
-            painter = painterResource(id = logo),
-            contentDescription = "Imagem logo",
+        ImageLogo(
             modifier = Modifier
-                .size(width = width.dp, height = height.dp)
-                .padding(top = top.dp)
+                .size(width = 200.dp, height = 200.dp)
+                .padding(top = 50.dp)
         )
     }
 

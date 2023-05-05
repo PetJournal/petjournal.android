@@ -2,6 +2,7 @@ package com.soujunior.petjournal.ui.awaitingCodeScreen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -57,6 +58,11 @@ fun OTPTextField (
 
 @Composable
 private fun TextFieldSingleView(index: Int, text: String) {
+
+    val darkTheme = isSystemInDarkTheme()
+    val color =
+        if (darkTheme)  Color(0xFFFF4081) else Color(0xFFB90063)
+
     val borderS = 2.5
     val isFocused = text.length == index
     val char = when {
@@ -82,7 +88,7 @@ private fun TextFieldSingleView(index: Int, text: String) {
                 } else {
                     when {
                         char.isEmpty() -> Color(0xFBAFD9DB)
-                        else -> Color(0xFB9A0963)
+                        else -> color
                     }
                 }
                 , RoundedCornerShape(8.dp)

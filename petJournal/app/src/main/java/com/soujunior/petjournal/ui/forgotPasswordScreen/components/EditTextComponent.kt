@@ -44,7 +44,7 @@ fun EditTextComponent(modifier: Modifier, roundedCornerShape: RoundedCornerShape
         ),
         label = {
             Text(
-                text = label,
+                text = if (inFocus) "" else label,
                 style = MaterialTheme.typography.body1
             )
         },
