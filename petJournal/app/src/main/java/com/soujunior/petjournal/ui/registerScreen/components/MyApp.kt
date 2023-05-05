@@ -34,7 +34,7 @@ fun MyApp(navController: NavController, RegisterScreenViewModel: RegisterScreenV
         ) {
             item {
                 val padding = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp)
-                CreateTitleAndImageLogo()
+                CreateTitleAndImageLogo("Inscreva-se")
                 Form(padding)
             }
             item {
@@ -52,7 +52,6 @@ fun MyApp(navController: NavController, RegisterScreenViewModel: RegisterScreenV
                 val confirmPasswordError by States.localConfirmPasswordError.current
                 val checkPrivacyPolicy by StatesRegister.localCheckedState.current
                 var enableButton = false
-                val padding = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp)
 
                 enableButton =
                     if (name.isNotEmpty() && lastName.isNotBlank() && email.isNotBlank() &&
