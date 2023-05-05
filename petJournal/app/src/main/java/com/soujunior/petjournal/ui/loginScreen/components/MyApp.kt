@@ -11,10 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.ui.registerScreen.components.ImageLogo
 
 @Composable
 fun MyApp(navController: NavController) {
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(MaterialTheme.colors.background)
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
         Box(modifier = Modifier.fillMaxSize().padding(), contentAlignment = Alignment.TopCenter) {
 
