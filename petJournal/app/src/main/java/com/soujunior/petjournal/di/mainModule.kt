@@ -6,10 +6,13 @@ import com.soujunior.data.repository.AuthRepositoryImpl
 import com.soujunior.domain.repository.AuthRepository
 import com.soujunior.domain.usecase.auth.AwaitingCodeUseCase
 import com.soujunior.domain.usecase.auth.ForgotPasswordCase
+import com.soujunior.domain.usecase.auth.ChangePasswordUseCase
 import com.soujunior.domain.usecase.auth.LoginUseCase
 import com.soujunior.domain.usecase.auth.RegisterUseCase
 import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreenViewModel
 import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreenViewModelImpl
+import com.soujunior.petjournal.ui.changePasswordScreen.ChangePasswordViewModel
+import com.soujunior.petjournal.ui.changePasswordScreen.ChangePasswordViewModelImpl
 
 import com.soujunior.petjournal.ui.detailScreen.DetailScreenViewModel
 import com.soujunior.petjournal.ui.detailScreen.DetailScreenViewModelImpl
@@ -33,6 +36,7 @@ val mainModule = module {
     factory { LoginUseCase(get()) }
     factory { ForgotPasswordCase(get()) }
     factory { AwaitingCodeUseCase(get()) }
+    factory { ChangePasswordUseCase(get()) }
     single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     single {
         Moshi.Builder()
@@ -54,6 +58,5 @@ val mainModule = module {
     viewModel<RegisterScreenViewModel> { RegisterScreenViewModelImpl(get()) }
     viewModel<AwaitingCodeScreenViewModel> { AwaitingCodeScreenViewModelImpl(get()) }
     viewModel<ForgotPasswordScreenViewModel> { ForgotPasswordScreenViewModelImpl(get()) }
-
-
+    viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get()) }
 }
