@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.ui.changePasswordScreen.components
 
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -9,8 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.soujunior.domain.entities.auth.PasswordModel
 import com.soujunior.petjournal.ui.changePasswordScreen.ChangePasswordViewModel
@@ -19,25 +22,16 @@ import com.soujunior.petjournal.ui.registerScreen.components.CreateTitleAndImage
 import com.soujunior.petjournal.ui.states.States
 
 @Composable
-fun MyApp(changePasswordViewModel: ChangePasswordViewModel) {
+fun MyApp( changePasswordViewModel: ChangePasswordViewModel ) {
     val checkbox = States.checked.current
-    val password by States.localPasswordState.current
-    val passwordError by States.localPasswordError.current
-    val confirmPassword by States.localConfirmPasswordState.current
-    val confirmPasswordError by States.localConfirmPasswordError.current
-    val enableButton =
-        if (password.isNotBlank() && confirmPassword.isNotBlank()) {
-            (!passwordError && !confirmPasswordError)
-        } else {
-            false
-        }
+    val hasErrorpassword = States.localPasswordError.current
+    val hasErrorOnConfirmPassword = States.localConfirmPasswordError.current
+    val password = States.localPasswordState.current
+    val enableButton = if(hasErrorpassword.value == true || hasErrorOnConfirmPassword.value == true) false else true
 
     Box(modifier = Modifier.fillMaxWidth()) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp),
+            modifier = Modifier.fillMaxHeight().fillMaxWidth().padding(start = 20.dp, end = 20.dp),
         ) {
             item {
                 CreateTitleAndImageLogo(
@@ -54,19 +48,13 @@ fun MyApp(changePasswordViewModel: ChangePasswordViewModel) {
             item { Spacer(modifier = Modifier.height(30.dp)) }
             item { Checkbox() }
             item { Spacer(modifier = Modifier.height(30.dp)) }
-            item {
-                Button(
-                    submit = {
-                        sendNewPassword(
-                            PasswordModel(password),
-                            checkbox.value,
-                            changePasswordViewModel
-                        )
-                    },
-                    enableButton = enableButton,
-                    text = "Redefinir Senha"
-                )
-            }
+            item { Button(
+                submit = {
+                    sendNewPassword(PasswordModel(password.value), checkbox.value, changePasswordViewModel)
+                },
+                enableButton = enableButton,
+                text = "Redefinir Senha"
+            ) }
         }
     }
 }
