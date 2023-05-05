@@ -9,6 +9,8 @@ import com.soujunior.domain.usecase.auth.LoginUseCase
 import com.soujunior.domain.usecase.auth.RegisterUseCase
 import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreenViewModel
 import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreenViewModelImpl
+import com.soujunior.petjournal.ui.changePasswordScreen.ChangePasswordViewModel
+import com.soujunior.petjournal.ui.changePasswordScreen.ChangePasswordViewModelImpl
 import com.soujunior.petjournal.ui.detailScreen.DetailScreenViewModel
 import com.soujunior.petjournal.ui.detailScreen.DetailScreenViewModelImpl
 import com.soujunior.petjournal.ui.homeScreen.HomeScreenViewModel
@@ -48,4 +50,5 @@ val mainModule = module {
     viewModel<LoginScreenViewModel> { LoginScreenViewModelImpl(get()) }
     viewModel<RegisterScreenViewModel> { RegisterScreenViewModelImpl(get()) }
     viewModel<AwaitingCodeScreenViewModel> { AwaitingCodeScreenViewModelImpl(get()) }
+    viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl() }
 }
