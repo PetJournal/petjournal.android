@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.changePasswordScreen.components
 
-import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -11,24 +9,31 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.soujunior.domain.entities.auth.PasswordModel
 import com.soujunior.petjournal.ui.changePasswordScreen.ChangePasswordViewModel
 import com.soujunior.petjournal.ui.changePasswordScreen.sendNewPassword
+import com.soujunior.petjournal.ui.components.Button
+import com.soujunior.petjournal.ui.components.Checkbox
+import com.soujunior.petjournal.ui.components.ConfirmPassword
+import com.soujunior.petjournal.ui.components.Password
 import com.soujunior.petjournal.ui.registerScreen.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.states.States
 
 @Composable
 fun MyApp( changePasswordViewModel: ChangePasswordViewModel ) {
     val checkbox = States.checked.current
-    val hasErrorpassword = States.localPasswordError.current
+    val hasPasswordError = States.localPasswordError.current
     val hasErrorOnConfirmPassword = States.localConfirmPasswordError.current
     val password = States.localPasswordState.current
-    val enableButton = if(hasErrorpassword.value == true || hasErrorOnConfirmPassword.value == true) false else true
-
+    val confirmPassword = States.localConfirmPasswordState.current
+    val enableButton =
+        if (password.value.isNotBlank() && confirmPassword.value.isNotBlank()) {
+            (!hasPasswordError.value && !hasErrorOnConfirmPassword.value)
+        } else {
+            false
+        }
     Box(modifier = Modifier.fillMaxWidth()) {
         LazyColumn(
             modifier = Modifier.fillMaxHeight().fillMaxWidth().padding(start = 20.dp, end = 20.dp),
@@ -46,7 +51,7 @@ fun MyApp( changePasswordViewModel: ChangePasswordViewModel ) {
             item { Spacer(modifier = Modifier.height(30.dp)) }
             item { ConfirmPassword(modifier = Modifier.fillMaxWidth()) }
             item { Spacer(modifier = Modifier.height(30.dp)) }
-            item { Checkbox() }
+            item { Checkbox(text = "É necessário que todos os dispositivos acesssem sua conta com a nova senha ?") }
             item { Spacer(modifier = Modifier.height(30.dp)) }
             item { Button(
                 submit = {
