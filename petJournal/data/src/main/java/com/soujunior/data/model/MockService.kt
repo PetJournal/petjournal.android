@@ -106,7 +106,47 @@ class MockService : Service {
     }
 
     override fun awaitingCode(awaitingCode: AwaitingCodeModel): Call<ApiResponseCode> {
-        TODO("Not yet implemented")
+        val responseCode = ApiResponseCode(200, "Sucess Mock") //Success
+
+        return object : Call<ApiResponseCode> {
+            override fun enqueue(callback: Callback<ApiResponseCode>) {
+                when (responseCode.code) {
+                    in 100..299 -> {
+                        callback.onResponse(this, Response.success(responseCode.code, responseCode))
+                    }
+                    in 300..499 -> {
+                        val errorResponseBody = ResponseBody.create(MediaType.parse("application/json"), "Error message")
+                        val errorResponse = Response.error<ApiResponseCode>(responseCode.code, errorResponseBody)
+                        callback.onResponse(this, errorResponse)
+                    }
+                    //in 500..599 -> "Erro ao processar requisição"
+                    else -> callback.onResponse(this, Response.success(responseCode.code, responseCode))
+                }
+
+            }
+            override fun isExecuted(): Boolean {
+                return false
+            }
+            override fun clone(): Call<ApiResponseCode> {
+                return this
+            }
+            override fun isCanceled(): Boolean {
+                return false
+            }
+            override fun cancel() {}
+
+            override fun execute(): Response<ApiResponseCode> {
+                return Response.success(responseCode.code, responseCode)
+            }
+
+            override fun request(): Request {
+                return Request.Builder().url("https://example.com").build()
+            }
+            override fun timeout(): Timeout {
+                TODO("Not yet implemented")
+            }
+
+        }
     }
 
     override fun forgotPassword(forgotPassword: ForgotPasswordModel): Call<ApiResponseCode> {
