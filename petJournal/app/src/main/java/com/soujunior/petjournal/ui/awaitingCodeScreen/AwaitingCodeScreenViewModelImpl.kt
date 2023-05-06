@@ -13,7 +13,7 @@ class AwaitingCodeScreenViewModelImpl(
     override val success = MutableLiveData<String>()
     override val error = MutableLiveData<String>()
 
-    override fun postForm(form: AwaitingCodeModel) {
+    override fun postOtpVerification(form: AwaitingCodeModel) {
         viewModelScope.launch {
             val result = awaitingCodeUseCase.execute(form)
             result.handleResult(::success, ::failed)

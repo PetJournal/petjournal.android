@@ -63,39 +63,8 @@ fun HandleAwaitingCodeResponse(
 
 }
 
-fun postFormAwaitingCode(form: AwaitingCodeModel, awaitingCodeScreenViewModel: AwaitingCodeScreenViewModel) {
-    awaitingCodeScreenViewModel.postForm(form)
+fun postOtpVerificationAwaitingCode(form: AwaitingCodeModel, awaitingCodeScreenViewModel: AwaitingCodeScreenViewModel) {
+    awaitingCodeScreenViewModel.postOtpVerification(form)
 }
-
-
-/*@Preview
-@Composable
-fun VerificationCodeInput() {
-    val otp = remember { mutableStateOf(List(6) { "" }) }
-
-    Row {
-        for (i in 0 until 6) {
-            TextField(
-                value = otp.value[i],
-                onValueChange = { newValue ->
-                    if (newValue.length <= 1) {
-                        otp.value = otp.value.toMutableList().also { it[i] = newValue }
-                    }
-                },
-                modifier = Modifier.width(40.dp),
-                singleLine = true,
-                maxLines = 1,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                textStyle = LocalTextStyle.current.copy(
-                    fontSize = 18.sp
-                )
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-        }
-    }
-}*/
 
 
