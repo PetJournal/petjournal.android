@@ -63,8 +63,8 @@ fun HandleAwaitingCodeResponse(
 
 }
 
-fun postOtpVerificationAwaitingCode(form: AwaitingCodeModel, awaitingCodeScreenViewModel: AwaitingCodeScreenViewModel) {
-    awaitingCodeScreenViewModel.postOtpVerification(form)
+fun postOtpVerificationAwaitingCode(code: AwaitingCodeModel, awaitingCodeScreenViewModel: AwaitingCodeScreenViewModel) {
+    awaitingCodeScreenViewModel.postOtpVerification(code)
 }
 
 
