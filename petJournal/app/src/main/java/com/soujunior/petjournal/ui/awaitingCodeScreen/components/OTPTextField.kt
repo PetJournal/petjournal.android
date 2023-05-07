@@ -3,7 +3,12 @@ package com.soujunior.petjournal.ui.awaitingCodeScreen.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun OTPTextField (
+fun OTPTextField(
     modifier: Modifier = Modifier,
     otpText: String,
     otpCount: Int = 6,
@@ -61,7 +66,7 @@ private fun TextFieldSingleView(index: Int, text: String) {
 
     val darkTheme = isSystemInDarkTheme()
     val color =
-        if (darkTheme)  Color(0xFFFF4081) else Color(0xFFB90063)
+        if (darkTheme) Color(0xFFFF4081) else Color(0xFFB90063)
 
     val borderS = 2.5
     val isFocused = text.length == index
@@ -90,8 +95,7 @@ private fun TextFieldSingleView(index: Int, text: String) {
                         char.isEmpty() -> Color(0xFBAFD9DB)
                         else -> color
                     }
-                }
-                , RoundedCornerShape(8.dp)
+                }, RoundedCornerShape(8.dp)
             )
             .padding(12.dp, 12.dp),
         text = char,
