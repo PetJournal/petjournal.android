@@ -9,14 +9,12 @@ import com.soujunior.domain.entities.auth.ForgotPasswordModel
 import com.soujunior.petjournal.ui.forgotPasswordScreen.components.ForgotPasswordScreenMain
 import org.koin.androidx.compose.getViewModel
 
-
 @Composable
 fun ForgotPasswordScreen(navController: NavController) {
     val forgotPasswordScreenViewModel: ForgotPasswordScreenViewModel = getViewModel()
     HandleForgotPassResponse(navController, forgotPasswordScreenViewModel)
     ForgotPasswordScreenMain(navController,forgotPasswordScreenViewModel)
 }
-
 
 @Composable
 fun HandleForgotPassResponse(

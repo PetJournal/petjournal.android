@@ -37,7 +37,8 @@ fun Footer() {
                 awaitingCodeScreenViewModel
             )
         },
-        enableButton = isCodeFilled
+        enableButton = isCodeFilled,
+        text = "Enviar"
     )
     Spacer(modifier = Modifier.padding(8.dp))
     Text(
