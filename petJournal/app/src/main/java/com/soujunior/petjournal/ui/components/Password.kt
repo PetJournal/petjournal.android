@@ -3,7 +3,6 @@ package com.soujunior.petjournal.ui.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -23,7 +22,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.ui.states.States
 import com.soujunior.petjournal.ui.theme.Shapes
@@ -34,18 +32,21 @@ import com.soujunior.petjournal.ui.util.countCharacters
 fun Password(
     textTop: String = "Nova senha",
     textHint: String = "Digite sua nova senha",
-    modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(start = 20.dp, end = 20.dp, top = 16.dp),
+    modifier: Modifier = Modifier.fillMaxWidth(),
     isRegister: Boolean = true
 ) {
     var password by States.localPasswordState.current
     var passwordError by States.localPasswordError.current
     var inFocusPwd by remember { mutableStateOf(false) }
     var showPassword by remember { mutableStateOf(false) }
-    Column {
+    Column(modifier = modifier) {
         Row {
-            Text(text = textTop, textAlign = TextAlign.Start, color = MaterialTheme.colors.primary)
+            Text(
+                text = textTop,
+                textAlign = TextAlign.Start,
+                color = MaterialTheme.colors.primary,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
         Row {
             OutlinedTextField(
@@ -84,7 +85,8 @@ fun Password(
                 },
                 isError = passwordError,
                 shape = Shapes.small,
-                modifier = modifier
+                modifier = Modifier
+                    .fillMaxWidth()
                     .onFocusChanged {
                         inFocusPwd = if (it.hasFocus) it.hasFocus else it.hasFocus
                     }

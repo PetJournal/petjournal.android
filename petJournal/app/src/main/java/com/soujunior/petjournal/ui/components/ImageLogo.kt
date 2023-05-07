@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.registerScreen.components
+package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme

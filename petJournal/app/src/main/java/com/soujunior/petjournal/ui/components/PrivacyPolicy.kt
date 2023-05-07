@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.registerScreen.components
+package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

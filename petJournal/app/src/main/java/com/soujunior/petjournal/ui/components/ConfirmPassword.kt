@@ -3,7 +3,6 @@ package com.soujunior.petjournal.ui.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -23,7 +22,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.ui.states.States
 import com.soujunior.petjournal.ui.theme.Shapes
@@ -32,17 +30,20 @@ import com.soujunior.petjournal.ui.theme.Shapes
 fun ConfirmPassword(
     textTop: String = "Confirmar Senha",
     textHint: String = "Confirmar Senha",
-    modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(start = 20.dp, end = 20.dp, top = 16.dp),
+    modifier: Modifier = Modifier.fillMaxWidth()
 ) {
     val password by States.localPasswordState.current
     var confirmPassword by States.localConfirmPasswordState.current
     var confirmPasswordError by States.localConfirmPasswordError.current
     var showPassword by remember { mutableStateOf(false) }
-    Column {
+    Column(modifier = modifier) {
         Row {
-            Text(text = textTop, textAlign = TextAlign.Start, color = MaterialTheme.colors.primary)
+            Text(
+                text = textTop,
+                textAlign = TextAlign.Start,
+                color = MaterialTheme.colors.primary,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
         Row {
             OutlinedTextField(
@@ -82,7 +83,7 @@ fun ConfirmPassword(
                     )
                 },
                 shape = Shapes.small,
-                modifier = modifier
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }

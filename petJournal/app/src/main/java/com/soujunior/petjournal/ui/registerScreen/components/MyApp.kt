@@ -2,7 +2,9 @@ package com.soujunior.petjournal.ui.registerScreen.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -12,6 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.domain.entities.auth.RegisterModel
+import com.soujunior.petjournal.ui.components.Button
+import com.soujunior.petjournal.ui.components.ConfirmPassword
+import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
+import com.soujunior.petjournal.ui.components.Email
+import com.soujunior.petjournal.ui.components.Password
+import com.soujunior.petjournal.ui.components.PhoneNumber
+import com.soujunior.petjournal.ui.components.PrivacyPolicyCheckbox
 import com.soujunior.petjournal.ui.registerScreen.RegisterScreenViewModel
 import com.soujunior.petjournal.ui.registerScreen.postForm
 import com.soujunior.petjournal.ui.registerScreen.state.StatesRegister
@@ -19,24 +28,34 @@ import com.soujunior.petjournal.ui.states.States
 
 @Composable
 fun MyApp(navController: NavController, RegisterScreenViewModel: RegisterScreenViewModel) {
-
     Column(
         modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.Start,
+            .fillMaxSize()
+            .padding(start = 20.dp, end = 20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
     ) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top,
         ) {
-            item {
-                val padding = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp)
-                CreateTitleAndImageLogo("Inscreva-se")
-                Form(padding)
-            }
+            item { CreateTitleAndImageLogo("Inscreva-se", spaceBottom = 10.dp) }
+            item { Spacer(modifier = Modifier.height(15.dp)) }
+            item { Name() }
+            item { Spacer(modifier = Modifier.height(15.dp)) }
+            item { LastName() }
+            item { Spacer(modifier = Modifier.height(15.dp)) }
+            item { Email() }
+            item { Spacer(modifier = Modifier.height(15.dp)) }
+            item { PhoneNumber() }
+            item { Spacer(modifier = Modifier.height(15.dp)) }
+            item { Password() }
+            item { Spacer(modifier = Modifier.height(15.dp)) }
+            item { ConfirmPassword() }
+            item { Spacer(modifier = Modifier.height(5.dp)) }
+            item { PrivacyPolicyCheckbox() }
+            item { Spacer(modifier = Modifier.height(5.dp)) }
             item {
                 val name by StatesRegister.localNameState.current
                 val nameError by StatesRegister.localNameError.current
@@ -51,9 +70,7 @@ fun MyApp(navController: NavController, RegisterScreenViewModel: RegisterScreenV
                 val confirmPassword by States.localConfirmPasswordState.current
                 val confirmPasswordError by States.localConfirmPasswordError.current
                 val checkPrivacyPolicy by StatesRegister.localCheckedState.current
-                var enableButton = false
-
-                enableButton =
+                val enableButton =
                     if (name.isNotEmpty() && lastName.isNotBlank() && email.isNotBlank() &&
                         phoneNumber.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank() &&
                         checkPrivacyPolicy
@@ -62,7 +79,8 @@ fun MyApp(navController: NavController, RegisterScreenViewModel: RegisterScreenV
                     } else {
                         false
                     }
-                ButtonRegister(
+                Button(
+                    text = "Cadastrar",
                     submit = {
                         postForm(
                             RegisterModel(
