@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.states
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.mutableStateOf
 
 object States {
     var localEmailState = compositionLocalOf { mutableStateOf("") }

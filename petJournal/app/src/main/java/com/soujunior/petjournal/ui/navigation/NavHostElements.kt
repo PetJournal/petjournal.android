@@ -30,7 +30,7 @@ fun NavHostAccountManager() {
         composable("register") { RegisterScreen(navController) }
         composable("mainContent") { (MainContent()) }
         composable("awaitingCode") { AwaitingCodeScreen(navController) }
-        composable("forgotPasswordScreen") { ForgotPasswordScreen(navController) }
+        composable("forgotPassword") { ForgotPasswordScreen(navController) }
     }
 }
 

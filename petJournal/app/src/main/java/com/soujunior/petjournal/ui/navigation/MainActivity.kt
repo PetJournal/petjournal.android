@@ -20,27 +20,31 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WindowCompat.setDecorFitsSystemWindows(window, true)
-            PetJournalTheme(darkTheme = true) {
-                Presentation()
-            }
+            PetJournalTheme(
+                darkTheme = true,
+                content = {
+                    Presentation()
+                }
+            )
         }
     }
 }
 
 @Composable
 fun AccountManager() {
-    PetJournalTheme() {
-    Scaffold(
-        backgroundColor = MaterialTheme.colors.background,
-        content = {
-            Box(
-                modifier = Modifier
-                    .padding(it)
-                    .background(MaterialTheme.colors.background)
-            ) { NavHostAccountManager() }
-        }
-    )
+    PetJournalTheme(content = {
+        Scaffold(
+            backgroundColor = MaterialTheme.colors.background,
+            content = {
+                Box(
+                    modifier = Modifier
+                        .padding(it)
+                        .background(MaterialTheme.colors.background)
+                ) { NavHostAccountManager() }
+            }
+        )
     }
+    )
 }
 
 @Composable

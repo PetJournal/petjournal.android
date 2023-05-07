@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.registerScreen.components.ImageLogo
+import com.soujunior.petjournal.ui.components.ImageLogo
 import kotlinx.coroutines.delay
 
 @Composable

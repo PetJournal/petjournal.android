@@ -43,19 +43,19 @@ private val DarkColors = Colors(
 fun PetJournalTheme(
     isDynamic: Boolean = false,
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
+    setSystemBarColor: Boolean = true
 ) {
     val systemUiController = rememberSystemUiController()
     val colors = if (darkTheme) DarkColors else LightColors
-    SideEffect {
-        systemUiController.setSystemBarsColor(
-            color = colors.background
-        )
+    if (setSystemBarColor) {
+        SideEffect {
+            systemUiController.setSystemBarsColor(color = colors.background)
+        }
     }
     MaterialTheme(
         colors = colors,
         typography = Typography,
         content = content,
-
-    )
+        )
 }

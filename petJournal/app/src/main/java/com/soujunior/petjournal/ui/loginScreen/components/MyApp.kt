@@ -1,48 +1,44 @@
 package com.soujunior.petjournal.ui.loginScreen.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.soujunior.petjournal.ui.registerScreen.components.ImageLogo
+import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 
 @Composable
 fun MyApp(navController: NavController) {
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(MaterialTheme.colors.background)
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-        Box(modifier = Modifier.fillMaxSize().padding(), contentAlignment = Alignment.TopCenter) {
-
-            ImageLogo(modifier = Modifier.size(200.dp))
-        }
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top,
+    /**TODO: Qual a finalidade do codigo a baixo?
+     *  val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(MaterialTheme.colors.background)*/
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.80f)
-                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .padding(30.dp)
-                .background(MaterialTheme.colors.background),
-            content = {
-                Text(
-                    text = "Acessar conta",
-                    style = MaterialTheme.typography.h2,
+                .fillMaxSize()
+                .padding(start = 20.dp, end = 20.dp)
+                .align(Alignment.TopCenter)
+        ) {
+            item {
+                CreateTitleAndImageLogo(
+                    title = "Acessar conta",
+                    styleTitle = MaterialTheme.typography.h1,
+                    modifierImage = Modifier
+                        .size(width = 200.dp, height = 200.dp)
+                        .padding(top = 20.dp),
                 )
-                Spacer(modifier = Modifier.padding(top = 50.dp))
-                Form(navController)
-                Spacer(modifier = Modifier.padding(top = 70.dp))
-                Footer(navController)
             }
-        )
+            item { Spacer(modifier = Modifier.padding(top = 50.dp)) }
+            item { Form(navController) }
+            item { Spacer(modifier = Modifier.padding(top = 70.dp)) }
+            item { Footer(navController) }
+        }
     }
 }

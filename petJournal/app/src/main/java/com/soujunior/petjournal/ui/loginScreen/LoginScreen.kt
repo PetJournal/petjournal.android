@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.loginScreen
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -16,6 +17,7 @@ fun LoginScreen(navController: NavController) {
     HandleLoginResponse(navController, loginScreenViewModel)
     MyApp(navController)
 }
+
 @Composable
 fun HandleLoginResponse(navController: NavController, loginScreenViewModel: LoginScreenViewModel) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -30,6 +32,8 @@ fun HandleLoginResponse(navController: NavController, loginScreenViewModel: Logi
         }
     }
 }
-fun postFormLogin(form: LoginModel, loginScreenViewModel: LoginScreenViewModel) {
+
+fun postFormLogin(form: LoginModel, loginScreenViewModel: LoginScreenViewModel, checkBox: Boolean) {
     loginScreenViewModel.postForm(form)
+    Log.e("testar", "${checkBox}, ${form.email}, ${form.password}")
 }
