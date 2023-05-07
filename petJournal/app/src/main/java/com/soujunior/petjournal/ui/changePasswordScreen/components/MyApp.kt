@@ -18,7 +18,7 @@ import com.soujunior.petjournal.ui.components.Button
 import com.soujunior.petjournal.ui.components.Checkbox
 import com.soujunior.petjournal.ui.components.ConfirmPassword
 import com.soujunior.petjournal.ui.components.Password
-import com.soujunior.petjournal.ui.registerScreen.components.CreateTitleAndImageLogo
+import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.states.States
 
 @Composable
