@@ -66,7 +66,7 @@ fun EditTextComponent(modifier: Modifier, roundedCornerShape: RoundedCornerShape
                 }
             }
     )
-    if (!inFocus && !isEmail(component) && component.isNotBlank() && (component.length) >= 1) {
+    if (!isEmail(component) && component.isNotBlank() && (component.length) >= 1) {
         componentError = true
         AlertText(textMessage = "Forneça um email no formato correto.")
     } else {
