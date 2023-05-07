@@ -30,7 +30,7 @@ fun HandleAwaitingCodeResponse(
     SideEffect {
         awaitingCodeScreenViewModel.success.observe(lifecycleOwner) { success ->
             Toast.makeText(context, "Sucesso: $success", Toast.LENGTH_LONG + 3).show()
-            navController.navigate("mainContent")
+            navController.navigate("changePassword")
         }
         awaitingCodeScreenViewModel.error.observe(lifecycleOwner) { error ->
             Toast.makeText(context, "Erro: $error", Toast.LENGTH_LONG + 3).show()
