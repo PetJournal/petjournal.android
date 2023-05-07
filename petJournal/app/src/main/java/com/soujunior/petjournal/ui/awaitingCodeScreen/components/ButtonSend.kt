@@ -17,14 +17,14 @@ import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreenViewMode
 import com.soujunior.petjournal.ui.loginScreen.LoginScreenViewModel
 import com.soujunior.petjournal.ui.loginScreen.postFormLogin
 import com.soujunior.petjournal.ui.states.States
+import com.soujunior.petjournal.ui.theme.Shapes
 
 @Composable
-fun ButtonSend(isCodeFilled: Boolean, awaitingCodeScreenViewModel: AwaitingCodeScreenViewModel) {
+fun ButtonSend(sendCode: () -> Unit, isCodeFilled: Boolean) {
     //Declara OTP value aqui
     Button(
-        onClick = {
-            //Função para mandar código OTP
-        },
+        //Função para mandar código OTP
+        onClick = { sendCode() },
         enabled = isCodeFilled,
         colors = ButtonDefaults.buttonColors(
 
@@ -32,7 +32,8 @@ fun ButtonSend(isCodeFilled: Boolean, awaitingCodeScreenViewModel: AwaitingCodeS
         modifier = Modifier
             .clip(RoundedCornerShape(30.dp, 30.dp, 30.dp, 30.dp))
             .fillMaxWidth(0.6f)
-            .height(60.dp)
+            .height(60.dp),
+        shape = Shapes.large
     ) {
         Text(
             text = "Enviar",

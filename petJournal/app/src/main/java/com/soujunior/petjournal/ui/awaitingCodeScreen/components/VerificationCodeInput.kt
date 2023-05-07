@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.soujunior.petjournal.ui.states.States
 import com.soujunior.petjournal.ui.theme.FredokaRegular
 import com.soujunior.petjournal.ui.theme.FredokaSemiBold
 
@@ -29,7 +30,9 @@ fun VerificationCodeInput() {
         fontSize = 14.sp,
         textDecoration = TextDecoration.Underline,
     )
-    var otpValue by remember { mutableStateOf("") }
+    //var otpValue by remember { mutableStateOf("") }
+    var otpValue by States.otpFullCode.current
+
     OTPTextField(
         otpText = otpValue,
         onOtpTextChange = { value, otpInputFilled -> otpValue = value })

@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.setup
 
+import com.soujunior.domain.entities.auth.AwaitingCodeModel
 import com.soujunior.domain.entities.auth.LoginModel
 import com.soujunior.domain.entities.auth.RegisterModel
 
@@ -16,3 +17,8 @@ val formRegister  = RegisterModel (
     password = "88@#GGas",
     privacyPolicy = true
 )
+
+val sendCode = AwaitingCodeModel (
+    codeOTP = "123456",
+    email = "testeunitario@gmail.com",
+        )
