@@ -7,6 +7,7 @@ import com.soujunior.domain.entities.auth.ApiResponseCode
 import com.soujunior.domain.entities.auth.AwaitingCodeModel
 import com.soujunior.domain.entities.auth.ForgotPasswordModel
 import com.soujunior.domain.entities.auth.LoginModel
+import com.soujunior.domain.entities.auth.PasswordModel
 import com.soujunior.domain.entities.auth.RegisterModel
 import com.soujunior.domain.repository.AuthRepository
 import retrofit2.awaitResponse
@@ -28,6 +29,7 @@ class AuthRepositoryImpl(
             ApiResponseCode(deferredResponse.code(), errorMessage)
         }
     }
+
     override suspend fun login(form: LoginModel): ApiResponseCode {
         if (!Util.statusInternet(context)) {
             throw Error("Erro na conexão com a internet!")
@@ -67,5 +69,16 @@ class AuthRepositoryImpl(
         }
     }
 
-
+    override suspend fun changePassword(password: PasswordModel): ApiResponseCode {
+        if (!Util.statusInternet(context)) {
+            throw Error("Erro na conexão com a internet!")
+        }
+        val deferredResponse = service.changePassword(password).awaitResponse()
+        return if (deferredResponse.isSuccessful) {
+            ApiResponseCode(deferredResponse.code(), "Sucesso ao trocar senha!")
+        } else {
+            val errorMessage = deferredResponse.errorBody()?.string() ?: "Erro desconhecido"
+            ApiResponseCode(deferredResponse.code(), errorMessage)
+        }
+    }
 }

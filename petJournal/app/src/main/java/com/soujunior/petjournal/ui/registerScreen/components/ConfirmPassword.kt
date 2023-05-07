@@ -15,7 +15,7 @@ import com.soujunior.petjournal.ui.states.States
 import com.soujunior.petjournal.ui.theme.Shapes
 
 @Composable
-fun ConfirmPassword(modifier: Modifier) {
+fun ConfirmPassword(modifier: Modifier = Modifier) {
     val password by States.localPasswordState.current
     var confirmPassword by States.localConfirmPasswordState.current
     var confirmPasswordError by States.localConfirmPasswordError.current

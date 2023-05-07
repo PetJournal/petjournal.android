@@ -13,7 +13,6 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import androidx.navigation.NavHostController
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +20,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WindowCompat.setDecorFitsSystemWindows(window, true)
-            PetJournalTheme {
+            PetJournalTheme(darkTheme = true) {
                 Presentation()
             }
         }
@@ -30,6 +29,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AccountManager() {
+    PetJournalTheme() {
     Scaffold(
         backgroundColor = MaterialTheme.colors.background,
         content = {
@@ -40,8 +40,8 @@ fun AccountManager() {
             ) { NavHostAccountManager() }
         }
     )
+    }
 }
-
 
 @Composable
 fun MainContent() {

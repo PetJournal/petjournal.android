@@ -1,0 +1,53 @@
+package com.soujunior.petjournal.ui.components
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material.Checkbox
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
+import com.soujunior.petjournal.ui.registerScreen.state.StatesRegister
+import com.soujunior.petjournal.ui.states.States
+
+@Composable
+fun Checkbox(
+    modifierText: Modifier = Modifier,
+    modifierCheckbox: Modifier = Modifier,
+    text: String = "Texto ao lado do checkbox",
+    styleText: TextStyle = MaterialTheme.typography.body1
+) {
+    val checked = States.checked.current
+    Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            Column {
+                Checkbox(
+                    checked = checked.value,
+                    onCheckedChange = { checked.value = it },
+                    modifier = modifierCheckbox
+                )
+            }
+            Column {
+                Text(
+                    text = text,
+                    modifier = modifierText.clickable(onClick = { checked.value = !checked.value }),
+                    style = styleText
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun CheckboxPreview(){
+    Checkbox()
+}

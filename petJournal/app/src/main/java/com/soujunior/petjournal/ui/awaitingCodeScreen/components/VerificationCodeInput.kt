@@ -39,7 +39,7 @@ fun VerificationCodeInput() {
 
     Box(
         modifier = Modifier
-            .padding(start = 4.dp, top = 2.dp)
+            .padding(start = 15.5.dp, top = 2.dp)
             .fillMaxWidth(),
         contentAlignment = Alignment.CenterStart
     ) {

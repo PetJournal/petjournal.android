@@ -5,12 +5,19 @@ import com.soujunior.data.model.MockService
 import com.soujunior.data.repository.AuthRepositoryImpl
 import com.soujunior.domain.repository.AuthRepository
 import com.soujunior.domain.usecase.auth.AwaitingCodeUseCase
+import com.soujunior.domain.usecase.auth.ForgotPasswordCase
+import com.soujunior.domain.usecase.auth.ChangePasswordUseCase
 import com.soujunior.domain.usecase.auth.LoginUseCase
 import com.soujunior.domain.usecase.auth.RegisterUseCase
 import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreenViewModel
 import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreenViewModelImpl
+import com.soujunior.petjournal.ui.changePasswordScreen.ChangePasswordViewModel
+import com.soujunior.petjournal.ui.changePasswordScreen.ChangePasswordViewModelImpl
+
 import com.soujunior.petjournal.ui.detailScreen.DetailScreenViewModel
 import com.soujunior.petjournal.ui.detailScreen.DetailScreenViewModelImpl
+import com.soujunior.petjournal.ui.forgotPasswordScreen.ForgotPasswordScreenViewModel
+import com.soujunior.petjournal.ui.forgotPasswordScreen.ForgotPasswordScreenViewModelImpl
 import com.soujunior.petjournal.ui.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.loginScreen.LoginScreenViewModel
@@ -27,7 +34,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 val mainModule = module {
     factory { RegisterUseCase(get()) }
     factory { LoginUseCase(get()) }
+    factory { ForgotPasswordCase(get()) }
     factory { AwaitingCodeUseCase(get()) }
+    factory { ChangePasswordUseCase(get()) }
     single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     single {
         Moshi.Builder()
@@ -48,4 +57,6 @@ val mainModule = module {
     viewModel<LoginScreenViewModel> { LoginScreenViewModelImpl(get()) }
     viewModel<RegisterScreenViewModel> { RegisterScreenViewModelImpl(get()) }
     viewModel<AwaitingCodeScreenViewModel> { AwaitingCodeScreenViewModelImpl(get()) }
+    viewModel<ForgotPasswordScreenViewModel> { ForgotPasswordScreenViewModelImpl(get()) }
+    viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get()) }
 }
