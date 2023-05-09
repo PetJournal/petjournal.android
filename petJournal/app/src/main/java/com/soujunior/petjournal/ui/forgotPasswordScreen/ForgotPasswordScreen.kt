@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.forgotPasswordScreen
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
@@ -34,8 +35,10 @@ fun HandleForgotPassResponse(
     }
 }
 
-fun postForm(form : ForgotPasswordModel, forgotPasswordScreenViewModel : ForgotPasswordScreenViewModel) {
-    forgotPasswordScreenViewModel.postForm(form)
+fun sendRequestToChangePassword(email: ForgotPasswordModel, forgotPasswordScreenViewModel : ForgotPasswordScreenViewModel) {
+    //TODO:
+    Log.e("testar", "${email.email}")
+    forgotPasswordScreenViewModel.sendRequestToChangePassword(email)
 }
 
 

@@ -1,13 +1,11 @@
 package com.soujunior.domain.usecase.auth
 
-
 import com.soujunior.domain.entities.auth.ForgotPasswordModel
 
 import com.soujunior.domain.repository.AuthRepository
 import com.soujunior.domain.usecase.base.BaseUseCase
-
-
-class ForgotPasswordCase(
+//TODO: Acredito que aqui deva ficar um método para verificar o formato do email, e não na UI
+class ForgotPasswordUseCase(
         private val repository: AuthRepository
     ) : BaseUseCase<ForgotPasswordModel, String>() {
         override suspend fun doWork(value: ForgotPasswordModel?): String {
@@ -23,6 +21,4 @@ class ForgotPasswordCase(
                 }
             } else throw Error("Houve um erro desconhecido!")
         }
-
 }
-

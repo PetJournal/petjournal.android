@@ -5,7 +5,7 @@ import com.soujunior.data.model.MockService
 import com.soujunior.data.repository.AuthRepositoryImpl
 import com.soujunior.domain.repository.AuthRepository
 import com.soujunior.domain.usecase.auth.AwaitingCodeUseCase
-import com.soujunior.domain.usecase.auth.ForgotPasswordCase
+import com.soujunior.domain.usecase.auth.ForgotPasswordUseCase
 import com.soujunior.domain.usecase.auth.ChangePasswordUseCase
 import com.soujunior.domain.usecase.auth.LoginUseCase
 import com.soujunior.domain.usecase.auth.RegisterUseCase
@@ -34,7 +34,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 val mainModule = module {
     factory { RegisterUseCase(get()) }
     factory { LoginUseCase(get()) }
-    factory { ForgotPasswordCase(get()) }
+    factory { ForgotPasswordUseCase(get()) }
     factory { AwaitingCodeUseCase(get()) }
     factory { ChangePasswordUseCase(get()) }
     single<AuthRepository> { AuthRepositoryImpl(get(), get()) }

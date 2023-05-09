@@ -125,7 +125,6 @@ class MockService : Service {
         }
     }
 
-    //TODO: Replicar
     override fun awaitingCode(awaitingCode: AwaitingCodeModel): Call<ApiResponseCode> {
         val responseCode = ApiResponseCode(200, "Sucess Mock") //Success
 

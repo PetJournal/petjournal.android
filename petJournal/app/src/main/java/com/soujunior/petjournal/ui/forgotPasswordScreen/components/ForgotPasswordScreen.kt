@@ -22,7 +22,7 @@ import com.soujunior.petjournal.ui.components.Button
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.components.Email
 import com.soujunior.petjournal.ui.forgotPasswordScreen.ForgotPasswordScreenViewModel
-import com.soujunior.petjournal.ui.forgotPasswordScreen.postForm
+import com.soujunior.petjournal.ui.forgotPasswordScreen.sendRequestToChangePassword
 import com.soujunior.petjournal.ui.states.States.localEmailError
 import com.soujunior.petjournal.ui.states.States.localEmailState
 
@@ -66,7 +66,7 @@ fun ForgotPasswordScreenMain(
                     text = "Enviar",
                     enableButton = enableButton,
                     submit = {
-                        postForm(
+                        sendRequestToChangePassword(
                             ForgotPasswordModel(email = email),
                             forgotPasswordScreenViewModel
                         )

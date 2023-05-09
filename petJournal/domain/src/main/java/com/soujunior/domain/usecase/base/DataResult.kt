@@ -15,4 +15,3 @@ sealed class DataResult<out T> {
         }
     }
 }
-

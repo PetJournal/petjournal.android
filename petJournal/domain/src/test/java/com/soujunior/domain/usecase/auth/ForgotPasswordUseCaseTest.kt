@@ -14,7 +14,7 @@ import org.junit.Rule
 
 import org.junit.Test
 
-class ForgotPasswordCaseTest {
+class ForgotPasswordUseCaseTest {
 
     @ExperimentalCoroutinesApi
     @get:Rule
@@ -28,9 +28,9 @@ class ForgotPasswordCaseTest {
             100,
             "The server is still processing the request."
         )
-        val forgotPasswordCase = ForgotPasswordCase(repository = repository)
+        val forgotPasswordUseCase = ForgotPasswordUseCase(repository = repository)
 
-        val result = forgotPasswordCase.execute(formForgot)
+        val result = forgotPasswordUseCase.execute(formForgot)
 
         assertk.assertThat(result.success.data).isEqualTo("The server is still processing the request.")
     }
@@ -38,9 +38,9 @@ class ForgotPasswordCaseTest {
     @Test
     fun `successful in the user registry code 200`() = runBlocking {
         coEvery { repository.forgotPassword(formForgot) } returns ApiResponseCode(200, "Success")
-        val forgotPasswordCase = ForgotPasswordCase(repository = repository)
+        val forgotPasswordUseCase = ForgotPasswordUseCase(repository = repository)
 
-        val result = forgotPasswordCase.execute(formForgot)
+        val result = forgotPasswordUseCase.execute(formForgot)
 
         assertk.assertThat(result.success.data).isEqualTo("Success")
     }
@@ -51,9 +51,9 @@ class ForgotPasswordCaseTest {
             300,
             "There is some data missing from the form"
         )
-        val forgotPasswordCase = ForgotPasswordCase(repository = repository)
+        val forgotPasswordUseCase = ForgotPasswordUseCase(repository = repository)
 
-        val result = forgotPasswordCase.execute(formForgot)
+        val result = forgotPasswordUseCase.execute(formForgot)
 
         assertk.assertThat(result.isFailure).isEqualTo(true)
     }
@@ -61,9 +61,9 @@ class ForgotPasswordCaseTest {
     @Test
     fun `failure Client Error in the user registry code 400`() = runBlocking {
         coEvery { repository.forgotPassword(formForgot) } returns ApiResponseCode(400, "Bad Request")
-        val forgotPasswordCase = ForgotPasswordCase(repository = repository)
+        val forgotPasswordUseCase = ForgotPasswordUseCase(repository = repository)
 
-        val result = forgotPasswordCase.execute(formForgot)
+        val result = forgotPasswordUseCase.execute(formForgot)
 
         assertk.assertThat(result.isFailure).isEqualTo(true)
     }
@@ -74,9 +74,9 @@ class ForgotPasswordCaseTest {
             500,
             "Error processing request"
         )
-        val forgotPasswordCase = ForgotPasswordCase(repository = repository)
+        val forgotPasswordUseCase = ForgotPasswordUseCase(repository = repository)
 
-        val result = forgotPasswordCase.execute(formForgot)
+        val result = forgotPasswordUseCase.execute(formForgot)
 
         assertk.assertThat(result.isFailure).isEqualTo(true)
     }

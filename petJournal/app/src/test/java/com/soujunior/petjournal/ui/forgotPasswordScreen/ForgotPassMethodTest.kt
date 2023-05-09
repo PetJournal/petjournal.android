@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.soujunior.domain.setup.MainCoroutineRule
-import com.soujunior.domain.usecase.auth.ForgotPasswordCase
+import com.soujunior.domain.usecase.auth.ForgotPasswordUseCase
 import com.soujunior.domain.usecase.base.DataResult
 import com.soujunior.petjournal.setup.formForgot
 import io.mockk.coEvery
@@ -32,8 +32,8 @@ class ForgotPassMethodTest() {
     @get:Rule
     var coroutineTestRule = MainCoroutineRule()
 
-    private val forgotPasswordCase = mockk<ForgotPasswordCase>(relaxed = true)
-    private val viewModel = ForgotPasswordScreenViewModelImpl(forgotPasswordCase)
+    private val forgotPasswordUseCase = mockk<ForgotPasswordUseCase>(relaxed = true)
+    private val viewModel = ForgotPasswordScreenViewModelImpl(forgotPasswordUseCase)
 
     @OptIn(DelicateCoroutinesApi::class)
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
@@ -53,9 +53,9 @@ class ForgotPassMethodTest() {
 
     @Test
     fun `when postForm in register is called, success should be updated correctly`() = runBlocking {
-        coEvery { forgotPasswordCase.execute(formForgot) } returns DataResult.Success("success")
+        coEvery { forgotPasswordUseCase.execute(formForgot) } returns DataResult.Success("success")
 
-        viewModel.postForm(formForgot)
+        viewModel.sendRequestToChangePassword(formForgot)
 
         val latch = CountDownLatch(1)
         viewModel.success.observeForever {
@@ -71,9 +71,9 @@ class ForgotPassMethodTest() {
 
     @Test
     fun `when postForm in forgotPassword is called and receive a exception, error should be updated correctly`() = runBlocking {
-        coEvery { forgotPasswordCase.execute(formForgot) } returns DataResult.Failure(Error("error message"))
+        coEvery { forgotPasswordUseCase.execute(formForgot) } returns DataResult.Failure(Error("error message"))
 
-        viewModel.postForm(formForgot)
+        viewModel.sendRequestToChangePassword(formForgot)
 
         val latch = CountDownLatch(1)
         viewModel.error.observeForever {
