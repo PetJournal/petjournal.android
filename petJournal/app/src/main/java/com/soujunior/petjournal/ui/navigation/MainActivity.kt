@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -34,12 +34,12 @@ class MainActivity : ComponentActivity() {
 fun AccountManager() {
     PetJournalTheme(content = {
         Scaffold(
-            backgroundColor = MaterialTheme.colors.background,
+            backgroundColor = MaterialTheme.colorScheme.background,
             content = {
                 Box(
                     modifier = Modifier
                         .padding(it)
-                        .background(MaterialTheme.colors.background)
+                        .background(MaterialTheme.colorScheme.background)
                 ) { NavHostAccountManager() }
             }
         )
@@ -55,18 +55,18 @@ fun MainContent() {
                 title = {
                     Text(
                         text = "PetJournal",
-                        style = MaterialTheme.typography.h1
+                        style = MaterialTheme.typography.displayLarge
                     )
                 },
-                backgroundColor = MaterialTheme.colors.background
+                backgroundColor = MaterialTheme.colorScheme.background
             )
         },
-        backgroundColor = MaterialTheme.colors.background,
+        backgroundColor = MaterialTheme.colorScheme.background,
         content = {
             Box(
                 modifier = Modifier
                     .padding(it)
-                    .background(MaterialTheme.colors.background)
+                    .background(MaterialTheme.colorScheme.background)
             ) { NavHostMainContent() }
         }
     )

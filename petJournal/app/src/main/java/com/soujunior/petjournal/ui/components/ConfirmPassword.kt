@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -41,7 +41,7 @@ fun ConfirmPassword(
             Text(
                 text = textTop,
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colors.primary,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -57,12 +57,12 @@ fun ConfirmPassword(
                     val (icon, iconColor) = if (showPassword) {
                         Pair(
                             Icons.Filled.Visibility,
-                            MaterialTheme.colors.primary
+                            MaterialTheme.colorScheme.primary
                         )
                     } else {
                         Pair(
                             Icons.Filled.VisibilityOff,
-                            MaterialTheme.colors.primary
+                            MaterialTheme.colorScheme.primary
                         )
                     }
 
@@ -79,7 +79,7 @@ fun ConfirmPassword(
                 placeholder = {
                     Text(
                         text = textHint,
-                        style = MaterialTheme.typography.body1
+                        style = MaterialTheme.typography.bodyLarge
                     )
                 },
                 shape = Shapes.small,

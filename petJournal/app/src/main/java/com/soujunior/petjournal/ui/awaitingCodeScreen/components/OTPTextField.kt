@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -63,45 +63,37 @@ fun OTPTextField(
 
 @Composable
 private fun TextFieldSingleView(index: Int, text: String) {
-    //TODO: Corrigir isso
-    val darkTheme = isSystemInDarkTheme()
-    val color =
-        if (darkTheme) Color(0xFFFF4081) else Color(0xFFB90063)
-
-    val borderS = 2.5
     val isFocused = text.length == index
     val char = when {
-        index == text.length -> "" // Por algo aqui como placeholder caso não tenha nada
+        index == text.length -> ""
         index > text.length -> ""
         else -> text[index].toString()
     }
 
     Text(
         modifier = Modifier
-            .width(50.dp) // 52 e 64
+            .width(50.dp)
             .height(62.5.dp)
             .background(
                 when {
-                    char.isNotEmpty() -> Color.White
-                    else -> Color.LightGray
-                }, RoundedCornerShape(8.dp)
-            )
+                    char.isNotEmpty() -> MaterialTheme.colorScheme.onSecondary
+                    else -> MaterialTheme.colorScheme.outline
+                }, MaterialTheme.shapes.small            )
             .border(
-                borderS.dp,
+                2.5.dp,
                 if (isFocused) {
-                    Color.Black
+                    MaterialTheme.colorScheme.onBackground
                 } else {
                     when {
-                        char.isEmpty() -> Color(0xFBAFD9DB)
-                        else -> color
+                        char.isEmpty() ->  MaterialTheme.colorScheme.outlineVariant
+                        else -> MaterialTheme.colorScheme.primary
                     }
                 }, RoundedCornerShape(8.dp)
             )
             .padding(12.dp, 12.dp),
         text = char,
-        style = MaterialTheme.typography.h2,
+        style = MaterialTheme.typography.displayMedium,
         color = Color.Black,
         textAlign = TextAlign.Center
     )
-
 }

@@ -1,14 +1,17 @@
 package com.soujunior.petjournal.ui.awaitingCodeScreen.components
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextDecoration
@@ -38,7 +41,8 @@ fun VerificationCodeInput() {
     ) {
         Text(
             text = "Reenviar código?",
-            style = resendCodeStyle
+            style = resendCodeStyle,
+            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.util.mask
+package com.soujunior.petjournal.ui.components.mask
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString

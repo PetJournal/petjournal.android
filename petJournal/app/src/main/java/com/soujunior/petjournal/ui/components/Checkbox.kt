@@ -1,18 +1,19 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.Checkbox
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
-import com.soujunior.petjournal.ui.registerScreen.state.StatesRegister
 import com.soujunior.petjournal.ui.states.States
 
 @Composable
@@ -20,7 +21,8 @@ fun Checkbox(
     modifierText: Modifier = Modifier,
     modifierCheckbox: Modifier = Modifier,
     text: String = "Texto ao lado do checkbox",
-    styleText: TextStyle = MaterialTheme.typography.body1
+    styleText: TextStyle = MaterialTheme.typography.bodyLarge,
+    isDarkMode: Boolean = isSystemInDarkTheme()
 ) {
     val checked = States.checked.current
     Column {
@@ -39,7 +41,8 @@ fun Checkbox(
                 Text(
                     text = text,
                     modifier = modifierText.clickable(onClick = { checked.value = !checked.value }),
-                    style = styleText
+                    style = styleText,
+                    color = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.Unspecified
                 )
             }
         }
@@ -48,6 +51,6 @@ fun Checkbox(
 
 @Preview
 @Composable
-fun CheckboxPreview(){
+fun CheckboxPreview() {
     Checkbox()
 }

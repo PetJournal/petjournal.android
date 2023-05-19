@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +21,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.ui.states.States
 import com.soujunior.petjournal.ui.theme.Shapes
-import com.soujunior.petjournal.ui.util.AlertText
 import com.soujunior.petjournal.ui.util.isEmail
 
 @Composable
@@ -39,7 +38,7 @@ fun Email(
             Text(
                 text = textTop,
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colors.primary,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -55,7 +54,7 @@ fun Email(
                 placeholder = {
                     Text(
                         text = "eg: exemple@petjournal.com",
-                        style = MaterialTheme.typography.body1
+                        style = MaterialTheme.typography.bodyLarge
                     )
                 },
                 isError = emailError,

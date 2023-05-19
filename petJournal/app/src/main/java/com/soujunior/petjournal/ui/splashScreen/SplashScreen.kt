@@ -4,7 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -21,12 +21,12 @@ import kotlinx.coroutines.delay
 fun SplashScreen(navController: NavHostController) {
     //TODO: Encontrar abordagem que não troque as cores do NavigationBar e do StatusBar antes de trocar de tela
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(MaterialTheme.colors.background)
+    systemUiController.setStatusBarColor(MaterialTheme.colorScheme.background)
     systemUiController.setNavigationBarColor(Color.White)
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.background),
+            .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
 

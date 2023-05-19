@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,8 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.ui.registerScreen.state.StatesRegister
 import com.soujunior.petjournal.ui.theme.Shapes
-import com.soujunior.petjournal.ui.util.AlertText
-import com.soujunior.petjournal.ui.util.mask.mobileNumberFilter
+import com.soujunior.petjournal.ui.components.mask.mobileNumberFilter
 
 @Composable
 fun PhoneNumber(
@@ -37,7 +36,7 @@ fun PhoneNumber(
             Text(
                 text = textTop,
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colors.primary,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -55,7 +54,7 @@ fun PhoneNumber(
                 placeholder = {
                     Text(
                         text = "eg: 91 9 1234-4567",
-                        style = MaterialTheme.typography.body1
+                        style = MaterialTheme.typography.bodyLarge
                     )
                 },
                 isError = phoneNumberError,

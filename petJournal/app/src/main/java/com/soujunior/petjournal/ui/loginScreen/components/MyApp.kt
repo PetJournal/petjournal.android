@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,9 +16,6 @@ import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 
 @Composable
 fun MyApp(navController: NavController) {
-    /**TODO: Qual a finalidade do codigo a baixo?
-     *  val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(MaterialTheme.colors.background)*/
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier
@@ -29,7 +26,7 @@ fun MyApp(navController: NavController) {
             item {
                 CreateTitleAndImageLogo(
                     title = "Acessar conta",
-                    styleTitle = MaterialTheme.typography.h1,
+                    styleTitle = MaterialTheme.typography.displayLarge,
                     modifierImage = Modifier
                         .size(width = 200.dp, height = 200.dp)
                         .padding(top = 20.dp),

@@ -1,12 +1,14 @@
 package com.soujunior.petjournal.ui.awaitingCodeScreen.components
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.soujunior.domain.entities.auth.AwaitingCodeModel
@@ -43,7 +45,8 @@ fun Footer() {
     Spacer(modifier = Modifier.padding(8.dp))
     Text(
         text = "Dica: Caso não encontre o e-mail na sua caixa de entrada, verifique a pasta de Spam!",
-        style = MaterialTheme.typography.subtitle1,
-        textAlign = TextAlign.Center
+        style = MaterialTheme.typography.titleLarge,
+        textAlign = TextAlign.Center,
+        color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
     )
 }
