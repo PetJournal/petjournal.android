@@ -7,6 +7,7 @@ import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.usecase.auth.AwaitingCodeUseCase
 import com.soujunior.domain.usecase.base.DataResult
 import com.soujunior.petjournal.setup.sendCode
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeScreenViewModelImpl
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.*

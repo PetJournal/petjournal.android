@@ -4,14 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.soujunior.petjournal.ui.awaitingCodeScreen.AwaitingCodeScreen
-import com.soujunior.petjournal.ui.changePasswordScreen.ChangePasswordScreen
-import com.soujunior.petjournal.ui.detailScreen.DetailScreen
-import com.soujunior.petjournal.ui.forgotPasswordScreen.ForgotPasswordScreen
-import com.soujunior.petjournal.ui.homeScreen.HomeScreen
-import com.soujunior.petjournal.ui.loginScreen.LoginScreen
-import com.soujunior.petjournal.ui.registerScreen.RegisterScreen
-import com.soujunior.petjournal.ui.splashScreen.SplashScreen
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeScreen
+import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordScreen
+import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreen
+import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordScreen
+import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreen
+import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginScreen
+import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreen
+import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashScreen
 
 
 @Composable

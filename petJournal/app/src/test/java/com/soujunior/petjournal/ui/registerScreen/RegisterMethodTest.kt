@@ -7,7 +7,7 @@ import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.usecase.auth.RegisterUseCase
 import com.soujunior.domain.usecase.base.DataResult
 import com.soujunior.petjournal.setup.formRegister
-import com.soujunior.petjournal.ui.registerScreen.RegisterScreenViewModelImpl
+import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreenViewModelImpl
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.*

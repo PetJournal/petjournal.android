@@ -15,7 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.soujunior.petjournal.ui.registerScreen.state.StatesRegister
+import com.soujunior.petjournal.ui.accountManager.registerScreen.state.StatesRegister
 @Composable
 fun PrivacyPolicyCheckbox(modifier: Modifier = Modifier.fillMaxWidth()) {
     var showPrivacyPolicy by StatesRegister.showPrivacyPolicy.current

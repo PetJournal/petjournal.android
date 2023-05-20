@@ -7,6 +7,7 @@ import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.usecase.auth.ForgotPasswordUseCase
 import com.soujunior.domain.usecase.base.DataResult
 import com.soujunior.petjournal.setup.formForgot
+import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordScreenViewModelImpl
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.DelicateCoroutinesApi

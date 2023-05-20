@@ -18,7 +18,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.SecureFlagPolicy
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.registerScreen.state.StatesRegister
+import com.soujunior.petjournal.ui.accountManager.registerScreen.state.StatesRegister
 
 @Composable
 fun PrivacyPolicy() {

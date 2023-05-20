@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.components
+package com.soujunior.petjournal.ui.accountManager.registerScreen.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,15 +20,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.ui.accountManager.registerScreen.state.StatesRegister
 import com.soujunior.petjournal.ui.theme.Shapes
-import com.soujunior.petjournal.ui.components.mask.mobileNumberFilter
+import com.soujunior.petjournal.ui.components.AlertText
+import com.soujunior.petjournal.ui.util.hasSpecialCharOrNumber
+import com.soujunior.petjournal.ui.util.isValidLenght
 
 @Composable
-fun PhoneNumber(
-    textTop: String = "Telefone",
-    modifier: Modifier = Modifier
+fun Name(
+    textTop: String = "Nome",
+    textHint: String = "Digite seu primeiro nome",
+    modifier: Modifier = Modifier.fillMaxWidth()
 ) {
-    var phoneNumber by StatesRegister.localPhoneNumberState.current
-    var phoneNumberError by StatesRegister.localPhoneNumberError.current
+    var name by StatesRegister.localNameState.current
+    var nameError by StatesRegister.localNameError.current
+    var showErrorLenght by remember { mutableStateOf(false) }
+    var showErrorCharacter by remember { mutableStateOf(false) }
     var inFocus by remember { mutableStateOf(false) }
 
     Column(modifier = modifier) {
@@ -42,38 +47,46 @@ fun PhoneNumber(
         }
         Row {
             OutlinedTextField(
-                value = phoneNumber,
-                onValueChange = {
-                    if (it.length <= 11) phoneNumber = it
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                visualTransformation = { mobileNumberFilter(it) },
+                value = name,
+                onValueChange = { name = it },
                 textStyle = TextStyle(
                     fontSize = 20.sp,
                 ),
                 placeholder = {
                     Text(
-                        text = "eg: 91 9 1234-4567",
+                        text = textHint,
                         style = MaterialTheme.typography.bodyLarge
                     )
                 },
-                isError = phoneNumberError,
+                //colors = TextFieldDefaults.outlinedTextFieldColors(),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
+                isError = showErrorLenght || showErrorCharacter,
                 shape = Shapes.small,
                 modifier = Modifier
                     .fillMaxWidth()
                     .onFocusChanged {
-                        inFocus = if (it.hasFocus) it.hasFocus
-                        else it.hasFocus
+                        inFocus = if (it.hasFocus)
+                            it.hasFocus
+                        else {
+                            it.hasFocus
+                        }
                     },
             )
         }
     }
 
 
-    if (phoneNumber.length in 1..10) {
-        phoneNumberError = true
-        AlertText(textMessage = "Complete o número de telefone!")
+    if (isValidLenght(name) && !inFocus) {
+        showErrorLenght = isValidLenght(name)
+        AlertText(textMessage = "O Nome precisa ter entre 3 e 30 caracteres..")
     } else {
-        phoneNumberError = false
+        showErrorLenght = false
     }
+    if (hasSpecialCharOrNumber(name) && !inFocus) {
+        showErrorCharacter = hasSpecialCharOrNumber(name)
+        AlertText(textMessage = "Caracteres especiais não são permitidos!")
+    } else {
+        showErrorCharacter = false
+    }
+    nameError = hasSpecialCharOrNumber(name) || isValidLenght(name)
 }
