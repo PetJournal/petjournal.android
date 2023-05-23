@@ -10,28 +10,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.soujunior.domain.entities.auth.LoginModel
-import com.soujunior.petjournal.ui.components.Button
+import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginScreenViewModel
-import com.soujunior.petjournal.ui.accountManager.loginScreen.postFormLogin
-import com.soujunior.petjournal.ui.states.States
-import com.soujunior.petjournal.ui.util.isEmail
-import org.koin.androidx.compose.getViewModel
+import com.soujunior.petjournal.ui.components.Button
 
 @Composable
-fun Footer(navController: NavController) {
-    val email by States.localEmailState.current
-    val password by States.localPasswordState.current
-    val checkBox by States.checked.current
-    val loginScreenViewModel: LoginScreenViewModel = getViewModel()
-    var isLoginVisible = false
-    if (isEmail(email) && password.length >= 8) isLoginVisible = true
+fun Footer(
+    navController: NavController,
+    viewModel: LoginScreenViewModel
+) {
+    val isLoginVisible = viewModel.state.email.isNotBlank() && viewModel.state.password.isNotBlank()
 
     Column(
         modifier = Modifier
@@ -41,11 +34,7 @@ fun Footer(navController: NavController) {
             Button(
                 text = "Continuar",
                 submit = {
-                    postFormLogin(
-                        form = LoginModel(email = email, password = password),
-                        loginScreenViewModel = loginScreenViewModel,
-                        checkBox
-                    )
+                    viewModel.onEvent(LoginFormEvent.Submit)
                 },
                 enableButton = isLoginVisible,
                 modifier = Modifier.size(height = 50.dp, width = 240.dp)

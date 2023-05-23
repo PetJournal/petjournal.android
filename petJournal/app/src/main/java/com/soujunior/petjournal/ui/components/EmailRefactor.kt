@@ -8,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,21 +19,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormState
-import com.soujunior.petjournal.ui.states.States
 import com.soujunior.petjournal.ui.theme.Shapes
-import com.soujunior.petjournal.ui.util.isEmail
 
 @Composable
-fun Email(
+fun EmailRefactor(
     textTop: String = "Email",
     modifier: Modifier = Modifier.fillMaxWidth(),
     isRegister: Boolean = true,
-    stateEmail: String = States.localEmailState.current.value,
-    stateEmailError: Boolean = States.localEmailError.current.value
+    email: String,
+    emailError: List<String>?,
+    onEvent: (String) -> Unit,
 ) {
-    var email by States.localEmailState.current
-    var emailError by States.localEmailError.current
     var inFocus by remember { mutableStateOf(false) }
 
     Column(modifier = modifier) {
@@ -49,7 +44,7 @@ fun Email(
         Row {
             OutlinedTextField(
                 value = email,
-                onValueChange = { newEmail -> email = newEmail },
+                onValueChange = { text -> onEvent(text) },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
                 visualTransformation = VisualTransformation.None,
                 textStyle = TextStyle(
@@ -61,7 +56,7 @@ fun Email(
                         style = MaterialTheme.typography.bodyLarge
                     )
                 },
-                isError = emailError,
+                isError = emailError != null,
                 shape = Shapes.small,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -77,10 +72,9 @@ fun Email(
     }
 
 
-    if (isRegister && !isEmail(email) && email.isNotBlank() && (email.length) >= 1) {
-        emailError = true
-        AlertText(textMessage = "Forneça um email no formato correto.")
-    } else {
-        emailError = false
+    if (isRegister && emailError != null) {
+        emailError.forEach {
+            AlertText(textMessage = it)
+        }
     }
 }

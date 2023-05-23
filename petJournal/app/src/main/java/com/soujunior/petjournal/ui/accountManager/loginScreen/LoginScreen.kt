@@ -1,39 +1,30 @@
 package com.soujunior.petjournal.ui.accountManager.loginScreen
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.navigation.NavController
-import com.soujunior.domain.entities.auth.LoginModel
 import com.soujunior.petjournal.ui.accountManager.loginScreen.components.MyApp
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun LoginScreen(navController: NavController) {
-    val loginScreenViewModel: LoginScreenViewModel = getViewModel()
-    HandleLoginResponse(navController, loginScreenViewModel)
-    MyApp(navController)
-}
-
-@Composable
-fun HandleLoginResponse(navController: NavController, loginScreenViewModel: LoginScreenViewModel) {
-    val lifecycleOwner = LocalLifecycleOwner.current
+    val viewModel: LoginScreenViewModel = getViewModel()
     val context = LocalContext.current
-    SideEffect {
-        loginScreenViewModel.success.observe(lifecycleOwner) { success ->
-            Toast.makeText(context, "Sucesso: $success", Toast.LENGTH_LONG + 3).show()
-            navController.navigate("mainContent")
-        }
-        loginScreenViewModel.error.observe(lifecycleOwner) { error ->
-            Toast.makeText(context, "Erro: $error", Toast.LENGTH_LONG + 3).show()
+    LaunchedEffect(key1 = context) {
+        viewModel.validationEvents.collect { event ->
+            when (event) {
+                is ValidationEvent.Success -> {
+                    Toast.makeText(context, "Registro bem sucedido", Toast.LENGTH_LONG).show()
+                    navController.navigate("mainContent")
+                }
+
+                is ValidationEvent.Failed -> {
+                    Toast.makeText(context, "Registro mal sucedido", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
-}
-
-fun postFormLogin(form: LoginModel, loginScreenViewModel: LoginScreenViewModel, checkBox: Boolean) {
-    loginScreenViewModel.postForm(form)
-    Log.e("testar", "${checkBox}, ${form.email}, ${form.password}")
+    MyApp(navController, viewModel)
 }

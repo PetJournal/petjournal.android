@@ -14,17 +14,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.soujunior.petjournal.ui.components.Checkbox
+import com.soujunior.petjournal.ui.components.CheckboxRefactor
 
 @Composable
-fun RememberForgotPassword(navController: NavController) {
+fun RememberForgotPassword(
+    navController: NavController,
+    checkboxState: (Boolean) -> Unit,
+    checkBox: Boolean
+) {
     Row(
         modifier = Modifier.fillMaxWidth(0.95f),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(text = "Lembrar")
+                CheckboxRefactor(
+                    text = "Lembrar",
+                    checkbox = checkBox,
+                    checkboxState = { it: Boolean ->
+                        checkboxState(it)
+                    }
+                )
             }
         }
         Text(
@@ -33,7 +43,7 @@ fun RememberForgotPassword(navController: NavController) {
             modifier = Modifier
                 .padding(0.dp, 0.dp, 10.dp, 0.dp)
                 .clickable(onClick = { navController.navigate("forgotPassword") }),
-                color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
+            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
         )
     }
 }
