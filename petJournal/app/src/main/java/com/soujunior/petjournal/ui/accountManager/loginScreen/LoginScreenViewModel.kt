@@ -5,7 +5,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import androidx.lifecycle.LiveData
-import com.soujunior.domain.entities.auth.LoginModel
+import com.soujunior.petjournal.ui.ValidationEvent
 
 abstract class LoginScreenViewModel : ViewModel() {
     abstract var state: LoginFormState

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.accountManager.loginScreen.components.MyApp
 import org.koin.androidx.compose.getViewModel
 
