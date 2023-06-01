@@ -16,16 +16,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
-import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginScreenViewModel
+import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModel
 import com.soujunior.petjournal.ui.components.Button
 
 @Composable
 fun Footer(
     navController: NavController,
-    viewModel: LoginScreenViewModel
+    viewModel: LoginViewModel
 ) {
-    val isLoginVisible = viewModel.state.email.isNotBlank() && viewModel.state.password.isNotBlank()
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -36,7 +34,7 @@ fun Footer(
                 submit = {
                     viewModel.onEvent(LoginFormEvent.Submit)
                 },
-                enableButton = isLoginVisible,
+                enableButton = true,
                 modifier = Modifier.size(height = 50.dp, width = 240.dp)
             )
         }

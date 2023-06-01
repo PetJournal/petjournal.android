@@ -1,8 +1,8 @@
 package com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen
 
-import android.util.Log
 import android.widget.Toast
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.navigation.NavController
@@ -14,7 +14,7 @@ import org.koin.androidx.compose.getViewModel
 fun ForgotPasswordScreen(navController: NavController) {
     val forgotPasswordScreenViewModel: ForgotPasswordScreenViewModel = getViewModel()
     HandleForgotPassResponse(navController, forgotPasswordScreenViewModel)
-    ForgotPasswordScreenMain(navController,forgotPasswordScreenViewModel)
+    ForgotPasswordScreenMain(navController, forgotPasswordScreenViewModel)
 }
 
 @Composable
@@ -27,7 +27,8 @@ fun HandleForgotPassResponse(
     SideEffect {
         forgotPasswordScreenViewModel.success.observe(lifecycleOwner) { success ->
             navController.navigate("awaitingCode")
-            Toast.makeText(context, "Codigo enviado para o email de cadastro!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Codigo enviado para o email de cadastro!", Toast.LENGTH_SHORT)
+                .show()
         }
         forgotPasswordScreenViewModel.error.observe(lifecycleOwner) { error ->
             Toast.makeText(context, "Erro: $error", Toast.LENGTH_SHORT).show()
@@ -35,9 +36,10 @@ fun HandleForgotPassResponse(
     }
 }
 
-fun sendRequestToChangePassword(email: ForgotPasswordModel, forgotPasswordScreenViewModel : ForgotPasswordScreenViewModel) {
-    //TODO:
-    Log.e("testar", "${email.email}")
+fun sendRequestToChangePassword(
+    email: ForgotPasswordModel,
+    forgotPasswordScreenViewModel: ForgotPasswordScreenViewModel
+) {
     forgotPasswordScreenViewModel.sendRequestToChangePassword(email)
 }
 

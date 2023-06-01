@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import androidx.lifecycle.LiveData
 import com.soujunior.petjournal.ui.ValidationEvent
 
-abstract class LoginScreenViewModel : ViewModel() {
+abstract class LoginViewModel : ViewModel() {
     abstract var state: LoginFormState
     abstract val validationEventChannel: Channel<ValidationEvent>
     abstract val success: LiveData<String>

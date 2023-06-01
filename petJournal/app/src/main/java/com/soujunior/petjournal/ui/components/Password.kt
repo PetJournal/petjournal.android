@@ -51,7 +51,9 @@ fun Password(
             OutlinedTextField(
                 value = password,
                 onValueChange = { newPassword -> password = newPassword },
-                visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation =
+                if (showPassword) VisualTransformation.None
+                else PasswordVisualTransformation(),
                 textStyle = TextStyle(
                     fontSize = 20.sp,
                 ),
@@ -75,6 +77,7 @@ fun Password(
                         )
                     }
                 },
+
                 singleLine = true,
                 placeholder = {
                     Text(
@@ -89,6 +92,7 @@ fun Password(
                     .onFocusChanged {
                         inFocusPwd = if (it.hasFocus) it.hasFocus else it.hasFocus
                     }
+
             )
         }
     }

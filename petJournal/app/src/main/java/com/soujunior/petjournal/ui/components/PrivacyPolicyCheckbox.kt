@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,10 +15,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.soujunior.petjournal.ui.accountManager.registerScreen.state.StatesRegister
+
 @Composable
-fun PrivacyPolicyCheckbox(modifier: Modifier = Modifier.fillMaxWidth()) {
+fun PrivacyPolicyCheckboxRefactor(
+    modifier: Modifier = Modifier.fillMaxWidth(),
+    valueChecked: Boolean,
+    onEvent: (Boolean) -> Unit
+) {
     var showPrivacyPolicy by StatesRegister.showPrivacyPolicy.current
-    var checked by StatesRegister.localCheckedState.current
     Column(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -27,9 +30,9 @@ fun PrivacyPolicyCheckbox(modifier: Modifier = Modifier.fillMaxWidth()) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Column {
-                Checkbox(
-                    checked = checked,
-                    onCheckedChange = { checked = it },
+                androidx.compose.material3.Checkbox(
+                    checked = valueChecked,
+                    onCheckedChange = { onEvent(it) },
                     modifier = Modifier.clickable { }
                 )
             }

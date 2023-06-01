@@ -19,7 +19,7 @@ import com.soujunior.petjournal.ui.components.CheckboxRefactor
 @Composable
 fun RememberForgotPassword(
     navController: NavController,
-    checkboxState: (Boolean) -> Unit,
+    onEvent: (Boolean) -> Unit,
     checkBox: Boolean
 ) {
     Row(
@@ -32,7 +32,7 @@ fun RememberForgotPassword(
                     text = "Lembrar",
                     checkbox = checkBox,
                     checkboxState = { it: Boolean ->
-                        checkboxState(it)
+                        onEvent(it)
                     }
                 )
             }

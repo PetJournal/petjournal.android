@@ -2,41 +2,32 @@ package com.soujunior.petjournal.ui.accountManager.registerScreen
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.navigation.NavController
-import com.soujunior.domain.entities.auth.RegisterModel
-import com.soujunior.petjournal.ui.accountManager.registerScreen.components.MyApp
+import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.accountManager.registerScreen.components.Screen
 import org.koin.androidx.compose.getViewModel
 
+//TODO: Realizar chamada ao banco de dados para verificar se o email existe quando o botão for clicado
 @Composable
 fun RegisterScreen(navController: NavController) {
-    val registerScreenViewModel: RegisterScreenViewModel = getViewModel()
-    HandleRegisterResponse(navController, registerScreenViewModel)
-    MyApp(navController, registerScreenViewModel)
-}
-
-@Composable
-fun HandleRegisterResponse(
-    navController: NavController,
-    registerScreenViewModel: RegisterScreenViewModel
-) {
-    val lifecycleOwner = LocalLifecycleOwner.current
+    val viewModel: RegisterScreenViewModel = getViewModel()
     val context = LocalContext.current
-    SideEffect {
-        registerScreenViewModel.success.observe(lifecycleOwner) { success ->
-            navController.navigate("login")
-            Toast.makeText(context, "Faça seu login!", Toast.LENGTH_SHORT).show()
-        }
-        registerScreenViewModel.error.observe(lifecycleOwner) { error ->
-            Toast.makeText(context, "Erro: $error", Toast.LENGTH_SHORT).show()
-        }
-    }
-}
+    LaunchedEffect(key1 = context) {
+        viewModel.validationEvents.collect { event ->
+            when (event) {
+                is ValidationEvent.Success -> {
+                    Toast.makeText(context, "Registro bem sucedido", Toast.LENGTH_LONG).show()
+                    navController.navigate("mainContent")
+                }
 
-fun postForm(form: RegisterModel, RegisterScreenViewModel: RegisterScreenViewModel) {
-    if (form.privacyPolicy) {
-        RegisterScreenViewModel.postForm(form)
+                is ValidationEvent.Failed -> {
+                    Toast.makeText(context, "Registro mal sucedido", Toast.LENGTH_LONG).show()
+                }
+            }
+
+        }
     }
+    Screen(viewModel)
 }

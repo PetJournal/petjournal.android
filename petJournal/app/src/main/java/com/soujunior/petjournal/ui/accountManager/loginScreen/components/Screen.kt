@@ -12,11 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginScreenViewModel
+import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModel
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 
 @Composable
-fun MyApp(navController: NavController, viewModel: LoginScreenViewModel) {
+fun Screen(navController: NavController, viewModel: LoginViewModel) {
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier

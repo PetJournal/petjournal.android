@@ -3,13 +3,13 @@ package com.soujunior.domain.usecase.auth.util
 import android.util.Patterns
 import com.soujunior.domain.repository.ValidationRepository
 
-class ValidationRepositoryImpl() : ValidationRepository {
+class ValidationRepositoryImpl : ValidationRepository {
 
     override fun validateEmail(email: String): ValidationResult {
         if (email.isBlank()) {
             return ValidationResult(
                 success = false,
-                errorMessage = listOf("O email não pode estar em branco")
+                errorMessage = listOf("O campo não pode estar em branco!")
             )
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -21,9 +21,9 @@ class ValidationRepositoryImpl() : ValidationRepository {
         return ValidationResult(success = true)
     }
 
-    override fun validatePassword(password: String): ValidationResult {
+    override fun validatePassword(password: String, newPassword: String): ValidationResult {
         val listItens = countCharacters(password)
-        var listErrorMessage: MutableList<String>? = mutableListOf()
+        val listErrorMessage: MutableList<String>? = mutableListOf()
 
         var count = 0
 
@@ -39,9 +39,12 @@ class ValidationRepositoryImpl() : ValidationRepository {
 
             if (listItens[3] < 2)
                 listErrorMessage?.add("Pelo menos dois Numeros (ex: 2, 5, ...)") else count++
+        } else {
+            count++
+            listErrorMessage?.add("O campo não pode ficar em branco!")
         }
 
-        var hasError = count != 4
+        val hasError = count != 4
 
         return if (hasError) {
             ValidationResult(success = false, errorMessage = listErrorMessage)
@@ -50,10 +53,80 @@ class ValidationRepositoryImpl() : ValidationRepository {
         }
     }
 
+    override fun validateName(name: String): ValidationResult {
+        val listErrorMessage: MutableList<String> = mutableListOf()
+        var count = 0
+
+        if (name.isNotBlank()) {
+            if (isValidLenght(name))
+                listErrorMessage.add("O campo precisa ter entre 3 e 30 caracteres..") else count++
+
+            if (hasSpecialCharOrNumber(name))
+                listErrorMessage.add("Caracteres especiais não são permitidos!") else count++
+        } else {
+            count++
+            listErrorMessage.add("O campo não pode ficar em branco!")
+        }
+
+        val hasError = count != 2
+        return if (hasError) {
+            ValidationResult(success = false, errorMessage = listErrorMessage)
+        } else {
+            ValidationResult(success = true)
+        }
+    }
+
+    override fun validateLastName(lastName: String): ValidationResult {
+        return validateName(lastName)
+    }
+
+    override fun validatePhone(phone: String): ValidationResult {
+        val listErrorMessage: MutableList<String> = mutableListOf()
+        var count = 0
+
+        if (phone.length in 1..10)
+            listErrorMessage.add("Complete o número de telefone!")
+        else count++
+
+        val hasError = count != 1
+
+        return if (hasError) {
+            ValidationResult(success = false, errorMessage = listErrorMessage)
+        } else {
+            ValidationResult(success = true)
+        }
+    }
+
+    override fun validateNewPassword(newPassword: String, password: String): ValidationResult {
+        val listErrorMessage: MutableList<String> = mutableListOf()
+        var count = 0
+
+        if (newPassword.isBlank())
+            listErrorMessage.add("O campo não pode estar em branco!") else count++
+        if (newPassword != password)
+            listErrorMessage.add("As senhas devem ser idênticas!") else count++
+
+        val hasError = count != 2
+
+        return if (hasError) {
+            ValidationResult(success = false, errorMessage = listErrorMessage)
+        } else {
+            ValidationResult(success = true, errorMessage = null)
+        }
+    }
+
+    override fun validatePrivacyPolicy(value: Boolean): ValidationResult {
+        return if (!value) {
+            ValidationResult(success = false, errorMessage = null)
+        } else {
+            ValidationResult(success = true, errorMessage = null)
+        }
+    }
+
     /**
      * isValidLength = will return True if the String field is not Blank, the length of the String
      * is not less than 3 or greater than 30, and if the String field is not empty */
-    fun isValidLenght(input: String): Boolean {
+    private fun isValidLenght(input: String): Boolean {
         return if (input.isNotBlank()) {
             input.length < 3 || input.length > 30 && input.isNotEmpty()
         } else false
@@ -64,7 +137,7 @@ class ValidationRepositoryImpl() : ValidationRepository {
      * will return true, otherwise it will return false. So, to use this function, just
      * call the function and pass the String you want to check as an argument. the return value
      * will be true if the String contains any special characters or numbers, or false if it does not.*/
-    fun hasSpecialCharOrNumber(input: String): Boolean {
+    private fun hasSpecialCharOrNumber(input: String): Boolean {
         val regex = Regex("[^a-zA-ZÀ-ÖØ-öø-ÿ ]")
         return regex.containsMatchIn(input)
     }
@@ -73,7 +146,7 @@ class ValidationRepositoryImpl() : ValidationRepository {
      * To use the isEmail function, simply call the function and pass the String you want to check as
      * argument. The return value will be true if the String matches a valid email address, or
      * false if it doesn't match. Here is the implementation of the isEmail function:*/
-    fun isEmail(input: String): Boolean {
+    private fun isEmail(input: String): Boolean {
         val emailRegex = Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
         return emailRegex.matches(input)
     }
@@ -83,7 +156,7 @@ class ValidationRepositoryImpl() : ValidationRepository {
      * check as argument. The return value will be a list of four integers representing
      * the count of characters in the String. Here is the implementation of the countCharacters function:
      * */
-    fun countCharacters(str: String): List<Int> {
+    private fun countCharacters(str: String): List<Int> {
         var digitosMaiusculos = 0
         var digitosMinusculos = 0
         var simbolos = 0
