@@ -17,11 +17,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModel
 import com.soujunior.petjournal.ui.states.States
 import com.soujunior.petjournal.ui.theme.FredokaRegular
 
 @Composable
-fun VerificationCodeInput() {
+fun VerificationCodeInput(viewModel: AwaitingCodeViewModel) {
     val resendCodeStyle = TextStyle(
         fontFamily = FontFamily(FredokaRegular),
         fontSize = 14.sp,

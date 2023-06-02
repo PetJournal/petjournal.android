@@ -2,45 +2,31 @@ package com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.navigation.NavController
-import com.soujunior.domain.entities.auth.AwaitingCodeModel
+import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.components.MyApp
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 
 fun AwaitingCodeScreen(navController: NavController) {
-    val awaitingCodeScreenViewModel: AwaitingCodeScreenViewModel = getViewModel()
-    HandleAwaitingCodeResponse(navController, awaitingCodeScreenViewModel)
-    MyApp(navController)
-}
-
-@Composable
-fun HandleAwaitingCodeResponse(
-    navController: NavController,
-    awaitingCodeScreenViewModel: AwaitingCodeScreenViewModel
-) {
-
-    val lifecycleOwner = LocalLifecycleOwner.current
+    val viewModel: AwaitingCodeViewModel = getViewModel()
     val context = LocalContext.current
+    LaunchedEffect(key1 = context) {
+        viewModel.validationEvents.collect {event ->
+            when (event) {
+                is ValidationEvent.Success -> {
+                    Toast.makeText(context, "Registro bem sucedido", Toast.LENGTH_LONG).show()
+                    navController.navigate("mainContent")
+                }
 
-    SideEffect {
-        awaitingCodeScreenViewModel.success.observe(lifecycleOwner) { success ->
-            Toast.makeText(context, "Sucesso: $success", Toast.LENGTH_LONG + 3).show()
-            navController.navigate("changePassword")
-        }
-        awaitingCodeScreenViewModel.error.observe(lifecycleOwner) { error ->
-            Toast.makeText(context, "Erro: $error", Toast.LENGTH_LONG + 3).show()
+                is ValidationEvent.Failed -> {
+                    Toast.makeText(context, "Registro mal sucedido", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
-}
-
-fun postOtpVerificationAwaitingCode(
-    code: AwaitingCodeModel,
-    awaitingCodeScreenViewModel: AwaitingCodeScreenViewModel
-) {
-    awaitingCodeScreenViewModel.postOtpVerification(code)
+    MyApp(navController, viewModel)
 }

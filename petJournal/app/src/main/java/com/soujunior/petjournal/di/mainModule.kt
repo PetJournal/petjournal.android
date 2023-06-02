@@ -11,8 +11,8 @@ import com.soujunior.domain.usecase.auth.ForgotPasswordUseCase
 import com.soujunior.domain.usecase.auth.LoginUseCase
 import com.soujunior.domain.usecase.auth.RegisterUseCase
 import com.soujunior.domain.usecase.auth.util.ValidationRepositoryImpl
-import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeScreenViewModel
-import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeScreenViewModelImpl
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModel
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModelImpl
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordViewModel
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordViewModelImpl
 import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordScreenViewModel
@@ -58,7 +58,7 @@ val mainModule = module {
     viewModel<DetailScreenViewModel> { DetailScreenViewModelImpl() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get()) }
     viewModel<RegisterScreenViewModel> { RegisterScreenViewModelImpl(get(), get()) }
-    viewModel<AwaitingCodeScreenViewModel> { AwaitingCodeScreenViewModelImpl(get()) }
+    viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get()) }
     viewModel<ForgotPasswordScreenViewModel> { ForgotPasswordScreenViewModelImpl(get()) }
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get()) }
 }

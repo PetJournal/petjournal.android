@@ -55,7 +55,7 @@ class LoginMethodTest {
     fun `when postForm in login is called, success should be updated correctly`() = runBlocking {
         coEvery { loginUseCase.execute(formLogin) } returns DataResult.Success("success")
 
-        viewModel.postForm(formLogin)
+        viewModel.submitData()
 
         val latch = CountDownLatch(1)
         viewModel.success.observeForever {
@@ -71,7 +71,7 @@ class LoginMethodTest {
         runBlocking {
             coEvery { loginUseCase.execute(formLogin) } returns DataResult.Failure(Error("error message"))
 
-            viewModel.postForm(formLogin)
+            viewModel.submitData()
 
             val latch = CountDownLatch(1)
             viewModel.error.observeForever {

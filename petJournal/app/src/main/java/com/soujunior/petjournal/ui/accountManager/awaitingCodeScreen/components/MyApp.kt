@@ -14,9 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModel
 
 @Composable
-fun MyApp(navController: NavController) {
+fun MyApp(navController: NavController, viewModel: AwaitingCodeViewModel) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
@@ -29,8 +30,8 @@ fun MyApp(navController: NavController) {
             .background(MaterialTheme.colorScheme.background),
         content = {
             Header()
-            VerificationCodeInput()
-            Footer()
+            VerificationCodeInput(viewModel)
+            Footer(navController, viewModel)
         }
     )
 }

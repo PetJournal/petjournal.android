@@ -11,16 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.soujunior.domain.entities.auth.AwaitingCodeModel
-import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeScreenViewModel
-import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.postOtpVerificationAwaitingCode
+import androidx.navigation.NavController
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeFormEvent
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModel
 import com.soujunior.petjournal.ui.components.Button
 import com.soujunior.petjournal.ui.states.States
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun Footer() {
-    val awaitingCodeScreenViewModel: AwaitingCodeScreenViewModel = getViewModel()
+fun Footer(navController: NavController , viewModel: AwaitingCodeViewModel) {
+    val awaitingCodeViewModel: AwaitingCodeViewModel = getViewModel()
     var isCodeFilled = false
     val email by States.localEmailState.current
     val otpFullCode by States.otpFullCode.current
@@ -31,13 +31,7 @@ fun Footer() {
     }
     Button(
         submit = {
-            postOtpVerificationAwaitingCode(
-                AwaitingCodeModel(
-                    codeOTP = otpFullCode,
-                    email = email,
-                ),
-                awaitingCodeScreenViewModel
-            )
+            viewModel.onEvent(AwaitingCodeFormEvent.Submit)
         },
         enableButton = isCodeFilled,
         text = "Enviar"
