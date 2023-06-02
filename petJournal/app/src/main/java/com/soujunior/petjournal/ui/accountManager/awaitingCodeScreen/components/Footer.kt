@@ -18,6 +18,8 @@ import com.soujunior.petjournal.ui.components.Button
 import com.soujunior.petjournal.ui.states.States
 import org.koin.androidx.compose.getViewModel
 
+//TODO: (Leo) parametro nao esta sendo usado
+//TODO: (Leo) Criar lógica para habilitar botao somente quando o campo inteiro for preenchido
 @Composable
 fun Footer(navController: NavController , viewModel: AwaitingCodeViewModel) {
     val awaitingCodeViewModel: AwaitingCodeViewModel = getViewModel()

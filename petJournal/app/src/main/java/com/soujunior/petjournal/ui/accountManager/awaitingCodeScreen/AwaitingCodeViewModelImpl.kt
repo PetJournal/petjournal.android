@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,6 +13,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+//TODO: (Leo) Se nao for mais precisar do comentario, retire
 class AwaitingCodeViewModelImpl(
     private val awaitingCodeUseCase: AwaitingCodeUseCase
 ) : AwaitingCodeViewModel() {
@@ -51,11 +53,15 @@ class AwaitingCodeViewModelImpl(
 
     override fun onEvent(event: AwaitingCodeFormEvent) {
         when (event) {
-            is AwaitingCodeFormEvent.EmailChanged ->
+            is AwaitingCodeFormEvent.EmailChanged -> {
+                Log.e("testar", "${event.email}")
                 state = state.copy(email = event.email)
+            }
 
-            is AwaitingCodeFormEvent.CodeOTPChanged ->
-                state = state.copy( codeOTP = event.code)
+            is AwaitingCodeFormEvent.CodeOTPChanged -> {
+                Log.e("testar", "${event.code}")
+                state = state.copy(codeOTP = event.code)
+            }
             AwaitingCodeFormEvent.Submit -> postOtpVerification()
         }
     }

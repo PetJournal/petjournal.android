@@ -21,6 +21,7 @@ import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCod
 import com.soujunior.petjournal.ui.states.States
 import com.soujunior.petjournal.ui.theme.FredokaRegular
 
+//Todo: (Leo) parametro nao esta sendo usado
 @Composable
 fun VerificationCodeInput(viewModel: AwaitingCodeViewModel) {
     val resendCodeStyle = TextStyle(
