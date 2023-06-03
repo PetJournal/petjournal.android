@@ -58,7 +58,10 @@ fun MyApp( changePasswordViewModel: ChangePasswordViewModel) {
                     sendNewPassword(PasswordModel(password.value), checkbox.value, changePasswordViewModel)
                 },
                 enableButton = enableButton,
-                text = "Redefinir Senha"
+                border = null,
+                text = "Redefinir Senha",
+                setSystemBarColor = false,
+                inDarkMode = false
             ) }
         }
     }

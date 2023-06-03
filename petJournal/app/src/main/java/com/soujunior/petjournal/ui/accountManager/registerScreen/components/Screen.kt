@@ -19,6 +19,7 @@ import com.soujunior.petjournal.ui.components.Button
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.PrivacyPolicyCheckboxRefactor
+
 import com.soujunior.petjournal.ui.components.mask.mobileNumberFilter
 
 @Composable
@@ -106,10 +107,13 @@ fun Screen(viewModel: RegisterScreenViewModel) {
             item {
                 Button(
                     text = "Cadastrar",
+                    border = null,
                     submit = {
                         viewModel.onEvent(RegisterFormEvent.Submit)
                     },
-                    enableButton = viewModel.enableButton()
+                    enableButton = viewModel.enableButton(),
+                    setSystemBarColor = true,
+                    inDarkMode = true
                 )
             }
         }

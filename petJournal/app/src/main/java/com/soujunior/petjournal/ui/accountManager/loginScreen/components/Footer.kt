@@ -30,12 +30,15 @@ fun Footer(
     ) {
         Row {
             Button(
+                setSystemBarColor = true,
                 text = "Continuar",
                 submit = {
                     viewModel.onEvent(LoginFormEvent.Submit)
                 },
                 enableButton = true,
-                modifier = Modifier.size(height = 50.dp, width = 240.dp)
+                modifier = Modifier.size(height = 50.dp, width = 240.dp),
+                border = null,
+                inDarkMode = true
             )
         }
         Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
