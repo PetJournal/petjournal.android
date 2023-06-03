@@ -21,6 +21,7 @@ import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.components.Email
 
 
+//TODO: (Gelson) trocar o ForgotPassMain por Screen pra dar uma padronizada
 @Composable
 fun ForgotPassMain (navController: NavController, viewModel: ForgotPasswordScreenViewModel) {
 
@@ -55,8 +56,20 @@ fun ForgotPassMain (navController: NavController, viewModel: ForgotPasswordScree
                 }
             }
             item { Spacer(modifier = Modifier.padding(top = 70.dp)) }
+            // TODO: (Gelson) Durante a refatoração pra seguir o modelo atual, o campo Email a baixo precisará ser refatorado pra receber os elementos state
+            // TODO: em vista disso, foi criado um modelo de Input que pode ser usado em várias situações e acredito que para o email esse deve bastar
+            /**
+            InputText(
+            textTop = "Email",
+            textHint = "eg: exemple@petjournal.com",
+            textValue = viewModel.state.email,
+            textError = viewModel.state.emailError,
+            onEvent = { it : String -> viewModel.onEvent(RegisterFormEvent.EmailChanged(it))},
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email) )
+             */
             item { Email(textTop = "Qual seu e-mail de cadastro?") }
             item { Spacer(modifier = Modifier.padding(top = 70.dp)) }
+            //TODO: (Gelson) no Footer tem dois botões, um cancelar e um pra continuar.
             item { Footer(navController, viewModel)}
         }
     }

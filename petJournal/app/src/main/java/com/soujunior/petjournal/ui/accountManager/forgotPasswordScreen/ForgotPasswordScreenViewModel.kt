@@ -6,7 +6,7 @@ import com.soujunior.petjournal.ui.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
-
+//TODO: (Gelson) pra deixar um pouco mais padronizado, vamos tirar o Screen de tud que não for de fato a tela
 abstract class ForgotPasswordScreenViewModel : ViewModel(){
     abstract var state: ForgotPassFormState
     abstract val validationEventChannel: Channel<ValidationEvent>
@@ -17,8 +17,8 @@ abstract class ForgotPasswordScreenViewModel : ViewModel(){
 
     abstract fun success(resultPostSubmit: String)
     abstract fun failed(exception: Throwable?)
-      abstract fun onEvent(event: ForgotPassFormEvent.EmailChanged)
-    abstract fun submitData()
-
+    //TODO: (Gelson) corrijir onEvent
+    abstract fun onEvent(event: ForgotPassFormEvent.EmailChanged)
     abstract fun onEvent(event: ForgotPassFormEvent)
+    abstract fun submitData()
 }
