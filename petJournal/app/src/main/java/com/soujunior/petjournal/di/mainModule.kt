@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.di
 
+import com.gelson.mydailycontrol.ui.homeScreen.HomeScreenViewModel
+import com.gelson.mydailycontrol.ui.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.data.api.Service
 import com.soujunior.data.model.MockService
 import com.soujunior.data.repository.AuthRepositoryImpl
@@ -15,16 +17,15 @@ import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCod
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModelImpl
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordViewModel
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordViewModelImpl
-import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordScreenViewModel
-import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordScreenViewModelImpl
+import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordViewModel
+import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordViewModelImpl
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModel
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModelImpl
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreenViewModel
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreenViewModelImpl
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreenViewModel
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreenViewModelImpl
-import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
-import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModelImpl
+
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -59,6 +60,6 @@ val mainModule = module {
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get()) }
     viewModel<RegisterScreenViewModel> { RegisterScreenViewModelImpl(get(), get()) }
     viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get()) }
-    viewModel<ForgotPasswordScreenViewModel> { ForgotPasswordScreenViewModelImpl(get()) }
+    viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModelImpl(get(), get()) }
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get()) }
 }

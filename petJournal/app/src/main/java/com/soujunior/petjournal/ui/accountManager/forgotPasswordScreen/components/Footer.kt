@@ -13,8 +13,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPassFormEvent
-import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordScreenViewModel
+import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordFormEvent
+import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordViewModel
 import com.soujunior.petjournal.ui.components.Button
 import com.soujunior.petjournal.ui.states.States
 import com.soujunior.petjournal.ui.util.isEmail
@@ -22,11 +22,8 @@ import com.soujunior.petjournal.ui.util.isEmail
 @Composable
 fun Footer(
     navController: NavController,
-    viewModel: ForgotPasswordScreenViewModel
+    viewModel: ForgotPasswordViewModel
 ) {
-    val email by States.localEmailState.current
-    var isButtonVisible = false
-    if (isEmail(email)) isButtonVisible = true
 
     Column(
         modifier = Modifier
@@ -37,9 +34,9 @@ fun Footer(
                 text = "Continuar",
                 border = null,
                 submit = {
-                    viewModel.onEvent(ForgotPassFormEvent.Submit)
+                    viewModel.onEvent(ForgotPasswordFormEvent.Submit)
                 },
-                enableButton = isButtonVisible,
+                enableButton = viewModel.enableButton(),
                 modifier = Modifier.size(height = 50.dp, width = 240.dp),
                 setSystemBarColor = true,
                 inDarkMode = true

@@ -16,14 +16,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordScreenViewModel
+import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordFormEvent
+import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordViewModel
+import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.components.Email
+import com.soujunior.petjournal.ui.components.InputText
 
 
-//TODO: (Gelson) trocar o ForgotPassMain por Screen pra dar uma padronizada
 @Composable
-fun ForgotPassMain (navController: NavController, viewModel: ForgotPasswordScreenViewModel) {
+fun Screen (navController: NavController, viewModel: ForgotPasswordViewModel) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
@@ -56,20 +58,14 @@ fun ForgotPassMain (navController: NavController, viewModel: ForgotPasswordScree
                 }
             }
             item { Spacer(modifier = Modifier.padding(top = 70.dp)) }
-            // TODO: (Gelson) Durante a refatoração pra seguir o modelo atual, o campo Email a baixo precisará ser refatorado pra receber os elementos state
-            // TODO: em vista disso, foi criado um modelo de Input que pode ser usado em várias situações e acredito que para o email esse deve bastar
-            /**
-            InputText(
-            textTop = "Email",
-            textHint = "eg: exemple@petjournal.com",
-            textValue = viewModel.state.email,
-            textError = viewModel.state.emailError,
-            onEvent = { it : String -> viewModel.onEvent(RegisterFormEvent.EmailChanged(it))},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email) )
-             */
-            item { Email(textTop = "Qual seu e-mail de cadastro?") }
+            item {InputText(
+                textTop = "Qual seu e-mail de cadastro?",
+                textHint = "eg: exemple@petjournal.com",
+                textValue = viewModel.state.email,
+                textError = viewModel.state.emailError,
+                onEvent = { it: String -> viewModel.onEvent(ForgotPasswordFormEvent.EmailChanged(it)) }
+            ) }
             item { Spacer(modifier = Modifier.padding(top = 70.dp)) }
-            //TODO: (Gelson) no Footer tem dois botões, um cancelar e um pra continuar.
             item { Footer(navController, viewModel)}
         }
     }
