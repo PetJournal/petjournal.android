@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.di
 
-import com.gelson.mydailycontrol.ui.homeScreen.HomeScreenViewModel
-import com.gelson.mydailycontrol.ui.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.data.api.Service
 import com.soujunior.data.model.MockService
 import com.soujunior.data.repository.AuthRepositoryImpl
@@ -25,7 +23,8 @@ import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreenV
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreenViewModelImpl
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreenViewModel
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreenViewModelImpl
-
+import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
+import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModelImpl
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -61,5 +60,5 @@ val mainModule = module {
     viewModel<RegisterScreenViewModel> { RegisterScreenViewModelImpl(get(), get()) }
     viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get()) }
     viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModelImpl(get(), get()) }
-    viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get()) }
+    viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
 }

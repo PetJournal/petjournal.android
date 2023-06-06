@@ -18,14 +18,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordFormEvent
 import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordViewModel
-import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
-import com.soujunior.petjournal.ui.components.Email
 import com.soujunior.petjournal.ui.components.InputText
 
 
 @Composable
-fun Screen (navController: NavController, viewModel: ForgotPasswordViewModel) {
+fun Screen(navController: NavController, viewModel: ForgotPasswordViewModel) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
@@ -58,15 +56,23 @@ fun Screen (navController: NavController, viewModel: ForgotPasswordViewModel) {
                 }
             }
             item { Spacer(modifier = Modifier.padding(top = 70.dp)) }
-            item {InputText(
-                textTop = "Qual seu e-mail de cadastro?",
-                textHint = "eg: exemple@petjournal.com",
-                textValue = viewModel.state.email,
-                textError = viewModel.state.emailError,
-                onEvent = { it: String -> viewModel.onEvent(ForgotPasswordFormEvent.EmailChanged(it)) }
-            ) }
+            item {
+                InputText(
+                    textTop = "Qual seu e-mail de cadastro?",
+                    textHint = "eg: exemple@petjournal.com",
+                    textValue = viewModel.state.email,
+                    textError = viewModel.state.emailError,
+                    onEvent = { it: String ->
+                        viewModel.onEvent(
+                            ForgotPasswordFormEvent.EmailChanged(
+                                it
+                            )
+                        )
+                    }
+                )
+            }
             item { Spacer(modifier = Modifier.padding(top = 70.dp)) }
-            item { Footer(navController, viewModel)}
+            item { Footer(navController, viewModel) }
         }
     }
 }

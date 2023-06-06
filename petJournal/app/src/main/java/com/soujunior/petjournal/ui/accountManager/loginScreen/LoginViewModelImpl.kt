@@ -17,7 +17,6 @@ class LoginViewModelImpl(
     private val loginUseCase: LoginUseCase,
     private val validation: ValidationRepository
 ) : LoginViewModel() {
-
     override var state by mutableStateOf(LoginFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()

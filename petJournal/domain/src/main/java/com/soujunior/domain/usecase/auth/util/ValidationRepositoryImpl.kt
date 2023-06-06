@@ -21,7 +21,7 @@ class ValidationRepositoryImpl : ValidationRepository {
         return ValidationResult(success = true)
     }
 
-    override fun validatePassword(password: String, newPassword: String): ValidationResult {
+    override fun validatePassword(password: String): ValidationResult {
         val listItens = countCharacters(password)
         val listErrorMessage: MutableList<String>? = mutableListOf()
 
@@ -97,13 +97,13 @@ class ValidationRepositoryImpl : ValidationRepository {
         }
     }
 
-    override fun validateNewPassword(newPassword: String, password: String): ValidationResult {
+    override fun validateRepeatedPassword(repeatedPassword: String, password: String): ValidationResult {
         val listErrorMessage: MutableList<String> = mutableListOf()
         var count = 0
 
-        if (newPassword.isBlank())
+        if (repeatedPassword.isBlank())
             listErrorMessage.add("O campo não pode estar em branco!") else count++
-        if (newPassword != password)
+        if (repeatedPassword != password)
             listErrorMessage.add("As senhas devem ser idênticas!") else count++
 
         val hasError = count != 2

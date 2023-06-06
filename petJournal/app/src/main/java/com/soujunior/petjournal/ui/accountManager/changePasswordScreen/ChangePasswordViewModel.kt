@@ -3,12 +3,22 @@ package com.soujunior.petjournal.ui.accountManager.changePasswordScreen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.soujunior.domain.entities.auth.PasswordModel
+import com.soujunior.petjournal.ui.ValidationEvent
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class ChangePasswordViewModel : ViewModel(){
+    abstract var state: ChangePasswordFormState
+    abstract val validationEventChannel: Channel<ValidationEvent>
     abstract val success: LiveData<String>
     abstract val error: LiveData<String>
-    abstract fun failed(exception: Throwable?)
+    open val validationEvents: Flow<ValidationEvent>
+        get() = validationEventChannel.receiveAsFlow()
     abstract fun success(result: String)
-    abstract fun sendNewPassword(newPassword: PasswordModel)
-    abstract fun disconectOtherDevices()
+    abstract fun failed(exception: Throwable?)
+    abstract fun submitNewPassword()
+    abstract fun onEvent(event: ChangePasswordFormEvent)
+    abstract fun disconnectOtherDevices()
+    abstract fun enableButton(): Boolean
 }

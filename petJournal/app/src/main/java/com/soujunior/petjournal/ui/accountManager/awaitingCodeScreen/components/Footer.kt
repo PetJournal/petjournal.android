@@ -38,8 +38,8 @@ fun Footer(navController: NavController , viewModel: AwaitingCodeViewModel) {
         enableButton = isCodeFilled,
         border = null,
         text = "Enviar",
-        setSystemBarColor = true,
-        inDarkMode = true
+        inDarkMode = true,
+        setSystemBarColor = false
     )
     Spacer(modifier = Modifier.padding(5.dp))
     Text(

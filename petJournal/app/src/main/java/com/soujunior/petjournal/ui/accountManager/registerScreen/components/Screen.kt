@@ -18,8 +18,7 @@ import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreenV
 import com.soujunior.petjournal.ui.components.Button
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.components.InputText
-import com.soujunior.petjournal.ui.components.PrivacyPolicyCheckboxRefactor
-
+import com.soujunior.petjournal.ui.components.PrivacyPolicyCheckbox
 import com.soujunior.petjournal.ui.components.mask.mobileNumberFilter
 
 @Composable
@@ -38,30 +37,36 @@ fun Screen(viewModel: RegisterScreenViewModel) {
         ) {
             item { CreateTitleAndImageLogo("Inscreva-se", spaceBottom = 10.dp) }
             item { Spacer(modifier = Modifier.height(15.dp)) }
-            item { InputText(
-                textTop = "Nome",
-                textHint = "Digite seu primeiro nome",
-                textValue = viewModel.state.name,
-                textError = viewModel.state.nameError,
-                onEvent = { it : String -> viewModel.onEvent(RegisterFormEvent.NameChanged(it))}
-            ) }
+            item {
+                InputText(
+                    textTop = "Nome",
+                    textHint = "Digite seu primeiro nome",
+                    textValue = viewModel.state.name,
+                    textError = viewModel.state.nameError,
+                    onEvent = { it: String -> viewModel.onEvent(RegisterFormEvent.NameChanged(it)) }
+                )
+            }
             item { Spacer(modifier = Modifier.height(15.dp)) }
-            item { InputText(
-                textTop = "Sobrenome",
-                textHint = "Digite seu sobrenome",
-                textValue = viewModel.state.lastName,
-                textError = viewModel.state.lastNameError,
-                onEvent = { it : String -> viewModel.onEvent(RegisterFormEvent.LastNameChanged(it))}
-            ) }
+            item {
+                InputText(
+                    textTop = "Sobrenome",
+                    textHint = "Digite seu sobrenome",
+                    textValue = viewModel.state.lastName,
+                    textError = viewModel.state.lastNameError,
+                    onEvent = { it: String -> viewModel.onEvent(RegisterFormEvent.LastNameChanged(it)) }
+                )
+            }
             item { Spacer(modifier = Modifier.height(15.dp)) }
-            item { InputText(
-                textTop = "Email",
-                textHint = "eg: exemple@petjournal.com",
-                textValue = viewModel.state.email,
-                textError = viewModel.state.emailError,
-                onEvent = { it : String -> viewModel.onEvent(RegisterFormEvent.EmailChanged(it))},
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-            ) }
+            item {
+                InputText(
+                    textTop = "Email",
+                    textHint = "eg: exemple@petjournal.com",
+                    textValue = viewModel.state.email,
+                    textError = viewModel.state.emailError,
+                    onEvent = { it: String -> viewModel.onEvent(RegisterFormEvent.EmailChanged(it)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                )
+            }
             item { Spacer(modifier = Modifier.height(15.dp)) }
             item {
                 InputText(
@@ -69,7 +74,7 @@ fun Screen(viewModel: RegisterScreenViewModel) {
                     textHint = "eg: 91 9 1234-4567",
                     textValue = viewModel.state.phone,
                     textError = viewModel.state.phoneError,
-                    onEvent = { it : String -> viewModel.onEvent(RegisterFormEvent.PhoneChanged(it))},
+                    onEvent = { it: String -> viewModel.onEvent(RegisterFormEvent.PhoneChanged(it)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     visualTransformation = { mobileNumberFilter(it) }
                 )
@@ -82,7 +87,7 @@ fun Screen(viewModel: RegisterScreenViewModel) {
                     textValue = viewModel.state.password,
                     textError = viewModel.state.passwordError,
                     isPassword = true,
-                    onEvent = { it : String -> viewModel.onEvent(RegisterFormEvent.PasswordChanged(it))},
+                    onEvent = { it: String -> viewModel.onEvent(RegisterFormEvent.PasswordChanged(it)) },
                 )
             }
             item { Spacer(modifier = Modifier.height(15.dp)) }
@@ -90,17 +95,29 @@ fun Screen(viewModel: RegisterScreenViewModel) {
                 InputText(
                     textTop = "Confirmar senha",
                     textHint = "Confirme sua senha",
-                    textValue = viewModel.state.confirmPassword,
-                    textError = viewModel.state.confirmPasswordError,
+                    textValue = viewModel.state.repeatedPassword,
+                    textError = viewModel.state.repeatedPasswordError,
                     isPassword = true,
-                    onEvent = { it : String -> viewModel.onEvent(RegisterFormEvent.ConfirmPasswordChanged(it))},
+                    onEvent = { it: String ->
+                        viewModel.onEvent(
+                            RegisterFormEvent.ConfirmPasswordChanged(
+                                it
+                            )
+                        )
+                    },
                 )
             }
             item { Spacer(modifier = Modifier.height(5.dp)) }
             item {
-                PrivacyPolicyCheckboxRefactor(
+                PrivacyPolicyCheckbox(
                     valueChecked = viewModel.state.privacyPolicy,
-                    onEvent = { it: Boolean -> viewModel.onEvent(RegisterFormEvent.PrivacyPolicyChanged(it)) }
+                    onEvent = { it: Boolean ->
+                        viewModel.onEvent(
+                            RegisterFormEvent.PrivacyPolicyChanged(
+                                it
+                            )
+                        )
+                    }
                 )
             }
             item { Spacer(modifier = Modifier.height(5.dp)) }

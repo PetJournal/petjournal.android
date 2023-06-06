@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import com.soujunior.petjournal.ui.accountManager.registerScreen.state.StatesRegister
 
 @Composable
-fun PrivacyPolicyCheckboxRefactor(
+fun PrivacyPolicyCheckbox(
     modifier: Modifier = Modifier.fillMaxWidth(),
     valueChecked: Boolean,
     onEvent: (Boolean) -> Unit

@@ -26,12 +26,17 @@ class RegisterScreenViewModelImpl(
 
     override fun success(resultPostRegister: String) {
         this.success.value = resultPostRegister
+        viewModelScope.launch {
+            validationEventChannel.send(ValidationEvent.Success)
+        }
     }
 
     override fun failed(exception: Throwable?) {
         if (exception is Error) {
+            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
             this.error.value = exception.message
         } else {
+            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
             this.error.value = "lançar um erro aqui"
         }
     }
@@ -45,22 +50,22 @@ class RegisterScreenViewModelImpl(
         val lastNameResult = validation.validateLastName(state.lastName)
         val emailResult = validation.validateEmail(state.email)
         val phoneResult = validation.validatePhone(state.phone)
-        val passwordResult =
-            validation.validatePassword(password = state.password, newPassword = state.confirmPassword)
-        val newPasswordResult = validation.validateNewPassword(state.password, state.confirmPassword)
+        val passwordResult = validation.validatePassword(password = state.password)
+        val repeatedPasswordResult =
+            validation.validateRepeatedPassword(state.password, state.repeatedPassword)
 
         return state.name.isNotBlank() &&
-                state.lastName.isNotBlank() &&
-                state.email.isNotBlank() &&
-                state.password.isNotBlank() &&
-                state.confirmPassword.isNotBlank() &&
-                nameResult.errorMessage == null &&
-                lastNameResult.errorMessage == null &&
-                emailResult.errorMessage == null &&
-                phoneResult.errorMessage == null &&
-                passwordResult.errorMessage == null &&
-                newPasswordResult.errorMessage == null &&
-                state.privacyPolicy
+               state.lastName.isNotBlank() &&
+               state.email.isNotBlank() &&
+               state.password.isNotBlank() &&
+               state.repeatedPassword.isNotBlank() &&
+               nameResult.errorMessage == null &&
+               lastNameResult.errorMessage == null &&
+               emailResult.errorMessage == null &&
+               phoneResult.errorMessage == null &&
+               passwordResult.errorMessage == null &&
+               repeatedPasswordResult.errorMessage == null &&
+               state.privacyPolicy
     }
 
     private fun change(
@@ -69,7 +74,7 @@ class RegisterScreenViewModelImpl(
         email: String? = null,
         phone: String? = null,
         password: String? = null,
-        newPassword: String? = null,
+        repeatedPassword: String? = null,
         privacy: Boolean? = null
     ) {
         when {
@@ -105,24 +110,23 @@ class RegisterScreenViewModelImpl(
             password != null -> {
                 state = state.copy(password = password)
                 val passwordResult = validation.validatePassword(
-                    password = state.password,
-                    newPassword = state.confirmPassword
+                    password = state.password
                 )
                 state =
                     if (hasError(passwordResult)) state.copy(passwordError = passwordResult.errorMessage)
                     else state.copy(passwordError = null)
-                change(newPassword = state.confirmPassword)
+                change(repeatedPassword = state.repeatedPassword)
             }
 
-            newPassword != null -> {
-                state = state.copy(confirmPassword = newPassword)
-                val newPasswordResult = validation.validateNewPassword(
-                    newPassword = state.confirmPassword,
+            repeatedPassword != null -> {
+                state = state.copy(repeatedPassword = repeatedPassword)
+                val repeatedPasswordResult = validation.validateRepeatedPassword(
+                    repeatedPassword = state.repeatedPassword,
                     password = state.password
                 )
                 state =
-                    if (hasError(newPasswordResult)) state.copy(confirmPasswordError = newPasswordResult.errorMessage)
-                    else state.copy(confirmPasswordError = null)
+                    if (hasError(repeatedPasswordResult)) state.copy(repeatedPasswordError = repeatedPasswordResult.errorMessage)
+                    else state.copy(repeatedPasswordError = null)
             }
 
             privacy != null -> {
@@ -131,7 +135,7 @@ class RegisterScreenViewModelImpl(
                     validation.validatePrivacyPolicy(value = state.privacyPolicy)
                 state =
                     if (hasError(privacyPolicyResult)) state.copy(privacyPolicy = privacyPolicyResult.success)
-                    else state.copy(confirmPasswordError = null)
+                    else state.copy(repeatedPasswordError = null)
             }
         }
     }
@@ -143,7 +147,7 @@ class RegisterScreenViewModelImpl(
             is RegisterFormEvent.EmailChanged -> change(email = event.email)
             is RegisterFormEvent.PhoneChanged -> change(phone = event.phone)
             is RegisterFormEvent.PasswordChanged -> change(password = event.password)
-            is RegisterFormEvent.ConfirmPasswordChanged -> change(newPassword = event.confirmPassword)
+            is RegisterFormEvent.ConfirmPasswordChanged -> change(repeatedPassword = event.confirmPassword)
             is RegisterFormEvent.PrivacyPolicyChanged -> change(privacy = event.privacyPolicy)
             is RegisterFormEvent.Submit -> submitData()
         }

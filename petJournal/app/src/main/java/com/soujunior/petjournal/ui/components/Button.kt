@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.theme.Shapes
 
 @Composable
@@ -33,24 +31,18 @@ fun Button(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        PetJournalTheme(
-            setSystemBarColor = setSystemBarColor,
-            darkTheme = !inDarkMode,
-            content = {
-                Button(
-                    onClick = { submit() },
-                    enabled = enableButton,
-                    modifier = modifier,
-                    border = border,
-                    shape = Shapes.large
-                ) {
-                    Text(
-                        text = text,
-                        style = MaterialTheme.typography.titleSmall,
-                    )
-                }
-            }
-        )
+        Button(
+            onClick = { submit() },
+            enabled = enableButton,
+            modifier = modifier,
+            border = border,
+            shape = Shapes.large
+        ) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.titleSmall,
+            )
+        }
     }
 }
 
@@ -58,7 +50,23 @@ fun Button(
 @Composable
 fun ButtonPreview() {
     Column {
-        Row { Button(submit = {}, enableButton = true, border = null, setSystemBarColor = true, inDarkMode = true) }
-        Row { Button(submit = {}, enableButton = false, border =null, setSystemBarColor = false, inDarkMode = false) }
+        Row {
+            Button(
+                submit = {},
+                enableButton = true,
+                border = null,
+                setSystemBarColor = true,
+                inDarkMode = true
+            )
+        }
+        Row {
+            Button(
+                submit = {},
+                enableButton = false,
+                border = null,
+                setSystemBarColor = false,
+                inDarkMode = false
+            )
+        }
     }
 }

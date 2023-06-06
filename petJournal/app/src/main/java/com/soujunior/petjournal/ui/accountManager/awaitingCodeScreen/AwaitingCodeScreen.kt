@@ -19,7 +19,7 @@ fun AwaitingCodeScreen(navController: NavController) {
             when (event) {
                 is ValidationEvent.Success -> {
                     Toast.makeText(context, "Registro bem sucedido", Toast.LENGTH_LONG).show()
-                    navController.navigate("mainContent")
+                    navController.navigate("changePassword")
                 }
 
                 is ValidationEvent.Failed -> {

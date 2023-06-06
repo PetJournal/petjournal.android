@@ -1,9 +1,11 @@
 package com.soujunior.petjournal.ui.navigation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -11,6 +13,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
@@ -32,7 +35,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AccountManager() {
-    PetJournalTheme(content = {
+    PetJournalTheme(
+        setSystemBarColor = true,
+        content = {
         Scaffold(
             backgroundColor = MaterialTheme.colorScheme.background,
             content = {

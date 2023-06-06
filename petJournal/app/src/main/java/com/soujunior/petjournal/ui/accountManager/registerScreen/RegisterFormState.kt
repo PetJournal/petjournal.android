@@ -11,7 +11,7 @@ data class RegisterFormState(
     val phoneError: List<String>? = null,
     val password: String = "",
     val passwordError: List<String>? = null,
-    val confirmPassword: String = "",
-    val confirmPasswordError: List<String>? = null,
+    val repeatedPassword: String = "",
+    val repeatedPasswordError: List<String>? = null,
     val privacyPolicy: Boolean = false,
 )
