@@ -123,6 +123,34 @@ class ValidationRepositoryImpl : ValidationRepository {
         }
     }
 
+    override fun validateCodeOTP(codeOTP: String): ValidationResult {
+        val listErrorMessage: MutableList<String> = mutableListOf()
+        var count = 0
+
+        if (codeOTP.isNotBlank()) {
+            if (!isCodeValidLenght(codeOTP))
+                listErrorMessage.add("O campo precisa ter 6 digitos..") else count++
+
+            if (!isStringOnlyDigits(codeOTP))
+                listErrorMessage.add("Caracteres especiais e letras não são permitidos!") else count++
+        } else {
+            count++
+            listErrorMessage.add("O campo não pode ficar em branco!")
+        }
+
+        val hasError = count != 2
+        return if (hasError) {
+            ValidationResult(success = false, errorMessage = listErrorMessage)
+        } else {
+            ValidationResult(success = true)
+        }
+    }
+    private fun isCodeValidLenght(input: String): Boolean {
+        return if (input.isNotBlank()) {
+            input.length == 6 && input.isNotEmpty()
+        } else false
+    }
+
     /**
      * isValidLength = will return True if the String field is not Blank, the length of the String
      * is not less than 3 or greater than 30, and if the String field is not empty */
@@ -140,6 +168,9 @@ class ValidationRepositoryImpl : ValidationRepository {
     private fun hasSpecialCharOrNumber(input: String): Boolean {
         val regex = Regex("[^a-zA-ZÀ-ÖØ-öø-ÿ ]")
         return regex.containsMatchIn(input)
+    }
+    private fun isStringOnlyDigits(input: String): Boolean {
+     return input.all { it.isDigit() }
     }
 
     /**

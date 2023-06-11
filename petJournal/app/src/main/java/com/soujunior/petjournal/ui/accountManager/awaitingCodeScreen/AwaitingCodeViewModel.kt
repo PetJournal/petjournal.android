@@ -20,5 +20,6 @@ abstract class AwaitingCodeViewModel : ViewModel() {
     abstract fun failed(exception: Throwable?)
     abstract fun success(resultPostAwaitingCode: String)
     abstract fun onEvent(event: AwaitingCodeFormEvent)
+    abstract fun enableButton(): Boolean
 
 }

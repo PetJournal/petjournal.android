@@ -10,4 +10,5 @@ interface ValidationRepository {
     fun validatePassword(password: String) : ValidationResult
     fun validateRepeatedPassword(repeatedPassword: String, password: String) : ValidationResult
     fun validatePrivacyPolicy(value: Boolean) : ValidationResult
+    fun validateCodeOTP(codeOTP: String) : ValidationResult
 }

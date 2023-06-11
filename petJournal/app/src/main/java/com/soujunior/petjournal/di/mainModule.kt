@@ -58,7 +58,7 @@ val mainModule = module {
     viewModel<DetailScreenViewModel> { DetailScreenViewModelImpl() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get()) }
     viewModel<RegisterScreenViewModel> { RegisterScreenViewModelImpl(get(), get()) }
-    viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get()) }
+    viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get()) }
     viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModelImpl(get(), get()) }
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
 }
