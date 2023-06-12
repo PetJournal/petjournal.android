@@ -18,24 +18,16 @@ import com.soujunior.petjournal.ui.components.Button
 import com.soujunior.petjournal.ui.states.States
 import org.koin.androidx.compose.getViewModel
 
-//TODO: (Leo) parametro nao esta sendo usado
-//TODO: (Leo) Criar lógica para habilitar botao somente quando o campo inteiro for preenchido
 @Composable
 fun Footer(navController: NavController , viewModel: AwaitingCodeViewModel) {
-    val awaitingCodeViewModel: AwaitingCodeViewModel = getViewModel()
-    var isCodeFilled = false
-    val email by States.localEmailState.current
-    val otpFullCode by States.otpFullCode.current
+    //val email by States.localEmailState.current // Redefinir para pegar o Email a partir do novo States
     Spacer(modifier = Modifier.padding(20.dp))
 
-    if (otpFullCode.isNotEmpty() && otpFullCode.isNotBlank() && otpFullCode.length == 6) {
-        isCodeFilled = true
-    }
     Button(
         submit = {
             viewModel.onEvent(AwaitingCodeFormEvent.Submit)
         },
-        enableButton = isCodeFilled,
+        enableButton = viewModel.enableButton(),
         border = null,
         text = "Enviar",
         inDarkMode = true,

@@ -19,7 +19,6 @@ import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCod
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModel
 import com.soujunior.petjournal.ui.theme.FredokaRegular
 
-//Todo: (Leo) parametro nao esta sendo usado
 @Composable
 fun VerificationCodeInput(viewModel: AwaitingCodeViewModel) {
     val resendCodeStyle = TextStyle(
@@ -27,11 +26,6 @@ fun VerificationCodeInput(viewModel: AwaitingCodeViewModel) {
         fontSize = 14.sp,
         textDecoration = TextDecoration.Underline,
     )
-    /*LaunchedEffect(Unit) {
-        if (otpText.length > otpCount) {
-            throw IllegalArgumentException("O valor do texto OTP não deve ter mais de $otpCount caracteres")
-        }
-    }*/
 
     OTPTextField(
         textValue = viewModel.state.codeOTP,

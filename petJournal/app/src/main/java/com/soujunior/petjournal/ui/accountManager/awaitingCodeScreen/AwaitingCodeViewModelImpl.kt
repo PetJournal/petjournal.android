@@ -53,15 +53,6 @@ class AwaitingCodeViewModelImpl(
                 Log.e("test", "${event.code}")
             }
             is AwaitingCodeFormEvent.EmailChanged -> change(email = event.email)
-            /*is AwaitingCodeFormEvent.EmailChanged -> {
-                Log.e("testar", "${event.email}")
-                state = state.copy(email = event.email)
-            }
-
-            is AwaitingCodeFormEvent.CodeOTPChanged -> {
-                Log.e("testar", "${event.code}")
-                state = state.copy(codeOTP = event.code)
-            }*/
             AwaitingCodeFormEvent.Submit -> postOtpVerification()
         }
     }

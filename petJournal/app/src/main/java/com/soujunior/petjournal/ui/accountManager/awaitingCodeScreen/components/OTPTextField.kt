@@ -42,7 +42,6 @@ fun OTPTextField(
 
     BasicTextField(
         modifier = modifier,
-        //value = TextFieldValue(otpText, selection = TextRange(otpText.length)),
         value = TextFieldValue(textValue, selection = TextRange(textValue.length)),
         onValueChange = {
             if (it.text.length <= otpCount) {
