@@ -5,7 +5,7 @@ PetJournal é um aplicativo para Android nativo desenvolvido em Kotlin com Jetpa
 ## Funcionalidades
 - [x] Login
 - [x] Cadastro
-- [ ] Recuperar senha
+- [x] Recuperar senha
 - [ ] Registro de informações sobre animais de estimação, como nome, raça, idade e outras características
 - [ ] Registro de vacinas, com datas de aplicação e lembretes para próximas doses
 - [ ] Registro de consultas veterinárias, incluindo data, motivo e resultados
