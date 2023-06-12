@@ -11,38 +11,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.soujunior.domain.entities.auth.AwaitingCodeModel
-import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeScreenViewModel
-import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.postOtpVerificationAwaitingCode
+import androidx.navigation.NavController
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeFormEvent
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModel
 import com.soujunior.petjournal.ui.components.Button
 import com.soujunior.petjournal.ui.states.States
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun Footer() {
-    val awaitingCodeScreenViewModel: AwaitingCodeScreenViewModel = getViewModel()
-    var isCodeFilled = false
-    val email by States.localEmailState.current
-    val otpFullCode by States.otpFullCode.current
-    Spacer(modifier = Modifier.padding(32.dp))
+fun Footer(navController: NavController , viewModel: AwaitingCodeViewModel) {
+    //val email by States.localEmailState.current // Redefinir para pegar o Email a partir do novo States
+    Spacer(modifier = Modifier.padding(20.dp))
 
-    if (otpFullCode.isNotEmpty() && otpFullCode.isNotBlank() && otpFullCode.length == 6) {
-        isCodeFilled = true
-    }
     Button(
         submit = {
-            postOtpVerificationAwaitingCode(
-                AwaitingCodeModel(
-                    codeOTP = otpFullCode,
-                    email = email,
-                ),
-                awaitingCodeScreenViewModel
-            )
+            viewModel.onEvent(AwaitingCodeFormEvent.Submit)
         },
-        enableButton = isCodeFilled,
-        text = "Enviar"
+        enableButton = viewModel.enableButton(),
+        border = null,
+        text = "Enviar",
+        inDarkMode = true,
+        setSystemBarColor = false
     )
-    Spacer(modifier = Modifier.padding(8.dp))
+    Spacer(modifier = Modifier.padding(5.dp))
     Text(
         text = "Dica: Caso não encontre o e-mail na sua caixa de entrada, verifique a pasta de Spam!",
         style = MaterialTheme.typography.titleLarge,

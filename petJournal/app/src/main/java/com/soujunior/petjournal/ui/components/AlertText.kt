@@ -7,10 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun AlertText(modifier: Modifier = Modifier.fillMaxWidth(), textMessage: String) {
-    Text(
-        text = textMessage,
-        modifier = modifier,
-        color = MaterialTheme.colorScheme.error
-    )
+fun AlertText(modifier: Modifier = Modifier.fillMaxWidth(), textMessage: String?) {
+    if (textMessage != null)
+        Text(
+            text = textMessage,
+            modifier = modifier,
+            color = MaterialTheme.colorScheme.error
+        )
 }

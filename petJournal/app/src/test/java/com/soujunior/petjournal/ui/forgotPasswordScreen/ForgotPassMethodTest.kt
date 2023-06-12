@@ -7,7 +7,7 @@ import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.usecase.auth.ForgotPasswordUseCase
 import com.soujunior.domain.usecase.base.DataResult
 import com.soujunior.petjournal.setup.formForgot
-import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordScreenViewModelImpl
+import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordViewModelImpl
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -34,7 +34,7 @@ class ForgotPassMethodTest() {
     var coroutineTestRule = MainCoroutineRule()
 
     private val forgotPasswordUseCase = mockk<ForgotPasswordUseCase>(relaxed = true)
-    private val viewModel = ForgotPasswordScreenViewModelImpl(forgotPasswordUseCase)
+    private val viewModel = ForgotPasswordViewModelImpl(forgotPasswordUseCase)
 
     @OptIn(DelicateCoroutinesApi::class)
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")

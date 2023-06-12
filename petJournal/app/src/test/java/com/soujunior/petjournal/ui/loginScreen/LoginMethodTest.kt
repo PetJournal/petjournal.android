@@ -7,7 +7,7 @@ import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.usecase.auth.LoginUseCase
 import com.soujunior.domain.usecase.base.DataResult
 import com.soujunior.petjournal.setup.formLogin
-import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginScreenViewModelImpl
+import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModelImpl
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -33,7 +33,7 @@ class LoginMethodTest {
     var coroutineTesteRule = MainCoroutineRule()
 
     private val loginUseCase = mockk<LoginUseCase>(relaxed = true)
-    private val viewModel = LoginScreenViewModelImpl(loginUseCase)
+    private val viewModel = LoginViewModelImpl(loginUseCase)
 
     @OptIn(DelicateCoroutinesApi::class)
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
@@ -55,7 +55,7 @@ class LoginMethodTest {
     fun `when postForm in login is called, success should be updated correctly`() = runBlocking {
         coEvery { loginUseCase.execute(formLogin) } returns DataResult.Success("success")
 
-        viewModel.postForm(formLogin)
+        viewModel.submitData()
 
         val latch = CountDownLatch(1)
         viewModel.success.observeForever {
@@ -71,7 +71,7 @@ class LoginMethodTest {
         runBlocking {
             coEvery { loginUseCase.execute(formLogin) } returns DataResult.Failure(Error("error message"))
 
-            viewModel.postForm(formLogin)
+            viewModel.submitData()
 
             val latch = CountDownLatch(1)
             viewModel.error.observeForever {

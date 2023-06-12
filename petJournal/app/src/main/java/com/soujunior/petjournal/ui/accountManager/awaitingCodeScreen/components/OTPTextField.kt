@@ -23,27 +23,30 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.soujunior.petjournal.ui.components.AlertText
 
 @Composable
 fun OTPTextField(
     modifier: Modifier = Modifier,
-    otpText: String,
     otpCount: Int = 6,
-    onOtpTextChange: (String, Boolean) -> Unit
+    textValue: String,
+    onEvent: (String) -> Unit,
+    textError: List<String>?,
 ) {
 
     LaunchedEffect(Unit) {
-        if (otpText.length > otpCount) {
+        if (textValue.length > otpCount) {
             throw IllegalArgumentException("O valor do texto OTP não deve ter mais de $otpCount caracteres")
         }
     }
 
     BasicTextField(
         modifier = modifier,
-        value = TextFieldValue(otpText, selection = TextRange(otpText.length)),
+        value = TextFieldValue(textValue, selection = TextRange(textValue.length)),
         onValueChange = {
             if (it.text.length <= otpCount) {
-                onOtpTextChange.invoke(it.text, it.text.length == otpCount)
+                onEvent.invoke(it.text)
+                onEvent(it.text)
             }
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
@@ -52,13 +55,14 @@ fun OTPTextField(
                 repeat(otpCount) { index ->
                     TextFieldSingleView(
                         index = index,
-                        text = otpText
+                        text = textValue
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                 }
             }
         }
     )
+    textError?.forEach { AlertText(textMessage = it) }
 }
 
 @Composable
@@ -78,14 +82,15 @@ private fun TextFieldSingleView(index: Int, text: String) {
                 when {
                     char.isNotEmpty() -> MaterialTheme.colorScheme.onSecondary
                     else -> MaterialTheme.colorScheme.outline
-                }, MaterialTheme.shapes.small            )
+                }, MaterialTheme.shapes.small
+            )
             .border(
                 2.5.dp,
                 if (isFocused) {
                     MaterialTheme.colorScheme.onBackground
                 } else {
                     when {
-                        char.isEmpty() ->  MaterialTheme.colorScheme.outlineVariant
+                        char.isEmpty() -> MaterialTheme.colorScheme.outlineVariant
                         else -> MaterialTheme.colorScheme.primary
                     }
                 }, RoundedCornerShape(8.dp)

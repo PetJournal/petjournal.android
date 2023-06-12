@@ -7,7 +7,7 @@ import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.usecase.auth.AwaitingCodeUseCase
 import com.soujunior.domain.usecase.base.DataResult
 import com.soujunior.petjournal.setup.sendCode
-import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeScreenViewModelImpl
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModelImpl
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.*
@@ -28,7 +28,7 @@ class AwaitingCodeMethodTest {
     var coroutineTesteRule = MainCoroutineRule()
 
     private val awaitingCodeUseCase = mockk<AwaitingCodeUseCase>(relaxed = true)
-    private val viewModel = AwaitingCodeScreenViewModelImpl(awaitingCodeUseCase)
+    private val viewModel = AwaitingCodeViewModelImpl(awaitingCodeUseCase)
 
     @OptIn(DelicateCoroutinesApi::class)
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
@@ -50,7 +50,7 @@ class AwaitingCodeMethodTest {
     fun `when postOtpVerification is called, succeses should be update correctly`() = runBlocking {
         coEvery { awaitingCodeUseCase.execute(sendCode) } returns DataResult.Success("success")
 
-        viewModel.postOtpVerification(sendCode)
+        viewModel.postOtpVerification()
 
         val latch = CountDownLatch(1)
         viewModel.success.observeForever {
@@ -66,7 +66,7 @@ class AwaitingCodeMethodTest {
     fun `hen postOtpVerification is called and receive a exception, error should be update correctly`() = runBlocking {
         coEvery { awaitingCodeUseCase.execute(sendCode) } returns DataResult.Failure(Error("error message"))
 
-        viewModel.postOtpVerification(sendCode)
+        viewModel.postOtpVerification()
 
         val latch = CountDownLatch(1)
         viewModel.error.observeForever {
