@@ -97,6 +97,7 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:2.8.1"
     androidTestImplementation "androidx.test:rules:1.5.0"
     androidTestImplementation "androidx.test:runner:1.5.2"
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
 
     testImplementation testJunit
     testImplementation testMockk
