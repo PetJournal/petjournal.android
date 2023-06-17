@@ -4,7 +4,6 @@ import android.util.Patterns
 import com.soujunior.domain.repository.ValidationRepository
 
 class ValidationRepositoryImpl : ValidationRepository {
-
     override fun validateEmail(email: String): ValidationResult {
         if (email.isBlank()) {
             return ValidationResult(
@@ -19,6 +18,16 @@ class ValidationRepositoryImpl : ValidationRepository {
             )
         }
         return ValidationResult(success = true)
+    }
+
+    override fun validateField(value: String): ValidationResult {
+        return if (value.isEmpty())
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("O campo não pode ficar em branco!")
+            )
+        else
+            ValidationResult(success = true)
     }
 
     override fun validatePassword(password: String): ValidationResult {
@@ -97,7 +106,10 @@ class ValidationRepositoryImpl : ValidationRepository {
         }
     }
 
-    override fun validateRepeatedPassword(repeatedPassword: String, password: String): ValidationResult {
+    override fun validateRepeatedPassword(
+        repeatedPassword: String,
+        password: String
+    ): ValidationResult {
         val listErrorMessage: MutableList<String> = mutableListOf()
         var count = 0
 
@@ -145,6 +157,7 @@ class ValidationRepositoryImpl : ValidationRepository {
             ValidationResult(success = true)
         }
     }
+
     private fun isCodeValidLenght(input: String): Boolean {
         return if (input.isNotBlank()) {
             input.length == 6 && input.isNotEmpty()
@@ -169,8 +182,9 @@ class ValidationRepositoryImpl : ValidationRepository {
         val regex = Regex("[^a-zA-ZÀ-ÖØ-öø-ÿ ]")
         return regex.containsMatchIn(input)
     }
+
     private fun isStringOnlyDigits(input: String): Boolean {
-     return input.all { it.isDigit() }
+        return input.all { it.isDigit() }
     }
 
     /**

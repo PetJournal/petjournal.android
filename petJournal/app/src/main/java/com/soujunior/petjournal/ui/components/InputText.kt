@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,7 +35,7 @@ fun InputText(
     modifier: Modifier = Modifier.fillMaxWidth(),
     textValue: String,
     isPassword: Boolean = false,
-    textError: List<String>?,
+    textError: List<String>? = null,
     onEvent: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
     visualTransformation: VisualTransformation = VisualTransformation.None
