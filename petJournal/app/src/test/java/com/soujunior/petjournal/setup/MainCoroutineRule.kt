@@ -1,3 +1,4 @@
+/*
 package com.soujunior.domain.setup
 
 import kotlinx.coroutines.Dispatchers
@@ -24,4 +25,4 @@ class MainCoroutineRule(
         cleanupTestCoroutines()
         Dispatchers.resetMain()
     }
-}
+}*/

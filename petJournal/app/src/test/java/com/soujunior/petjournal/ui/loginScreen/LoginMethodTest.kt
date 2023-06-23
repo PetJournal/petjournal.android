@@ -1,84 +1,88 @@
 package com.soujunior.petjournal.ui.loginScreen
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import com.soujunior.domain.setup.MainCoroutineRule
+import com.soujunior.domain.entities.auth.LoginModel
+import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.usecase.auth.LoginUseCase
+import com.soujunior.domain.usecase.auth.util.ValidationRepositoryImpl
+import com.soujunior.domain.usecase.auth.util.ValidationResult
 import com.soujunior.domain.usecase.base.DataResult
-import com.soujunior.petjournal.setup.formLogin
+import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
+import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormState
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModelImpl
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.DelicateCoroutinesApi
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import java.util.concurrent.CountDownLatch
 
-class LoginMethodTest {
-
-    @get:Rule
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    @ExperimentalCoroutinesApi
-    @get:Rule
-    var coroutineTesteRule = MainCoroutineRule()
-
+@ExperimentalCoroutinesApi
+class LoginViewModelImplTest {
     private val loginUseCase = mockk<LoginUseCase>(relaxed = true)
-    private val viewModel = LoginViewModelImpl(loginUseCase)
+    private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
+    private val viewModel = LoginViewModelImpl(loginUseCase = loginUseCase, validation = validation)
 
-    @OptIn(DelicateCoroutinesApi::class)
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
-
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
-    fun setUp() {
-        Dispatchers.setMain(mainThreadSurrogate)
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain()
-        mainThreadSurrogate.close()
+    fun setup() {
+        Dispatchers.setMain(Dispatchers.Unconfined)
     }
 
     @Test
-    fun `when postForm in login is called, success should be updated correctly`() = runBlocking {
-        coEvery { loginUseCase.execute(formLogin) } returns DataResult.Success("success")
+    fun `Update state with email and password error if validation fails`() {
+        val emailResult = ValidationResult(false, listOf("Invalid email"))
+        val passwordResult = ValidationResult(false, listOf("Invalid password"))
+
+        coEvery { validation.validateEmail(any()) } returns emailResult
+        coEvery { validation.validateField(any()) } returns passwordResult
+
+        viewModel.state = LoginFormState(email = "petjournal@example.com", password = "password123")
 
         viewModel.submitData()
 
-        val latch = CountDownLatch(1)
-        viewModel.success.observeForever {
-            assertThat(it).isEqualTo("success")
-            latch.countDown()
-        }
-
-        latch.await()
+       assertEquals(emailResult.errorMessage, viewModel.state.emailError)
+       assertEquals(passwordResult.errorMessage, viewModel.state.passwordError)
     }
 
     @Test
-    fun `when postForm in login is called and receive a exception, error should be updated correctly`() =
-        runBlocking {
-            coEvery { loginUseCase.execute(formLogin) } returns DataResult.Failure(Error("error message"))
+    fun `When onEvent is called, state email and password should update with the value`() {
+        viewModel.onEvent(LoginFormEvent.EmailChanged("newemail@example.com"))
+        viewModel.onEvent(LoginFormEvent.PasswordChanged("123password"))
+        assertEquals("newemail@example.com", viewModel.state.email)
+        assertEquals("123password", viewModel.state.password)
+    }
 
-            viewModel.submitData()
+    @Test
+    fun `failed() sets error message`() = runBlocking {
+        val errorMessage = "Test Error"
+        viewModel.failed(Error(errorMessage))
+        assertEquals(errorMessage, viewModel.message.value)
+    }
 
-            val latch = CountDownLatch(1)
-            viewModel.error.observeForever {
-                assertThat(it).isEqualTo("error message")
-                latch.countDown()
-            }
+    @Test
+    fun `success() sets success message`() {
+        val successMessage = "Test Success"
+        viewModel.success(successMessage)
+        assertEquals(successMessage, viewModel.message.value)
+    }
 
-            latch.await()
-        }
+    @Test
+    fun `submitData() updates state and calls success`() = runBlocking {
+        val emailResult = "petjournal@exemple.com"
+        val passwordResult = "password123456"
+
+        every { validation.validateEmail(emailResult) } returns ValidationResult(success = true, errorMessage = null)
+        every { validation.validateField(passwordResult) } returns ValidationResult(success = true, errorMessage = null)
+
+        coEvery { loginUseCase.execute(LoginModel(email = emailResult, password = passwordResult)) } returns DataResult.Success("Sucesso na requisição!")
+
+        viewModel.state = LoginFormState(email = emailResult, password = passwordResult)
+        viewModel.submitData()
+        assertEquals("Sucesso na requisição!", viewModel.message.value)
+    }
+
 }
