@@ -16,6 +16,18 @@ class AuthRepositoryImpl(
     private val service: Service,
     private val context: Context
     ) : AuthRepository {
+    override suspend fun login(form: LoginModel): ApiResponseCode {
+        if (!Util.statusInternet(context)) {
+            throw Error("Erro na conexão com a internet!")
+        }
+        val deferredResponse = service.login(form).awaitResponse()
+        return if (deferredResponse.isSuccessful) {
+            ApiResponseCode(deferredResponse.code(), "Logado com sucesso")
+        } else {
+            val errorMessage = deferredResponse.errorBody()?.string() ?: "Erro desconhecido"
+            ApiResponseCode(deferredResponse.code(), errorMessage)
+        }
+    }
 
     override suspend fun register(form: RegisterModel): ApiResponseCode {
         if (!Util.statusInternet(context)) {
@@ -24,19 +36,6 @@ class AuthRepositoryImpl(
         val deferredResponse = service.register(form).awaitResponse()
         return if (deferredResponse.isSuccessful) {
             ApiResponseCode(deferredResponse.code(), "Registro bem sucedido")
-        } else {
-            val errorMessage = deferredResponse.errorBody()?.string() ?: "Erro desconhecido"
-            ApiResponseCode(deferredResponse.code(), errorMessage)
-        }
-    }
-
-    override suspend fun login(form: LoginModel): ApiResponseCode {
-        if (!Util.statusInternet(context)) {
-            throw Error("Erro na conexão com a internet!")
-        }
-        val deferredResponse = service.login(form).awaitResponse()
-        return if (deferredResponse.isSuccessful) {
-            ApiResponseCode(deferredResponse.code(), "Logado com sucesso")
         } else {
             val errorMessage = deferredResponse.errorBody()?.string() ?: "Erro desconhecido"
             ApiResponseCode(deferredResponse.code(), errorMessage)

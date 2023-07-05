@@ -22,8 +22,7 @@ fun LoginScreen(navController: NavController) {
                     navController.navigate("mainContent")
                 }
                 is ValidationEvent.Failed -> {
-                    Toast.makeText(context, "falha n login! > ${viewModel.message.value}", Toast.LENGTH_LONG).show()
-                    Toast.makeText(context, "Registro mal sucedido", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "falha no login! > ${viewModel.message.value}", Toast.LENGTH_LONG).show()
                 }
             }
         }

@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.loginScreen
 
 import com.soujunior.domain.entities.auth.LoginModel
-import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.usecase.auth.LoginUseCase
 import com.soujunior.domain.usecase.auth.util.ValidationRepositoryImpl
 import com.soujunior.domain.usecase.auth.util.ValidationResult
@@ -15,8 +14,6 @@ import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Test
@@ -44,8 +41,8 @@ class LoginViewModelImplTest {
 
         viewModel.submitData()
 
-       assertEquals(emailResult.errorMessage, viewModel.state.emailError)
-       assertEquals(passwordResult.errorMessage, viewModel.state.passwordError)
+        assertEquals(emailResult.errorMessage, viewModel.state.emailError)
+        assertEquals(passwordResult.errorMessage, viewModel.state.passwordError)
     }
 
     @Test
@@ -57,32 +54,44 @@ class LoginViewModelImplTest {
     }
 
     @Test
-    fun `failed() sets error message`() = runBlocking {
+    fun `if failed() is call, sets error message`() {
         val errorMessage = "Test Error"
         viewModel.failed(Error(errorMessage))
         assertEquals(errorMessage, viewModel.message.value)
     }
 
     @Test
-    fun `success() sets success message`() {
+    fun `if success() is call, sets success message`() {
         val successMessage = "Test Success"
         viewModel.success(successMessage)
         assertEquals(successMessage, viewModel.message.value)
     }
 
     @Test
-    fun `submitData() updates state and calls success`() = runBlocking {
+    fun `when submitData() is called, updates state and calls success`() {
         val emailResult = "petjournal@exemple.com"
         val passwordResult = "password123456"
 
-        every { validation.validateEmail(emailResult) } returns ValidationResult(success = true, errorMessage = null)
-        every { validation.validateField(passwordResult) } returns ValidationResult(success = true, errorMessage = null)
+        every { validation.validateEmail(emailResult) } returns ValidationResult(
+            success = true,
+            errorMessage = null
+        )
+        every { validation.validateField(passwordResult) } returns ValidationResult(
+            success = true,
+            errorMessage = null
+        )
 
-        coEvery { loginUseCase.execute(LoginModel(email = emailResult, password = passwordResult)) } returns DataResult.Success("Sucesso na requisição!")
+        coEvery {
+            loginUseCase.execute(
+                LoginModel(
+                    email = emailResult,
+                    password = passwordResult
+                )
+            )
+        } returns DataResult.Success("Sucesso na requisição!")
 
         viewModel.state = LoginFormState(email = emailResult, password = passwordResult)
         viewModel.submitData()
         assertEquals("Sucesso na requisição!", viewModel.message.value)
     }
-
 }

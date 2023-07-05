@@ -20,10 +20,12 @@ class LoginViewModelImpl(
     private val validation: ValidationRepository
 ) : LoginViewModel() {
     override var state by mutableStateOf(LoginFormState())
+
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
-    private val setMessage = MutableStateFlow("")
+
     override val message: StateFlow<String> get() = setMessage
+    private val setMessage = MutableStateFlow("")
 
     override fun failed(exception: Throwable?) {
         if (exception is Error) {
@@ -35,8 +37,8 @@ class LoginViewModelImpl(
         }
     }
 
-    override fun success(resultPostLogin: String) {
-        setMessage.value = resultPostLogin
+    override fun success(resulMessage: String) {
+        setMessage.value = resulMessage
         viewModelScope.launch {
             passwordRemember()
             //TODO: Desenvolver lógica para lembrar senha
