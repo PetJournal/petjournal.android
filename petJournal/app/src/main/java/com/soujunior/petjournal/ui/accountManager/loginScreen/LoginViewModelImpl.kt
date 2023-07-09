@@ -47,6 +47,7 @@ class LoginViewModelImpl(
     }
 
     override fun passwordRemember() {}
+
     private fun hasError(result: ValidationResult): Boolean {
         return listOf(result).any { !it.success }
     }

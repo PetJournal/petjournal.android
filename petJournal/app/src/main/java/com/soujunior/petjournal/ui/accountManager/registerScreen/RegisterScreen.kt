@@ -12,7 +12,7 @@ import org.koin.androidx.compose.getViewModel
 //TODO: Realizar chamada ao banco de dados para verificar se o email existe quando o botão for clicado
 @Composable
 fun RegisterScreen(navController: NavController) {
-    val viewModel: RegisterScreenViewModel = getViewModel()
+    val viewModel: RegisterViewModel = getViewModel()
     val context = LocalContext.current
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
@@ -26,7 +26,6 @@ fun RegisterScreen(navController: NavController) {
                     Toast.makeText(context, "Registro mal sucedido", Toast.LENGTH_LONG).show()
                 }
             }
-
         }
     }
     Screen(viewModel)

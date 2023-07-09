@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterFormEvent
-import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreenViewModel
+import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterViewModel
 import com.soujunior.petjournal.ui.components.Button
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.components.InputText
@@ -22,7 +22,7 @@ import com.soujunior.petjournal.ui.components.PrivacyPolicyCheckbox
 import com.soujunior.petjournal.ui.components.mask.mobileNumberFilter
 
 @Composable
-fun Screen(viewModel: RegisterScreenViewModel) {
+fun Screen(viewModel: RegisterViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()

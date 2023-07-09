@@ -19,8 +19,8 @@ import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPas
 import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordViewModelImpl
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModel
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModelImpl
-import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreenViewModel
-import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreenViewModelImpl
+import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterViewModel
+import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterViewModelImpl
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreenViewModel
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreenViewModelImpl
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
@@ -57,7 +57,7 @@ val mainModule = module {
     viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl() }
     viewModel<DetailScreenViewModel> { DetailScreenViewModelImpl() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get()) }
-    viewModel<RegisterScreenViewModel> { RegisterScreenViewModelImpl(get(), get()) }
+    viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get()) }
     viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get()) }
     viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModelImpl(get(), get()) }
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }

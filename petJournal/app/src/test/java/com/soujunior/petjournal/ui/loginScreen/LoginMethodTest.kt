@@ -14,19 +14,22 @@ import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class LoginViewModelImplTest {
     private val loginUseCase = mockk<LoginUseCase>(relaxed = true)
     private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
     private val viewModel = LoginViewModelImpl(loginUseCase = loginUseCase, validation = validation)
 
     @Before
-    fun setup() {
-        Dispatchers.setMain(Dispatchers.Unconfined)
+    fun setup() { Dispatchers.setMain(Dispatchers.Unconfined) }
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     @Test
@@ -95,3 +98,22 @@ class LoginViewModelImplTest {
         assertEquals("Sucesso na requisição!", viewModel.message.value)
     }
 }
+
+/*
+override fun enableButton(): Boolean {
+    val nameResult =        validation.validateName(state.name)
+    val lastNameResult =    validation.validateLastName(state.lastName)
+    val emailResult =       validation.validateEmail(state.email)
+    val phoneResult =       validation.validatePhone(state.phone)
+    val passwordResult =    validation.validatePassword(password = state.password)
+    val repeatedPasswordResult =
+                            validation.validateRepeatedPassword(
+                                state.password,
+                                state.repeatedPassword
+                            )
+
+    return
+
+            state.privacyPolicy
+}
+*/

@@ -1,5 +1,5 @@
-/*
-package com.soujunior.domain.setup
+
+package com.soujunior.petjournal.setup
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,4 +25,4 @@ class MainCoroutineRule(
         cleanupTestCoroutines()
         Dispatchers.resetMain()
     }
-}*/
+}
