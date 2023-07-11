@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.appArea.homeScreen
+package com.gelson.mydailycontrol.ui.homeScreen
 
 class HomeScreenViewModelImpl(): HomeScreenViewModel(){
 }
