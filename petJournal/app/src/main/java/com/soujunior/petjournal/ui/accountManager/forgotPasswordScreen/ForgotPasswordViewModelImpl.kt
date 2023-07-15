@@ -12,6 +12,8 @@ import com.soujunior.domain.usecase.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 import kotlinx.coroutines.launch
@@ -23,16 +25,22 @@ class ForgotPasswordViewModelImpl(
     override var state by mutableStateOf(ForgotPasswordFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
-    override val success = MutableLiveData<String>()
-    override val error = MutableLiveData<String>()
-
+    override val message: StateFlow<String> get() = setMessage
+    private val setMessage = MutableStateFlow("")
     override fun failed(exception: Throwable?) {
         if (exception is Error) {
+            setMessage.value = exception.message.toString()
             viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.error.value = exception.message
         } else {
+            setMessage.value = "Erro desconhecido!"
             viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.error.value = "Erro desconhecido!"
+        }
+    }
+
+    override fun success(resultPostSubmit: String) {
+        setMessage.value = resultPostSubmit
+        viewModelScope.launch {
+            validationEventChannel.send(ValidationEvent.Success)
         }
     }
 
@@ -40,16 +48,7 @@ class ForgotPasswordViewModelImpl(
         when (event) {
             is ForgotPasswordFormEvent.EmailChanged ->
                 change(email = event.email)
-
             is ForgotPasswordFormEvent.Submit -> submitData()
-
-        }
-    }
-
-    override fun success(resultPostSubmit: String) {
-        this.success.value = resultPostSubmit
-        viewModelScope.launch {
-            validationEventChannel.send(ValidationEvent.Success)
         }
     }
 
@@ -71,8 +70,8 @@ class ForgotPasswordViewModelImpl(
     private fun hasError(result: ValidationResult): Boolean {
         return listOf(result).any { !it.success }
     }
-    private fun change(
-        email: String? = null
+    override fun change(
+        email: String?
     ) {
         when {
 
