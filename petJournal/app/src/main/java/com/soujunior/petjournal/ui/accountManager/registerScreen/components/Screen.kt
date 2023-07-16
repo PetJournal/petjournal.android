@@ -130,8 +130,9 @@ fun Screen(viewModel: RegisterViewModel) {
                     },
                     enableButton = viewModel.enableButton(),
                     setSystemBarColor = true,
-                    inDarkMode = true
-                )
+                    inDarkMode = true,
+                    modifier = Modifier.padding(bottom = 50.dp),
+                    )
             }
         }
     }
