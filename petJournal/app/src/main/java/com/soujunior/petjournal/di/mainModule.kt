@@ -25,7 +25,8 @@ import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreenV
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreenViewModelImpl
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreenViewModel
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreenViewModelImpl
-
+import com.soujunior.petjournal.ui.appArea.registerPetScreen.RegisterPetViewModel
+import com.soujunior.petjournal.ui.appArea.registerPetScreen.RegisterPetViewModelImpl
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -57,6 +58,7 @@ val mainModule = module {
 
     viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl() }
     viewModel<DetailScreenViewModel> { DetailScreenViewModelImpl() }
+    viewModel<RegisterPetViewModel> { RegisterPetViewModelImpl() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get()) }
     viewModel<RegisterScreenViewModel> { RegisterScreenViewModelImpl(get(), get()) }
     viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get()) }

@@ -11,12 +11,12 @@ sealed class NavigationBarItems(var title : String, var route : String, @Drawabl
     )
        object Pets : NavigationBarItems(
         title = "pets",
-        route = "login",//TODO:Alterar para a rota da tela de pets
+        route = "registerPet",
         icons = R.drawable.pets_button_bar
     )
        object Tutor : NavigationBarItems(
         title = "tutor",
-        route = "register",//TODO:Alterar para a rota da tela de tutor
+        route = "tutorScreen",
         icons = R.drawable.tutor_button_bar
     )
 }
