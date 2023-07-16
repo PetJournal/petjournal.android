@@ -9,5 +9,5 @@ import com.soujunior.petjournal.ui.components.NavigationBar
 fun Footer(
     navController: NavController
     ) {
-        NavigationBar()
+        NavigationBar(navController)
 }

@@ -35,12 +35,10 @@ fun CardButton(
     cardColor: Color,
     submit: () -> Unit
 ) {
-
-
     Card(
         modifier = Modifier
-            .width(180.dp)
-            .height(179.dp)
+            .width(170.dp)
+            .height(169.dp)
             .clickable { submit() },
         RoundedCornerShape(8.dp),
         backgroundColor = cardColor

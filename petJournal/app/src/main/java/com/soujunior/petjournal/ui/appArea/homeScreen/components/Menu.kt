@@ -21,13 +21,13 @@ import com.soujunior.petjournal.ui.components.CardButton
 @Composable
 fun Menu(navController: NavController) {
     val darkTheme = isSystemInDarkTheme()
-    val imageSize = 120.dp
+    val imageSize = 140.dp
     Column(
 
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(20.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             CardButton(
                 image = painterResource(id = R.drawable.agenda),
@@ -42,12 +42,11 @@ fun Menu(navController: NavController) {
                 modifier = Modifier.size(imageSize)
             )
         }
-
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(20.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             CardButton(
                 image = painterResource(id = R.drawable.vacinas),
