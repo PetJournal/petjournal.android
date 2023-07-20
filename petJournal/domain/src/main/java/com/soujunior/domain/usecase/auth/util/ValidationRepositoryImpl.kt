@@ -1,23 +1,23 @@
 package com.soujunior.domain.usecase.auth.util
 
-import android.util.Patterns
 import com.soujunior.domain.repository.ValidationRepository
+import java.util.regex.Pattern
 
 class ValidationRepositoryImpl : ValidationRepository {
     override fun validateEmail(email: String): ValidationResult {
-        if (email.isBlank()) {
-            return ValidationResult(
+        return if (email.isBlank() || email.isEmpty()) {
+            ValidationResult(
                 success = false,
                 errorMessage = listOf("O campo não pode estar em branco!")
             )
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            return ValidationResult(
-                success = false,
-                errorMessage = listOf("Formato de email incorreto")
+        } else {
+            val correctFormat = isValidString(email)
+
+            ValidationResult(
+                success = correctFormat,
+                errorMessage = if (correctFormat) null else listOf("Formato de email incorreto")
             )
         }
-        return ValidationResult(success = true)
     }
 
     override fun validateField(value: String): ValidationResult {
@@ -215,5 +215,15 @@ class ValidationRepositoryImpl : ValidationRepository {
             }
         }
         return listOf(digitosMaiusculos, digitosMinusculos, simbolos, numeros)
+    }
+
+    val EMAIL_ADDRESS_PATTERN = Pattern.compile(
+        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+        "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" +
+        "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+"
+    )
+
+    fun isValidString(str: String): Boolean{
+        return EMAIL_ADDRESS_PATTERN.matcher(str).matches()
     }
 }
