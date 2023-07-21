@@ -39,6 +39,7 @@ fun RoundedSquare(
     )
     {
         Image(
+
             painter = image,
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),

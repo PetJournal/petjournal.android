@@ -22,7 +22,7 @@ fun TutorScreen(navController: NavController){
         bottomBar = { NavigationBar(navController)},
         content = {
             Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Tela do Tutor", fontSize = 90.sp)}
+                Text(text = "Tela do Tutor Temporaria", fontSize = 50.sp)}
         }
 
     )

@@ -39,6 +39,7 @@ import androidx.compose.ui.window.DialogWindowProvider
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -46,12 +47,12 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.homeScreen.components.Menu
 import com.soujunior.petjournal.ui.appArea.homeScreen.components.Screen
 import com.soujunior.petjournal.ui.components.NavigationBar
+import com.soujunior.petjournal.ui.util.UserViewModel
 
 
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(navController: NavController) {
-
 
     val window = (LocalView.current.parent as? DialogWindowProvider)?.window
         ?: LocalView.current.context.findWindow()

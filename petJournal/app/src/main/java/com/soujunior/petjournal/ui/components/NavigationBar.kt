@@ -21,7 +21,6 @@ fun NavigationBar(navController: NavController) {
         NavigationBarItems.Home,
         NavigationBarItems.Pets,
         NavigationBarItems.Tutor,
-
         )
 
     BottomNavigation(

@@ -6,16 +6,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.soujunior.petjournal.ui.util.UserViewModel
 
 @Composable
 fun Header() {
-    //Spacer(modifier = Modifier.padding(16.dp))
+    val userViewModel: UserViewModel = viewModel()
+    val userName = userViewModel.userName.value
+    LaunchedEffect(Unit) {
+        userViewModel.loadUserData()
+    }
 
     Text(
-        text = "Ola (1 nome do usuário)!",
+        text = "Ola $userName!",
         style = MaterialTheme.typography.titleSmall,
         textAlign = TextAlign.Center,
         color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onBackground  else MaterialTheme.colorScheme.primary

@@ -1,19 +1,13 @@
 package com.soujunior.petjournal.ui.appArea.homeScreen.components
 
 import android.annotation.SuppressLint
-import android.content.ClipData.Item
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,41 +27,51 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.soujunior.data.repository.UserData
-import com.soujunior.data.repository.UserRepository
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.util.UserViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@ExperimentalPagerApi
 @Composable
-fun Screen(navController: NavController) {
+fun Header(navController: NavController) {
+    val userViewModel: UserViewModel = viewModel()
+    val userName = userViewModel.userName.value
     val darkTheme = isSystemInDarkTheme()
-    Scaffold(
-        bottomBar = { NavigationBar(navController) },
-        content = {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
-            ) {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.Top,
+    LaunchedEffect(Unit) {
+        userViewModel.loadUserData()
+    }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
+        modifier = Modifier.padding(start = 20.dp, top = 40.dp)
+    ) {
+        Text(
+            buildAnnotatedString {
+                append("Olá, ")
+                withStyle(
+                    style = SpanStyle(
+                        fontWeight = FontWeight.W900,
+                        fontSize = 18.sp
+                    )
                 ) {
-
-                    item { Header(navController) }
-
-                    item { Body(navController) }
-                    item { Spacer(modifier = Modifier.height(5.dp)) }
-
+                    append("$userName!")
                 }
-            }
+            },
+            style = MaterialTheme.typography.bodyLarge,
+            color = if (darkTheme) MaterialTheme.colorScheme.primary else Color.Unspecified,
+            modifier = Modifier
+                .padding(end = 30.dp)
+                .weight(0.5f),
+        )
+
+        IconButton(onClick = { /*TODO*/ }, modifier = Modifier.padding(end = 13.dp)) {
+            Icon(
+                painter = painterResource(id = R.drawable.menu),
+                contentDescription = "Menu",
+                tint = if (darkTheme) MaterialTheme.colorScheme.primary else Color.Unspecified,
+                modifier = Modifier.size(35.dp)
+            )
         }
-    )
+    }
+
 
 }

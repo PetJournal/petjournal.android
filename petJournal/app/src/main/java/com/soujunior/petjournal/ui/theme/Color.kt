@@ -58,3 +58,16 @@ val dark_onErrorContainer = Color(0xFFFFC107)
 val dark_outline = Color(0xFF8D8D8D) // texto hint // Linha da borda de um input text
 val dark_outlineVariant = Color(0xFBAFD9DB) // borda do layout OTPTextField
 val dark_scrim = Color(0xFFFFC107)
+
+//Cores Grid
+
+class ColorGrid{
+    val purple_grid = Color(0xFF8093F1)
+    val blue_grid = Color(0xFF54C1E9)
+    val red_grid = Color(0xFF9A0963)
+    val pink_grid = Color(0xFFFFB8EB)
+}
+
+
+
+

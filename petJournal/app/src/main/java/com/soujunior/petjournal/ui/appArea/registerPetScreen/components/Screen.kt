@@ -14,11 +14,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.NavigationBar
+import com.soujunior.petjournal.ui.util.UserViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun Screen(navController: NavController) {
-
+fun Screen(navController: NavController, userViewModel : UserViewModel) {
     Scaffold(
 
         bottomBar = { NavigationBar(navController) },
