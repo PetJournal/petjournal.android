@@ -217,13 +217,13 @@ class ValidationRepositoryImpl : ValidationRepository {
         return listOf(digitosMaiusculos, digitosMinusculos, simbolos, numeros)
     }
 
-    val EMAIL_ADDRESS_PATTERN = Pattern.compile(
+    private val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
         "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" +
         "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+"
     )
 
-    fun isValidString(str: String): Boolean{
+    private fun isValidString(str: String): Boolean{
         return EMAIL_ADDRESS_PATTERN.matcher(str).matches()
     }
 }
