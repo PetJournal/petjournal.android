@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.ui.theme.Shapes
 
+/** Componente depreciado, use o Button2*/
 @Composable
 fun Button(
     submit: () -> Unit,

@@ -20,6 +20,7 @@ import com.soujunior.petjournal.ui.components.CardButton
 
 @Composable
 fun Menu(navController: NavController) {
+    //TODO: (Gelson) 8: .
     val darkTheme = isSystemInDarkTheme()
     val imageSize = 140.dp
     Column(
@@ -32,12 +33,15 @@ fun Menu(navController: NavController) {
             CardButton(
                 image = painterResource(id = R.drawable.agenda),
                 cardColor = Color(0xFF8093F1),
+                //TODO: (Gelson) 9: o usuário não deve consegui voltar para a rota de AccountManager a partir do ponto que chega na tela home.
                 submit = { navController.navigate("login") },
                 modifier = Modifier.size(imageSize)
             )
             CardButton(
                 image = painterResource(id = R.drawable.servicos),
+                //TODO: (Gelson) 10: .
                 cardColor = if (darkTheme) Color(0xFFFF4081) else Color(0xFF9A0963),
+                //TODO: (Gelson) 11: mesma situação do 9.
                 submit = { navController.navigate("login") },
                 modifier = Modifier.size(imageSize)
             )
@@ -51,12 +55,14 @@ fun Menu(navController: NavController) {
             CardButton(
                 image = painterResource(id = R.drawable.vacinas),
                 cardColor = Color(0xFFAFD9DB),
+                //TODO: (Gelson) 11: mesma situação do 9 e 10
                 submit = { navController.navigate("login") },
                 modifier = Modifier.size(imageSize)
             )
             CardButton(
                 image = painterResource(id = R.drawable.vermifugos),
                 cardColor = Color(0xFFFFB8EB),
+                //TODO: (Gelson) 12: 9, 10, 11.
                 submit = { navController.navigate("login") },
                 modifier = Modifier.size(imageSize)
             )

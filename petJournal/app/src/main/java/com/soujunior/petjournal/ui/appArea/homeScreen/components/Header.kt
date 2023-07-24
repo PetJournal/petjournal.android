@@ -35,6 +35,7 @@ import com.soujunior.petjournal.ui.util.UserViewModel
 fun Header(navController: NavController) {
     val userViewModel: UserViewModel = viewModel()
     val userName = userViewModel.userName.value
+    //TODO: (Gelson) 2:
     val darkTheme = isSystemInDarkTheme()
     LaunchedEffect(Unit) {
         userViewModel.loadUserData()
@@ -44,6 +45,11 @@ fun Header(navController: NavController) {
         horizontalArrangement = Arrangement.Start,
         modifier = Modifier.padding(start = 20.dp, top = 40.dp)
     ) {
+        /*TODO: (Gelson) 3: Evitar de definir o modo de cor (dark & light) dentro do codigo. Isso
+           dificultará uma manutenção futura.
+           - Caso precise de algum componente que realize uma
+           determinada ação, tente criar um componente novo e em caso de dúvida, consulte os
+           componentes já criados (exceto o componente Button), e se precisar peça ajuda.*/
         Text(
             buildAnnotatedString {
                 append("Olá, ")
@@ -62,7 +68,7 @@ fun Header(navController: NavController) {
                 .padding(end = 30.dp)
                 .weight(0.5f),
         )
-
+        //TODO: (Gelson) 4: adicionar toast para quando for clicado
         IconButton(onClick = { /*TODO*/ }, modifier = Modifier.padding(end = 13.dp)) {
             Icon(
                 painter = painterResource(id = R.drawable.menu),
@@ -72,6 +78,4 @@ fun Header(navController: NavController) {
             )
         }
     }
-
-
 }
