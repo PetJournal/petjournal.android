@@ -56,9 +56,9 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun forgotPassword(form: ForgotPasswordModel): ApiResponseCode {
-        if (!Util.statusInternet(context)) {
-            throw Error("Erro na conexão com a internet!")
-        }
+//        if (!Util.statusInternet(context)) {
+//            throw Error("Erro na conexão com a internet!")
+//        }
         val deferredResponse = service.forgotPassword(form).awaitResponse()
         return if (deferredResponse.isSuccessful) {
             ApiResponseCode(deferredResponse.code(), "Codigo enviado para o email de cadastro!")
