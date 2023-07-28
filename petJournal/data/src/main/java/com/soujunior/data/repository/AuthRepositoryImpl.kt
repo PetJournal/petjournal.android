@@ -12,6 +12,9 @@ import com.soujunior.domain.entities.auth.RegisterModel
 import com.soujunior.domain.repository.AuthRepository
 import retrofit2.awaitResponse
 
+//Todo: (Simão) este é um Repository mockado, criado somente para termos uma noção de como esta
+// funcionando e como deve funcionar o modulo data, não faz sentido neste momento realizar testes
+// unitários para ele devido aos métodos internos dele sairem posteriormente.
 class AuthRepositoryImpl(
     private val service: Service,
     private val context: Context
