@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 abstract class HomeScreenViewModel : ViewModel() {
     /*TODO: (Gelson) 13: Aqui, vamos fazer o seguinte, acredito que a gente já consiga ter uma noção
        de como é criado um esquema/modelo UML.
-       Tente imaginar como irá funcionar a tela por meio de um desenho esque mático feito por você.
+       Tente imaginar como irá funcionar a tela por meio de um desenho esquemático feito por você.
        Terão dois momentos em que a tela home será chamada posteriormente, mas no momento, vamos focar somente na tela de login:
        A partir do momento que o login for feito, o usuário ira receber uma chave jwt para autenticações futuras.
        Quando o usuário for redirecionado para a tela home, a tela irá realizar os seguintes processos pelo que consigo imaginar no momento:

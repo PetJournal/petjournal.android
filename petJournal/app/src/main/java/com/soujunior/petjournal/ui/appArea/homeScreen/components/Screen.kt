@@ -44,8 +44,6 @@ import com.soujunior.petjournal.ui.util.UserViewModel
 @ExperimentalPagerApi
 @Composable
 fun Screen(navController: NavController) {
-    //TODO: (Gelson) 1: Isso aqui não deve ocorrer como já mencionado, o controle dos modos dark e light devem ser feitos nos componentes que estão sendo reutilizados.
-    val darkTheme = isSystemInDarkTheme()
     Scaffold(
         bottomBar = { NavigationBar(navController) },
         content = {
@@ -60,13 +58,8 @@ fun Screen(navController: NavController) {
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Top,
                 ) {
-
                     item { Header(navController) }
-
                     item { Body(navController) }
-                    //TODO: (Gelson) 13: não entendi bem o Spacer aqui
-                    item { Spacer(modifier = Modifier.height(5.dp)) }
-
                 }
             }
         }

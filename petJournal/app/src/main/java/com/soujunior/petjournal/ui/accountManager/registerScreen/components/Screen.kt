@@ -127,7 +127,6 @@ fun Screen(viewModel: RegisterScreenViewModel) {
                     border = null,
                     submit = {
                         viewModel.onEvent(RegisterFormEvent.Submit)
-
                     },
                     enableButton = viewModel.enableButton(),
                     setSystemBarColor = true,

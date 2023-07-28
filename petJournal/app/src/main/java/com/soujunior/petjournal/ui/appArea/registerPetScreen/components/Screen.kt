@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.appArea.registerPetScreen.components
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -23,20 +24,20 @@ fun Screen(navController: NavController, userViewModel : UserViewModel) {
 
         bottomBar = { NavigationBar(navController) },
         content = {
-            Column(
+            LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top,
+                verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
                     //.clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
                     .padding(horizontal = 32.dp)
-                    .padding(top = 32.dp)
+                    .padding(top = 30.dp)
                     .background(MaterialTheme.colorScheme.background),
                 content = {
-                    Header()
-                    GridVectors()
-                    Button2(submit = { /*TODO*/ }, enableButton = true, text = "Continuar")
+                    item { Header()}
+                    item { GridVectors() }
+                    item { Button2(submit = { /*TODO*/ }, enableButton = true, text = "Continuar") }
                 })
         })
 }

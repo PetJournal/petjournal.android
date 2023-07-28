@@ -29,7 +29,6 @@ fun Carousel() {
         pageCount = natural.size,
         initialOffscreenLimit = 1
     )
-
     LaunchedEffect(pagerState) {
         while (true) {
             delay(2000)

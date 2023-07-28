@@ -20,14 +20,12 @@ fun Header() {
     LaunchedEffect(Unit) {
         userViewModel.loadUserData()
     }
-
     Text(
         text = "Ola $userName!",
         style = MaterialTheme.typography.titleSmall,
         textAlign = TextAlign.Center,
         color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onBackground  else MaterialTheme.colorScheme.primary
     )
-
     Spacer(modifier = Modifier.padding(12.dp))
 
     Text(

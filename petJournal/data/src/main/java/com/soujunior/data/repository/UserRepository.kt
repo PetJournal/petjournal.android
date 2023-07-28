@@ -7,8 +7,7 @@ data class UserData(
 )
 
 class UserRepository {
-
-    //todo: Configurar trazendo informação do nome do ussuario do backend. 
+    //todo: Configurar trazendo informação do nome do usuario do backend.
     fun getUserData(): UserData {
          return UserData("Gelson")
     }

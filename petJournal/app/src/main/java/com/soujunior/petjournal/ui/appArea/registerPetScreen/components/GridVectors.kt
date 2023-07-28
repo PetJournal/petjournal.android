@@ -1,19 +1,10 @@
 package com.soujunior.petjournal.ui.appArea.registerPetScreen.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -22,11 +13,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.components.ImageLogo
 import com.soujunior.petjournal.ui.theme.ColorGrid
 
 @Composable
 fun GridVectors() {
-    val darkTheme = isSystemInDarkTheme()
     val defaultSize = 13
     Row(
         modifier = Modifier.padding(vertical = 2.dp),
@@ -39,7 +30,7 @@ fun GridVectors() {
             bottomLeftRadius = defaultSize.dp,
             bottomRightRadius = defaultSize.dp,
             image = painterResource(id = R.drawable.dog),
-            material = if (darkTheme) Color(0xFF8093F1) else Color(0xFF8093F1),
+            material = MaterialTheme.colorScheme.secondaryContainer,
         )
         RoundedSquare(
             size = calcDefault(defaultSize, 8),
@@ -48,7 +39,7 @@ fun GridVectors() {
             bottomLeftRadius = defaultSize.dp,
             bottomRightRadius = defaultSize.dp,
             image = painterResource(id = R.drawable.cat),
-            material = if (darkTheme) Color(0xFF54C1E9) else Color(0xFF54C1E9),
+            material = MaterialTheme.colorScheme.inverseSurface,
         )
         RoundedSquare(
             size = calcDefault(defaultSize, 8),
@@ -57,7 +48,7 @@ fun GridVectors() {
             bottomLeftRadius = defaultSize.dp,
             bottomRightRadius = defaultSize.dp,
             image = painterResource(id = R.drawable.parrot),
-            material = if (darkTheme) Color(0xFF9A0963) else Color(0xFF9A0963),
+            material = MaterialTheme.colorScheme.onSecondaryContainer,
         )
 
     }
@@ -72,17 +63,9 @@ fun GridVectors() {
             bottomLeftRadius = defaultSize.dp,
             bottomRightRadius = defaultSize.dp,
             image = painterResource(id = R.drawable.penguim),
-            material = if (darkTheme) Color(0xFFFFB8EB) else Color(0xFFFFB8EB),
+            material = MaterialTheme.colorScheme.surfaceTint,
         )
-        RoundedSquare(
-            size = calcDefault(defaultSize, 8),
-            topLeftRadius = defaultSize.dp,
-            topRightRadius = defaultSize.dp,
-            bottomLeftRadius = defaultSize.dp,
-            bottomRightRadius = defaultSize.dp,
-            image = painterResource(id = R.drawable.logo_black),
-            material = if (darkTheme) Color(0xFFFFFFFF) else Color(0xFFFFFFFF),
-        )
+        ImageLogo(isBlack = true, modifier = Modifier.size(calcDefault(defaultSize, 8),))
         RoundedSquare(
             size = calcDefault(defaultSize, 8),
             topLeftRadius = defaultSize.dp,
@@ -90,7 +73,7 @@ fun GridVectors() {
             bottomLeftRadius = defaultSize.dp,
             bottomRightRadius = defaultSize.dp,
             image = painterResource(id = R.drawable.rat),
-            material = if (darkTheme) Color(0xFFFFB8EB) else Color(0xFFFFB8EB)
+            material = MaterialTheme.colorScheme.surfaceTint
         )
 
     }
@@ -105,7 +88,7 @@ fun GridVectors() {
             bottomLeftRadius = calcDefault(defaultSize, 4),
             bottomRightRadius = defaultSize.dp,
             image = painterResource(id = R.drawable.monkey),
-            material = if (darkTheme) Color(0xFF9A0963) else Color(0xFF9A0963),
+            material = MaterialTheme.colorScheme.onSecondaryContainer,
         )
         RoundedSquare(
             size = calcDefault(defaultSize, 8),
@@ -114,7 +97,7 @@ fun GridVectors() {
             bottomLeftRadius = defaultSize.dp,
             bottomRightRadius = defaultSize.dp,
             image = painterResource(id = R.drawable.shark),
-            material = if (darkTheme) Color(0xFF54C1E9) else Color(0xFF54C1E9),
+            material = MaterialTheme.colorScheme.inverseSurface,
         )
         RoundedSquare(
             size = calcDefault(defaultSize, 8),
@@ -123,7 +106,7 @@ fun GridVectors() {
             bottomLeftRadius = defaultSize.dp,
             bottomRightRadius = calcDefault(defaultSize, 4),
             image = painterResource(id = R.drawable.turtle),
-            material = if (darkTheme) Color(0xFF8093F1)  else Color(0xFF8093F1) ,
+            material = MaterialTheme.colorScheme.secondaryContainer ,
         )
 
     }

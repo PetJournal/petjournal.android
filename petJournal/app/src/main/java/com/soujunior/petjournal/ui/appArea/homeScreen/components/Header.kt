@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.appArea.homeScreen.components
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -33,10 +35,9 @@ import com.soujunior.petjournal.ui.util.UserViewModel
 
 @Composable
 fun Header(navController: NavController) {
+    val context = LocalContext.current
     val userViewModel: UserViewModel = viewModel()
     val userName = userViewModel.userName.value
-    //TODO: (Gelson) 2:
-    val darkTheme = isSystemInDarkTheme()
     LaunchedEffect(Unit) {
         userViewModel.loadUserData()
     }
@@ -45,11 +46,6 @@ fun Header(navController: NavController) {
         horizontalArrangement = Arrangement.Start,
         modifier = Modifier.padding(start = 20.dp, top = 40.dp)
     ) {
-        /*TODO: (Gelson) 3: Evitar de definir o modo de cor (dark & light) dentro do codigo. Isso
-           dificultará uma manutenção futura.
-           - Caso precise de algum componente que realize uma
-           determinada ação, tente criar um componente novo e em caso de dúvida, consulte os
-           componentes já criados (exceto o componente Button), e se precisar peça ajuda.*/
         Text(
             buildAnnotatedString {
                 append("Olá, ")
@@ -63,19 +59,24 @@ fun Header(navController: NavController) {
                 }
             },
             style = MaterialTheme.typography.bodyLarge,
-            color = if (darkTheme) MaterialTheme.colorScheme.primary else Color.Unspecified,
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .padding(end = 30.dp)
                 .weight(0.5f),
         )
-        //TODO: (Gelson) 4: adicionar toast para quando for clicado
-        IconButton(onClick = { /*TODO*/ }, modifier = Modifier.padding(end = 13.dp)) {
+
+        IconButton(
+            onClick = {
+            Toast.makeText(context, "Clicado", Toast.LENGTH_LONG).show()
+        }, modifier = Modifier.padding(end = 13.dp)) {
             Icon(
                 painter = painterResource(id = R.drawable.menu),
                 contentDescription = "Menu",
-                tint = if (darkTheme) MaterialTheme.colorScheme.primary else Color.Unspecified,
+                tint = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.size(35.dp)
             )
         }
     }
 }
+
+

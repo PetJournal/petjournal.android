@@ -20,7 +20,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun Body(navController: NavController){
-    //TODO: (Gelson) 5: .
     val darkTheme = isSystemInDarkTheme()
     Column() {
 
@@ -34,20 +33,16 @@ fun Body(navController: NavController){
                 text = "Serviços",
                 modifier = Modifier.weight(0.8f),
                 style = MaterialTheme.typography.bodyLarge,
-                //TODO: (Gelson) 6: .
-                color = if (darkTheme) MaterialTheme.colorScheme.primary else Color.Unspecified
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = "Ver mais",
                 modifier = Modifier.clickable { },
-                //TODO: (Gelson) 7: .
-                color = if (darkTheme) MaterialTheme.colorScheme.primary else Color.Unspecified,
+                color =MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyLarge
             )
         }
-
         Spacer(modifier = Modifier.padding(top = 10.dp))
-
         Box(modifier = Modifier.padding(start = 20.dp, end = 20.dp)) {
             Menu(navController)
         }
