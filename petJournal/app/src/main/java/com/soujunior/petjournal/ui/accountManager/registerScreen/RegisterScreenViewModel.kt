@@ -10,10 +10,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class RegisterScreenViewModel : ViewModel() {
-
-    private val _userName = mutableStateOf("")
-    val userName: State<String> = _userName
-
     abstract var state: RegisterFormState
     abstract val validationEventChannel: Channel<ValidationEvent>
     abstract val success: LiveData<String>
@@ -25,8 +21,4 @@ abstract class RegisterScreenViewModel : ViewModel() {
     abstract fun submitData()
     abstract fun onEvent(event: RegisterFormEvent)
     abstract fun enableButton():Boolean
-
-
-
-
 }
