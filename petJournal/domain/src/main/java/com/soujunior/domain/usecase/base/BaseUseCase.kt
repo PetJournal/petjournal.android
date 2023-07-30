@@ -1,7 +1,10 @@
 package com.soujunior.domain.usecase.base
 
-import android.util.Log
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.withContext
 
 abstract class BaseUseCase<in Params, out R> {
     private val superVisorJob = SupervisorJob()
@@ -19,5 +22,6 @@ abstract class BaseUseCase<in Params, out R> {
             }
         }
     }
+
     fun cancelWork() = scope.coroutineContext.cancelChildren()
 }

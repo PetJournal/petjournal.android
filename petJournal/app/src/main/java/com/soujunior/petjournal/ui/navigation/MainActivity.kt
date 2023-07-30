@@ -1,19 +1,21 @@
 package com.soujunior.petjournal.ui.navigation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import androidx.navigation.NavHostController
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,27 +23,34 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WindowCompat.setDecorFitsSystemWindows(window, true)
-            PetJournalTheme {
-                Presentation()
-            }
+            PetJournalTheme(
+                darkTheme = true,
+                content = {
+                    Presentation()
+                }
+            )
         }
     }
 }
 
 @Composable
 fun AccountManager() {
-    Scaffold(
-        backgroundColor = MaterialTheme.colors.background,
+    PetJournalTheme(
+        setSystemBarColor = true,
         content = {
-            Box(
-                modifier = Modifier
-                    .padding(it)
-                    .background(MaterialTheme.colors.background)
-            ) { NavHostAccountManager() }
-        }
+        Scaffold(
+            backgroundColor = MaterialTheme.colorScheme.background,
+            content = {
+                Box(
+                    modifier = Modifier
+                        .padding(it)
+                        .background(MaterialTheme.colorScheme.background)
+                ) { NavHostAccountManager() }
+            }
+        )
+    }
     )
 }
-
 
 @Composable
 fun MainContent() {
@@ -51,18 +60,18 @@ fun MainContent() {
                 title = {
                     Text(
                         text = "PetJournal",
-                        style = MaterialTheme.typography.h1
+                        style = MaterialTheme.typography.displayLarge
                     )
                 },
-                backgroundColor = MaterialTheme.colors.background
+                backgroundColor = MaterialTheme.colorScheme.background
             )
         },
-        backgroundColor = MaterialTheme.colors.background,
+        backgroundColor = MaterialTheme.colorScheme.background,
         content = {
             Box(
                 modifier = Modifier
                     .padding(it)
-                    .background(MaterialTheme.colors.background)
+                    .background(MaterialTheme.colorScheme.background)
             ) { NavHostMainContent() }
         }
     )

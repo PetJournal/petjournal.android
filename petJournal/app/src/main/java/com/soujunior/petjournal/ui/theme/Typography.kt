@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.theme
 
-import androidx.compose.material.Typography
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -14,67 +15,69 @@ val FredokaLight = Font(R.font.fredoka_light)
 val FredokaBold = Font(R.font.fredoka_bold)
 
 val Typography = Typography(
-    h1 = TextStyle(
+    displayLarge = TextStyle(
         fontFamily = FontFamily(FredokaSemiBold),
         fontSize = 30.sp,
         letterSpacing = 1.5.sp
     ),
-    h2 = TextStyle(
+    displayMedium = TextStyle(
         fontFamily = FontFamily(FredokaSemiBold),
         fontSize = 25.sp,
         letterSpacing = 0.5.sp
     ),
-    h3 = TextStyle(
+    displaySmall = TextStyle(
         fontFamily = FontFamily(FredokaSemiBold),
         fontSize = 20.sp,
         letterSpacing = 0.sp
     ),
-    h4 = TextStyle(
+    headlineLarge = TextStyle(
         fontFamily = FontFamily(FredokaMedium),
         fontSize = 15.sp,
         letterSpacing = 0.25.sp
     ),
-    h5 = TextStyle(
+    headlineMedium = TextStyle(
         fontFamily = FontFamily(FredokaMedium),
         fontSize = 10.sp,
         letterSpacing = 0.sp
     ),
-    h6 = TextStyle(
+    headlineSmall = TextStyle(
         fontFamily = FontFamily(FredokaMedium),
         fontSize = 5.sp,
         letterSpacing = 0.15.sp
     ),
-    subtitle1 = TextStyle(
+
+    titleLarge = TextStyle(
         fontFamily = FontFamily(FredokaRegular),
         fontSize = 16.sp,
         letterSpacing = 0.15.sp
     ),
-    subtitle2 = TextStyle(
+    titleMedium = TextStyle(
         fontFamily = FontFamily(FredokaMedium),
         fontSize = 14.sp,
         letterSpacing = 0.1.sp
     ),
-    body1 = TextStyle(
+
+    bodyLarge = TextStyle(
         fontFamily = FontFamily(FredokaRegular),
         fontSize = 16.sp,
         letterSpacing = 0.5.sp
     ),
-    body2 = TextStyle(
+    bodyMedium = TextStyle(
         fontFamily = FontFamily(FredokaRegular),
         fontSize = 14.sp,
         letterSpacing = 0.25.sp
     ),
-    button = TextStyle(
+    titleSmall  = TextStyle(
         fontFamily = FontFamily(FredokaBold),
         fontSize = 18.sp,
         letterSpacing = 1.25.sp
     ),
-    caption = TextStyle(
+    labelLarge = TextStyle(
         fontFamily = FontFamily(FredokaLight),
         fontSize = 12.sp,
         letterSpacing = 0.4.sp
     ),
-    overline = TextStyle(
+    labelSmall = TextStyle(
         fontFamily = FontFamily(FredokaSemiBold),
         fontSize = 10.sp,
         letterSpacing = 1.5.sp
