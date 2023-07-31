@@ -58,6 +58,7 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
             item {
                 InputText(
                     textTop = "Senha",
+                    isPassword = true,
                     textHint = "Digite sua senha",
                     textValue = viewModel.state.password,
                     textError = viewModel.state.passwordError,

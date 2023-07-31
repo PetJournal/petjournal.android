@@ -11,21 +11,24 @@ import com.soujunior.domain.usecase.auth.RegisterUseCase
 import com.soujunior.domain.usecase.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class RegisterScreenViewModelImpl(
+class RegisterViewModelImpl(
     private val registerUseCase: RegisterUseCase,
     private val validation: ValidationRepository
-) : RegisterScreenViewModel() {
+) : RegisterViewModel() {
     override var state by mutableStateOf(RegisterFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
-    override val success = MutableLiveData<String>()
-    override val error = MutableLiveData<String>()
+
+    override val message: StateFlow<String> get() = setMessage
+    private val setMessage = MutableStateFlow("")
 
     override fun success(resultPostRegister: String) {
-        this.success.value = resultPostRegister
+        this.setMessage.value = resultPostRegister
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
@@ -33,11 +36,11 @@ class RegisterScreenViewModelImpl(
 
     override fun failed(exception: Throwable?) {
         if (exception is Error) {
+            setMessage.value = exception.message.toString()
             viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.error.value = exception.message
         } else {
             viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.error.value = "lançar um erro aqui"
+            this.setMessage.value = "lançar um erro aqui"
         }
     }
 
@@ -55,27 +58,27 @@ class RegisterScreenViewModelImpl(
             validation.validateRepeatedPassword(state.password, state.repeatedPassword)
 
         return state.name.isNotBlank() &&
-               state.lastName.isNotBlank() &&
-               state.email.isNotBlank() &&
-               state.password.isNotBlank() &&
-               state.repeatedPassword.isNotBlank() &&
-               nameResult.errorMessage == null &&
-               lastNameResult.errorMessage == null &&
-               emailResult.errorMessage == null &&
-               phoneResult.errorMessage == null &&
-               passwordResult.errorMessage == null &&
-               repeatedPasswordResult.errorMessage == null &&
-               state.privacyPolicy
+                state.lastName.isNotBlank() &&
+                state.email.isNotBlank() &&
+                state.password.isNotBlank() &&
+                state.repeatedPassword.isNotBlank() &&
+                nameResult.errorMessage == null &&
+                lastNameResult.errorMessage == null &&
+                emailResult.errorMessage == null &&
+                phoneResult.errorMessage == null &&
+                passwordResult.errorMessage == null &&
+                repeatedPasswordResult.errorMessage == null &&
+                state.privacyPolicy
     }
 
-    private fun change(
-        name: String? = null,
-        lastName: String? = null,
-        email: String? = null,
-        phone: String? = null,
-        password: String? = null,
-        repeatedPassword: String? = null,
-        privacy: Boolean? = null
+    override fun change(
+        name: String?,
+        lastName: String?,
+        email: String?,
+        phone: String?,
+        password: String?,
+        repeatedPassword: String?,
+        privacy: Boolean?
     ) {
         when {
             name != null -> {

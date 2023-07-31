@@ -20,7 +20,6 @@ class LoginUseCaseTest {
 
     private val repository = mockk<AuthRepository>(relaxed = true)
 
-
     @Test
     fun `failure Server Error in user login code 100`() = runBlocking {
         coEvery { repository.login(formLogin) } returns ApiResponseCode(
