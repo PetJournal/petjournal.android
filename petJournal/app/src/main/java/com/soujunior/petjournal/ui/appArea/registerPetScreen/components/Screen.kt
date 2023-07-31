@@ -31,8 +31,7 @@ fun Screen(navController: NavController, userViewModel : UserViewModel) {
                     .fillMaxWidth()
                     .fillMaxHeight()
                     //.clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                    .padding(horizontal = 32.dp)
-                    .padding(top = 30.dp)
+                    .padding(horizontal = 10.dp)
                     .background(MaterialTheme.colorScheme.background),
                 content = {
                     item { Header()}

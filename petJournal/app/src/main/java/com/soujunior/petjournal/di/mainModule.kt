@@ -1,7 +1,7 @@
 package com.soujunior.petjournal.di
 
-import com.gelson.mydailycontrol.ui.homeScreen.HomeScreenViewModel
-import com.gelson.mydailycontrol.ui.homeScreen.HomeScreenViewModelImpl
+import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
+import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.data.api.Service
 import com.soujunior.data.model.MockService
 import com.soujunior.data.repository.AuthRepositoryImpl
