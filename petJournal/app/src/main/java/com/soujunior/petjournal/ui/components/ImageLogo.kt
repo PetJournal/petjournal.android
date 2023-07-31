@@ -13,7 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 
-/*
+
 @Composable
 fun ImageLogo(
     modifier: Modifier = Modifier
@@ -33,24 +33,6 @@ fun ImageLogo(
         contentDescription = "Imagem logo",
         modifier = modifier
     )
-}*/
-
-
-@Composable
-fun ImageLogo(
-    modifier: Modifier = Modifier
-        .fillMaxSize()
-        .aspectRatio(1f)
-        .padding(top = 20.dp),
-    darkMode: Boolean = isSystemInDarkTheme()
-) {
-    val imageLight = painterResource(id = R.drawable.logo_purple)
-    val imageDark = painterResource(id = R.drawable.logo_pink)
-    val image = if (darkMode) imageDark else imageLight
-
-    Image(
-        painter = image,
-        contentDescription = "Imagem logo",
-        modifier = modifier
-    )
 }
+
+

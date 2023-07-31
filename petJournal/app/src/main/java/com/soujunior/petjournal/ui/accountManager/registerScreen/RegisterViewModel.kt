@@ -26,6 +26,7 @@ abstract class RegisterViewModel : ViewModel() {
         email: String? = null,
         phone: String? = null,
         password: String? = null,
+        repeatedPassword: String? = null,
         privacy: Boolean? = null
     )
 
