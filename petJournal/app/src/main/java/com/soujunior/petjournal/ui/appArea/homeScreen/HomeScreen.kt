@@ -1,65 +1,42 @@
 package com.soujunior.petjournal.ui.appArea.homeScreen
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import android.view.Window
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.window.DialogWindowProvider
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
-import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreenViewModel
-import org.koin.androidx.compose.getViewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.soujunior.petjournal.ui.appArea.homeScreen.components.Screen
 
-
+@ExperimentalPagerApi
 @Composable
 fun HomeScreen(navController: NavController) {
-    val HomeScreenViewModel: DetailScreenViewModel = getViewModel()
-    /**Conteúdo para tela principal*/
-    Column(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        Row {
-            Image(
-                painter = painterResource(R.drawable.logo_lilac),
-                contentDescription = "Contact profile picture",
-                modifier = Modifier
-                    .size(150.dp)
-                    .clip(CircleShape)
-                    .border(
-                        2.0.dp,
-                        MaterialTheme.colors.secondary,
-                        CircleShape
-                    )
-                    .clickable {
-                        navController.navigate("register")
-                    }
-            )
 
-        }
-        Row {
-            Image(
-                painter = painterResource(R.drawable.logo_blue),
-                contentDescription = "Contact profile picture",
-                modifier = Modifier
-                    .size(150.dp)
-                    .clip(CircleShape)
-                    .border(
-                        2.0.dp,
-                        MaterialTheme.colors.secondary,
-                        CircleShape
-                    )
-                    .clickable {
-                        navController.navigate("login")
-                    }
-            )
-
-        }
-
+    val window = (LocalView.current.parent as? DialogWindowProvider)?.window
+        ?: LocalView.current.context.findWindow()
+    if (window != null) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars())
     }
+
+    Screen(navController)
+
 }
+
+private tailrec fun Context.findWindow(): Window? =
+    when (this) {
+        is Activity -> window
+        is ContextWrapper -> baseContext.findWindow()
+        else -> null
+    }
+
+

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
@@ -18,11 +19,14 @@ fun ImageLogo(
     modifier: Modifier = Modifier
         .size(width = 150.dp, height = 150.dp)
         .padding(top = 20.dp),
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = isSystemInDarkTheme(),
+    isBlack : Boolean = false
 ) {
-    val imageLight = painterResource(id = R.drawable.logo_purple)
-    val imageDark = painterResource(id = R.drawable.logo_pink)
-    val image = if (darkMode) imageDark else imageLight
+    val image : Painter = if(!isBlack) {
+        val imageLight = painterResource(id = R.drawable.logo_purple)
+        val imageDark = painterResource(id = R.drawable.logo_pink)
+        if (darkMode) imageDark else imageLight
+    }else if (darkMode) painterResource(id = R.drawable.logo_white) else painterResource(id = R.drawable.logo_black)
 
     Image(
         painter = image,
