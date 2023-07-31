@@ -47,14 +47,12 @@ fun Footer(
                 border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
                 submit = { navController.navigate("login") },
                 enableButton = true,
-                modifier = Modifier.size(height = 50.dp, width = 240.dp),
+                modifier = Modifier.size(height = 50.dp, width = 240.dp).padding(bottom = 50.dp),
                 buttonColor = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.surface
                 ),
-                textColor = MaterialTheme.colorScheme.primary
-            )
-
+                textColor = MaterialTheme.colorScheme.primary,
+                )
         }
-
     }
 }

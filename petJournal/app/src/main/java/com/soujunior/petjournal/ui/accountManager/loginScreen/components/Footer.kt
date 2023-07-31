@@ -52,7 +52,8 @@ fun Footer(
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .clickable(onClick = { navController.navigate("register") })
-                    .align(CenterVertically),
+                    .align(CenterVertically).
+                padding(bottom = 50.dp),
                 color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
             )
         }

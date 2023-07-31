@@ -17,12 +17,20 @@ fun LoginScreen(navController: NavController) {
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
-                    Toast.makeText(context, "Login bem sucedido", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context,
+                        "Login bem sucedido > ${viewModel.message.value}",
+                        Toast.LENGTH_LONG
+                    ).show()
                     navController.navigate("mainContent")
                 }
 
                 is ValidationEvent.Failed -> {
-                    Toast.makeText(context, "Registro mal sucedido", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context,
+                        "falha no login! > ${viewModel.message.value}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }

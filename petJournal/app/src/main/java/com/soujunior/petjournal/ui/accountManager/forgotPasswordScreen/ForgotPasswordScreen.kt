@@ -28,7 +28,3 @@ fun ForgotPasswordScreen(navController: NavController) {
     }
     Screen(navController, viewModel)
 }
-
-
-
-
