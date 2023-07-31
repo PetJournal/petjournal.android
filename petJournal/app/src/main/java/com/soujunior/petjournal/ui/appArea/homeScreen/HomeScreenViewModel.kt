@@ -1,4 +1,4 @@
-package com.gelson.mydailycontrol.ui.homeScreen
+package com.soujunior.petjournal.ui.appArea.homeScreen
 
 import androidx.lifecycle.ViewModel
 

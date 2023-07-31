@@ -24,7 +24,7 @@ fun Header() {
         text = "Ola $userName!",
         style = MaterialTheme.typography.titleSmall,
         textAlign = TextAlign.Center,
-        color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onBackground  else MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.primary
     )
     Spacer(modifier = Modifier.padding(12.dp))
 
@@ -32,9 +32,9 @@ fun Header() {
         text = "Sabemos o quanto o seu pet é especial, e estamos muito animados em recebê-los, venha se juntar a nossa comunidade de amantes de Pets, para melhor aproveitar a nossa plataforma.",
         style = MaterialTheme.typography.titleLarge,
         textAlign = TextAlign.Center,
-        color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.primary
     )
-    Spacer(modifier = Modifier.padding(top = 32.dp))
 
+    Spacer(modifier = Modifier.padding(bottom = 20.dp))
 
 }

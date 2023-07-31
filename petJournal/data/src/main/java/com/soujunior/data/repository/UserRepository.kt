@@ -1,6 +1,5 @@
 package com.soujunior.data.repository
 
-import kotlinx.coroutines.delay
 
 data class UserData(
     val userName : String
@@ -11,4 +10,5 @@ class UserRepository {
     fun getUserData(): UserData {
          return UserData("Gelson")
     }
+
 }
