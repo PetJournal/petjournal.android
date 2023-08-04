@@ -11,12 +11,13 @@ val formLogin  = LoginModel (
 )
 
 val formRegister  = RegisterModel (
-    name = "fulano",
+    firstName = "fulano",
     lastName = "silva",
-    phoneNumber = "12345678987",
+    phone = "12345678987",
     email = "fulano@email.com",
     password = "88@#GGas",
-    privacyPolicy = true
+    passwordConfirmation = "88@#GGas",
+    isPrivacyPolicyAccepted = true
 )
 
 val formForgot  = ForgotPasswordModel (

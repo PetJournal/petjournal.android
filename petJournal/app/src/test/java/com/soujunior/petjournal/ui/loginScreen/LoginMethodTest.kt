@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.loginScreen
 
+import com.soujunior.data.repository.AuthRepository2Impl
 import com.soujunior.domain.entities.auth.LoginModel
 import com.soujunior.domain.usecase.auth.LoginUseCase
 import com.soujunior.domain.usecase.auth.util.ValidationRepositoryImpl
@@ -23,7 +24,11 @@ import org.junit.Test
 class LoginViewModelImplTest {
     private val loginUseCase = mockk<LoginUseCase>(relaxed = true)
     private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
-    private val viewModel = LoginViewModelImpl(loginUseCase = loginUseCase, validation = validation)
+    private val viewModel = LoginViewModelImpl(
+        loginUseCase = loginUseCase,
+        validation = validation,
+        mockk<AuthRepository2Impl>(relaxed = true)
+    )
 
     @Before
     fun setup() { Dispatchers.setMain(Dispatchers.Unconfined) }

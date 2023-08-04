@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.viewModelScope
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
+import com.soujunior.data.repository.AuthRepository2Impl
 import com.soujunior.domain.usecase.auth.RegisterUseCase
 import com.soujunior.domain.usecase.auth.util.ValidationRepositoryImpl
 import com.soujunior.domain.usecase.auth.util.ValidationResult
@@ -34,7 +35,7 @@ class RegisterMethodTest {
     @Before
     fun setup() {
         Dispatchers.setMain(Dispatchers.Unconfined)
-        viewModel = RegisterViewModelImpl(registerUseCase, validation)
+        viewModel = RegisterViewModelImpl(registerUseCase, validation, mockk<AuthRepository2Impl>())
     }
 
     @After
