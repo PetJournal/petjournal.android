@@ -1,9 +1,12 @@
 package com.soujunior.petjournal.di
 
+import com.soujunior.data.api.AuthService
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.data.api.Service
+import com.soujunior.data.api.adapters.internal.NetworkResultCallAdapterFactory
 import com.soujunior.data.model.MockService
+import com.soujunior.data.repository.AuthRepository2Impl
 import com.soujunior.data.repository.AuthRepositoryImpl
 import com.soujunior.domain.repository.AuthRepository
 import com.soujunior.domain.repository.ValidationRepository
@@ -56,11 +59,24 @@ val mainModule = module {
     //single<Service> { get<Retrofit>().create(Service::class.java) } //TODO:<- desativado para usar mock
     single<Service> { MockService() } //todo <- mock
 
+
+    // Temporário para testes com api local
+    single<AuthService> {
+        Retrofit.Builder()
+            .baseUrl("http://localhost:3333/api/")
+            .addConverterFactory(MoshiConverterFactory.create(get()))
+            .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
+            .build().create(AuthService::class.java)
+    }
+
+    // Temporário para testes com api local
+    factory<AuthRepository2Impl> { AuthRepository2Impl(get()) }
+
     viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl() }
     viewModel<DetailScreenViewModel> { DetailScreenViewModelImpl() }
     viewModel<RegisterPetViewModel> { RegisterPetViewModelImpl() }
-    viewModel<LoginViewModel> { LoginViewModelImpl(get(), get()) }
-    viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get()) }
+    viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get()) } // Tirar o AutoRepository2 após os testes
+    viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get(), get()) } // Tirar o AutoRepository2 após os testes
     viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get()) }
     viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModelImpl(get(), get()) }
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
