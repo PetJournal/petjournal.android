@@ -1,10 +1,11 @@
 package com.soujunior.domain.entities.auth
 
 data class RegisterModel(
-    val name: String,
-    val lastName: String,
-    val phoneNumber: String,
     val email: String,
+    val firstName: String,
+    val isPrivacyPolicyAccepted: Boolean,
+    val lastName: String,
     val password: String,
-    val privacyPolicy : Boolean
+    val passwordConfirmation: String,
+    val phone: String
 )
