@@ -16,13 +16,13 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class ChangePasswordViewModelImpl(
-    private val changePassword: ChangePasswordUseCase,
+    val changePassword: ChangePasswordUseCase,
     private val validation: ValidationRepository
 ) : ChangePasswordViewModel() {
     override var state by mutableStateOf(ChangePasswordFormState())
-    override val validationEventChannel = Channel<ValidationEvent>()
+    override var validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
-    override val success = MutableLiveData<String>()
+    override var success = MutableLiveData<String>()
     override val error = MutableLiveData<String>()
 
 
@@ -60,7 +60,7 @@ class ChangePasswordViewModelImpl(
         return listOf(result).any { !it.success }
     }
 
-    private fun change(
+    fun change(
         password: String? = null,
         repeatedPassword: String? = null,
         disconnect: Boolean? = null

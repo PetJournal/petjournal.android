@@ -2,7 +2,6 @@ package com.soujunior.petjournal.ui.accountManager.changePasswordScreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.soujunior.domain.entities.auth.PasswordModel
 import com.soujunior.petjournal.ui.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
