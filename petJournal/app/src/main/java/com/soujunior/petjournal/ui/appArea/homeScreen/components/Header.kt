@@ -61,7 +61,7 @@ fun Header(navController: NavController) {
         IconButton(
             onClick = {
                 Toast.makeText(context, "Clicado", Toast.LENGTH_LONG).show()
-            }, modifier = Modifier.padding(end = 13.dp)
+            }, modifier = Modifier.padding(end = 13.dp , bottom = 5.dp)
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.menu),

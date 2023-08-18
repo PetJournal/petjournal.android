@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.soujunior.data.repository.UserRepository
+import com.soujunior.domain.repository.UserRepository
 import kotlinx.coroutines.launch
 
 class UserViewModel : ViewModel() {
@@ -15,7 +15,7 @@ class UserViewModel : ViewModel() {
     fun loadUserData() {
         viewModelScope.launch {
             val userData = userRepository.getUserData()
-            _userName.value = userData.userName
+            _userName.value = userData.name
         }
     }
 }

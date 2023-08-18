@@ -15,7 +15,6 @@ import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreen
 import com.soujunior.petjournal.ui.appArea.homeScreen.RegisterPetScreen
 import com.soujunior.petjournal.ui.appArea.tutorScreen.TutorScreen
 import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashScreen
-import com.soujunior.petjournal.ui.util.UserViewModel
 
 
 @Composable

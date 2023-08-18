@@ -158,6 +158,10 @@ class ValidationRepositoryImpl : ValidationRepository {
         }
     }
 
+    override fun validateUserName(name: String): ValidationResult {
+        TODO("Not yet implemented")
+    }
+
     private fun isCodeValidLenght(input: String): Boolean {
         return if (input.isNotBlank()) {
             input.length == 6 && input.isNotEmpty()

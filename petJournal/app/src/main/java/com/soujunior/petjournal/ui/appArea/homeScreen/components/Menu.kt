@@ -39,7 +39,7 @@ fun Menu(navController: NavController) {
                 modifier = Modifier.size(imageSize)
             )
         }
-        Spacer(modifier = Modifier.padding(top = 10.dp))
+        Spacer(modifier = Modifier.padding(top = 15.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),

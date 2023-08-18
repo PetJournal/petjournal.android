@@ -6,6 +6,7 @@ import com.soujunior.domain.entities.auth.ForgotPasswordModel
 import com.soujunior.domain.entities.auth.LoginModel
 import com.soujunior.domain.entities.auth.PasswordModel
 import com.soujunior.domain.entities.auth.RegisterModel
+import com.soujunior.domain.entities.auth.UserModel
 
 interface AuthRepository {
     suspend fun register(form : RegisterModel) : ApiResponseCode
@@ -13,4 +14,5 @@ interface AuthRepository {
     suspend fun awaitingCode (form: AwaitingCodeModel) : ApiResponseCode
     suspend fun forgotPassword (form: ForgotPasswordModel) : ApiResponseCode
     suspend fun changePassword (password: PasswordModel) : ApiResponseCode
+    suspend fun home (name: UserModel) : ApiResponseCode
 }

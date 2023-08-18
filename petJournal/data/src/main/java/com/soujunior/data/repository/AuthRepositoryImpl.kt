@@ -9,6 +9,7 @@ import com.soujunior.domain.entities.auth.ForgotPasswordModel
 import com.soujunior.domain.entities.auth.LoginModel
 import com.soujunior.domain.entities.auth.PasswordModel
 import com.soujunior.domain.entities.auth.RegisterModel
+import com.soujunior.domain.entities.auth.UserModel
 import com.soujunior.domain.repository.AuthRepository
 import retrofit2.awaitResponse
 
@@ -80,4 +81,25 @@ class AuthRepositoryImpl(
             ApiResponseCode(deferredResponse.code(), errorMessage)
         }
     }
+
+
+
+    override suspend fun home(name : UserModel): ApiResponseCode {
+        if (!Util.statusInternet(context)) {
+            throw Error("Erro na conexão com a internet!")
+        }
+        val deferredResponse = service.getUserName(name).awaitResponse()
+        return if (deferredResponse.isSuccessful) {
+            ApiResponseCode(deferredResponse.code(), "Olá $name")
+        } else {
+            val errorMessage = deferredResponse.errorBody()?.string() ?: "Erro desconhecido"
+            ApiResponseCode(deferredResponse.code(), errorMessage)
+        }
+    }
+
+
+
+
+
 }
+

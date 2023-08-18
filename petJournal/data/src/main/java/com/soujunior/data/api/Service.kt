@@ -7,6 +7,7 @@ import com.soujunior.domain.entities.auth.ForgotPasswordModel
 import com.soujunior.domain.entities.auth.LoginModel
 import com.soujunior.domain.entities.auth.PasswordModel
 import com.soujunior.domain.entities.auth.RegisterModel
+import com.soujunior.domain.entities.auth.UserModel
 import retrofit2.http.*
 
 interface Service {
@@ -24,4 +25,7 @@ interface Service {
 
     @POST("api/changePassword")
     fun changePassword(@Body password : PasswordModel) : Call<ApiResponseCode>
+
+    @GET ("api/user")
+    fun getUserName(@Body name : UserModel) : Call<ApiResponseCode>
 }

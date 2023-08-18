@@ -12,8 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.soujunior.petjournal.ui.components.NavigationBar
+import org.koin.androidx.compose.get
 
 @ExperimentalPagerApi
+
 @Composable
 fun Screen(navController: NavController) {
     Scaffold(
@@ -32,7 +34,7 @@ fun Screen(navController: NavController) {
                     verticalArrangement = Arrangement.Top,
                 ) {
                     item { Header(navController) }
-                    item { Body(navController) }
+                    item { Body(navController, get()) }
                 }
             }
         }

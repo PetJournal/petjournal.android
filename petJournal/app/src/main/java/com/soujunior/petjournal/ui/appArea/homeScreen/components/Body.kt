@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -13,13 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Body(navController: NavController) {
+fun Body(navController: NavController, viewModel: HomeScreenViewModel) {
+    val carouselImages = viewModel.carouselImages
+
     Column() {
 
-        Carousel()
+        Carousel(imageIds = carouselImages)
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
