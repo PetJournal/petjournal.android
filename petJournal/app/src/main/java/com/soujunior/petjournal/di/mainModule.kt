@@ -1,21 +1,18 @@
 package com.soujunior.petjournal.di
 
-import com.soujunior.data.api.AuthService
+import com.soujunior.data.remote.AuthService
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModelImpl
-import com.soujunior.data.api.Service
-import com.soujunior.data.api.adapters.internal.NetworkResultCallAdapterFactory
-import com.soujunior.data.model.MockService
-import com.soujunior.data.repository.AuthRepository2Impl
+import com.soujunior.data.remote.adapters.internal.NetworkResultCallAdapterFactory
 import com.soujunior.data.repository.AuthRepositoryImpl
-import com.soujunior.domain.repository.AuthRepository
+import com.soujunior.data.repository.AuthRepository
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.usecase.auth.AwaitingCodeUseCase
-import com.soujunior.domain.usecase.auth.ChangePasswordUseCase
-import com.soujunior.domain.usecase.auth.ForgotPasswordUseCase
-import com.soujunior.domain.usecase.auth.LoginUseCase
-import com.soujunior.domain.usecase.auth.RegisterUseCase
-import com.soujunior.domain.usecase.auth.util.ValidationRepositoryImpl
+import com.soujunior.domain.use_case.auth.ChangePasswordUseCase
+import com.soujunior.domain.use_case.auth.ForgotPasswordUseCase
+import com.soujunior.domain.use_case.auth.LoginUseCase
+import com.soujunior.domain.use_case.auth.SignUpUseCase
+import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
+import com.soujunior.domain.use_case.auth.util.ValidationRepositoryImpl
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModel
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModelImpl
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordViewModel
@@ -38,45 +35,40 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 val mainModule = module {
+
+    // Repositories
     single<ValidationRepository> { ValidationRepositoryImpl() }
-    factory { RegisterUseCase(get()) }
+    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
+
+    // UseCases
+    factory { SignUpUseCase(get()) }
     factory { LoginUseCase(get()) }
     factory { ForgotPasswordUseCase(get()) }
     factory { AwaitingCodeUseCase(get()) }
     factory { ChangePasswordUseCase(get()) }
-    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
+
+    // Moshi Converter
     single {
         Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
     }
-    single {
-        Retrofit.Builder()
-            .baseUrl("https://api.com/")
-            .addConverterFactory(MoshiConverterFactory.create(get()))
-            .build()
-    }
-    //single<Service> { get<Retrofit>().create(Service::class.java) } //TODO:<- desativado para usar mock
-    single<Service> { MockService() } //todo <- mock
 
-
-    // Temporário para testes com api local
+    // Retrofit Service
     single<AuthService> {
         Retrofit.Builder()
-            .baseUrl("http://localhost:3333/api/")
+            .baseUrl("https://petjournal-api.onrender.com/")
             .addConverterFactory(MoshiConverterFactory.create(get()))
             .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
             .build().create(AuthService::class.java)
     }
 
-    // Temporário para testes com api local
-    factory<AuthRepository2Impl> { AuthRepository2Impl(get()) }
-
+    // ViewModels
     viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl() }
     viewModel<DetailScreenViewModel> { DetailScreenViewModelImpl() }
     viewModel<RegisterPetViewModel> { RegisterPetViewModelImpl() }
-    viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get()) } // Tirar o AutoRepository2 após os testes
-    viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get(), get()) } // Tirar o AutoRepository2 após os testes
+    viewModel<LoginViewModel> { LoginViewModelImpl(get(), get()) }
+    viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get()) }
     viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get()) }
     viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModelImpl(get(), get()) }
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
