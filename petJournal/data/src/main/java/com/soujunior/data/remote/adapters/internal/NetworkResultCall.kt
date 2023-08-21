@@ -1,6 +1,7 @@
-package com.soujunior.data.api.adapters.internal
+package com.soujunior.data.remote.adapters.internal
 
-import com.soujunior.data.model.NetworkResult
+import com.soujunior.data.util.network.ErrorBody
+import com.soujunior.data.util.network.NetworkResult
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.Call
@@ -19,7 +20,8 @@ class NetworkResultCall<T : Any>(
                 val networkResult = if (response.isSuccessful && body != null) {
                     NetworkResult.Success(body)
                 } else {
-                    NetworkResult.Error(code = response.code(), message = response.message())
+                    val code = response.code()
+                    NetworkResult.Error(code, body as? ErrorBody)
                 }
 
                 callback.onResponse(this@NetworkResultCall, Response.success(networkResult))

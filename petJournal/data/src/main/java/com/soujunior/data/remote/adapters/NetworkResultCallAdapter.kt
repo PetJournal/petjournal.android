@@ -1,7 +1,7 @@
-package com.soujunior.data.api.adapters
+package com.soujunior.data.remote.adapters
 
-import com.soujunior.data.api.adapters.internal.NetworkResultCall
-import com.soujunior.data.model.NetworkResult
+import com.soujunior.data.remote.adapters.internal.NetworkResultCall
+import com.soujunior.data.util.network.NetworkResult
 import retrofit2.Call
 import retrofit2.CallAdapter
 import java.lang.reflect.Type
