@@ -3,11 +3,8 @@ package com.soujunior.petjournal.ui.accountManager.changePasswordScreen
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.navigation.NavController
-import com.soujunior.domain.entities.auth.PasswordModel
 import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.components.Screen
 import org.koin.androidx.compose.getViewModel
