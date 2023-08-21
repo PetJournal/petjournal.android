@@ -15,6 +15,8 @@ import com.soujunior.petjournal.ui.components.NavigationBar
 import org.koin.androidx.compose.get
 
 /*todo: 05 (gelson) Já temos um scaffold para as telas da area App, a nossa fica na MainActivity, linha 53. Remova a implementação de lá.
+*/
+/*todo: 08 (gelson) em alguns modelos como moto g 60 os itens não ficam exatamente centralizados na tela
 *  */
 
 
