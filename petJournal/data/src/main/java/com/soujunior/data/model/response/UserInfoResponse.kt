@@ -1,7 +1,7 @@
 package com.soujunior.data.model.response
 
-data class SignUpResponse(
-    val id: Int,
+data class UserInfoResponse(
+    val id: String,
     val firstName: String,
     val lastName: String,
     val email: String,
