@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen
+package com.soujunior.petjournal.ui.awaitingCodeScreen
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
@@ -6,9 +6,13 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.usecase.auth.AwaitingCodeUseCase
-import com.soujunior.domain.usecase.auth.util.ValidationRepositoryImpl
+import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
+import com.soujunior.domain.use_case.auth.util.ValidationRepositoryImpl
 import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeFormEvent
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeFormState
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModel
+import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModelImpl
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers

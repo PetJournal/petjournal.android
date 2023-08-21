@@ -2,9 +2,9 @@ package com.soujunior.petjournal.ui.forgotPassword
 
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
-import com.soujunior.domain.usecase.auth.ForgotPasswordUseCase
-import com.soujunior.domain.usecase.auth.util.ValidationRepositoryImpl
-import com.soujunior.domain.usecase.auth.util.ValidationResult
+import com.soujunior.domain.use_case.auth.ForgotPasswordUseCase
+import com.soujunior.domain.use_case.auth.util.ValidationRepositoryImpl
+import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordFormEvent
 import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordFormState
 import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordViewModelImpl
