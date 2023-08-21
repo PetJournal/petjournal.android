@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -16,6 +15,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
 
+//todo: 03 (gelson) não esquecer de conseguir uma solução para as anotações experimentais.
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun Body(navController: NavController, viewModel: HomeScreenViewModel) {

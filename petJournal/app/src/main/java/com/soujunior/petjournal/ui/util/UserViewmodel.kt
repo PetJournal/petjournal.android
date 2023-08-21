@@ -11,7 +11,7 @@ class UserViewModel : ViewModel() {
     private val userRepository = UserRepository()
     private val _userName = mutableStateOf("")
     val userName: State<String> = _userName
-
+    //todo: 06 (gelson) remover quando não for mais necessário!
     fun loadUserData() {
         viewModelScope.launch {
             val userData = userRepository.getUserData()

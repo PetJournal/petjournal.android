@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.ui.util.GetScreenInch
 
+//todo: 04 (gelson) não esquece de usar o "modifier" do argumento para deixar o componente mais independente, mas como um todo ta ótima a implementação.
 @Composable
 fun CardButton(
     modifier: Modifier = Modifier,
@@ -23,9 +24,9 @@ fun CardButton(
 ) {
     val diagonal = GetScreenInch()
     val isLargeScreen = diagonal > 5.6
-    val isSmallScreen = diagonal< 5.3
-    val height : Int
-    val width : Int
+    val isSmallScreen = diagonal < 5.3
+    val height: Int
+    val width: Int
 
     if (isLargeScreen) {
         height = 175

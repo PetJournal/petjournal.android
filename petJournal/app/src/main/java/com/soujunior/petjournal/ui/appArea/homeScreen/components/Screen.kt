@@ -14,8 +14,15 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.soujunior.petjournal.ui.components.NavigationBar
 import org.koin.androidx.compose.get
 
-@ExperimentalPagerApi
+/*todo: 05 (gelson) Já temos um scaffold para as telas da area App, a nossa fica na MainActivity, linha 53. Remova a implementação de lá.
+*  */
 
+
+
+
+
+
+@ExperimentalPagerApi
 @Composable
 fun Screen(navController: NavController) {
     Scaffold(
