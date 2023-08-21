@@ -1,10 +1,8 @@
-package com.soujunior.domain.usecase.auth
+package com.soujunior.domain.use_case.auth
 
 import assertk.assertions.isEqualTo
-import com.soujunior.domain.entities.auth.ApiResponseCode
-import com.soujunior.domain.repository.AuthRepository
+import com.soujunior.data.repository.AuthRepository
 import com.soujunior.domain.setup.MainCoroutineRule
-import com.soujunior.domain.setup.formLogin
 import com.soujunior.domain.setup.formRegister
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -15,7 +13,7 @@ import org.junit.Rule
 
 import org.junit.Test
 
-class RegisterUseCaseTest {
+class SignUpUseCaseTest {
 
     @ExperimentalCoroutinesApi
     @get:Rule
@@ -29,9 +27,9 @@ class RegisterUseCaseTest {
             100,
             "The server is still processing the request."
         )
-        val registerUseCase = RegisterUseCase(repository = repository)
+        val signUpUseCase = SignUpUseCase(repository = repository)
 
-        val result = registerUseCase.execute(formRegister)
+        val result = signUpUseCase.execute(formRegister)
 
         assertk.assertThat(result.success.data).isEqualTo("The server is still processing the request.")
     }
@@ -39,9 +37,9 @@ class RegisterUseCaseTest {
     @Test
     fun `successful in the user registry code 200`() = runBlocking {
         coEvery { repository.register(formRegister) } returns ApiResponseCode(200, "Success")
-        val registerUseCase = RegisterUseCase(repository = repository)
+        val signUpUseCase = SignUpUseCase(repository = repository)
 
-        val result = registerUseCase.execute(formRegister)
+        val result = signUpUseCase.execute(formRegister)
 
         assertk.assertThat(result.success.data).isEqualTo("Success")
     }
@@ -52,9 +50,9 @@ class RegisterUseCaseTest {
             300,
             "There is some data missing from the form"
         )
-        val registerUseCase = RegisterUseCase(repository = repository)
+        val signUpUseCase = SignUpUseCase(repository = repository)
 
-        val result = registerUseCase.execute(formRegister)
+        val result = signUpUseCase.execute(formRegister)
 
         assertk.assertThat(result.isFailure).isEqualTo(true)
     }
@@ -62,9 +60,9 @@ class RegisterUseCaseTest {
     @Test
     fun `failure Client Error in the user registry code 400`() = runBlocking {
         coEvery { repository.register(formRegister) } returns ApiResponseCode(400, "Bad Request")
-        val registerUseCase = RegisterUseCase(repository = repository)
+        val signUpUseCase = SignUpUseCase(repository = repository)
 
-        val result = registerUseCase.execute(formRegister)
+        val result = signUpUseCase.execute(formRegister)
 
         assertk.assertThat(result.isFailure).isEqualTo(true)
     }
@@ -75,9 +73,9 @@ class RegisterUseCaseTest {
             500,
             "Error processing request"
         )
-        val registerUseCase = RegisterUseCase(repository = repository)
+        val signUpUseCase = SignUpUseCase(repository = repository)
 
-        val result = registerUseCase.execute(formRegister)
+        val result = signUpUseCase.execute(formRegister)
 
         assertk.assertThat(result.isFailure).isEqualTo(true)
     }

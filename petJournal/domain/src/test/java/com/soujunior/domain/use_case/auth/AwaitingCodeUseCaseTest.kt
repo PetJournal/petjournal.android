@@ -1,12 +1,13 @@
-package com.soujunior.domain.usecase.auth
+package com.soujunior.domain.use_case.auth
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.soujunior.domain.entities.auth.ApiResponseCode
-import com.soujunior.domain.entities.auth.AwaitingCodeModel
-import com.soujunior.domain.repository.AuthRepository
+import com.soujunior.data.model.request.AwaitingCodeModel
+import com.soujunior.data.model.response.AccessTokenResponse
+import com.soujunior.data.repository.AuthRepository
+import com.soujunior.data.util.network.NetworkResult
 import com.soujunior.domain.setup.MainCoroutineRule
-import com.soujunior.domain.usecase.base.DataResult
+import com.soujunior.domain.use_case.base.DataResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,6 +25,43 @@ class AwaitingCodeUseCaseTest {
     private lateinit var authRepository: AuthRepository
     private lateinit var awaitingCodeModel: AwaitingCodeModel
 
+/*
+
+            -- Request Body --
+    {
+        "email": "johndoe@email.com",
+        "verificationToken": "123456"
+    }
+
+
+              -- Response --
+
+    201 -> Success
+    {
+      "email": "johndoe@email.com",
+      "verificationToken": "123456"
+    }
+
+    400 -> Invalid Request
+    {
+        "error": "Invalid param: password"
+    }
+
+    401 ->
+
+    409 -> Conflict request
+    {
+        "error": "Phone or Email already registered"
+    }
+
+    500 -> Internal server error
+    {
+        "error": "Internal server error. An unexpected error happened. Please try again in a moment."
+    }
+
+ */
+
+
     @Before
     fun setup() {
         authRepository = mockk<AuthRepository>(relaxed = true)
@@ -36,10 +74,10 @@ class AwaitingCodeUseCaseTest {
 
         coEvery {
             authRepository.awaitingCode(any())
-        } returns ApiResponseCode(100, "The server is still processing the request.")
+        } returns NetworkResult.Success(AccessTokenResponse("4a43-gkd4-asmb-rasb"))
 
-        val dataResult = (awaitingCodeUseCase.execute(awaitingCodeModel) as? DataResult.Success)?.data
-        assertThat(dataResult).isEqualTo("O servidor ainda esta processando a requisição")
+        val dataResult = (awaitingCodeUseCase.execute(awaitingCodeModel) as? DataResult.Success<*>)?.data as? AccessTokenResponse
+        assertThat(dataResult?.accessToken).isEqualTo("4a43-gkd4-asmb-rasb")
     }
 
     @Test

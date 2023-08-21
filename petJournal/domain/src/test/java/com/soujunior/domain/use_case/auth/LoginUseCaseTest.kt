@@ -1,8 +1,7 @@
-package com.soujunior.domain.usecase.auth
+package com.soujunior.domain.use_case.auth
 
 import assertk.assertions.isEqualTo
-import com.soujunior.domain.entities.auth.ApiResponseCode
-import com.soujunior.domain.repository.AuthRepository
+import com.soujunior.data.repository.AuthRepository
 import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.setup.formLogin
 import io.mockk.coEvery
