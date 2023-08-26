@@ -1,4 +1,4 @@
-package com.soujunior.data.util.network
+package com.soujunior.data.util.checker
 
 import android.content.Context
 import android.net.ConnectivityManager
