@@ -32,8 +32,6 @@ android {
 
 dependencies {
 
-    implementation(project(":data"))
-
     def dependencies = rootProject.ext.dependencies
     implementation dependencies.coroutineCore
     implementation dependencies.coroutineAndroid
