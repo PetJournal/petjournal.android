@@ -1,4 +1,4 @@
-package com.soujunior.data.util.network
+package com.soujunior.domain.network
 
 sealed class NetworkResult<T : Any> {
     class Success<T: Any>(val data: T) : NetworkResult<T>()
