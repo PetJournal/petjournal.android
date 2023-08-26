@@ -1,7 +1,7 @@
 package com.soujunior.data.remote.adapters.internal
 
-import com.soujunior.data.util.network.ErrorBody
-import com.soujunior.data.util.network.NetworkResult
+import com.soujunior.domain.network.ErrorBody
+import com.soujunior.domain.network.NetworkResult
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.Call

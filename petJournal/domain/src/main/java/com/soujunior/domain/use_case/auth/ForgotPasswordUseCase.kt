@@ -2,8 +2,8 @@ package com.soujunior.domain.use_case.auth
 
 import com.soujunior.data.model.request.ForgotPasswordModel
 import com.soujunior.data.model.response.MessageResponse
-import com.soujunior.data.repository.AuthRepository
-import com.soujunior.data.util.network.NetworkResult
+import com.soujunior.domain.network.NetworkResult
+import com.soujunior.domain.repository.AuthRepository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 

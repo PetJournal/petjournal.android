@@ -5,7 +5,8 @@ import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.data.remote.adapters.internal.NetworkResultCallAdapterFactory
 import com.soujunior.data.repository.AuthRepositoryImpl
-import com.soujunior.data.repository.AuthRepository
+import com.soujunior.domain.network.NetworkResult
+import com.soujunior.domain.repository.AuthRepository
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.ChangePasswordUseCase
 import com.soujunior.domain.use_case.auth.ForgotPasswordUseCase

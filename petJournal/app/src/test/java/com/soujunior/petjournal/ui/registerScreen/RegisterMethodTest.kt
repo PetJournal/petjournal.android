@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.viewModelScope
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
-import com.soujunior.domain.model.User
+import com.soujunior.domain.model.mapper.User
 import com.soujunior.domain.use_case.auth.SignUpUseCase
 import com.soujunior.domain.use_case.auth.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.auth.util.ValidationResult

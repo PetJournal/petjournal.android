@@ -1,7 +1,7 @@
 package com.soujunior.data.remote.adapters.internal
 
 import com.soujunior.data.remote.adapters.NetworkResultCallAdapter
-import com.soujunior.data.util.network.NetworkResult
+import com.soujunior.domain.network.NetworkResult
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
