@@ -1,14 +1,14 @@
-package com.soujunior.data.repository
+package com.soujunior.domain.repository
 
-import com.soujunior.data.util.network.NetworkResult
+import com.soujunior.data.model.request.AwaitingCodeModel
 import com.soujunior.data.model.request.ChangePasswordModel
 import com.soujunior.data.model.request.ForgotPasswordModel
 import com.soujunior.data.model.request.LoginModel
 import com.soujunior.data.model.request.SignUpModel
-import com.soujunior.data.model.request.AwaitingCodeModel
 import com.soujunior.data.model.response.AccessTokenResponse
 import com.soujunior.data.model.response.MessageResponse
 import com.soujunior.data.model.response.UserInfoResponse
+import com.soujunior.domain.network.NetworkResult
 
 interface AuthRepository {
     suspend fun signUp(signUpModel: SignUpModel): NetworkResult<UserInfoResponse>
