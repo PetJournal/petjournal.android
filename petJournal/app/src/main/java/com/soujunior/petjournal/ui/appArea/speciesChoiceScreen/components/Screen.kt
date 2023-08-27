@@ -71,6 +71,7 @@ fun Screen(navController: NavController, userViewModel: UserViewModel) {
                             buttonColor = ButtonDefaults.buttonColors(Color.White),
                             textColor = MaterialTheme.colorScheme.primary
                         )
+                        Spacer(modifier = Modifier.width(16.dp))
                         Button2(
                             submit = { /*TODO*/ },
                             modifier = Modifier.width(150.dp),

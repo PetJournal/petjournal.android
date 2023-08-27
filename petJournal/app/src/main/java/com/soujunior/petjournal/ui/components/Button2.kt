@@ -27,7 +27,7 @@ fun Button2(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
     ) {
                 androidx.compose.material3.Button(
