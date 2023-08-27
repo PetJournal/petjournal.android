@@ -19,11 +19,6 @@ import org.koin.androidx.compose.get
 /*todo: 08 (gelson) em alguns modelos como moto g 60 os itens não ficam exatamente centralizados na tela
 *  */
 
-
-
-
-
-
 @ExperimentalPagerApi
 @Composable
 fun Screen(navController: NavController) {

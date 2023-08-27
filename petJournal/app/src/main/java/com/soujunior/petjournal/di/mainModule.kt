@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.di
 
-import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
-import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.data.api.Service
 import com.soujunior.data.model.MockService
 import com.soujunior.data.repository.AuthRepositoryImpl
@@ -25,6 +23,8 @@ import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterViewMod
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterViewModelImpl
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreenViewModel
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreenViewModelImpl
+import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
+import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.appArea.registerPetScreen.RegisterPetViewModel
 import com.soujunior.petjournal.ui.appArea.registerPetScreen.RegisterPetViewModelImpl
 import com.squareup.moshi.Moshi
