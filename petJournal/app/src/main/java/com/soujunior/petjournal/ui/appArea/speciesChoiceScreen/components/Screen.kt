@@ -68,6 +68,16 @@ fun Screen(navController: NavController, userViewModel: UserViewModel) {
                             enableButton = true,
                             border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary),
                             text = "Voltar",
+                            /*TODO: (Simão): evite usar a definição de cores manualmente "Color.White"
+                                * tente usar o theme o máximo possível para que caso haja alguma mudança no visual, isso possa ser feito diretamente pela paleta de cores que temos do mesmo modo que fez a baixo na linha 72.
+                                * Veja se esta implementação abaixo funciona.
+                                * buttonColor = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.surface
+                                * )
+                                * Fora isso esta tudo bem, só tente criar os detalhes, como uma lógica
+                                * que permita saber o item que esta selecionado no momento, etc.
+                                * Isso serve tanto para a seleção de espécie quanto para a página que
+                                * esta em foco no momento.*/
                             buttonColor = ButtonDefaults.buttonColors(Color.White),
                             textColor = MaterialTheme.colorScheme.primary
                         )
