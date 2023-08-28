@@ -1,6 +1,6 @@
 package com.soujunior.domain.use_case.auth
 
-import com.soujunior.data.model.request.ForgotPasswordModel
+import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.data.model.response.MessageResponse
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.AuthRepository

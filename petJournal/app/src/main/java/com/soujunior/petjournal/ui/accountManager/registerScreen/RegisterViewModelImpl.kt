@@ -5,7 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.soujunior.data.model.request.SignUpModel
+import com.soujunior.domain.model.request.SignUpModel
 import com.soujunior.domain.model.mapper.User
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.SignUpUseCase
@@ -29,20 +29,6 @@ class RegisterViewModelImpl(
     private val setMessage = MutableStateFlow("")
 
     override fun success(resultPostRegister: User) {
-        //this.setMessage.value = resultPostRegister
-
-        /*
-            Quando criamos uma conta recebemos o usuário nesse formato:
-
-            {
-                "id": "666fb064-5288-4a1a-aa6f-b0796139fd03",
-                "firstName": "John",
-                "lastName": "Doe",
-                "email": "johndoe@email.com",
-                "phone": "11982654321"
-            }
-
-         */
 
         Log.i("RegisterViewModel", resultPostRegister.toString())
 
@@ -182,7 +168,6 @@ class RegisterViewModelImpl(
                     isPrivacyPolicyAccepted = state.privacyPolicy
                 )
             )
-
             result.handleResult(::success, ::failed)
         }
     }

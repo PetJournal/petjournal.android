@@ -1,9 +1,9 @@
 package com.soujunior.petjournal.setup
 
-import com.soujunior.data.model.request.AwaitingCodeModel
-import com.soujunior.data.model.request.ForgotPasswordModel
-import com.soujunior.data.model.request.LoginModel
-import com.soujunior.data.model.request.SignUpModel
+import com.soujunior.domain.model.request.AwaitingCodeModel
+import com.soujunior.domain.model.request.ForgotPasswordModel
+import com.soujunior.domain.model.request.LoginModel
+import com.soujunior.domain.model.request.SignUpModel
 
 val formLogin  = LoginModel (
     "fulano@email.com",

@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.soujunior.data.model.request.AwaitingCodeModel
+import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
 import com.soujunior.domain.use_case.auth.util.ValidationResult

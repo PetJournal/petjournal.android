@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.soujunior.data.model.request.ForgotPasswordModel
+import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.ForgotPasswordUseCase
 import com.soujunior.domain.use_case.auth.util.ValidationResult

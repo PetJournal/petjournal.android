@@ -1,4 +1,4 @@
-package com.soujunior.data.model.request
+package com.soujunior.domain.model.request
 
 data class AwaitingCodeModel(
     val email: String,

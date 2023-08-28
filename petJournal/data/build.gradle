@@ -43,6 +43,7 @@ dependencies {
     implementation dependencies.coroutineCore
     implementation dependencies.coroutineAndroid
     implementation dependencies.coreKtx
+    implementation dependencies.preference
 
     testImplementation testJunit
     testImplementation testMockk

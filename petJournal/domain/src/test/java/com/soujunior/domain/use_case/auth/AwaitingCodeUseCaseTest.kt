@@ -2,8 +2,8 @@ package com.soujunior.domain.use_case.auth
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.soujunior.data.model.request.AwaitingCodeModel
-import com.soujunior.data.model.response.AccessTokenResponse
+import com.soujunior.domain.model.request.AwaitingCodeModel
+import com.soujunior.domain.model.response.AccessTokenResponse
 import com.soujunior.data.repository.AuthRepository
 import com.soujunior.data.util.network.NetworkResult
 import com.soujunior.domain.setup.MainCoroutineRule

@@ -4,9 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.soujunior.data.model.request.LoginModel
+import com.soujunior.domain.model.request.LoginModel
 import com.soujunior.domain.repository.ValidationRepository
+import com.soujunior.domain.use_case.auth.GetSavedPasswordUseCase
 import com.soujunior.domain.use_case.auth.LoginUseCase
+import com.soujunior.domain.use_case.auth.SavePasswordUseCase
 import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -18,14 +20,24 @@ import kotlinx.coroutines.launch
 class LoginViewModelImpl(
     private val loginUseCase: LoginUseCase,
     private val validation: ValidationRepository,
+    private val savePasswordUseCase: SavePasswordUseCase,
+    private val getSavedPasswordUseCase: GetSavedPasswordUseCase
 ) : LoginViewModel() {
     override var state by mutableStateOf(LoginFormState())
-
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
 
     override val message: StateFlow<String> get() = setMessage
     private val setMessage = MutableStateFlow("")
+
+    init {
+        viewModelScope.launch {
+            val password = getSavedPasswordUseCase()
+            if (password != null) {
+                state = state.copy(password = password)
+            }
+        }
+    }
 
     override fun failed(exception: Throwable?) {
         setMessage.value = exception?.message.toString() ?: "Erro desconhecido!"
@@ -41,7 +53,13 @@ class LoginViewModelImpl(
         }
     }
 
-    override fun passwordRemember() {}
+    override fun passwordRemember() {
+        if (state.rememberPassword) {
+            viewModelScope.launch {
+                savePasswordUseCase.execute(state.password)
+            }
+        }
+    }
 
     private fun hasError(result: ValidationResult): Boolean {
         return listOf(result).any { !it.success }
@@ -79,7 +97,7 @@ class LoginViewModelImpl(
             is LoginFormEvent.EmailChanged -> change(email = event.email)
             is LoginFormEvent.PasswordChanged -> change(password = event.password)
             is LoginFormEvent.RememberPassword -> change(isRemember = event.isRemember)
-            is LoginFormEvent.Submit ->  submitData()
+            is LoginFormEvent.Submit -> submitData()
         }
     }
 
@@ -95,7 +113,8 @@ class LoginViewModelImpl(
             return
         }
         viewModelScope.launch {
-            val result = loginUseCase.execute(LoginModel(email = state.email, password = state.password))
+            val result =
+                loginUseCase.execute(LoginModel(email = state.email, password = state.password))
             result.handleResult(::success, ::failed)
         }
     }

@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.soujunior.data.model.request.ChangePasswordModel
+import com.soujunior.domain.model.request.ChangePasswordModel
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.ChangePasswordUseCase
 import com.soujunior.domain.use_case.auth.util.ValidationResult
