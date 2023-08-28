@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.accountManager.registerScreen
 
 import androidx.lifecycle.ViewModel
+import com.soujunior.domain.model.mapper.User
 import com.soujunior.petjournal.ui.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +16,7 @@ abstract class RegisterViewModel : ViewModel() {
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 
-    abstract fun success(resultPostRegister: String)
+    abstract fun success(resultPostRegister: User)
     abstract fun failed(exception: Throwable?)
     abstract fun submitData()
     abstract fun onEvent(event: RegisterFormEvent)

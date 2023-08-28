@@ -4,18 +4,13 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.soujunior.data.model.onError
-import com.soujunior.data.model.onException
-import com.soujunior.data.model.onSuccess
-import com.soujunior.data.repository.AuthRepository2Impl
-import com.soujunior.domain.entities.auth.RegisterModel
+import com.soujunior.domain.model.request.SignUpModel
+import com.soujunior.domain.model.mapper.User
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.usecase.auth.RegisterUseCase
-import com.soujunior.domain.usecase.auth.util.ValidationResult
+import com.soujunior.domain.use_case.auth.SignUpUseCase
+import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,9 +18,8 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class RegisterViewModelImpl(
-    private val registerUseCase: RegisterUseCase,
-    private val validation: ValidationRepository,
-    private val authRepository: AuthRepository2Impl
+    private val signUpUseCase: SignUpUseCase,
+    private val validation: ValidationRepository
 ) : RegisterViewModel() {
     override var state by mutableStateOf(RegisterFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
@@ -34,21 +28,19 @@ class RegisterViewModelImpl(
     override val message: StateFlow<String> get() = setMessage
     private val setMessage = MutableStateFlow("")
 
-    override fun success(resultPostRegister: String) {
-        this.setMessage.value = resultPostRegister
+    override fun success(resultPostRegister: User) {
+
+        Log.i("RegisterViewModel", resultPostRegister.toString())
+
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
     }
 
     override fun failed(exception: Throwable?) {
-        if (exception is Error) {
-            setMessage.value = exception.message.toString()
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-        } else {
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.setMessage.value = "lançar um erro aqui"
-        }
+        Log.i("RegisterViewModel", exception?.message ?: "Unknown Error")
+        setMessage.value = exception?.message ?: "Unknown Error"
+        viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }
 
     private fun hasError(result: ValidationResult): Boolean {
@@ -159,14 +151,14 @@ class RegisterViewModelImpl(
             is RegisterFormEvent.PasswordChanged -> change(password = event.password)
             is RegisterFormEvent.ConfirmPasswordChanged -> change(repeatedPassword = event.confirmPassword)
             is RegisterFormEvent.PrivacyPolicyChanged -> change(privacy = event.privacyPolicy)
-            is RegisterFormEvent.Submit -> register()
+            is RegisterFormEvent.Submit -> submitData()
         }
     }
 
     override fun submitData() {
         viewModelScope.launch {
-            val result = registerUseCase.execute(
-                RegisterModel(
+            val result = signUpUseCase.execute(
+                SignUpModel(
                     firstName = state.name,
                     lastName = state.lastName,
                     email = state.email,
@@ -177,34 +169,6 @@ class RegisterViewModelImpl(
                 )
             )
             result.handleResult(::success, ::failed)
-        }
-    }
-
-    fun register() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = authRepository.signUp(
-                RegisterModel(
-                    firstName = state.name,
-                    lastName = state.lastName,
-                    email = state.email,
-                    phone = state.phone,
-                    password = state.password,
-                    passwordConfirmation = state.password,
-                    isPrivacyPolicyAccepted = state.privacyPolicy
-                )
-            )
-
-            result.onSuccess { signUpResponse ->
-                Log.i("AUTH_EVENT", "${signUpResponse.email}")
-            }
-
-            result.onError { code, message ->
-                Log.i("AUTH_EVENT", "$code : $message")
-            }
-
-            result.onException {
-                Log.i("AUTH_EVENT", "exception: ${it.localizedMessage}")
-            }
         }
     }
 }

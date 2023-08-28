@@ -6,12 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.soujunior.domain.entities.auth.AwaitingCodeModel
+import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.usecase.auth.AwaitingCodeUseCase
-import com.soujunior.domain.usecase.auth.util.ValidationResult
+import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
+import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
-import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterFormEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -73,7 +72,6 @@ class AwaitingCodeViewModelImpl(
         email: String? = null,
     ) {
         when {
-
             email != null -> {
                 state = state.copy(email = email)
                 val emailResult = validation.validateEmail(state.email)
@@ -87,13 +85,12 @@ class AwaitingCodeViewModelImpl(
                 else state.copy(codeOTPError = null)
                 Log.e("test","${state.codeOTPError}")
             }
-
         }
     }
 
     override fun postOtpVerification() {
         viewModelScope.launch {
-            val result = awaitingCodeUseCase.execute(AwaitingCodeModel(codeOTP = state.codeOTP, email = state.email))
+            val result = awaitingCodeUseCase.execute(AwaitingCodeModel(email = state.email, verificationToken = state.codeOTP))
             result.handleResult(::success, ::failed)
         }
     }
