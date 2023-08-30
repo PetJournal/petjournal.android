@@ -6,17 +6,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.soujunior.domain.entities.auth.PasswordModel
+import com.soujunior.domain.model.request.ChangePasswordModel
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.usecase.auth.ChangePasswordUseCase
-import com.soujunior.domain.usecase.auth.util.ValidationResult
+import com.soujunior.domain.use_case.auth.ChangePasswordUseCase
+import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class ChangePasswordViewModelImpl(
-    val changePassword: ChangePasswordUseCase,
+    private val changePasswordUseCase: ChangePasswordUseCase,
     private val validation: ValidationRepository
 ) : ChangePasswordViewModel() {
     override var state by mutableStateOf(ChangePasswordFormState())
@@ -117,12 +117,14 @@ class ChangePasswordViewModelImpl(
             //TODO: criar metodo para desconectar outros dispositivos
         }
     }
+
     override fun submitNewPassword() {
         disconnectOtherDevices()
         viewModelScope.launch {
-            val result = changePassword.execute(
-                PasswordModel(
-                    password = state.password
+            val result = changePasswordUseCase.execute(
+                ChangePasswordModel(
+                    password = state.password,
+                    passwordConfirmation = state.repeatedPassword
                 )
             )
             result.handleResult(::success, ::failed)

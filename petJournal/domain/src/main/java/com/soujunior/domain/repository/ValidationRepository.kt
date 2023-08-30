@@ -1,6 +1,6 @@
 package com.soujunior.domain.repository
 
-import com.soujunior.domain.usecase.auth.util.ValidationResult
+import com.soujunior.domain.use_case.auth.util.ValidationResult
 
 interface ValidationRepository {
     fun validateName(name: String) : ValidationResult

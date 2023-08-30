@@ -35,6 +35,8 @@ dependencies {
     def dependencies = rootProject.ext.dependencies
     implementation dependencies.coroutineCore
     implementation dependencies.coroutineAndroid
+    implementation dependencies.moshiKotlin
+    implementation dependencies.retrofit2ConverterMoshi
 
     testImplementation testJunit
     testImplementation testMockk

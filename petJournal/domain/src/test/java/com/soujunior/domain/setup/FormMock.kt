@@ -1,21 +1,22 @@
 package com.soujunior.domain.setup
 
-import com.soujunior.domain.entities.auth.ForgotPasswordModel
-import com.soujunior.domain.entities.auth.LoginModel
-import com.soujunior.domain.entities.auth.RegisterModel
+import com.soujunior.domain.model.request.ForgotPasswordModel
+import com.soujunior.domain.model.request.LoginModel
+import com.soujunior.domain.model.request.SignUpModel
 
 val formLogin  = LoginModel (
     "fulano@email.com",
     "88@#GGas"
 )
 
-val formRegister  = RegisterModel (
-    name = "fulano",
+val formRegister  = SignUpModel (
+    firstName = "fulano",
     lastName = "silva",
-    phoneNumber = "12345678987",
+    phone = "12345678987",
     email = "fulano@email.com",
     password = "88@#GGas",
-    privacyPolicy = true
+    passwordConfirmation = "88@#GGas",
+    isPrivacyPolicyAccepted = true
 )
 
 val formForgot  = ForgotPasswordModel (

@@ -17,13 +17,13 @@ import com.soujunior.petjournal.ui.appArea.tutorScreen.TutorScreen
 import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashScreen
 import com.soujunior.petjournal.ui.util.UserViewModel
 
-
 @Composable
 fun Presentation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "splash") {
         composable("splash") { SplashScreen(navController) }
         composable("accountManager") { AccountManager() }
+        composable("mainContent") { (MainContent()) }
     }
 }
 
@@ -31,7 +31,7 @@ fun Presentation() {
 @Composable
 fun NavHostAccountManager() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "login") {
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
         composable("mainContent") { (MainContent()) }
