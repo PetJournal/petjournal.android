@@ -11,6 +11,7 @@ import com.soujunior.domain.use_case.auth.LoginUseCase
 import com.soujunior.domain.use_case.auth.SavePasswordUseCase
 import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,12 +24,16 @@ class LoginViewModelImpl(
     private val savePasswordUseCase: SavePasswordUseCase,
     private val getSavedPasswordUseCase: GetSavedPasswordUseCase
 ) : LoginViewModel() {
+
     override var state by mutableStateOf(LoginFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
 
     override val message: StateFlow<String> get() = setMessage
     private val setMessage = MutableStateFlow("")
+
+    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
+    override val taskState: StateFlow<TaskState> = _taskState
 
     init {
         viewModelScope.launch {
@@ -105,6 +110,7 @@ class LoginViewModelImpl(
         val emailResult = validation.validateEmail(state.email)
         val passwordResult = validation.validateField(state.password)
         val hasError = listOf(emailResult, passwordResult).any { !it.success }
+
         if (hasError) {
             state = state.copy(
                 emailError = emailResult.errorMessage,
@@ -112,10 +118,18 @@ class LoginViewModelImpl(
             )
             return
         }
+
+        _taskState.value = TaskState.Loading
         viewModelScope.launch {
-            val result =
-                loginUseCase.execute(LoginModel(email = state.email, password = state.password))
+            val result = loginUseCase.execute(
+                LoginModel(
+                    email = state.email,
+                    password = state.password
+                )
+            )
+
             result.handleResult(::success, ::failed)
+            _taskState.value = TaskState.Idle
         }
     }
 }

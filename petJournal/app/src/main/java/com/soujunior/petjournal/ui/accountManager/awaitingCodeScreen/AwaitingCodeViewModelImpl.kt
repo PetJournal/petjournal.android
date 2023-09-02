@@ -11,7 +11,10 @@ import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
 import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -25,6 +28,9 @@ class AwaitingCodeViewModelImpl(
     override val validationEvents = validationEventChannel.receiveAsFlow()
     override val success = MutableLiveData<String>()
     override val error = MutableLiveData<String>()
+
+    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
+    val taskState: StateFlow<TaskState> = _taskState
 
     override fun failed(exception: Throwable?) {
         if (exception is Error) {
@@ -89,10 +95,16 @@ class AwaitingCodeViewModelImpl(
     }
 
     override fun postOtpVerification() {
+        _taskState.value = TaskState.Loading
         viewModelScope.launch {
-            val result = awaitingCodeUseCase.execute(AwaitingCodeModel(email = state.email, verificationToken = state.codeOTP))
+            val result = awaitingCodeUseCase.execute(
+                AwaitingCodeModel(
+                    email = state.email,
+                    verificationToken = state.codeOTP
+                )
+            )
             result.handleResult(::success, ::failed)
+            _taskState.value = TaskState.Idle
         }
     }
-
 }
