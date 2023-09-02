@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
@@ -20,9 +22,12 @@ import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.PrivacyPolicyCheckbox
 import com.soujunior.petjournal.ui.components.mask.mobileNumberFilter
+import com.soujunior.petjournal.ui.states.TaskState
 
 @Composable
 fun Screen(viewModel: RegisterViewModel) {
+    val taskState by viewModel.taskState.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -132,7 +137,8 @@ fun Screen(viewModel: RegisterViewModel) {
                     setSystemBarColor = true,
                     inDarkMode = true,
                     modifier = Modifier.padding(bottom = 50.dp),
-                    )
+                    isLoading = taskState is TaskState.Loading
+                )
             }
         }
     }
