@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -20,12 +22,15 @@ import androidx.navigation.NavController
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModel
 import com.soujunior.petjournal.ui.components.Button
+import com.soujunior.petjournal.ui.states.TaskState
 
 @Composable
 fun Footer(
     navController: NavController,
     viewModel: LoginViewModel
 ) {
+    val taskState by viewModel.taskState.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,7 +45,8 @@ fun Footer(
                 enableButton = true,
                 modifier = Modifier.size(height = 50.dp, width = 240.dp),
                 border = null,
-                inDarkMode = true
+                inDarkMode = true,
+                isLoading = taskState is TaskState.Loading
             )
         }
         Spacer(modifier = Modifier.padding(top = 20.dp))
@@ -52,8 +58,7 @@ fun Footer(
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .clickable(onClick = { navController.navigate("register") })
-                    .align(CenterVertically).
-                padding(bottom = 50.dp),
+                    .align(CenterVertically),
                 color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
             )
         }

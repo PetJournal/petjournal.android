@@ -11,7 +11,10 @@ import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.ChangePasswordUseCase
 import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -19,12 +22,15 @@ class ChangePasswordViewModelImpl(
     private val changePasswordUseCase: ChangePasswordUseCase,
     private val validation: ValidationRepository
 ) : ChangePasswordViewModel() {
+
     override var state by mutableStateOf(ChangePasswordFormState())
     override var validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
     override var success = MutableLiveData<String>()
     override val error = MutableLiveData<String>()
 
+    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
+    override val taskState: StateFlow<TaskState> = _taskState
 
     override fun success(result: String) {
         this.success.value = result
@@ -120,6 +126,7 @@ class ChangePasswordViewModelImpl(
 
     override fun submitNewPassword() {
         disconnectOtherDevices()
+        _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val result = changePasswordUseCase.execute(
                 ChangePasswordModel(
@@ -128,6 +135,7 @@ class ChangePasswordViewModelImpl(
                 )
             )
             result.handleResult(::success, ::failed)
+            _taskState.value = TaskState.Idle
         }
     }
 }

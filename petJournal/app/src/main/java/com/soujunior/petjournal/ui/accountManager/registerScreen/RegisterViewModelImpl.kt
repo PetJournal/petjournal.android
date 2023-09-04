@@ -11,6 +11,7 @@ import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.SignUpUseCase
 import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,12 +22,16 @@ class RegisterViewModelImpl(
     private val signUpUseCase: SignUpUseCase,
     private val validation: ValidationRepository
 ) : RegisterViewModel() {
+
     override var state by mutableStateOf(RegisterFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
 
     override val message: StateFlow<String> get() = setMessage
     private val setMessage = MutableStateFlow("")
+
+    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
+    override val taskState: StateFlow<TaskState> = _taskState
 
     override fun success(resultPostRegister: User) {
 
@@ -156,6 +161,7 @@ class RegisterViewModelImpl(
     }
 
     override fun submitData() {
+        _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val result = signUpUseCase.execute(
                 SignUpModel(
@@ -169,6 +175,7 @@ class RegisterViewModelImpl(
                 )
             )
             result.handleResult(::success, ::failed)
+            _taskState.value = TaskState.Idle
         }
     }
 }
