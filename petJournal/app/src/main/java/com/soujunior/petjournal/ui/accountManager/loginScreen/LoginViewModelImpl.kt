@@ -106,6 +106,10 @@ class LoginViewModelImpl(
         }
     }
 
+    override fun clearInput() {
+        state = LoginFormState()
+    }
+
     override fun submitData() {
         val emailResult = validation.validateEmail(state.email)
         val passwordResult = validation.validateField(state.password)
@@ -130,6 +134,7 @@ class LoginViewModelImpl(
 
             result.handleResult(::success, ::failed)
             _taskState.value = TaskState.Idle
+            clearInput()
         }
     }
 }

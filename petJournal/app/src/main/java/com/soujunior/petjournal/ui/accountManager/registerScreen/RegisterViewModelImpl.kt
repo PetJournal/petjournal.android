@@ -147,6 +147,10 @@ class RegisterViewModelImpl(
         }
     }
 
+    override fun clearInput() {
+        state = RegisterFormState()
+    }
+
     override fun onEvent(event: RegisterFormEvent) {
         when (event) {
             is RegisterFormEvent.NameChanged -> change(name = event.name)
@@ -176,6 +180,7 @@ class RegisterViewModelImpl(
             )
             result.handleResult(::success, ::failed)
             _taskState.value = TaskState.Idle
+            clearInput()
         }
     }
 }

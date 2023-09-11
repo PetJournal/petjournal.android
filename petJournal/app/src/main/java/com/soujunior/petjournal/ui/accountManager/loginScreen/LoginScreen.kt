@@ -13,6 +13,7 @@ import org.koin.androidx.compose.getViewModel
 fun LoginScreen(navController: NavController) {
     val viewModel: LoginViewModel = getViewModel()
     val context = LocalContext.current
+
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
             when (event) {
@@ -24,7 +25,6 @@ fun LoginScreen(navController: NavController) {
                     ).show()
                     navController.navigate("mainContent")
                 }
-
                 is ValidationEvent.Failed -> {
                     Toast.makeText(
                         context,
