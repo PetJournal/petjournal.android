@@ -22,6 +22,7 @@ interface AuthRepository {
     suspend fun awaitingCode(awaitingCodeModel: AwaitingCodeModel): NetworkResult<AccessTokenResponse>
 
     suspend fun saveToken(token: String): Boolean
+    suspend fun deleteToken(): Boolean
 
     suspend fun getToken(): String?
     suspend fun savePassword(password: String)

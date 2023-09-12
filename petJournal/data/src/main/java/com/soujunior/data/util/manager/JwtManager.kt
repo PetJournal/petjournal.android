@@ -22,7 +22,17 @@ class JwtManager(context: Context) {
     fun getToken(): String? {
         return sharedPreferences.getString(JWT_KEY, null)
     }
-
+    fun deleteToken(): Boolean {
+        return try {
+            with(sharedPreferences.edit()) {
+                remove(JWT_KEY)
+                apply()
+            }
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
     fun setToken(jwtToken: String) {
         with(sharedPreferences.edit()) {
             putString(JWT_KEY, jwtToken)
