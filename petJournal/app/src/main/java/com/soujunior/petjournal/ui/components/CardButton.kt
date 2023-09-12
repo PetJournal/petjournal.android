@@ -22,21 +22,20 @@ fun CardButton(
     submit: () -> Unit
 ) {
     val diagonal = GetScreenInch()
+    val isLargeScreen = diagonal > 5.6
+    val isSmallScreen = diagonal< 5.3
     val height : Int
     val width : Int
 
-    if (diagonal > 5.6 && diagonal < 6.0) {
+    if (isLargeScreen) {
         height = 175
         width = 169
-    } else if (diagonal < 5.5) {
+    } else if (isSmallScreen) {
         height = 175
         width = 159
-    }else if (diagonal > 6.1) {
-        height = 239
-        width = 242
-    }else {
-        height = 300
-        width = 300
+    } else {
+        height = 165
+        width = 159
     }
     Card(
         modifier = Modifier

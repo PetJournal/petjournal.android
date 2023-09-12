@@ -34,17 +34,4 @@ class JwtManager(context: Context) {
         const val JWT_KEY: String = "JWT_PREFERENCE"
         const val sharedPrefsFile: String = "jwt_file"
     }
-
-
-    fun deleteToken(): Boolean {
-        return try {
-            with(sharedPreferences.edit()) {
-                remove(JWT_KEY)
-                apply()
-            }
-            true
-        } catch (e: Exception) {
-            false
-        }
-    }
 }
