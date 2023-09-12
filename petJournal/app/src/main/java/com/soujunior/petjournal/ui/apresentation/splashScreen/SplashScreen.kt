@@ -17,7 +17,6 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.ValidationEvent
-import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModel
 import com.soujunior.petjournal.ui.components.ImageLogo
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel

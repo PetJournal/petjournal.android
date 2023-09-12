@@ -95,5 +95,19 @@ class AuthRepositoryImpl(
         return token
     }
 
+    override suspend fun deleteToken(): Boolean {
+        var status: Boolean = false
+
+        val deleteTokenJob = GlobalScope.launch(Dispatchers.IO) {
+            try {
+                jwtManager.deleteToken()
+                status = true
+            } catch (e: Exception) {
+                Log.e("AuthRepository", e.message.toString())
+                status = false
+            }
+        }
+        return status
+    }
 
 }

@@ -26,4 +26,6 @@ interface AuthRepository {
     suspend fun getToken(): String?
     suspend fun savePassword(password: String)
     suspend fun getSavedPassword(): String?
+
+    suspend fun deleteToken(): Boolean
 }
