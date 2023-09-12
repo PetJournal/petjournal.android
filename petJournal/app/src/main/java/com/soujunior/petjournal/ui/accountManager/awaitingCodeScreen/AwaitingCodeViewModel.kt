@@ -13,11 +13,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 abstract class AwaitingCodeViewModel : ViewModel() {
     abstract var state: AwaitingCodeFormState
     abstract val validationEventChannel: Channel<ValidationEvent>
-    abstract val success: LiveData<String>
-    abstract val error: LiveData<String>
-
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
+    abstract val message : StateFlow<String>
     abstract fun postOtpVerification()
     abstract fun failed(exception: Throwable?)
     abstract fun success(resultPostAwaitingCode: String)

@@ -12,10 +12,12 @@ import kotlinx.coroutines.flow.receiveAsFlow
 abstract class ChangePasswordViewModel : ViewModel(){
     abstract var state: ChangePasswordFormState
     abstract val validationEventChannel: Channel<ValidationEvent>
-    abstract val success: LiveData<String>
-    abstract val error: LiveData<String>
+
+    abstract val message : StateFlow<String>
+
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
+
     abstract val taskState: StateFlow<TaskState>
 
     abstract fun success(result: String)

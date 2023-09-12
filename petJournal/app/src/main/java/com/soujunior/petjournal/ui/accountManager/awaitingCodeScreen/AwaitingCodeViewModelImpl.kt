@@ -26,29 +26,21 @@ class AwaitingCodeViewModelImpl(
     override var state by mutableStateOf(AwaitingCodeFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
-    override val success = MutableLiveData<String>()
-    override val error = MutableLiveData<String>()
+    override val message: StateFlow<String> get() = setMessage
+    private val setMessage = MutableStateFlow("")
 
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     val taskState: StateFlow<TaskState> = _taskState
 
     override fun failed(exception: Throwable?) {
-        if (exception is Error) {
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.error.value = exception.message
-
-        } else {
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.error.value = "Erro desconhecido!"
-        }
+        setMessage.value = exception?.message.toString() ?: "Erro desconhecido!"
+        viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }
     override fun success(resultPostAwaitingCode: String) {
-
-        this.success.value = resultPostAwaitingCode
+        setMessage.value = resultPostAwaitingCode
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
-
     }
 
     override fun onEvent(event: AwaitingCodeFormEvent) {
@@ -62,6 +54,7 @@ class AwaitingCodeViewModelImpl(
         }
     }
     private fun hasError(result: ValidationResult): Boolean {
+        Log.e("testar", ">> "+result.errorMessage)
         return listOf(result).any { !it.success }
     }
 

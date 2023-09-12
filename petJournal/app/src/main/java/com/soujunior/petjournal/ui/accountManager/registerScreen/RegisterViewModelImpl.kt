@@ -5,8 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.soujunior.domain.model.request.SignUpModel
 import com.soujunior.domain.model.mapper.User
+import com.soujunior.domain.model.request.SignUpModel
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.SignUpUseCase
 import com.soujunior.domain.use_case.auth.util.ValidationResult
@@ -34,16 +34,13 @@ class RegisterViewModelImpl(
     override val taskState: StateFlow<TaskState> = _taskState
 
     override fun success(resultPostRegister: User) {
-
         Log.i("RegisterViewModel", resultPostRegister.toString())
-
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
     }
 
     override fun failed(exception: Throwable?) {
-        Log.i("RegisterViewModel", exception?.message ?: "Unknown Error")
         setMessage.value = exception?.message ?: "Unknown Error"
         viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }

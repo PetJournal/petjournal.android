@@ -15,7 +15,9 @@ abstract class LoginViewModel : ViewModel() {
     abstract val validationEventChannel: Channel<ValidationEvent>
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
+
     abstract val message : StateFlow<String>
+
     abstract val taskState: StateFlow<TaskState>
 
     abstract fun passwordRemember()
