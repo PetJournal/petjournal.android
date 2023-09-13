@@ -23,5 +23,4 @@ abstract class ForgotPasswordViewModel : ViewModel() {
     abstract fun submitData()
     abstract fun onEvent(event: ForgotPasswordFormEvent)
     abstract fun enableButton(): Boolean
-    abstract fun clearInput()
 }

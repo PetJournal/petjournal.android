@@ -123,11 +123,6 @@ class ChangePasswordViewModelImpl(
             //TODO: criar metodo para desconectar outros dispositivos
         }
     }
-
-    override fun clearInput() {
-        state = ChangePasswordFormState()
-    }
-
     override fun submitNewPassword() {
         disconnectOtherDevices()
         _taskState.value = TaskState.Loading

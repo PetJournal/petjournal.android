@@ -23,5 +23,4 @@ abstract class LoginViewModel : ViewModel() {
     abstract fun failed(exception: Throwable?)
     abstract fun submitData()
     abstract fun onEvent(event: LoginFormEvent)
-    abstract fun clearInput()
 }

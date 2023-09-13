@@ -95,10 +95,6 @@ class AwaitingCodeViewModelImpl(
         }
     }
 
-    override fun clearInput() {
-        state = AwaitingCodeFormState()
-    }
-
     override fun postOtpVerification() {
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
@@ -110,7 +106,6 @@ class AwaitingCodeViewModelImpl(
             )
             result.handleResult(::success, ::failed)
             _taskState.value = TaskState.Idle
-            clearInput()
         }
     }
 }

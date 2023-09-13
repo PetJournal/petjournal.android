@@ -70,7 +70,6 @@ class ForgotPasswordViewModelImpl(
             )
             result.handleResult(::success, ::failed)
             _taskState.value = TaskState.Idle
-            clearInput()
         }
     }
 
@@ -92,9 +91,5 @@ class ForgotPasswordViewModelImpl(
     override fun enableButton(): Boolean {
         val emailResult = validation.validateEmail(state.email)
         return state.email.isNotBlank() && emailResult.errorMessage == null
-    }
-
-    override fun clearInput() {
-        state = ForgotPasswordFormState()
     }
 }

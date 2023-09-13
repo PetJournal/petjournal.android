@@ -24,5 +24,4 @@ abstract class ChangePasswordViewModel : ViewModel(){
     abstract fun onEvent(event: ChangePasswordFormEvent)
     abstract fun disconnectOtherDevices()
     abstract fun enableButton(): Boolean
-    abstract fun clearInput()
 }

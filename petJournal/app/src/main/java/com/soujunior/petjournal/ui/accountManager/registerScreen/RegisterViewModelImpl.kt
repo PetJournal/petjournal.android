@@ -147,10 +147,6 @@ class RegisterViewModelImpl(
         }
     }
 
-    override fun clearInput() {
-        state = RegisterFormState()
-    }
-
     override fun onEvent(event: RegisterFormEvent) {
         when (event) {
             is RegisterFormEvent.NameChanged -> change(name = event.name)
@@ -169,18 +165,17 @@ class RegisterViewModelImpl(
         viewModelScope.launch {
             val result = signUpUseCase.execute(
                 SignUpModel(
-                    firstName = state.name,
-                    lastName = state.lastName,
-                    email = state.email,
-                    phone = state.phone,
-                    password = state.password,
-                    passwordConfirmation = state.password,
+                    firstName = state.name.replace(" ", ""),
+                    lastName = state.lastName.replace(" ", ""),
+                    email = state.email.replace(" ", ""),
+                    phone = state.phone.replace(" ", ""),
+                    password = state.password.replace(" ", ""),
+                    passwordConfirmation = state.password.replace(" ", ""),
                     isPrivacyPolicyAccepted = state.privacyPolicy
                 )
             )
             result.handleResult(::success, ::failed)
             _taskState.value = TaskState.Idle
-            clearInput()
         }
     }
 }
