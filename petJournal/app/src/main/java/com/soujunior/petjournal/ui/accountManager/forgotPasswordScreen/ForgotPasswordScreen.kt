@@ -17,11 +17,11 @@ fun ForgotPasswordScreen(navController: NavController) {
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
-                    Toast.makeText(context, "Codigo de recuperação enviado para o email", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG).show()
                     navController.navigate("awaitingCode")
                 }
                 is ValidationEvent.Failed -> {
-                    Toast.makeText(context, "Erro ao enviar codigo", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG).show()
                 }
             }
         }

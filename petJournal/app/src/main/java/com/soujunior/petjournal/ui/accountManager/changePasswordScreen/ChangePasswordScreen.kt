@@ -17,12 +17,12 @@ fun ChangePasswordScreen(navController: NavController) {
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
-                    Toast.makeText(context, "Voce trocou sua senha!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG).show()
                     navController.navigate("mainContent")
                 }
 
                 is ValidationEvent.Failed -> {
-                    Toast.makeText(context, "Não foi possivel trocar a senha!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG).show()
                 }
             }
         }

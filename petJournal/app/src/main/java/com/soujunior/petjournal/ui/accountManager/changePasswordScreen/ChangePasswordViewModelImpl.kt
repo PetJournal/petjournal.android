@@ -26,27 +26,23 @@ class ChangePasswordViewModelImpl(
     override var state by mutableStateOf(ChangePasswordFormState())
     override var validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
-    override var success = MutableLiveData<String>()
-    override val error = MutableLiveData<String>()
+
+    override val message: StateFlow<String> get() = setMessage
+    private val setMessage = MutableStateFlow("")
 
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
 
     override fun success(result: String) {
-        this.success.value = result
+        setMessage.value = result
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
     }
 
     override fun failed(exception: Throwable?) {
-        if (exception is Error) {
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.error.value = exception.message
-        } else {
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.error.value = "lançar um erro aqui"
-        }
+        setMessage.value = exception?.message.toString() ?: "Erro desconhecido!"
+        viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }
 
     override fun enableButton(): Boolean {

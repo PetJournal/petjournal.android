@@ -53,7 +53,6 @@ class LoginViewModelImpl(
         setMessage.value = resulMessage
         viewModelScope.launch {
             passwordRemember()
-            //TODO: Desenvolver lógica para lembrar senha
             validationEventChannel.send(ValidationEvent.Success)
         }
     }
