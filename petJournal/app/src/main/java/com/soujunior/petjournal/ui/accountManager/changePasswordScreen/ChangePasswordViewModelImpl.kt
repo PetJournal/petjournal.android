@@ -53,9 +53,9 @@ class ChangePasswordViewModelImpl(
         )
 
         return state.password.isNotBlank() &&
-               state.repeatedPassword.isNotBlank() &&
-               passwordResult.errorMessage == null &&
-               repeatedPasswordResult.errorMessage == null
+                state.repeatedPassword.isNotBlank() &&
+                passwordResult.errorMessage == null &&
+                repeatedPasswordResult.errorMessage == null
     }
 
     private fun hasError(result: ValidationResult): Boolean {
@@ -119,7 +119,6 @@ class ChangePasswordViewModelImpl(
             //TODO: criar metodo para desconectar outros dispositivos
         }
     }
-
     override fun submitNewPassword() {
         disconnectOtherDevices()
         _taskState.value = TaskState.Loading

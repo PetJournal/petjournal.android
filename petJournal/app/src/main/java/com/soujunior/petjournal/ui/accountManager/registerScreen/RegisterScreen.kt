@@ -14,6 +14,7 @@ import org.koin.androidx.compose.getViewModel
 fun RegisterScreen(navController: NavController) {
     val viewModel: RegisterViewModel = getViewModel()
     val context = LocalContext.current
+
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
             when (event) {

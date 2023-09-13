@@ -32,5 +32,4 @@ abstract class RegisterViewModel : ViewModel() {
         repeatedPassword: String? = null,
         privacy: Boolean? = null
     )
-
 }

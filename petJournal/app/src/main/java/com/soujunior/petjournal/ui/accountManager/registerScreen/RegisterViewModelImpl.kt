@@ -162,12 +162,12 @@ class RegisterViewModelImpl(
         viewModelScope.launch {
             val result = signUpUseCase.execute(
                 SignUpModel(
-                    firstName = state.name,
-                    lastName = state.lastName,
-                    email = state.email,
-                    phone = state.phone,
-                    password = state.password,
-                    passwordConfirmation = state.password,
+                    firstName = state.name.replace(" ", ""),
+                    lastName = state.lastName.replace(" ", ""),
+                    email = state.email.replace(" ", ""),
+                    phone = state.phone.replace(" ", ""),
+                    password = state.password.replace(" ", ""),
+                    passwordConfirmation = state.password.replace(" ", ""),
                     isPrivacyPolicyAccepted = state.privacyPolicy
                 )
             )

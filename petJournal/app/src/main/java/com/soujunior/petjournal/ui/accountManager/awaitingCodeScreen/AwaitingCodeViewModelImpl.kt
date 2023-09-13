@@ -66,6 +66,7 @@ class AwaitingCodeViewModelImpl(
                 state.codeOTP.length == 6 &&
                 codeResult.errorMessage == null
     }
+
     private fun change(
         codeOTP: String? = null,
         email: String? = null,

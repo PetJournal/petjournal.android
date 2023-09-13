@@ -13,6 +13,7 @@ import org.koin.androidx.compose.getViewModel
 fun ForgotPasswordScreen(navController: NavController) {
     val viewModel: ForgotPasswordViewModel = getViewModel()
     val context = LocalContext.current
+
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
             when (event) {
