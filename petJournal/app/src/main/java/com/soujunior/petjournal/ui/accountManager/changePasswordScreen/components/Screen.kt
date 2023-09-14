@@ -9,21 +9,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordFormEvent
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordViewModel
-import com.soujunior.petjournal.ui.components.Button
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.CheckboxWithText
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.components.InputText
-import com.soujunior.petjournal.ui.states.States
+import com.soujunior.petjournal.ui.states.TaskState
 
 @Composable
 fun Screen(
     viewModel: ChangePasswordViewModel
 ) {
+    val taskState by viewModel.taskState.collectAsState()
+
     Box(modifier = Modifier.fillMaxWidth()) {
         LazyColumn(
             modifier = Modifier
@@ -95,6 +98,7 @@ fun Screen(
                     },
                     enableButton = viewModel.enableButton(),
                     text = "Redefinir Senha",
+                    isLoading = taskState is TaskState.Loading
                 )
             }
         }

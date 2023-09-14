@@ -1,10 +1,10 @@
 package com.soujunior.petjournal.ui.loginScreen
 
-import com.soujunior.domain.entities.auth.LoginModel
-import com.soujunior.domain.usecase.auth.LoginUseCase
-import com.soujunior.domain.usecase.auth.util.ValidationRepositoryImpl
-import com.soujunior.domain.usecase.auth.util.ValidationResult
-import com.soujunior.domain.usecase.base.DataResult
+import com.soujunior.domain.model.request.LoginModel
+import com.soujunior.domain.use_case.auth.LoginUseCase
+import com.soujunior.domain.use_case.auth.util.ValidationRepositoryImpl
+import com.soujunior.domain.use_case.auth.util.ValidationResult
+import com.soujunior.domain.use_case.base.DataResult
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormState
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModelImpl
@@ -13,17 +13,19 @@ import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class LoginViewModelImplTest {
+class LoginSplashViewModelImplTest {
     private val loginUseCase = mockk<LoginUseCase>(relaxed = true)
     private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
-    private val viewModel = LoginViewModelImpl(loginUseCase = loginUseCase, validation = validation)
+    private val viewModel = LoginViewModelImpl(
+        loginUseCase = loginUseCase,
+        validation = validation
+    )
 
     @Before
     fun setup() { Dispatchers.setMain(Dispatchers.Unconfined) }

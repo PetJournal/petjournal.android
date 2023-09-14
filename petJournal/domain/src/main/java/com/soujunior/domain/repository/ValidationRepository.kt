@@ -1,6 +1,6 @@
 package com.soujunior.domain.repository
 
-import com.soujunior.domain.usecase.auth.util.ValidationResult
+import com.soujunior.domain.use_case.auth.util.ValidationResult
 
 interface ValidationRepository {
     fun validateName(name: String) : ValidationResult
@@ -12,5 +12,4 @@ interface ValidationRepository {
     fun validateRepeatedPassword(repeatedPassword: String, password: String) : ValidationResult
     fun validatePrivacyPolicy(value: Boolean) : ValidationResult
     fun validateCodeOTP(codeOTP: String) : ValidationResult
-    fun validateUserName(name: String) : ValidationResult
 }

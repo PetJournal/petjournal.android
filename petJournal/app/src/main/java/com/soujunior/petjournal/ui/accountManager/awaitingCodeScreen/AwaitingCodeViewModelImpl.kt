@@ -6,13 +6,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.soujunior.domain.entities.auth.AwaitingCodeModel
+import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.usecase.auth.AwaitingCodeUseCase
-import com.soujunior.domain.usecase.auth.util.ValidationResult
+import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
+import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
-import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterFormEvent
+import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -24,26 +26,21 @@ class AwaitingCodeViewModelImpl(
     override var state by mutableStateOf(AwaitingCodeFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
-    override val success = MutableLiveData<String>()
-    override val error = MutableLiveData<String>()
+    override val message: StateFlow<String> get() = setMessage
+    private val setMessage = MutableStateFlow("")
+
+    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
+    val taskState: StateFlow<TaskState> = _taskState
 
     override fun failed(exception: Throwable?) {
-        if (exception is Error) {
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.error.value = exception.message
-
-        } else {
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.error.value = "Erro desconhecido!"
-        }
+        setMessage.value = exception?.message.toString() ?: "Erro desconhecido!"
+        viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }
     override fun success(resultPostAwaitingCode: String) {
-
-        this.success.value = resultPostAwaitingCode
+        setMessage.value = resultPostAwaitingCode
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
-
     }
 
     override fun onEvent(event: AwaitingCodeFormEvent) {
@@ -57,6 +54,7 @@ class AwaitingCodeViewModelImpl(
         }
     }
     private fun hasError(result: ValidationResult): Boolean {
+        Log.e("testar", ">> "+result.errorMessage)
         return listOf(result).any { !it.success }
     }
 
@@ -68,12 +66,12 @@ class AwaitingCodeViewModelImpl(
                 state.codeOTP.length == 6 &&
                 codeResult.errorMessage == null
     }
+
     private fun change(
         codeOTP: String? = null,
         email: String? = null,
     ) {
         when {
-
             email != null -> {
                 state = state.copy(email = email)
                 val emailResult = validation.validateEmail(state.email)
@@ -87,15 +85,20 @@ class AwaitingCodeViewModelImpl(
                 else state.copy(codeOTPError = null)
                 Log.e("test","${state.codeOTPError}")
             }
-
         }
     }
 
     override fun postOtpVerification() {
+        _taskState.value = TaskState.Loading
         viewModelScope.launch {
-            val result = awaitingCodeUseCase.execute(AwaitingCodeModel(codeOTP = state.codeOTP, email = state.email))
+            val result = awaitingCodeUseCase.execute(
+                AwaitingCodeModel(
+                    email = state.email,
+                    verificationToken = state.codeOTP
+                )
+            )
             result.handleResult(::success, ::failed)
+            _taskState.value = TaskState.Idle
         }
     }
-
 }

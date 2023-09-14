@@ -6,41 +6,43 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.soujunior.domain.entities.auth.PasswordModel
+import com.soujunior.domain.model.request.ChangePasswordModel
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.usecase.auth.ChangePasswordUseCase
-import com.soujunior.domain.usecase.auth.util.ValidationResult
+import com.soujunior.domain.use_case.auth.ChangePasswordUseCase
+import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class ChangePasswordViewModelImpl(
-    private val changePassword: ChangePasswordUseCase,
+    private val changePasswordUseCase: ChangePasswordUseCase,
     private val validation: ValidationRepository
 ) : ChangePasswordViewModel() {
-    override var state by mutableStateOf(ChangePasswordFormState())
-    override val validationEventChannel = Channel<ValidationEvent>()
-    override val validationEvents = validationEventChannel.receiveAsFlow()
-    override val success = MutableLiveData<String>()
-    override val error = MutableLiveData<String>()
 
+    override var state by mutableStateOf(ChangePasswordFormState())
+    override var validationEventChannel = Channel<ValidationEvent>()
+    override val validationEvents = validationEventChannel.receiveAsFlow()
+
+    override val message: StateFlow<String> get() = setMessage
+    private val setMessage = MutableStateFlow("")
+
+    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
+    override val taskState: StateFlow<TaskState> = _taskState
 
     override fun success(result: String) {
-        this.success.value = result
+        setMessage.value = result
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
     }
 
     override fun failed(exception: Throwable?) {
-        if (exception is Error) {
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.error.value = exception.message
-        } else {
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.error.value = "lançar um erro aqui"
-        }
+        setMessage.value = exception?.message.toString() ?: "Erro desconhecido!"
+        viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }
 
     override fun enableButton(): Boolean {
@@ -51,16 +53,16 @@ class ChangePasswordViewModelImpl(
         )
 
         return state.password.isNotBlank() &&
-               state.repeatedPassword.isNotBlank() &&
-               passwordResult.errorMessage == null &&
-               repeatedPasswordResult.errorMessage == null
+                state.repeatedPassword.isNotBlank() &&
+                passwordResult.errorMessage == null &&
+                repeatedPasswordResult.errorMessage == null
     }
 
     private fun hasError(result: ValidationResult): Boolean {
         return listOf(result).any { !it.success }
     }
 
-    private fun change(
+    fun change(
         password: String? = null,
         repeatedPassword: String? = null,
         disconnect: Boolean? = null
@@ -119,13 +121,16 @@ class ChangePasswordViewModelImpl(
     }
     override fun submitNewPassword() {
         disconnectOtherDevices()
+        _taskState.value = TaskState.Loading
         viewModelScope.launch {
-            val result = changePassword.execute(
-                PasswordModel(
-                    password = state.password
+            val result = changePasswordUseCase.execute(
+                ChangePasswordModel(
+                    password = state.password,
+                    passwordConfirmation = state.repeatedPassword
                 )
             )
             result.handleResult(::success, ::failed)
+            _taskState.value = TaskState.Idle
         }
     }
 }

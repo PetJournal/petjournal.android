@@ -1,9 +1,9 @@
 package com.soujunior.petjournal.ui.accountManager.changePasswordScreen
 
 data class ChangePasswordFormState(
-    val password: String = "",
+    var password: String = "",
     val passwordError: List<String>? = null,
-    val repeatedPassword: String = "",
+    var repeatedPassword: String = "",
     val repeatedPasswordError: List<String>? = null,
     val disconnectOtherDevices: Boolean = false
 )

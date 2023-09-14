@@ -2,6 +2,7 @@ package com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen
 
 import androidx.lifecycle.ViewModel
 import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +15,9 @@ abstract class ForgotPasswordViewModel : ViewModel() {
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
     abstract val message: StateFlow<String>
-    abstract fun change( email: String? )
+    abstract val taskState: StateFlow<TaskState>
+
+    abstract fun change(email: String?)
     abstract fun success(resultPostSubmit: String)
     abstract fun failed(exception: Throwable?)
     abstract fun submitData()

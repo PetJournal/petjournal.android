@@ -3,14 +3,13 @@ package com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.soujunior.domain.entities.auth.ForgotPasswordModel
+import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.usecase.auth.ForgotPasswordUseCase
-import com.soujunior.domain.usecase.auth.util.ValidationResult
+import com.soujunior.domain.use_case.auth.ForgotPasswordUseCase
+import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
-import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
+import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,11 +21,16 @@ class ForgotPasswordViewModelImpl(
     private val validation: ValidationRepository,
     private val forgotPasswordUseCase: ForgotPasswordUseCase
 ) : ForgotPasswordViewModel() {
+
     override var state by mutableStateOf(ForgotPasswordFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
     override val message: StateFlow<String> get() = setMessage
     private val setMessage = MutableStateFlow("")
+
+    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
+    override val taskState: StateFlow<TaskState> = _taskState
+
     override fun failed(exception: Throwable?) {
         if (exception is Error) {
             setMessage.value = exception.message.toString()
@@ -59,11 +63,13 @@ class ForgotPasswordViewModelImpl(
             state = state.copy(emailError = emailResult.errorMessage)
             return
         }
+        _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val result = forgotPasswordUseCase.execute(
                 ForgotPasswordModel(email = state.email)
             )
             result.handleResult(::success, ::failed)
+            _taskState.value = TaskState.Idle
         }
     }
 
@@ -74,20 +80,16 @@ class ForgotPasswordViewModelImpl(
         email: String?
     ) {
         when {
-
             email != null -> {
                 state = state.copy(email = email)
                 val emailResult = validation.validateEmail(state.email)
                 state = if (hasError(emailResult)) state.copy(emailError = emailResult.errorMessage)
                 else state.copy(emailError = null)
             }
-
         }
     }
     override fun enableButton(): Boolean {
         val emailResult = validation.validateEmail(state.email)
-        return state.email.isNotBlank() &&
-                emailResult.errorMessage == null
-
+        return state.email.isNotBlank() && emailResult.errorMessage == null
     }
 }

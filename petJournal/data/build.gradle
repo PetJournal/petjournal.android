@@ -32,15 +32,18 @@ android {
 
 dependencies {
 
-    implementation(project(":domain"))
-
     def dependencies = rootProject.ext.dependencies
 
+    implementation project(":domain")
+
+    implementation dependencies.securityCrypto
     implementation dependencies.retrofit2Retrofit
     implementation dependencies.moshiKotlin
     implementation dependencies.retrofit2ConverterMoshi
     implementation dependencies.coroutineCore
     implementation dependencies.coroutineAndroid
+    implementation dependencies.coreKtx
+    implementation dependencies.preference
 
     testImplementation testJunit
     testImplementation testMockk

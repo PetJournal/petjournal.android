@@ -4,9 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.viewModelScope
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
-import com.soujunior.domain.usecase.auth.RegisterUseCase
-import com.soujunior.domain.usecase.auth.util.ValidationRepositoryImpl
-import com.soujunior.domain.usecase.auth.util.ValidationResult
+import com.soujunior.domain.model.mapper.User
+import com.soujunior.domain.use_case.auth.SignUpUseCase
+import com.soujunior.domain.use_case.auth.util.ValidationRepositoryImpl
+import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterFormEvent
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterFormState
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterViewModelImpl
@@ -28,13 +29,13 @@ class RegisterMethodTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: RegisterViewModelImpl
-    private val registerUseCase = mockk<RegisterUseCase>(relaxed = true)
+    private val signUpUseCase = mockk<SignUpUseCase>(relaxed = true)
     private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
 
     @Before
     fun setup() {
         Dispatchers.setMain(Dispatchers.Unconfined)
-        viewModel = RegisterViewModelImpl(registerUseCase, validation)
+        viewModel = RegisterViewModelImpl(signUpUseCase, validation)
     }
 
     @After
@@ -42,9 +43,15 @@ class RegisterMethodTest {
         viewModel.viewModelScope.cancel()
     }
 
-    @Test()
+    @Test
     fun `if success() is call, set success message`() = runTest {
-        val successMessage = "Test Success"
+        val successMessage = User(
+            "123456",
+            "John",
+            "Doe",
+            "john.doe@example.com",
+            "11998018914"
+        )
         viewModel.success(successMessage)
         assertEquals(successMessage, viewModel.message.value)
     }

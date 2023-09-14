@@ -1,15 +1,17 @@
 package com.soujunior.petjournal.ui.accountManager.registerScreen
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.soujunior.domain.entities.auth.RegisterModel
+import com.soujunior.domain.model.mapper.User
+import com.soujunior.domain.model.request.SignUpModel
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.usecase.auth.RegisterUseCase
-import com.soujunior.domain.usecase.auth.util.ValidationResult
+import com.soujunior.domain.use_case.auth.SignUpUseCase
+import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,9 +19,10 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class RegisterViewModelImpl(
-    private val registerUseCase: RegisterUseCase,
+    private val signUpUseCase: SignUpUseCase,
     private val validation: ValidationRepository
 ) : RegisterViewModel() {
+
     override var state by mutableStateOf(RegisterFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
@@ -27,21 +30,19 @@ class RegisterViewModelImpl(
     override val message: StateFlow<String> get() = setMessage
     private val setMessage = MutableStateFlow("")
 
-    override fun success(resultPostRegister: String) {
-        this.setMessage.value = resultPostRegister
+    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
+    override val taskState: StateFlow<TaskState> = _taskState
+
+    override fun success(resultPostRegister: User) {
+        Log.i("RegisterViewModel", resultPostRegister.toString())
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
     }
 
     override fun failed(exception: Throwable?) {
-        if (exception is Error) {
-            setMessage.value = exception.message.toString()
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-        } else {
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-            this.setMessage.value = "lançar um erro aqui"
-        }
+        setMessage.value = exception?.message ?: "Unknown Error"
+        viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }
 
     private fun hasError(result: ValidationResult): Boolean {
@@ -157,18 +158,21 @@ class RegisterViewModelImpl(
     }
 
     override fun submitData() {
+        _taskState.value = TaskState.Loading
         viewModelScope.launch {
-            val result = registerUseCase.execute(
-                RegisterModel(
-                    name = state.name,
-                    lastName = state.lastName,
-                    email = state.email,
-                    phoneNumber = state.phone,
-                    password = state.password,
-                    privacyPolicy = state.privacyPolicy
+            val result = signUpUseCase.execute(
+                SignUpModel(
+                    firstName = state.name.replace(" ", ""),
+                    lastName = state.lastName.replace(" ", ""),
+                    email = state.email.replace(" ", ""),
+                    phone = state.phone.replace(" ", ""),
+                    password = state.password.replace(" ", ""),
+                    passwordConfirmation = state.password.replace(" ", ""),
+                    isPrivacyPolicyAccepted = state.privacyPolicy
                 )
             )
             result.handleResult(::success, ::failed)
+            _taskState.value = TaskState.Idle
         }
     }
 }

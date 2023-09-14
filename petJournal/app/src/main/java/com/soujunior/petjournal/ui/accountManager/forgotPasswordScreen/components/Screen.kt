@@ -24,7 +24,6 @@ import com.soujunior.petjournal.ui.components.InputText
 
 @Composable
 fun Screen(navController: NavController, viewModel: ForgotPasswordViewModel) {
-
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier

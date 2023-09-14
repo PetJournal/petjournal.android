@@ -4,11 +4,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.soujunior.domain.entities.auth.LoginModel
+import com.soujunior.domain.model.request.LoginModel
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.usecase.auth.LoginUseCase
-import com.soujunior.domain.usecase.auth.util.ValidationResult
+import com.soujunior.domain.use_case.auth.GetSavedPasswordUseCase
+import com.soujunior.domain.use_case.auth.LoginUseCase
+import com.soujunior.domain.use_case.auth.SavePasswordUseCase
+import com.soujunior.domain.use_case.auth.util.ValidationResult
 import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,36 +20,50 @@ import kotlinx.coroutines.launch
 
 class LoginViewModelImpl(
     private val loginUseCase: LoginUseCase,
-    private val validation: ValidationRepository
+    private val validation: ValidationRepository,
+    private val savePasswordUseCase: SavePasswordUseCase,
+    private val getSavedPasswordUseCase: GetSavedPasswordUseCase
 ) : LoginViewModel() {
-    override var state by mutableStateOf(LoginFormState())
 
+    override var state by mutableStateOf(LoginFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
 
     override val message: StateFlow<String> get() = setMessage
     private val setMessage = MutableStateFlow("")
 
-    override fun failed(exception: Throwable?) {
-        if (exception is Error) {
-            setMessage.value = exception.message.toString()
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-        } else {
-            setMessage.value = "Erro desconhecido!"
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
+    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
+    override val taskState: StateFlow<TaskState> = _taskState
+
+    init {
+        viewModelScope.launch {
+            val password = getSavedPasswordUseCase()
+            if (password != null) {
+                state = state.copy(password = password)
+            }
         }
+    }
+
+    override fun failed(exception: Throwable?) {
+        setMessage.value = exception?.message.toString() ?: "Erro desconhecido!"
+        viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }
 
     override fun success(resulMessage: String) {
         setMessage.value = resulMessage
         viewModelScope.launch {
             passwordRemember()
-            //TODO: Desenvolver lógica para lembrar senha
             validationEventChannel.send(ValidationEvent.Success)
         }
     }
 
-    override fun passwordRemember() {}
+    override fun passwordRemember() {
+        if (state.rememberPassword) {
+            viewModelScope.launch {
+                savePasswordUseCase.execute(state.password)
+            }
+        }
+    }
 
     private fun hasError(result: ValidationResult): Boolean {
         return listOf(result).any { !it.success }
@@ -92,6 +109,7 @@ class LoginViewModelImpl(
         val emailResult = validation.validateEmail(state.email)
         val passwordResult = validation.validateField(state.password)
         val hasError = listOf(emailResult, passwordResult).any { !it.success }
+
         if (hasError) {
             state = state.copy(
                 emailError = emailResult.errorMessage,
@@ -99,12 +117,18 @@ class LoginViewModelImpl(
             )
             return
         }
+
+        _taskState.value = TaskState.Loading
         viewModelScope.launch {
-            val result =
-                loginUseCase.execute(
-                    LoginModel(email = state.email, password = state.password)
+            val result = loginUseCase.execute(
+                LoginModel(
+                    email = state.email,
+                    password = state.password
                 )
+            )
+
             result.handleResult(::success, ::failed)
+            _taskState.value = TaskState.Idle
         }
     }
 }
