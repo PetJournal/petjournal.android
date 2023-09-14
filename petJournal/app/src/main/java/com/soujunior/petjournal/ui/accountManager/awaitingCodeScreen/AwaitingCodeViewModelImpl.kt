@@ -1,10 +1,10 @@
 package com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.repository.ValidationRepository
@@ -26,6 +26,8 @@ class AwaitingCodeViewModelImpl(
     override var state by mutableStateOf(AwaitingCodeFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
+    override val email: StateFlow<String> get() = setEmail
+    override val setEmail = MutableStateFlow("")
     override val message: StateFlow<String> get() = setMessage
     private val setMessage = MutableStateFlow("")
 
@@ -36,6 +38,7 @@ class AwaitingCodeViewModelImpl(
         setMessage.value = exception?.message.toString() ?: "Erro desconhecido!"
         viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }
+
     override fun success(resultPostAwaitingCode: String) {
         setMessage.value = resultPostAwaitingCode
         viewModelScope.launch {
@@ -45,16 +48,15 @@ class AwaitingCodeViewModelImpl(
 
     override fun onEvent(event: AwaitingCodeFormEvent) {
         when (event) {
-            is AwaitingCodeFormEvent.CodeOTPChanged ->  {
+            is AwaitingCodeFormEvent.CodeOTPChanged -> {
                 change(codeOTP = event.code)
-                Log.e("test", "${event.code}")
             }
-            is AwaitingCodeFormEvent.EmailChanged -> change(email = event.email)
+
             AwaitingCodeFormEvent.Submit -> postOtpVerification()
         }
     }
+
     private fun hasError(result: ValidationResult): Boolean {
-        Log.e("testar", ">> "+result.errorMessage)
         return listOf(result).any { !it.success }
     }
 
@@ -69,36 +71,34 @@ class AwaitingCodeViewModelImpl(
 
     private fun change(
         codeOTP: String? = null,
-        email: String? = null,
     ) {
         when {
-            email != null -> {
-                state = state.copy(email = email)
-                val emailResult = validation.validateEmail(state.email)
-                state = if (hasError(emailResult)) state.copy(emailError = emailResult.errorMessage)
-                else state.copy(emailError = null)
-            }
             codeOTP != null -> {
                 state = state.copy(codeOTP = codeOTP)
                 val codeOTPResult = validation.validateCodeOTP(state.codeOTP)
-                state = if (hasError(codeOTPResult)) state.copy( codeOTPError = codeOTPResult.errorMessage) // Atribuindo ao emailerror temporariamente
-                else state.copy(codeOTPError = null)
-                Log.e("test","${state.codeOTPError}")
+                state =
+                    if (hasError(codeOTPResult)) state.copy(codeOTPError = codeOTPResult.errorMessage) // Atribuindo ao emailerror temporariamente
+                    else state.copy(codeOTPError = null)
             }
         }
     }
 
     override fun postOtpVerification() {
         _taskState.value = TaskState.Loading
-        viewModelScope.launch {
-            val result = awaitingCodeUseCase.execute(
-                AwaitingCodeModel(
-                    email = state.email,
-                    verificationToken = state.codeOTP
+        if (email.value == null) {
+            Log.e(TAG, "Email not passed!")
+        } else {
+            Log.e(TAG, "Email passed!: ${email.value}")
+            viewModelScope.launch {
+                val result = awaitingCodeUseCase.execute(
+                    AwaitingCodeModel(
+                        email = email.value,
+                        verificationToken = state.codeOTP
+                    )
                 )
-            )
-            result.handleResult(::success, ::failed)
-            _taskState.value = TaskState.Idle
+                result.handleResult(::success, ::failed)
+                _taskState.value = TaskState.Idle
+            }
         }
     }
 }
