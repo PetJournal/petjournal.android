@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,7 +21,7 @@ fun ForgotPasswordScreen(navController: NavController) {
             when (event) {
                 is ValidationEvent.Success -> {
                     Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG).show()
-                    navController.navigate("awaitingCode")
+                    navController.navigate("awaitingCode/${viewModel.state.email}")
                 }
                 is ValidationEvent.Failed -> {
                     Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG).show()
