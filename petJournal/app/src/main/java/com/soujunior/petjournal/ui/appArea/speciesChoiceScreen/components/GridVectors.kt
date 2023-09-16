@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.registerPetScreen.components.RoundedSquare
@@ -30,6 +29,7 @@ import com.soujunior.petjournal.ui.util.Constants.DOG
 import com.soujunior.petjournal.ui.util.Constants.FISH
 import com.soujunior.petjournal.ui.util.Constants.REPTILE
 import com.soujunior.petjournal.ui.util.Constants.RODENT
+import com.soujunior.petjournal.ui.util.calcDefault
 
 @Composable
 fun GridVectors(
@@ -250,11 +250,6 @@ fun GridVectors(
             }
         }
     }
-}
-
-//// Gustavo isso aqui talvez possa ir pra UTILS e ser reutilizado dps de alguns ajustes.
-private fun calcDefault(sizeToMultiply: Int, quantity: Int): Dp {
-    return (sizeToMultiply * quantity).dp
 }
 
 @Preview

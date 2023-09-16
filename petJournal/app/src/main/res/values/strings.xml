@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PetJournal</string>
+    <string name="pet_registration">Cadastro Pet</string>
 </resources>
