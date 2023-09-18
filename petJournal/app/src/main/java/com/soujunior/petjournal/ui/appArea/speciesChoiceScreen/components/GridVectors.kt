@@ -46,7 +46,7 @@ fun GridVectors(
             modifier = Modifier
                 .border(
                     width = 2.dp,
-                    color = if (selectedItem == DOG) Color.Red else Color.Gray,
+                    color = if (selectedItem == DOG) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp)
@@ -70,7 +70,7 @@ fun GridVectors(
                 )
                 Text(
                     text = "Cachorro",
-                    color = MaterialTheme.colorScheme.primary,
+                    color = if (selectedItem == DOG) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -80,7 +80,7 @@ fun GridVectors(
             modifier = Modifier
                 .border(
                     width = 2.dp,
-                    color = if (selectedItem == BIRD) Color.Red else Color.Gray,
+                    color = if (selectedItem == BIRD) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp)
@@ -104,7 +104,7 @@ fun GridVectors(
                 )
                 Text(
                     text = "Pássaro",
-                    color = MaterialTheme.colorScheme.primary,
+                    color = if (selectedItem == BIRD) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -114,7 +114,7 @@ fun GridVectors(
             modifier = Modifier
                 .border(
                     width = 2.dp,
-                    color = if (selectedItem == CAT) Color.Red else Color.Gray,
+                    color = if (selectedItem == CAT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp)
@@ -138,7 +138,7 @@ fun GridVectors(
                 )
                 Text(
                     text = "Gato",
-                    color = MaterialTheme.colorScheme.primary,
+                    color = if (selectedItem == CAT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -153,7 +153,7 @@ fun GridVectors(
             modifier = Modifier
                 .border(
                     width = 2.dp,
-                    color = if (selectedItem == FISH) Color.Red else Color.Gray,
+                    color = if (selectedItem == FISH) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp)
@@ -177,7 +177,7 @@ fun GridVectors(
                 )
                 Text(
                     text = "Peixe",
-                    color = MaterialTheme.colorScheme.primary,
+                    color = if (selectedItem == FISH) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -187,7 +187,7 @@ fun GridVectors(
             modifier = Modifier
                 .border(
                     width = 2.dp,
-                    color = if (selectedItem == REPTILE) Color.Red else Color.Gray,
+                    color = if (selectedItem == REPTILE) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp)
@@ -211,7 +211,7 @@ fun GridVectors(
                 )
                 Text(
                     text = "Réptil",
-                    color = MaterialTheme.colorScheme.primary,
+                    color = if (selectedItem == REPTILE) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -220,7 +220,7 @@ fun GridVectors(
             modifier = Modifier
                 .border(
                     width = 2.dp,
-                    color = if (selectedItem == RODENT) Color.Red else Color.Gray,
+                    color = if (selectedItem == RODENT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp)
@@ -244,7 +244,7 @@ fun GridVectors(
                 )
                 Text(
                     text = "Roedor",
-                    color = MaterialTheme.colorScheme.primary,
+                    color = if (selectedItem == RODENT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
                     fontWeight = FontWeight.Bold
                 )
             }
