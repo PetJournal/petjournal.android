@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,12 +34,18 @@ import com.soujunior.petjournal.ui.util.UserViewModel
 
 @Composable
 fun Screen(navController: NavController, userViewModel: UserViewModel) {
-    Column {
+
+    Column(verticalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxSize()) {
+// Não é exibido
         Row(
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = stringResource(R.string.pet_registration), fontSize = 24.sp, color = Color.Black)
+            Text(
+                text = stringResource(R.string.pet_registration),
+                fontSize = 24.sp,
+                color = Color.Black
+            )
         }
         Box(
             modifier = Modifier
@@ -47,10 +53,8 @@ fun Screen(navController: NavController, userViewModel: UserViewModel) {
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight()
                     .background(MaterialTheme.colorScheme.background)
             ) {
                 Header()
@@ -61,8 +65,8 @@ fun Screen(navController: NavController, userViewModel: UserViewModel) {
                 Button2(
                     submit = { /*TODO*/ },
                     modifier = Modifier.width(180.dp),
-                    enableButton = false,
-                    text = "Outros...",
+                    enableButton = true,
+                    text = stringResource(R.string.others),
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Row(
@@ -76,7 +80,7 @@ fun Screen(navController: NavController, userViewModel: UserViewModel) {
                             width = 2.dp,
                             color = MaterialTheme.colorScheme.primary
                         ),
-                        text = "Voltar",
+                        text = stringResource(R.string.back),
                         buttonColor = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
                         textColor = MaterialTheme.colorScheme.primary
                     )
@@ -85,79 +89,15 @@ fun Screen(navController: NavController, userViewModel: UserViewModel) {
                         submit = { /*TODO*/ },
                         modifier = Modifier.width(150.dp),
                         enableButton = true,
-                        text = "Continuar"
+                        text = stringResource(R.string.text_continue)
                     )
 
                 }
             }
         }
+        // Verificar fica na posição correta
         NavigationBar(navController)
     }
-
-//    Scaffold(
-//        topBar = {
-//            Row(
-//                horizontalArrangement = Arrangement.SpaceEvenly,
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Text(text = "Cadastro Pet", fontSize = 24.sp, color = Color.Black)
-//            }
-//        },
-//        bottomBar = { NavigationBar(navController) },
-//        content = {
-//            Box(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(16.dp)
-//            ) {
-//                Column(
-//                    horizontalAlignment = Alignment.CenterHorizontally,
-//                    verticalArrangement = Arrangement.Center,
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .fillMaxHeight()
-//                        .background(MaterialTheme.colorScheme.background)
-//                ) {
-//                    Header()
-//                    GridVectors() {
-//                        Log.i("MyTag", it)
-//                    }
-//                    Spacer(modifier = Modifier.height(5.dp))
-//                    Button2(
-//                        submit = { /*TODO*/ },
-//                        modifier = Modifier.width(180.dp),
-//                        enableButton = false,
-//                        text = "Outros...",
-//                    )
-//                    Spacer(modifier = Modifier.height(16.dp))
-//                    Row(
-//                        verticalAlignment = Alignment.Bottom
-//                    ) {
-//                        Button2(
-//                            submit = { /*TODO*/ },
-//                            modifier = Modifier.width(150.dp),
-//                            enableButton = true,
-//                            border = BorderStroke(
-//                                width = 2.dp,
-//                                color = MaterialTheme.colorScheme.primary
-//                            ),
-//                            text = "Voltar",
-//                            buttonColor = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
-//                            textColor = MaterialTheme.colorScheme.primary
-//                        )
-//                        Spacer(modifier = Modifier.width(16.dp))
-//                        Button2(
-//                            submit = { /*TODO*/ },
-//                            modifier = Modifier.width(150.dp),
-//                            enableButton = true,
-//                            text = "Continuar"
-//                        )
-//
-//                    }
-//                }
-//            }
-//        }
-//    )
 }
 
 
