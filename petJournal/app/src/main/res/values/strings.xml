@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">PetJournal</string>
     <string name="pet_registration">Cadastro Pet</string>
+    <string name="others">Outros...</string>
+    <string name="back">Voltar</string>
+    <string name="text_continue">Continuar</string>
 </resources>
