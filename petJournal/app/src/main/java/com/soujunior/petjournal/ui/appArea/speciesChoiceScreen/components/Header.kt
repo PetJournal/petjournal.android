@@ -11,6 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.soujunior.petjournal.ui.util.UserViewModel
 
@@ -27,9 +28,10 @@ fun Header() {
 
     Text(
         text = "Olá Gelson, gostaríamos de saber qual a espécie do seu Pet:",
-        style = MaterialTheme.typography.titleLarge,
+        style = MaterialTheme.typography.displayLarge,
         textAlign = TextAlign.Center,
         color = MaterialTheme.colorScheme.primary,
+        fontSize = 24.sp,
         fontWeight = FontWeight.Bold
     )
 
