@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.request.ChangePasswordModel
 import com.soujunior.domain.repository.ValidationRepository
@@ -101,27 +102,23 @@ class ChangePasswordViewModelImpl(
                 change(password = event.password)
                 Log.e("testar", "${state.password}")
             }
-
             is ChangePasswordFormEvent.ConfirmPasswordChanged -> {
                 change(repeatedPassword = event.confirmPassword)
                 Log.e("testar", "${state.repeatedPassword}")
             }
-
             is ChangePasswordFormEvent.DisconnectOtherDevices -> {
                 change(disconnect = event.disconnect)
                 Log.e("testar", "${state.disconnectOtherDevices}")
             }
-
             is ChangePasswordFormEvent.Submit -> submitNewPassword()
         }
     }
 
     override fun disconnectOtherDevices() {
-        if (state.disconnectOtherDevices) {
+        if (state.disconnectOtherDevices){
             //TODO: criar metodo para desconectar outros dispositivos
         }
     }
-
     override fun submitNewPassword() {
         disconnectOtherDevices()
         _taskState.value = TaskState.Loading

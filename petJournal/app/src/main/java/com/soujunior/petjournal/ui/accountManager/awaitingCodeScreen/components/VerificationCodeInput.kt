@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,8 +21,6 @@ import com.soujunior.petjournal.ui.theme.FredokaRegular
 
 @Composable
 fun VerificationCodeInput(viewModel: AwaitingCodeViewModel) {
-    val state by viewModel.state.collectAsState()
-
     val resendCodeStyle = TextStyle(
         fontFamily = FontFamily(FredokaRegular),
         fontSize = 14.sp,
@@ -32,11 +28,15 @@ fun VerificationCodeInput(viewModel: AwaitingCodeViewModel) {
     )
 
     OTPTextField(
-        textValue = state.codeOTP,
-        onEvent = { code: String ->
-            viewModel.onEvent(AwaitingCodeFormEvent.CodeOTPChanged(code))
+        textValue = viewModel.state.codeOTP,
+        onEvent = { it: String ->
+            viewModel.onEvent(
+                AwaitingCodeFormEvent.CodeOTPChanged(
+                    it
+                )
+            )
         },
-        textError = state.codeOTPError
+        textError = viewModel.state.codeOTPError
     )
     Box(
         modifier = Modifier

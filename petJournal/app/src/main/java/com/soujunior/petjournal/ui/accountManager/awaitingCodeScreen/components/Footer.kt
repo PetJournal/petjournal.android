@@ -1,17 +1,12 @@
 package com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.components
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -25,12 +20,14 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun Footer(navController: NavController , viewModel: AwaitingCodeViewModel) {
-    val buttonIsEnable by viewModel.buttonIsEnable.collectAsState()
-
+    //val email by States.localEmailState.current // Redefinir para pegar o Email a partir do novo States
     Spacer(modifier = Modifier.padding(20.dp))
+
     Button(
-        submit = { viewModel.onEvent(AwaitingCodeFormEvent.Submit) },
-        enableButton = buttonIsEnable,
+        submit = {
+            viewModel.onEvent(AwaitingCodeFormEvent.Submit)
+        },
+        enableButton = viewModel.enableButton(),
         border = null,
         text = "Enviar",
         inDarkMode = true,
