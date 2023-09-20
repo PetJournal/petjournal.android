@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.theme
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -32,7 +31,7 @@ val Typography = Typography(
     ),
     headlineLarge = TextStyle(
         fontFamily = FontFamily(FredokaMedium),
-        fontSize = 15.sp,
+        fontSize = 20.sp,
         letterSpacing = 0.25.sp
     ),
     headlineMedium = TextStyle(
@@ -67,7 +66,7 @@ val Typography = Typography(
         fontSize = 14.sp,
         letterSpacing = 0.25.sp
     ),
-    titleSmall  = TextStyle(
+    titleSmall = TextStyle(
         fontFamily = FontFamily(FredokaBold),
         fontSize = 18.sp,
         letterSpacing = 1.25.sp

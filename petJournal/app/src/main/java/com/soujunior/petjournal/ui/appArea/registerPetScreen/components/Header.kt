@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.appArea.registerPetScreen.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -21,8 +20,8 @@ fun Header() {
         userViewModel.loadUserData()
     }
     Text(
-        text = "Ola $userName!",
-        style = MaterialTheme.typography.titleSmall,
+        text = "Olá $userName!",
+        style = MaterialTheme.typography.displaySmall,
         textAlign = TextAlign.Center,
         color = MaterialTheme.colorScheme.primary
     )
@@ -30,9 +29,10 @@ fun Header() {
 
     Text(
         text = "Sabemos o quanto o seu pet é especial, e estamos muito animados em recebê-los, venha se juntar a nossa comunidade de amantes de Pets, para melhor aproveitar a nossa plataforma.",
-        style = MaterialTheme.typography.titleLarge,
+        style = MaterialTheme.typography.headlineLarge,
         textAlign = TextAlign.Center,
-        color = MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.padding(start = 10.dp, end = 10.dp)
     )
 
     Spacer(modifier = Modifier.padding(bottom = 20.dp))
