@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,8 +14,11 @@ fun AwaitingCodeScreen(arg: String?, navController: NavController) {
     val viewModel: AwaitingCodeViewModel = getViewModel()
     val context = LocalContext.current
     LaunchedEffect(key1 = context) {
-        if (arg != null) viewModel.setEmail.value = arg
-        else Log.e(TAG, "Nenhum email enviado para AwaitingCodeScreen")
+        if (arg != null) {
+            viewModel.onEvent(AwaitingCodeFormEvent.EmailChanged(arg))
+        } else { // If the email is not valid, returns to login
+            navController.navigateUp()
+        }
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
