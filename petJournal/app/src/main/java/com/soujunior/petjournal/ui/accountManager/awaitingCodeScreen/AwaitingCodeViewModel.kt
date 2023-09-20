@@ -9,15 +9,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class AwaitingCodeViewModel : ViewModel() {
-    abstract var state: AwaitingCodeFormState
+    abstract val state: StateFlow<AwaitingCodeFormState>
+    abstract val buttonIsEnable: StateFlow<Boolean>
     abstract val validationEventChannel: Channel<ValidationEvent>
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 
     abstract val message: StateFlow<String>
-
-    abstract val email: StateFlow<String>
-    abstract val setEmail: MutableStateFlow<String>
 
     abstract fun postOtpVerification()
     abstract fun failed(exception: Throwable?)
