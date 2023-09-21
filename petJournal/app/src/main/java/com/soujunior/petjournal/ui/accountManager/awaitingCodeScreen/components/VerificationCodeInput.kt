@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -47,7 +48,8 @@ fun VerificationCodeInput(viewModel: AwaitingCodeViewModel) {
         Text(
             text = "Reenviar código?",
             style = resendCodeStyle,
-            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
+            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified,
+            modifier = Modifier.clickable { }
         )
     }
 }

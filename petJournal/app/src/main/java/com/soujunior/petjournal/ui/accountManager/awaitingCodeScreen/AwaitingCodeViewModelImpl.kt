@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.repository.ValidationRepository
@@ -30,7 +32,7 @@ class AwaitingCodeViewModelImpl(
     private val setMessage = MutableStateFlow("")
 
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
-    val taskState: StateFlow<TaskState> = _taskState
+    override val taskState: StateFlow<TaskState> = _taskState
 
     override fun failed(exception: Throwable?) {
         setMessage.value = exception?.message ?: "Erro desconhecido!"
@@ -78,7 +80,6 @@ class AwaitingCodeViewModelImpl(
     override fun postOtpVerification() {
         viewModelScope.launch {
             _taskState.value = TaskState.Loading
-
             val result = awaitingCodeUseCase.execute(
                 AwaitingCodeModel(
                     email = state.value.email,
