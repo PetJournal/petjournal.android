@@ -3,6 +3,8 @@ package com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.soujunior.petjournal.ui.ValidationEvent
@@ -13,6 +15,8 @@ import org.koin.androidx.compose.getViewModel
 fun AwaitingCodeScreen(arg: String?, navController: NavController) {
     val viewModel: AwaitingCodeViewModel = getViewModel()
     val context = LocalContext.current
+    val messageChannel by viewModel.message.collectAsState()
+
     LaunchedEffect(key1 = context) {
         if (arg != null) {
             viewModel.onEvent(AwaitingCodeFormEvent.EmailChanged(arg))
@@ -32,6 +36,11 @@ fun AwaitingCodeScreen(arg: String?, navController: NavController) {
             }
         }
     }
+
+    LaunchedEffect(messageChannel) {
+        Toast.makeText(context, messageChannel, Toast.LENGTH_SHORT).show()
+    }
+
     Screen(navController, viewModel)
 }
 
