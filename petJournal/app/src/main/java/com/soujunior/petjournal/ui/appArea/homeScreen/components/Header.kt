@@ -31,12 +31,13 @@ import com.soujunior.petjournal.ui.util.UserViewModel
 
 @Composable
 fun Header(navController: NavController) {
+    val firstName : String = ""
     val context = LocalContext.current
     val userViewModel: UserViewModel = viewModel()
     val userName = userViewModel.userName.value
     val jwtManager = JwtManager(context)
     LaunchedEffect(Unit) {
-        userViewModel.loadUserData()
+        userViewModel.loadUserData(firstName)
     }
     Row(
         modifier = Modifier.padding(start = 20.dp, top = 10.dp)

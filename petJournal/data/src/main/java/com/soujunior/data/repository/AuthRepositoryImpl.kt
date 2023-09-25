@@ -12,6 +12,7 @@ import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.model.request.ChangePasswordModel
 import com.soujunior.domain.model.request.ForgotPasswordModel
+import com.soujunior.domain.model.request.GuardianModel
 import com.soujunior.domain.model.request.LoginModel
 import com.soujunior.domain.model.request.SignUpModel
 import com.soujunior.domain.model.response.AccessTokenResponse
@@ -62,7 +63,6 @@ class AuthRepositoryImpl(
         return prefs.getString("password", null)
     }
     /* =--= Handle Access Token =--= */
-
     override suspend fun saveToken(token: String): Boolean {
         var status: Boolean = false
 
@@ -110,6 +110,9 @@ class AuthRepositoryImpl(
 
         deleteTokenJob.join()
         return status
+    }
+    override suspend fun getGuardianName(firstName : String): GuardianModel {
+            return authApi.getGuardianName(firstName)
     }
 
 }

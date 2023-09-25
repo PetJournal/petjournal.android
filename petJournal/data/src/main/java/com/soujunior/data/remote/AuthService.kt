@@ -9,7 +9,9 @@ import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.model.response.AccessTokenResponse
 import com.soujunior.data.model.response.MessageResponse
 import com.soujunior.data.model.response.UserInfoResponse
+import com.soujunior.domain.model.request.GuardianModel
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 
@@ -29,4 +31,7 @@ interface AuthService {
 
     @POST("api/waiting-code")
     suspend fun waitingCode(@Body waitingCodeBody: AwaitingCodeModel): NetworkResult<AccessTokenResponse>
+
+    @GET("api/guardian/name")
+    suspend fun getGuardianName(firstName : String): GuardianModel
 }
