@@ -41,15 +41,17 @@ fun VerificationCodeInput(viewModel: AwaitingCodeViewModel) {
     )
     Box(
         modifier = Modifier
-            .padding(start = 15.5.dp, top = 2.dp)
+            .padding(top = 6.dp, end = 14.5.dp)
             .fillMaxWidth(),
-        contentAlignment = Alignment.CenterStart
+        contentAlignment = Alignment.CenterEnd
     ) {
         Text(
             text = "Reenviar código?",
             style = resendCodeStyle,
             color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified,
-            modifier = Modifier.clickable { }
+            modifier = Modifier.clickable {
+                viewModel.onEvent(AwaitingCodeFormEvent.ResendCode)
+            }
         )
     }
 }
