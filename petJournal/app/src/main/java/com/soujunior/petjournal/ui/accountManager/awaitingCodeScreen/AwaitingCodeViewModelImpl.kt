@@ -1,11 +1,12 @@
 package com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.request.AwaitingCodeModel
+import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
+import com.soujunior.domain.use_case.auth.ForgotPasswordUseCase
+import com.soujunior.domain.use_case.base.DataResult
 import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
@@ -16,7 +17,8 @@ import kotlinx.coroutines.launch
 
 class AwaitingCodeViewModelImpl(
     private val validation: ValidationRepository,
-    private val awaitingCodeUseCase: AwaitingCodeUseCase
+    private val awaitingCodeUseCase: AwaitingCodeUseCase,
+    private val forgotPasswordUseCase: ForgotPasswordUseCase
 ) : AwaitingCodeViewModel() {
 
     private val _state = MutableStateFlow(AwaitingCodeFormState())
@@ -28,19 +30,19 @@ class AwaitingCodeViewModelImpl(
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents = validationEventChannel.receiveAsFlow()
 
-    override val message: StateFlow<String> get() = setMessage
-    private val setMessage = MutableStateFlow("")
+    private val _message: MutableStateFlow<String> = MutableStateFlow("")
+    override val message: StateFlow<String> = _message
 
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
 
     override fun failed(exception: Throwable?) {
-        setMessage.value = exception?.message ?: "Erro desconhecido!"
+        _message.value = exception?.message ?: "Erro desconhecido!"
         viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }
 
     override fun success(resultPostAwaitingCode: String) {
-        setMessage.value = resultPostAwaitingCode
+        _message.value = resultPostAwaitingCode
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
@@ -51,6 +53,7 @@ class AwaitingCodeViewModelImpl(
             is AwaitingCodeFormEvent.CodeOTPChanged -> changeCode(event.code)
             is AwaitingCodeFormEvent.EmailChanged -> changeEmail(event.email)
             is AwaitingCodeFormEvent.Submit -> postOtpVerification()
+            is AwaitingCodeFormEvent.ResendCode -> resendOtpVerification()
         }
     }
 
@@ -88,6 +91,20 @@ class AwaitingCodeViewModelImpl(
             )
             result.handleResult(::success, ::failed)
             _taskState.value = TaskState.Idle
+        }
+    }
+
+    private fun resendOtpVerification() {
+        viewModelScope.launch {
+            val result = forgotPasswordUseCase.execute(
+                ForgotPasswordModel(email = state.value.email)
+            )
+
+            if (result.isSuccess) {
+                _message.value = "Email reenviado!"
+            } else {
+                _message.value = "Erro ao reenviar email!"
+            }
         }
     }
 }
