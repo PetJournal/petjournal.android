@@ -1,22 +1,20 @@
 package com.soujunior.petjournal.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.fragment.app.FragmentManager.BackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeScreen
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordScreen
-import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreen
 import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordScreen
-import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreen
+import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreen
+import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.appArea.homeScreen.RegisterPetScreen
 import com.soujunior.petjournal.ui.appArea.tutorScreen.TutorScreen
 import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashScreen
-import com.soujunior.petjournal.ui.util.UserViewModel
 
 @Composable
 fun Presentation() {

@@ -8,7 +8,4 @@ abstract class GetGuardianDataUseCase (
     private val authRepository: AuthRepository
     ) : BaseUseCase<GuardianModel, String>() {
 
-    suspend operator fun invoke(firstName : String): GuardianModel {
-        return authRepository.getGuardianName(firstName)
-    }
 }

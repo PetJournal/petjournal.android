@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.appArea.registerPetScreen.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -10,18 +9,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.soujunior.petjournal.ui.util.UserViewModel
 
 @Composable
 fun Header() {
-    val userViewModel: UserViewModel = viewModel()
-    val userName = userViewModel.userName.value
     LaunchedEffect(Unit) {
-        userViewModel.loadUserData(userName)
+        //userViewModel.loadUserData(userName)
     }
     Text(
-        text = "Ola $userName!",
+        text = "Ola NOME2!",
         style = MaterialTheme.typography.titleSmall,
         textAlign = TextAlign.Center,
         color = MaterialTheme.colorScheme.primary

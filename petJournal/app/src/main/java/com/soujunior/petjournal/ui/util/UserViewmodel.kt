@@ -1,3 +1,4 @@
+/*
 package com.soujunior.petjournal.ui.util
 
 import androidx.compose.runtime.State
@@ -10,11 +11,13 @@ class UserViewModel : ViewModel() {
     val userName: State<String> = _userName
 
     fun loadUserData() {
-        /*
+        */
+/*
         viewModelScope.launch {
             val userData = repository.getGuardianName(firstName)
             _userName.value = userData.firstName
         }
-        */
+        *//*
+
     }
-}
+}*/
