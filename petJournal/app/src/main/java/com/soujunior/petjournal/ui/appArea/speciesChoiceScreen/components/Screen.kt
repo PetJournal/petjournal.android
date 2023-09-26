@@ -28,10 +28,9 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
-import com.soujunior.petjournal.ui.util.UserViewModel
 
 @Composable
-fun Screen(navController: NavController, userViewModel: UserViewModel) {
+fun Screen(navController: NavController) {
     ScaffoldCustom(
         titleTopBar = "Cadastro Pet",
         showButtonToReturn = true,
@@ -114,7 +113,6 @@ fun Screen(navController: NavController, userViewModel: UserViewModel) {
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
-    val userViewModel: UserViewModel = viewModel()
     val navController = rememberNavController()
-    Screen(navController = navController, userViewModel = userViewModel)
+    Screen(navController = navController)
 }

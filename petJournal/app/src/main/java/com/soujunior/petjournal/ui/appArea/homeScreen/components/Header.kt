@@ -1,3 +1,4 @@
+/*
 package com.soujunior.petjournal.ui.appArea.homeScreen.components
 
 import android.widget.Toast
@@ -31,7 +32,7 @@ fun Header(navController: NavController) {
     val context = LocalContext.current
     //val userViewModel: UserViewModel = viewModel()
     //val userName = userViewModel.userName.value
-    val jwtManager = JwtManager(context)
+    //val jwtManager = JwtManager(context)
     LaunchedEffect(Unit) {
         //userViewModel.loadUserData(firstName)
     }
@@ -73,7 +74,7 @@ fun Header(navController: NavController) {
             onClick = {
                 Toast.makeText(context, "Saindo", Toast.LENGTH_LONG).show()
                 navController.navigate("login")
-                jwtManager.deleteToken()
+                //jwtManager.deleteToken()
             }, modifier = Modifier.padding(end = 13.dp)
         ) {
             Icon(
@@ -87,3 +88,4 @@ fun Header(navController: NavController) {
 }
 
 
+*/

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,26 +19,37 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.components.NavigationBar
+import com.soujunior.petjournal.ui.components.ScaffoldCustom
 
 @ExperimentalPagerApi
 @Composable
 fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
-    Scaffold(
-        bottomBar = { NavigationBar(navController) },
-        content = {
+    ScaffoldCustom(
+        titleTopBar = "Olá, usuário!",
+        titleTopBarColor = MaterialTheme.colorScheme.scrim,
+        titleTopBarAligh = Alignment.CenterStart,
+        shadowBelowTopBar = 0.dp,
+        showButtonToReturn = false,
+        navigationUp = navController,
+        showTopBar = true,
+        showMenu = true,
+        showBottomBarNavigation = true,
+        bottomNavigationBar = { NavigationBar(navController) },
+        contentToUse = {
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(it),
 
-            ) {
+                ) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Top,
                 ) {
-                    item { Header(navController) }
-                    item { val carouselImages = viewModel.carouselImages
+                    item {
+                        val carouselImages = viewModel.carouselImages
 
                         Column() {
 
@@ -66,10 +76,11 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                             Box(modifier = Modifier.padding(start = 20.dp, end = 20.dp)) {
                                 Menu(navController)
                             }
-                        } }
+                        }
+                    }
                 }
             }
-        }
-    )
+
+        })
 
 }

@@ -13,15 +13,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.soujunior.petjournal.ui.util.UserViewModel
 
 
 @Composable
 fun Header() {
-    val userViewModel: UserViewModel = viewModel()
-    val userName = userViewModel.userName.value
     LaunchedEffect(Unit) {
-        userViewModel.loadUserData()
     }
 
     Spacer(modifier = Modifier.padding(12.dp))

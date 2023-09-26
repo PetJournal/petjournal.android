@@ -21,7 +21,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             WindowCompat.setDecorFitsSystemWindows(window, true)
             PetJournalTheme(
-                darkTheme = true,
                 content = {
                     Presentation()
                 }
@@ -32,26 +31,25 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AccountManager() {
-    PetJournalTheme(
+    /*PetJournalTheme(
         setSystemBarColor = true,
         content = {
         Scaffold(
             backgroundColor = MaterialTheme.colorScheme.background,
-            content = {
+            content = {*/
                 Box(
                     modifier = Modifier
-                        .padding(it)
                         .background(MaterialTheme.colorScheme.background)
                 ) { NavHostAccountManager() }
             }
-        )
+        /*)
     }
     )
-}
+}*/
 
 @Composable
 fun MainContent() {
-    Scaffold(
+    /*Scaffold(
         topBar = {
             TopAppBar(
                 title = {
@@ -65,11 +63,11 @@ fun MainContent() {
         },
         backgroundColor = MaterialTheme.colorScheme.background,
         content = {
-            Box(
-                modifier = Modifier
-                    .padding(it)
-                    .background(MaterialTheme.colorScheme.background)
-            ) { NavHostMainContent() }
+
         }
-    )
+    )*/
+    Box(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
+    ) { NavHostMainContent() }
 }
