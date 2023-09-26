@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen
 
+import android.content.ContentValues
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -32,13 +34,8 @@ class ForgotPasswordViewModelImpl(
     override val taskState: StateFlow<TaskState> = _taskState
 
     override fun failed(exception: Throwable?) {
-        if (exception is Error) {
-            setMessage.value = exception.message.toString()
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-        } else {
-            setMessage.value = "Erro desconhecido!"
-            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
-        }
+        setMessage.value = exception?.message.toString() ?: "Erro desconhecido!"
+        viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }
 
     override fun success(resultPostSubmit: String) {

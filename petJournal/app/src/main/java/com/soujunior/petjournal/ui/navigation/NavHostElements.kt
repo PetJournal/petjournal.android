@@ -7,15 +7,14 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeScreen
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordScreen
-import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreen
 import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordScreen
-import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreen
+import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreen
+import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.appArea.homeScreen.RegisterPetScreen
 import com.soujunior.petjournal.ui.appArea.tutorScreen.TutorScreen
 import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashScreen
-import com.soujunior.petjournal.ui.util.UserViewModel
 
 @Composable
 fun Presentation() {
@@ -32,16 +31,17 @@ fun Presentation() {
 fun NavHostAccountManager() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "login") {
+        composable("home") { HomeScreen(navController) }
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
         composable("mainContent") { (MainContent()) }
-        composable("awaitingCode") { AwaitingCodeScreen(navController) }
+        composable("tutorScreen") { TutorScreen(navController) }
+        composable("registerPet") { RegisterPetScreen(navController) }
+        composable("awaitingCode/{arg}") { backStackEntry ->
+            AwaitingCodeScreen(backStackEntry.arguments?.getString("arg"), navController)
+        }
         composable("forgotPassword") { ForgotPasswordScreen(navController) }
         composable("changePassword") { ChangePasswordScreen(navController) }
-        composable("registerPet") { RegisterPetScreen(navController) }
-        composable("home") { HomeScreen(navController) }
-        composable("tutorScreen") { TutorScreen(navController) }
-
     }
 }
 
@@ -55,6 +55,5 @@ fun NavHostMainContent() {
         composable("detail") { DetailScreen(navController) }
         composable("registerPet") { RegisterPetScreen(navController) }
         composable("tutorScreen") { TutorScreen(navController) }
-
     }
 }

@@ -78,7 +78,7 @@ val mainModule = module {
     viewModel<RegisterPetViewModel> { RegisterPetViewModelImpl() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get()) }
     viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get()) }
-    viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get()) }
+    viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get(), get()) }
     viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModelImpl(get(), get()) }
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
     viewModel{ SplashViewModel(get()) }
