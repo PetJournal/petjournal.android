@@ -12,7 +12,8 @@ import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreen
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreen
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreen
-import com.soujunior.petjournal.ui.appArea.homeScreen.RegisterPetScreen
+import com.soujunior.petjournal.ui.appArea.registerPetScreen.RegisterPetScreen
+import com.soujunior.petjournal.ui.appArea.speciesChoiceScreen.SpeciesChoiceScreen
 import com.soujunior.petjournal.ui.appArea.tutorScreen.TutorScreen
 import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashScreen
 
@@ -42,6 +43,10 @@ fun NavHostAccountManager() {
         }
         composable("forgotPassword") { ForgotPasswordScreen(navController) }
         composable("changePassword") { ChangePasswordScreen(navController) }
+        composable("registerPet") { RegisterPetScreen(navController) }
+        composable("speciesChoice") { SpeciesChoiceScreen(navController) }
+        composable("home") { HomeScreen(navController) }
+        composable("tutorScreen") { TutorScreen(navController) }
     }
 }
 
