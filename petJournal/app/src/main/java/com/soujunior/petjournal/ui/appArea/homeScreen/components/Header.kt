@@ -33,11 +33,11 @@ import com.soujunior.petjournal.ui.util.UserViewModel
 fun Header(navController: NavController) {
     val firstName : String = ""
     val context = LocalContext.current
-    val userViewModel: UserViewModel = viewModel()
-    val userName = userViewModel.userName.value
+    //val userViewModel: UserViewModel = viewModel()
+    //val userName = userViewModel.userName.value
     val jwtManager = JwtManager(context)
     LaunchedEffect(Unit) {
-        userViewModel.loadUserData(firstName)
+        //userViewModel.loadUserData(firstName)
     }
     Row(
         modifier = Modifier.padding(start = 20.dp, top = 10.dp)
@@ -51,7 +51,7 @@ fun Header(navController: NavController) {
                         fontSize = 18.sp
                     )
                 ) {
-                    append("$userName!")
+                    append("NOME!")
                 }
             },
             style = MaterialTheme.typography.bodyLarge,
