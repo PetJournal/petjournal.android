@@ -18,7 +18,7 @@ fun Header() {
     val userViewModel: UserViewModel = viewModel()
     val userName = userViewModel.userName.value
     LaunchedEffect(Unit) {
-        userViewModel.loadUserData(userName)
+        userViewModel.loadUserData()
     }
     Text(
         text = "Ola $userName!",

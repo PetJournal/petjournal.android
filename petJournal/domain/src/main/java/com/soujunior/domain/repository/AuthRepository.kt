@@ -8,7 +8,6 @@ import com.soujunior.domain.model.request.SignUpModel
 import com.soujunior.domain.model.response.AccessTokenResponse
 import com.soujunior.data.model.response.MessageResponse
 import com.soujunior.data.model.response.UserInfoResponse
-import com.soujunior.domain.model.request.GuardianModel
 import com.soujunior.domain.network.NetworkResult
 
 interface AuthRepository {
@@ -28,5 +27,4 @@ interface AuthRepository {
     suspend fun getToken(): String?
     suspend fun savePassword(password: String)
     suspend fun getSavedPassword(): String?
-    suspend fun getGuardianName(firstName : String): GuardianModel
 }
