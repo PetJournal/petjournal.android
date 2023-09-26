@@ -2,20 +2,19 @@ package com.soujunior.data.repository
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.preference.PreferenceManager
 import android.util.Log
-import com.soujunior.data.remote.AuthService
-import com.soujunior.domain.network.NetworkResult
+import androidx.preference.PreferenceManager
 import com.soujunior.data.model.response.MessageResponse
 import com.soujunior.data.model.response.UserInfoResponse
+import com.soujunior.data.remote.AuthService
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.model.request.ChangePasswordModel
 import com.soujunior.domain.model.request.ForgotPasswordModel
-import com.soujunior.domain.model.request.GuardianModel
 import com.soujunior.domain.model.request.LoginModel
 import com.soujunior.domain.model.request.SignUpModel
 import com.soujunior.domain.model.response.AccessTokenResponse
+import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.AuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -42,7 +41,8 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun changePassword(changePasswordModel: ChangePasswordModel): NetworkResult<MessageResponse> {
-        return authApi.changePassword(changePasswordModel)
+
+        return authApi.changePassword("Bearer " + getToken(), changePasswordModel)
     }
 
     override suspend fun forgotPassword(forgotPasswordModel: ForgotPasswordModel): NetworkResult<MessageResponse> {
@@ -54,15 +54,14 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun savePassword(password: String) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+
         prefs.edit().putString("password", password).apply()
     }
 
     override suspend fun getSavedPassword(): String? {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getString("password", null)
     }
-    /* =--= Handle Access Token =--= */
+
     override suspend fun saveToken(token: String): Boolean {
         var status: Boolean = false
 
@@ -91,7 +90,7 @@ class AuthRepositoryImpl(
             }
         }
 
-        getTokenJob.join() // wait ...
+        getTokenJob.join()
         return token
     }
 
@@ -111,8 +110,6 @@ class AuthRepositoryImpl(
         deleteTokenJob.join()
         return status
     }
-    override suspend fun getGuardianName(firstName : String): GuardianModel {
-            return authApi.getGuardianName(firstName)
-    }
+
 
 }

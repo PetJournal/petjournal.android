@@ -1,17 +1,17 @@
 package com.soujunior.data.remote
 
-import com.soujunior.domain.network.NetworkResult
+
+import com.soujunior.data.model.response.MessageResponse
+import com.soujunior.data.model.response.UserInfoResponse
+import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.model.request.ChangePasswordModel
 import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.domain.model.request.LoginModel
 import com.soujunior.domain.model.request.SignUpModel
-import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.model.response.AccessTokenResponse
-import com.soujunior.data.model.response.MessageResponse
-import com.soujunior.data.model.response.UserInfoResponse
-import com.soujunior.domain.model.request.GuardianModel
+import com.soujunior.domain.network.NetworkResult
 import retrofit2.http.Body
-import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 
@@ -24,7 +24,10 @@ interface AuthService {
     suspend fun login(@Body loginBody: LoginModel): NetworkResult<AccessTokenResponse>
 
     @PATCH("api/guardian/change-password")
-    suspend fun changePassword(@Body changePasswordBody: ChangePasswordModel): NetworkResult<MessageResponse>
+    suspend fun changePassword(
+        @Header("Authorization") token: String,
+        @Body changePasswordBody: ChangePasswordModel
+    ): NetworkResult<MessageResponse>
 
     @POST("api/forget-password")
     suspend fun forgotPassword(@Body forgotPasswordBody: ForgotPasswordModel): NetworkResult<MessageResponse>
@@ -32,6 +35,4 @@ interface AuthService {
     @POST("api/waiting-code")
     suspend fun waitingCode(@Body waitingCodeBody: AwaitingCodeModel): NetworkResult<AccessTokenResponse>
 
-    @GET("api/guardian/name")
-    suspend fun getGuardianName(firstName : String): GuardianModel
 }
