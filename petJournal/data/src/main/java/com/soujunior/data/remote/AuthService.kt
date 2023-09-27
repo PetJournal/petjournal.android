@@ -36,8 +36,4 @@ interface AuthService {
 
     @POST("api/waiting-code")
     suspend fun waitingCode(@Body waitingCodeBody: AwaitingCodeModel): NetworkResult<AccessTokenResponse>
-
-    @GET("api/guardian/name")
-    suspend fun guardianName(@Header("Authorization") token: String): NetworkResult<GuardianNameResponse>
-
 }

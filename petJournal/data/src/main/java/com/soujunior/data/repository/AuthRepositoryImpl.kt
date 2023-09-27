@@ -25,7 +25,8 @@ class AuthRepositoryImpl(
     private val context: Context
 ) : AuthRepository {
 
-    private val jwtManager: JwtManager = JwtManager(context)
+    private val jwtManager: JwtManager = JwtManager.getInstance(context)
+
     private val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     override suspend fun signUp(signUpModel: SignUpModel): NetworkResult<UserInfoResponse> {
