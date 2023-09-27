@@ -4,7 +4,6 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,24 +39,18 @@ import com.soujunior.petjournal.ui.components.ScaffoldCustom
 @Composable
 fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
     val showDropdownMenu = remember { mutableStateOf(false) }
-    var name: String = ""
+    val name = remember { mutableStateOf("") }
     val context = LocalContext.current
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
             when (event) {
-                is ValidationEvent.Success -> {
-                    Log.e("testar", "->"+viewModel.name.value.toString())
-                    name = viewModel.name.value.firstName
-                }
-                is ValidationEvent.Failed -> {
-                    name = "Pessoa bonita"
-                    Log.e("testar", "Erro na obtenção do nome")
-                }
+                is ValidationEvent.Success -> name.value = viewModel.name.value.firstName
+                is ValidationEvent.Failed -> name.value = "Pessoa bonita"
             }
         }
     }
     ScaffoldCustom(
-        titleTopBar = "Olá, ${name}!",
+        titleTopBar = "Olá, ${name.value}!",
         titleTopBarColor = MaterialTheme.colorScheme.scrim,
         titleTopBarAligh = Alignment.CenterStart,
         shadowBelowTopBar = 0.dp,
@@ -137,7 +130,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                 }
                 item { Spacer(modifier = Modifier.padding(top = 10.dp)) }
                 item {
-                        Menu(navController)
+                    Menu(navController)
                 }
             }
         })
