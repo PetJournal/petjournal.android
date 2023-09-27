@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.preference.PreferenceManager
-import com.soujunior.data.model.response.MessageResponse
-import com.soujunior.data.model.response.UserInfoResponse
+import com.soujunior.domain.model.response.MessageResponse
+import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.data.remote.AuthService
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.domain.model.request.AwaitingCodeModel

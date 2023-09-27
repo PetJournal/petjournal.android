@@ -20,11 +20,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 /**h1	displayLarge
@@ -155,9 +157,11 @@ fun PetJournalTheme(
     isDynamic: Boolean = false,
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
-    setSystemBarColor: Boolean = false
+    setSystemBarColor: Boolean = true
 ) {
     val systemUiController = rememberSystemUiController()
+    //val systemUiControllerTwo = rememberUpdatedState(SystemUiController(LocalContext.current))
+
     val useDynamicColor = isDynamic && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val extendedColors = if (darkTheme) darkExtendedColors else lightExtendedColors
 
@@ -171,6 +175,7 @@ fun PetJournalTheme(
     if (setSystemBarColor) {
         SideEffect {
             systemUiController.setSystemBarsColor(color = colors.background)
+            systemUiController.setNavigationBarColor(color = Color.Black)
         }
     }
 

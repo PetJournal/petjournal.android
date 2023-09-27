@@ -37,10 +37,19 @@ fun AccountManager() {
         Scaffold(
             backgroundColor = MaterialTheme.colorScheme.background,
             content = {*/
-                Box(
-                    modifier = Modifier
-                        .background(MaterialTheme.colorScheme.background)
-                ) { NavHostAccountManager() }
+
+    PetJournalTheme(
+        content = {
+            Box(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
+            ) { NavHostAccountManager() }
+        }
+    )
+
+
+
+
             }
         /*)
     }
@@ -66,8 +75,15 @@ fun MainContent() {
 
         }
     )*/
-    Box(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
-    ) { NavHostMainContent() }
+
+
+    PetJournalTheme(
+        content = {
+            Box(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
+            ) { NavHostMainContent() }
+        }
+    )
+
 }

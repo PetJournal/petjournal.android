@@ -7,7 +7,7 @@ import com.soujunior.petjournal.ui.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 
-class HomeScreenViewModelImpl() : HomeScreenViewModel() {
+class HomeScreenViewModelImpl : HomeScreenViewModel() {
     override var state = HomeState()
     override val validationEventChannel = Channel<ValidationEvent>()
     override val success = MutableLiveData<String>()

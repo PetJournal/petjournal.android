@@ -1,7 +1,7 @@
 package com.soujunior.domain.repository
 
-import com.soujunior.data.model.response.MessageResponse
-import com.soujunior.data.model.response.UserInfoResponse
+import com.soujunior.domain.model.response.MessageResponse
+import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.model.request.ChangePasswordModel
 import com.soujunior.domain.model.request.ForgotPasswordModel
