@@ -27,26 +27,18 @@ fun Presentation() {
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun NavHostAccountManager() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "login") {
-        composable("home") { HomeScreen(navController) }
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
         composable("mainContent") { (MainContent()) }
-        composable("tutorScreen") { TutorScreen(navController) }
-        composable("registerPet") { RegisterPetScreen(navController) }
+        composable("forgotPassword") { ForgotPasswordScreen(navController) }
+        composable("changePassword") { ChangePasswordScreen(navController) }
         composable("awaitingCode/{arg}") { backStackEntry ->
             AwaitingCodeScreen(backStackEntry.arguments?.getString("arg"), navController)
         }
-        composable("forgotPassword") { ForgotPasswordScreen(navController) }
-        composable("changePassword") { ChangePasswordScreen(navController) }
-        composable("registerPet") { RegisterPetScreen(navController) }
-        composable("speciesChoice") { SpeciesChoiceScreen(navController) }
-        composable("home") { HomeScreen(navController) }
-        composable("tutorScreen") { TutorScreen(navController) }
     }
 }
 
@@ -55,7 +47,6 @@ fun NavHostAccountManager() {
 fun NavHostMainContent() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "home") {
-        composable("login") { LoginScreen(navController) }
         composable("home") { HomeScreen(navController) }
         composable("detail") { DetailScreen(navController) }
         composable("registerPet") { RegisterPetScreen(navController) }

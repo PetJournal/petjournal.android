@@ -34,8 +34,10 @@ fun SplashScreen(navController: NavHostController) {
                 is ValidationEvent.Success -> {
                     navController.navigate("mainContent")
                 }
-
-                is ValidationEvent.Failed -> {  }
+                is ValidationEvent.Failed -> {
+                        delay(2000)
+                        navController.navigate("accountManager")
+                }
             }
         }
     }
@@ -59,10 +61,5 @@ fun SplashScreen(navController: NavHostController) {
             contentDescription = "Imagem pets",
             modifier = Modifier.align(Alignment.BottomCenter)
         )
-    }
-
-    LaunchedEffect(Unit) {
-        delay(2000)
-        navController.navigate("accountManager")
     }
 }

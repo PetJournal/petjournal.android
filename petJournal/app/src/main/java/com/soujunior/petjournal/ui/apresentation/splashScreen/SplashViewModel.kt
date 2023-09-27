@@ -14,20 +14,26 @@ class SplashViewModel(
 ) : ViewModel() {
     val validationEventChannel = Channel<ValidationEvent>()
     val validationEvents = validationEventChannel.receiveAsFlow()
+
     init {
         checkLoginStatus()
     }
+
     private fun success(resulMessage: String) {
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
     }
-    fun checkLoginStatus() {
+
+    private fun failure() {
+        viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
+    }
+
+    private fun checkLoginStatus() {
         viewModelScope.launch {
             val result = checkLoginStatusUseCase.execute(Unit)
-            if (result is DataResult.Success) {
-                success("User is already logged in!")
-            }
+            if (result is DataResult.Success) success("User is already logged in!")
+            else failure()
         }
     }
 }
