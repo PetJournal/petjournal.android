@@ -4,7 +4,6 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,16 +18,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
@@ -37,8 +39,18 @@ import com.soujunior.petjournal.ui.components.ScaffoldCustom
 @Composable
 fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
     val showDropdownMenu = remember { mutableStateOf(false) }
+    val name = remember { mutableStateOf("") }
+    val context = LocalContext.current
+    LaunchedEffect(key1 = context) {
+        viewModel.validationEvents.collect { event ->
+            when (event) {
+                is ValidationEvent.Success -> name.value = viewModel.name.value.firstName
+                is ValidationEvent.Failed -> name.value = "Pessoa bonita"
+            }
+        }
+    }
     ScaffoldCustom(
-        titleTopBar = "Olá, usuário!",
+        titleTopBar = "Olá, ${name.value}!",
         titleTopBarColor = MaterialTheme.colorScheme.scrim,
         titleTopBarAligh = Alignment.CenterStart,
         shadowBelowTopBar = 0.dp,
@@ -87,7 +99,9 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
         bottomNavigationBar = { NavigationBar(navController) },
         contentToUse = {
             LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(start = 20.dp, end = 20.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 20.dp, end = 20.dp),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
                 contentPadding = it
@@ -116,9 +130,8 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                 }
                 item { Spacer(modifier = Modifier.padding(top = 10.dp)) }
                 item {
-                        Menu(navController)
+                    Menu(navController)
                 }
             }
         })
-
 }
