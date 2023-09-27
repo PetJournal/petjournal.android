@@ -19,16 +19,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
@@ -37,8 +40,24 @@ import com.soujunior.petjournal.ui.components.ScaffoldCustom
 @Composable
 fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
     val showDropdownMenu = remember { mutableStateOf(false) }
+    var name: String = ""
+    val context = LocalContext.current
+    LaunchedEffect(key1 = context) {
+        viewModel.validationEvents.collect { event ->
+            when (event) {
+                is ValidationEvent.Success -> {
+                    Log.e("testar", "->"+viewModel.name.value.toString())
+                    name = viewModel.name.value.firstName
+                }
+                is ValidationEvent.Failed -> {
+                    name = "Pessoa bonita"
+                    Log.e("testar", "Erro na obtenção do nome")
+                }
+            }
+        }
+    }
     ScaffoldCustom(
-        titleTopBar = "Olá, usuário!",
+        titleTopBar = "Olá, ${name}!",
         titleTopBarColor = MaterialTheme.colorScheme.scrim,
         titleTopBarAligh = Alignment.CenterStart,
         shadowBelowTopBar = 0.dp,
@@ -87,7 +106,9 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
         bottomNavigationBar = { NavigationBar(navController) },
         contentToUse = {
             LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(start = 20.dp, end = 20.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 20.dp, end = 20.dp),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
                 contentPadding = it
@@ -120,5 +141,4 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                 }
             }
         })
-
 }
