@@ -11,4 +11,3 @@ import org.koin.androidx.compose.get
 fun HomeScreen(navController: NavController) {
     Screen(navController, get())
 }
-

@@ -1,7 +1,7 @@
+/*
 package com.soujunior.petjournal.ui.appArea.homeScreen.components
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -13,7 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -23,20 +22,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.util.UserViewModel
 
 @Composable
 fun Header(navController: NavController) {
+    val firstName: String = ""
     val context = LocalContext.current
-    val userViewModel: UserViewModel = viewModel()
-    val userName = userViewModel.userName.value
-    val jwtManager = JwtManager(context)
+    //val userViewModel: UserViewModel = viewModel()
+    //val userName = userViewModel.userName.value
+    //val jwtManager = JwtManager(context)
     LaunchedEffect(Unit) {
-        userViewModel.loadUserData()
+        //userViewModel.loadUserData(firstName)
     }
     Row(
         modifier = Modifier.padding(start = 20.dp, top = 10.dp)
@@ -50,7 +48,7 @@ fun Header(navController: NavController) {
                         fontSize = 18.sp
                     )
                 ) {
-                    append("$userName!")
+                    append("NOME!")
                 }
             },
             style = MaterialTheme.typography.bodyLarge,
@@ -76,7 +74,7 @@ fun Header(navController: NavController) {
             onClick = {
                 Toast.makeText(context, "Saindo", Toast.LENGTH_LONG).show()
                 navController.navigate("login")
-                jwtManager.deleteToken()
+                //jwtManager.deleteToken()
             }, modifier = Modifier.padding(end = 13.dp)
         ) {
             Icon(
@@ -90,3 +88,4 @@ fun Header(navController: NavController) {
 }
 
 
+*/

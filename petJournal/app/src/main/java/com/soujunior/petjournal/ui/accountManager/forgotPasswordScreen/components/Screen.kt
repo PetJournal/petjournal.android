@@ -21,7 +21,6 @@ import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPas
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.components.InputText
 
-
 @Composable
 fun Screen(navController: NavController, viewModel: ForgotPasswordViewModel) {
     Box(modifier = Modifier.fillMaxSize()) {

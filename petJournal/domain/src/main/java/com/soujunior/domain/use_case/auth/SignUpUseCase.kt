@@ -1,7 +1,7 @@
 package com.soujunior.domain.use_case.auth
 
 import com.soujunior.domain.model.request.SignUpModel
-import com.soujunior.data.model.response.UserInfoResponse
+import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.domain.model.mapper.User
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.AuthRepository

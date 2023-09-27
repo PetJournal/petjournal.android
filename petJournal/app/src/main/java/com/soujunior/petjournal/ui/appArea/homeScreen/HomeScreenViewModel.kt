@@ -7,6 +7,7 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class HomeScreenViewModel : ViewModel() {
@@ -20,9 +21,8 @@ abstract class HomeScreenViewModel : ViewModel() {
 
     abstract fun success(name: String)
     abstract fun failed(exception: Throwable?)
-    //TODO: (GELSON) é interessante a ideia que abordou aqui, futuramente vamos tentar fazer o backend nos retornar esses banners
     val carouselImages: List<Int> = listOf(
-        R.drawable.banner1, // Replace with actual resource IDs
+        R.drawable.banner1,
         R.drawable.banner2,
         R.drawable.banner3
     )
