@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.preference.PreferenceManager
-import com.soujunior.data.model.response.MessageResponse
-import com.soujunior.data.model.response.UserInfoResponse
+import com.soujunior.domain.model.response.MessageResponse
+import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.data.remote.AuthService
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.domain.model.request.AwaitingCodeModel
@@ -25,7 +25,8 @@ class AuthRepositoryImpl(
     private val context: Context
 ) : AuthRepository {
 
-    private val jwtManager: JwtManager = JwtManager(context)
+    private val jwtManager: JwtManager = JwtManager.getInstance(context)
+
     private val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     override suspend fun signUp(signUpModel: SignUpModel): NetworkResult<UserInfoResponse> {
@@ -41,6 +42,7 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun changePassword(changePasswordModel: ChangePasswordModel): NetworkResult<MessageResponse> {
+
         return authApi.changePassword("Bearer " + getToken(), changePasswordModel)
     }
 
@@ -53,13 +55,13 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun savePassword(password: String) {
+
         prefs.edit().putString("password", password).apply()
     }
 
     override suspend fun getSavedPassword(): String? {
         return prefs.getString("password", null)
     }
-    /* =--= Handle Access Token =--= */
 
     override suspend fun saveToken(token: String): Boolean {
         var status: Boolean = false
@@ -109,5 +111,6 @@ class AuthRepositoryImpl(
         deleteTokenJob.join()
         return status
     }
+
 
 }

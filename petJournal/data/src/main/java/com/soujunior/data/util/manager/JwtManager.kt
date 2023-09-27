@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 
-class JwtManager(context: Context) {
+class JwtManager private constructor(context: Context) {
 
     private val mainKey = MasterKey.Builder(context)
         .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -43,5 +43,13 @@ class JwtManager(context: Context) {
     companion object {
         const val JWT_KEY: String = "JWT_PREFERENCE"
         const val sharedPrefsFile: String = "jwt_file"
+
+        @Volatile
+        private var INSTANCE: JwtManager? = null
+
+        fun getInstance(context: Context): JwtManager =
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: JwtManager(context).also { INSTANCE = it }
+            }
     }
 }

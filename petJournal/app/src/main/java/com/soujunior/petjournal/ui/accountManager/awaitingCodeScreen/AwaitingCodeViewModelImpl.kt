@@ -6,7 +6,6 @@ import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
 import com.soujunior.domain.use_case.auth.ForgotPasswordUseCase
-import com.soujunior.domain.use_case.base.DataResult
 import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
@@ -57,16 +56,6 @@ class AwaitingCodeViewModelImpl(
         }
     }
 
-    override fun enableButton(): Boolean {
-        val savedState = state.value
-        val codeResult = validation.validateCodeOTP(savedState.codeOTP)
-
-        return savedState.codeOTP.isNotBlank() &&
-                savedState.codeOTP.isNotEmpty() &&
-                savedState.codeOTP.length == 6 &&
-                codeResult.errorMessage == null
-    }
-
     private fun changeEmail(email: String) {
         _state.value = _state.value.copy(email = email)
     }
@@ -80,9 +69,19 @@ class AwaitingCodeViewModelImpl(
         _buttonIsEnable.value = enableButton()
     }
 
+    override fun enableButton(): Boolean {
+        val savedState = state.value
+        val codeResult = validation.validateCodeOTP(savedState.codeOTP)
+
+        return savedState.codeOTP.isNotBlank() &&
+                savedState.codeOTP.isNotEmpty() &&
+                savedState.codeOTP.length == 6 &&
+                codeResult.errorMessage == null
+    }
+
     override fun postOtpVerification() {
+        _taskState.value = TaskState.Loading
         viewModelScope.launch {
-            _taskState.value = TaskState.Loading
             val result = awaitingCodeUseCase.execute(
                 AwaitingCodeModel(
                     email = state.value.email,

@@ -1,19 +1,33 @@
 package com.soujunior.petjournal.ui.appArea.homeScreen
 
+
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.states.TaskState
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class HomeScreenViewModel : ViewModel() {
-    /*TODO: (Gelson) 13: Aqui, vamos fazer o seguinte, acredito que a gente já consiga ter uma noção
-       de como é criado um esquema/modelo UML.
-       Tente imaginar como irá funcionar a tela por meio de um desenho esquemático feito por você.
-       Terão dois momentos em que a tela home será chamada posteriormente, mas no momento, vamos focar somente na tela de login:
-       A partir do momento que o login for feito, o usuário ira receber uma chave jwt para autenticações futuras.
-       Quando o usuário for redirecionado para a tela home, a tela irá realizar os seguintes processos pelo que consigo imaginar no momento:
-       - ira solicitar para a API o nome do usuário (getUserName).
-       - esse nome será salvo na camada de dados no Room, imagino.
-       - o resultado do Nome que vamos obter será diretamente do Room, e não da api. Como assim?:
-       quando a solicitação do nome for feita para a camada de dados, vamos verificar em uma base de dados se esse nome já existe, se não existir, será feita a solicitação para a API.
-        - esse nome vai ser emcaminhado para o layout onde será usado.
-        Basicamente isso.
-       */
+    abstract var state: HomeState
+
+    abstract val validationEventChannel: Channel<ValidationEvent>
+    open val validationEvents: Flow<ValidationEvent>
+        get() = validationEventChannel.receiveAsFlow()
+
+    abstract val name : StateFlow<GuardianNameResponse>
+    abstract val message : StateFlow<String>
+    abstract fun success(name: GuardianNameResponse)
+    abstract fun getData()
+
+    abstract fun failed(exception: Throwable?)
+    val carouselImages: List<Int> = listOf(
+        R.drawable.banner1,
+        R.drawable.banner2,
+        R.drawable.banner3
+    )
 }

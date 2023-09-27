@@ -54,6 +54,4 @@ fun NavigationBar(navController: NavController) {
                 })
         }
     }
-
-
 }
