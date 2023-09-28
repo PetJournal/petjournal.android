@@ -4,4 +4,11 @@
     <string name="others">Outros...</string>
     <string name="back">Voltar</string>
     <string name="text_continue">Continuar</string>
+    <string name="access_account">Acessar conta</string>
+    <string name="email_label">Login</string>
+    <string name="email_hint">eg: exemple@petjournal.com</string>
+    <string name="password_label">Senha</string>
+    <string name="password_hint">Digite sua senha</string>
+    <string name="remember_label">Lembrar</string>
+    <string name="forgot_password_label">Esqueci minha senha</string>
 </resources>
