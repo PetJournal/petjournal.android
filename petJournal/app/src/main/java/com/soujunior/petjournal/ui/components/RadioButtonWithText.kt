@@ -3,9 +3,7 @@ package com.soujunior.petjournal.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -18,32 +16,32 @@ import androidx.compose.ui.text.TextStyle
 import com.soujunior.petjournal.R
 
 @Composable
-fun CheckboxWithText(
+fun RadioButtonWithText(
+    modifierRow: Modifier = Modifier,
     modifierText: Modifier = Modifier,
-    modifierCheckbox: Modifier = Modifier,
-    textResourceId: Int = R.string.checkbox_text,
+    modifierRadioButton: Modifier = Modifier,
+    textResourceId: Int = R.string.radiobutton_text,
     styleText: TextStyle = MaterialTheme.typography.bodyLarge,
     isDarkMode: Boolean = isSystemInDarkTheme(),
     onEvent: (Boolean) -> Unit,
-    checkbox: Boolean = false
+    radioButtonSelected: Boolean = false
 ) {
     val text = stringResource(id = textResourceId)
-    Column {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Checkbox(
-                checked = checkbox,
-                onCheckedChange = { onEvent(it) },
-                modifier = modifierCheckbox.align(alignment = Alignment.CenterVertically)
-            )
-            Text(
-                text = text,
-                modifier = modifierText.clickable(onClick = { onEvent(!checkbox) }),
-                style = styleText,
-                color = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.Unspecified
-            )
-        }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = modifierRow
+    ) {
+        RadioButton(
+            selected = radioButtonSelected,
+            onClick = { onEvent(!radioButtonSelected) },
+            modifier = modifierRadioButton.align(alignment = Alignment.CenterVertically)
+        )
+        Text(
+            text = text,
+            modifier = modifierText.clickable(onClick = { onEvent(!radioButtonSelected) }),
+            style = styleText,
+            color = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.Unspecified
+        )
     }
 }

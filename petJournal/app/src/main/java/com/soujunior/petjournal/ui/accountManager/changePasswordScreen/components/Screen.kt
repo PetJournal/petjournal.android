@@ -12,7 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordFormEvent
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordViewModel
 import com.soujunior.petjournal.ui.components.Button2
@@ -36,7 +38,7 @@ fun Screen(
         ) {
             item {
                 CreateTitleAndImageLogo(
-                    title = "Crie uma nova senha!",
+                    title = stringResource(id = R.string.change_password_title),
                     styleTitle = MaterialTheme.typography.displayMedium,
                     spaceTop = 60.dp,
                     spaceBetween = 40.dp,
@@ -45,8 +47,8 @@ fun Screen(
             }
             item {
                 InputText(
-                    textTop = "Senha",
-                    textHint = "Digite sua senha",
+                    textTop = stringResource(id = R.string.password_label),
+                    textHint = stringResource(id = R.string.password_hint),
                     textValue = viewModel.state.password,
                     textError = viewModel.state.passwordError,
                     isPassword = true,
@@ -62,8 +64,8 @@ fun Screen(
             item { Spacer(modifier = Modifier.height(30.dp)) }
             item {
                 InputText(
-                    textTop = "Confirmar senha",
-                    textHint = "Confirme sua senha",
+                    textTop = stringResource(id = R.string.confirm_password_label),
+                    textHint = stringResource(id = R.string.confirm_password_hint),
                     textValue = viewModel.state.repeatedPassword,
                     textError = viewModel.state.repeatedPasswordError,
                     isPassword = true,
@@ -79,7 +81,7 @@ fun Screen(
             item { Spacer(modifier = Modifier.height(30.dp)) }
             item {
                 CheckboxWithText(
-                    text = "É necessário que todos os dispositivos acesssem sua conta com a nova senha ?",
+                    textResourceId = R.string.disconnect_devices_question,
                     checkbox = viewModel.state.disconnectOtherDevices,
                     onEvent = { it: Boolean ->
                         viewModel.onEvent(
@@ -94,10 +96,10 @@ fun Screen(
             item {
                 Button2(
                     submit = {
-                             viewModel.onEvent(event = ChangePasswordFormEvent.Submit)
+                        viewModel.onEvent(event = ChangePasswordFormEvent.Submit)
                     },
                     enableButton = viewModel.enableButton(),
-                    text = "Redefinir Senha",
+                    text = stringResource(id = R.string.reset_password_button),
                     isLoading = taskState is TaskState.Loading
                 )
             }
