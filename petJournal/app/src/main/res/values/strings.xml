@@ -11,4 +11,11 @@
     <string name="password_hint">Digite sua senha</string>
     <string name="remember_label">Lembrar</string>
     <string name="forgot_password_label">Esqueci minha senha</string>
+    <string name="checkbox_text">Texto ao lado do checkbox</string>
+    <string name="radiobutton_text">Texto ao lado do radiobutton</string>
+    <string name="change_password_title">Crie uma nova senha!</string>
+    <string name="confirm_password_label">Confirmar senha</string>
+    <string name="confirm_password_hint">Confirme sua senha</string>
+    <string name="disconnect_devices_question">É necessário que todos os dispositivos acesssem sua conta com a nova senha ?</string>
+    <string name="reset_password_button">Redefinir Senha</string>
 </resources>

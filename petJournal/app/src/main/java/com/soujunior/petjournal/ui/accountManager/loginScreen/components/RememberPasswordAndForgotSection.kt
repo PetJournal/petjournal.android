@@ -1,7 +1,9 @@
 package com.soujunior.petjournal.ui.accountManager.loginScreen.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
@@ -16,7 +18,7 @@ import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModel
-import com.soujunior.petjournal.ui.components.CheckboxWithText
+import com.soujunior.petjournal.ui.components.RadioButtonWithText
 
 @Composable
 fun RememberPasswordAndForgotSection(navController: NavController, viewModel: LoginViewModel) {
@@ -27,29 +29,34 @@ fun RememberPasswordAndForgotSection(navController: NavController, viewModel: Lo
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        CheckboxWithText(
-            text = stringResource(id = R.string.remember_label),
-            checkbox = viewModel.state.rememberPassword,
-            onEvent = { it: Boolean ->
-                viewModel.onEvent(
-                    LoginFormEvent.RememberPassword(
-                        it
+        Column(content = {
+            RadioButtonWithText(
+                textResourceId = R.string.remember_label,
+                radioButtonSelected = viewModel.state.rememberPassword,
+                onEvent = { it: Boolean ->
+                    viewModel.onEvent(
+                        LoginFormEvent.RememberPassword(
+                            it
+                        )
                     )
-                )
-            },
-        )
-        Text(
-            text = stringResource(id = R.string.forgot_password_label),
-            style = MaterialTheme.typography.bodyLarge,
-            textAlign = TextAlign.End,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(
-                    onClick = {
-                        navController.navigate("forgotPassword")
-                    })
-                .align(Alignment.CenterVertically),
-            color = textColor
-        )
+                },
+            )
+        })
+        Column(
+            modifier = Modifier.fillMaxWidth(),content = {
+            Text(
+                text = stringResource(id = R.string.forgot_password_label),
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.End,
+                modifier = Modifier
+                    .clickable(
+                        onClick = {
+                            navController.navigate("forgotPassword")
+                        })
+                    .align(Alignment.End),
+                color = textColor
+            )
+        })
+
     }
 }
