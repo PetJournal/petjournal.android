@@ -31,12 +31,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AccountManager() {
-    /*PetJournalTheme(
-        setSystemBarColor = true,
-        content = {
-        Scaffold(
-            backgroundColor = MaterialTheme.colorScheme.background,
-            content = {*/
 
     PetJournalTheme(
         content = {
@@ -51,32 +45,9 @@ fun AccountManager() {
 
 
             }
-        /*)
-    }
-    )
-}*/
 
 @Composable
 fun MainContent() {
-    /*Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "PetJournal",
-                        style = MaterialTheme.typography.displayLarge
-                    )
-                },
-                backgroundColor = MaterialTheme.colorScheme.background
-            )
-        },
-        backgroundColor = MaterialTheme.colorScheme.background,
-        content = {
-
-        }
-    )*/
-
-
     PetJournalTheme(
         content = {
             Box(
