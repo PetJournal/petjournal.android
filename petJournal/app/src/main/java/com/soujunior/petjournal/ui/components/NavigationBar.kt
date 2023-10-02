@@ -40,18 +40,23 @@ fun NavigationBar(navController: NavController) {
                 },
                 selectedContentColor = Color(0xFF54C1E9),
                 unselectedContentColor = Color.White,
-                selected = currentRoute == item.route,
+                selected = currentRoute?.startsWith(item.group) == true,
                 onClick = {
-                    navController.navigate(item.route) {
-                        navController.graph.startDestinationRoute?.let { route ->
-                            popUpTo(route) {
-                                saveState = true
+                    val isSameGroup = items.any { it.group == item.group && currentRoute?.startsWith(it.route) == true }
+
+                    if (!isSameGroup) {
+                        navController.navigate(item.route) {
+                            navController.graph.startDestinationRoute?.let { route ->
+                                popUpTo(route) {
+                                    saveState = true
+                                }
                             }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
                     }
-                })
+                }
+            )
         }
     }
 }
