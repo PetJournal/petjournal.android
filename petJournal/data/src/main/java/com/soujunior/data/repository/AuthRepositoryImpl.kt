@@ -63,6 +63,10 @@ class AuthRepositoryImpl(
         return prefs.getString("password", null)
     }
 
+    override suspend fun logout() {
+        jwtManager.deleteToken()
+    }
+
     override suspend fun saveToken(token: String): Boolean {
         var status: Boolean = false
 

@@ -23,6 +23,7 @@ abstract class HomeScreenViewModel : ViewModel() {
     abstract val message : StateFlow<String>
     abstract fun success(name: GuardianNameResponse)
     abstract fun getData()
+    abstract fun logout()
 
     abstract fun failed(exception: Throwable?)
     val carouselImages: List<Int> = listOf(

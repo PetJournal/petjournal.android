@@ -2,6 +2,7 @@ package com.soujunior.petjournal.ui.appArea.homeScreen.components
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -81,6 +82,9 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                         onClick = {
                             showDropdownMenu.value = false
                             Log.e(TAG, "Logout")
+                            Toast.makeText(context, "Saindo", Toast.LENGTH_LONG).show()
+                            navController.navigate("login")
+                            viewModel.logout()
                         },
                         text = {
                             Text(text = "Logout", fontSize = 18.sp)

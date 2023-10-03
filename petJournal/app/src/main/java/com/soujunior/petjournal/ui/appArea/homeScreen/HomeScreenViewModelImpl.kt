@@ -2,8 +2,10 @@ package com.soujunior.petjournal.ui.appArea.homeScreen
 
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.use_case.auth.LogoutUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.states.TaskState
@@ -12,7 +14,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class HomeScreenViewModelImpl(private val getGuardianNameUseCase: GetGuardianNameUseCase) : HomeScreenViewModel() {
+class HomeScreenViewModelImpl(private val getGuardianNameUseCase: GetGuardianNameUseCase,
+                              private val logoutUseCase: LogoutUseCase) : HomeScreenViewModel() {
     override var state = HomeState()
     override val validationEventChannel = Channel<ValidationEvent>()
 
@@ -46,6 +49,12 @@ class HomeScreenViewModelImpl(private val getGuardianNameUseCase: GetGuardianNam
         viewModelScope.launch {
             val result = getGuardianNameUseCase.execute(Unit)
             result.handleResult(::success, ::failed)
+        }
+    }
+
+    override fun logout() {
+        viewModelScope.launch {
+            logoutUseCase.doWork()
         }
     }
 }
