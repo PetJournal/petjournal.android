@@ -111,6 +111,4 @@ class AuthRepositoryImpl(
         deleteTokenJob.join()
         return status
     }
-
-
 }
