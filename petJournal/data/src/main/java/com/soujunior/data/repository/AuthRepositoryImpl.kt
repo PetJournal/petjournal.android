@@ -1,5 +1,6 @@
 package com.soujunior.data.repository
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
@@ -19,6 +20,7 @@ import com.soujunior.domain.repository.AuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AuthRepositoryImpl(
     private val authApi: AuthService,
@@ -68,53 +70,36 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun saveToken(token: String): Boolean {
-        var status: Boolean = false
-
-        val saveTokenJob = GlobalScope.launch(Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             try {
                 jwtManager.setToken(token)
-                status = true
+                true
             } catch (e: Exception) {
-                Log.e("AuthRepository", e.message.toString())
-                status = false
+                Log.e(TAG, "AuthRepositoryImpl: ${e.message}", e)
+                false
             }
         }
-
-        saveTokenJob.join()
-        return status
     }
 
     override suspend fun getToken(): String? {
-        var token: String? = null
-
-        val getTokenJob = GlobalScope.launch(Dispatchers.IO) {
-            try {
-                token = jwtManager.getToken()
-            } catch (e: Exception) {
-                Log.e("AuthRepository", e.message.toString())
-            }
+        return try {
+            jwtManager.getToken()
+        } catch (e: Exception) {
+            Log.e("AuthRepositoryImpl", e.message.toString())
+            null
         }
-
-        getTokenJob.join()
-        return token
     }
 
     override suspend fun deleteToken(): Boolean {
-        var status: Boolean = false
-
-        val deleteTokenJob = GlobalScope.launch(Dispatchers.IO) {
-            try {
-                jwtManager.deleteToken()
-                status = true
-            } catch (e: Exception) {
-                Log.e("AuthRepository", e.message.toString())
-                status = false
-            }
+        return try {
+            jwtManager.deleteToken()
+            true
+        } catch (e: Exception) {
+            Log.e("AuthRepositoryImpl", e.message.toString())
+            false
         }
-
-        deleteTokenJob.join()
-        return status
     }
+
 
 
 }
