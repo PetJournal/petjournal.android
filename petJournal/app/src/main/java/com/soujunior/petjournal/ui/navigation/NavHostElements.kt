@@ -48,7 +48,7 @@ fun NavHostMainContent() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
-        composable("login") { LoginScreen(navController) }
+        composable("accountManager") { AccountManager() }
         composable("detail") { DetailScreen(navController) }
         composable("registerPet") { RegisterPetScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
