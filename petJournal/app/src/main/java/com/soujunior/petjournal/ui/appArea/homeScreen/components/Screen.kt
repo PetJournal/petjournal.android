@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -51,7 +52,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
         }
     }
     ScaffoldCustom(
-        titleTopBar = "Olá, ${name.value}!",
+        titleTopBar = stringResource(R.string.hello, name.value),
         titleTopBarColor = MaterialTheme.colorScheme.scrim,
         titleTopBarAligh = Alignment.CenterStart,
         shadowBelowTopBar = 0.dp,
@@ -62,7 +63,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
         actions = {
             Icon(
                 painter = painterResource(id = R.drawable.menu),
-                contentDescription = "Menu",
+                contentDescription = stringResource(R.string.menu_description),
                 tint = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
                     .size(50.dp)
@@ -83,16 +84,15 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                             showDropdownMenu.value = false
                             Log.e(TAG, "Logout")
                             viewModel.logout()
-                            Toast.makeText(context, "Saindo", Toast.LENGTH_LONG).show()
                             navController.navigate("accountManager")
                         },
                         text = {
-                            Text(text = "Logout", fontSize = 18.sp)
+                            Text(text = stringResource(R.string.logout), fontSize = 18.sp)
                         },
                         trailingIcon = {
                             Icon(
                                 imageVector = Icons.Default.Logout,
-                                contentDescription = "Logout"
+                                contentDescription = stringResource(R.string.logout)
                             )
                         }
                     )
@@ -119,13 +119,13 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                     Row {
 
                         Text(
-                            text = "Serviços",
+                            text = stringResource(R.string.services),
                             modifier = Modifier.weight(0.8f),
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "Ver mais",
+                            text = stringResource(R.string.see_more),
                             modifier = Modifier.clickable { },
                             color = MaterialTheme.colorScheme.onSurface,
                             style = MaterialTheme.typography.bodyLarge
