@@ -17,10 +17,6 @@ import com.soujunior.petjournal.ui.components.ScaffoldCustom
 
 @Composable
 fun Screen(navController: NavController) {
-    /*(Simão) O top bar não estava sendo exibido devido a você não ter definido.
-    Só chamar o Scaffold não faz o titulo aparecer, ao contrário do que o preview deixava entender.
-    Criei esse componente ScaffoldCustom pra tentar manter um padrão no time, tente usa-lo, e em
-    caso de necessidade, aprimora-lo*/
     ScaffoldCustom(
         titleTopBar = "Cadastro Pet",
         showButtonToReturn = true,
@@ -42,7 +38,7 @@ fun Screen(navController: NavController) {
                     item { GridVectors() }
                     item {
                         Button2(submit = {
-                            navController.navigate("speciesChoice")
+                            navController.navigate("pets/speciesChoice")
                         }, enableButton = true, text = "Continuar")
                     }
                 })
