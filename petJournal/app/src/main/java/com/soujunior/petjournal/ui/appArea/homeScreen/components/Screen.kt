@@ -82,9 +82,9 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                         onClick = {
                             showDropdownMenu.value = false
                             Log.e(TAG, "Logout")
+                            viewModel.logout()
                             Toast.makeText(context, "Saindo", Toast.LENGTH_LONG).show()
                             navController.navigate("accountManager")
-                            viewModel.logout()
                         },
                         text = {
                             Text(text = "Logout", fontSize = 18.sp)
