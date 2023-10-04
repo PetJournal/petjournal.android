@@ -79,7 +79,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                 tint = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
                     .size(50.dp)
-                    .padding(end = 20.dp)
+                    .padding(end = 16.dp)
                     .clickable {
                         showDropdownMenu.value = true
                     }
@@ -88,7 +88,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                 DropdownMenu(
                     expanded = showDropdownMenu.value,
                     onDismissRequest = { showDropdownMenu.value = false },
-                    modifier = Modifier.padding(end = 20.dp)
+                    modifier = Modifier.padding(end = 16.dp)
                 ) {
                     DropdownMenuItem(
                         onClick = {
@@ -116,7 +116,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 20.dp, end = 20.dp),
+                    .padding(start = 16.dp, end = 16.dp),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
                 contentPadding = it
@@ -132,14 +132,14 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                         Text(
                             text = stringResource(R.string.services),
                             modifier = Modifier.weight(0.8f),
+                            color = MaterialTheme.colorScheme.onSurface,
                             style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
                             text = stringResource(R.string.see_more),
                             modifier = Modifier.clickable { },
                             color = MaterialTheme.colorScheme.onSurface,
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.labelLarge
                         )
                     }
                 }

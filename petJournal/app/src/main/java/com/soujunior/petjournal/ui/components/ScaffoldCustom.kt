@@ -50,7 +50,7 @@ fun ScaffoldCustom(
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(20.dp)
+                                    .padding(16.dp)
                             ) {
                                 LoadingText(
                                     titleTopBar = titleTopBar,
