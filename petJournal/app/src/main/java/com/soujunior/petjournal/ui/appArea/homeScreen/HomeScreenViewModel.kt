@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class HomeScreenViewModel : ViewModel() {
+    abstract val taskState: StateFlow<TaskState>
     abstract var state: HomeState
-
     abstract val validationEventChannel: Channel<ValidationEvent>
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()

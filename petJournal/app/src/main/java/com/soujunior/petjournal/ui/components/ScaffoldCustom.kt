@@ -9,7 +9,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -18,23 +17,21 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldCustom(
     titleTopBar: String = "",
+    isLoading: Boolean = false,
     titleTopBarColor: Color = MaterialTheme.colorScheme.primary,
     titleTopBarAligh: Alignment = Center,
     shadowBelowTopBar: Dp = 4.dp,
     showTopBar: Boolean = false,
     actions: @Composable RowScope.() -> Unit = {},
     showButtonToReturn: Boolean = false,
-    showMenu: Boolean = false,
     showBottomBarNavigation: Boolean = false,
     navigationUp: NavController,
     bottomNavigationBar: @Composable () -> Unit = {},
@@ -53,15 +50,13 @@ fun ScaffoldCustom(
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .padding(20.dp)
                             ) {
-                                Text(
-                                    text = titleTopBar,
-                                    color = titleTopBarColor,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .padding(20.dp)
-                                        .align(titleTopBarAligh),
-                                    fontSize = 22.sp
+                                LoadingText(
+                                    titleTopBar = titleTopBar,
+                                    titleTopBarColor = titleTopBarColor,
+                                    modifier = Modifier.align(titleTopBarAligh),
+                                    isLoading = isLoading
                                 )
                             }
                         },

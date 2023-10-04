@@ -6,6 +6,7 @@ import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.use_case.auth.LogoutUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,6 +16,9 @@ class HomeScreenViewModelImpl(
     private val getGuardianNameUseCase: GetGuardianNameUseCase,
     private val logoutUseCase: LogoutUseCase
 ) : HomeScreenViewModel() {
+    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
+    override val taskState: StateFlow<TaskState> = _taskState
+
     override var state = HomeState()
     override val validationEventChannel = Channel<ValidationEvent>()
 
@@ -49,9 +53,11 @@ class HomeScreenViewModelImpl(
     }
 
     override fun getData() {
+        _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val result = getGuardianNameUseCase.execute(Unit)
             result.handleResult(::success, ::failed)
+            _taskState.value = TaskState.Idle
         }
     }
 

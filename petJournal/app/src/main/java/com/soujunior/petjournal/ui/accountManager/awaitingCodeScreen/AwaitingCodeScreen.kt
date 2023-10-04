@@ -15,12 +15,11 @@ import org.koin.androidx.compose.getViewModel
 fun AwaitingCodeScreen(arg: String?, navController: NavController) {
     val viewModel: AwaitingCodeViewModel = getViewModel()
     val context = LocalContext.current
-    val messageChannel by viewModel.message.collectAsState()
 
     LaunchedEffect(key1 = context) {
         if (arg != null) {
             viewModel.onEvent(AwaitingCodeFormEvent.EmailChanged(arg))
-        } else { // If the email is not valid, returns to login
+        } else {
             navController.navigateUp()
         }
         viewModel.validationEvents.collect { event ->
@@ -35,10 +34,6 @@ fun AwaitingCodeScreen(arg: String?, navController: NavController) {
                 }
             }
         }
-    }
-
-    LaunchedEffect(messageChannel) {
-        Toast.makeText(context, messageChannel, Toast.LENGTH_SHORT).show()
     }
 
     Screen(navController, viewModel)
