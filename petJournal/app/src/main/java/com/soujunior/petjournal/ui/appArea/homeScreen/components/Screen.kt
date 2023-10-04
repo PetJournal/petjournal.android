@@ -19,12 +19,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -34,40 +37,50 @@ import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.states.TaskState
 
 @ExperimentalPagerApi
 @Composable
 fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
     val showDropdownMenu = remember { mutableStateOf(false) }
+    val taskState by viewModel.taskState.collectAsState()
     val name = remember { mutableStateOf("") }
     val context = LocalContext.current
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
             when (event) {
-                is ValidationEvent.Success -> name.value = viewModel.name.value.firstName
-                is ValidationEvent.Failed -> name.value = "Pessoa bonita"
+                is ValidationEvent.Success -> {
+                    name.value = viewModel.name.value.firstName
+                    Log.e(TAG, name.value)
+                    Log.e(TAG, "isload: ${taskState is TaskState.Loading}")
+                }
+
+                is ValidationEvent.Failed -> {
+                    name.value = "Pessoa bonita"
+                    Log.e(TAG, name.value)
+                    Log.e(TAG, "isload: ${taskState is TaskState.Loading}")
+                }
             }
         }
     }
     ScaffoldCustom(
-        titleTopBar = "Olá, ${name.value}!",
+        titleTopBar = stringResource(R.string.hello, name.value),
+        isLoading = taskState is TaskState.Loading,
         titleTopBarColor = MaterialTheme.colorScheme.scrim,
         titleTopBarAligh = Alignment.CenterStart,
         shadowBelowTopBar = 0.dp,
         showButtonToReturn = false,
         navigationUp = navController,
         showTopBar = true,
-        showMenu = true,
         actions = {
             Icon(
                 painter = painterResource(id = R.drawable.menu),
-                contentDescription = "Menu",
+                contentDescription = stringResource(R.string.menu_description),
                 tint = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
                     .size(50.dp)
-                    .padding(end = 20.dp)
+                    .padding(end = 16.dp)
                     .clickable {
-                        Log.e(TAG, "menu foi clicado")
                         showDropdownMenu.value = true
                     }
             )
@@ -75,20 +88,22 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                 DropdownMenu(
                     expanded = showDropdownMenu.value,
                     onDismissRequest = { showDropdownMenu.value = false },
-                    modifier = Modifier.padding(end = 20.dp)
+                    modifier = Modifier.padding(end = 16.dp)
                 ) {
                     DropdownMenuItem(
                         onClick = {
                             showDropdownMenu.value = false
                             Log.e(TAG, "Logout")
+                            viewModel.logout()
+                            navController.navigate("accountManager")
                         },
                         text = {
-                            Text(text = "Logout", fontSize = 18.sp)
+                            Text(text = stringResource(R.string.logout), fontSize = 18.sp)
                         },
                         trailingIcon = {
                             Icon(
                                 imageVector = Icons.Default.Logout,
-                                contentDescription = "Logout"
+                                contentDescription = stringResource(R.string.logout)
                             )
                         }
                     )
@@ -101,7 +116,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 20.dp, end = 20.dp),
+                    .padding(start = 16.dp, end = 16.dp),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
                 contentPadding = it
@@ -115,16 +130,16 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                     Row {
 
                         Text(
-                            text = "Serviços",
+                            text = stringResource(R.string.services),
                             modifier = Modifier.weight(0.8f),
+                            color = MaterialTheme.colorScheme.onSurface,
                             style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "Ver mais",
+                            text = stringResource(R.string.see_more),
                             modifier = Modifier.clickable { },
                             color = MaterialTheme.colorScheme.onSurface,
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.labelLarge
                         )
                     }
                 }

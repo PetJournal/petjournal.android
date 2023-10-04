@@ -17,6 +17,7 @@ import com.soujunior.domain.use_case.auth.SignUpUseCase
 import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
 import com.soujunior.domain.use_case.auth.CheckLoginStatusUseCase
 import com.soujunior.domain.use_case.auth.GetSavedPasswordUseCase
+import com.soujunior.domain.use_case.auth.LogoutUseCase
 import com.soujunior.domain.use_case.auth.SavePasswordUseCase
 import com.soujunior.domain.use_case.auth.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
@@ -59,6 +60,7 @@ val mainModule = module {
     factory { GetSavedPasswordUseCase(get()) }
     factory { SavePasswordUseCase(get()) }
     factory { GetGuardianNameUseCase(get()) }
+    factory { LogoutUseCase(get()) }
 
     single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
     single<GuardianService> { get<Retrofit>().create(GuardianService::class.java) }
@@ -83,7 +85,7 @@ val mainModule = module {
 
 
     // ViewModels
-    viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get()) }
+    viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get()) }
     viewModel<DetailScreenViewModel> { DetailScreenViewModelImpl() }
     viewModel<RegisterPetViewModel> { RegisterPetViewModelImpl() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get()) }

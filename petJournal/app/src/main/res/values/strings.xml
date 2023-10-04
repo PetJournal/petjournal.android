@@ -18,4 +18,12 @@
     <string name="confirm_password_hint">Confirme sua senha</string>
     <string name="disconnect_devices_question">É necessário que todos os dispositivos acesssem sua conta com a nova senha ?</string>
     <string name="reset_password_button">Redefinir Senha</string>
+    <string name="hello">Olá, %1$s!</string>
+    <string name="beautiful_person">Pessoa bonita</string>
+    <string name="services">Serviços</string>
+    <string name="see_more">Ver mais</string>
+    <string name="logout">Logout</string>
+    <string name="leaving">Saindo</string>
+    <string name="menu_description">Menu</string>
+    <string name="logout_description">Logout</string>
 </resources>

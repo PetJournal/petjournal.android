@@ -1,3 +1,4 @@
+/*
 package com.soujunior.data.api
 
 import com.soujunior.domain.entities.auth.ApiResponseCode
@@ -43,4 +44,4 @@ class ServiceMock(private val code: Int) {
             }
         }
     }
-}
+}*/

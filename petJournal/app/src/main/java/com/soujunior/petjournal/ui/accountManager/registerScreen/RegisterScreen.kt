@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.ui.accountManager.registerScreen
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -9,7 +11,6 @@ import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.accountManager.registerScreen.components.Screen
 import org.koin.androidx.compose.getViewModel
 
-//TODO: Realizar chamada ao banco de dados para verificar se o email existe quando o botão for clicado
 @Composable
 fun RegisterScreen(navController: NavController) {
     val viewModel: RegisterViewModel = getViewModel()
@@ -19,12 +20,12 @@ fun RegisterScreen(navController: NavController) {
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
-                    Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG).show()
-                    navController.navigate("mainContent")
+                    navController.navigate("login")
                 }
 
                 is ValidationEvent.Failed -> {
                     Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG).show()
+                    Log.e(TAG, "Layout register: " + viewModel.message.value)
                 }
             }
         }

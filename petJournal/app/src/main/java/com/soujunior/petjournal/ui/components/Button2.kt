@@ -34,26 +34,26 @@ fun Button2(
         modifier = modifier
             .fillMaxWidth()
     ) {
-                androidx.compose.material3.Button(
-                    onClick = { submit() },
-                    enabled = enableButton,
-                    modifier = modifier,
-                    border = border,
-                    shape = Shapes.large,
-                    colors = buttonColor
-                ) {
-                    if (!isLoading) {
-                        Text(
-                            text = text,
-                            style = MaterialTheme.typography.titleSmall,
-                            color = textColor
-                        )
-                    } else {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(24.dp),
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                }
+        androidx.compose.material3.Button(
+            onClick = { submit() },
+            enabled = enableButton,
+            modifier = modifier,
+            border = border,
+            shape = Shapes.large,
+            colors = buttonColor
+        ) {
+            if (!isLoading) {
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = textColor
+                )
+            } else {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        }
     }
 }
