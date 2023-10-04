@@ -123,7 +123,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
             ) {
                 item {
                     val carouselImages = viewModel.carouselImages
-                    //Carousel(imageIds = carouselImages)
+                    Carousel(imageIds = carouselImages)
                 }
                 item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
                 item {
