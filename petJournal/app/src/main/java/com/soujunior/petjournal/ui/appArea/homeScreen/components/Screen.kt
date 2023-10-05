@@ -51,13 +51,11 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
             when (event) {
                 is ValidationEvent.Success -> {
                     name.value = viewModel.name.value.firstName
-                    Log.e(TAG, name.value)
                     Log.e(TAG, "isload: ${taskState is TaskState.Loading}")
                 }
 
                 is ValidationEvent.Failed -> {
                     name.value = "Pessoa bonita"
-                    Log.e(TAG, name.value)
                     Log.e(TAG, "isload: ${taskState is TaskState.Loading}")
                 }
             }
@@ -126,7 +124,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
             ) {
                 item {
                     val carouselImages = viewModel.carouselImages
-                    //Carousel(imageIds = carouselImages)
+                    Carousel(imageIds = carouselImages)
                 }
                 item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
                 item {
