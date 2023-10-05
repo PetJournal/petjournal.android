@@ -44,7 +44,7 @@ import com.soujunior.petjournal.ui.states.TaskState
 fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
     val showDropdownMenu = remember { mutableStateOf(false) }
     val taskState by viewModel.taskState.collectAsState()
-    val name = remember { mutableStateOf("") }
+    val name = remember { mutableStateOf(viewModel.name.value.firstName) }
     val context = LocalContext.current
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
@@ -82,6 +82,9 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                     .padding(end = 16.dp)
                     .clickable {
                         showDropdownMenu.value = true
+
+                        Log.e(TAG, "Nome a baixo")
+                        Log.e(TAG, "-> "+name.value)
                     }
             )
             if (showDropdownMenu.value) {
@@ -123,7 +126,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
             ) {
                 item {
                     val carouselImages = viewModel.carouselImages
-                    Carousel(imageIds = carouselImages)
+                    //Carousel(imageIds = carouselImages)
                 }
                 item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
                 item {
