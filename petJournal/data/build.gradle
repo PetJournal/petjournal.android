@@ -35,6 +35,7 @@ dependencies {
     def dependencies = rootProject.ext.dependencies
 
     implementation project(":domain")
+    implementation project(":database")
 
     implementation dependencies.securityCrypto
     implementation dependencies.retrofit2Retrofit
