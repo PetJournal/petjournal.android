@@ -1,7 +1,7 @@
 package com.petjournal.database
 
-import com.petjournal.database.dao.GuardianProfileDao
-import com.petjournal.database.entity.GuardianProfile
+import com.petjournal.database.database.dao.GuardianProfileDao
+import com.petjournal.database.database.entity.GuardianProfile
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

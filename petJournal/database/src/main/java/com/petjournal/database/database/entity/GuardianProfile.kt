@@ -1,4 +1,4 @@
-package com.petjournal.database.entity
+package com.petjournal.database.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

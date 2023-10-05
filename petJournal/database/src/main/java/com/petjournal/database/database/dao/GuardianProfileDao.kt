@@ -1,9 +1,9 @@
-package com.petjournal.database.dao
+package com.petjournal.database.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.petjournal.database.entity.GuardianProfile
+import com.petjournal.database.database.entity.GuardianProfile
 
 @Dao
 interface GuardianProfileDao {
