@@ -37,7 +37,7 @@ fun Carousel(imageIds: List<Int>) {
 
     LaunchedEffect(pagerState) {
         while (true) {
-            delay(2000)
+            delay(4000)
             if (pagerState.isScrollInProgress.not()) {
                 scope.launch {
                     pagerState.animateScrollToPage(

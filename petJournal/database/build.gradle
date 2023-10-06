@@ -36,16 +36,15 @@ android {
         }
     }
 }
-
 dependencies {
     implementation(project(":domain"))
-    implementation 'androidx.room:room-runtime:2.4.3'
-    implementation 'androidx.test.ext:junit-ktx:1.1.5'
     kapt 'androidx.room:room-compiler:2.4.3'
-    implementation 'androidx.room:room-ktx:2.4.3'
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation "androidx.room:room-testing:2.4.3"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
-    testImplementation "junit:junit:4.13.2"
-    testImplementation "io.mockk:mockk:1.12.0"
+    def dependencies = rootProject.ext.dependencies
+    implementation dependencies.roomRuntime
+    implementation dependencies.roomKtx
+
+    testImplementation testKotlinxCoroutines
+    testImplementation testMockk
+    testImplementation testJunit
 }
+
