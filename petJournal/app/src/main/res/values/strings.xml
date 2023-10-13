@@ -26,4 +26,5 @@
     <string name="leaving">Saindo</string>
     <string name="menu_description">Menu</string>
     <string name="logout_description">Logout</string>
+    <string name="incorrect_username_password">Usuário ou senha incorretos</string>
 </resources>

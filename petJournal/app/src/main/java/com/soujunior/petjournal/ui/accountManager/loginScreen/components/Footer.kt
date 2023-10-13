@@ -42,7 +42,7 @@ fun Footer(
                 text = "Continuar",
                 border = null,
                 submit = { viewModel.onEvent(LoginFormEvent.Submit) },
-                enableButton = true,
+                enableButton = viewModel.enableButton(),
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(start = 40.dp, end = 40.dp)

@@ -69,6 +69,15 @@ class LoginViewModelImpl(
         return listOf(result).any { !it.success }
     }
 
+    override fun enableButton(): Boolean {
+        val emailResult = validation.validateEmail(state.email)
+        val passwordResult = validation.validatePassword(password = state.password)
+        return  state.email.isNotBlank() &&
+                state.password.isNotBlank() &&
+                emailResult.errorMessage == null &&
+                passwordResult.errorMessage == null
+    }
+
     private fun change(
         email: String? = null,
         password: String? = null,
