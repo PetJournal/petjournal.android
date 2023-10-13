@@ -96,7 +96,6 @@ val mainModule = module {
             .build()
     }
 
-
     // ViewModels
     viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get()) }
     viewModel<DetailScreenViewModel> { DetailScreenViewModelImpl() }
