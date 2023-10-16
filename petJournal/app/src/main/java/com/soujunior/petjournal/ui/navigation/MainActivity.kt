@@ -40,11 +40,7 @@ fun AccountManager() {
             ) { NavHostAccountManager() }
         }
     )
-
-
-
-
-            }
+}
 
 @Composable
 fun MainContent() {
