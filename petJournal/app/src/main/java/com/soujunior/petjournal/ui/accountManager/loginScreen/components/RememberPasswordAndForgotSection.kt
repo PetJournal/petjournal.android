@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.accountManager.loginScreen.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
