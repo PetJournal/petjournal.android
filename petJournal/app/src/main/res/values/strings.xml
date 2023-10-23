@@ -26,4 +26,6 @@
     <string name="leaving">Saindo</string>
     <string name="menu_description">Menu</string>
     <string name="logout_description">Logout</string>
+    <string name="insert_the_species">Insira a espécie:</string>
+    <string name="type_here">Digite aqui...</string>
 </resources>
