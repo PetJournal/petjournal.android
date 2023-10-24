@@ -160,7 +160,6 @@ fun PetJournalTheme(
     setSystemBarColor: Boolean = true
 ) {
     val systemUiController = rememberSystemUiController()
-    //val systemUiControllerTwo = rememberUpdatedState(SystemUiController(LocalContext.current))
 
     val useDynamicColor = isDynamic && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val extendedColors = if (darkTheme) darkExtendedColors else lightExtendedColors

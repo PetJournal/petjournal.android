@@ -24,5 +24,6 @@ abstract class LoginViewModel : ViewModel() {
     abstract fun success(resultPostLogin: String)
     abstract fun failed(exception: Throwable?)
     abstract fun submitData()
+    abstract fun enableButton(): Boolean
     abstract fun onEvent(event: LoginFormEvent)
 }

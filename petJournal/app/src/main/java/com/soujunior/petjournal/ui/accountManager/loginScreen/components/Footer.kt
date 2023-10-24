@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
@@ -41,10 +42,11 @@ fun Footer(
                 text = "Continuar",
                 border = null,
                 submit = { viewModel.onEvent(LoginFormEvent.Submit) },
-                enableButton = true,
+                enableButton = viewModel.enableButton(),
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 40.dp, end = 40.dp),
+                    .padding(start = 40.dp, end = 40.dp)
+                    .testTag("button_continue"),
                 buttonColor = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 ),
@@ -60,7 +62,8 @@ fun Footer(
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .clickable(onClick = { navController.navigate("register") })
-                    .align(CenterVertically),
+                    .align(CenterVertically)
+                    .testTag("link_to_register"),
                 color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
             )
         }

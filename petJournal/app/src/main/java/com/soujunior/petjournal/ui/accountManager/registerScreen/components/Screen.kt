@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,8 +14,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterFormEvent
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterViewModel
 import com.soujunior.petjournal.ui.components.Button
@@ -40,34 +44,48 @@ fun Screen(viewModel: RegisterViewModel) {
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top,
         ) {
-            item { CreateTitleAndImageLogo("Inscreva-se", spaceBottom = 10.dp) }
+            item {
+                CreateTitleAndImageLogo(
+                    stringResource(id = R.string.sign_up),
+                    spaceBottom = 10.dp
+                )
+            }
             item { Spacer(modifier = Modifier.height(15.dp)) }
             item {
                 InputText(
-                    textTop = "Nome",
-                    textHint = "Digite seu primeiro nome",
+                    textTop = stringResource(id = R.string.name),
+                    textHint = stringResource(id = R.string.eg_enter_your_first_name),
                     textValue = viewModel.state.name,
                     textError = viewModel.state.nameError,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("input_name"),
                     onEvent = { it: String -> viewModel.onEvent(RegisterFormEvent.NameChanged(it)) }
                 )
             }
             item { Spacer(modifier = Modifier.height(15.dp)) }
             item {
                 InputText(
-                    textTop = "Sobrenome",
-                    textHint = "Digite seu sobrenome",
+                    textTop = stringResource(id = R.string.lastname),
+                    textHint = stringResource(id = R.string.eg_enter_your_last_name),
                     textValue = viewModel.state.lastName,
                     textError = viewModel.state.lastNameError,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("input_lastname"),
                     onEvent = { it: String -> viewModel.onEvent(RegisterFormEvent.LastNameChanged(it)) }
                 )
             }
             item { Spacer(modifier = Modifier.height(15.dp)) }
             item {
                 InputText(
-                    textTop = "Email",
-                    textHint = "eg: exemple@petjournal.com",
+                    textTop = stringResource(id = R.string.email),
+                    textHint = stringResource(id = R.string.eg_email),
                     textValue = viewModel.state.email,
                     textError = viewModel.state.emailError,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("input_email"),
                     onEvent = { it: String -> viewModel.onEvent(RegisterFormEvent.EmailChanged(it)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                 )
@@ -75,10 +93,13 @@ fun Screen(viewModel: RegisterViewModel) {
             item { Spacer(modifier = Modifier.height(15.dp)) }
             item {
                 InputText(
-                    textTop = "Telefone",
-                    textHint = "eg: 91 9 1234-4567",
+                    textTop = stringResource(id = R.string.phone),
+                    textHint = stringResource(id = R.string.eg_phone),
                     textValue = viewModel.state.phone,
                     textError = viewModel.state.phoneError,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("input_phone"),
                     onEvent = { it: String -> viewModel.onEvent(RegisterFormEvent.PhoneChanged(it)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     visualTransformation = { mobileNumberFilter(it) }
@@ -87,10 +108,13 @@ fun Screen(viewModel: RegisterViewModel) {
             item { Spacer(modifier = Modifier.height(15.dp)) }
             item {
                 InputText(
-                    textTop = "Senha",
-                    textHint = "Digite sua senha",
+                    textTop = stringResource(id = R.string.password),
+                    textHint = stringResource(id = R.string.eg_password),
                     textValue = viewModel.state.password,
                     textError = viewModel.state.passwordError,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("input_password"),
                     isPassword = true,
                     onEvent = { it: String -> viewModel.onEvent(RegisterFormEvent.PasswordChanged(it)) },
                 )
@@ -98,10 +122,13 @@ fun Screen(viewModel: RegisterViewModel) {
             item { Spacer(modifier = Modifier.height(15.dp)) }
             item {
                 InputText(
-                    textTop = "Confirmar senha",
-                    textHint = "Confirme sua senha",
+                    textTop = stringResource(id = R.string.confirm_password),
+                    textHint = stringResource(id = R.string.confirm_password),
                     textValue = viewModel.state.repeatedPassword,
                     textError = viewModel.state.repeatedPasswordError,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("input_confirm_password"),
                     isPassword = true,
                     onEvent = { it: String ->
                         viewModel.onEvent(
@@ -116,19 +143,22 @@ fun Screen(viewModel: RegisterViewModel) {
             item {
                 PrivacyPolicyCheckbox(
                     valueChecked = viewModel.state.privacyPolicy,
-                    onEvent = { it: Boolean ->
-                        viewModel.onEvent(
-                            RegisterFormEvent.PrivacyPolicyChanged(
-                                it
-                            )
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("checkbox"),
+                onEvent = { it: Boolean ->
+                    viewModel.onEvent(
+                        RegisterFormEvent.PrivacyPolicyChanged(
+                            it
                         )
-                    }
+                    )
+                }
                 )
             }
             item { Spacer(modifier = Modifier.height(5.dp)) }
             item {
                 Button(
-                    text = "Cadastrar",
+                    text = stringResource(id = R.string.register),
                     border = null,
                     submit = {
                         viewModel.onEvent(RegisterFormEvent.Submit)
@@ -136,7 +166,9 @@ fun Screen(viewModel: RegisterViewModel) {
                     enableButton = viewModel.enableButton(),
                     setSystemBarColor = true,
                     inDarkMode = true,
-                    modifier = Modifier.padding(bottom = 50.dp),
+                    modifier = Modifier
+                        .padding(bottom = 50.dp)
+                        .testTag("button_register"),
                     isLoading = taskState is TaskState.Loading
                 )
             }

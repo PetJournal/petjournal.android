@@ -52,7 +52,7 @@ val mainModule = module {
 
     // Repositories
     single<ValidationRepository> { ValidationRepositoryImpl() }
-    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
+    single<AuthRepository> { AuthRepositoryImpl(get(), get(), get()) }
     single<GuardianRepository> { GuardianRepositoryImpl(get(), get(), get()) }
     single<GuardianLocalDataSource> { GuardianLocalDataSourceImpl(get()) }
 
@@ -95,7 +95,6 @@ val mainModule = module {
             .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
             .build()
     }
-
 
     // ViewModels
     viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get()) }

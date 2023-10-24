@@ -32,7 +32,7 @@ class HomeScreenViewModelImpl(
     override val message: StateFlow<String> get() = _message
     private val _message = MutableStateFlow("")
 
-    fun updateMessage(newMessage: String) {
+    private fun updateMessage(newMessage: String) {
         _message.value = newMessage
     }
 
