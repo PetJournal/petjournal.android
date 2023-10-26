@@ -40,4 +40,5 @@
     <string name="eg_password">Digite sua senha</string>
     <string name="confirm_password">Confirmar senha</string>
     <string name="register">Cadastrar</string>
+    <string name="success">Sucesso ao realizar ação!</string>
 </resources>

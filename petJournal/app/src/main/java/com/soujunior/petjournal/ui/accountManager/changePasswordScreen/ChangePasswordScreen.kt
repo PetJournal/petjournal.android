@@ -4,7 +4,9 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.components.Screen
 import org.koin.androidx.compose.getViewModel
@@ -17,7 +19,7 @@ fun ChangePasswordScreen(navController: NavController) {
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
-                    Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
                     navController.navigate("mainContent")
                 }
 

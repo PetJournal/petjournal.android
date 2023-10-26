@@ -25,16 +25,11 @@ fun AwaitingCodeScreen(arg: String?, navController: NavController) {
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
-                    Toast.makeText(
-                        context,
-                        "Success: " + viewModel.message.value,
-                        Toast.LENGTH_LONG
-                    ).show()
                     navController.navigate("changePassword")
                 }
 
                 is ValidationEvent.Failed -> {
-                    Toast.makeText(context, "Failed: " + viewModel.message.value, Toast.LENGTH_LONG)
+                    Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG)
                         .show()
                 }
             }

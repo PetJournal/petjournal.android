@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="CODE_400">Não foi possível encontrar seu email</string>
+    <string name="CODE_400_forgot_pass">Não foi possível encontrar seu email</string>
     <string name="CODE_500">Erro do Servidor Interno. Ocorreu um erro inesperado. Por favor, tente novamente em alguns instantes!</string>
 
     <string name="token_saved">Token Saved</string>
