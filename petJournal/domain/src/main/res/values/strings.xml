@@ -2,4 +2,9 @@
 <resources>
     <string name="CODE_400">Não foi possível encontrar seu email</string>
     <string name="CODE_500">Erro do Servidor Interno. Ocorreu um erro inesperado. Por favor, tente novamente em alguns instantes!</string>
+
+    <string name="token_saved">Token Saved</string>
+    <string name="error_save_token">Error in Save Token!</string>
+    <string name="error_code_expired_or_incorrect">Codigo expirado ou incorreto!</string>
+    <string name="error_internal_server">Erro interno do servidor. Ocorreu um erro inesperado. Tente novamente em alguns instantes.</string>
 </resources>
