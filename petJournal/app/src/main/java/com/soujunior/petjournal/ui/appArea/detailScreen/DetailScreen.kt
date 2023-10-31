@@ -20,7 +20,8 @@ import org.koin.androidx.compose.getViewModel
 fun DetailScreen(navController: NavController) {
     val DetailScreenViewModel: DetailScreenViewModel = getViewModel()
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()
+        ,
         contentAlignment = Alignment.Center
     ) {
             Row(modifier = Modifier.width(IntrinsicSize.Max)) {
