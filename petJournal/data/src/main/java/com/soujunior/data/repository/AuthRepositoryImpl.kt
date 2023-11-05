@@ -17,6 +17,7 @@ import com.soujunior.domain.model.request.SignUpModel
 import com.soujunior.domain.model.response.AccessTokenResponse
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.AuthRepository
+import com.soujunior.domain.repository.GuardianLocalDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -24,7 +25,8 @@ import kotlinx.coroutines.withContext
 
 class AuthRepositoryImpl(
     private val authApi: AuthService,
-    private val context: Context
+    private val guardianLocalDataSourceImpl: GuardianLocalDataSource,
+    context: Context
 ) : AuthRepository {
 
     private val jwtManager: JwtManager = JwtManager.getInstance(context)
@@ -67,6 +69,7 @@ class AuthRepositoryImpl(
 
     override suspend fun logout() {
         jwtManager.deleteToken()
+        guardianLocalDataSourceImpl.deleteDatabase()
     }
 
     override suspend fun saveToken(token: String): Boolean {

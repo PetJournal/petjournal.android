@@ -27,9 +27,7 @@ class GuardianRepositoryImpl(
                     guardianLocalDataSourceImpl.saveGuardianName(apiResult.data)
                     apiResult
                 }
-
                 else -> apiResult
-
             }
         }
     }

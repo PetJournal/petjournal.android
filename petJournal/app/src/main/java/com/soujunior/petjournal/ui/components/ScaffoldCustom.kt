@@ -36,6 +36,7 @@ fun ScaffoldCustom(
     navigationUp: NavController,
     bottomNavigationBar: @Composable () -> Unit = {},
     contentToUse: @Composable (PaddingValues) -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     Scaffold(
         topBar = {
@@ -82,6 +83,6 @@ fun ScaffoldCustom(
         content = { it ->
             contentToUse(it)
         },
-        modifier = Modifier.shadow(4.dp)
+        modifier = modifier.shadow(4.dp)
     )
 }

@@ -18,7 +18,7 @@ fun ForgotPasswordScreen(navController: NavController) {
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
-                    Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG).show()
+                    //Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG).show()
                     navController.navigate("awaitingCode/${viewModel.state.email}")
                 }
 

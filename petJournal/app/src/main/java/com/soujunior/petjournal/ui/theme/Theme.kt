@@ -1,14 +1,10 @@
 package com.soujunior.petjournal.ui.theme
 
 import android.os.Build
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Colors
 import androidx.compose.material.Text
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -17,16 +13,12 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 /**h1	displayLarge
@@ -117,7 +109,7 @@ val lightCor: ColorScheme
         outlineVariant = light_outlineVariant,
         scrim = light_scrim,
 
-    )
+        )
 
 val DarkCor: ColorScheme
     @Composable get() = darkColorScheme(
@@ -152,47 +144,45 @@ val DarkCor: ColorScheme
         outlineVariant = dark_outlineVariant,
     )
 
+private val schemeIntro = lightColorScheme(
+    background = light_primary,
+    onBackground = light_primary,
+)
 @Composable
 fun PetJournalTheme(
     isDynamic: Boolean = false,
+    isIntro: Boolean = false,
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
-    setSystemBarColor: Boolean = true
 ) {
     val systemUiController = rememberSystemUiController()
-    //val systemUiControllerTwo = rememberUpdatedState(SystemUiController(LocalContext.current))
 
-    val useDynamicColor = isDynamic && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-    val extendedColors = if (darkTheme) darkExtendedColors else lightExtendedColors
+    val colors =
+        when {
+            isDynamic && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                val context = LocalContext.current
+                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            }
 
-    val colors = if (useDynamicColor) {
-        val context = LocalContext.current
-        if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-    } else {
-        if (darkTheme) DarkCor else lightCor
-    }
-
-    if (setSystemBarColor) {
-        SideEffect {
-            systemUiController.setSystemBarsColor(color = colors.background)
-            systemUiController.setNavigationBarColor(color = Color.Black)
+            darkTheme -> if (!isIntro) DarkCor else schemeIntro
+            else -> if (!isIntro) lightCor else schemeIntro
         }
-    }
+    systemUiController.setSystemBarsColor( color = Color.Transparent, darkIcons = true )
+    systemUiController.setNavigationBarColor(Color.Black)
+    MaterialTheme(
+        colorScheme = colors,
+        typography = Typography,
+        content = content,
+    )
 
-    CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
-        MaterialTheme(
-            colorScheme = colors,
-            typography = Typography,
-            content = content,
-        )
-    }
 }
 
 @Preview
 @Composable
-fun PreviewColorTheme(){
+fun PreviewColorTheme() {
     ColorSchemePreview(lightCor)
 }
+
 @Composable
 fun ColorSchemePreview(
     lightCor: ColorScheme
