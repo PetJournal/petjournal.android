@@ -38,7 +38,7 @@ import com.soujunior.petjournal.ui.components.ScaffoldCustom
 fun Screen(navController: NavController) {
     val activateContinueButton = remember { mutableStateOf(false) }
     var isOthersFieldVisible by remember { mutableStateOf(false) }
-    var text by remember { mutableStateOf("") }
+    var textState by remember { mutableStateOf("") }
 
     ScaffoldCustom(
         titleTopBar = "Cadastro Pet",
@@ -98,9 +98,10 @@ fun Screen(navController: NavController) {
                                 textAlign = TextAlign.Start
                             )
                             OutlinedTextField(
-                                value = text,
+                                value = textState,
                                 onValueChange = { txt ->
-                                    text = txt
+                                    textState = txt
+                                    activateContinueButton.value = txt.isNotBlank()
                                 },
                                 modifier = Modifier.fillMaxWidth(),
                                 placeholder = {
