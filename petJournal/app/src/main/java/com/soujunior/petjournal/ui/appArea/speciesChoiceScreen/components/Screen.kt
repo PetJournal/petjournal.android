@@ -105,6 +105,9 @@ fun Screen(navController: NavController) {
                                 modifier = Modifier.fillMaxWidth(),
                                 placeholder = {
                                     Text(text = stringResource(R.string.type_here))
+                                },
+                                supportingText = {
+                                    Text(text = "* Campo obrigatório")
                                 }
                             )
                         }
