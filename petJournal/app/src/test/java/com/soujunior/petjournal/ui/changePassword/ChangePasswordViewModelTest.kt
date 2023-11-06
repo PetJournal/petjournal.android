@@ -8,7 +8,7 @@ import com.soujunior.domain.usecase.auth.ChangePasswordUseCase
 import com.soujunior.domain.usecase.auth.util.ValidationRepositoryImpl
 import com.soujunior.domain.usecase.auth.util.ValidationResult
 import com.soujunior.domain.usecase.base.DataResult
-import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordFormEvent
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordFormState
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordViewModelImpl

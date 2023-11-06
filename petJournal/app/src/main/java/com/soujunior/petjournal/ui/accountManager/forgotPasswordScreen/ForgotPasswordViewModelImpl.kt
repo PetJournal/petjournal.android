@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen
 
-import android.content.ContentValues
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.ForgotPasswordUseCase
-import com.soujunior.domain.use_case.auth.util.ValidationResult
-import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.domain.use_case.util.ValidationResult
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

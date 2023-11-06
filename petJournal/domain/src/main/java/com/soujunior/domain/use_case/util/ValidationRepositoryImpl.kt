@@ -1,4 +1,4 @@
-package com.soujunior.domain.use_case.auth.util
+package com.soujunior.domain.use_case.util
 
 import com.soujunior.domain.repository.ValidationRepository
 import java.util.regex.Pattern
@@ -18,6 +18,25 @@ class ValidationRepositoryImpl : ValidationRepository {
                 errorMessage = if (correctFormat) null else listOf("Formato de email incorreto")
             )
         }
+    }
+
+    override fun inputSpecieType(value: String): ValidationResult {
+        //Quando o input for exibido, o texto inferior deve ser preto:
+        //-> *Campo obrigatório! (em preto)
+        //Quando começar a digitar
+            //se tiver menos de 3 caracteres, exibir:
+                /**O nome fornecido deve ter entre 2 e 30 caracteres,
+                 * não são permitidos caracteres especiais, nem números.
+                 * Por favor, insira um nome válido.*/
+            //quando tiver a partir de 3:
+                //-> *Campo obrigatório! (em cinza)
+        return if (value.isEmpty())
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("O campo não pode ficar em branco!")
+            )
+        else
+            ValidationResult(success = true)
     }
 
     override fun validateField(value: String): ValidationResult {
@@ -219,11 +238,11 @@ class ValidationRepositoryImpl : ValidationRepository {
 
     private val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
-        "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" +
-        "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+"
+                "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" +
+                "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+"
     )
 
-    private fun isValidString(str: String): Boolean{
+    private fun isValidString(str: String): Boolean {
         return EMAIL_ADDRESS_PATTERN.matcher(str).matches()
     }
 }

@@ -4,10 +4,9 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.components.Screen
 import org.koin.androidx.compose.getViewModel
 

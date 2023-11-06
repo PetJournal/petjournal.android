@@ -1,11 +1,10 @@
 package com.soujunior.petjournal.ui.appArea.homeScreen
 
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow

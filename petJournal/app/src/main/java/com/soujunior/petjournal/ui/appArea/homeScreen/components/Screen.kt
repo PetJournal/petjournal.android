@@ -38,11 +38,12 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.util.capitalizeFirstLetter
 
 @ExperimentalPagerApi
 @Composable
@@ -78,10 +79,11 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
             .statusBarsPadding()
             .navigationBarsPadding()
             .systemBarsPadding(),
-        titleTopBar = stringResource(R.string.hello, name.value),
+        titleTopBar = stringResource(R.string.hello, name.value.capitalizeFirstLetter()),
         isLoading = taskState is TaskState.Loading,
         titleTopBarColor = MaterialTheme.colorScheme.scrim,
         titleTopBarAligh = Alignment.CenterStart,
+        showActions = true,
         shadowBelowTopBar = 0.dp,
         showButtonToReturn = false,
         navigationUp = navController,

@@ -17,12 +17,13 @@ import androidx.compose.ui.unit.sp
 fun LoadingText(
     titleTopBar: String = "",
     titleTopBarColor: Color = MaterialTheme.colorScheme.primary,
-    modifier: Modifier = Modifier,
+    modifierShimemr: Modifier = Modifier,
+    modifierText: Modifier = Modifier,
     isLoading: Boolean = false,
 ) {
     if (isLoading) {
         Shimmer(
-            modifier = modifier
+            modifier = modifierShimemr
                 .fillMaxWidth(0.6f)
                 .height(30.dp)
                 .clip(RoundedCornerShape(10.dp))
@@ -32,7 +33,8 @@ fun LoadingText(
         Text(
             text = titleTopBar,
             color = titleTopBarColor,
-            fontSize = 22.sp
+            fontSize = 22.sp,
+            modifier = modifierText
         )
     }
 }
