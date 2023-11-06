@@ -26,6 +26,20 @@
     <string name="leaving">Saindo</string>
     <string name="menu_description">Menu</string>
     <string name="logout_description">Logout</string>
+    <string name="incorrect_username_password">Usuário ou senha incorretos</string>
+    <string name="sign_up">Inscreva-se</string>
+    <string name="name">Nome</string>
+    <string name="eg_enter_your_first_name">"Digite seu primeiro nome"</string>
+    <string name="lastname">Sobrenome</string>
+    <string name="eg_enter_your_last_name">Digite seu sobrenome</string>
+    <string name="email">Email</string>
+    <string name="eg_email">"eg: exemple@petjournal.com"</string>
+    <string name="phone">Telefone</string>
+    <string name="eg_phone">eg: 91 9 1234-4567</string>
+    <string name="password">Senha</string>
+    <string name="eg_password">Digite sua senha</string>
+    <string name="confirm_password">Confirmar senha</string>
+    <string name="register">Cadastrar</string>
     <string name="insert_the_species">Insira a espécie:</string>
     <string name="type_here">Digite aqui...</string>
 </resources>

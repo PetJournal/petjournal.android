@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.accountManager.loginScreen.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
@@ -12,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
@@ -52,7 +52,7 @@ fun RememberPasswordAndForgotSection(navController: NavController, viewModel: Lo
                     .clickable(
                         onClick = {
                             navController.navigate("forgotPassword")
-                        })
+                        }).testTag("link_to_forgotPassword")
                     .align(Alignment.End),
                 color = textColor
             )
