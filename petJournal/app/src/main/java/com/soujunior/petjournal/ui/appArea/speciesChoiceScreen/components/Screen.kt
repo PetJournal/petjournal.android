@@ -12,7 +12,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircleOutline
+import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -23,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,6 +44,9 @@ fun Screen(navController: NavController) {
     val activateContinueButton = remember { mutableStateOf(false) }
     var isOthersFieldVisible by remember { mutableStateOf(false) }
     var textState by remember { mutableStateOf("") }
+    var errorText by remember { mutableStateOf("") }
+    var isFieldTextEmpty by remember { mutableStateOf(false) }
+
 
     ScaffoldCustom(
         titleTopBar = "Cadastro Pet",
@@ -97,18 +105,52 @@ fun Screen(navController: NavController) {
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Start
                             )
+
                             OutlinedTextField(
                                 value = textState,
                                 onValueChange = { txt ->
                                     textState = txt
                                     activateContinueButton.value = txt.isNotBlank()
+                                    isFieldTextEmpty = txt.isEmpty()
+
+                                    val regex = "[A-Za-zÀ-ÖØ-öø-ÿ ]+".toRegex()
+                                    errorText = if (isFieldTextEmpty) {
+                                        "* Campo obrigatório"
+                                    } else if (txt.length < 2 || txt.length > 30 || !txt.matches(regex)) {
+                                        "* O nome fornecido deve ter entre 2 e 30 caracteres, não são permitidos caracteres especiais, nem números. Por favor, insira um nome válido."
+                                    } else {
+                                        ""
+                                    }
                                 },
                                 modifier = Modifier.fillMaxWidth(),
                                 placeholder = {
                                     Text(text = stringResource(R.string.type_here))
                                 },
+                                trailingIcon = {
+                                    if (errorText.isNotEmpty() || isFieldTextEmpty) {
+                                        Icon(
+                                            imageVector = Icons.Default.ErrorOutline,
+                                            contentDescription = ""
+                                        )
+                                    } else {
+                                        Icon(
+                                            imageVector = Icons.Default.CheckCircleOutline,
+                                            contentDescription = ""
+                                        )
+                                    }
+
+                                },
+                                isError = errorText.isNotEmpty(),
                                 supportingText = {
-                                    Text(text = "* Campo obrigatório")
+                                    if (errorText.isNotEmpty()) {
+                                        Text(
+                                            text = errorText,
+                                            color = Color.Red,
+                                            textAlign = TextAlign.Justify
+                                        )
+                                    } else {
+                                        Text(text = "* Campo obrigatório")
+                                    }
                                 }
                             )
                         }
@@ -154,7 +196,6 @@ fun Screen(navController: NavController) {
                 }
             }
         })
-
 
 }
 
