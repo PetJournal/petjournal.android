@@ -49,7 +49,7 @@ fun Screen(navController: NavController) {
 
 
     ScaffoldCustom(
-        titleTopBar = "Cadastro Pet",
+        titleTopBar = stringResource(R.string.pet_registration),
         showButtonToReturn = true,
         navigationUp = navController,
         showTopBar = true,
@@ -115,8 +115,12 @@ fun Screen(navController: NavController) {
 
                                     val regex = "[A-Za-zÀ-ÖØ-öø-ÿ ]+".toRegex()
                                     errorText = if (isFieldTextEmpty) {
+                                        activateContinueButton.value = false
                                         "* Campo obrigatório"
-                                    } else if (txt.length < 2 || txt.length > 30 || !txt.matches(regex)) {
+                                    } else if (
+                                        txt.length < 2 || txt.length > 30 || !txt.matches(regex)
+                                    ) {
+                                        activateContinueButton.value = false
                                         "* O nome fornecido deve ter entre 2 e 30 caracteres, não são permitidos caracteres especiais, nem números. Por favor, insira um nome válido."
                                     } else {
                                         ""
@@ -124,7 +128,14 @@ fun Screen(navController: NavController) {
                                 },
                                 modifier = Modifier.fillMaxWidth(),
                                 placeholder = {
-                                    Text(text = stringResource(R.string.type_here))
+                                    if (isFieldTextEmpty) {
+                                        Text(
+                                            text = stringResource(R.string.type_here),
+                                            color = Color.Black
+                                        )
+                                    } else {
+                                        Text(text = stringResource(R.string.type_here))
+                                    }
                                 },
                                 trailingIcon = {
                                     if (errorText.isNotEmpty() || isFieldTextEmpty) {
@@ -149,7 +160,7 @@ fun Screen(navController: NavController) {
                                             textAlign = TextAlign.Justify
                                         )
                                     } else {
-                                        Text(text = "* Campo obrigatório")
+                                        Text(text = stringResource(R.string.required_field))
                                     }
                                 }
                             )
