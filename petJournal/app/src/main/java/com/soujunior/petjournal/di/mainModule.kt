@@ -21,7 +21,7 @@ import com.soujunior.domain.use_case.auth.LoginUseCase
 import com.soujunior.domain.use_case.auth.LogoutUseCase
 import com.soujunior.domain.use_case.auth.SavePasswordUseCase
 import com.soujunior.domain.use_case.auth.SignUpUseCase
-import com.soujunior.domain.use_case.auth.util.ValidationRepositoryImpl
+import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModel
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModelImpl
@@ -39,6 +39,8 @@ import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.appArea.registerPetScreen.RegisterPetViewModel
 import com.soujunior.petjournal.ui.appArea.registerPetScreen.RegisterPetViewModelImpl
+import com.soujunior.petjournal.ui.appArea.speciesChoiceScreen.ViewModelChoiceSpecies
+import com.soujunior.petjournal.ui.appArea.speciesChoiceScreen.ViewModelChoiceSpeciesImpl
 import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -104,6 +106,7 @@ val mainModule = module {
     viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get()) }
     viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get(), get()) }
     viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModelImpl(get(), get()) }
+    viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get()) }
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
     viewModel { SplashViewModel(get()) }
 }

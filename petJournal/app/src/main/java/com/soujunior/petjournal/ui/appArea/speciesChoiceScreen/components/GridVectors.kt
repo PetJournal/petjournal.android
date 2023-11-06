@@ -46,7 +46,9 @@ fun GridVectors(
             modifier = Modifier
                 .border(
                     width = 2.dp,
-                    color = if (selectedItem == DOG) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
+                    color =
+                        if (selectedItem == DOG) MaterialTheme.colorScheme.onSecondaryContainer
+                        else MaterialTheme.colorScheme.tertiary,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp)

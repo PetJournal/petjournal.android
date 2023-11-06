@@ -1,4 +1,4 @@
-package com.soujunior.domain.use_case.auth.util
+package com.soujunior.domain.use_case.util
 
 data class ValidationResult(
     val success: Boolean,

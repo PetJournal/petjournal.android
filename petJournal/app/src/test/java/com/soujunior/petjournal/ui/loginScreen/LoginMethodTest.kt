@@ -2,8 +2,8 @@ package com.soujunior.petjournal.ui.loginScreen
 
 import com.soujunior.domain.model.request.LoginModel
 import com.soujunior.domain.use_case.auth.LoginUseCase
-import com.soujunior.domain.use_case.auth.util.ValidationRepositoryImpl
-import com.soujunior.domain.use_case.auth.util.ValidationResult
+import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
+import com.soujunior.domain.use_case.util.ValidationResult
 import com.soujunior.domain.use_case.base.DataResult
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormState

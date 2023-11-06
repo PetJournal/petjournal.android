@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Logout
@@ -25,6 +28,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,12 +36,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.util.capitalizeFirstLetter
 
 @ExperimentalPagerApi
 @Composable
@@ -61,11 +67,23 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
             }
         }
     }
+
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(
+        color = Color.Transparent,
+        darkIcons = true
+    )
+    systemUiController.setNavigationBarColor(Color.Black)
     ScaffoldCustom(
-        titleTopBar = stringResource(R.string.hello, name.value),
+        modifier = Modifier
+            .statusBarsPadding()
+            .navigationBarsPadding()
+            .systemBarsPadding(),
+        titleTopBar = stringResource(R.string.hello, name.value.capitalizeFirstLetter()),
         isLoading = taskState is TaskState.Loading,
         titleTopBarColor = MaterialTheme.colorScheme.scrim,
         titleTopBarAligh = Alignment.CenterStart,
+        showActions = true,
         shadowBelowTopBar = 0.dp,
         showButtonToReturn = false,
         navigationUp = navController,

@@ -4,21 +4,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
-import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.components.ImageLogo
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
@@ -35,22 +32,26 @@ fun SplashScreen(navController: NavHostController) {
                     navController.navigate("mainContent")
                 }
                 is ValidationEvent.Failed -> {
-                        delay(2000)
-                        navController.navigate("accountManager")
+                    delay(2000)
+                    navController.navigate("accountManager")
                 }
             }
         }
     }
 
-    //TODO: Encontrar abordagem que não troque as cores do NavigationBar e do StatusBar antes de trocar de tela
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(MaterialTheme.colorScheme.background)
-    systemUiController.setNavigationBarColor(Color.White)
-
+/*    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(
+        color = Color.Transparent,
+        darkIcons = true
+    )
+    systemUiController.setNavigationBarColor(Color.Transparent)*/
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(MaterialTheme.colorScheme.background)
+            .statusBarsPadding()
+            .navigationBarsPadding()
+        ,
         contentAlignment = Alignment.Center
     ) {
 

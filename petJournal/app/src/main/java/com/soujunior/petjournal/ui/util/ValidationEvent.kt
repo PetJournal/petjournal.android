@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui
+package com.soujunior.petjournal.ui.util
 
 sealed class ValidationEvent {
     object Success : ValidationEvent()
