@@ -21,21 +21,19 @@ class ValidationRepositoryImpl : ValidationRepository {
     }
 
     override fun inputSpecieType(value: String): ValidationResult {
-        //Quando o input for exibido, o texto inferior deve ser preto:
-        //-> *Campo obrigatório! (em preto)
-        //Quando começar a digitar
-            //se tiver menos de 3 caracteres, exibir:
-                /**O nome fornecido deve ter entre 2 e 30 caracteres,
-                 * não são permitidos caracteres especiais, nem números.
-                 * Por favor, insira um nome válido.*/
-            //quando tiver a partir de 3:
-                //-> *Campo obrigatório! (em cinza)
-        return if (value.isEmpty())
+
+        val regex = "[A-Za-zÀ-ÖØ-öø-ÿ ]+".toRegex()
+        return if (value.isEmpty()) {
             ValidationResult(
                 success = false,
-                errorMessage = listOf("O campo não pode ficar em branco!")
+                errorMessage = listOf("* Campo obrigatório!")
             )
-        else
+        } else if (value.length < 2 || value.length > 30 || !value.matches(regex)) {
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* O nome fornecido deve ter entre 2 e 30 caracteres, não são permitidos caracteres especiais, nem números. Por favor, insira um nome válido.")
+            )
+        } else
             ValidationResult(success = true)
     }
 

@@ -33,10 +33,15 @@ import com.soujunior.petjournal.ui.util.calcDefault
 
 @Composable
 fun GridVectors(
-    selectedSpecies: (String) -> Unit
+    selectedSpecies: (String) -> Unit,
+    clearSelection: () -> Boolean
 ) {
     val defaultSize = 13
     var selectedItem by remember { mutableStateOf("") }
+
+    if (clearSelection()){
+        selectedItem = ""
+    }
 
     Row(
         modifier = Modifier.padding(vertical = 2.dp),
@@ -257,5 +262,5 @@ fun GridVectors(
 @Preview
 @Composable
 fun PreviewGid() {
-    GridVectors() {}
+//    GridVectors() {}
 }

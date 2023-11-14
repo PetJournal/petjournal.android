@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
+import com.soujunior.domain.use_case.util.ValidationResult
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -36,6 +37,10 @@ class ViewModelChoiceSpeciesImpl(
         getData()
     }
 
+    private fun hasError(result: ValidationResult): Boolean {
+        return listOf(result).any { !it.success }
+    }
+
     fun updateName(newName: GuardianNameResponse) {
         _name.value = newName
     }
@@ -48,11 +53,12 @@ class ViewModelChoiceSpeciesImpl(
     }
 
     override fun failed(exception: Throwable?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun enableButton(): Boolean {
-        TODO("Not yet implemented")
+        val speciesResult = validation.inputSpecieType(state.specie)
+        return speciesResult.success
     }
 
     fun generic() {
@@ -79,14 +85,18 @@ class ViewModelChoiceSpeciesImpl(
                 val nameResult = validation.validateName(state.name)
                 state = if (hasError(nameResult)) state.copy(nameError = nameResult.errorMessage)
                 else state.copy(nameError = null)*/
+                Log.i(TAG,"-> specieSelected")
                 state = state.copy(specie = specieSelected)
                 val result = validation.inputSpecieType(state.specie)
                 //state = if (hasError(result)) state.copy(specieError = result.errorMessage)
             }
 
             specieWritten != null -> {
+                Log.i(TAG,"-> specieWritten")
                 state = state.copy(specie = specieWritten)
                 val result = validation.inputSpecieType(state.specie)
+                state = if (hasError(result)) state.copy(specieError = result.errorMessage)
+                else state.copy(specieError = null)
             }
         }
     }
