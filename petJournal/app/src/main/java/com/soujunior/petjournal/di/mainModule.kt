@@ -110,7 +110,7 @@ val mainModule = module {
 
     // ViewModels
     viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get()) }
-    viewModel<RegisterPetViewModel> { RegisterPetViewModelImpl(get(), get()) }
+    viewModel<RegisterPetViewModel> { RegisterPetViewModelImpl(get(), get(), get()) }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get()) }
     viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get()) }
     viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get(), get()) }

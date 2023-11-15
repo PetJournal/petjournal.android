@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.appArea.pets.registerPetScreen.components
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,19 +7,18 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.registerPetScreen.RegisterPetViewModel
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.NavigationBar
@@ -31,29 +28,23 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun Screen(navController: NavController) {
-    Log.e(TAG, "Entrou na register pet")
     val viewModel: RegisterPetViewModel = getViewModel()
     val context = LocalContext.current
-    var state by remember { mutableStateOf(false) }
-
+    val state by viewModel.visualizedScreen.collectAsState()
+    val name by viewModel.name.collectAsState()
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
             when (event) {
-                is ValidationEvent.Success -> {
-                    state = viewModel.visualizedScreen.value
-                }
-
-                is ValidationEvent.Failed -> {
-                    Log.e(TAG, "Erro")
-                }
+                is ValidationEvent.Success -> {}
+                is ValidationEvent.Failed -> {}
             }
         }
     }
-    if (!state){
-        Column(modifier = Modifier.navigationBarsPadding()){
+    if (!state) {
+        Column(modifier = Modifier.navigationBarsPadding()) {
             ScaffoldCustom(
                 modifier = Modifier,
-                titleTopBar = "Cadastro Pet",
+                titleTopBar = stringResource(id = R.string.pet_registration),
                 showButtonToReturn = true,
                 navigationUp = navController,
                 showTopBar = true,
@@ -69,7 +60,7 @@ fun Screen(navController: NavController) {
                             .padding(it)
                             .background(MaterialTheme.colorScheme.background),
                         content = {
-                            item { Header() }
+                            item { Header(name) }
                             item { GridVectors() }
                             item {
                                 Button2(
@@ -77,14 +68,13 @@ fun Screen(navController: NavController) {
                                         viewModel.setWasViewed()
                                     },
                                     enableButton = true,
-                                    text = "Continuar"
+                                    text = stringResource(id = R.string.text_continue)
                                 )
                             }
                         })
                 })
         }
-    }else{
-        var name = "Fulano"
+    } else {
         navController.navigate("pets/speciesChoice/$name")
     }
 

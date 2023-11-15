@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.appArea.pets.registerPetScreen
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.guardian.GetPetRegistrationWentLive
 import com.soujunior.domain.use_case.guardian.SetPetRegistrationWentLive
 import com.soujunior.petjournal.ui.util.ValidationEvent
@@ -15,11 +16,13 @@ import kotlinx.coroutines.launch
 class RegisterPetViewModelImpl(
     private val setWasViewed: SetPetRegistrationWentLive,
     private val getWasViewed: GetPetRegistrationWentLive,
+    private val getName: GetGuardianNameUseCase,
 ) : RegisterPetViewModel() {
+    override val name: StateFlow<String?> get() = _name
+    private val _name = MutableStateFlow("")
     override val visualizedScreen: StateFlow<Boolean> get() = _visualizedScreen
     private val _visualizedScreen = MutableStateFlow(false)
-    override val message: StateFlow<String>
-        get() = TODO("Not yet implemented")
+    override val message: StateFlow<String> get() = TODO("Not yet implemented")
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents: Flow<ValidationEvent>
         get() = super.validationEvents
@@ -29,7 +32,6 @@ class RegisterPetViewModelImpl(
     }
 
     override fun success(value: String) {
-        Log.e(TAG, "success(): $value")
         _visualizedScreen.value = value.toBoolean()
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
@@ -48,6 +50,7 @@ class RegisterPetViewModelImpl(
             try {
                 val result = getWasViewed.execute(Unit)
                 result.handleResult({ it -> success(it.toString()) }, ::failed)
+                getName()
             } catch (e: Exception) {
                 Log.e(TAG, "Erro: $e")
             }
@@ -56,10 +59,21 @@ class RegisterPetViewModelImpl(
 
     override fun setWasViewed() {
         viewModelScope.launch {
-            Log.e(TAG, "botao clicado, inicio")
             val result = setWasViewed.execute(true)
             result.handleResult(::success, ::failed)
-            Log.e(TAG, "botao clicado, fim")
         }
+    }
+
+    override fun getName() {
+        if (!visualizedScreen.value)
+            viewModelScope.launch {
+                val result = getName.execute(Unit)
+                result.handleResult(
+                    { name -> run {
+                        _name.value = name.firstName
+                    } },
+                    { error -> run { Log.e(TAG, "Error ->>: $error") } }
+                )
+            }
     }
 }

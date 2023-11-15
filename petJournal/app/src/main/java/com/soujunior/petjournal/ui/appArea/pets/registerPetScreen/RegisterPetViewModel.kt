@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class RegisterPetViewModel : ViewModel() {
     abstract val visualizedScreen : StateFlow<Boolean>
+    abstract val name: StateFlow<String?>
 
     abstract val message: StateFlow<String>
     abstract val validationEventChannel: Channel<ValidationEvent>
@@ -19,5 +20,6 @@ abstract class RegisterPetViewModel : ViewModel() {
     abstract fun success(value: String)
     abstract fun failed(exception: Throwable?)
     abstract fun setWasViewed()
+    abstract fun getName()
     abstract fun getWasViewed()
 }
