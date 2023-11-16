@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.guardian.GetPetRegistrationWentLive
 import com.soujunior.domain.use_case.guardian.SetPetRegistrationWentLive
+import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +28,11 @@ class RegisterPetViewModelImpl(
     override val validationEvents: Flow<ValidationEvent>
         get() = super.validationEvents
 
+    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
+    override val taskState: StateFlow<TaskState> = _taskState
+
     init {
+        _taskState.value = TaskState.Loading
         getWasViewed()
     }
 
@@ -65,15 +70,13 @@ class RegisterPetViewModelImpl(
     }
 
     override fun getName() {
-        if (!visualizedScreen.value)
-            viewModelScope.launch {
-                val result = getName.execute(Unit)
-                result.handleResult(
-                    { name -> run {
-                        _name.value = name.firstName
-                    } },
-                    { error -> run { Log.e(TAG, "Error ->>: $error") } }
-                )
-            }
+        viewModelScope.launch {
+            _taskState.value
+            val result = getName.execute(Unit)
+            result.handleResult(
+                { name -> run {_name.value = name.firstName}},
+                { error -> run { Log.e(TAG, "Error ->>: $error") } })
+            _taskState.value = TaskState.Idle
+        }
     }
 }

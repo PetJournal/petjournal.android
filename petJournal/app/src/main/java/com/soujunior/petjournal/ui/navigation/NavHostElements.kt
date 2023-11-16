@@ -50,7 +50,8 @@ fun NavHostMainContent() {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
         composable("accountManager") { AccountManager() }
-
+        composable("tutorScreen") { TutorScreen(navController) }
+        composable("pets/registerPet") { RegisterPetScreen(navController) }
         composable("pets/speciesChoice/{name}",
             arguments = listOf(navArgument("name") { type = NavType.StringType })
         ) { backStackEntry ->
@@ -59,8 +60,5 @@ fun NavHostMainContent() {
             SpeciesChoiceScreen(navController, name)
         }
 
-        composable("pets/registerPet") { RegisterPetScreen(navController) }
-
-        composable("tutorScreen") { TutorScreen(navController) }
     }
 }
