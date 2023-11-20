@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -11,7 +9,6 @@ import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.components.S
 
 @Composable
 fun SpeciesChoiceScreen(navController: NavController, name: String) {
-    Log.e(TAG, "SpeciesChoiceScreen -> $name")
     Screen(navController, name)
 }
 

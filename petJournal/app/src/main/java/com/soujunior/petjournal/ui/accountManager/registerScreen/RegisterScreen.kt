@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.accountManager.registerScreen.components.Screen
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import org.koin.androidx.compose.getViewModel
 
 @Composable

@@ -1,8 +1,10 @@
 package com.soujunior.petjournal.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,11 +33,13 @@ fun ScaffoldCustom(
     shadowBelowTopBar: Dp = 4.dp,
     showTopBar: Boolean = false,
     actions: @Composable RowScope.() -> Unit = {},
+    showActions: Boolean = false,
     showButtonToReturn: Boolean = false,
     showBottomBarNavigation: Boolean = false,
     navigationUp: NavController,
     bottomNavigationBar: @Composable () -> Unit = {},
     contentToUse: @Composable (PaddingValues) -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     Scaffold(
         topBar = {
@@ -50,13 +54,15 @@ fun ScaffoldCustom(
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(16.dp)
+                                    .padding(16.dp),
+                                contentAlignment = Center
                             ) {
                                 LoadingText(
                                     titleTopBar = titleTopBar,
                                     titleTopBarColor = titleTopBarColor,
-                                    modifier = Modifier.align(titleTopBarAligh),
-                                    isLoading = isLoading
+                                    modifierShimemr = Modifier.align(titleTopBarAligh),
+                                    modifierText = Modifier.align(titleTopBarAligh),
+                                    isLoading = isLoading,
                                 )
                             }
                         },
@@ -64,13 +70,17 @@ fun ScaffoldCustom(
                             if (showButtonToReturn) {
                                 IconButton(onClick = {
                                     navigationUp.navigateUp()
-                                }) {
-                                    Icon(Icons.Filled.ArrowBack, contentDescription = "Voltar")
-                                }
+                                }) { Icon(Icons.Filled.ArrowBack, contentDescription = "Voltar") }
+                            } else {
+                                Spacer(modifier = Modifier.size(ButtonDefaults.IconSize))
                             }
                         },
-                        actions = actions
+                        actions = {
+                            if(showActions) actions()
+                            else Spacer(modifier = Modifier.size(ButtonDefaults.IconSize))
+                        }
                     )
+
                 }
             }
         },
@@ -82,6 +92,6 @@ fun ScaffoldCustom(
         content = { it ->
             contentToUse(it)
         },
-        modifier = Modifier.shadow(4.dp)
+        modifier = modifier.shadow(4.dp)
     )
 }

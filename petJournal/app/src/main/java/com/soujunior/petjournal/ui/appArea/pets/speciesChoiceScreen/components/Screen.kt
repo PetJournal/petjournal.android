@@ -50,7 +50,7 @@ fun Screen(navController: NavController, name: String) {
             navigationUp = navController,
             showTopBar = true,
             showBottomBarNavigation = true,
-            //bottomNavigationBar = { NavigationBar(navController) },
+            bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = {
                 Box(modifier = Modifier.padding(it)) {
                     LazyColumn(
