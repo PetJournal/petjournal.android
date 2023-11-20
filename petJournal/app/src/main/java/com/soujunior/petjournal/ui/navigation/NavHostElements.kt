@@ -10,11 +10,18 @@ import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePas
 import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordScreen
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreen
+<<<<<<< Updated upstream
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreen
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.appArea.registerPetScreen.RegisterPetScreen
 import com.soujunior.petjournal.ui.appArea.speciesChoiceScreen.SpeciesChoiceScreen
 import com.soujunior.petjournal.ui.appArea.tutorScreen.TutorScreen
+=======
+import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreen
+import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.RegisterPetScreen
+import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.SpeciesChoiceScreen
+import com.soujunior.petjournal.ui.appArea.tutor.tutorScreen.TutorScreen
+>>>>>>> Stashed changes
 import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashScreen
 
 @Composable
@@ -49,11 +56,24 @@ fun NavHostMainContent() {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
         composable("accountManager") { AccountManager() }
+<<<<<<< Updated upstream
         composable("detail") { DetailScreen(navController) }
         composable("registerPet") { RegisterPetScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
         composable("pets/registerPet") { RegisterPetScreen(navController) }
         composable("tutorScreen") { TutorScreen(navController) }
         composable("detail") { DetailScreen(navController) }
+=======
+        composable("tutorScreen") { TutorScreen(navController) }
+        composable("pets/introRegisterPet") { RegisterPetScreen(navController) }
+        composable("pets/speciesChoice/{name}",
+            arguments = listOf(navArgument("name") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val name = backStackEntry.arguments?.getString("name")
+                ?: throw IllegalArgumentException("Notice Name argument missing")
+            SpeciesChoiceScreen(navController, name)
+        }
+
+>>>>>>> Stashed changes
     }
 }

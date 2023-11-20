@@ -22,7 +22,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
+<<<<<<< Updated upstream:petJournal/app/src/main/java/com/soujunior/petjournal/ui/appArea/speciesChoiceScreen/components/GridVectors.kt
 import com.soujunior.petjournal.ui.appArea.registerPetScreen.components.RoundedSquare
+=======
+import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.components.RoundedSquare
+>>>>>>> Stashed changes:petJournal/app/src/main/java/com/soujunior/petjournal/ui/appArea/pets/speciesChoiceScreen/components/GridVectors.kt
 import com.soujunior.petjournal.ui.util.Constants.BIRD
 import com.soujunior.petjournal.ui.util.Constants.CAT
 import com.soujunior.petjournal.ui.util.Constants.DOG

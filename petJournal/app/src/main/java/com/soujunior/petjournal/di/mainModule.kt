@@ -33,12 +33,21 @@ import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModel
 import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModelImpl
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterViewModel
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterViewModelImpl
+<<<<<<< Updated upstream
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreenViewModel
 import com.soujunior.petjournal.ui.appArea.detailScreen.DetailScreenViewModelImpl
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.appArea.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.appArea.registerPetScreen.RegisterPetViewModel
 import com.soujunior.petjournal.ui.appArea.registerPetScreen.RegisterPetViewModelImpl
+=======
+import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreenViewModel
+import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreenViewModelImpl
+import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.IntroRegisterPetViewModel
+import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.IntroIntroRegisterPetViewModelImpl
+import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.ViewModelChoiceSpecies
+import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.ViewModelChoiceSpeciesImpl
+>>>>>>> Stashed changes
 import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -98,8 +107,12 @@ val mainModule = module {
 
     // ViewModels
     viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get()) }
+<<<<<<< Updated upstream
     viewModel<DetailScreenViewModel> { DetailScreenViewModelImpl() }
     viewModel<RegisterPetViewModel> { RegisterPetViewModelImpl() }
+=======
+    viewModel<IntroRegisterPetViewModel> { IntroIntroRegisterPetViewModelImpl(get(), get(), get()) }
+>>>>>>> Stashed changes
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get()) }
     viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get()) }
     viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get(), get()) }
