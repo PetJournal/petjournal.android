@@ -1,8 +1,4 @@
-<<<<<<<< Updated upstream:petJournal/app/src/main/java/com/soujunior/petjournal/ui/appArea/registerPetScreen/components/GridVectors.kt
-package com.soujunior.petjournal.ui.appArea.registerPetScreen.components
-========
 package com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.components
->>>>>>>> Stashed changes:petJournal/app/src/main/java/com/soujunior/petjournal/ui/appArea/pets/introRegisterPetScreen/components/GridVectors.kt
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
