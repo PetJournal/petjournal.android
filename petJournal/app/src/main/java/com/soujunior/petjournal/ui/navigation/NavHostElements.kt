@@ -51,17 +51,15 @@ fun NavHostMainContent() {
         composable("home") { HomeScreen(navController) }
         composable("accountManager") { AccountManager() }
         composable("tutorScreen") { TutorScreen(navController) }
-        composable("tutorScreen") { TutorScreen(navController) }
         composable("pets/introRegisterPet") { RegisterPetScreen(navController) }
-        composable("tutorScreen") { TutorScreen(navController) }
         //composable("pets/registerPet") { RegisterPetScreen(navController) }
         composable(
-            "pets/speciesChoice/{name}",
-            arguments = listOf(navArgument("name") { type = NavType.StringType })
+            "pets/speciesChoice",
+            arguments = listOf(navArgument("namee") { type = NavType.StringType })
         ) { backStackEntry ->
             val name = backStackEntry.arguments?.getString("name")
                 ?: throw IllegalArgumentException("Notice Name argument missing")
-            SpeciesChoiceScreen(navController, name)
+            SpeciesChoiceScreen(navController)
         }
     }
 }

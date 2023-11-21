@@ -36,7 +36,7 @@ import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun Screen(navController: NavController, name: String) {
+fun Screen(navController: NavController) {
     val viewModel: ViewModelChoiceSpecies = getViewModel()
     val activateContinueButton = remember { mutableStateOf(false) }
     var isOthersFieldVisible by remember { mutableStateOf(false) }
@@ -60,7 +60,7 @@ fun Screen(navController: NavController, name: String) {
                             .padding(16.dp)
                     ) {
                         item {
-                            Header(name = name)
+                            Header(name = "name")
                         }
                         item {
                             Column(

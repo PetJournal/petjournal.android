@@ -8,13 +8,13 @@ import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.components.S
 
 
 @Composable
-fun SpeciesChoiceScreen(navController: NavController, name: String) {
-    Screen(navController, name)
+fun SpeciesChoiceScreen(navController: NavController) {
+    Screen(navController)
 }
 
 @Preview
 @Composable
 fun PreviewHeader() {
     val navController = rememberNavController()
-    SpeciesChoiceScreen(navController, "Ciclano")
+    SpeciesChoiceScreen(navController)
 }

@@ -44,7 +44,7 @@ fun Screen(navController: NavController) {
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
             when (event) {
-                is ValidationEvent.Success -> navController.navigate("pets/speciesChoice/$name")
+                is ValidationEvent.Success -> navController.navigate("pets/speciesChoice")
                 is ValidationEvent.Failed -> {}
             }
         }
