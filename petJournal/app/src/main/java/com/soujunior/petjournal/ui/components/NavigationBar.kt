@@ -1,6 +1,8 @@
 package com.soujunior.petjournal.ui.components
 
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.BottomNavigation
@@ -31,6 +33,8 @@ fun NavigationBar(navController: NavController) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
+            Log.e(TAG, "currentRoute: ${currentRoute}, startsWith: ${currentRoute?.startsWith(item.group)}, group: ${item.group}")
+
             BottomNavigationItem(
                 icon = {
                     Icon(

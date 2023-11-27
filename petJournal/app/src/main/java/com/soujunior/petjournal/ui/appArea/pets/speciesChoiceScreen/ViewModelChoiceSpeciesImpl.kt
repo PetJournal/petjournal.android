@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.repository.ValidationRepository
@@ -20,9 +19,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ViewModelChoiceSpeciesImpl(
-    //private val getGuardianNameUseCase: GetGuardianNameUseCase,
+    private val getGuardianNameUseCase: GetGuardianNameUseCase,
     private val validation: ValidationRepository,
-    //private val savedStateHandle: SavedStateHandle
 ) : ViewModelChoiceSpecies() {
     override var state by mutableStateOf(PetFormState())
     override val message: StateFlow<String>
@@ -34,26 +32,22 @@ class ViewModelChoiceSpeciesImpl(
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents: Flow<ValidationEvent>
         get() = super.validationEvents
-/*    override val name: StateFlow<String> get() = _name
-    private val _name = MutableStateFlow(String)*/
 
-/*
+    override val name: StateFlow<String> get() = _name
+    private val _name = MutableStateFlow("")
+
     init {
-        _name.value = savedStateHandle.get<String>("name")
+        getData()
     }
-*/
 
     private fun hasError(result: ValidationResult): Boolean {
         return listOf(result).any { !it.success }
     }
 
-    /*private fun updateName(newName: GuardianNameResponse) {
-        _name.value = newName
-    }*/
-
     override fun success(name: GuardianNameResponse) {
-        //updateName(name)
+        _name.value = name.firstName
         viewModelScope.launch {
+            _taskState.value = TaskState.Idle
             validationEventChannel.send(ValidationEvent.Success)
         }
     }
@@ -90,13 +84,11 @@ class ViewModelChoiceSpeciesImpl(
     ) {
         when {
             specieSelected != null -> {
-                Log.i(TAG,"-> specieSelected")
                 state = state.copy(specie = specieSelected)
                 val result = validation.inputSpecieType(state.specie)
             }
 
             specieWritten != null -> {
-                Log.i(TAG,"-> specieWritten")
                 state = state.copy(specie = specieWritten)
                 val result = validation.inputSpecieType(state.specie)
                 state = if (hasError(result)) state.copy(specieError = result.errorMessage)
@@ -105,11 +97,11 @@ class ViewModelChoiceSpeciesImpl(
         }
     }
 
-    /*override fun getData() {
+    private fun getData() {
         viewModelScope.launch {
-            Log.e(TAG, "Realiza chamada ao getData")
+            _taskState.value = TaskState.Loading
             val result = getGuardianNameUseCase.execute(Unit)
             result.handleResult(::success, ::failed)
         }
-    }*/
+    }
 }

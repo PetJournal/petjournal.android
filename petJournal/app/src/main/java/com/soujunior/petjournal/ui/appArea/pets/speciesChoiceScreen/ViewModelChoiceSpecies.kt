@@ -14,6 +14,7 @@ abstract class ViewModelChoiceSpecies : ViewModel() {
     abstract val validationEventChannel: Channel<ValidationEvent>
     abstract val message: StateFlow<String>
     abstract val taskState: StateFlow<TaskState>
+    abstract val name: StateFlow<String>
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 

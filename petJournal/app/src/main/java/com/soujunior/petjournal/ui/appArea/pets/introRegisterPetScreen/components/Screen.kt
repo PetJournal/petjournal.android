@@ -1,12 +1,9 @@
 package com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -20,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
@@ -37,25 +33,24 @@ import org.koin.androidx.compose.getViewModel
 fun Screen(navController: NavController) {
     val viewModel: IntroRegisterPetViewModel = getViewModel()
     val context = LocalContext.current
-    //val state by viewModel.visualizedScreen.collectAsState()
     val name by viewModel.name.collectAsState()
     val taskState by viewModel.taskState.collectAsState()
 
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
             when (event) {
-                is ValidationEvent.Success -> navController.navigate("pets/speciesChoice")
+                is ValidationEvent.Success -> {
+                    navController.popBackStack()
+                    navController.navigate("pets/speciesChoice")
+                }
+
                 is ValidationEvent.Failed -> {}
+                else -> {}
             }
         }
     }
 
     Column(modifier = Modifier.navigationBarsPadding()) {
-        //if (!state) {
-        /*if (true*//*taskState is TaskState.Loading*//*)
-                IndeterminateCircularIndicator(modifier = Modifier.align(CenterHorizontally))
-            else
-                if (state == false)*/
         ScaffoldCustom(
             modifier = Modifier,
             titleTopBar = stringResource(id = R.string.pet_registration),
@@ -91,6 +86,4 @@ fun Screen(navController: NavController) {
                         })
             })
     }
-
-
 }

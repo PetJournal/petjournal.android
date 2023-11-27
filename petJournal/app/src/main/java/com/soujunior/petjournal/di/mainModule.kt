@@ -110,16 +110,12 @@ val mainModule = module {
 
     // ViewModels
     viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get()) }
-
     viewModel<IntroRegisterPetViewModel> { IntroIntroRegisterPetViewModelImpl(get(), get(), get()) }
-
-    //viewModel<RegisterPetViewModel> { RegisterPetViewModelImpl(get(), get(), get()) }
-
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get()) }
     viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get()) }
     viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get(), get()) }
     viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModelImpl(get(), get()) }
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
     viewModel { SplashViewModel(get()) }
-    viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get()/*, get()*/) }
+    viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get()) }
 }
