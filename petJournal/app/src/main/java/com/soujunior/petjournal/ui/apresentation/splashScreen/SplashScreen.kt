@@ -15,8 +15,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.components.ImageLogo
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
 
@@ -29,29 +29,24 @@ fun SplashScreen(navController: NavHostController) {
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
+                    navController.popBackStack()
                     navController.navigate("mainContent")
                 }
+
                 is ValidationEvent.Failed -> {
                     delay(2000)
+                    navController.popBackStack()
                     navController.navigate("accountManager")
                 }
             }
         }
     }
-
-/*    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(
-        color = Color.Transparent,
-        darkIcons = true
-    )
-    systemUiController.setNavigationBarColor(Color.Transparent)*/
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .statusBarsPadding()
-            .navigationBarsPadding()
-        ,
+            .navigationBarsPadding(),
         contentAlignment = Alignment.Center
     ) {
 

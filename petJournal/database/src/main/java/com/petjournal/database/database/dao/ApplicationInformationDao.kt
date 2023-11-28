@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.petjournal.database.database.entity.ApplicationInformation
-
 @Dao
 interface ApplicationInformationDao {
     @Insert
@@ -15,4 +14,8 @@ interface ApplicationInformationDao {
 
     @Query("SELECT isPetRegistrationWentLive FROM information WHERE id = :profileId")
     suspend fun getPetRegistrationWentLive(profileId: Int): Boolean
+
+    @Query("DELETE FROM information")
+    suspend fun deleteAllInformation()
 }
+

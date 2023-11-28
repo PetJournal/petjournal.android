@@ -1,5 +1,7 @@
 package com.petjournal.database.repository
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import com.petjournal.database.database.dao.ApplicationInformationDao
 import com.petjournal.database.database.dao.GuardianProfileDao
 import com.petjournal.database.database.entity.ApplicationInformation
@@ -18,17 +20,25 @@ class GuardianLocalDataSourceImpl(
     }
 
     override suspend fun saveGuardianName(response: GuardianNameResponse) {
-        //É chamado assim que o app é logado
-        guardianDao.insertProfile(
-            GuardianProfile(
-                firstName = response.firstName,
-                lastName = response.lastName
+        if (getGuardianName() == null) {
+            guardianDao.insertProfile(
+                GuardianProfile(
+                    id = 1,
+                    firstName = response.firstName,
+                    lastName = response.lastName
+                )
             )
-        )
-        appInfoDao.insertInformation(ApplicationInformation(1, false))
+            appInfoDao.insertInformation(ApplicationInformation(1, false))
+        }
+        else {
+            deleteDatabase()
+            saveGuardianName(response)
+        }
+
     }
 
     override suspend fun deleteDatabase() {
         guardianDao.deleteAllProfiles()
+        appInfoDao.deleteAllInformation()
     }
 }

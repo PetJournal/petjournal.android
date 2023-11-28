@@ -2,12 +2,13 @@ package com.petjournal.database.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.petjournal.database.database.entity.GuardianProfile
 
 @Dao
 interface GuardianProfileDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE) //Caso o usuario já exista, será substituido
     suspend fun insertProfile(profile: GuardianProfile): Long
 
     @Query("SELECT * FROM guardian_profile WHERE id = :id")

@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,6 +16,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun PresentationManager() {
     PetJournalTheme(

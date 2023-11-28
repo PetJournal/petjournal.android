@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.appArea.home.homeScreen.components
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Logout
@@ -39,11 +35,11 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.util.capitalizeFirstLetter
 
 @ExperimentalPagerApi
@@ -58,12 +54,10 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
             when (event) {
                 is ValidationEvent.Success -> {
                     name.value = viewModel.name.value.firstName
-                    Log.e(TAG, "isload: ${taskState is TaskState.Loading}")
                 }
 
                 is ValidationEvent.Failed -> {
-                    name.value = "Pessoa bonita"
-                    Log.e(TAG, "isload: ${taskState is TaskState.Loading}")
+                    name.value = "falha ao obter nome"
                 }
             }
         }
@@ -75,7 +69,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
         darkIcons = true
     )
     systemUiController.setNavigationBarColor(Color.Black)
-    Column(modifier = Modifier.navigationBarsPadding()){
+    Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
             modifier = Modifier,
             titleTopBar = stringResource(R.string.hello, name.value.capitalizeFirstLetter()),
@@ -97,9 +91,6 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                         .padding(end = 16.dp)
                         .clickable {
                             showDropdownMenu.value = true
-
-                            Log.e(TAG, "Nome a baixo")
-                            Log.e(TAG, "-> " + name.value)
                         }
                 )
                 if (showDropdownMenu.value) {
@@ -111,7 +102,6 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                         DropdownMenuItem(
                             onClick = {
                                 showDropdownMenu.value = false
-                                Log.e(TAG, "Logout")
                                 viewModel.logout()
                                 navController.navigate("accountManager")
                             },

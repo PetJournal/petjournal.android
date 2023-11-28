@@ -1,11 +1,9 @@
 package com.soujunior.petjournal.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeScreen
 import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordScreen
@@ -52,11 +50,6 @@ fun NavHostMainContent() {
         composable("accountManager") { AccountManager() }
         composable("tutorScreen") { TutorScreen(navController) }
         composable("pets/introRegisterPet") { RegisterPetScreen(navController) }
-        composable("pets/speciesChoice",
-            //arguments = listOf(navArgument("name") { type = NavType.StringType })
-        ) { //backStackEntry ->
-            //val name = backStackEntry.arguments?.getString("name") ?: -1
-            SpeciesChoiceScreen(navController)
-        }
+        composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
     }
 }

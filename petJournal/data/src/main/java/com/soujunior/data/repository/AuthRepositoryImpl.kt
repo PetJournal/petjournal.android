@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.preference.PreferenceManager
-import com.soujunior.domain.model.response.MessageResponse
-import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.data.remote.AuthService
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.domain.model.request.AwaitingCodeModel
@@ -15,12 +13,12 @@ import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.domain.model.request.LoginModel
 import com.soujunior.domain.model.request.SignUpModel
 import com.soujunior.domain.model.response.AccessTokenResponse
+import com.soujunior.domain.model.response.MessageResponse
+import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.AuthRepository
 import com.soujunior.domain.repository.GuardianLocalDataSource
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AuthRepositoryImpl(
@@ -78,7 +76,7 @@ class AuthRepositoryImpl(
                 jwtManager.setToken(token)
                 true
             } catch (e: Exception) {
-                Log.e(TAG, "AuthRepositoryImpl: ${e.message}", e)
+                Log.e(TAG, "AuthRepositoryImpl-saveToken: ${e.message}", e)
                 false
             }
         }
@@ -88,7 +86,7 @@ class AuthRepositoryImpl(
         return try {
             jwtManager.getToken()
         } catch (e: Exception) {
-            Log.e("AuthRepositoryImpl", e.message.toString())
+            Log.e("AuthRepositoryImpl-getToken", e.message.toString())
             null
         }
     }
@@ -98,7 +96,7 @@ class AuthRepositoryImpl(
             jwtManager.deleteToken()
             true
         } catch (e: Exception) {
-            Log.e("AuthRepositoryImpl", e.message.toString())
+            Log.e("AuthRepositoryImpl-deleteToken", e.message.toString())
             false
         }
     }

@@ -37,7 +37,6 @@ class IntroIntroRegisterPetViewModelImpl(
     }
 
     override fun success() {
-        _taskState.value = TaskState.Idle
         viewModelScope.launch { validationEventChannel.send(ValidationEvent.Success) }
     }
 
@@ -77,7 +76,6 @@ class IntroIntroRegisterPetViewModelImpl(
 
     override fun getName() {
         viewModelScope.launch {
-            //_taskState.value
             val result = getName.execute(Unit)
             result.handleResult(
                 { name -> run {_name.value = name.firstName}},

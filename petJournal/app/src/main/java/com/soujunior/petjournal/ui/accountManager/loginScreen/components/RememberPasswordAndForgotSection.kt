@@ -43,20 +43,21 @@ fun RememberPasswordAndForgotSection(navController: NavController, viewModel: Lo
             )
         })
         Column(
-            modifier = Modifier.fillMaxWidth(),content = {
-            Text(
-                text = stringResource(id = R.string.forgot_password_label),
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.End,
-                modifier = Modifier
-                    .clickable(
-                        onClick = {
-                            navController.navigate("forgotPassword")
-                        }).testTag("link_to_forgotPassword")
-                    .align(Alignment.End),
-                color = textColor
-            )
-        })
+            modifier = Modifier.fillMaxWidth(), content = {
+                Text(
+                    text = stringResource(id = R.string.forgot_password_label),
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier
+                        .clickable(
+                            onClick = {
+                                navController.navigate("forgotPassword")
+                            })
+                        .testTag("link_to_forgotPassword")
+                        .align(Alignment.End),
+                    color = textColor
+                )
+            })
 
     }
 }

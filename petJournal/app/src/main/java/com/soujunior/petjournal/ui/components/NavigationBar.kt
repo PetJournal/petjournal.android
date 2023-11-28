@@ -1,8 +1,6 @@
 package com.soujunior.petjournal.ui.components
 
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.BottomNavigation
@@ -23,7 +21,7 @@ fun NavigationBar(navController: NavController) {
         NavigationBarItems.Home,
         NavigationBarItems.Pets,
         NavigationBarItems.Tutor,
-        )
+    )
 
     BottomNavigation(
         modifier = Modifier
@@ -33,8 +31,6 @@ fun NavigationBar(navController: NavController) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
-            Log.e(TAG, "currentRoute: ${currentRoute}, startsWith: ${currentRoute?.startsWith(item.group)}, group: ${item.group}")
-
             BottomNavigationItem(
                 icon = {
                     Icon(
@@ -46,7 +42,8 @@ fun NavigationBar(navController: NavController) {
                 unselectedContentColor = Color.White,
                 selected = currentRoute?.startsWith(item.group) == true,
                 onClick = {
-                    val isSameGroup = items.any { it.group == item.group && currentRoute?.startsWith(it.route) == true }
+                    val isSameGroup =
+                        items.any { it.group == item.group && currentRoute?.startsWith(it.route) == true }
 
                     if (!isSameGroup) {
                         navController.navigate(item.route) {

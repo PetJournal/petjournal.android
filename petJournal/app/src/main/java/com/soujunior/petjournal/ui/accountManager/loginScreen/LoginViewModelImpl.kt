@@ -10,8 +10,8 @@ import com.soujunior.domain.use_case.auth.GetSavedPasswordUseCase
 import com.soujunior.domain.use_case.auth.LoginUseCase
 import com.soujunior.domain.use_case.auth.SavePasswordUseCase
 import com.soujunior.domain.use_case.util.ValidationResult
-import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -72,7 +72,7 @@ class LoginViewModelImpl(
     override fun enableButton(): Boolean {
         val emailResult = validation.validateEmail(state.email)
         val passwordResult = validation.validatePassword(password = state.password)
-        return  state.email.isNotBlank() &&
+        return state.email.isNotBlank() &&
                 state.password.isNotBlank() &&
                 emailResult.errorMessage == null &&
                 passwordResult.errorMessage == null
