@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +39,7 @@ import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.states.TaskState
 import org.koin.androidx.compose.getViewModel
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun Screen(navController: NavController) {
     val viewModel: ViewModelChoiceSpecies = getViewModel()
@@ -105,6 +107,8 @@ fun Screen(navController: NavController) {
                                         modifier = Modifier.width(180.dp),
                                         enableButton = true,
                                         text = stringResource(R.string.others),
+                                        buttonColor = ButtonDefaults.buttonColors(if (!isOthersFieldVisible) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.inverseSurface),
+                                        textColor = if (!isOthersFieldVisible) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
                                     )
                                 }
                             }
