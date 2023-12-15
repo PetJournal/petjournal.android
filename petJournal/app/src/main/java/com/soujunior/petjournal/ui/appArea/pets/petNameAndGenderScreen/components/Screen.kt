@@ -21,7 +21,9 @@ fun Screen(navController: NavController){
         ScaffoldCustom(
             modifier = Modifier,
             navigationUp = navController,
-            showTopBar = true)
+            showTopBar = true,
+            showBottomBarNavigation = false,
+            contentToUse = {})
     }
 
 }

@@ -107,7 +107,6 @@ fun ScaffoldCustom(
 @Composable
 fun ScaffoldCustom(
    isLoading: Boolean = false,
-
    shadowBelowTopBar: Dp = 4.dp,
    showTopBar: Boolean = false,
    actions: @Composable RowScope.() -> Unit = {},
@@ -127,9 +126,7 @@ fun ScaffoldCustom(
                             containerColor = MaterialTheme.colorScheme.onPrimary,
                             titleContentColor = MaterialTheme.colorScheme.onPrimary,
                         ),
-                        title = {
-
-                        },
+                        title = {},
                         navigationIcon = {
                             Box(modifier = Modifier
                                 .fillMaxWidth(),
@@ -138,7 +135,7 @@ fun ScaffoldCustom(
                                     modifier = Modifier.size(
                                         width = 100.dp,
                                         height = 100.dp)
-                                        .padding(16.dp),
+                                        .padding(8.dp),
                                     isBlack = false)
                             }
                         },
