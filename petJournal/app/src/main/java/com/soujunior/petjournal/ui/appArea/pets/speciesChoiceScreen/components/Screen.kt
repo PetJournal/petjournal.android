@@ -10,11 +10,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -63,103 +61,90 @@ fun Screen(navController: NavController) {
                     if (taskState is TaskState.Loading)
                         IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.Center))
                     else {
-                        LazyColumn(
-                            verticalArrangement = Arrangement.SpaceBetween,
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
+                                .background(androidx.compose.material3.MaterialTheme.colorScheme.background)
                                 .fillMaxSize()
-                                .padding(16.dp)
                         ) {
-                            item {
-                                Header(name = name.value)
-                            }
-                            item {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(MaterialTheme.colorScheme.background)
-                                ) {
-                                    GridVectors(
-                                        selectedSpecies = { selectedSpecies ->
-                                            if (selectedSpecies.isNotEmpty()) {
-                                                activateContinueButton.value = true
-                                                isOthersFieldVisible = false
-                                                isClearSpecies = false
-                                            }
-                                        },
-                                        clearSelection = {
-                                            isClearSpecies
-                                        }
-                                    )
+                            Header(name = name.value)
+
+                            GridVectors(
+                                selectedSpecies = { selectedSpecies ->
+                                    if (selectedSpecies.isNotEmpty()) {
+                                        activateContinueButton.value = true
+                                        isOthersFieldVisible = false
+                                        isClearSpecies = false
+                                    }
+                                },
+                                clearSelection = {
+                                    isClearSpecies
                                 }
+                            )
+
+                            Spacer(modifier = Modifier.weight(4f))
+
+                            Row(
+                                horizontalArrangement = Arrangement.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Button2(
+                                    submit = {
+                                        isOthersFieldVisible = true
+                                        isClearSpecies = true
+                                    },
+                                    modifier = Modifier.width(180.dp),
+                                    enableButton = true,
+                                    text = stringResource(R.string.others),
+                                    buttonColor = ButtonDefaults.buttonColors(if (!isOthersFieldVisible) MaterialTheme.colorScheme.inverseSurface else MaterialTheme.colorScheme.secondaryContainer),
+                                    textColor = if (!isOthersFieldVisible) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                                )
                             }
-                            item {
-                                Spacer(modifier = Modifier.height(20.dp))
+
+                            if (isOthersFieldVisible) {
+                                Spacer(modifier = Modifier.weight(4f))
+                                InputSpecies(
+                                    textTop = stringResource(id = R.string.insert_the_species),
+                                    textHint = stringResource(R.string.insert_the_species),
+                                    textValue = viewModel.state.specie,
+                                    textError = viewModel.state.specieError,
+                                    onEvent = { value ->
+                                        viewModel.onEvent(PetFormEvent.OtherSpecie(value))
+                                        activateContinueButton.value = viewModel.enableButton()
+                                    })
+                            }
+                            Spacer(modifier = Modifier.weight(4f))
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(MaterialTheme.colorScheme.background)
+                            ) {
                                 Row(
-                                    horizontalArrangement = Arrangement.Center,
-                                    modifier = Modifier.fillMaxWidth()
+                                    verticalAlignment = Alignment.Bottom
                                 ) {
                                     Button2(
                                         submit = {
-                                            isOthersFieldVisible = true
-                                            isClearSpecies = true
+                                            navController.popBackStack()
                                         },
-                                        modifier = Modifier.width(180.dp),
+                                        modifier = Modifier.width(150.dp),
                                         enableButton = true,
-                                        text = stringResource(R.string.others),
-                                        buttonColor = ButtonDefaults.buttonColors(if (!isOthersFieldVisible) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.inverseSurface),
-                                        textColor = if (!isOthersFieldVisible) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                                        border = BorderStroke(
+                                            width = 2.dp,
+                                            color = MaterialTheme.colorScheme.primary
+                                        ),
+                                        text = stringResource(R.string.back),
+                                        buttonColor = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
+                                        textColor = MaterialTheme.colorScheme.primary
                                     )
-                                }
-                            }
-                            item {
-                                if (isOthersFieldVisible) {
-                                    Spacer(modifier = Modifier.height(20.dp))
-                                    InputSpecies(
-                                        textTop = stringResource(id = R.string.insert_the_species),
-                                        textHint = stringResource(R.string.insert_the_species),
-                                        textValue = viewModel.state.specie,
-                                        textError = viewModel.state.specieError,
-                                        onEvent = { value ->
-                                            viewModel.onEvent(PetFormEvent.OtherSpecie(value))
-                                            activateContinueButton.value = viewModel.enableButton()
-                                        })
-                                }
-                            }
-                            item {
-                                Spacer(modifier = Modifier.height(20.dp))
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(MaterialTheme.colorScheme.background)
-                                ) {
-                                    Row(
-                                        verticalAlignment = Alignment.Bottom
-                                    ) {
-                                        Button2(
-                                            submit = {
-                                                navController.popBackStack()
-                                            },
-                                            modifier = Modifier.width(150.dp),
-                                            enableButton = true,
-                                            border = BorderStroke(
-                                                width = 2.dp,
-                                                color = MaterialTheme.colorScheme.primary
-                                            ),
-                                            text = stringResource(R.string.back),
-                                            buttonColor = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
-                                            textColor = MaterialTheme.colorScheme.primary
-                                        )
-                                        Spacer(modifier = Modifier.width(16.dp))
-                                        Button2(
-                                            submit = { /*TODO*/ },
-                                            modifier = Modifier.width(150.dp),
-                                            enableButton = activateContinueButton.value,
-                                            text = stringResource(R.string.text_continue)
-                                        )
+                                    Spacer(modifier = Modifier.width(16.dp))
+                                    Button2(
+                                        submit = { /*TODO*/ },
+                                        modifier = Modifier.width(150.dp),
+                                        enableButton = activateContinueButton.value,
+                                        text = stringResource(R.string.text_continue)
+                                    )
 
-                                    }
                                 }
                             }
                         }
