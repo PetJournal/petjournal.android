@@ -47,7 +47,7 @@
     <string name="register">Cadastrar</string>
     <string name="required_field">* Campo obrigatório</string>
     <string name="success">Sucesso ao realizar ação!</string>
-    <string name="register_message">Uau!\n\n Ficamos felizes em receber mais um %s em nossa comunidade </string>
+    <string name="register_message">Uau!\nFicamos felizes em receber mais um %s em nossa comunidade </string>
     <string name="pet_name">Qual o nome do seu companheiro?</string>
     <string name="pet_gender">Qual o sexo do seu Pet?</string>
     <string name="pet_gender_male">Macho</string>
