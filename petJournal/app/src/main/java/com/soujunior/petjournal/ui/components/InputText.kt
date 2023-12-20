@@ -10,7 +10,10 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,9 +42,12 @@ import com.soujunior.petjournal.ui.theme.Shapes
 fun InputText(
     textTop: String = "Title",
     textHint: String = "Hint Message",
-    modifier: Modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp),
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(5.dp),
     textValue: String,
     isPassword: Boolean = false,
+    isError: Boolean = false,
     textError: List<String>? = null,
     onEvent: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
@@ -95,17 +101,31 @@ fun InputText(
                                 tint = MaterialTheme.colorScheme.outline
                             )
                         }
-                    } else {
+                    } else if(isError) {
+                        val iconResource = R.drawable.icone_erro
+                        val contentDescription = "Erro"
+
+                        Icon(
+                            painter = painterResource(id = iconResource),
+                            contentDescription = contentDescription,
+                            tint = Color.Unspecified
+                        )
+                    }
+                    else {
                         null
                     }
                 },
                 keyboardOptions = keyboardOptions,
 
                 isError = textError != null,
+                colors= OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color.Transparent,
+                    unfocusedBorderColor = Color.Transparent
+                ),
                 modifier = modifier
                     .inputTextBorder(
-                        Color.Gray,
-                        shape = RoundedCornerShape(20.dp)
+                        shape = RoundedCornerShape(20.dp),
+                        isError = isError
                     )
                     .onFocusChanged {
                         inFocus = if (it.hasFocus)
@@ -125,6 +145,6 @@ fun InputText(
 @Preview
 @Composable
 private fun PreviewIT(){
-    InputText(textValue = "Teste", onEvent = {} )
+    InputText(textHint = "Teste de Hint", textValue = "Teste", onEvent = {}, isError = true )
 }
 
