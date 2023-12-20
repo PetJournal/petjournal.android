@@ -62,10 +62,10 @@ fun Screen(navController: NavController) {
                         IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.Center))
                     else {
                         Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .background(androidx.compose.material3.MaterialTheme.colorScheme.background)
+                                .background(MaterialTheme.colorScheme.background)
                                 .fillMaxSize()
+                                .padding(12.dp)
                         ) {
                             Header(name = name.value)
 
@@ -82,8 +82,6 @@ fun Screen(navController: NavController) {
                                 }
                             )
 
-                            Spacer(modifier = Modifier.weight(4f))
-
                             Row(
                                 horizontalArrangement = Arrangement.Center,
                                 modifier = Modifier.fillMaxWidth()
@@ -93,11 +91,13 @@ fun Screen(navController: NavController) {
                                         isOthersFieldVisible = true
                                         isClearSpecies = true
                                     },
-                                    modifier = Modifier.width(180.dp),
                                     enableButton = true,
                                     text = stringResource(R.string.others),
-                                    buttonColor = ButtonDefaults.buttonColors(if (!isOthersFieldVisible) MaterialTheme.colorScheme.inverseSurface else MaterialTheme.colorScheme.secondaryContainer),
-                                    textColor = if (!isOthersFieldVisible) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                                    buttonColor =
+                                    ButtonDefaults.buttonColors(MaterialTheme.colorScheme.inverseSurface),
+                                    textColor =
+                                    if (!isOthersFieldVisible) MaterialTheme.colorScheme.onPrimary
+                                    else MaterialTheme.colorScheme.scrim
                                 )
                             }
 
@@ -142,7 +142,20 @@ fun Screen(navController: NavController) {
                                         submit = { /*TODO*/ },
                                         modifier = Modifier.width(150.dp),
                                         enableButton = activateContinueButton.value,
-                                        text = stringResource(R.string.text_continue)
+                                        border = BorderStroke(
+                                            width = 2.dp,
+                                            color =
+                                            if (activateContinueButton.value) MaterialTheme.colorScheme.primary
+                                            else MaterialTheme.colorScheme.outline
+                                        ),
+                                        text = stringResource(R.string.text_continue),
+                                        buttonColor =
+                                        ButtonDefaults.buttonColors(
+                                            if (activateContinueButton.value) MaterialTheme.colorScheme.primary
+                                            else MaterialTheme.colorScheme.surface
+                                        ),
+                                        textColor = if (activateContinueButton.value) MaterialTheme.colorScheme.surface
+                                        else MaterialTheme.colorScheme.outline
                                     )
 
                                 }

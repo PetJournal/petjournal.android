@@ -6,7 +6,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -29,7 +28,7 @@ fun Header(name: String = "fulano", modifier: Modifier = Modifier) {
         withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
             append(stringResource(id = R.string.hello_user))
         }
-        withStyle(style = SpanStyle(color = Color.Red)) {
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.surfaceTint)) {
             append(name.capitalizeFirstLetter())
         }
 

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.components.RoundedSquare
+import com.soujunior.petjournal.ui.theme.ColorGrid
 import com.soujunior.petjournal.ui.util.Constants.BIRD
 import com.soujunior.petjournal.ui.util.Constants.CAT
 import com.soujunior.petjournal.ui.util.Constants.DOG
@@ -43,16 +45,18 @@ fun GridVectors(
     }
 
     Row(
-        modifier = Modifier.padding(vertical = 2.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier
+            .padding(vertical = 10.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Box(
             modifier = Modifier
                 .border(
                     width = 2.dp,
                     color =
-                    if (selectedItem == DOG) MaterialTheme.colorScheme.onSecondaryContainer
-                    else MaterialTheme.colorScheme.tertiary,
+                    if (selectedItem == DOG) ColorGrid().red_grid
+                    else MaterialTheme.colorScheme.outline,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp)
@@ -76,7 +80,9 @@ fun GridVectors(
                 )
                 Text(
                     text = "Cachorro",
-                    color = if (selectedItem == DOG) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
+                    color =
+                    if (selectedItem == DOG) ColorGrid().red_grid
+                    else MaterialTheme.colorScheme.outline,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -86,7 +92,9 @@ fun GridVectors(
             modifier = Modifier
                 .border(
                     width = 2.dp,
-                    color = if (selectedItem == BIRD) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
+                    color =
+                    if (selectedItem == BIRD) ColorGrid().red_grid
+                    else MaterialTheme.colorScheme.outline,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp)
@@ -110,7 +118,9 @@ fun GridVectors(
                 )
                 Text(
                     text = "Pássaro",
-                    color = if (selectedItem == BIRD) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
+                    color =
+                    if (selectedItem == BIRD) ColorGrid().red_grid
+                    else MaterialTheme.colorScheme.outline,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -120,7 +130,9 @@ fun GridVectors(
             modifier = Modifier
                 .border(
                     width = 2.dp,
-                    color = if (selectedItem == CAT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
+                    color =
+                    if (selectedItem == CAT) ColorGrid().red_grid
+                    else MaterialTheme.colorScheme.outline,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp)
@@ -144,7 +156,9 @@ fun GridVectors(
                 )
                 Text(
                     text = "Gato",
-                    color = if (selectedItem == CAT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
+                    color =
+                    if (selectedItem == CAT) ColorGrid().red_grid
+                    else MaterialTheme.colorScheme.outline,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -152,14 +166,18 @@ fun GridVectors(
     }
 
     Row(
-        modifier = Modifier.padding(vertical = 2.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier
+            .padding(vertical = 10.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Box(
             modifier = Modifier
                 .border(
                     width = 2.dp,
-                    color = if (selectedItem == FISH) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
+                    color =
+                    if (selectedItem == FISH) ColorGrid().red_grid
+                    else MaterialTheme.colorScheme.outline,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp)
@@ -183,7 +201,9 @@ fun GridVectors(
                 )
                 Text(
                     text = "Peixe",
-                    color = if (selectedItem == FISH) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
+                    color =
+                    if (selectedItem == FISH) ColorGrid().red_grid
+                    else MaterialTheme.colorScheme.outline,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -193,7 +213,9 @@ fun GridVectors(
             modifier = Modifier
                 .border(
                     width = 2.dp,
-                    color = if (selectedItem == REPTILE) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
+                    color =
+                    if (selectedItem == REPTILE) ColorGrid().red_grid
+                    else MaterialTheme.colorScheme.outline,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp)
@@ -217,7 +239,9 @@ fun GridVectors(
                 )
                 Text(
                     text = "Réptil",
-                    color = if (selectedItem == REPTILE) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
+                    color =
+                    if (selectedItem == REPTILE) ColorGrid().red_grid
+                    else MaterialTheme.colorScheme.outline,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -226,7 +250,9 @@ fun GridVectors(
             modifier = Modifier
                 .border(
                     width = 2.dp,
-                    color = if (selectedItem == RODENT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
+                    color =
+                    if (selectedItem == RODENT) ColorGrid().red_grid
+                    else MaterialTheme.colorScheme.outline,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp)
@@ -250,7 +276,9 @@ fun GridVectors(
                 )
                 Text(
                     text = "Roedor",
-                    color = if (selectedItem == RODENT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.tertiary,
+                    color =
+                    if (selectedItem == RODENT) ColorGrid().red_grid
+                    else MaterialTheme.colorScheme.outline,
                     fontWeight = FontWeight.Bold
                 )
             }
