@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -25,6 +26,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.ImageLogo
+import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.util.capitalizeFirstLetter
 
@@ -43,24 +45,34 @@ fun Screen(navController: NavController){
 //                    if(taskState is TaskState.Loading){}
 
                     LazyColumn(
-                        verticalArrangement = Arrangement.SpaceBetween,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Top,
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(16.dp)){
-                        item { Header(species = "Gato")  }
-                        item {
-                            Text(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp, 0.dp),
-                                text = stringResource(id = R.string.pet_name),
-                                style = MaterialTheme.typography.displayMedium,
-                                textAlign = TextAlign.Center,
-                                color = MaterialTheme.colorScheme.primary,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Normal)
-                        }
-                    }
+                            .padding(it),
+                        content = {
+                            item { Header(species = "Gato")  }
+                            item {
+                                Text(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp, 0.dp),
+                                    text = stringResource(id = R.string.pet_name),
+                                    style = MaterialTheme.typography.displayMedium,
+                                    textAlign = TextAlign.Center,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Normal)
+                            }
+                            item {
+                                InputText(
+                                    textTop = "Nome: ",
+                                    textHint = "Digite aqui...",
+                                    textValue = "Digite Aqui....",
+                                    onEvent = {})
+                            }
+                        })
+
                 }
             })
     }

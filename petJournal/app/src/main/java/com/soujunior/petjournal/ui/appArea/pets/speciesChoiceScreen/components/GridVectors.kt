@@ -21,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.components.RoundedSquare
+import com.soujunior.petjournal.ui.components.RoundedSquare
 import com.soujunior.petjournal.ui.util.Constants.BIRD
 import com.soujunior.petjournal.ui.util.Constants.CAT
 import com.soujunior.petjournal.ui.util.Constants.DOG
