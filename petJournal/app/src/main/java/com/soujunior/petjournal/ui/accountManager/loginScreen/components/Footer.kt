@@ -5,7 +5,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
@@ -37,14 +36,14 @@ fun Footer(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Row(modifier = Modifier.fillMaxSize()) {
+        Row(modifier = Modifier.fillMaxWidth()) {
             Button2(
                 text = "Continuar",
                 border = null,
                 submit = { viewModel.onEvent(LoginFormEvent.Submit) },
                 enableButton = viewModel.enableButton(),
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .padding(start = 40.dp, end = 40.dp)
                     .testTag("button_continue"),
                 buttonColor = ButtonDefaults.buttonColors(

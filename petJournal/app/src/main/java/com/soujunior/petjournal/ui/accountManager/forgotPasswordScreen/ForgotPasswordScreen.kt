@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.components.Screen
 import org.koin.androidx.compose.getViewModel
 
@@ -18,7 +18,7 @@ fun ForgotPasswordScreen(navController: NavController) {
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
-                    Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG).show()
+                    //Toast.makeText(context, viewModel.message.value, Toast.LENGTH_LONG).show()
                     navController.navigate("awaitingCode/${viewModel.state.email}")
                 }
 

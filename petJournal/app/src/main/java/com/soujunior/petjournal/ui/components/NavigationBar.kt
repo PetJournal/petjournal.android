@@ -21,7 +21,7 @@ fun NavigationBar(navController: NavController) {
         NavigationBarItems.Home,
         NavigationBarItems.Pets,
         NavigationBarItems.Tutor,
-        )
+    )
 
     BottomNavigation(
         modifier = Modifier
@@ -42,7 +42,8 @@ fun NavigationBar(navController: NavController) {
                 unselectedContentColor = Color.White,
                 selected = currentRoute?.startsWith(item.group) == true,
                 onClick = {
-                    val isSameGroup = items.any { it.group == item.group && currentRoute?.startsWith(it.route) == true }
+                    val isSameGroup =
+                        items.any { it.group == item.group && currentRoute?.startsWith(it.route) == true }
 
                     if (!isSameGroup) {
                         navController.navigate(item.route) {

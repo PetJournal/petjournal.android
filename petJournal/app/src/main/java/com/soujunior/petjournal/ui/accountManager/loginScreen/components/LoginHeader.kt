@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.accountManager.loginScreen.components
 
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
@@ -20,5 +19,5 @@ fun LoginHeader() {
             .size(width = 200.dp, height = 200.dp)
             .padding(top = 20.dp)
     )
-    Spacer(modifier = Modifier.padding(top = 50.dp))
+    //Spacer(modifier = Modifier.padding(top = 50.dp))
 }

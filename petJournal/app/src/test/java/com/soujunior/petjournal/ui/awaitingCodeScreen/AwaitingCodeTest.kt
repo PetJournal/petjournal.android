@@ -7,8 +7,8 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
-import com.soujunior.domain.use_case.auth.util.ValidationRepositoryImpl
-import com.soujunior.petjournal.ui.ValidationEvent
+import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeFormEvent
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeFormState
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModel

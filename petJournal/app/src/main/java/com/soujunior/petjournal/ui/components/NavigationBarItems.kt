@@ -15,12 +15,14 @@ sealed class NavigationBarItems(
         icons = R.drawable.home_button_bar,
         group = "home"
     )
+
     object Pets : NavigationBarItems(
         title = "pets",
-        route = "pets/registerPet",
+        route = "pets/introRegisterPet",
         icons = R.drawable.pets_button_bar,
         group = "pets"
     )
+
     object Tutor : NavigationBarItems(
         title = "tutor",
         route = "tutorScreen",

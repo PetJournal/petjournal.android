@@ -1,15 +1,13 @@
 package com.soujunior.petjournal.ui.accountManager.loginScreen
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.ValidationEvent
 import com.soujunior.petjournal.ui.accountManager.loginScreen.components.Screen
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -21,7 +19,7 @@ fun LoginScreen(navController: NavController) {
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
-                    Log.e(TAG, "Login: ${viewModel.message.value}")
+                    navController.popBackStack()
                     navController.navigate("mainContent")
                 }
 
@@ -31,8 +29,9 @@ fun LoginScreen(navController: NavController) {
                         R.string.incorrect_username_password,
                         Toast.LENGTH_LONG
                     ).show()
-                    Log.e(TAG, "Login: ${viewModel.message.value}")
                 }
+
+                else -> {}
             }
         }
     }

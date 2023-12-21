@@ -60,13 +60,13 @@ val dark_outlineVariant = Color(0xFBAFD9DB) // borda do layout OTPTextField
 val dark_scrim = Color(0xFFFFC107)
 
 //Cores Grid
-
 class ColorGrid{
     val purple_grid = Color(0xFF8093F1)
     val blue_grid = Color(0xFF54C1E9)
     val red_grid = Color(0xFF9A0963)
     val red2_grid = Color(0xFFFF4081)
     val pink_grid = Color(0xFFFFB8EB)
+    val edge_not_selected = Color(0xFFB2B2B2)
 }
 
 
