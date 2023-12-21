@@ -62,6 +62,7 @@ fun RoundedSquare(
 fun RoundedSquare(
     modifier: Modifier = Modifier,
     text: String,
+    isSelected: Boolean,
     size: Dp,
     topLeftRadius: Dp,
     topRightRadius: Dp,
@@ -76,7 +77,7 @@ fun RoundedSquare(
                 shape = RoundedCornerShape(30.dp),
                 strokeWidth = 1.5.dp,
                 isError = false,
-                isSelected = false
+                isSelected = isSelected
             )
             .size(size)
             .background(
@@ -119,7 +120,6 @@ fun RoundedSquare(
                     textAlign = TextAlign.Center
                 )
             }
-
         }
     }
 }

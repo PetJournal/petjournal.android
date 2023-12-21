@@ -26,19 +26,20 @@ fun Modifier.dashedBorder(
     val color = if (isError)
             Color(0xFFFF917A)
         else if(isSelected)
-            Color(0xFF8093F1)
+            Color(0xFF7C54A7)
         else Color.Gray
 
 
 
     path.addOutline(outline)
 
-    val stroke = if(isError){
-        Stroke(
-            cap = cap,
-            width = (strokeWidth*2).toPx(),
-        )
-    } else {
+    val stroke =
+        if(isError || isSelected){
+            Stroke(
+                cap = cap,
+                width = (strokeWidth*2).toPx(),
+            )
+        } else {
         Stroke(
             cap = cap,
             width = strokeWidth.toPx(),
