@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -45,6 +46,7 @@ fun InputSpecies(
             OutlinedTextField(
                 modifier = modifier,
                 value = textValue,
+                shape = ShapeDefaults.Medium,
                 onValueChange = { text -> onEvent(text) },
                 textStyle = TextStyle(
                     fontSize = 20.sp,
