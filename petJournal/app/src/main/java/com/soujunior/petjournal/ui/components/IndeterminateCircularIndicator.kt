@@ -8,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -21,8 +20,8 @@ fun IndeterminateCircularIndicator(modifier: Modifier = Modifier) {
         CircularProgressIndicator(
             modifier = modifier
                 .size(64.dp),
-            color = Color.Red/*MaterialTheme.colorScheme.secondary*/,
-            backgroundColor = Color.Cyan/*MaterialTheme.colorScheme.primary*/,
+            color = MaterialTheme.colorScheme.secondary,
+            backgroundColor = MaterialTheme.colorScheme.primary,
         )
     }
 }

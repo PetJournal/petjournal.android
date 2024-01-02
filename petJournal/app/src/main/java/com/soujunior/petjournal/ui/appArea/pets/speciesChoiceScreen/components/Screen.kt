@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -64,37 +63,27 @@ fun Screen(navController: NavController) {
                         IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.Center))
                     else {
                         LazyColumn(
-                            verticalArrangement = Arrangement.SpaceBetween,
                             modifier = Modifier
+                                .background(MaterialTheme.colorScheme.background)
                                 .fillMaxSize()
-                                .padding(16.dp)
+                                .padding(12.dp)
                         ) {
-                            item {
+                            item{
                                 Header(name = name.value)
-                            }
-                            item {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(MaterialTheme.colorScheme.background)
-                                ) {
-                                    GridVectors(
-                                        selectedSpecies = { selectedSpecies ->
-                                            if (selectedSpecies.isNotEmpty()) {
-                                                activateContinueButton.value = true
-                                                isOthersFieldVisible = false
-                                                isClearSpecies = false
-                                            }
-                                        },
-                                        clearSelection = {
-                                            isClearSpecies
+
+                                GridVectors(
+                                    selectedSpecies = { selectedSpecies ->
+                                        if (selectedSpecies.isNotEmpty()) {
+                                            activateContinueButton.value = true
+                                            isOthersFieldVisible = false
+                                            isClearSpecies = false
                                         }
-                                    )
-                                }
-                            }
-                            item {
-                                Spacer(modifier = Modifier.height(20.dp))
+                                    },
+                                    clearSelection = {
+                                        isClearSpecies
+                                    }
+                                )
+
                                 Row(
                                     horizontalArrangement = Arrangement.Center,
                                     modifier = Modifier.fillMaxWidth()
@@ -104,17 +93,18 @@ fun Screen(navController: NavController) {
                                             isOthersFieldVisible = true
                                             isClearSpecies = true
                                         },
-                                        modifier = Modifier.width(180.dp),
                                         enableButton = true,
                                         text = stringResource(R.string.others),
-                                        buttonColor = ButtonDefaults.buttonColors(if (!isOthersFieldVisible) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.inverseSurface),
-                                        textColor = if (!isOthersFieldVisible) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                                        buttonColor =
+                                        ButtonDefaults.buttonColors(MaterialTheme.colorScheme.inverseSurface),
+                                        textColor =
+                                        if (!isOthersFieldVisible) MaterialTheme.colorScheme.onPrimary
+                                        else MaterialTheme.colorScheme.scrim
                                     )
                                 }
-                            }
-                            item {
+
                                 if (isOthersFieldVisible) {
-                                    Spacer(modifier = Modifier.height(20.dp))
+                                    Spacer(modifier = Modifier.padding(16.dp))
                                     InputSpecies(
                                         textTop = stringResource(id = R.string.insert_the_species),
                                         textHint = stringResource(R.string.insert_the_species),
@@ -125,9 +115,7 @@ fun Screen(navController: NavController) {
                                             activateContinueButton.value = viewModel.enableButton()
                                         })
                                 }
-                            }
-                            item {
-                                Spacer(modifier = Modifier.height(20.dp))
+                                Spacer(modifier = Modifier.padding(16.dp))
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     modifier = Modifier
@@ -156,7 +144,20 @@ fun Screen(navController: NavController) {
                                             submit = { /*TODO*/ },
                                             modifier = Modifier.width(150.dp),
                                             enableButton = activateContinueButton.value,
-                                            text = stringResource(R.string.text_continue)
+                                            border = BorderStroke(
+                                                width = 2.dp,
+                                                color =
+                                                if (activateContinueButton.value) MaterialTheme.colorScheme.primary
+                                                else MaterialTheme.colorScheme.outline
+                                            ),
+                                            text = stringResource(R.string.text_continue),
+                                            buttonColor =
+                                            ButtonDefaults.buttonColors(
+                                                if (activateContinueButton.value) MaterialTheme.colorScheme.primary
+                                                else MaterialTheme.colorScheme.surface
+                                            ),
+                                            textColor = if (activateContinueButton.value) MaterialTheme.colorScheme.surface
+                                            else MaterialTheme.colorScheme.outline
                                         )
 
                                     }
