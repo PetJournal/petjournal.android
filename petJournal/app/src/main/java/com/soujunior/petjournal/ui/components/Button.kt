@@ -81,5 +81,11 @@ fun ButtonPreview() {
                 inDarkMode = false
             )
         }
+        Row{
+            Button2(submit = { /*TODO*/ }, enableButton = true)
+        }
+        Row {
+            Button2(submit = { /*TODO*/ }, enableButton = false)
+        }
     }
 }

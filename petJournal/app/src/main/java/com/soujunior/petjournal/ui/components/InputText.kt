@@ -122,7 +122,7 @@ fun InputText(
                 modifier = modifier
                     .height(40.dp)
                     .dashedBorder(
-                        shape = RoundedCornerShape(20.dp),
+                        shape = RoundedCornerShape(10.dp),
                         isError = isError,
                         isSelected = false
                     )

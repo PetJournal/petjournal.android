@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -25,6 +26,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.components.Button
+import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.ImageLogo
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
@@ -51,7 +54,9 @@ fun Screen(navController: NavController){
                             .fillMaxSize()
                             .padding(it),
                         content = {
-                            item { Header(species = "Gato")  }
+                            item {
+                                Header(species = "Gato")
+                            }
                             item {
                                 Text(
                                     modifier = Modifier
@@ -61,7 +66,7 @@ fun Screen(navController: NavController){
                                     style = MaterialTheme.typography.displayMedium,
                                     textAlign = TextAlign.Center,
                                     color = MaterialTheme.colorScheme.primary,
-                                    fontSize = 20.sp,
+                                    fontSize = 15.sp,
                                     fontWeight = FontWeight.Normal)
                             }
                             item {
@@ -70,6 +75,15 @@ fun Screen(navController: NavController){
                                     textHint = "Digite aqui...",
                                     textValue = "Digite Aqui....",
                                     onEvent = {})
+                            }
+                            item{
+                                GenderSelector()
+                            }
+                            item {
+                                Row {
+                                    Button2(submit = { /*TODO*/ }, enableButton = true)
+                                    Button2(submit = { /*TODO*/ }, enableButton = true)
+                                }
                             }
                         })
 
