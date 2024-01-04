@@ -1,15 +1,19 @@
 package com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -52,7 +56,7 @@ fun Screen(navController: NavController){
                         verticalArrangement = Arrangement.Top,
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(it),
+                            .padding(12.dp),
                         content = {
                             item {
                                 Header(species = "Gato")
@@ -81,8 +85,35 @@ fun Screen(navController: NavController){
                             }
                             item {
                                 Row {
-                                    Button2(submit = { /*TODO*/ }, enableButton = true)
-                                    Button2(submit = { /*TODO*/ }, enableButton = true)
+                                    /*TODO: Acertar logica de implementação dos botões*/
+                                    Button2(
+                                        submit = { /*TODO*/ },
+                                        enableButton = true,
+                                        modifier = Modifier.width(150.dp),
+                                        border = BorderStroke(
+                                            width = 2.dp,
+                                            color = MaterialTheme.colorScheme.primary
+                                        ),
+                                        text = stringResource(R.string.back),
+                                        buttonColor = ButtonDefaults.buttonColors(
+                                            MaterialTheme.colorScheme.surface),
+                                        textColor = MaterialTheme.colorScheme.primary
+                                    )
+                                    Spacer(modifier = Modifier.width(16.dp))
+                                    Button2(
+                                        submit = { /*TODO*/ },
+                                        enableButton = true,
+                                        modifier = Modifier.width(150.dp),
+                                        border = BorderStroke(
+                                            width = 2.dp,
+                                            color =
+                                                MaterialTheme.colorScheme.primary
+                                        ),
+                                        text = stringResource(R.string.text_continue),
+                                        buttonColor = ButtonDefaults.buttonColors(
+                                            MaterialTheme.colorScheme.primary),
+                                        textColor = MaterialTheme.colorScheme.surface,
+                                    )
                                 }
                             }
                         })
