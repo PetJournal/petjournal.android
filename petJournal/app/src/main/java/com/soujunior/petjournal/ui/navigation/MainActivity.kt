@@ -12,7 +12,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            PresentationManager()
+            TestScreen()
+            //PresentationManager()
         }
     }
 }
@@ -43,6 +44,21 @@ fun MainContent() {
         isIntro = false,
         content = {
             NavHostMainContent()
+        }
+    )
+}
+
+/**
+ * Metodo utilizado para testar as telas em desenvolvimento,
+ * SEMPRE LEMBRAR DE RETIRAR ESTE METODO DO OnCreate !!!
+ *
+ **/
+@Composable
+fun TestScreen() {
+    PetJournalTheme(
+        isIntro = false,
+        content = {
+            NavTestScreen()
         }
     )
 }

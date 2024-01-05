@@ -12,6 +12,7 @@ import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreen
 import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.RegisterPetScreen
+import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.PetNameAndGenderScreen
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.SpeciesChoiceScreen
 import com.soujunior.petjournal.ui.appArea.tutor.tutorScreen.TutorScreen
 import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashScreen
@@ -51,5 +52,17 @@ fun NavHostMainContent() {
         composable("tutorScreen") { TutorScreen(navController) }
         composable("pets/introRegisterPet") { RegisterPetScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
+        composable("pets/nameAndGender"){ PetNameAndGenderScreen(navController)}
+    }
+}
+
+/**
+ * Adicione aqui a rota de navegação da tela a ser testada, lembre-se de remover ao terminar as mudanças em sua tela
+ * */
+@Composable
+fun NavTestScreen(){
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "pets/nameAndGender") {
+    composable("pets/nameAndGender"){ PetNameAndGenderScreen(navController)}
     }
 }

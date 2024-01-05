@@ -35,6 +35,7 @@ import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.ImageLogo
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.components.ScreenIndicator
 import com.soujunior.petjournal.ui.util.capitalizeFirstLetter
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -58,6 +59,9 @@ fun Screen(navController: NavController){
                             .fillMaxSize()
                             .padding(12.dp),
                         content = {
+                            item{
+                                ScreenIndicator(index = 0)
+                            }
                             item {
                                 Header(species = "Gato")
                             }

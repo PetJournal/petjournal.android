@@ -60,7 +60,8 @@ fun ScreenIndicator(index: Int){
         ){
             Icon(
                 painter = painterResource(id = R.drawable.home),
-                contentDescription = "Home Icon")
+                contentDescription = "Home Icon",
+                tint = MaterialTheme.colorScheme.primary)
         }
         Column(modifier = Modifier.padding(2.dp)) {
             Text(
@@ -106,5 +107,4 @@ private fun buildString(screens: List<String>, index: Int): AnnotatedString{
 @Composable
 private fun PreviewScreenIndicator(){
     ScreenIndicator(index = 2)
-
 }
