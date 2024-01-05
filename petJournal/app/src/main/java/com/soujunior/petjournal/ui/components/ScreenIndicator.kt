@@ -1,16 +1,27 @@
 package com.soujunior.petjournal.ui.components
 
 import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 
 /**
@@ -33,38 +44,67 @@ fun ScreenIndicator(index: Int){
         stringResource(R.string.pet_birth)
     )
 
-    // Cadastro pet
-
-    val text = if(index in screens.indices){
+    val text: AnnotatedString = if(index in screens.indices){
         val concatenatedString = buildString(screens = screens, index = index)
         concatenatedString
-    }
-    else{
-        Log.e("Error", "INDICE FORA DO INTERVALO/INDEX OUT OF RANGE")
-        ""
+    }else{
+        Log.e("Error", "INDEX OUT OF RANGE")
+        buildAnnotatedString {  }
     }
 
-    Text(
-        modifier = Modifier.fillMaxWidth(),
-        text = text
 
-    )
+    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+        Column(
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier.padding(2.dp)
+        ){
+            Icon(
+                painter = painterResource(id = R.drawable.home),
+                contentDescription = "Home Icon")
+        }
+        Column(modifier = Modifier.padding(2.dp)) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = text,
+            )
+        }
+    }
 }
 
 @Composable
-private fun buildString(screens: List<String>, index: Int): String{
-    if(index == 0){
-        return screens[0]
-    }
-    else{
-        val screenText = screens.subList(0, index+1)
-        return screenText.joinToString(" > ")
+private fun buildString(screens: List<String>, index: Int): AnnotatedString{
+    val screenText = screens.subList(0, index+1)
+    return buildAnnotatedString {
+        screenText.forEachIndexed { index, screen ->
+            val isLast = index == screenText.size-1
+            withStyle(
+                style = SpanStyle(
+                    fontSize = 10.sp,
+                    fontFamily = MaterialTheme.typography.headlineMedium.fontFamily,
+                    letterSpacing = MaterialTheme.typography.headlineMedium.letterSpacing,
+                    color =
+                if(isLast) MaterialTheme.colorScheme.primary
+                else MaterialTheme.colorScheme.onBackground)
+            ){
+                append(screen)
+            }
+            if(!isLast) {
+                withStyle(style = SpanStyle(
+                    fontSize = 10.sp,
+                    fontFamily = MaterialTheme.typography.headlineMedium.fontFamily,
+                    letterSpacing = MaterialTheme.typography.headlineMedium.letterSpacing,
+                    color = MaterialTheme.colorScheme.onBackground
+                )) {
+                    append(" > ")
+                }
+            }
+        }
     }
 }
 
 @Preview
 @Composable
 private fun PreviewScreenIndicator(){
-    ScreenIndicator(index = 0)
+    ScreenIndicator(index = 2)
 
 }
