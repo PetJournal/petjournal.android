@@ -29,6 +29,7 @@ fun Header(modifier : Modifier = Modifier.fillMaxWidth(), species: String = "Gat
             append(stringResource(id = R.string.wow))
         }
         append("\n")
+        append("\n")
         withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)){
             append(stringResource(id = R.string.register_message, species))
         }
@@ -36,9 +37,7 @@ fun Header(modifier : Modifier = Modifier.fillMaxWidth(), species: String = "Gat
     Text(
         modifier = modifier,
         text = text,
-        style = MaterialTheme.typography.displayLarge.copy(
-            lineBreak = LineBreak.Paragraph
-        ),
+        style = MaterialTheme.typography.headlineMedium,
         textAlign = TextAlign.Start,
         color = MaterialTheme.colorScheme.primary,
         fontSize = 20.sp,

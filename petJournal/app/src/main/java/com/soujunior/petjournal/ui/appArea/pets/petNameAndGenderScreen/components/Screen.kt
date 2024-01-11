@@ -14,13 +14,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,13 +28,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.components.Button
 import com.soujunior.petjournal.ui.components.Button2
-import com.soujunior.petjournal.ui.components.ImageLogo
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
-import com.soujunior.petjournal.ui.components.ScreenIndicator
-import com.soujunior.petjournal.ui.util.capitalizeFirstLetter
+import com.soujunior.petjournal.ui.components.Breadcrumb
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -60,21 +55,22 @@ fun Screen(navController: NavController){
                             .padding(12.dp),
                         content = {
                             item{
-                                ScreenIndicator(index = 0)
+                                Breadcrumb(index = 0)
                             }
                             item {
-                                Header(species = "Gato")
+                                Header(species = "Gato",
+                                    modifier = Modifier.padding(5.dp, 0.dp))
                             }
                             item {
                                 Text(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(16.dp, 0.dp),
+                                        .padding(16.dp, 8.dp),
                                     text = stringResource(id = R.string.pet_name),
-                                    style = MaterialTheme.typography.displayMedium,
+                                    style = MaterialTheme.typography.bodyMedium,
                                     textAlign = TextAlign.Center,
                                     color = MaterialTheme.colorScheme.primary,
-                                    fontSize = 15.sp,
+                                    fontSize = 16.sp,
                                     fontWeight = FontWeight.Normal)
                             }
                             item {

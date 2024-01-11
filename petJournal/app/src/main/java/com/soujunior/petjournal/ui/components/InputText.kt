@@ -1,14 +1,19 @@
 package com.soujunior.petjournal.ui.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -17,7 +22,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
@@ -57,8 +64,8 @@ fun InputText(
                 text = textTop,
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.displayMedium,
-                fontSize = 20.sp,
+                style = MaterialTheme.typography.bodyMedium,
+                fontSize = 15.sp,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.dp, bottom = 5.dp)
@@ -75,7 +82,8 @@ fun InputText(
                 placeholder = {
                     Text(
                         text = textHint,
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontSize = 10.sp
                     )
                 },
                 singleLine = true,
@@ -151,9 +159,75 @@ fun InputText(
     }
 }
 
+@Composable
+private fun CustomInputText(
+    modifier : Modifier = Modifier,
+    leadingIcon : (@Composable ()-> Unit)? = null,
+    trailingIcon : (@Composable () -> Unit)? = null,
+    placeholderText: String = "Placeholder",
+){
+    var text by rememberSaveable {
+        mutableStateOf("")
+    }
+
+    BasicTextField(
+        modifier = modifier
+            .background(
+                MaterialTheme.colorScheme.surface
+            )
+            .fillMaxWidth()
+            .height(40.dp)
+            .dashedBorder(
+                shape = RoundedCornerShape(35),
+                isError = false,
+                isSelected = false
+            )
+        ,
+        value = text,
+        onValueChange = {text = it},
+        singleLine = true,
+        textStyle = TextStyle(
+            fontSize = 15.sp,
+            color = MaterialTheme.colorScheme.outline
+        ),
+        decorationBox = {innerTextField ->
+            Row(
+                modifier,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                if(leadingIcon != null)
+                    leadingIcon()
+                Box(
+                    modifier.weight(1f)){
+                        if(text.isEmpty())
+                            Text(
+                                modifier = modifier.padding(5.dp),
+                                text = placeholderText,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                fontSize = 15.sp
+                        )
+                }
+            }
+        }
+
+    )
+
+}
+
 @Preview
 @Composable
 private fun PreviewIT(){
-    InputText(textHint = "Teste de Hint", textValue = "Teste", onEvent = {}, isError = true )
+    CustomInputText(
+        leadingIcon = null,
+        trailingIcon = null,
+        placeholderText = "Digite aqui..."
+    )
+
+//    InputText(
+//        textHint = "Teste de Hint",
+//        textValue = "Teste",
+//        onEvent = {},
+//        isError = false )
 }
 

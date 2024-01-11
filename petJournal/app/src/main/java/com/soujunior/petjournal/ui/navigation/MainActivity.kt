@@ -51,7 +51,6 @@ fun MainContent() {
 /**
  * Metodo utilizado para testar as telas em desenvolvimento,
  * SEMPRE LEMBRAR DE RETIRAR ESTE METODO DO OnCreate !!!
- *
  **/
 @Composable
 fun TestScreen() {
