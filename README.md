@@ -8,6 +8,9 @@
 
 # PetJournal
 
+## Dretrizes:
+Ao entrar em nosso projeto voluntário, valorizamos sua contribuição e entusiasmo. No entanto, é importante estar ciente de algumas diretrizes essenciais para manter a integridade e o propósito do projeto. Primeiramente, familiarize-se com a documentação existente, que detalha o estado atual e os objetivos do projeto. Isso é crucial para entender onde estamos e para onde estamos indo. Em segundo lugar, pedimos que evite refatorações desnecessárias ou alterações radicais. Tais mudanças podem levar à estagnação e desviar-nos do nosso caminho. Busque sempre aprimorar e construir sobre o que já foi alcançado, em vez de reconstruir do zero. Ao seguir essas diretrizes, você ajudará a preservar a essência do projeto e a garantir que nosso trabalho coletivo continue evoluindo de forma produtiva e reconhecível.
+
 ## 1. Introdução ao Projeto
 
 - **Objetivo**: O "Pet Journal" é uma ferramenta de gerenciamento para a vida dos pets, ajudando no controle de vacinas, vermífugos, rações, e outros aspectos importantes do cuidado animal.
@@ -119,10 +122,22 @@
 
 - **Ambiente do usuário:**
     - **Diagrama UML:**
+      
+        ![Home](https://github.com/PetJournal/petjournal.android/assets/42920754/26a580eb-4d1d-4aac-a1ba-ef8e33652bb5) 
+
     - **UX/Design:**
+      
+        <img src="https://github.com/PetJournal/petjournal.android/assets/42920754/759ab05a-143f-47e8-a454-1d7dd1dfa7b8" width="20.0%">
+
 - **Tela padrão inicial:**
     - **Diagrama UML:**
+      
+        ![IntroNomeGenero](https://github.com/PetJournal/petjournal.android/assets/42920754/13642153-2b67-430f-969e-f129f531df1e)
+      
     - **UX/Design:**
+      
+        <img src="https://github.com/PetJournal/petjournal.android/assets/42920754/007228cd-df7e-41fc-9b46-7016c8862d0b" width="20.0%">
+     
 - **Tela padrão espécie:**
     - **Diagrama UML:**
     - **UX/Design:**
