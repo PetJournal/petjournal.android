@@ -16,10 +16,10 @@ fun Modifier.dashedBorder(
     shape: Shape,
     isError: Boolean,
     isSelected: Boolean,
-    strokeWidth: Dp = 1.dp,
+    strokeWidth: Dp = 1.5.dp,
     dashWidth: Dp = 8.dp,
     gapWidth: Dp = 10.dp,
-    cap: StrokeCap = StrokeCap.Round
+    cap: StrokeCap = StrokeCap.Square
 ) = this.drawWithContent{
     val outline = shape.createOutline(size, layoutDirection, this)
     val path = Path()

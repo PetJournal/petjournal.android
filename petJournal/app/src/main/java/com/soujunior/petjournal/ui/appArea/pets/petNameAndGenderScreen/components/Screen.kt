@@ -88,7 +88,7 @@ fun Screen(navController: NavController){
                                             isSelected = false
                                         ),
                                     placeholderText = "Digite aqui...",
-                                    titleText = "Nome",
+                                    titleText = "Nome: ",
                                     onEvent = {},
                                     textValue = ""
                                 )

@@ -270,11 +270,23 @@ fun CustomInputText(
                 }
             )
         }
+        Row {
+            if(textError != null) {
+                textError.forEach {
+                    AlertText(textMessage = it)
+                }
+            }
+            else{
+                Text(
+                    "*Campo Obrigatório.",
+                    color = MaterialTheme.colorScheme.outline,
+                    modifier = Modifier.padding(start = 10.dp),
+                    fontSize = 15.sp
+                )
+            }
+        }
     }
 
-    textError?.forEach {
-        AlertText(textMessage = it)
-    }
 }
 
 
