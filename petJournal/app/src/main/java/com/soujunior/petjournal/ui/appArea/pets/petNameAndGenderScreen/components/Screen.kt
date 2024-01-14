@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,6 +34,8 @@ import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.Breadcrumb
+import com.soujunior.petjournal.ui.components.CustomInputText
+import com.soujunior.petjournal.ui.components.dashedBorder
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -74,11 +78,20 @@ fun Screen(navController: NavController){
                                     fontWeight = FontWeight.Normal)
                             }
                             item {
-                                InputText(
-                                    textTop = "Nome: ",
-                                    textHint = "Digite aqui...",
-                                    textValue = "Digite Aqui....",
-                                    onEvent = {})
+                                CustomInputText(
+                                    modifier = Modifier,
+                                    textInputModifier = Modifier
+                                        .height(40.dp)
+                                        .dashedBorder(
+                                            shape = RoundedCornerShape(35),
+                                            isError = false,
+                                            isSelected = false
+                                        ),
+                                    placeholderText = "Digite aqui...",
+                                    titleText = "Nome",
+                                    onEvent = {},
+                                    textValue = ""
+                                )
                             }
                             item{
                                 GenderSelector()

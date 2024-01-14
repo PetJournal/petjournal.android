@@ -142,7 +142,7 @@ fun InputText(
                         }
                     },
 
-            )
+                )
 
 
         }
@@ -159,69 +159,141 @@ fun InputText(
     }
 }
 
+
+
+/**
+ * Input Text com borda pontilhada e com a correção do height value.
+ * Pode ser adaptado para quaisquer situações,
+ * desde que seja especificado o Modifier do parametro
+ *
+ * Exemplo: Perceba como ele é chamado na Screen.kt da PetNameAndGender
+ **/
 @Composable
-private fun CustomInputText(
-    modifier : Modifier = Modifier,
-    leadingIcon : (@Composable ()-> Unit)? = null,
-    trailingIcon : (@Composable () -> Unit)? = null,
+fun CustomInputText(
+    modifier : Modifier = Modifier
+        .padding(5.dp)
+        .fillMaxWidth(),
+    textInputModifier: Modifier = Modifier,
     placeholderText: String = "Placeholder",
-){
-    var text by rememberSaveable {
-        mutableStateOf("")
+    titleText: String = "Title",
+    textValue: String,
+    isPassword: Boolean = false,
+    isError: Boolean = false,
+    textError: List<String>? = null,
+    onEvent: (String) -> Unit,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
+    visualTransformation: VisualTransformation = VisualTransformation.None){
+    var inFocus by remember { mutableStateOf(false) }
+    var showPassword by remember { mutableStateOf(false) }
+
+    Column(modifier = modifier) {
+        Row {
+            Text(
+                text = titleText,
+                textAlign = TextAlign.Start,
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.bodyMedium,
+                fontSize = 15.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, bottom = 5.dp)
+            )
+        }
+
+        Row{
+            BasicTextField(
+                modifier = textInputModifier
+                    .background(
+                        MaterialTheme.colorScheme.surface
+                    )
+                    .fillMaxWidth()
+                    .padding(5.dp)
+                ,
+                value = textValue,
+                onValueChange = {text -> onEvent(text)},
+                singleLine = true,
+                textStyle = TextStyle(
+                    fontSize = 15.sp,
+                    color = MaterialTheme.colorScheme.outline
+                ),
+                maxLines = 1,
+                visualTransformation =
+                if (isPassword) {
+                    if (showPassword) VisualTransformation.None
+                    else PasswordVisualTransformation()
+                } else visualTransformation,
+                keyboardOptions = keyboardOptions,
+                decorationBox = {innerTextField ->
+                    Row(
+                        modifier,
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Box(
+                            modifier.weight(1f)){
+                            if(textValue.isEmpty()) //Placeholder
+                                Text(
+                                    modifier = modifier.padding(5.dp),
+                                    text = placeholderText,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    fontSize = 15.sp
+                                )
+                        }
+                            //Logica do Icone
+                            if (isPassword) {
+                                val iconResource =
+                                    if (showPassword) R.drawable.eye_visibility_on else R.drawable.eye_visibility_off
+                                val contentDescription =
+                                    if (showPassword) "Ocultar senha" else "Mostrar senha"
+
+                                IconButton(onClick = { showPassword = !showPassword }) {
+                                    Icon(
+                                        painter = painterResource(id = iconResource),
+                                        contentDescription = contentDescription,
+                                        tint = MaterialTheme.colorScheme.outline
+                                    )
+                                }
+                            } else if(isError) {
+                                val iconResource = R.drawable.icone_erro
+                                val contentDescription = "Erro"
+
+                                Icon(
+                                    painter = painterResource(id = iconResource),
+                                    contentDescription = contentDescription,
+                                    tint = Color.Unspecified
+                                )
+                            }
+                            else {
+                                null
+                            }
+                        }
+                }
+            )
+        }
     }
 
-    BasicTextField(
-        modifier = modifier
-            .background(
-                MaterialTheme.colorScheme.surface
-            )
-            .fillMaxWidth()
+    textError?.forEach {
+        AlertText(textMessage = it)
+    }
+}
+
+
+@Preview
+@Composable
+private fun PreviewIT(){
+    CustomInputText(
+        placeholderText = "Digite aqui...",
+        titleText = "Nome",
+        onEvent = {},
+        textValue = "",
+        isPassword = true,
+        textInputModifier = Modifier
             .height(40.dp)
             .dashedBorder(
                 shape = RoundedCornerShape(35),
                 isError = false,
                 isSelected = false
             )
-        ,
-        value = text,
-        onValueChange = {text = it},
-        singleLine = true,
-        textStyle = TextStyle(
-            fontSize = 15.sp,
-            color = MaterialTheme.colorScheme.outline
-        ),
-        decorationBox = {innerTextField ->
-            Row(
-                modifier,
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                if(leadingIcon != null)
-                    leadingIcon()
-                Box(
-                    modifier.weight(1f)){
-                        if(text.isEmpty())
-                            Text(
-                                modifier = modifier.padding(5.dp),
-                                text = placeholderText,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                fontSize = 15.sp
-                        )
-                }
-            }
-        }
-
-    )
-
-}
-
-@Preview
-@Composable
-private fun PreviewIT(){
-    CustomInputText(
-        leadingIcon = null,
-        trailingIcon = null,
-        placeholderText = "Digite aqui..."
     )
 
 //    InputText(
