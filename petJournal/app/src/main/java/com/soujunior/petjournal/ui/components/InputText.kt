@@ -166,7 +166,7 @@ fun InputText(
  * Pode ser adaptado para quaisquer situações,
  * desde que seja especificado o Modifier do parametro
  *
- * Exemplo: Perceba como ele é chamado na Screen.kt da PetNameAndGender
+ * Exemplo: Perceba como ele é chamado na função preview
  **/
 @Composable
 fun CustomInputText(
@@ -214,7 +214,7 @@ fun CustomInputText(
                 singleLine = true,
                 textStyle = TextStyle(
                     fontSize = 15.sp,
-                    color = MaterialTheme.colorScheme.outline
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
                 maxLines = 1,
                 visualTransformation =
@@ -237,6 +237,10 @@ fun CustomInputText(
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurface,
                                     fontSize = 15.sp
+                                )
+                            else
+                                Text(
+                                    text = textValue
                                 )
                         }
                             //Logica do Icone

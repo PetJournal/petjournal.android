@@ -57,7 +57,8 @@ fun NavHostMainContent() {
 }
 
 /**
- * Adicione aqui a rota de navegação da tela a ser testada, lembre-se de remover ao terminar as mudanças em sua tela
+ * Adicione aqui a rota de navegação da tela a ser testada,
+ * lembre-se de remover ao terminar as mudanças em sua tela
  * */
 @Composable
 fun NavTestScreen(){

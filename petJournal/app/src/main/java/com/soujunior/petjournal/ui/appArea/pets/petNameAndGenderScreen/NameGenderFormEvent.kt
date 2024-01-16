@@ -5,10 +5,10 @@ package com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen
  * */
 sealed class NameGenderFormEvent{
     data class PetName(val petName: String) : NameGenderFormEvent()
-    data class PetGender (val petGender: String) : NameGenderFormEvent()
+    data class PetGender (val petGender: Char) : NameGenderFormEvent()
 
-    object returnButton : NameGenderFormEvent()
+    object ReturnButton : NameGenderFormEvent()
 
-    object nextButton : NameGenderFormEvent()
+    object NextButton : NameGenderFormEvent()
 
 }

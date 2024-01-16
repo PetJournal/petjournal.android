@@ -43,6 +43,8 @@ import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.IntroIntroRegisterPetViewModelImpl
 import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.IntroRegisterPetViewModel
+import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.ViewModelNameGender
+import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.ViewModelNameGenderImpl
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.ViewModelChoiceSpecies
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.ViewModelChoiceSpeciesImpl
 import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashViewModel
@@ -118,4 +120,5 @@ val mainModule = module {
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
     viewModel { SplashViewModel(get()) }
     viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get()) }
+    viewModel<ViewModelNameGender> {ViewModelNameGenderImpl(get())}
 }

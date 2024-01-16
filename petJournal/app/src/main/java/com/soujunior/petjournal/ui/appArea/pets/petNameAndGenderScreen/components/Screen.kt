@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.components
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,6 +20,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -30,16 +36,25 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.NameGenderFormEvent
+import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.ViewModelNameGender
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.CustomInputText
 import com.soujunior.petjournal.ui.components.dashedBorder
+import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun Screen(navController: NavController){
+    val viewModel : ViewModelNameGender = getViewModel()
+    val activateContinueButton = remember { mutableStateOf(false) }
+    val name = remember {viewModel.name}
+    val taskState = viewModel.taskState.collectAsState()
+//    var isOthersFieldVisible by remember { mutableStateOf(false) }
+//    var isClearSpecies by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.navigationBarsPadding()){
         ScaffoldCustom(
@@ -88,9 +103,15 @@ fun Screen(navController: NavController){
                                             isSelected = false
                                         ),
                                     placeholderText = "Digite aqui...",
+                                    textValue = viewModel.state.name,
+                                    textError = viewModel.state.nameError,
                                     titleText = "Nome: ",
-                                    onEvent = {},
-                                    textValue = ""
+                                    onEvent = {
+                                              it:String -> viewModel.onEvent(
+                                                  NameGenderFormEvent.PetName(it)
+                                              )
+                                    }
+
                                 )
                             }
                             item{
@@ -98,9 +119,8 @@ fun Screen(navController: NavController){
                             }
                             item {
                                 Row {
-                                    /*TODO: Acertar logica de implementação dos botões*/
                                     Button2(
-                                        submit = { /*TODO*/ },
+                                        submit = { navController.popBackStack() },
                                         enableButton = true,
                                         modifier = Modifier.width(150.dp),
                                         border = BorderStroke(
