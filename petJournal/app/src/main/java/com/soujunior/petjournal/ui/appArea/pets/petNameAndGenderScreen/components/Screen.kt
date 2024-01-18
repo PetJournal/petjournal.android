@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.components
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,7 +38,6 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.NameGenderFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.ViewModelNameGender
 import com.soujunior.petjournal.ui.components.Button2
-import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.CustomInputText
@@ -53,8 +51,8 @@ fun Screen(navController: NavController){
     val activateContinueButton = remember { mutableStateOf(false) }
     val name = remember {viewModel.name}
     val taskState = viewModel.taskState.collectAsState()
-//    var isOthersFieldVisible by remember { mutableStateOf(false) }
-//    var isClearSpecies by remember { mutableStateOf(false) }
+    var isClearGender by remember { mutableStateOf(false) }
+    var petGender by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.navigationBarsPadding()){
         ScaffoldCustom(
@@ -115,7 +113,23 @@ fun Screen(navController: NavController){
                                 )
                             }
                             item{
-                                GenderSelector()
+                                GenderSelector(
+                                    selectedGender = {
+                                            selectedGender ->
+                                            if(selectedGender.isNotEmpty()){
+                                                isClearGender = false
+                                            }
+                                            viewModel.onEvent(
+                                                NameGenderFormEvent.PetGender(
+                                                    selectedGender
+                                                )
+                                            )
+                                    },
+                                    clearSelection = {
+                                        isClearGender
+                                    }
+
+                                )
                             }
                             item {
                                 Row {

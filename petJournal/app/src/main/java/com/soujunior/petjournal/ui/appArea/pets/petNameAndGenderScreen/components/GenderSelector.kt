@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.components
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,8 +11,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -19,10 +26,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.RoundedSquare
+import com.soujunior.petjournal.ui.theme.ColorGrid
+import com.soujunior.petjournal.ui.util.Constants
 
 
 @Composable
-fun GenderSelector() {
+fun GenderSelector(
+    selectedGender: (String) -> Unit,
+    clearSelection: () -> Boolean
+) {
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -39,42 +51,66 @@ fun GenderSelector() {
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center
                 )
-                Spacer(modifier = Modifier.fillMaxWidth().padding(25.dp))
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(25.dp))
             }
             
-            GenderButtons()
+            GenderButtons(selectedGender, clearSelection)
         })
 }
 
 @Composable
-private fun GenderButtons(){
+private fun GenderButtons(
+    selectedGender: (String) -> Unit,
+    clearSelection: () -> Boolean){
+
+    var selectedItem by remember { mutableStateOf("") }
+    var isSelected by remember {
+        mutableStateOf(false
+        )
+    }
+
+    if (clearSelection()) {
+        selectedItem = ""
+    }
     Row(
         modifier = Modifier.padding(horizontal = 2.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ){
         RoundedSquare(
-            modifier = Modifier,
+            modifier = Modifier.clickable {
+                selectedItem = "M"
+                selectedGender("M")
+//                isSelected = selectedItem == "M"
+            },
             text = stringResource(id = R.string.pet_gender_male),
-            isSelected = false,
+            isSelected = selectedItem == "M",
             size = 150.dp,
             topLeftRadius = 32.dp,
             topRightRadius = 32.dp,
             bottomLeftRadius = 32.dp,
             bottomRightRadius = 32.dp,
             image = painterResource(id = R.drawable.icone_macho),
+            selectedColor = if(selectedItem == "M") MaterialTheme.colorScheme.primary else Color.Transparent,
             material = MaterialTheme.colorScheme.background
         )
 
         RoundedSquare(
-            modifier = Modifier,
+            modifier = Modifier.clickable {
+                selectedItem = "F"
+                selectedGender("F")
+//                isSelected = selectedItem == "F"
+            },
             text = stringResource(id = R.string.pet_gender_female),
-            isSelected = true,
+            isSelected = selectedItem == "F",
             size = 150.dp,
             topLeftRadius = 32.dp,
             topRightRadius = 32.dp,
             bottomLeftRadius = 32.dp,
             bottomRightRadius = 32.dp,
             image = painterResource(id = R.drawable.icone_femea),
+            selectedColor = if(selectedItem == "F") MaterialTheme.colorScheme.primary else Color.Transparent,
             material = MaterialTheme.colorScheme.background
         )
     }
@@ -88,8 +124,10 @@ private fun GenderButtons(){
     }
 }
 
+
+
 @Preview
 @Composable
 private fun PreviewGS(){
-    GenderSelector()
+//    GenderSelector()
 }

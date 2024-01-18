@@ -2,6 +2,7 @@ package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.soujunior.petjournal.ui.util.Constants
 
 @Composable
 fun RoundedSquare(
@@ -69,16 +71,12 @@ fun RoundedSquare(
     bottomLeftRadius: Dp,
     bottomRightRadius: Dp,
     image: Painter,
-    material: Color
+    material: Color,
+    selectedColor: Color
 ) {
+
     Box(
         modifier = Modifier
-            .dashedBorder(
-                shape = RoundedCornerShape(30.dp),
-                strokeWidth = 1.5.dp,
-                isError = false,
-                isSelected = isSelected
-            )
             .size(size)
             .background(
                 color = material,
@@ -88,6 +86,13 @@ fun RoundedSquare(
                     bottomStart = bottomLeftRadius,
                     bottomEnd = bottomRightRadius
                 )
+            )
+            .dashedBorder(
+                shape = RoundedCornerShape(30.dp),
+                isError = false,
+                isSelected = isSelected,
+                strokeWidth = 1.5.dp,
+                selectedColor = selectedColor
             )
     )
     {

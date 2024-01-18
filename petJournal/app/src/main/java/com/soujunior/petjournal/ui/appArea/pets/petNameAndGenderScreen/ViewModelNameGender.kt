@@ -24,7 +24,7 @@ abstract class ViewModelNameGender : ViewModel(){
     abstract fun enableButton(): Boolean
     abstract fun change(
         petName: String? = null,
-        petGender: Char? = null
+        petGender: String? = null
     )
 
 }

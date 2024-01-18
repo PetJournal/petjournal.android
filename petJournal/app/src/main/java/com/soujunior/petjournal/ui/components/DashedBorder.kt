@@ -16,6 +16,7 @@ fun Modifier.dashedBorder(
     shape: Shape,
     isError: Boolean,
     isSelected: Boolean,
+    selectedColor: Color = Color.Black,
     strokeWidth: Dp = 1.5.dp,
     dashWidth: Dp = 8.dp,
     gapWidth: Dp = 10.dp,
@@ -26,7 +27,7 @@ fun Modifier.dashedBorder(
     val color = if (isError)
             Color(0xFFFF917A)
         else if(isSelected)
-            Color(0xFF7C54A7)
+            selectedColor
         else Color.Gray
 
 

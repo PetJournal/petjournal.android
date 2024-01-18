@@ -63,7 +63,7 @@ class ViewModelNameGenderImpl(
 
     }
 
-    override fun change(petName: String?, petGender: Char?) {
+    override fun change(petName: String?, petGender: String?) {
         when{
             petName != null -> {
                 state = state.copy(name = petName)
@@ -81,6 +81,7 @@ class ViewModelNameGenderImpl(
     }
     fun generic(){
         Log.d("Teste", state.name )
+        Log.d("Teste", state.gender )
     }
     private fun hasError(result: ValidationResult): Boolean {
         return listOf(result).any { !it.success }
