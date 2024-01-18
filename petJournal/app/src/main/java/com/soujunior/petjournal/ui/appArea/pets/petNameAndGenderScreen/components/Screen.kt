@@ -37,6 +37,7 @@ import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.NameGenderFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.ViewModelNameGender
+import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.PetFormEvent
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.Breadcrumb
@@ -48,7 +49,6 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun Screen(navController: NavController){
     val viewModel : ViewModelNameGender = getViewModel()
-    val activateContinueButton = remember { mutableStateOf(false) }
     val name = remember {viewModel.name}
     val taskState = viewModel.taskState.collectAsState()
     var isClearGender by remember { mutableStateOf(false) }
@@ -124,6 +124,7 @@ fun Screen(navController: NavController){
                                                     selectedGender
                                                 )
                                             )
+
                                     },
                                     clearSelection = {
                                         isClearGender
@@ -148,8 +149,12 @@ fun Screen(navController: NavController){
                                     )
                                     Spacer(modifier = Modifier.width(16.dp))
                                     Button2(
-                                        submit = { /*TODO*/ },
-                                        enableButton = true,
+                                        submit = {
+                                            viewModel.onEvent(
+                                                NameGenderFormEvent.NextButton
+                                            )
+                                        },
+                                        enableButton = viewModel.enableButton(),
                                         modifier = Modifier.width(150.dp),
                                         border = BorderStroke(
                                             width = 2.dp,

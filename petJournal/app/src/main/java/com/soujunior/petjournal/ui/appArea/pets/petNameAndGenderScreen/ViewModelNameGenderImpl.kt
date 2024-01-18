@@ -56,11 +56,9 @@ class ViewModelNameGenderImpl(
     }
 
     override fun enableButton(): Boolean {
-//        val petNameResult = validation.inputPetName(state.name)
-//        val petGenderResult = validation.inputPetGender(state.gender)
-//        return speciesResult.success
-        TODO("Not yet implemented")
-
+        val petNameResult = validation.inputPetName(state.name)
+        val petGenderResult = validation.inputPetGender(state.gender)
+        return petNameResult.success && petGenderResult.success
     }
 
     override fun change(petName: String?, petGender: String?) {
@@ -75,7 +73,9 @@ class ViewModelNameGenderImpl(
 
             petGender != null -> {
                 state = state.copy(gender = petGender)
-                /*Precisa validar input do pet gender??*/
+                val result = validation.inputPetGender(state.gender)
+                state = if(hasError(result)) state.copy(genderError = result.errorMessage)
+                else state.copy(genderError = null)
             }
         }
     }

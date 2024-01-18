@@ -11,6 +11,7 @@ interface ValidationRepository {
     fun validateField(value: String) : ValidationResult
     fun inputSpecieType(value: String) : ValidationResult
     fun inputPetName(value: String) : ValidationResult
+    fun inputPetGender(value: String): ValidationResult
     fun validateRepeatedPassword(repeatedPassword: String, password: String) : ValidationResult
     fun validatePrivacyPolicy(value: Boolean) : ValidationResult
     fun validateCodeOTP(codeOTP: String) : ValidationResult

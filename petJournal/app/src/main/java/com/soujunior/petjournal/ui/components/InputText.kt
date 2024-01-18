@@ -159,11 +159,10 @@ fun InputText(
 
 
 /**
- * Input Text com borda pontilhada e com a correção do height value.
+ * Input Text com customização das bordas e com a correção do height value.
  * Pode ser adaptado para quaisquer situações,
  * desde que seja especificado o Modifier do parametro
  *
- * Exemplo: Perceba como ele é chamado na função preview
  **/
 @Composable
 fun CustomInputText(

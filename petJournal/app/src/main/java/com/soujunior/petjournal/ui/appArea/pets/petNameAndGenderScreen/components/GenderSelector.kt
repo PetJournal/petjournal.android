@@ -45,9 +45,9 @@ fun GenderSelector(
             Row {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Qual o Sexo do seu animal?",
-                    fontSize = 20.sp,
-                    style = MaterialTheme.typography.displayMedium,
+                    text = stringResource(id = R.string.pet_gender),
+                    fontSize = 15.sp,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center
                 )
@@ -66,14 +66,10 @@ private fun GenderButtons(
     clearSelection: () -> Boolean){
 
     var selectedItem by remember { mutableStateOf("") }
-    var isSelected by remember {
-        mutableStateOf(false
-        )
-    }
-
     if (clearSelection()) {
         selectedItem = ""
     }
+
     Row(
         modifier = Modifier.padding(horizontal = 2.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -82,7 +78,6 @@ private fun GenderButtons(
             modifier = Modifier.clickable {
                 selectedItem = "M"
                 selectedGender("M")
-//                isSelected = selectedItem == "M"
             },
             text = stringResource(id = R.string.pet_gender_male),
             isSelected = selectedItem == "M",
@@ -100,7 +95,6 @@ private fun GenderButtons(
             modifier = Modifier.clickable {
                 selectedItem = "F"
                 selectedGender("F")
-//                isSelected = selectedItem == "F"
             },
             text = stringResource(id = R.string.pet_gender_female),
             isSelected = selectedItem == "F",

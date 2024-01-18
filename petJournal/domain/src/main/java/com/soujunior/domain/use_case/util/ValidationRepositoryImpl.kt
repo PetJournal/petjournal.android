@@ -43,16 +43,31 @@ class ValidationRepositoryImpl : ValidationRepository {
                 success = false,
                 errorMessage = listOf("* Campo Obrigatório!")
             )
-        }else if(hasSpecialCharOrNumber(name) || !isValidLenght(name)){
+        }else if(hasSpecialCharOrNumber(name)){
             ValidationResult(
                 success = false,
-                errorMessage = listOf("* O nome fornecido deve ter entre 2 e 30 caracteres, " +
-                        "não são permitidos caracteres especiais, " +
+                errorMessage = listOf("* Não são permitidos caracteres especiais, " +
                         "nem números. Por favor, insira um nome válido.")
             )
-        }else
+        }else if(isValidLenght(name)){
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* O nome fornecido deve ter entre 2 e 30 caracteres.")
+            )
+        }
+        else
             ValidationResult(success = true)
 
+    }
+
+    override fun inputPetGender(value: String): ValidationResult {
+        return if(value == "M" || value == "F")
+            ValidationResult(success = true)
+        else
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* Campo Obrigatório!")
+            )
     }
 
     override fun validateField(value: String): ValidationResult {

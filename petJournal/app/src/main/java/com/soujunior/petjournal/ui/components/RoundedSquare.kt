@@ -59,7 +59,13 @@ fun RoundedSquare(
     }
 }
 
-/*Override com bordas tracejadas e texto abaixo da imagem*/
+/**
+ * Rounded Square com a adição de alguns parâmetros, utilizados nos botões de seleção de gênero
+ *
+ * @param isSelected  valor para verificar se o componente está selecionado.
+ * @param selectedColor  valor que contém a cor que colorirá a borda do componente selecionado.
+ * @param text  valor que contém o texto a ser inserido abaixo da imagem
+ * */
 @Composable
 fun RoundedSquare(
     modifier: Modifier = Modifier,
