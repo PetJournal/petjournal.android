@@ -47,6 +47,7 @@ fun Screen(navController: NavController) {
     val taskState by viewModel.taskState.collectAsState()
     var isOthersFieldVisible by remember { mutableStateOf(false) }
     var isClearSpecies by remember { mutableStateOf(false) }
+    var speciesName: String? = null
 
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
@@ -68,7 +69,7 @@ fun Screen(navController: NavController) {
                                 .fillMaxSize()
                                 .padding(12.dp)
                         ) {
-                            item{
+                            item {
                                 Header(name = name.value)
 
                                 GridVectors(
@@ -77,6 +78,7 @@ fun Screen(navController: NavController) {
                                             activateContinueButton.value = true
                                             isOthersFieldVisible = false
                                             isClearSpecies = false
+                                            speciesName = selectedSpecies
                                         }
                                     },
                                     clearSelection = {
@@ -113,6 +115,7 @@ fun Screen(navController: NavController) {
                                         onEvent = { value ->
                                             viewModel.onEvent(PetFormEvent.OtherSpecie(value))
                                             activateContinueButton.value = viewModel.enableButton()
+                                            speciesName = value
                                         })
                                 }
                                 Spacer(modifier = Modifier.padding(16.dp))
@@ -141,7 +144,11 @@ fun Screen(navController: NavController) {
                                         )
                                         Spacer(modifier = Modifier.width(16.dp))
                                         Button2(
-                                            submit = { /*TODO*/ },
+                                            submit = {
+//                                                speciesName?.let {
+//                                                    navController.navigate("pets/speciesNameAndSex/$it")
+//                                                }
+                                            },
                                             modifier = Modifier.width(150.dp),
                                             enableButton = activateContinueButton.value,
                                             border = BorderStroke(
