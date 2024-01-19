@@ -7,8 +7,9 @@ import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.component
 
 
 @Composable
-fun PetNameAndGenderScreen(navController: NavController){
-    Screen(navController)
+fun PetNameAndGenderScreen(petSpecie: String?, navController: NavController){
+
+    Screen(petSpecie, navController)
 }
 
 

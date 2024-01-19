@@ -145,9 +145,9 @@ fun Screen(navController: NavController) {
                                         Spacer(modifier = Modifier.width(16.dp))
                                         Button2(
                                             submit = {
-//                                                speciesName?.let {
-//                                                    navController.navigate("pets/speciesNameAndSex/$it")
-//                                                }
+                                                speciesName?.let {
+                                                    navController.navigate("pets/nameAndGender/$it")
+                                                }
                                             },
                                             modifier = Modifier.width(150.dp),
                                             enableButton = activateContinueButton.value,

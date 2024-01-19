@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ViewModelNameGenderImpl(
+//    val getPetSpeciesUseCase: GetPetSpecieUseCase,
     val validation: ValidationRepository
 ): ViewModelNameGender() {
 
@@ -27,16 +28,15 @@ class ViewModelNameGenderImpl(
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
 
-    private val _name: MutableStateFlow<String> = MutableStateFlow("")
-    override val name: StateFlow<String> = _name
+    private val _petSpecie: MutableStateFlow<String> = MutableStateFlow("")
+    override val petSpecie: StateFlow<String> = _petSpecie
 
 //    init {
-//        TODO("Criar get data")
 //        getData()
 //    }
 
     override fun success() {
-        TODO("Not yet implemented")
+        TODO("teste")
     }
 
     override fun failed(exception: Throwable?) {
@@ -87,7 +87,10 @@ class ViewModelNameGenderImpl(
         return listOf(result).any { !it.success }
     }
     private fun getData(){
-
+//        viewModelScope.launch {
+//            _taskState.value = TaskState.Loading
+//            val result =
+//        }
     }
 
 }

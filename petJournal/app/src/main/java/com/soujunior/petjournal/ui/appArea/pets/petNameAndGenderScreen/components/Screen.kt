@@ -47,9 +47,8 @@ import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun Screen(navController: NavController){
+fun Screen(petSpecie: String?, navController: NavController){
     val viewModel : ViewModelNameGender = getViewModel()
-    val name = remember {viewModel.name}
     val taskState = viewModel.taskState.collectAsState()
     var isClearGender by remember { mutableStateOf(false) }
     var petGender by remember { mutableStateOf("") }
@@ -75,7 +74,8 @@ fun Screen(navController: NavController){
                                 Breadcrumb(index = 0)
                             }
                             item {
-                                Header(species = "Gato",
+                                Header(
+                                    species = petSpecie ?: "ERRO",
                                     modifier = Modifier.padding(5.dp, 0.dp))
                             }
                             item {
@@ -174,11 +174,4 @@ fun Screen(navController: NavController){
             })
     }
 
-}
-
-
-@Preview
-@Composable
-private fun PreviewGenderScreen(){
-    Screen(navController = rememberNavController())
 }

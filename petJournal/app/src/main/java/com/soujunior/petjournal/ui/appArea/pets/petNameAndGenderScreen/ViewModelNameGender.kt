@@ -14,7 +14,7 @@ abstract class ViewModelNameGender : ViewModel(){
     abstract val validationEventChannel: Channel<ValidationEvent>
     abstract val message: StateFlow<String>
     abstract val taskState: StateFlow<TaskState>
-    abstract val name: StateFlow<String>
+    abstract val petSpecie: StateFlow<String>
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 

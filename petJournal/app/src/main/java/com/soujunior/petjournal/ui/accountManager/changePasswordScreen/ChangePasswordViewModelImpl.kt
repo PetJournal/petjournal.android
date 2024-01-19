@@ -113,6 +113,7 @@ class ChangePasswordViewModelImpl(
             }
 
             is ChangePasswordFormEvent.Submit -> submitNewPassword()
+            else -> {}
         }
     }
 
