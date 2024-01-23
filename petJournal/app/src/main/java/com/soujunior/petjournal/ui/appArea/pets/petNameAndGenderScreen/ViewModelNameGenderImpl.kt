@@ -35,6 +35,8 @@ class ViewModelNameGenderImpl(
 //        getData()
 //    }
 
+    /*Os metodos de Success e Failure vão ser utilizados
+    quando houver a nova impl do dataclass*/
     override fun success() {
         TODO("teste")
     }
@@ -50,7 +52,7 @@ class ViewModelNameGenderImpl(
             is NameGenderFormEvent.PetName -> change(petName  = event.petName)
             is NameGenderFormEvent.PetGender -> change(petGender = event.petGender)
             is NameGenderFormEvent.NextButton -> generic()
-//            is NameGenderFormEvent.ReturnButton -> generic()
+            is NameGenderFormEvent.ReturnButton -> generic()
             else -> {}
         }
     }

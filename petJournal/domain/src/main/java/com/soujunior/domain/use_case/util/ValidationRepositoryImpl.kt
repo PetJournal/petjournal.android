@@ -43,11 +43,11 @@ class ValidationRepositoryImpl : ValidationRepository {
                 success = false,
                 errorMessage = listOf("* Campo Obrigatório!")
             )
-        }else if(hasSpecialCharOrNumber(name)){
+        }else if(hasSpecialChar(name)){
             ValidationResult(
                 success = false,
-                errorMessage = listOf("* Não são permitidos caracteres especiais, " +
-                        "nem números. Por favor, insira um nome válido.")
+                errorMessage = listOf("* Não são permitidos caracteres especiais. " +
+                        "Por favor, insira um nome válido.")
             )
         }else if(isValidLenght(name)){
             ValidationResult(
@@ -230,6 +230,17 @@ class ValidationRepositoryImpl : ValidationRepository {
      * will be true if the String contains any special characters or numbers, or false if it does not.*/
     private fun hasSpecialCharOrNumber(input: String): Boolean {
         val regex = Regex("[^a-zA-ZÀ-ÖØ-öø-ÿ ]")
+        return regex.containsMatchIn(input)
+    }
+
+    /**
+     * Same as the function above, with the exception that this function accepts number in the regex.
+     * In other words, the function will only return false if the input contains a special char.
+     *
+     * @return true if contains char, otherwise, returns false
+     * */
+    private fun hasSpecialChar(input: String): Boolean{
+        val regex = Regex("[^a-zA-ZÀ-ÖØ-öø-ÿ0-9]")
         return regex.containsMatchIn(input)
     }
 
