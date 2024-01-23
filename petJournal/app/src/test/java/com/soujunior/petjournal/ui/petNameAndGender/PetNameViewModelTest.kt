@@ -117,7 +117,50 @@ class PetNameViewModelTest {
         assertEquals(newName, viewModelTest.state.name)
         assertNotNull(viewModelTest.state.nameError)
     }
+    @Test
+    fun `should not accept empty pet name`(){
+        val newName = ""
 
+        every { this@PetNameViewModelTest.validation.inputPetName(newName)
+        }returns ValidationResult(
+            success = false,
+            errorMessage = listOf("Erro")
+
+        )
+        viewModelTest.change(petName = newName)
+        assertEquals(newName, viewModelTest.state.name)
+        assertNotNull(viewModelTest.state.nameError)
+    }
+
+    @Test
+    fun `should not accept pet name with less than 2 chars`(){
+        val newName = "A"
+
+        every { this@PetNameViewModelTest.validation.inputPetName(newName)
+        }returns ValidationResult(
+            success = false,
+            errorMessage = listOf("Erro")
+
+        )
+        viewModelTest.change(petName = newName)
+        assertEquals(newName, viewModelTest.state.name)
+        assertNotNull(viewModelTest.state.nameError)
+    }
+
+    @Test
+    fun `should not accept pet name with more than 30 chars`(){
+        val newName = "Shoryukenhadoukentatsumakisenpukyaku"
+
+        every { this@PetNameViewModelTest.validation.inputPetName(newName)
+        }returns ValidationResult(
+            success = false,
+            errorMessage = listOf("Erro")
+
+        )
+        viewModelTest.change(petName = newName)
+        assertEquals(newName, viewModelTest.state.name)
+        assertNotNull(viewModelTest.state.nameError)
+    }
     @Test
     fun `should accept pet name with number`(){
         val newName = "Sc0rp10n"
@@ -130,5 +173,38 @@ class PetNameViewModelTest {
         viewModelTest.change(petName = newName)
         assertEquals(newName, viewModelTest.state.name)
         assertEquals(null, viewModelTest.state.nameError)
+    }
+
+    @Test
+    fun `should not accept other than male or female genders`(){
+        val newGender = "X"
+
+        every { this@PetNameViewModelTest.validation.inputPetGender(newGender)
+        } returns ValidationResult(
+            success = false,
+            errorMessage = listOf("Erro")
+        )
+
+        viewModelTest.change(petGender = newGender)
+        assertEquals(newGender, viewModelTest.state.gender)
+        assertNotNull(viewModelTest.state.genderError)
+    }
+
+    @Test
+    fun `OnEvent should allow pet name changes`(){
+        val newName = "Blastoise"
+        val event = NameGenderFormEvent.PetName(petName = newName)
+        viewModelTest.onEvent(event)
+        assertEquals(newName, viewModelTest.state.name)
+        assertEquals(null, viewModelTest.state.nameError)
+    }
+
+    @Test
+    fun `OnEvent should allow pet gender changes`(){
+        val newGender = "F"
+        val event = NameGenderFormEvent.PetGender(petGender = newGender)
+        viewModelTest.onEvent(event)
+        assertEquals(newGender, viewModelTest.state.gender)
+        assertEquals(null, viewModelTest.state.genderError)
     }
 }
