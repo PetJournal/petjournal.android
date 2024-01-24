@@ -196,7 +196,7 @@ class PetNameViewModelTest {
         val event = NameGenderFormEvent.PetName(petName = newName)
         viewModelTest.onEvent(event)
         assertEquals(newName, viewModelTest.state.name)
-        assertEquals(null, viewModelTest.state.nameError)
+        assertEquals(emptyList<String>(), viewModelTest.state.nameError)
     }
 
     @Test
@@ -205,6 +205,6 @@ class PetNameViewModelTest {
         val event = NameGenderFormEvent.PetGender(petGender = newGender)
         viewModelTest.onEvent(event)
         assertEquals(newGender, viewModelTest.state.gender)
-        assertEquals(null, viewModelTest.state.genderError)
+        assertEquals(emptyList<String>(), viewModelTest.state.genderError)
     }
 }

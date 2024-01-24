@@ -51,16 +51,17 @@ class ViewModelNameGenderImpl(
         when (event) {
             is NameGenderFormEvent.PetName -> change(petName  = event.petName)
             is NameGenderFormEvent.PetGender -> change(petGender = event.petGender)
-            is NameGenderFormEvent.NextButton -> generic()
+            is NameGenderFormEvent.NextButton -> {
+                change(petName = state.name)
+                change(petGender = state.gender)
+            }
             is NameGenderFormEvent.ReturnButton -> generic()
             else -> {}
         }
     }
 
     override fun enableButton(): Boolean {
-        val petNameResult = validation.inputPetName(state.name)
-        val petGenderResult = validation.inputPetGender(state.gender)
-        return petNameResult.success && petGenderResult.success
+        return state.nameError.isNullOrEmpty() && state.genderError.isNullOrEmpty()
     }
 
     override fun change(petName: String?, petGender: String?) {
@@ -68,26 +69,26 @@ class ViewModelNameGenderImpl(
             petName != null -> {
                 state = state.copy(name = petName)
                 val result = validation.inputPetName(state.name)
-                state = if (hasError(result)) state.copy(nameError = result.errorMessage)
-                else state.copy(nameError = null)
+                state = if (result.success) state.copy(nameError = null)
+                else state.copy(nameError = result.errorMessage)
 
             }
 
             petGender != null -> {
                 state = state.copy(gender = petGender)
                 val result = validation.inputPetGender(state.gender)
-                state = if(hasError(result)) state.copy(genderError = result.errorMessage)
-                else state.copy(genderError = null)
+                state = if(result.success) state.copy(genderError = null)
+                else state.copy(genderError = result.errorMessage)
             }
         }
     }
     fun generic(){
-        Log.d("Teste", state.name )
-        Log.d("Teste", state.gender )
+        Log.d("Teste", state.name)
+        Log.d("Teste", state.gender)
+        Log.d("Teste", state.nameError.toString())
+        Log.d("Teste", state.genderError.toString())
     }
-    private fun hasError(result: ValidationResult): Boolean {
-        return listOf(result).any { !it.success }
-    }
+
     private fun getData(){
 //        viewModelScope.launch {
 //            _taskState.value = TaskState.Loading

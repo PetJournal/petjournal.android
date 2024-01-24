@@ -62,21 +62,3 @@ fun Button2(
         }
     }
 }
-
-@Preview
-@Composable
-private fun previewBtn2(){
-    Button2(
-        submit = {},
-        modifier = Modifier.width(150.dp),
-        enableButton = true,
-        border = BorderStroke(
-            width = 2.dp,
-            color = MaterialTheme.colorScheme.primary
-        ),
-        text = stringResource(R.string.back),
-        buttonColor = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
-        textColor = MaterialTheme.colorScheme.primary
-    )
-}
-

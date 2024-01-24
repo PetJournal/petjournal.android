@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.components.AlertText
 import com.soujunior.petjournal.ui.components.RoundedSquare
 import com.soujunior.petjournal.ui.theme.ColorGrid
 import com.soujunior.petjournal.ui.util.Constants
@@ -33,7 +34,8 @@ import com.soujunior.petjournal.ui.util.Constants
 @Composable
 fun GenderSelector(
     selectedGender: (String) -> Unit,
-    clearSelection: () -> Boolean
+    clearSelection: () -> Boolean,
+    textError: List<String>? = null,
 ) {
     Column(modifier = Modifier
         .fillMaxWidth()
@@ -56,18 +58,21 @@ fun GenderSelector(
                     .padding(25.dp))
             }
             
-            GenderButtons(selectedGender, clearSelection)
+            GenderButtons(selectedGender, clearSelection, textError)
         })
 }
 
 @Composable
 private fun GenderButtons(
     selectedGender: (String) -> Unit,
-    clearSelection: () -> Boolean){
+    clearSelection: () -> Boolean,
+    textError: List<String>? = null,
+){
 
     var selectedItem by remember { mutableStateOf("") }
     if (clearSelection()) {
         selectedItem = ""
+        selectedGender("")
     }
 
     Row(
@@ -109,19 +114,19 @@ private fun GenderButtons(
         )
     }
     Row(modifier = Modifier.fillMaxWidth()){
-        Text(
-            text ="*Campo Obrigatório.",
-            color = MaterialTheme.colorScheme.outline,
-            modifier = Modifier.padding(start = 2.dp, top = 10.dp),
-            fontSize = 15.sp,
-            textAlign = TextAlign.Start)
+        if(textError != null) {
+            textError.forEach {
+                AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
+            }
+        }
+        else{
+            Text(
+                text ="*Campo Obrigatório.",
+                modifier = Modifier.padding(start = 2.dp, top = 10.dp),
+                fontSize = 15.sp,
+                textAlign = TextAlign.Start)
+        }
     }
 }
 
 
-
-@Preview
-@Composable
-private fun PreviewGS(){
-//    GenderSelector()
-}

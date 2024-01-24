@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -126,11 +127,11 @@ fun InputText(
                 ),
                 modifier = modifier
                     .height(40.dp)
-                    .dashedBorder(
-                        shape = RoundedCornerShape(10.dp),
-                        isError = isError,
-                        isSelected = false
-                    )
+//                    .dashedBorder(
+//                        shape = RoundedCornerShape(10.dp),
+//                        isError = isError,
+//                        isSelected = false
+//                    )
                     .onFocusChanged {
                         inFocus = if (it.hasFocus)
                             it.hasFocus
@@ -273,14 +274,14 @@ fun CustomInputText(
         Row {
             if(textError != null) {
                 textError.forEach {
-                    AlertText(textMessage = it)
+                    AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
                 }
             }
             else{
                 Text(
                     "*Campo Obrigatório.",
                     color = MaterialTheme.colorScheme.outline,
-                    modifier = Modifier.padding(start = 10.dp),
+                    modifier = Modifier.padding(10.dp),
                     fontSize = 15.sp
                 )
             }
@@ -289,29 +290,4 @@ fun CustomInputText(
 
 }
 
-
-@Preview
-@Composable
-private fun PreviewIT(){
-    CustomInputText(
-        placeholderText = "Digite aqui...",
-        titleText = "Nome",
-        onEvent = {},
-        textValue = "",
-        isPassword = true,
-        textInputModifier = Modifier
-            .height(40.dp)
-            .dashedBorder(
-                shape = RoundedCornerShape(35),
-                isError = false,
-                isSelected = false
-            )
-    )
-
-//    InputText(
-//        textHint = "Teste de Hint",
-//        textValue = "Teste",
-//        onEvent = {},
-//        isError = false )
-}
 

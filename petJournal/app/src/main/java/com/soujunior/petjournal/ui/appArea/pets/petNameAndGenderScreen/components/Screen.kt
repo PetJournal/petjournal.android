@@ -51,7 +51,6 @@ fun Screen(petSpecie: String?, navController: NavController){
     val viewModel : ViewModelNameGender = getViewModel()
     val taskState = viewModel.taskState.collectAsState()
     var isClearGender by remember { mutableStateOf(false) }
-    var petGender by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.navigationBarsPadding()){
         ScaffoldCustom(
@@ -97,19 +96,19 @@ fun Screen(petSpecie: String?, navController: NavController){
                                         .height(40.dp)
                                         .dashedBorder(
                                             shape = RoundedCornerShape(35),
-                                            isError = false,
+                                            isError = !viewModel.state.nameError.isNullOrEmpty(),
                                             isSelected = false
                                         ),
                                     placeholderText = "Digite aqui...",
                                     textValue = viewModel.state.name,
                                     textError = viewModel.state.nameError,
+                                    isError = !viewModel.state.nameError.isNullOrEmpty(),
                                     titleText = "Nome: ",
                                     onEvent = {
                                               it:String -> viewModel.onEvent(
                                                   NameGenderFormEvent.PetName(it)
                                               )
                                     }
-
                                 )
                             }
                             item{
@@ -128,8 +127,8 @@ fun Screen(petSpecie: String?, navController: NavController){
                                     },
                                     clearSelection = {
                                         isClearGender
-                                    }
-
+                                    },
+                                    textError = viewModel.state.genderError
                                 )
                             }
                             item {
