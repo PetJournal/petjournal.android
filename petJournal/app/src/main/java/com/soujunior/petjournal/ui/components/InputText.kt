@@ -24,8 +24,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -33,6 +38,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
@@ -159,14 +165,9 @@ fun InputText(
 
 
 
-/**
- * Input Text com customização das bordas e com a correção do height value.
- * Pode ser adaptado para quaisquer situações,
- * desde que seja especificado o Modifier do parametro
- *
- **/
+
 @Composable
-fun CustomInputText(
+fun DashedInputText(
     modifier : Modifier = Modifier
         .padding(5.dp)
         .fillMaxWidth(),
@@ -205,7 +206,23 @@ fun CustomInputText(
                     )
                     .fillMaxWidth()
                     .padding(5.dp)
-                ,
+                    .height(40.dp)
+                    .drawBehind {
+                        val stroke = Stroke(
+                            width = 1.dp.toPx(),
+                            pathEffect = PathEffect.dashPathEffect(
+                                intervals = floatArrayOf(8.dp.toPx(), 8.dp.toPx(), 0f)
+                            )
+                        )
+                        drawRoundRect(
+                            color = if (isError) Color.Transparent else Color.Black,
+                            style = stroke,
+                            cornerRadius = CornerRadius(10.dp.toPx())
+                        )
+
+                }
+                .border(2.dp, if(isError) MaterialTheme.colorScheme.error else Color.Transparent, shape = RoundedCornerShape(10.dp))
+                .clip(RoundedCornerShape(10.dp)),
                 value = textValue,
                 onValueChange = {text -> onEvent(text)},
                 singleLine = true,
@@ -229,7 +246,7 @@ fun CustomInputText(
                             modifier.weight(1f)){
                             if(textValue.isEmpty()) //Placeholder
                                 Text(
-                                    modifier = modifier.padding(5.dp),
+                                    modifier = modifier.padding(10.dp),
                                     text = placeholderText,
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurface,
@@ -237,6 +254,7 @@ fun CustomInputText(
                                 )
                             else
                                 Text(
+                                    modifier = modifier.padding(10.dp),
                                     text = textValue
                                 )
                         }
@@ -261,7 +279,8 @@ fun CustomInputText(
                                 Icon(
                                     painter = painterResource(id = iconResource),
                                     contentDescription = contentDescription,
-                                    tint = Color.Unspecified
+                                    tint = Color.Unspecified,
+                                    modifier = Modifier.padding(10.dp)
                                 )
                             }
                             else {

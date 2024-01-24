@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,22 +25,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.NameGenderFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.ViewModelNameGender
-import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.PetFormEvent
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.Breadcrumb
-import com.soujunior.petjournal.ui.components.CustomInputText
+import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.dashedBorder
 import org.koin.androidx.compose.getViewModel
 
@@ -90,15 +87,9 @@ fun Screen(petSpecie: String?, navController: NavController){
                                     fontWeight = FontWeight.Normal)
                             }
                             item {
-                                CustomInputText(
+                                DashedInputText(
                                     modifier = Modifier,
-                                    textInputModifier = Modifier
-                                        .height(40.dp)
-                                        .dashedBorder(
-                                            shape = RoundedCornerShape(35),
-                                            isError = !viewModel.state.nameError.isNullOrEmpty(),
-                                            isSelected = false
-                                        ),
+                                    textInputModifier = Modifier,
                                     placeholderText = "Digite aqui...",
                                     textValue = viewModel.state.name,
                                     textError = viewModel.state.nameError,
