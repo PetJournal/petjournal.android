@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -25,7 +24,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -35,11 +33,11 @@ import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.NameGenderFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.ViewModelNameGender
-import com.soujunior.petjournal.ui.components.Button2
-import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.Breadcrumb
+import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.DashedInputText
-import com.soujunior.petjournal.ui.components.dashedBorder
+import com.soujunior.petjournal.ui.components.NavigationBar
+import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -54,7 +52,8 @@ fun Screen(petSpecie: String?, navController: NavController){
             modifier = Modifier,
             navigationUp = navController,
             showTopBar = true,
-            showBottomBarNavigation = false,
+            showBottomBarNavigation = true,
+            bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = {
                 Box(modifier = Modifier.padding(it)){
 //                    if(taskState is TaskState.Loading){}

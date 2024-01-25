@@ -71,5 +71,6 @@ fun NavTestScreen(){
     NavHost(navController = navController, startDestination = "pets/nameAndGender") {
         composable("pets/nameAndGender"){
             PetNameAndGenderScreen(petSpecie = "Gato", navController = navController)}
+
     }
 }
