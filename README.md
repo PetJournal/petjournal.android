@@ -145,12 +145,16 @@ Ao entrar em nosso projeto voluntário, valorizamos sua contribuição e entusia
     - **Diagrama UML:**
     - **UX/Design:**
 
-## 5. Integração com Backend
+
+## 5. Padrões de Design e Melhores Práticas
+    
+
+## 6. Integração com Backend
 
 - A API que estamos usando é do próprio projeto, criada pela equipe de backend, para saber mais a respeito, por favor, visite o repositório do projeto: [Backend](https://github.com/PetJournal/petjournal.api)
 
 
-## 6. Testes
+## 7. Testes
 
 - **Testes Unitários:**
     - **Objetivo:** Testar partes individuais do código (funções, métodos) de forma isolada.
@@ -167,7 +171,7 @@ Ao entrar em nosso projeto voluntário, valorizamos sua contribuição e entusia
 - **Conclusão:**
 Nossa abordagem de teste ajuda a manter a qualidade e estabilidade do software, facilitando a contribuição de novos integrantes e a manutenção do projeto.
 
-## 7. Gerenciamento de Dependências
+## 8. Gerenciamento de Dependências
 
 - **Bibliotecas**:
     1. **Coil:** Biblioteca de carregamento de imagens para Kotlin, otimizada para desempenho e eficiência.
@@ -179,7 +183,7 @@ Nossa abordagem de teste ajuda a manter a qualidade e estabilidade do software, 
     7. **Compose:** Toolkit moderno de UI do Android para criar interfaces nativas com menos código.
     8. **Coroutines:** Recurso do Kotlin para programação assíncrona e não bloqueante.
 
-## 8. Contribuindo
+## 9. Contribuindo
 
 - **Como Contribuir**:
     1. **Explore o Repositório:** Acesse o repositório no GitHub, leia atentamente o 'README', para compreender as diretrizes do projeto.
@@ -199,7 +203,7 @@ Nossa abordagem de teste ajuda a manter a qualidade e estabilidade do software, 
     8. **Segurança:** Siga as melhores práticas de segurança no código para prevenir vulnerabilidades, como injeção de SQL e vazamento de dados, sempre procure compreender a ação que esta realizando para evitar problemas neste quesito.
     9. **Performance:** Otimize o código para melhorar a performance, considerando aspectos como tempo de execução e consumo de recursos, para isso, não há problema em utilizar ferramentas de inteligência artificial para otimizar o código e o seu tempo, desde que compreenda o que foi feito e saiba explicar.
 
-## 9. FAQs e Solução de Problemas
+## 10. FAQs e Solução de Problemas
 
 - **Perguntas, dúvidas ou problemas**: Sinta-se a vontade para abrir uma essue [Clicando aqui](https://github.com/PetJournal/petjournal.android/issues)
 
