@@ -55,7 +55,6 @@ class ViewModelNameGenderImpl(
                 change(petName = state.name)
                 change(petGender = state.gender)
             }
-            is NameGenderFormEvent.ReturnButton -> generic()
             else -> {}
         }
     }

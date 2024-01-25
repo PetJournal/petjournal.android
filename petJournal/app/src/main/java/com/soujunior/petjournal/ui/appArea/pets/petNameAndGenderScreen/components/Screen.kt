@@ -142,6 +142,15 @@ fun Screen(petSpecie: String?, navController: NavController){
                                             viewModel.onEvent(
                                                 NameGenderFormEvent.NextButton
                                             )
+
+                                            if(viewModel.enableButton() &&
+                                                viewModel.state.name.isNotEmpty() &&
+                                                viewModel.state.gender.isNotEmpty()){
+
+                                                viewModel.state.name.let {
+                                                    navController.navigate("pets/raceAndSize/$it")
+                                                }
+                                            }
                                         },
                                         enableButton = viewModel.enableButton(),
                                         modifier = Modifier.width(150.dp),
