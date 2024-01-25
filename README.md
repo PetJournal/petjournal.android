@@ -147,7 +147,10 @@ Ao entrar em nosso projeto voluntário, valorizamos sua contribuição e entusia
 
 
 ## 5. Padrões de Design e Melhores Práticas
-    
+ Utilizamos os recursos a baixo em nosso app, o que torna importante conhecer tais padrões.   
+- [FormEvent](doc/FormEvent.md)
+- [FormState](doc/FormState.md)
+- [FormState e FormEvent](doc/FormStateAndFormEvent.md)
 
 ## 6. Integração com Backend
 
