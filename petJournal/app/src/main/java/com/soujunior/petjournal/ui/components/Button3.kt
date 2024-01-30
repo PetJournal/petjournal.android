@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -15,10 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.soujunior.petjournal.ui.theme.Shapes
 
 @Composable
-fun Button2(
+fun Button3(
     submit: () -> Unit,
     enableButton: Boolean,
     modifier: Modifier = Modifier,
@@ -39,7 +39,7 @@ fun Button2(
             enabled = enableButton,
             modifier = modifier,
             border = border,
-            shape = Shapes.large,
+            shape = RoundedCornerShape(10.dp),
             colors = buttonColor
         ) {
             if (!isLoading) {

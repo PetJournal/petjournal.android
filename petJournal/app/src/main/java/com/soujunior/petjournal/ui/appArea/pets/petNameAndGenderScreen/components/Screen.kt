@@ -34,12 +34,10 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.NameGenderFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.ViewModelNameGender
 import com.soujunior.petjournal.ui.components.Breadcrumb
-import com.soujunior.petjournal.ui.components.Button2
+import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DashedInputText
-import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
-import com.soujunior.petjournal.ui.states.TaskState
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -127,7 +125,7 @@ fun Screen(petSpecie: String?, navController: NavController){
                                 }
                                 item {
                                     Row {
-                                        Button2(
+                                        Button3(
                                             submit = { navController.popBackStack() },
                                             enableButton = true,
                                             modifier = Modifier.width(150.dp),
@@ -142,7 +140,7 @@ fun Screen(petSpecie: String?, navController: NavController){
                                             textColor = MaterialTheme.colorScheme.primary
                                         )
                                         Spacer(modifier = Modifier.width(16.dp))
-                                        Button2(
+                                        Button3(
                                             submit = {
                                                 viewModel.onEvent(
                                                     NameGenderFormEvent.NextButton
