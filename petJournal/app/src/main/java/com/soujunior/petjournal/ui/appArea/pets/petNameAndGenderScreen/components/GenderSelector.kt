@@ -80,10 +80,6 @@ private fun GenderButtons(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ){
         RoundedSquare(
-            modifier = Modifier.clickable {
-                selectedItem = "M"
-                selectedGender("M")
-            },
             text = stringResource(id = R.string.pet_gender_male),
             isSelected = selectedItem == "M",
             size = 150.dp,
@@ -93,14 +89,14 @@ private fun GenderButtons(
             bottomRightRadius = 32.dp,
             image = painterResource(id = R.drawable.icone_macho),
             selectedColor = if(selectedItem == "M") MaterialTheme.colorScheme.primary else Color.Transparent,
-            material = MaterialTheme.colorScheme.background
+            material = MaterialTheme.colorScheme.background,
+            onClick = {
+                selectedItem = "M"
+                selectedGender("M")
+            }
         )
 
         RoundedSquare(
-            modifier = Modifier.clickable {
-                selectedItem = "F"
-                selectedGender("F")
-            },
             text = stringResource(id = R.string.pet_gender_female),
             isSelected = selectedItem == "F",
             size = 150.dp,
@@ -110,7 +106,11 @@ private fun GenderButtons(
             bottomRightRadius = 32.dp,
             image = painterResource(id = R.drawable.icone_femea),
             selectedColor = if(selectedItem == "F") MaterialTheme.colorScheme.primary else Color.Transparent,
-            material = MaterialTheme.colorScheme.background
+            material = MaterialTheme.colorScheme.background,
+            onClick = {
+                selectedItem = "F"
+                selectedGender("F")
+            }
         )
     }
     Row(modifier = Modifier.fillMaxWidth()){

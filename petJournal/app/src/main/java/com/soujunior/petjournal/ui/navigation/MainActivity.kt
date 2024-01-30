@@ -56,6 +56,7 @@ fun MainContent() {
 fun TestScreen() {
     PetJournalTheme(
         isIntro = false,
+        darkTheme = true,
         content = {
             NavTestScreen()
         }

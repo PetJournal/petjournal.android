@@ -74,7 +74,7 @@ fun DashedInputText(
             BasicTextField(
                 modifier = textInputModifier
                     .background(
-                        MaterialTheme.colorScheme.surface
+                        Color.Transparent
                     )
                     .fillMaxWidth()
                     .padding(5.dp)

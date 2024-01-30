@@ -52,7 +52,6 @@ fun InputText(
         .padding(5.dp),
     textValue: String,
     isPassword: Boolean = false,
-    isError: Boolean = false,
     textError: List<String>? = null,
     onEvent: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
@@ -110,15 +109,6 @@ fun InputText(
                                 tint = MaterialTheme.colorScheme.outline
                             )
                         }
-                    } else if(isError) {
-                        val iconResource = R.drawable.icone_erro
-                        val contentDescription = "Erro"
-
-                        Icon(
-                            painter = painterResource(id = iconResource),
-                            contentDescription = contentDescription,
-                            tint = Color.Unspecified
-                        )
                     }
                     else {
                         null
@@ -128,11 +118,10 @@ fun InputText(
 
                 isError = textError != null,
                 colors= OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline
                 ),
                 modifier = modifier
-                    .height(40.dp)
                     .onFocusChanged {
                         inFocus = if (it.hasFocus)
                             it.hasFocus

@@ -84,7 +84,8 @@ fun RoundedSquare(
     bottomRightRadius: Dp,
     image: Painter,
     material: Color,
-    selectedColor: Color
+    selectedColor: Color,
+    onClick: () -> Unit
 ) {
 
     Box(
@@ -115,6 +116,9 @@ fun RoundedSquare(
             }
             .border(2.dp, if(isSelected) MaterialTheme.colorScheme.primary else Color.Transparent, shape = RoundedCornerShape(30.dp))
             .clip(RoundedCornerShape(30.dp))
+            .clickable {
+                onClick()
+            }
     )
     {
         Column(
