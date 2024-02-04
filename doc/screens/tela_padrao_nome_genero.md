@@ -1,0 +1,3 @@
+- **Tela padrão nome e gênero:**
+    - **Diagrama UML:**
+    - **UX/Design:**

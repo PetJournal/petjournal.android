@@ -8,6 +8,9 @@
 
 # PetJournal
 
+## Dretrizes:
+Ao entrar em nosso projeto voluntário, valorizamos sua contribuição e entusiasmo. No entanto, é importante estar ciente de algumas diretrizes essenciais para manter a integridade e o propósito do projeto. Primeiramente, familiarize-se com a documentação existente, que detalha o estado atual e os objetivos do projeto. Isso é crucial para entender onde estamos e para onde estamos indo. Em segundo lugar, pedimos que evite refatorações desnecessárias ou alterações radicais. Tais mudanças podem levar à estagnação e desviar-nos do nosso caminho. Busque sempre aprimorar e construir sobre o que já foi alcançado, em vez de reconstruir do zero. Ao seguir essas diretrizes, você ajudará a preservar a essência do projeto e a garantir que nosso trabalho coletivo continue evoluindo de forma produtiva e reconhecível.
+
 ## 1. Introdução ao Projeto
 
 - **Objetivo**: O "Pet Journal" é uma ferramenta de gerenciamento para a vida dos pets, ajudando no controle de vacinas, vermífugos, rações, e outros aspectos importantes do cuidado animal.
@@ -29,113 +32,35 @@
     5. Execute o projeto para verificar se tudo está funcionando.
 
 ## 3. Arquitetura do Aplicativo
-
-- **Visão Geral da Arquitetura**: MVVM para separação da lógica de negócios e interface do usuário.
-    
-    ![arquitetura-basic.svg](https://github.com/PetJournal/petjournal.android/assets/42920754/13b05a7f-afe4-466f-8cb3-8e753fffb0dc)
-    
-- **Diagrama da Arquitetura expandido**:
-    
-    ![arquitetura-Cópia do arquitetura.drawio.svg](https://github.com/PetJournal/petjournal.android/assets/42920754/4b80e624-e101-42aa-9708-0565b4f99d54)
-    
-- **Organização das pastas:**
-    - **Modulos** :
-
-      ![modulos.png](https://github.com/PetJournal/petjournal.android/assets/42920754/3ccdde18-4ae3-4717-993b-6144b4857322)
-    
-    - **App, Domain, Data, Database** :
-        
-      <p> 
-           <img src='https://github.com/PetJournal/petjournal.android/assets/42920754/b0a54bb3-3288-4a34-a6ff-707d31621ace' width='20.5%'>
-           <img src='https://github.com/PetJournal/petjournal.android/assets/42920754/96ec7de2-339c-4d0b-bfac-5b44faec8a5b' width='20.5%'>
-           <img src='https://github.com/PetJournal/petjournal.android/assets/42920754/2849611f-15a4-454c-b5ab-19221e8c16d4' width='20.5%'>
-           <img src='https://github.com/PetJournal/petjournal.android/assets/42920754/7e14cb34-1652-4a4c-aba2-b64655cd85c4' width='20.5%'>
-        </p>
+- [Architecture](doc/architecture/architecture.md)
 
 
-## 4. Detalhes das Telas
-
-- **Splash Screen**:
-    - **Descrição**: Tela inicial do app.
-    - **Fluxo de Navegação**: Transição para a tela de Login.
-    - **Componentes Principais**: Logo do app e animação.
-    - **UX/Design:**
- 
-        <img src="https://github.com/PetJournal/petjournal.android/assets/42920754/9d0da331-4b5b-4365-8818-50af5108abc9" width="20.0%">
-        
-
-- **Login:**
-    - **Descrição**: Tela para autenticação do usuário.
-    - **Componentes Principais**: Campos de email e senha, botões de login.
-    - **Diagrama UML:**
-        
-        ![fluxoTelas-login.svg](https://github.com/PetJournal/petjournal.android/assets/42920754/3cae1a55-fe11-42f5-b05b-345c968521d8)
-        
-    - **UX/Design:**
-     
-        <img src="https://github.com/PetJournal/petjournal.android/assets/42920754/8f85dcc9-fbad-4c27-8824-794d2d66ab9d" width="20.0%">
-        
-
-- **Cadastro:**
-    - **Descrição**: Tela para cadastrar uma nova conta.
-    - **Diagrama UML:**
-        
-        ![fluxoTelas-registro.drawio.svg](https://github.com/PetJournal/petjournal.android/assets/42920754/8ef35f86-7653-45d4-95e4-3f37da3f589f)
-        
-    - **UX/Design:**
- 
-        <img src="https://github.com/PetJournal/petjournal.android/assets/42920754/2e6ffd82-4ba8-4696-8eaa-62dfc524fffd" width="20.0%">
-        
-    
-- **Esqueceu a senha:**
-    - **Diagrama UML:**
-        
-        ![fluxoTelas-esqueceu_sua_senha.drawio.svg](https://github.com/PetJournal/petjournal.android/assets/42920754/7f71071b-64d3-4e48-bd24-28e1289cd577g)
-        
-    - **UX/Design:**
- 
-        <img src="https://github.com/PetJournal/petjournal.android/assets/42920754/f9c0e94f-7df5-4863-9cb2-e6cc7b31d845" width="20.0%">
-            
-    
-- **Aguardando código:**
-    - **Diagrama UML:**
-        
-        ![fluxoTelas-aguardando_codigo.drawio.svg](https://github.com/PetJournal/petjournal.android/assets/42920754/adf3322a-e755-41d8-908c-33a5d8a86aba)
-        
-    - **UX/Design:**
- 
-        <img src="https://github.com/PetJournal/petjournal.android/assets/42920754/24c3a038-e9e8-405f-9dff-37593cd61c00" width="20.0%">
-        
-
-- **Troque a senha:**
-    - **Diagrama UML:**
-        
-        ![fluxoTelas-troque_sua_senha.drawio.svg](https://github.com/PetJournal/petjournal.android/assets/42920754/84c9e097-405c-4a67-a78c-3d62900b9e16)
-        
-    - **UX/Design:**
- 
-        <img src="https://github.com/PetJournal/petjournal.android/assets/42920754/6ecc23a2-fd30-4951-b3cd-9f122db6d9ea" width="20.0%">
+## 4. Telas e seus diagramas de funcionamento
+Nesta seção, você encontrará informações detalhadas sobre as diferentes telas do nosso aplicativo e sobre seus funcionamentos. 
+- [Splash](doc/screens/splash_screen.md)
+- [Login](doc/screens/login.md)
+- [Cadastro](doc/screens/cadastro.md)
+- [Esqueceu a senha](doc/screens/esqueceu_a_senha.md)
+- [Aguardando código](doc/screens/aguardando_codigo.md)
+- [Troque a senha](doc/screens/troque_a_senha.md)
+- [Ambiente do usuário](doc/screens/ambiente_do_usuario.md)
+- [Tela padrão inicial](doc/screens/tela_padrao_inicial.md)
+- [Tela padrão espécie](doc/screens/tela_padrao_especie.md)
+- [Tela padrão nome e gênero](doc/screens/tela_padrao_nome_genero.md)
 
 
-- **Ambiente do usuário:**
-    - **Diagrama UML:**
-    - **UX/Design:**
-- **Tela padrão inicial:**
-    - **Diagrama UML:**
-    - **UX/Design:**
-- **Tela padrão espécie:**
-    - **Diagrama UML:**
-    - **UX/Design:**
-- **Tela padrão nome e gênero:**
-    - **Diagrama UML:**
-    - **UX/Design:**
+## 5. Padrões de Design e Melhores Práticas
+ Utilizamos os recursos a baixo em nosso app, o que torna importante conhecer tais padrões.   
+- [FormEvent](doc/pattern/FormEvent.md)
+- [FormState](doc/pattern/FormState.md)
+- [FormState e FormEvent](doc/pattern/FormStateAndFormEvent.md)
 
-## 5. Integração com Backend
+## 6. Integração com Backend
 
 - A API que estamos usando é do próprio projeto, criada pela equipe de backend, para saber mais a respeito, por favor, visite o repositório do projeto: [Backend](https://github.com/PetJournal/petjournal.api)
 
 
-## 6. Testes
+## 7. Testes
 
 - **Testes Unitários:**
     - **Objetivo:** Testar partes individuais do código (funções, métodos) de forma isolada.
@@ -152,7 +77,7 @@
 - **Conclusão:**
 Nossa abordagem de teste ajuda a manter a qualidade e estabilidade do software, facilitando a contribuição de novos integrantes e a manutenção do projeto.
 
-## 7. Gerenciamento de Dependências
+## 8. Gerenciamento de Dependências
 
 - **Bibliotecas**:
     1. **Coil:** Biblioteca de carregamento de imagens para Kotlin, otimizada para desempenho e eficiência.
@@ -164,7 +89,7 @@ Nossa abordagem de teste ajuda a manter a qualidade e estabilidade do software, 
     7. **Compose:** Toolkit moderno de UI do Android para criar interfaces nativas com menos código.
     8. **Coroutines:** Recurso do Kotlin para programação assíncrona e não bloqueante.
 
-## 8. Contribuindo
+## 9. Contribuindo
 
 - **Como Contribuir**:
     1. **Explore o Repositório:** Acesse o repositório no GitHub, leia atentamente o 'README', para compreender as diretrizes do projeto.
@@ -184,7 +109,7 @@ Nossa abordagem de teste ajuda a manter a qualidade e estabilidade do software, 
     8. **Segurança:** Siga as melhores práticas de segurança no código para prevenir vulnerabilidades, como injeção de SQL e vazamento de dados, sempre procure compreender a ação que esta realizando para evitar problemas neste quesito.
     9. **Performance:** Otimize o código para melhorar a performance, considerando aspectos como tempo de execução e consumo de recursos, para isso, não há problema em utilizar ferramentas de inteligência artificial para otimizar o código e o seu tempo, desde que compreenda o que foi feito e saiba explicar.
 
-## 9. FAQs e Solução de Problemas
+## 10. FAQs e Solução de Problemas
 
 - **Perguntas, dúvidas ou problemas**: Sinta-se a vontade para abrir uma essue [Clicando aqui](https://github.com/PetJournal/petjournal.android/issues)
 
