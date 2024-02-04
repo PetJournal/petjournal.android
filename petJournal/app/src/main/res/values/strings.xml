@@ -58,6 +58,12 @@
     <string name="pet_gender">Qual o sexo do seu Pet?</string>
     <string name="pet_gender_male">Macho</string>
     <string name="pet_gender_female">Fêmea</string>
+    <string name="rodent">Roedor</string>
+    <string name="reptile">Réptil</string>
+    <string name="fish">Peixe</string>
+    <string name="cat">Gato</string>
+    <string name="bird">Pássaro</string>
+    <string name="dog">Cachorro</string>
 
 
 </resources>

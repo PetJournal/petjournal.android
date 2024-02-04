@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
@@ -62,8 +63,7 @@ fun GridVectors(
                 .border(
                     width = 2.dp,
                     color =
-                    if (selectedItem == DOG) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == DOG) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     shape = MaterialTheme.shapes.medium
                 )
                 .background(
@@ -85,10 +85,9 @@ fun GridVectors(
                     image = painterResource(id = R.drawable.specie_dog),
                 )
                 Text(
-                    text = "Cachorro",
+                    text = stringResource(R.string.dog),
                     color =
-                    if (selectedItem == DOG) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == DOG) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -104,8 +103,7 @@ fun GridVectors(
                 .border(
                     width = 2.dp,
                     color =
-                    if (selectedItem == BIRD) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == BIRD) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     shape = MaterialTheme.shapes.medium
                 )
                 .background(
@@ -127,10 +125,9 @@ fun GridVectors(
                     image = painterResource(id = R.drawable.specie_bird),
                 )
                 Text(
-                    text = "Pássaro",
+                    text = stringResource(R.string.bird),
                     color =
-                    if (selectedItem == BIRD) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == BIRD) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -146,8 +143,7 @@ fun GridVectors(
                 .border(
                     width = 2.dp,
                     color =
-                    if (selectedItem == CAT) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == CAT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     shape = MaterialTheme.shapes.medium
                 )
                 .background(
@@ -169,10 +165,9 @@ fun GridVectors(
                     image = painterResource(id = R.drawable.specie_cat),
                 )
                 Text(
-                    text = "Gato",
+                    text = stringResource(R.string.cat),
                     color =
-                    if (selectedItem == CAT) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == CAT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -195,8 +190,7 @@ fun GridVectors(
                 .border(
                     width = 2.dp,
                     color =
-                    if (selectedItem == FISH) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == FISH) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     shape = MaterialTheme.shapes.medium
                 )
                 .background(
@@ -218,10 +212,9 @@ fun GridVectors(
                     image = painterResource(id = R.drawable.specie_fish),
                 )
                 Text(
-                    text = "Peixe",
+                    text = stringResource(R.string.fish),
                     color =
-                    if (selectedItem == FISH) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == FISH) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -240,7 +233,7 @@ fun GridVectors(
                 )
                 .border(
                     width = 2.dp,
-                    color = if (selectedItem == REPTILE) ColorGrid().red_grid else MaterialTheme.colorScheme.outline,
+                    color = if (selectedItem == REPTILE) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(bottom = 8.dp),
@@ -258,10 +251,9 @@ fun GridVectors(
                     image = painterResource(id = R.drawable.specie_reptile),
                 )
                 Text(
-                    text = "Réptil",
+                    text = stringResource(R.string.reptile),
                     color =
-                    if (selectedItem == REPTILE) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == REPTILE) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -276,7 +268,7 @@ fun GridVectors(
                 .border(
                     width = 2.dp,
                     color =
-                    if (selectedItem == RODENT) ColorGrid().red_grid else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == RODENT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     shape = MaterialTheme.shapes.medium
                 )
                 .background(
@@ -298,10 +290,9 @@ fun GridVectors(
                     image = painterResource(id = R.drawable.specie_rodent),
                 )
                 Text(
-                    text = "Roedor",
+                    text = stringResource(R.string.rodent),
                     color =
-                    if (selectedItem == RODENT) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == RODENT)  MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }
