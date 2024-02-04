@@ -32,9 +32,9 @@ fun Footer(
     val taskState by viewModel.taskState.collectAsState()
 
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
     ) {
-        Row(modifier = Modifier.fillMaxSize()) {
+        Row(modifier = Modifier.fillMaxWidth()) {
             Button2(
                 text = "Continuar",
                 border = null,
@@ -43,7 +43,7 @@ fun Footer(
                 },
                 enableButton = viewModel.enableButton(),
                 modifier = Modifier
-                    .fillMaxSize().padding(start = 40.dp, end = 40.dp),
+                    .fillMaxWidth().padding(start = 40.dp, end = 40.dp),
                 buttonColor = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 ),
@@ -51,14 +51,14 @@ fun Footer(
             )
         }
         Spacer(modifier = Modifier.padding(top = 10.dp))
-        Row(modifier = Modifier.fillMaxSize()) {
+        Row(modifier = Modifier.fillMaxWidth()) {
             Button2(
                 text = "Cancelar",
                 border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
                 submit = { navController.navigate("login") },
                 enableButton = true,
                 modifier = Modifier
-                    .fillMaxSize().padding(start = 40.dp, end = 40.dp),
+                    .fillMaxWidth().padding(start = 40.dp, end = 40.dp),
                 buttonColor = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.surface
                 ),

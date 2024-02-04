@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">PetJournal</string>
     <string name="pet_registration">Cadastro Pet</string>
+    <string name="pet_races">Raças</string>
+    <string name="pet_size">Porte</string>
+    <string name="pet_birth">Nascimento</string>
     <string name="others">Outros...</string>
     <string name="back">Voltar</string>
     <string name="text_continue">Continuar</string>
@@ -49,4 +52,19 @@
     <string name="register">Cadastrar</string>
     <string name="required_field">* Campo obrigatório</string>
     <string name="success">Sucesso ao realizar ação!</string>
+    <string name="wow">Uau!</string>
+    <string name="register_message">Ficamos felizes em receber mais um %s em nossa comunidade </string>
+    <string name="pet_name">Qual o nome do seu companheiro?</string>
+    <string name="pet_gender">Qual o sexo do seu Pet?</string>
+    <string name="pet_gender_male">Macho</string>
+    <string name="pet_gender_female">Fêmea</string>
+    <string name="rodent">Roedor</string>
+    <string name="reptile">Réptil</string>
+    <string name="fish">Peixe</string>
+    <string name="cat">Gato</string>
+    <string name="bird">Pássaro</string>
+    <string name="dog">Cachorro</string>
+    <string name="animal_gender_icon">Icone de genero do animal</string>
+
+
 </resources>

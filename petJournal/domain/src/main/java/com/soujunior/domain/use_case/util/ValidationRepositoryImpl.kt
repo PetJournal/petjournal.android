@@ -36,6 +36,39 @@ class ValidationRepositoryImpl : ValidationRepository {
         } else
             ValidationResult(success = true)
     }
+    override fun inputPetName(name: String): ValidationResult {
+
+        return if(name.isEmpty()){
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* Campo Obrigatório!")
+            )
+        }else if(hasSpecialChar(name)){
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* Não são permitidos caracteres especiais. " +
+                        "Por favor, insira um nome válido.")
+            )
+        }else if(isValidLenght(name)){
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* O nome fornecido deve ter entre 2 e 30 caracteres.")
+            )
+        }
+        else
+            ValidationResult(success = true)
+
+    }
+
+    override fun inputPetGender(value: String): ValidationResult {
+        return if(value == "M" || value == "F")
+            ValidationResult(success = true)
+        else
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* Campo Obrigatório!")
+            )
+    }
 
     override fun validateField(value: String): ValidationResult {
         return if (value.isEmpty())
@@ -197,6 +230,17 @@ class ValidationRepositoryImpl : ValidationRepository {
      * will be true if the String contains any special characters or numbers, or false if it does not.*/
     private fun hasSpecialCharOrNumber(input: String): Boolean {
         val regex = Regex("[^a-zA-ZÀ-ÖØ-öø-ÿ ]")
+        return regex.containsMatchIn(input)
+    }
+
+    /**
+     * Same as the function above, with the exception that this function accepts number in the regex.
+     * In other words, the function will only return false if the input contains a special char.
+     *
+     * @return true if contains char, otherwise, returns false
+     * */
+    private fun hasSpecialChar(input: String): Boolean{
+        val regex = Regex("[^a-zA-ZÀ-ÖØ-öø-ÿ0-9]")
         return regex.containsMatchIn(input)
     }
 

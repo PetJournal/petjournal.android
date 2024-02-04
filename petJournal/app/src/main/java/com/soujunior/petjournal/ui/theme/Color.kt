@@ -19,7 +19,7 @@ val light_tertiaryContainer = Color(0xFFFFC107)
 val light_onTertiaryContainer = Color(0xFFFFC107)
 val light_background = Color(0xFFFFFFFE)
 val light_onBackground = Color(0xFF201A1B)
-val light_error = Color(0xFFBA1A1A)
+val light_error = Color(0xFFFF917A)
 val light_onError = Color(0xFFFFFFFF)
 val light_errorContainer = Color(0xFFFFC107)
 val light_onErrorContainer = Color(0xFFFFC107)
@@ -51,7 +51,7 @@ val dark_surface = Color(0xFF77084D)
 val dark_onSurface = Color(0xFFFFFFFF)
 val dark_inverseSurface = Color(0xFF54C1E9) //BlueGrid
 val dark_inverseOnSurface = Color(0xFFFFC107)
-val dark_error = Color(0xFFFF5252)
+val dark_error = Color(0xFFFF917A)
 val dark_onError = Color(0xFFFFFFFF)
 val dark_errorContainer = Color(0xFFFFC107)
 val dark_onErrorContainer = Color(0xFFFFC107)
@@ -60,10 +60,10 @@ val dark_outlineVariant = Color(0xFBAFD9DB) // borda do layout OTPTextField
 val dark_scrim = Color(0xFFFFC107)
 
 //Cores Grid
-class ColorGrid{
+object ColorGrid{
     val purple_grid = Color(0xFF8093F1)
     val blue_grid = Color(0xFF54C1E9)
-    val red_grid = Color(0xFF9A0963)
+    val red_grid = Color(0xFFC21D83)
     val red2_grid = Color(0xFFFF4081)
     val pink_grid = Color(0xFFFFB8EB)
     val edge_not_selected = Color(0xFFB2B2B2)

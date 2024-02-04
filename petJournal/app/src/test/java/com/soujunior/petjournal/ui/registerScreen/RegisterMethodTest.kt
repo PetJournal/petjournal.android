@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.registerScreen
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.viewModelScope
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
@@ -26,7 +25,7 @@ import org.junit.Test
 class RegisterMethodTest {
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
+    //val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: RegisterViewModelImpl
     private val signUpUseCase = mockk<SignUpUseCase>(relaxed = true)

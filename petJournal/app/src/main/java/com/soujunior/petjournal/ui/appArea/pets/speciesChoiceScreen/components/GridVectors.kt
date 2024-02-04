@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,12 +18,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.components.RoundedSquare
+import com.soujunior.petjournal.ui.components.RoundedSquare
 import com.soujunior.petjournal.ui.theme.ColorGrid
 import com.soujunior.petjournal.ui.util.Constants.BIRD
 import com.soujunior.petjournal.ui.util.Constants.CAT
@@ -52,18 +55,22 @@ fun GridVectors(
     ) {
         Box(
             modifier = Modifier
-                .border(
-                    width = 2.dp,
-                    color =
-                    if (selectedItem == DOG) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
-                    shape = MaterialTheme.shapes.medium
-                )
-                .padding(bottom = 8.dp)
+                .clip(MaterialTheme.shapes.medium)
                 .clickable {
                     selectedItem = DOG
                     selectedSpecies(DOG)
-                },
+                }
+                .border(
+                    width = 2.dp,
+                    color =
+                    if (selectedItem == DOG) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .background(
+                    color = if (selectedItem == REPTILE) Color.Transparent else Color.Transparent,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .padding(bottom = 8.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -76,13 +83,11 @@ fun GridVectors(
                     bottomLeftRadius = defaultSize.dp,
                     bottomRightRadius = defaultSize.dp,
                     image = painterResource(id = R.drawable.specie_dog),
-                    material = Color.White,
                 )
                 Text(
-                    text = "Cachorro",
+                    text = stringResource(R.string.dog),
                     color =
-                    if (selectedItem == DOG) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == DOG) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -90,18 +95,22 @@ fun GridVectors(
 
         Box(
             modifier = Modifier
-                .border(
-                    width = 2.dp,
-                    color =
-                    if (selectedItem == BIRD) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
-                    shape = MaterialTheme.shapes.medium
-                )
-                .padding(bottom = 8.dp)
+                .clip(MaterialTheme.shapes.medium)
                 .clickable {
                     selectedItem = BIRD
                     selectedSpecies(BIRD)
-                },
+                }
+                .border(
+                    width = 2.dp,
+                    color =
+                    if (selectedItem == BIRD) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .background(
+                    color = if (selectedItem == REPTILE) Color.Transparent else Color.Transparent,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .padding(bottom = 8.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -114,13 +123,11 @@ fun GridVectors(
                     bottomLeftRadius = defaultSize.dp,
                     bottomRightRadius = defaultSize.dp,
                     image = painterResource(id = R.drawable.specie_bird),
-                    material = Color.White,
                 )
                 Text(
-                    text = "Pássaro",
+                    text = stringResource(R.string.bird),
                     color =
-                    if (selectedItem == BIRD) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == BIRD) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -128,18 +135,22 @@ fun GridVectors(
 
         Box(
             modifier = Modifier
-                .border(
-                    width = 2.dp,
-                    color =
-                    if (selectedItem == CAT) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
-                    shape = MaterialTheme.shapes.medium
-                )
-                .padding(bottom = 8.dp)
+                .clip(MaterialTheme.shapes.medium)
                 .clickable {
                     selectedItem = CAT
                     selectedSpecies(CAT)
-                },
+                }
+                .border(
+                    width = 2.dp,
+                    color =
+                    if (selectedItem == CAT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .background(
+                    color = if (selectedItem == REPTILE) Color.Transparent else Color.Transparent,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .padding(bottom = 8.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -152,13 +163,11 @@ fun GridVectors(
                     bottomLeftRadius = defaultSize.dp,
                     bottomRightRadius = defaultSize.dp,
                     image = painterResource(id = R.drawable.specie_cat),
-                    material = Color.White,
                 )
                 Text(
-                    text = "Gato",
+                    text = stringResource(R.string.cat),
                     color =
-                    if (selectedItem == CAT) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == CAT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -173,18 +182,22 @@ fun GridVectors(
     ) {
         Box(
             modifier = Modifier
-                .border(
-                    width = 2.dp,
-                    color =
-                    if (selectedItem == FISH) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
-                    shape = MaterialTheme.shapes.medium
-                )
-                .padding(bottom = 8.dp)
+                .clip(MaterialTheme.shapes.medium)
                 .clickable {
                     selectedItem = FISH
                     selectedSpecies(FISH)
-                },
+                }
+                .border(
+                    width = 2.dp,
+                    color =
+                    if (selectedItem == FISH) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .background(
+                    color = if (selectedItem == REPTILE) Color.Transparent else Color.Transparent,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .padding(bottom = 8.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -197,32 +210,33 @@ fun GridVectors(
                     bottomLeftRadius = defaultSize.dp,
                     bottomRightRadius = defaultSize.dp,
                     image = painterResource(id = R.drawable.specie_fish),
-                    material = Color.White,
                 )
                 Text(
-                    text = "Peixe",
+                    text = stringResource(R.string.fish),
                     color =
-                    if (selectedItem == FISH) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == FISH) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }
         }
-
         Box(
             modifier = Modifier
-                .border(
-                    width = 2.dp,
-                    color =
-                    if (selectedItem == REPTILE) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
-                    shape = MaterialTheme.shapes.medium
-                )
-                .padding(bottom = 8.dp)
+                .clip(MaterialTheme.shapes.medium)
                 .clickable {
                     selectedItem = REPTILE
                     selectedSpecies(REPTILE)
-                },
+
+                }
+                .background(
+                    color = if (selectedItem == REPTILE) Color.Transparent else Color.Transparent,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .border(
+                    width = 2.dp,
+                    color = if (selectedItem == REPTILE) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .padding(bottom = 8.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -235,31 +249,33 @@ fun GridVectors(
                     bottomLeftRadius = defaultSize.dp,
                     bottomRightRadius = defaultSize.dp,
                     image = painterResource(id = R.drawable.specie_reptile),
-                    material = Color.White,
                 )
                 Text(
-                    text = "Réptil",
+                    text = stringResource(R.string.reptile),
                     color =
-                    if (selectedItem == REPTILE) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == REPTILE) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }
         }
         Box(
             modifier = Modifier
-                .border(
-                    width = 2.dp,
-                    color =
-                    if (selectedItem == RODENT) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
-                    shape = MaterialTheme.shapes.medium
-                )
-                .padding(bottom = 8.dp)
+                .clip(MaterialTheme.shapes.medium)
                 .clickable {
                     selectedItem = RODENT
                     selectedSpecies(RODENT)
-                },
+                }
+                .border(
+                    width = 2.dp,
+                    color =
+                    if (selectedItem == RODENT) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .background(
+                    color = if (selectedItem == REPTILE) Color.Transparent else Color.Transparent,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .padding(bottom = 8.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -272,13 +288,11 @@ fun GridVectors(
                     bottomLeftRadius = defaultSize.dp,
                     bottomRightRadius = defaultSize.dp,
                     image = painterResource(id = R.drawable.specie_rodent),
-                    material = Color.White,
                 )
                 Text(
-                    text = "Roedor",
+                    text = stringResource(R.string.rodent),
                     color =
-                    if (selectedItem == RODENT) ColorGrid().red_grid
-                    else MaterialTheme.colorScheme.outline,
+                    if (selectedItem == RODENT)  MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }

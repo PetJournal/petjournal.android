@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -67,7 +68,7 @@ fun Screen(navController: NavController) {
                             modifier = Modifier
                                 .background(MaterialTheme.colorScheme.background)
                                 .fillMaxSize()
-                                .padding(12.dp)
+                                .padding(start = 12.dp, end = 12.dp)
                         ) {
                             item {
                                 Header(name = name.value)
@@ -99,9 +100,7 @@ fun Screen(navController: NavController) {
                                         text = stringResource(R.string.others),
                                         buttonColor =
                                         ButtonDefaults.buttonColors(MaterialTheme.colorScheme.inverseSurface),
-                                        textColor =
-                                        if (!isOthersFieldVisible) MaterialTheme.colorScheme.onPrimary
-                                        else MaterialTheme.colorScheme.scrim
+                                        textColor = Color.White
                                     )
                                 }
 
@@ -145,9 +144,9 @@ fun Screen(navController: NavController) {
                                         Spacer(modifier = Modifier.width(16.dp))
                                         Button2(
                                             submit = {
-//                                                speciesName?.let {
-//                                                    navController.navigate("pets/speciesNameAndSex/$it")
-//                                                }
+                                                speciesName?.let {
+                                                    navController.navigate("pets/nameAndGender/$it")
+                                                }
                                             },
                                             modifier = Modifier.width(150.dp),
                                             enableButton = activateContinueButton.value,
