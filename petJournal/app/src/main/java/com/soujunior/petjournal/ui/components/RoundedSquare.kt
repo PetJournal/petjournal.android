@@ -39,12 +39,13 @@ fun RoundedSquare(
     bottomLeftRadius: Dp,
     bottomRightRadius: Dp,
     image: Painter,
+    colorBackground : Color = Color.Transparent
 ) {
     Box(
         modifier = Modifier
             .size(size)
             .background(
-                color = Color.Transparent,
+                color = colorBackground,
                 shape = RoundedCornerShape(
                     topStart = topLeftRadius,
                     topEnd = topRightRadius,

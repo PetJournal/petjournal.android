@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.RoundedSquare
+import com.soujunior.petjournal.ui.theme.ColorGrid
 
 @Composable
 fun GridVectors() {
@@ -26,6 +27,7 @@ fun GridVectors() {
             topRightRadius = defaultSize.dp,
             bottomLeftRadius = defaultSize.dp,
             bottomRightRadius = defaultSize.dp,
+            colorBackground = ColorGrid.purple_grid,
             image = painterResource(id = R.drawable.dog),
         )
         RoundedSquare(
@@ -34,6 +36,7 @@ fun GridVectors() {
             topRightRadius = defaultSize.dp,
             bottomLeftRadius = defaultSize.dp,
             bottomRightRadius = defaultSize.dp,
+            colorBackground = ColorGrid.blue_grid,
             image = painterResource(id = R.drawable.cat),
         )
         RoundedSquare(
@@ -42,6 +45,7 @@ fun GridVectors() {
             topRightRadius = calcDefault(defaultSize, 4),
             bottomLeftRadius = defaultSize.dp,
             bottomRightRadius = defaultSize.dp,
+            colorBackground = ColorGrid.red_grid,
             image = painterResource(id = R.drawable.parrot),
         )
 
@@ -56,6 +60,7 @@ fun GridVectors() {
             topRightRadius = defaultSize.dp,
             bottomLeftRadius = defaultSize.dp,
             bottomRightRadius = defaultSize.dp,
+            colorBackground = ColorGrid.pink_grid,
             image = painterResource(id = R.drawable.penguim),
         )
         Image(
@@ -70,6 +75,7 @@ fun GridVectors() {
             topRightRadius = defaultSize.dp,
             bottomLeftRadius = defaultSize.dp,
             bottomRightRadius = defaultSize.dp,
+            colorBackground = ColorGrid.pink_grid,
             image = painterResource(id = R.drawable.rat),
         )
 
@@ -85,6 +91,7 @@ fun GridVectors() {
             topRightRadius = defaultSize.dp,
             bottomLeftRadius = calcDefault(defaultSize, 4),
             bottomRightRadius = defaultSize.dp,
+            colorBackground = ColorGrid.red_grid,
             image = painterResource(id = R.drawable.monkey),
         )
         RoundedSquare(
@@ -93,6 +100,7 @@ fun GridVectors() {
             topRightRadius = defaultSize.dp,
             bottomLeftRadius = defaultSize.dp,
             bottomRightRadius = defaultSize.dp,
+            colorBackground = ColorGrid.blue_grid,
             image = painterResource(id = R.drawable.shark),
         )
         RoundedSquare(
@@ -100,6 +108,7 @@ fun GridVectors() {
             topLeftRadius = defaultSize.dp,
             topRightRadius = defaultSize.dp,
             bottomLeftRadius = defaultSize.dp,
+            colorBackground = ColorGrid.purple_grid,
             bottomRightRadius = calcDefault(defaultSize, 4),
             image = painterResource(id = R.drawable.turtle),
         )
