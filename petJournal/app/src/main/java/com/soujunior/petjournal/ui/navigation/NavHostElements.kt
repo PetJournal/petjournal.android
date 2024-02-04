@@ -65,12 +65,20 @@ fun NavHostMainContent() {
  * Adicione aqui a rota de navegação da tela a ser testada,
  * lembre-se de remover ao terminar as mudanças em sua tela
  * */
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun NavTestScreen(){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "pets/nameAndGender") {
+    NavHost(navController = navController, startDestination = "changePassword") {
         composable("pets/nameAndGender"){
             PetNameAndGenderScreen(petSpecie = "Gato", navController = navController)}
+        composable("home") { HomeScreen(navController) }
+        composable("login") { LoginScreen(navController) }
+        composable("splash") { SplashScreen(navController) }
+        composable("changePassword") { ChangePasswordScreen(navController) }
 
+        composable("awaitingCode/{arg}") { backStackEntry ->
+            AwaitingCodeScreen(backStackEntry.arguments?.getString("arg"), navController)
+        }
     }
 }

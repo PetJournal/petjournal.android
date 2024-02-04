@@ -1,12 +1,14 @@
 package com.soujunior.petjournal.ui.accountManager.loginScreen.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +25,7 @@ import com.soujunior.petjournal.ui.components.InputText
 
 @Composable
 fun Screen(navController: NavController, viewModel: LoginViewModel) {
+
     val systemUiController = rememberSystemUiController()
 
     systemUiController.setSystemBarsColor(
@@ -33,16 +36,17 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
                 .padding(start = 20.dp, end = 20.dp)
+                .systemBarsPadding()
                 .align(Alignment.TopCenter)
         ) {
             Spacer(modifier = Modifier.weight(0.2f))
             LoginHeader()
-            Spacer(modifier = Modifier.weight(0.2f))
+            Spacer(modifier = Modifier.weight(0.1f))
             InputText(
                 textTop = stringResource(id = R.string.email_label),
                 textHint = stringResource(id = R.string.email_hint),
@@ -50,10 +54,10 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
                 textError = viewModel.state.emailError,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(bottom = 16.dp)
                     .testTag("input_email"),
                 onEvent = { it: String -> viewModel.onEvent(LoginFormEvent.EmailChanged(it)) }
             )
-            Spacer(modifier = Modifier.weight(0.2f))
             InputText(
                 textTop = stringResource(id = R.string.password_label),
                 isPassword = true,
@@ -66,9 +70,9 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
                 onEvent = { it: String -> viewModel.onEvent(LoginFormEvent.PasswordChanged(it)) }
             )
             RememberPasswordAndForgotSection(navController, viewModel)
-            Spacer(modifier = Modifier.weight(4f))
+            Spacer(modifier = Modifier.weight(0.1f))
             Footer(navController, viewModel)
-            Spacer(modifier = Modifier.weight(4f))
+            Spacer(modifier = Modifier.weight(0.5f))
         }
     }
 }

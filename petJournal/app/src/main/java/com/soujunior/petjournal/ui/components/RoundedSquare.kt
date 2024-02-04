@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,7 +28,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.soujunior.petjournal.ui.util.Constants
 
 @Composable
 fun RoundedSquare(
@@ -39,13 +37,12 @@ fun RoundedSquare(
     bottomLeftRadius: Dp,
     bottomRightRadius: Dp,
     image: Painter,
-    material: Color
 ) {
     Box(
         modifier = Modifier
             .size(size)
             .background(
-                color = material,
+                color = Color.Transparent,
                 shape = RoundedCornerShape(
                     topStart = topLeftRadius,
                     topEnd = topRightRadius,
@@ -60,7 +57,8 @@ fun RoundedSquare(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize(0.70f)
-                .align(Alignment.Center),
+                .align(Alignment.Center)
+                .background(Color.Transparent),
         )
     }
 }
@@ -83,7 +81,7 @@ fun RoundedSquare(
     bottomLeftRadius: Dp,
     bottomRightRadius: Dp,
     image: Painter,
-    material: Color,
+    color: Color = Color.Blue,
     selectedColor: Color,
     onClick: () -> Unit
 ) {
@@ -92,7 +90,7 @@ fun RoundedSquare(
         modifier = Modifier
             .size(size)
             .background(
-                color = material,
+                color = color,
                 shape = RoundedCornerShape(
                     topStart = topLeftRadius,
                     topEnd = topRightRadius,
@@ -108,14 +106,26 @@ fun RoundedSquare(
                     )
                 )
                 drawRoundRect(
-                    color = if(isSelected) Color.Transparent else Color.Black,
+                    color = if (isSelected) Color.Transparent else Color.Black,
                     style = stroke,
                     cornerRadius = CornerRadius(30.dp.toPx())
                 )
 
             }
-            .border(2.dp, if(isSelected) MaterialTheme.colorScheme.primary else Color.Transparent, shape = RoundedCornerShape(30.dp))
-            .clip(RoundedCornerShape(30.dp))
+            .border(
+                2.dp,
+                if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
+                shape = RoundedCornerShape(30.dp)
+            )
+            .clip(
+                RoundedCornerShape(
+                    topStart = topLeftRadius,
+                    topEnd = topRightRadius,
+                    bottomStart = bottomLeftRadius,
+                    bottomEnd = bottomRightRadius
+                )
+            )
+
             .clickable {
                 onClick()
             }
@@ -123,30 +133,34 @@ fun RoundedSquare(
     {
         Column(
             modifier = modifier.padding(5.dp),
-            horizontalAlignment = Alignment.CenterHorizontally){
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-            Row(modifier = modifier
-                .padding(10.dp),
-                verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = modifier
+                    .padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
 
                 Image(
                     painter = image,
                     contentDescription = "Icone de genero do animal",
                     modifier = Modifier
                         .fillMaxSize(0.70f)
+                        .background(Color.Yellow)
                 )
 
             }
-            Row (
+            Row(
                 modifier = modifier
                     .padding(top = 2.dp, bottom = 5.dp),
-                ){
+            ) {
                 Text(
                     text = text,
                     fontSize = 15.sp,
                     modifier = Modifier
                         .fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = color,
                     textAlign = TextAlign.Center
                 )
             }

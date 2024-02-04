@@ -16,10 +16,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 @Composable
 fun CreateTitleAndImageLogo(
@@ -61,5 +65,20 @@ fun CreateTitleAndImageLogo(
             }
             Spacer(modifier = Modifier.height(spaceBottom))
         }
+    }
+}
+
+@Preview
+@Composable
+fun testeImage() {
+    PetJournalTheme {
+        CreateTitleAndImageLogo(
+            title = stringResource(id = R.string.access_account),
+            styleTitle = MaterialTheme.typography.displayLarge,
+            modifierImage = Modifier
+                .size(width = 200.dp, height = 200.dp)
+                .padding(top = 20.dp),
+            isDarkMode = true
+        )
     }
 }

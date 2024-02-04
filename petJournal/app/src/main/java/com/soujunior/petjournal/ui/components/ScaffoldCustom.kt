@@ -102,7 +102,7 @@ fun ScaffoldCustom(
 
 }
 
-
+//This scaffold is customized to Design 2.0?
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldCustom(

@@ -25,7 +25,6 @@ import com.soujunior.petjournal.ui.theme.FredokaRegular
 @Composable
 fun VerificationCodeInput(viewModel: AwaitingCodeViewModel) {
     val state by viewModel.state.collectAsState()
-
     val resendCodeStyle = TextStyle(
         fontFamily = FontFamily(FredokaRegular),
         fontSize = 14.sp,

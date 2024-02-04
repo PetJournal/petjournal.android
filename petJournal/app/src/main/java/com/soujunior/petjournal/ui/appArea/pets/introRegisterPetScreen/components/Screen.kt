@@ -44,9 +44,7 @@ fun Screen(navController: NavController) {
                     navController.popBackStack()
                     navController.navigate("pets/speciesChoice")
                 }
-
                 is ValidationEvent.Failed -> {}
-                else -> {}
             }
         }
     }

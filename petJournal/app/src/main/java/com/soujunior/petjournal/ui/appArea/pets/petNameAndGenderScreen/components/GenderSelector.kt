@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.components
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,14 +19,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.AlertText
 import com.soujunior.petjournal.ui.components.RoundedSquare
-import com.soujunior.petjournal.ui.theme.ColorGrid
-import com.soujunior.petjournal.ui.util.Constants
 
 
 @Composable
@@ -89,7 +84,7 @@ private fun GenderButtons(
             bottomRightRadius = 32.dp,
             image = painterResource(id = R.drawable.icone_macho),
             selectedColor = if(selectedItem == "M") MaterialTheme.colorScheme.primary else Color.Transparent,
-            material = MaterialTheme.colorScheme.background,
+            color = MaterialTheme.colorScheme.background,
             onClick = {
                 selectedItem = "M"
                 selectedGender("M")
@@ -106,7 +101,7 @@ private fun GenderButtons(
             bottomRightRadius = 32.dp,
             image = painterResource(id = R.drawable.icone_femea),
             selectedColor = if(selectedItem == "F") MaterialTheme.colorScheme.primary else Color.Transparent,
-            material = MaterialTheme.colorScheme.background,
+            color = MaterialTheme.colorScheme.background,
             onClick = {
                 selectedItem = "F"
                 selectedGender("F")

@@ -64,10 +64,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
     }
 
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(
-        color = Color.Transparent,
-        darkIcons = true
-    )
+    systemUiController.setSystemBarsColor( color = Color.Transparent, darkIcons = true )
     systemUiController.setNavigationBarColor(Color.Black)
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(

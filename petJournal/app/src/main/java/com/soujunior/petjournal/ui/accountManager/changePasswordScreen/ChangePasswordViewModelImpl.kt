@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.accountManager.changePasswordScreen
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,8 +8,8 @@ import com.soujunior.domain.model.request.ChangePasswordModel
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.ChangePasswordUseCase
 import com.soujunior.domain.use_case.util.ValidationResult
-import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -76,6 +75,7 @@ class ChangePasswordViewModelImpl(
                     if (hasError(passwordResult)) state.copy(passwordError = passwordResult.errorMessage)
                     else state.copy(passwordError = null)
                 change(repeatedPassword = state.repeatedPassword)
+
             }
 
             repeatedPassword != null -> {
@@ -99,21 +99,17 @@ class ChangePasswordViewModelImpl(
         when (event) {
             is ChangePasswordFormEvent.PasswordChanged -> {
                 change(password = event.password)
-                Log.e("testar", "${state.password}")
             }
 
             is ChangePasswordFormEvent.ConfirmPasswordChanged -> {
                 change(repeatedPassword = event.confirmPassword)
-                Log.e("testar", "${state.repeatedPassword}")
             }
 
             is ChangePasswordFormEvent.DisconnectOtherDevices -> {
                 change(disconnect = event.disconnect)
-                Log.e("testar", "${state.disconnectOtherDevices}")
             }
 
             is ChangePasswordFormEvent.Submit -> submitNewPassword()
-            else -> {}
         }
     }
 
