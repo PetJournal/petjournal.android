@@ -64,7 +64,7 @@ fun Screen(petSpecie: String?, navController: NavController){
                             verticalArrangement = Arrangement.Top,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(12.dp),
+                                .padding(start = 12.dp, end = 12.dp),
                             content = {
                                 item {
                                     Breadcrumb(index = 0)

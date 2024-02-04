@@ -154,8 +154,7 @@ fun ScaffoldCustom(
             }
         },
         content = {
-            it ->
-            contentToUse(it)
+            it -> contentToUse(it)
         },
         modifier = modifier.shadow(4.dp)
     )

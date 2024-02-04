@@ -68,7 +68,7 @@ fun Screen(navController: NavController) {
                             modifier = Modifier
                                 .background(MaterialTheme.colorScheme.background)
                                 .fillMaxSize()
-                                .padding(12.dp)
+                                .padding(start = 12.dp, end = 12.dp)
                         ) {
                             item {
                                 Header(name = name.value)

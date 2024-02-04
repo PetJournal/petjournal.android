@@ -24,10 +24,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.soujunior.petjournal.R
 
 @Composable
 fun RoundedSquare(
@@ -81,7 +83,8 @@ fun RoundedSquare(
     bottomLeftRadius: Dp,
     bottomRightRadius: Dp,
     image: Painter,
-    color: Color = Color.Blue,
+    colorBackground: Color = MaterialTheme.colorScheme.onBackground,
+    colorText: Color = MaterialTheme.colorScheme.onBackground,
     selectedColor: Color,
     onClick: () -> Unit
 ) {
@@ -90,7 +93,7 @@ fun RoundedSquare(
         modifier = Modifier
             .size(size)
             .background(
-                color = color,
+                color = colorBackground,
                 shape = RoundedCornerShape(
                     topStart = topLeftRadius,
                     topEnd = topRightRadius,
@@ -144,10 +147,9 @@ fun RoundedSquare(
 
                 Image(
                     painter = image,
-                    contentDescription = "Icone de genero do animal",
+                    contentDescription = stringResource(R.string.animal_gender_icon),
                     modifier = Modifier
                         .fillMaxSize(0.70f)
-                        .background(Color.Yellow)
                 )
 
             }
@@ -160,7 +162,7 @@ fun RoundedSquare(
                     fontSize = 15.sp,
                     modifier = Modifier
                         .fillMaxWidth(),
-                    color = color,
+                    color = colorText,
                     textAlign = TextAlign.Center
                 )
             }

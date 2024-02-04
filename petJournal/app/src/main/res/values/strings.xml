@@ -64,6 +64,7 @@
     <string name="cat">Gato</string>
     <string name="bird">Pássaro</string>
     <string name="dog">Cachorro</string>
+    <string name="animal_gender_icon">Icone de genero do animal</string>
 
 
 </resources>

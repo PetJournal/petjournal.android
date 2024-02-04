@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
@@ -38,7 +39,6 @@ fun GenderSelector(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         content = {
-
             Row {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
@@ -84,7 +84,7 @@ private fun GenderButtons(
             bottomRightRadius = 32.dp,
             image = painterResource(id = R.drawable.icone_macho),
             selectedColor = if(selectedItem == "M") MaterialTheme.colorScheme.primary else Color.Transparent,
-            color = MaterialTheme.colorScheme.background,
+            colorBackground =  Color.Transparent,
             onClick = {
                 selectedItem = "M"
                 selectedGender("M")
@@ -101,7 +101,7 @@ private fun GenderButtons(
             bottomRightRadius = 32.dp,
             image = painterResource(id = R.drawable.icone_femea),
             selectedColor = if(selectedItem == "F") MaterialTheme.colorScheme.primary else Color.Transparent,
-            color = MaterialTheme.colorScheme.background,
+            colorBackground =  Color.Transparent,
             onClick = {
                 selectedItem = "F"
                 selectedGender("F")
@@ -116,7 +116,7 @@ private fun GenderButtons(
         }
         else{
             Text(
-                text ="*Campo Obrigatório.",
+                text = stringResource(id = R.string.required_field),
                 modifier = Modifier.padding(start = 2.dp, top = 10.dp),
                 fontSize = 15.sp,
                 textAlign = TextAlign.Start)
@@ -125,3 +125,12 @@ private fun GenderButtons(
 }
 
 
+@Preview
+@Composable
+fun m(){
+    GenderSelector(
+        selectedGender = {},
+        clearSelection = {true},
+        textError = null
+    )
+}
