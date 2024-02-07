@@ -13,6 +13,7 @@ import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreen
 import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.RegisterPetScreen
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.PetNameAndGenderScreen
+import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.PetRaceAndSizeScreen
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.SpeciesChoiceScreen
 import com.soujunior.petjournal.ui.appArea.tutor.tutorScreen.TutorScreen
 import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashScreen
@@ -58,6 +59,12 @@ fun NavHostMainContent() {
                 backStackEntry.arguments?.getString("arg"),
                 navController)
         }
+        composable("pets/RaceAndSize/{arg}"){
+            navBackStackEntry ->
+            PetRaceAndSizeScreen(
+                petName = navBackStackEntry.arguments?.getString("arg"),
+                navController = navController)
+        }
     }
 }
 
@@ -79,6 +86,14 @@ fun NavTestScreen(){
 
         composable("awaitingCode/{arg}") { backStackEntry ->
             AwaitingCodeScreen(backStackEntry.arguments?.getString("arg"), navController)
+        }
+
+        composable("pets/RaceAndSize/{arg}"){
+                navBackStackEntry ->
+            PetRaceAndSizeScreen(
+//                petName = navBackStackEntry.arguments?.getString("arg"),
+                "Bolinha",
+                navController = navController)
         }
     }
 }
