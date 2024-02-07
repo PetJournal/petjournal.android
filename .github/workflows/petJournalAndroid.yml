@@ -19,6 +19,8 @@ jobs:
 
       - name: Set up JDK
         uses: actions/setup-java@v4.0.0
+        with: 
+          distribution: 'adopt'
 
       - name: Gradle Build
         run: ./gradlew build
