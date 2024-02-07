@@ -23,11 +23,6 @@ jobs:
           java-version: '1.8'
           distribution: 'adopt'
 
-      - name: Set up Android SDK
-        uses: reactivecircus/android-setup@v2
-        with:
-          components: platform-tools,build-tools-30.0.3
-
       - name: Gradle Build
         run: ./gradlew build
       
