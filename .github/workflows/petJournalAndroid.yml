@@ -20,7 +20,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: 'gradle
+          cache: 'gradle'
 
       - name: Grant execute permission for gradlew
         run: chmod +x petJournal/gradlew
@@ -48,7 +48,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: 'gradle
+          cache: 'gradle'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -89,7 +89,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: 'gradle
+          cache: 'gradle'
 
       - name: Grant execute permission for gradlew
         run: chmod +x petJournal/gradlew
