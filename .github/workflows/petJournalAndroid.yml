@@ -55,7 +55,7 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Grant execute permission for gradlew
-        run: chmod +x petJournal/gradlew
+        run: chmod +x gradlew
         working-directory: petJournal
 
       - name: Cache Gradle dependencies
@@ -69,7 +69,8 @@ jobs:
           JAVA_HOME: /opt/hostedtoolcache/Java_1.8.0
 
       - name: Run unit tests
-        run: ./gradlew test
+        run: ./gradlew test        
+        working-directory: petJournal
 
       - name: Upload unit tests report
         uses: actions/upload-artifact@v4
@@ -93,11 +94,13 @@ jobs:
           cache: 'gradle'
 
       - name: Grant execute permission for gradlew
-        run: chmod +x petJournal/gradlew
+        run: chmod +x gradlew
         working-directory: petJournal
 
       - name: Build Android App Bundle
         run: ./gradlew bundle
+        working-directory: petJournal
+
 
       - name: Upload Android App Bundle
         uses: actions/upload-artifact@v4
