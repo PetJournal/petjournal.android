@@ -54,7 +54,7 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: chmod +x petJournal/gradlew
 
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
@@ -94,7 +94,7 @@ jobs:
           cache: 'gradle'
 
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: chmod +x petJournal/gradlew
 
       - name: Build Android App Bundle
         run: ./gradlew bundle
