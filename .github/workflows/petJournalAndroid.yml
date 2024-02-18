@@ -27,7 +27,7 @@ jobs:
         working-directory: petJournal
 
       - name: Run lint
-        run: gradlew lintDebug
+        run: petJournal/gradlew lintDebug
 
       - name: Upload lint report
         uses: actions/upload-artifact@v4
