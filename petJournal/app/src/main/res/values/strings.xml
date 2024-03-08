@@ -54,6 +54,7 @@
     <string name="success">Sucesso ao realizar ação!</string>
     <string name="wow">Uau!</string>
     <string name="register_message">Ficamos felizes em receber mais um %s em nossa comunidade </string>
+    <string name="register_message_race">Nos conte mais!\nQual a raça de %s?</string>
     <string name="pet_name">Qual o nome do seu companheiro?</string>
     <string name="pet_gender">Qual o sexo do seu Pet?</string>
     <string name="pet_gender_male">Macho</string>
