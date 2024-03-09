@@ -22,19 +22,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.NameGenderFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.ViewModelRaceSize
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DashedInputText
-import com.soujunior.petjournal.ui.components.DropDownInputText
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import org.koin.androidx.compose.getViewModel
@@ -76,12 +73,11 @@ fun Screen(petName: String?, navController: NavController) {
                                         .padding(5.dp, 0.dp),
                                     contentAlignment = Alignment.TopStart
                                 ) {
-                                    Spacer(modifier = Modifier.width(16.dp))
                                     Header(
-                                        species = petName ?: "ERRO",
+                                        petName = petName ?: "ERRO",
                                         modifier = Modifier.padding(5.dp, 0.dp)
                                     )
-                                    Spacer(modifier = Modifier.width(16.dp))
+
                                 }
 
                             }
@@ -112,6 +108,22 @@ fun Screen(petName: String?, navController: NavController) {
                                     textError = viewModel.state.raceError,
                                     isError = !viewModel.state.raceError.isNullOrEmpty(),
                                     titleText = "Raça: ",
+                                    onEvent = { it: String ->
+                                        viewModel.onEvent(
+                                            RaceSizeFormEvent.PetRace(it)
+                                        )
+                                    }
+                                )
+                            }
+                            item {
+                                DashedInputText(
+                                    modifier = Modifier,
+                                    textInputModifier = Modifier,
+                                    placeholderText = "Digite aqui...",
+                                    textValue = viewModel.state.race,
+                                    textError = viewModel.state.raceError,
+                                    isError = !viewModel.state.raceError.isNullOrEmpty(),
+                                    titleText = "Raça do seu pet",
                                     onEvent = { it: String ->
                                         viewModel.onEvent(
                                             RaceSizeFormEvent.PetRace(it)

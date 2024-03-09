@@ -24,7 +24,8 @@ abstract class ViewModelRaceSize : ViewModel() {
     abstract fun enableButton(): Boolean
     abstract fun change(
         petRace: String? = null,
-        petSize: String? = null
+        petSize: String? = null,
+        petRaceOthers: String? = null
     )
 
 }

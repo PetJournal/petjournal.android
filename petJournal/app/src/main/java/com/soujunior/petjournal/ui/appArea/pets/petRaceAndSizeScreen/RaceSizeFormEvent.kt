@@ -5,6 +5,7 @@ package com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen
  * */
 sealed class RaceSizeFormEvent{
     data class PetRace(val petRace: String) : RaceSizeFormEvent()
+    data class PetRaceOthers(val petRaceOthers: String) : RaceSizeFormEvent()
     data class PetSize (val petSize: String) : RaceSizeFormEvent()
 
     object ReturnButton : RaceSizeFormEvent()

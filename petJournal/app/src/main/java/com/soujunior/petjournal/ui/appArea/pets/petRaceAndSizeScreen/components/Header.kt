@@ -20,16 +20,18 @@ import com.soujunior.petjournal.R
 
 
 @Composable
-fun Header(modifier : Modifier = Modifier.fillMaxWidth(), species: String = "Gato"){
+fun Header(modifier : Modifier = Modifier.fillMaxWidth(), petName: String = "Bolinha"){
     Spacer(modifier = Modifier.padding(20.dp))
 
     val text = buildAnnotatedString {
         withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)){
 
         }
+        append("\n")
         withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)){
-            append(stringResource(id = R.string.register_message_race, species))
+            append(stringResource(id = R.string.register_message_race, petName))
         }
+        append("\n")
     }
     Text(
         modifier = modifier,

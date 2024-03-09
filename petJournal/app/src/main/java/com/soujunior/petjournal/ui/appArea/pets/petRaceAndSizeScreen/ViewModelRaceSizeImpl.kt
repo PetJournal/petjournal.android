@@ -49,9 +49,11 @@ class ViewModelRaceSizeImpl(
         when (event) {
             is RaceSizeFormEvent.PetRace -> change(petRace = event.petRace)
             is RaceSizeFormEvent.PetSize -> change(petSize = event.petSize)
+            is RaceSizeFormEvent.PetRaceOthers -> change(petRaceOthers = event.petRaceOthers)
             is RaceSizeFormEvent.NextButton -> {
                 change(petRace = state.race)
-                change(petRace = state.size)
+                change(petSize = state.size)
+                change(petRaceOthers = state.raceOthers)
             }
 
             else -> {}
@@ -62,7 +64,7 @@ class ViewModelRaceSizeImpl(
         return state.raceError.isNullOrEmpty() && state.sizeError.isNullOrEmpty()
     }
 
-    override fun change(petRace: String?, petSize: String?) {
+    override fun change(petRace: String?, petSize: String?, petRaceOthers: String?) {
         when {
             petRace != null -> {
                 state = state.copy(race = petRace)
@@ -77,6 +79,12 @@ class ViewModelRaceSizeImpl(
                 val result = validation.inputPetName(state.size)
                 state = if (result.success) state.copy(sizeError = null)
                 else state.copy(sizeError = result.errorMessage)
+            }
+            petRaceOthers != null -> {
+                state = state.copy(petRaceOthers)
+                val result = validation.inputPetName(state.raceOthers)
+                state = if (result.success) state.copy(raceOthersError = null)
+                else state.copy(raceOthersError = result.errorMessage)
             }
         }
     }
