@@ -75,10 +75,18 @@ class ViewModelRaceSizeImpl(
             }
 
             petSize != null -> {
+                /*
+                  Mudança para testes pois ainda não sei se tem validação para size de pet na api
                 state = state.copy(size = petSize)
                 val result = validation.inputPetName(state.size)
                 state = if (result.success) state.copy(sizeError = null)
                 else state.copy(sizeError = result.errorMessage)
+                 */
+                state = state.copy(size = petSize)
+                state = if (state.size.isNotEmpty()) state.copy(sizeError = null)
+                else state.copy(sizeError = listOf("*Campo Obrigatório."))
+
+
             }
             petRaceOthers != null -> {
                 state = state.copy(petRaceOthers)

@@ -32,6 +32,7 @@ import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.ViewModelRa
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DashedInputText
+import com.soujunior.petjournal.ui.components.DropDownSizePets
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import org.koin.androidx.compose.getViewModel
@@ -84,7 +85,7 @@ fun Screen(petName: String?, navController: NavController) {
 
 
                             item {
-                                DashedInputText(
+                                DropDownSizePets(
                                     modifier = Modifier,
                                     textInputModifier = Modifier,
                                     placeholderText = "Porte do seu pet",
@@ -92,6 +93,11 @@ fun Screen(petName: String?, navController: NavController) {
                                     textError = viewModel.state.sizeError,
                                     isError = !viewModel.state.sizeError.isNullOrEmpty(),
                                     titleText = "Porte: ",
+                                    dropdownItems = listOf(
+                                        stringResource(R.string.pet_size_small),
+                                        stringResource(R.string.pet_size_medium),
+                                        stringResource(R.string.pet_size_big)
+                                    ),
                                     onEvent = { it: String ->
                                         viewModel.onEvent(
                                             RaceSizeFormEvent.PetSize(it)
