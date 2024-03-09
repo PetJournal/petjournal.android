@@ -29,6 +29,9 @@ class ViewModelRaceSizeImpl(
     private val _petName: MutableStateFlow<String> = MutableStateFlow("")
     override val petName: StateFlow<String> = _petName
 
+    private val _isSecondItemVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    override val isSecondItemVisible: StateFlow<Boolean> = _isSecondItemVisible
+
 //    init {
 //        getData()
 //    }
@@ -47,7 +50,10 @@ class ViewModelRaceSizeImpl(
 
     override fun onEvent(event: RaceSizeFormEvent) {
         when (event) {
-            is RaceSizeFormEvent.PetRace -> change(petRace = event.petRace)
+            is RaceSizeFormEvent.PetRace -> {
+                change(petRace = event.petRace)
+                _isSecondItemVisible.value = event.petRace.equals("Outro", ignoreCase = true)
+            }
             is RaceSizeFormEvent.PetSize -> change(petSize = event.petSize)
             is RaceSizeFormEvent.PetRaceOthers -> change(petRaceOthers = event.petRaceOthers)
             is RaceSizeFormEvent.NextButton -> {
@@ -55,6 +61,8 @@ class ViewModelRaceSizeImpl(
                 change(petSize = state.size)
                 change(petRaceOthers = state.raceOthers)
             }
+
+
 
             else -> {}
         }

@@ -43,7 +43,7 @@ fun Screen(petName: String?, navController: NavController) {
     val viewModel: ViewModelRaceSize = getViewModel()
     val taskState = viewModel.taskState.collectAsState()
     var isClearGender by remember { mutableStateOf(false) }
-
+    val isSecondItemVisible by viewModel.isSecondItemVisible.collectAsState()
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
             modifier = Modifier,
@@ -105,6 +105,7 @@ fun Screen(petName: String?, navController: NavController) {
                                     }
                                 )
                             }
+
                             item {
                                 DashedInputText(
                                     modifier = Modifier,
@@ -121,21 +122,24 @@ fun Screen(petName: String?, navController: NavController) {
                                     }
                                 )
                             }
-                            item {
-                                DashedInputText(
-                                    modifier = Modifier,
-                                    textInputModifier = Modifier,
-                                    placeholderText = "Digite aqui...",
-                                    textValue = viewModel.state.race,
-                                    textError = viewModel.state.raceError,
-                                    isError = !viewModel.state.raceError.isNullOrEmpty(),
-                                    titleText = "Raça do seu pet",
-                                    onEvent = { it: String ->
-                                        viewModel.onEvent(
-                                            RaceSizeFormEvent.PetRace(it)
-                                        )
-                                    }
-                                )
+
+                            if (isSecondItemVisible) {
+                                item {
+                                    DashedInputText(
+                                        modifier = Modifier,
+                                        textInputModifier = Modifier,
+                                        placeholderText = "Digite aqui...",
+                                        textValue = viewModel.state.race,
+                                        textError = viewModel.state.raceError,
+                                        isError = !viewModel.state.raceError.isNullOrEmpty(),
+                                        titleText = "Raça do seu pet",
+                                        onEvent = { it: String ->
+                                            viewModel.onEvent(
+                                                RaceSizeFormEvent.PetRace(it)
+                                            )
+                                        }
+                                    )
+                                }
                             }
                             item {
 

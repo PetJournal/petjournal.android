@@ -15,6 +15,7 @@ abstract class ViewModelRaceSize : ViewModel() {
     abstract val message: StateFlow<String>
     abstract val taskState: StateFlow<TaskState>
     abstract val petName: StateFlow<String>
+    abstract val isSecondItemVisible: StateFlow<Boolean>
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 
