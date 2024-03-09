@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.ViewModelRaceSize
+import com.soujunior.petjournal.ui.components.AutoComplete
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DashedInputText
@@ -107,20 +108,47 @@ fun Screen(petName: String?, navController: NavController) {
                             }
 
                             item {
-                                DashedInputText(
+                                AutoComplete(
                                     modifier = Modifier,
-                                    textInputModifier = Modifier,
                                     placeholderText = "Raça do seu pet",
                                     textValue = viewModel.state.race,
                                     textError = viewModel.state.raceError,
                                     isError = !viewModel.state.raceError.isNullOrEmpty(),
                                     titleText = "Raça: ",
+                                    dropdownItems = listOf(
+                                        stringResource(R.string.pet_size_small),
+                                        stringResource(R.string.pet_size_medium),
+                                        stringResource(R.string.pet_size_big),
+                                        "Outro"
+                                    ),
                                     onEvent = { it: String ->
                                         viewModel.onEvent(
                                             RaceSizeFormEvent.PetRace(it)
                                         )
                                     }
                                 )
+                                /*
+                                InputTextAndDropDownRacePets(
+                                    modifier = Modifier,
+                                    placeholderText = "Raça do seu pet",
+                                    textValue = viewModel.state.race,
+                                    textError = viewModel.state.raceError,
+                                    isError = !viewModel.state.raceError.isNullOrEmpty(),
+                                    titleText = "Raça: ",
+                                    dropdownItems = listOf(
+                                        stringResource(R.string.pet_size_small),
+                                        stringResource(R.string.pet_size_medium),
+                                        stringResource(R.string.pet_size_big),
+                                        "Outro"
+                                    ),
+                                    onEvent = { it: String ->
+                                        viewModel.onEvent(
+                                            RaceSizeFormEvent.PetRace(it)
+                                        )
+                                    }
+                                )
+
+                                 */
                             }
 
                             if (isSecondItemVisible) {
