@@ -7,7 +7,8 @@ import com.petjournal.database.database.dao.GuardianProfileDao
 import com.petjournal.database.database.entity.ApplicationInformation
 import com.petjournal.database.database.entity.GuardianProfile
 
-@Database(entities = [GuardianProfile::class, ApplicationInformation::class], version = 3)
+//Alterado para adicionar ao ci/cd
+@Database(entities = [GuardianProfile::class, ApplicationInformation::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun guardianProfileDao(): GuardianProfileDao
     abstract fun applicationDao(): ApplicationInformationDao
