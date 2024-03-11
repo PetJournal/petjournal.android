@@ -25,6 +25,7 @@ abstract class ViewModelRaceSize : ViewModel() {
     abstract fun failed(exception: Throwable?)
     abstract fun onEvent(event: RaceSizeFormEvent)
     abstract fun enableButton(): Boolean
+    abstract fun enableRaceOthers(): Boolean
     abstract fun change(
         petRace: String? = null,
         petSize: String? = null,

@@ -208,6 +208,14 @@ class ValidationRepositoryImpl : ValidationRepository {
         }
     }
 
+    override fun validateDropDownRaceOthers(raceOtrher: String): ValidationResult {
+        return if(raceOtrher == "outro"){
+            ValidationResult(success = true)
+        }else{
+            ValidationResult(success = false)
+        }
+    }
+
     private fun isCodeValidLenght(input: String): Boolean {
         return if (input.isNotBlank()) {
             input.length == 6 && input.isNotEmpty()

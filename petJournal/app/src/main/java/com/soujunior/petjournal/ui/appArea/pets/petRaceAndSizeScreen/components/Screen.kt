@@ -116,7 +116,7 @@ fun Screen(petName: String?, navController: NavController) {
                                 )
                             }
 
-                            if (isSecondItemVisible) {
+                            if (viewModel.enableRaceOthers()) {
                                 item {
                                     DashedInputText(
                                         modifier = Modifier,
@@ -175,7 +175,8 @@ fun Screen(petName: String?, navController: NavController) {
                                                 // Caso a opção outros não foi selecionada
                                                 if (viewModel.enableButton() &&
                                                     viewModel.state.race.isNotEmpty() &&
-                                                    viewModel.state.size.isNotEmpty()
+                                                    viewModel.state.size.isNotEmpty() &&
+                                                    viewModel.state.race != "Outro"
                                                 ){
                                                     viewModel.state.race.let {
                                                         Log.i("race", it)

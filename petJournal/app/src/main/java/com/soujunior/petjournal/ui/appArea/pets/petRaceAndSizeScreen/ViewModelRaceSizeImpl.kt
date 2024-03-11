@@ -62,7 +62,11 @@ class ViewModelRaceSizeImpl(
             is RaceSizeFormEvent.PetRace -> {
                 change(petRace = event.petRace)
                 // validação na viewModel para saber se foi selecionado a opção outros, mudança para validator no futuro
-                _isSecondItemVisible.value = event.petRace.equals("Outro", ignoreCase = true)
+                if (event.petRace.equals("Outro", ignoreCase = true)){
+                    _isSecondItemVisible.value = true
+                }else{
+                    _isSecondItemVisible.value = false
+                }
             }
             is RaceSizeFormEvent.PetSize -> change(petSize = event.petSize)
             is RaceSizeFormEvent.PetRaceOthers -> change(petRaceOthers = event.petRaceOthers)
@@ -79,7 +83,20 @@ class ViewModelRaceSizeImpl(
     }
 
     override fun enableButton(): Boolean {
-        return state.raceError.isNullOrEmpty() && state.sizeError.isNullOrEmpty()
+        val raceOtherResult = validation.validateDropDownRaceOthers(state.race)
+
+        return if (raceOtherResult.success){
+            state.raceError.isNullOrEmpty() && state.sizeError.isNullOrEmpty() && state.raceOthersError.isNullOrEmpty()
+        }else{
+            state.raceError.isNullOrEmpty() && state.sizeError.isNullOrEmpty()
+        }
+
+    }
+
+    override fun enableRaceOthers(): Boolean {
+        val raceOtherResult = validation.validateDropDownRaceOthers(state.race)
+
+        return raceOtherResult.success
     }
 
     override fun change(petRace: String?, petSize: String?, petRaceOthers: String?) {
