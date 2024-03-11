@@ -36,32 +36,34 @@ class ValidationRepositoryImpl : ValidationRepository {
         } else
             ValidationResult(success = true)
     }
+
     override fun inputPetName(name: String): ValidationResult {
 
-        return if(name.isEmpty()){
+        return if (name.isEmpty()) {
             ValidationResult(
                 success = false,
                 errorMessage = listOf("* Campo Obrigatório!")
             )
-        }else if(hasSpecialChar(name)){
+        } else if (hasSpecialChar(name)) {
             ValidationResult(
                 success = false,
-                errorMessage = listOf("* Não são permitidos caracteres especiais. " +
-                        "Por favor, insira um nome válido.")
+                errorMessage = listOf(
+                    "* Não são permitidos caracteres especiais. " +
+                            "Por favor, insira um nome válido."
+                )
             )
-        }else if(isValidLenght(name)){
+        } else if (isValidLenght(name)) {
             ValidationResult(
                 success = false,
                 errorMessage = listOf("* O nome fornecido deve ter entre 2 e 30 caracteres.")
             )
-        }
-        else
+        } else
             ValidationResult(success = true)
 
     }
 
     override fun inputPetGender(value: String): ValidationResult {
-        return if(value == "M" || value == "F")
+        return if (value == "M" || value == "F")
             ValidationResult(success = true)
         else
             ValidationResult(
@@ -209,11 +211,21 @@ class ValidationRepositoryImpl : ValidationRepository {
     }
 
     override fun validateDropDownRaceOthers(raceOtrher: String): ValidationResult {
-        return if(raceOtrher == "outro"){
+        return if (raceOtrher == "outro") {
             ValidationResult(success = true)
-        }else{
+        } else {
             ValidationResult(success = false)
         }
+    }
+
+    override fun validateDropdownSize(value: String): ValidationResult {
+        return if (value.isEmpty()) {
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* Campo obrigatório!")
+            )
+        } else
+            ValidationResult(success = true)
     }
 
     private fun isCodeValidLenght(input: String): Boolean {
@@ -247,7 +259,7 @@ class ValidationRepositoryImpl : ValidationRepository {
      *
      * @return true if contains char, otherwise, returns false
      * */
-    private fun hasSpecialChar(input: String): Boolean{
+    private fun hasSpecialChar(input: String): Boolean {
         val regex = Regex("[^a-zA-ZÀ-ÖØ-öø-ÿ0-9]")
         return regex.containsMatchIn(input)
     }

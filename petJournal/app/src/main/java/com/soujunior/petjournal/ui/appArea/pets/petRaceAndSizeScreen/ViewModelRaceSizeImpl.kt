@@ -92,26 +92,19 @@ class ViewModelRaceSizeImpl(
 
     override fun change(petRace: String?, petSize: String?, petRaceOthers: String?) {
         when {
+            petSize != null -> {
+                state = state.copy(size = petSize)
+                val result = validation.validateDropdownSize(state.size)
+                state = if (result.success) state.copy(sizeError = null)
+                else state.copy(sizeError = result.errorMessage)
+
+            }
+
             petRace != null -> {
                 state = state.copy(race = petRace)
                 val result = validation.inputPetName(state.race)
                 state = if (result.success) state.copy(raceError = null)
                 else state.copy(raceError = result.errorMessage)
-
-            }
-
-            petSize != null -> {
-                /*
-                  Mudança para testes pois ainda não sei se tem validação para size de pet na api
-                state = state.copy(size = petSize)
-                val result = validation.inputPetName(state.size)
-                state = if (result.success) state.copy(sizeError = null)
-                else state.copy(sizeError = result.errorMessage)
-                 */
-                state = state.copy(size = petSize)
-                state = if (state.size.isNotEmpty()) state.copy(sizeError = null)
-                else state.copy(sizeError = listOf("*Campo Obrigatório."))
-
 
             }
 

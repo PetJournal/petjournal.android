@@ -17,4 +17,5 @@ interface ValidationRepository {
     fun validateCodeOTP(codeOTP: String) : ValidationResult
 
     fun validateDropDownRaceOthers(raceOtrher : String) : ValidationResult
+    fun validateDropdownSize(value : String) : ValidationResult
 }
