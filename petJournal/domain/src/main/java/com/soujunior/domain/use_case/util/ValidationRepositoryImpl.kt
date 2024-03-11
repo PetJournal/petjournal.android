@@ -219,13 +219,52 @@ class ValidationRepositoryImpl : ValidationRepository {
     }
 
     override fun validateDropdownSize(value: String): ValidationResult {
+
         return if (value.isEmpty()) {
             ValidationResult(
                 success = false,
                 errorMessage = listOf("* Campo obrigatório!")
             )
-        } else
-            ValidationResult(success = true)
+        } else ValidationResult(success = true)
+    }
+
+    override fun validatePetRaceList(value: String): ValidationResult {
+        val checkListPets = listOf(
+            "Afghan Hound",
+            "Affenpinscher",
+            "Airedale Terrier",
+            "Akita",
+            "American Staffordshire Terrier",
+            "Basenji",
+            "Basset Hound",
+            "Beagle",
+            "Beagle Harrier",
+            "Bearded Collie",
+            "Bedlington Terrier",
+            "Bichon Frisé",
+            "Bloodhound",
+            "Bobtail",
+            "Boiadeiro Australiano",
+            "Boiadeiro Bernês",
+            "Border Collie",
+            "Border Terrier",
+            "Borzoi",
+            "Boston Terrier",
+            "Boxer",
+            "outro"
+        )
+
+        return if (value.isNotEmpty() && checkListPets.contains(value)) {
+            ValidationResult(
+                success = true,
+            )
+        } else {
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* Campo obrigatório!")
+            )
+
+        }
     }
 
     private fun isCodeValidLenght(input: String): Boolean {

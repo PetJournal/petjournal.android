@@ -18,4 +18,5 @@ interface ValidationRepository {
 
     fun validateDropDownRaceOthers(raceOtrher : String) : ValidationResult
     fun validateDropdownSize(value : String) : ValidationResult
+    fun validatePetRaceList(value : String) : ValidationResult
 }

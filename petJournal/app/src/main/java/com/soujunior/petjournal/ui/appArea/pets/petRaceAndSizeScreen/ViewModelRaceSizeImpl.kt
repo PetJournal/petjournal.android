@@ -102,7 +102,7 @@ class ViewModelRaceSizeImpl(
 
             petRace != null -> {
                 state = state.copy(race = petRace)
-                val result = validation.inputPetName(state.race)
+                val result = validation.validatePetRaceList(state.race)
                 state = if (result.success) state.copy(raceError = null)
                 else state.copy(raceError = result.errorMessage)
 
