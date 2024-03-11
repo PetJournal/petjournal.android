@@ -1,17 +1,38 @@
 package com.soujunior.petjournal.ui.components
 
+import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -21,21 +42,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
-import com.soujunior.petjournal.R
 
 @Composable
-fun AutoComplete(
-    modifier: Modifier = Modifier,
+fun InputTextAndDropDownRacePets(
+    modifier : Modifier = Modifier
+        .padding(5.dp)
+        .fillMaxWidth(),
     textInputModifier: Modifier = Modifier,
     placeholderText: String = "Raça do seu pet",
     titleText: String = "Raça: ",
@@ -47,16 +66,21 @@ fun AutoComplete(
     onDropdownItemSelected: (String) -> Unit = {},
 ) {
 
-    var race by remember { mutableStateOf("") }
 
-    val heightTextFields by remember { mutableStateOf(55.dp) }
-    var textFieldSize by remember { mutableStateOf(Size.Zero) }
-    var isDropdownExpanded by remember { mutableStateOf(false) }
-    val interactionSource = remember { MutableInteractionSource() }
+
+
+    var textFieldSize by remember {
+        mutableStateOf(Size.VisibilityThreshold)
+    }
+
+    var expanded by remember {
+        mutableStateOf(false)
+    }
+
 
     Column(modifier = modifier) {
         Row {
-            androidx.compose.material3.Text(
+            Text(
                 text = titleText,
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.onBackground,
@@ -69,26 +93,14 @@ fun AutoComplete(
         }
 
         Column(modifier = modifier) {
-            Row {
-                androidx.compose.material3.Text(
-                    text = titleText,
-                    textAlign = TextAlign.Start,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 15.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.dp, bottom = 5.dp)
-                )
-            }
 
-            Row {
+            Row(modifier = Modifier.fillMaxWidth()) {
                 Box(
                     modifier = textInputModifier
                         .background(Color.Transparent)
                         .fillMaxWidth()
                         .padding(5.dp)
-                        .height(40.dp)
+                        .height(50.dp)
                         .drawBehind {
                             val stroke = Stroke(
                                 width = 1.dp.toPx(),
@@ -109,47 +121,33 @@ fun AutoComplete(
                             shape = RoundedCornerShape(10.dp)
                         )
                         .clip(RoundedCornerShape(10.dp))
-                        .clickable { isDropdownExpanded = true }
                 ) {
-                    androidx.compose.material3.Text(
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .align(Alignment.CenterStart),
-                        text = textValue ?: placeholderText,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        fontSize = 15.sp
-                    )
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_dropdown),
-                        contentDescription = "Dropdown",
-                        tint = MaterialTheme.colorScheme.outline,
-                        modifier = Modifier
-                            .padding(end = 10.dp)
-                            .align(Alignment.CenterEnd)
-                    )
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(heightTextFields)
                             .onGloballyPositioned { coordinates ->
                                 textFieldSize = coordinates.size.toSize()
+
                             },
-                        value = race,
+
+
+                        value = textValue,
                         onValueChange = {
-                            race = it
-                            isDropdownExpanded = true
+                            onEvent(it)
+                            expanded = true
+
                         },
+
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = Color.Transparent,
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
-                            cursorColor = Color.Black
+                            cursorColor = Color.Transparent
                         ),
+
                         textStyle = TextStyle(
-                            color = Color.Black,
-                            fontSize = 16.sp
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontSize = 15.sp
                         ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
@@ -157,22 +155,93 @@ fun AutoComplete(
                         ),
                         singleLine = true,
                         trailingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_dropdown),
-                                contentDescription = "Dropdown",
-                                tint = MaterialTheme.colorScheme.outline,
-                                modifier = Modifier
-                                    .padding(end = 10.dp)
-                                    .align(Alignment.CenterEnd)
-                            )
+                            IconButton(onClick = { expanded = !expanded }) {
+                                Icon(
+                                    modifier = Modifier.size(24.dp),
+                                    imageVector = Icons.Rounded.KeyboardArrowDown,
+                                    contentDescription = "arrow",
+                                    tint = Color.Black
+                                )
+                            }
 
+                        },
+                        placeholder = {
+                            Text(placeholderText)
                         }
+
                     )
 
                 }
             }
+            Row {
+                if (textError != null) {
+                    textError.forEach {
+                        AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
+                    }
+                } else {
+                    androidx.compose.material3.Text(
+                        "*Campo Obrigatório.",
+                        color = MaterialTheme.colorScheme.outline,
+                        modifier = Modifier.padding(10.dp),
+                        fontSize = 15.sp
+                    )
+                }
+            }
+
+            AnimatedVisibility(visible = expanded) {
+                Card(
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp)
+                        .width(textFieldSize.width.dp),
+                    elevation = 15.dp,
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+
+                    LazyColumn(
+                        modifier = Modifier.heightIn(max = 150.dp),
+                    ) {
+
+                        if (textValue.isNotEmpty()) {
+                            dropdownItems?.filter {
+                                it.lowercase()
+                                    .contains(textValue.lowercase()) || it.lowercase()
+                                    .contains("Outro")
+                            }?.let {
+                                items(
+                                    it
+                                        .sorted()
+                                ) {
+                                    CategoryItems(title = it) { title ->
+                                        expanded = false
+                                        onEvent(it)
+                                        onDropdownItemSelected(it)
+                                    }
+                                }
+                            }
+                        } else {
+                            if (dropdownItems != null) {
+                                items(
+                                    dropdownItems.sorted()
+                                ) {
+                                    CategoryItems(title = it) { title ->
+                                        expanded = false
+                                        onEvent(it)
+                                        onDropdownItemSelected(it)
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+            }
+
         }
+
     }
+
+
 }
 
 @Composable
@@ -180,6 +249,7 @@ fun CategoryItems(
     title: String,
     onSelect: (String) -> Unit
 ) {
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -190,40 +260,5 @@ fun CategoryItems(
     ) {
         Text(text = title, fontSize = 16.sp)
     }
+
 }
-
-@Composable
-fun DropDownRacePetsPreview() {
-
-    AutoComplete(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        titleText = "Title",
-        textValue = "Selected Item",
-        isError = false,
-        onEvent = {},
-        onDropdownItemSelected = {},
-        dropdownItems = listOf(
-            "Raça 1",
-            "Raça 2",
-            "Raça 3",
-            "Raça 4",
-            "Raça 5",
-            "Raça 6",
-            "Raça 7"
-        )
-    )
-}
-
-@OptIn(ExperimentalComposeUiApi::class)
-@Preview
-@Composable
-fun DropDownRacePetsPreviewWithCompositionLocalProvider() {
-    CompositionLocalProvider(
-        LocalSoftwareKeyboardController provides LocalSoftwareKeyboardController.current!!
-    ) {
-        DropDownRacePetsPreview()
-    }
-}
-

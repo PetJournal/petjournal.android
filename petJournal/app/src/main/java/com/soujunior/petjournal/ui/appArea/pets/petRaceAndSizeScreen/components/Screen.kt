@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.components
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,11 +30,11 @@ import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.ViewModelRaceSize
-import com.soujunior.petjournal.ui.components.AutoComplete
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.DropDownSizePets
+import com.soujunior.petjournal.ui.components.InputTextAndDropDownRacePets
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import org.koin.androidx.compose.getViewModel
@@ -42,8 +43,6 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun Screen(petName: String?, navController: NavController) {
     val viewModel: ViewModelRaceSize = getViewModel()
-    val taskState = viewModel.taskState.collectAsState()
-    var isClearGender by remember { mutableStateOf(false) }
     val isSecondItemVisible by viewModel.isSecondItemVisible.collectAsState()
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
@@ -54,9 +53,6 @@ fun Screen(petName: String?, navController: NavController) {
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = {
                 Box(modifier = Modifier.padding(it)) {
-//                    if (taskState is TaskState.Loading)
-//                        IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.Center))
-//                    else {
                     LazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Top,
@@ -94,11 +90,7 @@ fun Screen(petName: String?, navController: NavController) {
                                     textError = viewModel.state.sizeError,
                                     isError = !viewModel.state.sizeError.isNullOrEmpty(),
                                     titleText = "Porte: ",
-                                    dropdownItems = listOf(
-                                        stringResource(R.string.pet_size_small),
-                                        stringResource(R.string.pet_size_medium),
-                                        stringResource(R.string.pet_size_big)
-                                    ),
+                                    dropdownItems = viewModel.sizeList.value,
                                     onEvent = { it: String ->
                                         viewModel.onEvent(
                                             RaceSizeFormEvent.PetSize(it)
@@ -108,47 +100,21 @@ fun Screen(petName: String?, navController: NavController) {
                             }
 
                             item {
-                                AutoComplete(
-                                    modifier = Modifier,
-                                    placeholderText = "Raça do seu pet",
-                                    textValue = viewModel.state.race,
-                                    textError = viewModel.state.raceError,
-                                    isError = !viewModel.state.raceError.isNullOrEmpty(),
-                                    titleText = "Raça: ",
-                                    dropdownItems = listOf(
-                                        stringResource(R.string.pet_size_small),
-                                        stringResource(R.string.pet_size_medium),
-                                        stringResource(R.string.pet_size_big),
-                                        "Outro"
-                                    ),
-                                    onEvent = { it: String ->
-                                        viewModel.onEvent(
-                                            RaceSizeFormEvent.PetRace(it)
-                                        )
-                                    }
-                                )
-                                /*
                                 InputTextAndDropDownRacePets(
                                     modifier = Modifier,
+                                    textInputModifier = Modifier,
                                     placeholderText = "Raça do seu pet",
                                     textValue = viewModel.state.race,
                                     textError = viewModel.state.raceError,
                                     isError = !viewModel.state.raceError.isNullOrEmpty(),
                                     titleText = "Raça: ",
-                                    dropdownItems = listOf(
-                                        stringResource(R.string.pet_size_small),
-                                        stringResource(R.string.pet_size_medium),
-                                        stringResource(R.string.pet_size_big),
-                                        "Outro"
-                                    ),
+                                    dropdownItems = viewModel.raceList.value,
                                     onEvent = { it: String ->
                                         viewModel.onEvent(
                                             RaceSizeFormEvent.PetRace(it)
                                         )
                                     }
                                 )
-
-                                 */
                             }
 
                             if (isSecondItemVisible) {
@@ -157,13 +123,13 @@ fun Screen(petName: String?, navController: NavController) {
                                         modifier = Modifier,
                                         textInputModifier = Modifier,
                                         placeholderText = "Digite aqui...",
-                                        textValue = viewModel.state.race,
-                                        textError = viewModel.state.raceError,
-                                        isError = !viewModel.state.raceError.isNullOrEmpty(),
+                                        textValue = viewModel.state.raceOthers,
+                                        textError = viewModel.state.raceOthersError,
+                                        isError = !viewModel.state.raceOthersError.isNullOrEmpty(),
                                         titleText = "Raça do seu pet",
                                         onEvent = { it: String ->
                                             viewModel.onEvent(
-                                                RaceSizeFormEvent.PetRace(it)
+                                                RaceSizeFormEvent.PetRaceOthers(it)
                                             )
                                         }
                                     )
@@ -193,15 +159,34 @@ fun Screen(petName: String?, navController: NavController) {
                                                 RaceSizeFormEvent.NextButton
                                             )
 
-                                            if (viewModel.enableButton() &&
-                                                viewModel.state.race.isNotEmpty() &&
-                                                viewModel.state.size.isNotEmpty()
-                                            ) {
+                                            if (isSecondItemVisible){
+                                                // Caso a opção outros foi selecionada
+                                                if (viewModel.enableButton() &&
+                                                    viewModel.state.raceOthers.isNotEmpty() &&
+                                                    viewModel.state.size.isNotEmpty()
 
-                                                viewModel.state.race.let {
-                                                    navController.navigate("pets/raceAndSize/$it")
+                                                ){
+                                                    viewModel.state.raceOthers.let {
+                                                        //navController.navigate("pets/raceAndSize/$it")
+                                                        Log.i("outros", it)
+                                                    }
+
+                                                }
+                                            }else{
+                                                // Caso a opção outros não foi selecionada
+                                                if (viewModel.enableButton() &&
+                                                    viewModel.state.race.isNotEmpty() &&
+                                                    viewModel.state.size.isNotEmpty()
+                                                ){
+                                                    viewModel.state.race.let {
+                                                        Log.i("race", it)
+                                                        //navController.navigate("pets/raceAndSize/$it")
+
+                                                    }
                                                 }
                                             }
+
+
                                         },
                                         enableButton = viewModel.enableButton(),
                                         modifier = Modifier.width(150.dp),

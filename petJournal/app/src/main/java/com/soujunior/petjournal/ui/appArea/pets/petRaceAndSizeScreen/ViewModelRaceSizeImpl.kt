@@ -4,8 +4,10 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.repository.ValidationRepository
+import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -32,9 +34,16 @@ class ViewModelRaceSizeImpl(
     private val _isSecondItemVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val isSecondItemVisible: StateFlow<Boolean> = _isSecondItemVisible
 
-//    init {
-//        getData()
-//    }
+    private val _sizeList: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
+    override val sizeList: StateFlow<List<String>> = _sizeList
+
+    private val _raceList: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
+    override val raceList: StateFlow<List<String>> = _raceList
+
+    init {
+       getData()
+
+   }
 
     /*Os metodos de Success e Failure vão ser utilizados
     quando houver a nova impl do dataclass*/
@@ -97,7 +106,7 @@ class ViewModelRaceSizeImpl(
 
             }
             petRaceOthers != null -> {
-                state = state.copy(petRaceOthers)
+                state = state.copy(raceOthers =  petRaceOthers)
                 val result = validation.inputPetName(state.raceOthers)
                 state = if (result.success) state.copy(raceOthersError = null)
                 else state.copy(raceOthersError = result.errorMessage)
@@ -117,6 +126,35 @@ class ViewModelRaceSizeImpl(
 //            _taskState.value = TaskState.Loading
 //            val result =
 //        }
+        _sizeList.value = listOf(
+            "Pequeno (até 10kg)" ,
+            "Médio (11 à 24kg)",
+            "Grande (a cima de 25kg)"
+        )
+        _raceList.value = listOf(
+            "Afghan Hound",
+            "Affenpinscher",
+            "Airedale Terrier",
+            "Akita",
+            "American Staffordshire Terrier",
+            "Basenji",
+            "Basset Hound",
+            "Beagle",
+            "Beagle Harrier",
+            "Bearded Collie",
+            "Bedlington Terrier",
+            "Bichon Frisé",
+            "Bloodhound",
+            "Bobtail",
+            "Boiadeiro Australiano",
+            "Boiadeiro Bernês",
+            "Border Collie",
+            "Border Terrier",
+            "Borzoi",
+            "Boston Terrier",
+            "Boxer",
+            "outro"
+        )
     }
 
 }
