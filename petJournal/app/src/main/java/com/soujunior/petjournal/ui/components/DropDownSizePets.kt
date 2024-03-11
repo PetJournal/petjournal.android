@@ -10,51 +10,36 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 
 @Composable
 fun DropDownSizePets(
-    modifier: Modifier = Modifier
-        .padding(5.dp)
-        .fillMaxWidth(),
+    modifier: Modifier = Modifier,
     textInputModifier: Modifier = Modifier,
     placeholderText: String = "Placeholder",
     titleText: String = "Title",
-    textValue: String,
     isError: Boolean = false,
     textError: List<String>? = null,
     dropdownItems: List<String>? = null,
@@ -86,20 +71,30 @@ fun DropDownSizePets(
                     .padding(5.dp)
                     .height(40.dp)
                     .drawBehind {
+
+
                         val stroke = Stroke(
                             width = 1.dp.toPx(),
                             pathEffect = PathEffect.dashPathEffect(
                                 intervals = floatArrayOf(8.dp.toPx(), 8.dp.toPx(), 0f)
                             )
                         )
+
+
                         drawRoundRect(
-                            color = if (isError) Color.Transparent else Color.Black,
+                            color = if (isError) Color.Transparent else if (isDropdownExpanded) Color.Transparent else Color.Black,
                             style = stroke,
                             cornerRadius = CornerRadius(10.dp.toPx())
                         )
 
                     }
-                    .border(2.dp, if(isError) MaterialTheme.colorScheme.error else Color.Transparent, shape = RoundedCornerShape(10.dp))
+                    .border(
+                        2.dp,
+                        if (isError) MaterialTheme.colorScheme.error
+                        else if (isDropdownExpanded) MaterialTheme.colorScheme.primary
+                        else Color.Transparent,
+                        shape = RoundedCornerShape(10.dp)
+                    )
                     .clip(RoundedCornerShape(10.dp))
                     .clickable { isDropdownExpanded = true }
             ) {
@@ -162,30 +157,4 @@ fun DropDownSizePets(
         }
     }
 
-}
-@Composable
-fun DropDownSizePetsPreview() {
-    // Replace the placeholder values with your actual data
-    DropDownSizePets(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        titleText = "Title",
-        textValue = "Selected Item",
-        isError = false,
-        onEvent = {},
-        onDropdownItemSelected = {},
-        dropdownItems = listOf("Item 1", "Item 2", "Item 3")
-    )
-}
-
-@OptIn(ExperimentalComposeUiApi::class)
-@Preview
-@Composable
-fun DropDownSizePetsPreviewWithCompositionLocalProvider() {
-    CompositionLocalProvider(
-        LocalSoftwareKeyboardController provides LocalSoftwareKeyboardController.current!!
-    ) {
-        DropDownSizePetsPreview()
-    }
 }

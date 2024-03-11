@@ -86,7 +86,6 @@ fun Screen(petName: String?, navController: NavController) {
                                     modifier = Modifier,
                                     textInputModifier = Modifier,
                                     placeholderText = "Porte do seu pet",
-                                    textValue = viewModel.state.size,
                                     textError = viewModel.state.sizeError,
                                     isError = !viewModel.state.sizeError.isNullOrEmpty(),
                                     titleText = "Porte: ",

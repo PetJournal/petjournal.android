@@ -61,6 +61,7 @@ class ViewModelRaceSizeImpl(
         when (event) {
             is RaceSizeFormEvent.PetRace -> {
                 change(petRace = event.petRace)
+                // validação na viewModel para saber se foi selecionado a opção outros, mudança para validator no futuro
                 _isSecondItemVisible.value = event.petRace.equals("Outro", ignoreCase = true)
             }
             is RaceSizeFormEvent.PetSize -> change(petSize = event.petSize)

@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.components
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.foundation.background
@@ -17,8 +16,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -52,7 +53,7 @@ import androidx.compose.ui.unit.toSize
 
 @Composable
 fun InputTextAndDropDownRacePets(
-    modifier : Modifier = Modifier
+    modifier: Modifier = Modifier
         .padding(5.dp)
         .fillMaxWidth(),
     textInputModifier: Modifier = Modifier,
@@ -67,11 +68,10 @@ fun InputTextAndDropDownRacePets(
 ) {
 
 
-
-
     var textFieldSize by remember {
         mutableStateOf(Size.VisibilityThreshold)
     }
+    var isTextFieldEnabled by remember { mutableStateOf(false) }
 
     var expanded by remember {
         mutableStateOf(false)
@@ -109,7 +109,7 @@ fun InputTextAndDropDownRacePets(
                                 )
                             )
                             drawRoundRect(
-                                color = if (isError) Color.Transparent else Color.Black,
+                                color = if (isError) Color.Transparent else if (expanded) Color.Transparent else Color.Black,
                                 style = stroke,
                                 cornerRadius = CornerRadius(10.dp.toPx())
                             )
@@ -117,7 +117,9 @@ fun InputTextAndDropDownRacePets(
                         }
                         .border(
                             2.dp,
-                            if (isError) MaterialTheme.colorScheme.error else Color.Transparent,
+                            if (isError) MaterialTheme.colorScheme.error
+                            else if (expanded) MaterialTheme.colorScheme.primary
+                            else Color.Transparent,
                             shape = RoundedCornerShape(10.dp)
                         )
                         .clip(RoundedCornerShape(10.dp))
@@ -129,20 +131,17 @@ fun InputTextAndDropDownRacePets(
                                 textFieldSize = coordinates.size.toSize()
 
                             },
-
-
                         value = textValue,
                         onValueChange = {
                             onEvent(it)
                             expanded = true
-
                         },
 
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = Color.Transparent,
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
-                            cursorColor = Color.Transparent
+                            cursorColor = MaterialTheme.colorScheme.primary
                         ),
 
                         textStyle = TextStyle(
@@ -155,7 +154,9 @@ fun InputTextAndDropDownRacePets(
                         ),
                         singleLine = true,
                         trailingIcon = {
-                            IconButton(onClick = { expanded = !expanded }) {
+                            IconButton(onClick = {
+                                expanded = !expanded
+                            }) {
                                 Icon(
                                     modifier = Modifier.size(24.dp),
                                     imageVector = Icons.Rounded.KeyboardArrowDown,
@@ -167,8 +168,7 @@ fun InputTextAndDropDownRacePets(
                         },
                         placeholder = {
                             Text(placeholderText)
-                        }
-
+                        },
                     )
 
                 }
@@ -192,13 +192,17 @@ fun InputTextAndDropDownRacePets(
                 Card(
                     modifier = Modifier
                         .padding(horizontal = 5.dp)
-                        .width(textFieldSize.width.dp),
+                        .width(textFieldSize.width.dp)
+                        .heightIn(max = 150.dp)
+                        .verticalScroll(rememberScrollState()),
                     elevation = 15.dp,
                     shape = RoundedCornerShape(10.dp)
                 ) {
 
                     LazyColumn(
-                        modifier = Modifier.heightIn(max = 150.dp),
+                        modifier = Modifier
+                            .heightIn(max = 150.dp)
+                            .padding(5.dp),
                     ) {
 
                         if (textValue.isNotEmpty()) {
