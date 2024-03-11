@@ -19,9 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -43,7 +40,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun Screen(petName: String?, navController: NavController) {
     val viewModel: ViewModelRaceSize = getViewModel()
-    val isSecondItemVisible by viewModel.isSecondItemVisible.collectAsState()
+    val isTextFiledOthersVisible by viewModel.isTextFiledOthersVisible.collectAsState()
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
             modifier = Modifier,
@@ -158,7 +155,7 @@ fun Screen(petName: String?, navController: NavController) {
                                                 RaceSizeFormEvent.NextButton
                                             )
 
-                                            if (isSecondItemVisible){
+                                            if (isTextFiledOthersVisible){
                                                 // Caso a opção outros foi selecionada
                                                 if (viewModel.enableButton() &&
                                                     viewModel.state.raceOthers.isNotEmpty() &&
