@@ -8,9 +8,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -44,6 +46,7 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -127,6 +130,7 @@ fun InputTextAndDropDownRacePets(
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .fillMaxHeight()
                             .onGloballyPositioned { coordinates ->
                                 textFieldSize = coordinates.size.toSize()
 
@@ -166,6 +170,7 @@ fun InputTextAndDropDownRacePets(
                             }
 
                         },
+
                         placeholder = {
                             Text(placeholderText)
                         },
@@ -193,7 +198,7 @@ fun InputTextAndDropDownRacePets(
                     modifier = Modifier
                         .padding(horizontal = 5.dp)
                         .width(textFieldSize.width.dp)
-                        .heightIn(max = 150.dp)
+                        .heightIn(max = 180.dp)
                         .verticalScroll(rememberScrollState()),
                     elevation = 15.dp,
                     shape = RoundedCornerShape(10.dp)

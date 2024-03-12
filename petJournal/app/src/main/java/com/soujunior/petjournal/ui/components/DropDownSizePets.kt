@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -41,16 +40,16 @@ import com.soujunior.petjournal.R
 fun DropDownSizePets(
     modifier: Modifier = Modifier,
     textInputModifier: Modifier = Modifier,
-    placeholderText: String = "Placeholder",
+    placeholderText: String = "Porte do seu pet",
     titleText: String = "Title",
     isError: Boolean = false,
     textError: List<String>? = null,
     dropdownItems: List<String>? = null,
     onEvent: (String) -> Unit,
-    onDropdownItemSelected: (String) -> Unit = {},
+    textValue: String
 ) {
     var isDropdownExpanded by remember { mutableStateOf(false) }
-    var selectedDropdownItem by remember { mutableStateOf<String?>(null) }
+
 
     Column(modifier = modifier) {
         Row {
@@ -105,7 +104,7 @@ fun DropDownSizePets(
                     modifier = Modifier
                         .padding(10.dp)
                         .align(Alignment.CenterStart),
-                    text = selectedDropdownItem ?: placeholderText,
+                    text = textValue.ifEmpty { placeholderText },
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontSize = 15.sp
@@ -126,18 +125,14 @@ fun DropDownSizePets(
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background)
                         .width(IntrinsicSize.Max)
-                        //.wrapContentHeight(Alignment.E)
 
 
                 ) {
                     dropdownItems?.forEach { item ->
                         DropdownMenuItem(
                             onClick = {
-                                selectedDropdownItem = item
-                                onDropdownItemSelected(item)
                                 isDropdownExpanded = false
                                 onEvent(item)
-
                             }
 
                         ) {

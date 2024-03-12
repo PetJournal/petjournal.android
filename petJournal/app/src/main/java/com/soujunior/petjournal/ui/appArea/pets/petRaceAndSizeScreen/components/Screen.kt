@@ -3,6 +3,8 @@ package com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.components
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +12,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,6 +25,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -50,6 +55,17 @@ fun Screen(petName: String?, navController: NavController) {
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = {
                 Box(modifier = Modifier.padding(it)) {
+                    Image(
+                        painter = painterResource( R.drawable.rastro),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.background)
+                            .offset(y = 120.dp)
+                            .align(Alignment.BottomEnd)
+                    )
+
+
                     LazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Top,
@@ -83,6 +99,7 @@ fun Screen(petName: String?, navController: NavController) {
                                     modifier = Modifier,
                                     textInputModifier = Modifier,
                                     placeholderText = "Porte do seu pet",
+                                    textValue = viewModel.state.size,
                                     textError = viewModel.state.sizeError,
                                     isError = !viewModel.state.sizeError.isNullOrEmpty(),
                                     titleText = "Porte: ",
@@ -131,13 +148,19 @@ fun Screen(petName: String?, navController: NavController) {
                                     )
                                 }
                             }
-                            item {
+                            item{
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .align(Alignment.TopCenter)
+                                        .padding(start = 25.dp,top = 100.dp)
+                                ) {
 
-                                Row {
                                     Button3(
                                         submit = { navController.popBackStack() },
                                         enableButton = true,
-                                        modifier = Modifier.width(150.dp),
+                                        modifier = Modifier.width(150.dp)
+                                            .height(50.dp),
                                         border = BorderStroke(
                                             width = 2.dp,
                                             color = MaterialTheme.colorScheme.primary
@@ -155,30 +178,38 @@ fun Screen(petName: String?, navController: NavController) {
                                                 RaceSizeFormEvent.NextButton
                                             )
 
-                                            if (isTextFiledOthersVisible){
+                                            if (isTextFiledOthersVisible) {
                                                 // Caso a opção outros foi selecionada
                                                 if (viewModel.enableButton() &&
                                                     viewModel.state.raceOthers.isNotEmpty() &&
                                                     viewModel.state.size.isNotEmpty()
 
-                                                ){
+                                                ) {
+                                                    viewModel.state.size.let {
+                                                        //navController.navigate("pets/raceAndSize/$it")
+                                                        Log.i("outros", it)
+                                                    }
                                                     viewModel.state.raceOthers.let {
                                                         //navController.navigate("pets/raceAndSize/$it")
                                                         Log.i("outros", it)
                                                     }
 
                                                 }
-                                            }else{
+                                            } else {
                                                 // Caso a opção outros não foi selecionada
                                                 if (viewModel.enableButton() &&
                                                     viewModel.state.race.isNotEmpty() &&
                                                     viewModel.state.size.isNotEmpty() &&
                                                     viewModel.state.race != "Outro"
-                                                ){
+                                                ) {
                                                     viewModel.state.race.let {
                                                         Log.i("race", it)
                                                         //navController.navigate("pets/raceAndSize/$it")
 
+                                                    }
+                                                    viewModel.state.size.let {
+                                                        Log.i("race", it)
+                                                        //navController.navigate("pets/raceAndSize/$it")
                                                     }
                                                 }
                                             }
@@ -186,7 +217,7 @@ fun Screen(petName: String?, navController: NavController) {
 
                                         },
                                         enableButton = viewModel.enableButton(),
-                                        modifier = Modifier.width(150.dp),
+                                        modifier = Modifier.width(150.dp).height(50.dp),
                                         border = BorderStroke(
                                             width = 2.dp,
                                             color =
@@ -201,9 +232,9 @@ fun Screen(petName: String?, navController: NavController) {
                                 }
                             }
                         })
+
                 }
 
-//                    }
             })
 
     }

@@ -38,6 +38,7 @@ class ViewModelRaceSizeImpl(
     private val _raceList: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
     override val raceList: StateFlow<List<String>> = _raceList
 
+
     init {
         getData()
 
