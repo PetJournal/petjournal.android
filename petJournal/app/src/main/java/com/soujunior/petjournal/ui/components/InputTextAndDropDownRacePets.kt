@@ -1,25 +1,19 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -38,23 +32,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.toSize
 
 @Composable
 fun InputTextAndDropDownRacePets(
@@ -71,12 +62,6 @@ fun InputTextAndDropDownRacePets(
     onEvent: (String) -> Unit,
     onDropdownItemSelected: (String) -> Unit = {},
 ) {
-
-
-    var textFieldSize by remember {
-        mutableStateOf(Size.VisibilityThreshold)
-    }
-    var isTextFieldEnabled by remember { mutableStateOf(false) }
 
     var expanded by remember {
         mutableStateOf(false)
@@ -98,13 +83,11 @@ fun InputTextAndDropDownRacePets(
         }
 
         Column(modifier = modifier) {
-
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Box(
-                    modifier = textInputModifier
-                        .background(Color.Transparent)
+            Row(verticalAlignment = Alignment.Top) {
+                TextField(
+                    modifier = Modifier
+                        .align(Alignment.Top)
                         .fillMaxWidth()
-                        .padding(5.dp)
                         .height(50.dp)
                         .drawBehind {
                             val stroke = Stroke(
@@ -127,59 +110,49 @@ fun InputTextAndDropDownRacePets(
                             else Color.Transparent,
                             shape = RoundedCornerShape(10.dp)
                         )
-                        .clip(RoundedCornerShape(10.dp))
-                ) {
-                    TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .onGloballyPositioned { coordinates ->
-                                textFieldSize = coordinates.size.toSize()
+                        .clip(RoundedCornerShape(10.dp)),
 
-                            },
-                        value = textValue,
-                        onValueChange = {
-                            onEvent(it)
-                            expanded = true
-                        },
+                    value = textValue,
+                    onValueChange = {
+                        onEvent(it)
+                        expanded = true
+                    },
 
-                        colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            cursorColor = MaterialTheme.colorScheme.primary
-                        ),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        cursorColor = MaterialTheme.colorScheme.primary
+                    ),
 
-                        textStyle = TextStyle(
-                            color = MaterialTheme.colorScheme.onSurface,
-                            fontSize = 15.sp
-                        ),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done
-                        ),
-                        singleLine = true,
-                        trailingIcon = {
-                            IconButton(onClick = {
-                                expanded = !expanded
-                            }) {
-                                Icon(
-                                    modifier = Modifier.size(24.dp),
-                                    imageVector = Icons.Rounded.KeyboardArrowDown,
-                                    contentDescription = "arrow",
-                                    tint = Color.Black
-                                )
-                            }
+                    textStyle = MaterialTheme.typography.bodyMedium,
 
-                        },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    ),
+                    singleLine = true,
+                    trailingIcon = {
+                        IconButton(onClick = {
+                            expanded = !expanded
+                        }) {
+                            Icon(
+                                modifier = Modifier.size(24.dp),
+                                imageVector = Icons.Rounded.KeyboardArrowDown,
+                                contentDescription = "arrow",
+                                tint = Color.Black
+                            )
+                        }
 
-                        placeholder = {
-                            Text(if (isError) "X" else placeholderText)
+                    },
 
-                        },
-                    )
+                    placeholder = {
+                        Text(if (isError) "X" else placeholderText)
 
-                }
+                    },
+                )
+
+
             }
             Row {
                 if (textError != null) {
@@ -200,7 +173,6 @@ fun InputTextAndDropDownRacePets(
                 Card(
                     modifier = Modifier
                         .padding(horizontal = 5.dp)
-                        .width(textFieldSize.width.dp)
                         .heightIn(max = 180.dp),
                     elevation = 15.dp,
                     shape = RoundedCornerShape(10.dp)
@@ -211,7 +183,7 @@ fun InputTextAndDropDownRacePets(
                             .heightIn(max = 180.dp)
                             .padding(5.dp),
 
-                    ) {
+                        ) {
 
                         if (textValue.isNotEmpty()) {
                             dropdownItems?.filter {
@@ -223,7 +195,7 @@ fun InputTextAndDropDownRacePets(
                                     it
                                         .sorted()
                                 ) {
-                                    CategoryItems(title = it) { title ->
+                                    CategoryItems(true, title = it) { title ->
                                         expanded = false
                                         onEvent(it)
                                         onDropdownItemSelected(it)
@@ -235,7 +207,7 @@ fun InputTextAndDropDownRacePets(
                                 items(
                                     dropdownItems.sorted()
                                 ) {
-                                    CategoryItems(title = it) { title ->
+                                    CategoryItems(false, title = it) { title ->
                                         expanded = false
                                         onEvent(it)
                                         onDropdownItemSelected(it)
@@ -258,6 +230,7 @@ fun InputTextAndDropDownRacePets(
 
 @Composable
 fun CategoryItems(
+    styleSearch: Boolean?,
     title: String,
     onSelect: (String) -> Unit
 ) {
@@ -270,7 +243,11 @@ fun CategoryItems(
             }
             .padding(10.dp)
     ) {
-        Text(text = title, fontSize = 16.sp)
+        Text(
+            text = title,
+            fontSize = 15.sp,
+            fontWeight = if (styleSearch == true) FontWeight.Bold else FontWeight.Normal
+        )
     }
 
 }

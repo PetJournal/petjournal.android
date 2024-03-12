@@ -70,7 +70,6 @@ class ViewModelRaceSizeImpl(
                 change(petRaceOthers = state.raceOthers)
             }
 
-
             else -> {}
         }
     }
@@ -120,18 +119,8 @@ class ViewModelRaceSizeImpl(
         }
     }
 
-    fun generic() {
-        Log.d("Teste", state.race)
-        Log.d("Teste", state.size)
-        Log.d("Teste", state.raceError.toString())
-        Log.d("Teste", state.sizeError.toString())
-    }
 
     private fun getData() {
-//        viewModelScope.launch {
-//            _taskState.value = TaskState.Loading
-//            val result =
-//        }
         _sizeList.value = listOf(
             "Pequeno (até 10kg)",
             "Médio (11 à 24kg)",
