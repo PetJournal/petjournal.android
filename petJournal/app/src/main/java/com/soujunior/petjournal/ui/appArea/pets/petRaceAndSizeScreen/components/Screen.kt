@@ -115,7 +115,6 @@ fun Screen(petName: String?, navController: NavController) {
                             item {
                                 InputTextAndDropDownRacePets(
                                     modifier = Modifier,
-                                    textInputModifier = Modifier,
                                     placeholderText = "Raça do seu pet",
                                     textValue = viewModel.state.race,
                                     textError = viewModel.state.raceError,
@@ -200,7 +199,7 @@ fun Screen(petName: String?, navController: NavController) {
                                                 if (viewModel.enableButton() &&
                                                     viewModel.state.race.isNotEmpty() &&
                                                     viewModel.state.size.isNotEmpty() &&
-                                                    viewModel.state.race != "Outro"
+                                                    viewModel.state.race != "outro"
                                                 ) {
                                                     viewModel.state.race.let {
                                                         Log.i("race", it)

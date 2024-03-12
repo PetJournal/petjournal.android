@@ -1,10 +1,8 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,10 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -49,10 +45,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun InputTextAndDropDownRacePets(
-    modifier: Modifier = Modifier
-        .padding(5.dp)
-        .fillMaxWidth(),
-    textInputModifier: Modifier = Modifier,
+    modifier: Modifier = Modifier,
     placeholderText: String = "Raça do seu pet",
     titleText: String = "Raça: ",
     textValue: String,
@@ -86,8 +79,8 @@ fun InputTextAndDropDownRacePets(
             Row(verticalAlignment = Alignment.Top) {
                 TextField(
                     modifier = Modifier
-                        .align(Alignment.Top)
                         .fillMaxWidth()
+                        .padding(5.dp)
                         .height(50.dp)
                         .drawBehind {
                             val stroke = Stroke(
@@ -190,15 +183,15 @@ fun InputTextAndDropDownRacePets(
                                 it.lowercase()
                                     .contains(textValue.lowercase()) || it.lowercase()
                                     .contains("Outro")
-                            }?.let {
+                            }?.let { itemList ->
                                 items(
-                                    it
+                                    itemList
                                         .sorted()
-                                ) {
-                                    CategoryItems(true, title = it) { title ->
+                                ) {itemFilter ->
+                                    CategoryItems(true, title = itemFilter) {
                                         expanded = false
-                                        onEvent(it)
-                                        onDropdownItemSelected(it)
+                                        onEvent(itemFilter)
+                                        onDropdownItemSelected(itemFilter)
                                     }
                                 }
                             }
@@ -206,11 +199,11 @@ fun InputTextAndDropDownRacePets(
                             if (dropdownItems != null) {
                                 items(
                                     dropdownItems.sorted()
-                                ) {
-                                    CategoryItems(false, title = it) { title ->
+                                ) {itemFilter ->
+                                    CategoryItems(false, title = itemFilter) {
                                         expanded = false
-                                        onEvent(it)
-                                        onDropdownItemSelected(it)
+                                        onEvent(itemFilter)
+                                        onDropdownItemSelected(itemFilter)
                                     }
                                 }
                             }

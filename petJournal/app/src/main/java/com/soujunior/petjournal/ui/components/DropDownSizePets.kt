@@ -71,7 +71,7 @@ fun DropDownSizePets(
                     .background(Color.Transparent)
                     .fillMaxWidth()
                     .padding(5.dp)
-                    .height(40.dp)
+                    .height(50.dp)
                     .drawBehind {
 
 
