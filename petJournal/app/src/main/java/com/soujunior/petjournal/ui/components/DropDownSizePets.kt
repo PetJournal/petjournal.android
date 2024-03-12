@@ -104,9 +104,9 @@ fun DropDownSizePets(
                     modifier = Modifier
                         .padding(10.dp)
                         .align(Alignment.CenterStart),
-                    text = textValue.ifEmpty { placeholderText },
+                    text = if (isError) "X" else textValue.ifEmpty { placeholderText },
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
                     fontSize = 15.sp
                 )
 

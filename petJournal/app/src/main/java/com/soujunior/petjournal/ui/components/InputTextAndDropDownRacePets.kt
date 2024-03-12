@@ -2,6 +2,7 @@ package com.soujunior.petjournal.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -172,7 +174,8 @@ fun InputTextAndDropDownRacePets(
                         },
 
                         placeholder = {
-                            Text(placeholderText)
+                            Text(if (isError) "X" else placeholderText)
+
                         },
                     )
 
@@ -198,16 +201,16 @@ fun InputTextAndDropDownRacePets(
                     modifier = Modifier
                         .padding(horizontal = 5.dp)
                         .width(textFieldSize.width.dp)
-                        .heightIn(max = 180.dp)
-                        .verticalScroll(rememberScrollState()),
+                        .heightIn(max = 180.dp),
                     elevation = 15.dp,
                     shape = RoundedCornerShape(10.dp)
                 ) {
 
                     LazyColumn(
                         modifier = Modifier
-                            .heightIn(max = 150.dp)
+                            .heightIn(max = 180.dp)
                             .padding(5.dp),
+
                     ) {
 
                         if (textValue.isNotEmpty()) {

@@ -153,7 +153,7 @@ fun Screen(petName: String?, navController: NavController) {
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .align(Alignment.TopCenter)
-                                        .padding(start = 25.dp,top = 100.dp)
+                                        .padding(start = 25.dp,top = 50.dp)
                                 ) {
 
                                     Button3(
