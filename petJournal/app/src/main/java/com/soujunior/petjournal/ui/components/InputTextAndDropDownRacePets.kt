@@ -140,8 +140,12 @@ fun InputTextAndDropDownRacePets(
                     },
 
                     placeholder = {
-                        Text(if (isError) "X" else placeholderText)
-
+                        Text(
+                            text =  if (isError) "X" else placeholderText,
+                            color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontSize = 15.sp
+                        )
                     },
                 )
 
@@ -187,7 +191,7 @@ fun InputTextAndDropDownRacePets(
                                 items(
                                     itemList
                                         .sorted()
-                                ) {itemFilter ->
+                                ) { itemFilter ->
                                     CategoryItems(true, title = itemFilter) {
                                         expanded = false
                                         onEvent(itemFilter)
@@ -199,7 +203,7 @@ fun InputTextAndDropDownRacePets(
                             if (dropdownItems != null) {
                                 items(
                                     dropdownItems.sorted()
-                                ) {itemFilter ->
+                                ) { itemFilter ->
                                     CategoryItems(false, title = itemFilter) {
                                         expanded = false
                                         onEvent(itemFilter)
