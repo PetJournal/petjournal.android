@@ -140,7 +140,7 @@ class ViewModelRaceSizeImpl(
             "Borzoi",
             "Boston Terrier",
             "Boxer",
-            "outro"
+            "Outro"
         )
     }
 

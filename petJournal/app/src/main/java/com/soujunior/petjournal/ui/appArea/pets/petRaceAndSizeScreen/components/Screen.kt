@@ -199,7 +199,7 @@ fun Screen(petName: String?, navController: NavController) {
                                                 if (viewModel.enableButton() &&
                                                     viewModel.state.race.isNotEmpty() &&
                                                     viewModel.state.size.isNotEmpty() &&
-                                                    viewModel.state.race != "outro"
+                                                    viewModel.state.race.lowercase() != "outro"
                                                 ) {
                                                     viewModel.state.race.let {race ->
                                                         Log.i("race", race)

@@ -211,7 +211,7 @@ class ValidationRepositoryImpl : ValidationRepository {
     }
 
     override fun validateDropDownRaceOthers(raceOther: String): ValidationResult {
-        return if (raceOther == "outro") {
+        return if (raceOther.lowercase() == "outro") {
             ValidationResult(success = true)
         } else {
             ValidationResult(success = false)
