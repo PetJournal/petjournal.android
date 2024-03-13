@@ -184,13 +184,13 @@ fun Screen(petName: String?, navController: NavController) {
                                                     viewModel.state.size.isNotEmpty()
 
                                                 ) {
-                                                    viewModel.state.size.let {
+                                                    viewModel.state.size.let {size ->
                                                         //navController.navigate("pets/raceAndSize/$it")
-                                                        Log.i("outros", it)
+                                                        Log.i("outros", size)
                                                     }
-                                                    viewModel.state.raceOthers.let {
+                                                    viewModel.state.raceOthers.let { raceOther ->
                                                         //navController.navigate("pets/raceAndSize/$it")
-                                                        Log.i("outros", it)
+                                                        Log.i("outros", raceOther)
                                                     }
 
                                                 }
@@ -201,13 +201,13 @@ fun Screen(petName: String?, navController: NavController) {
                                                     viewModel.state.size.isNotEmpty() &&
                                                     viewModel.state.race != "outro"
                                                 ) {
-                                                    viewModel.state.race.let {
-                                                        Log.i("race", it)
+                                                    viewModel.state.race.let {race ->
+                                                        Log.i("race", race)
                                                         //navController.navigate("pets/raceAndSize/$it")
 
                                                     }
-                                                    viewModel.state.size.let {
-                                                        Log.i("race", it)
+                                                    viewModel.state.size.let { size ->
+                                                        Log.i("race", size)
                                                         //navController.navigate("pets/raceAndSize/$it")
                                                     }
                                                 }

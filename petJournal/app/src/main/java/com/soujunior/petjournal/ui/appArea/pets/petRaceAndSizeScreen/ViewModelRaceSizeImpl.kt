@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,12 +20,6 @@ class ViewModelRaceSizeImpl(
         get() = TODO("Not yet implemented")
     override val message: StateFlow<String>
         get() = TODO("Not yet implemented")
-
-    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
-    override val taskState: StateFlow<TaskState> = _taskState
-
-    private val _petName: MutableStateFlow<String> = MutableStateFlow("")
-    override val petName: StateFlow<String> = _petName
 
     private val _isTextFiledOthersVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val isTextFiledOthersVisible: StateFlow<Boolean> = _isTextFiledOthersVisible

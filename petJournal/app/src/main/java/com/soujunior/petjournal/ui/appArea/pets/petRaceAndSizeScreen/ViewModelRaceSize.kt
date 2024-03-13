@@ -13,9 +13,7 @@ abstract class ViewModelRaceSize : ViewModel() {
     abstract var state: RaceSizeFormState
     abstract val validationEventChannel: Channel<ValidationEvent>
     abstract val message: StateFlow<String>
-    abstract val taskState: StateFlow<TaskState>
 
-    abstract val petName: StateFlow<String>
     abstract val isTextFiledOthersVisible: StateFlow<Boolean>
     abstract val sizeList: StateFlow<List<String>>
     abstract val raceList: StateFlow<List<String>>
