@@ -16,7 +16,7 @@ interface ValidationRepository {
     fun validatePrivacyPolicy(value: Boolean) : ValidationResult
     fun validateCodeOTP(codeOTP: String) : ValidationResult
 
-    fun validateDropDownRaceOthers(raceOtrher : String) : ValidationResult
-    fun validateDropdownSize(value : String) : ValidationResult
-    fun validatePetRaceList(value : String) : ValidationResult
+    fun validateDropDownRaceOthers(raceOther : String) : ValidationResult
+    fun validateDropdownSize(sizePet : String, listSizePets: List<String>) : ValidationResult
+    fun validatePetRaceList(racePet : String, listRacePets: List<String>) : ValidationResult
 }

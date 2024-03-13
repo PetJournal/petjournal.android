@@ -210,51 +210,32 @@ class ValidationRepositoryImpl : ValidationRepository {
         }
     }
 
-    override fun validateDropDownRaceOthers(raceOtrher: String): ValidationResult {
-        return if (raceOtrher == "outro") {
+    override fun validateDropDownRaceOthers(raceOther: String): ValidationResult {
+        return if (raceOther == "outro") {
             ValidationResult(success = true)
         } else {
             ValidationResult(success = false)
         }
     }
 
-    override fun validateDropdownSize(value: String): ValidationResult {
+    override fun validateDropdownSize(sizePet : String, listSizePets: List<String>): ValidationResult {
 
-        return if (value.isEmpty()) {
+        return if (sizePet.isNotEmpty() && listSizePets.contains(sizePet)) {
+            ValidationResult(
+                success = true,
+            )
+        } else {
             ValidationResult(
                 success = false,
                 errorMessage = listOf("* Campo obrigatório!")
             )
-        } else ValidationResult(success = true)
+
+        }
     }
 
-    override fun validatePetRaceList(value: String): ValidationResult {
-        val checkListPets = listOf(
-            "Afghan Hound",
-            "Affenpinscher",
-            "Airedale Terrier",
-            "Akita",
-            "American Staffordshire Terrier",
-            "Basenji",
-            "Basset Hound",
-            "Beagle",
-            "Beagle Harrier",
-            "Bearded Collie",
-            "Bedlington Terrier",
-            "Bichon Frisé",
-            "Bloodhound",
-            "Bobtail",
-            "Boiadeiro Australiano",
-            "Boiadeiro Bernês",
-            "Border Collie",
-            "Border Terrier",
-            "Borzoi",
-            "Boston Terrier",
-            "Boxer",
-            "outro"
-        )
+    override fun validatePetRaceList(racePet : String, listRacePets: List<String>): ValidationResult {
 
-        return if (value.isNotEmpty() && checkListPets.contains(value)) {
+        return if (racePet.isNotEmpty() && listRacePets.contains(racePet)) {
             ValidationResult(
                 success = true,
             )
