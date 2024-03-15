@@ -3,11 +3,9 @@ package com.soujunior.petjournal.ui.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -31,7 +29,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -81,81 +78,82 @@ fun InputTextAndDropDownRacePets(
 
         Column(modifier = modifier) {
             Row {
-                Box(modifier = Modifier.fillMaxWidth(),
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
 
-                ) {
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(5.dp)
-                        .height(50.dp)
-                        .drawBehind {
-                            val stroke = Stroke(
-                                width = 1.dp.toPx(),
-                                pathEffect = PathEffect.dashPathEffect(
-                                    intervals = floatArrayOf(8.dp.toPx(), 8.dp.toPx(), 0f)
+                    ) {
+                    TextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(5.dp)
+                            .height(50.dp)
+                            .drawBehind {
+                                val stroke = Stroke(
+                                    width = 1.dp.toPx(),
+                                    pathEffect = PathEffect.dashPathEffect(
+                                        intervals = floatArrayOf(8.dp.toPx(), 8.dp.toPx(), 0f)
+                                    )
                                 )
+                                drawRoundRect(
+                                    color = if (isError) Color.Transparent else if (expanded) Color.Transparent else Color.Black,
+                                    style = stroke,
+                                    cornerRadius = CornerRadius(10.dp.toPx())
+                                )
+
+                            }
+                            .border(
+                                2.dp,
+                                if (isError) MaterialTheme.colorScheme.error
+                                else if (expanded) MaterialTheme.colorScheme.primary
+                                else Color.Transparent,
+                                shape = RoundedCornerShape(10.dp)
                             )
-                            drawRoundRect(
-                                color = if (isError) Color.Transparent else if (expanded) Color.Transparent else Color.Black,
-                                style = stroke,
-                                cornerRadius = CornerRadius(10.dp.toPx())
+                            .clip(RoundedCornerShape(10.dp)),
+
+
+                        value = textValue,
+                        onValueChange = {
+                            onEvent(it)
+                            expanded = true
+                        },
+
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            cursorColor = MaterialTheme.colorScheme.primary
+                        ),
+
+                        textStyle = MaterialTheme.typography.bodyMedium,
+
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Done
+                        ),
+                        singleLine = true,
+                        trailingIcon = {
+                            IconButton(onClick = {
+                                expanded = !expanded
+                            }) {
+                                Icon(
+                                    modifier = Modifier.size(24.dp),
+                                    imageVector = Icons.Rounded.KeyboardArrowDown,
+                                    contentDescription = "arrow",
+                                    tint = Color.Black
+                                )
+                            }
+
+                        },
+
+                        placeholder = {
+                            Text(
+                                text = if (isError) "X" else placeholderText,
+                                color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontSize = 15.sp
                             )
-
-                        }
-                        .border(
-                            2.dp,
-                            if (isError) MaterialTheme.colorScheme.error
-                            else if (expanded) MaterialTheme.colorScheme.primary
-                            else Color.Transparent,
-                            shape = RoundedCornerShape(10.dp)
-                        )
-                        .clip(RoundedCornerShape(10.dp)),
-
-                    
-                    value = textValue,
-                    onValueChange = {
-                        onEvent(it)
-                        expanded = true
-                    },
-
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        cursorColor = MaterialTheme.colorScheme.primary
-                    ),
-
-                    textStyle = MaterialTheme.typography.bodyMedium,
-
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done
-                    ),
-                    singleLine = true,
-                    trailingIcon = {
-                        IconButton(onClick = {
-                            expanded = !expanded
-                        }) {
-                            Icon(
-                                modifier = Modifier.size(24.dp),
-                                imageVector = Icons.Rounded.KeyboardArrowDown,
-                                contentDescription = "arrow",
-                                tint = Color.Black
-                            )
-                        }
-
-                    },
-
-                    placeholder = {
-                        Text(
-                            text =  if (isError) "X" else placeholderText,
-                            color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontSize = 15.sp
-                        )
-                    },
-                )
+                        },
+                    )
 
                 }
             }
@@ -256,6 +254,7 @@ fun CategoryItems(
     }
 
 }
+
 @Preview
 @Composable
 fun DashedInputTextPreview() {
@@ -268,5 +267,5 @@ fun DashedInputTextPreview() {
         titleText = "Raça: ",
         dropdownItems = listOf(),
         onEvent = {}
-        )
+    )
 }
