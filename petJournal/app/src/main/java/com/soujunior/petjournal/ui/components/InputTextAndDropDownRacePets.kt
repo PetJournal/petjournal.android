@@ -3,8 +3,11 @@ package com.soujunior.petjournal.ui.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -40,6 +43,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -76,7 +80,10 @@ fun InputTextAndDropDownRacePets(
         }
 
         Column(modifier = modifier) {
-            Row(verticalAlignment = Alignment.Top) {
+            Row {
+                Box(modifier = Modifier.fillMaxWidth(),
+
+                ) {
                 TextField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -105,6 +112,7 @@ fun InputTextAndDropDownRacePets(
                         )
                         .clip(RoundedCornerShape(10.dp)),
 
+                    
                     value = textValue,
                     onValueChange = {
                         onEvent(it)
@@ -149,7 +157,7 @@ fun InputTextAndDropDownRacePets(
                     },
                 )
 
-
+                }
             }
             Row {
                 if (textError != null) {
@@ -247,4 +255,18 @@ fun CategoryItems(
         )
     }
 
+}
+@Preview
+@Composable
+fun DashedInputTextPreview() {
+    InputTextAndDropDownRacePets(
+        modifier = Modifier,
+        placeholderText = "Raça do seu pet",
+        textValue = "race",
+        textError = listOf(),
+        isError = false,
+        titleText = "Raça: ",
+        dropdownItems = listOf(),
+        onEvent = {}
+        )
 }

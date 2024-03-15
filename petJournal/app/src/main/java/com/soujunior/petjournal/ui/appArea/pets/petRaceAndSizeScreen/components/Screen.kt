@@ -133,7 +133,7 @@ fun Screen(petName: String?, navController: NavController) {
                                 item {
                                     DashedInputText(
                                         modifier = Modifier,
-                                        textInputModifier = Modifier,
+                                        textInputModifier = Modifier.height(50.dp),
                                         placeholderText = "Digite aqui...",
                                         textValue = viewModel.state.raceOthers,
                                         textError = viewModel.state.raceOthersError,
