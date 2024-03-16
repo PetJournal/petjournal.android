@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 
 @Composable
-fun DropDownSizePets(
+fun DropDown(
     modifier: Modifier = Modifier,
     textInputModifier: Modifier = Modifier,
     placeholderText: String = "Porte do seu pet",
