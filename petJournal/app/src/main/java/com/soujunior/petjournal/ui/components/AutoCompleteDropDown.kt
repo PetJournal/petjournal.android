@@ -36,12 +36,16 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.soujunior.petjournal.R
 
 @Composable
 fun AutoCompleteDropDown(
@@ -138,7 +142,8 @@ fun AutoCompleteDropDown(
                                     modifier = Modifier.size(24.dp),
                                     imageVector = Icons.Rounded.KeyboardArrowDown,
                                     contentDescription = "arrow",
-                                    tint = Color.Black
+                                    tint = MaterialTheme.colorScheme.outline,
+
                                 )
                             }
 
