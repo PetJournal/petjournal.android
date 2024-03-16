@@ -218,24 +218,9 @@ class ValidationRepositoryImpl : ValidationRepository {
         }
     }
 
-    override fun validateDropdownSize(sizePet : String, listSizePets: List<String>): ValidationResult {
+    override fun validateDropdown(value: String, list: List<String>): ValidationResult {
 
-        return if (sizePet.isNotEmpty() && listSizePets.contains(sizePet)) {
-            ValidationResult(
-                success = true,
-            )
-        } else {
-            ValidationResult(
-                success = false,
-                errorMessage = listOf("* Campo obrigatório!")
-            )
-
-        }
-    }
-
-    override fun validatePetRaceList(racePet : String, listRacePets: List<String>): ValidationResult {
-
-        return if (racePet.isNotEmpty() && listRacePets.contains(racePet)) {
+        return if (value.isNotEmpty() && list.contains(value)) {
             ValidationResult(
                 success = true,
             )

@@ -94,7 +94,7 @@ class ViewModelRaceSizeImpl(
 
             petRace != null -> {
                 state = state.copy(race = petRace)
-                val result = validation.validatePetRaceList(state.race, raceList.value)
+                val result = validation.validateDropdownSize(state.race, raceList.value)
                 state = if (result.success) state.copy(raceError = null)
                 else state.copy(raceError = result.errorMessage)
 
