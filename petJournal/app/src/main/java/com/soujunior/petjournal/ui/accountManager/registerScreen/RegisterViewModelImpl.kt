@@ -35,6 +35,7 @@ class RegisterViewModelImpl(
 
     override fun success(resultPostRegister: User) {
         Log.i("RegisterViewModel", resultPostRegister.toString())
+        state = state.copy(userProfile = resultPostRegister)
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
