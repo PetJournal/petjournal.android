@@ -58,23 +58,28 @@ class PetNameViewModelTest {
 
     @Test
     fun `cannot enable button with empty name`(){
-        viewModelTest.state = NameGenderFormState(
-            name = "",
-            gender = "M",
-            nameError = listOf("Erro")
+        val newName = ""
+        every { this@PetNameViewModelTest.validation.inputPetName(newName)
+        }returns ValidationResult(
+            success = false,
+            errorMessage = listOf("Erro: Nome vazio")
         )
+        viewModelTest.change(petName = newName)
+        assertNotNull(viewModelTest.state.nameError)
         val enableButton = viewModelTest.enableButton()
         assertThat(enableButton).isFalse()
     }
 
     @Test
     fun `cannot enable button with empty gender`(){
-        viewModelTest.state = NameGenderFormState(
-            name = "Bolinha",
-            gender = "",
-            nameError = listOf("Erro de nome")
-
+        val newGender = ""
+        every { this@PetNameViewModelTest.validation.inputPetGender(newGender)
+        }returns ValidationResult(
+            success = false,
+            errorMessage = listOf("Erro: Gênero vazio")
         )
+        viewModelTest.change(petGender = newGender)
+        assertNotNull(viewModelTest.state.genderError)
         val enableButton = viewModelTest.enableButton()
         assertThat(enableButton).isFalse()
     }
@@ -114,7 +119,6 @@ class PetNameViewModelTest {
         }returns ValidationResult(
             success = false,
             errorMessage = listOf("Erro")
-
         )
         viewModelTest.change(petName = newName)
         assertEquals(newName, viewModelTest.state.name)
