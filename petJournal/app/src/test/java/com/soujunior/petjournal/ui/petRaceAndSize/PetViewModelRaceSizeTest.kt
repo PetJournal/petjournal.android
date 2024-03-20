@@ -57,22 +57,45 @@ class PetViewModelRaceSizeTest {
 
     @Before
     fun setup() {
-        // Configuração inicial para os testes
         Dispatchers.setMain(Dispatchers.Unconfined)
         viewModelTest = ViewModelRaceSizeImpl(validation)
     }
 
     @After
     fun tearDown() {
-        // Limpa recursos após os testes
         viewModelTest.viewModelScope.cancel()
     }
 
 
     @Test
-    fun `habilitar botão quando todos os dados forem validados`() {
-        // Testa se o botão é habilitado quando todos os dados são válidos
+    fun `enable button when size and race data is validated`() {
+        every {
+            this@PetViewModelRaceSizeTest.validation.validateDropdown(
+                any(),
+                any()
+            )
+        } returns ValidationResult(
+            success = true
+        )
+        every {
+            this@PetViewModelRaceSizeTest.validation.validateDropdown(
+                any(),
+                any()
+            )
+        } returns ValidationResult(
+            success = true
+        )
+        viewModelTest.state = RaceSizeFormState(
+            size = "Pequeno (até 10kg)",
+            race = "Akita",
+            raceOthers = ""
+        )
+        val enableButton = viewModelTest.enableButton()
+        assertThat(enableButton).isTrue()
+    }
 
+    @Test
+    fun `enable button when other size and race data are validated and race has other value selected`() {
         every {
             this@PetViewModelRaceSizeTest.validation.validateDropdown(
                 any(),
@@ -86,17 +109,30 @@ class PetViewModelRaceSizeTest {
         )
 
         viewModelTest.state = RaceSizeFormState(
-            race = "Akita",
             size = "Pequeno (até 10kg)",
-            raceOthers = "Pastor"
+            race = "outro",
+            raceOthers = "Outra Raça"
         )
         val enableButton = viewModelTest.enableButton()
         assertThat(enableButton).isTrue()
     }
 
     @Test
-    fun `não é possível habilitar o botão com tamanho vazio`() {
-        // Testa se o botão não é habilitado com um nome vazio
+    fun `enable race others when race is other`() {
+        every {
+            this@PetViewModelRaceSizeTest.validation.validateDropDownRaceOthers(any())
+        } returns ValidationResult(
+            success = true
+        )
+        val enableRaceOthers = viewModelTest.enableRaceOthers()
+
+
+        assertEquals(enableRaceOthers, true)
+        assertEquals(null, viewModelTest.state.sizeError)
+    }
+
+    @Test
+    fun `cannot enable button with empty size`() {
         viewModelTest.state = RaceSizeFormState(
             size = "",
             race = "Race",
@@ -107,8 +143,7 @@ class PetViewModelRaceSizeTest {
     }
 
     @Test
-    fun `não é possível habilitar o botão com raça vazio`() {
-        // Testa se o botão não é habilitado com um gênero vazio
+    fun `can't enable button with empty race`() {
         viewModelTest.state = RaceSizeFormState(
             size = "Médio (11 à 24kg)",
             race = ""
@@ -118,8 +153,7 @@ class PetViewModelRaceSizeTest {
     }
 
     @Test
-    fun `não é possível habilitar o botão com raça outros vazio`() {
-        // Testa se o botão não é habilitado com um gênero vazio
+    fun `can't enable button with other empty race`() {
         viewModelTest.state = RaceSizeFormState(
             size = "Médio (11 à 24kg)",
             race = "outro",
@@ -130,14 +164,13 @@ class PetViewModelRaceSizeTest {
     }
 
     @Test
-    fun `quando change() é chamado com outro nome, deve alterar o nome`() {
-        // Testa se o método change() altera o nome corretamente
+    fun `when change() is called with another size, it should change the size if it is in the list`() {
         val newSize = "Pequeno (até 10kg)"
 
         every {
             this@PetViewModelRaceSizeTest.validation.validateDropdown(
                 newSize,
-                any()
+                listSizes
             )
         } returns ValidationResult(
             success = true
@@ -149,124 +182,151 @@ class PetViewModelRaceSizeTest {
     }
 
     @Test
-    fun `quando change() é chamado com outro gênero, deve alterar o gênero`() {
-        // Testa se o método change() altera o gênero corretamente
-        val newGender = "F"
+    fun `when change() is called with another race, it must change the race if it is in the list`() {
+        val newRace = "Akita"
 
         every {
-            this@PetViewModelRaceSizeTest.validation.inputPetGender(newGender)
+            this@PetViewModelRaceSizeTest.validation.validateDropdown(
+                newRace,
+                listRaces
+            )
         } returns ValidationResult(
-            success = true,
+            success = true
         )
 
-        viewModelTest.change(petRace = newGender)
-        assertEquals(newGender, viewModelTest.state.race)
+        viewModelTest.change(petRace = newRace)
+        assertEquals(newRace, viewModelTest.state.race)
         assertEquals(null, viewModelTest.state.raceError)
     }
 
     @Test
-    fun `não deve aceitar nome de pet com caractere especial`() {
-        // Testa se o método change() não aceita nomes com caracteres especiais
-        val newName = "Bolin#@s"
+    fun `when change() is called with race others, it should change the race others`() {
+        val newRaceOther = "Outro"
 
         every {
-            this@PetViewModelRaceSizeTest.validation.inputPetName(newName)
-        } returns ValidationResult(
-            success = false,
-            errorMessage = listOf("Erro")
-
-        )
-        viewModelTest.change(petSize = newName)
-        assertEquals(newName, viewModelTest.state.size)
-        assertNotNull(viewModelTest.state.sizeError)
-    }
-
-    @Test
-    fun `não deve aceitar nome de pet vazio`() {
-        // Testa se o método change() não aceita nomes vazios
-        val newName = ""
-
-        every {
-            this@PetViewModelRaceSizeTest.validation.inputPetName(newName)
-        } returns ValidationResult(
-            success = false,
-            errorMessage = listOf("Erro")
-
-        )
-        viewModelTest.change(petSize = newName)
-        assertEquals(newName, viewModelTest.state.size)
-        assertNotNull(viewModelTest.state.sizeError)
-    }
-
-    @Test
-    fun `não deve aceitar nome de pet com menos de 2 caracteres`() {
-        // Testa se o método change() não aceita nomes com menos de 2 caracteres
-        val newName = "A"
-
-        every {
-            this@PetViewModelRaceSizeTest.validation.inputPetName(newName)
-        } returns ValidationResult(
-            success = false,
-            errorMessage = listOf("Erro")
-
-        )
-        viewModelTest.change(petSize = newName)
-        assertEquals(newName, viewModelTest.state.size)
-        assertNotNull(viewModelTest.state.sizeError)
-    }
-
-    @Test
-    fun `não deve aceitar nome de pet com mais de 30 caracteres`() {
-        // Testa se o método change() não aceita nomes com mais de 30 caracteres
-        val newName = "Shoryukenhadoukentatsumakisenpukyaku"
-
-        every {
-            this@PetViewModelRaceSizeTest.validation.inputPetName(newName)
-        } returns ValidationResult(
-            success = false,
-            errorMessage = listOf("Erro")
-
-        )
-        viewModelTest.change(petSize = newName)
-        assertEquals(newName, viewModelTest.state.size)
-        assertNotNull(viewModelTest.state.sizeError)
-    }
-
-    @Test
-    fun `deve aceitar nome de pet com número`() {
-        // Testa se o método change() aceita nomes com números
-        val newName = "Sc0rp10n"
-
-        every {
-            this@PetViewModelRaceSizeTest.validation.inputPetName(newName)
+            this@PetViewModelRaceSizeTest.validation.inputPetName(newRaceOther)
         } returns ValidationResult(
             success = true
         )
-        viewModelTest.change(petSize = newName)
-        assertEquals(newName, viewModelTest.state.size)
-        assertEquals(null, viewModelTest.state.sizeError)
+
+        viewModelTest.change(petRaceOthers = newRaceOther)
+        assertEquals(newRaceOther, viewModelTest.state.raceOthers)
+        assertEquals(null, viewModelTest.state.raceOthersError)
     }
 
     @Test
-    fun `não deve aceitar outros gêneros além de masculino ou feminino`() {
-        // Testa se o método change() não aceita outros gêneros além de "M" ou "F"
-        val newGender = "X"
+    fun `You should not accept any other race of pet with a special character`() {
+        val newRaceOther = "Raça#@s"
 
         every {
-            this@PetViewModelRaceSizeTest.validation.inputPetGender(newGender)
+            this@PetViewModelRaceSizeTest.validation.inputPetName(newRaceOther)
+        } returns ValidationResult(
+            success = false,
+            errorMessage = listOf("Erro")
+
+        )
+        viewModelTest.change(petRaceOthers = newRaceOther)
+        assertEquals(newRaceOther, viewModelTest.state.raceOthers)
+        assertNotNull(viewModelTest.state.raceOthersError)
+    }
+
+    @Test
+    fun `should not accept another race of empty pet`() {
+        val newRaceOther = ""
+
+        every {
+            this@PetViewModelRaceSizeTest.validation.inputPetName(newRaceOther)
+        } returns ValidationResult(
+            success = false,
+            errorMessage = listOf("Erro")
+
+        )
+        viewModelTest.change(petRaceOthers = newRaceOther)
+        assertEquals(newRaceOther, viewModelTest.state.raceOthers)
+        assertNotNull(viewModelTest.state.raceOthersError)
+    }
+
+    @Test
+    fun `should not accept other pet race with less than 2 characters`() {
+        // Testa se o método change() não aceita nomes com menos de 2 caracteres
+        val newRaceOther = "A"
+
+        every {
+            this@PetViewModelRaceSizeTest.validation.inputPetName(newRaceOther)
+        } returns ValidationResult(
+            success = false,
+            errorMessage = listOf("Erro")
+
+        )
+        viewModelTest.change(petRaceOthers = newRaceOther)
+        assertEquals(newRaceOther, viewModelTest.state.raceOthers)
+        assertNotNull(viewModelTest.state.raceOthersError)
+    }
+
+    @Test
+    fun `You should not accept other pet race with more than 30 characters`() {
+        val newRaceOther = "Shoryukenhadoukentatsumakisenpukyaku"
+
+        every {
+            this@PetViewModelRaceSizeTest.validation.inputPetName(newRaceOther)
         } returns ValidationResult(
             success = false,
             errorMessage = listOf("Erro")
         )
+        viewModelTest.change(petRaceOthers = newRaceOther)
+        assertEquals(newRaceOther, viewModelTest.state.raceOthers)
+        assertNotNull(viewModelTest.state.raceOthersError)
+    }
 
-        viewModelTest.change(petRace = newGender)
-        assertEquals(newGender, viewModelTest.state.race)
+    @Test
+    fun `should not accept any other race of pet with a number`() {
+        val newRaceOther = "Sc0rp10n"
+
+        every {
+            this@PetViewModelRaceSizeTest.validation.inputPetName(newRaceOther)
+        } returns ValidationResult(
+            success = false,
+            errorMessage = listOf("Erro")
+        )
+        viewModelTest.change(petRaceOthers = newRaceOther)
+        assertEquals(newRaceOther, viewModelTest.state.raceOthers)
+        assertNotNull(viewModelTest.state.raceOthersError)
+    }
+
+    @Test
+    fun `You should not accept a pet size that is not on the size list`() {
+        val newSize = "Pequeno"
+
+        every {
+            this@PetViewModelRaceSizeTest.validation.validateDropdown(newSize, listSizes)
+        } returns ValidationResult(
+            success = false,
+            errorMessage = listOf("Error")
+        )
+
+        viewModelTest.change(petSize = newSize)
+        assertEquals(newSize, viewModelTest.state.size)
+        assertNotNull(viewModelTest.state.sizeError)
+    }
+
+    @Test
+    fun `You should not accept a pet race that is not on the race list`() {
+        val newRace = "Raça errada"
+
+        every {
+            this@PetViewModelRaceSizeTest.validation.validateDropdown(newRace, listRaces)
+        } returns ValidationResult(
+            success = false,
+            errorMessage = listOf("Error")
+        )
+
+        viewModelTest.change(petRace = newRace)
+        assertEquals(newRace, viewModelTest.state.race)
         assertNotNull(viewModelTest.state.raceError)
     }
 
     @Test
-    fun `OnEvent deve permitir alterações de tamanho de pet`() {
-        // Testa se o método OnEvent permite alterações de tamanho de pet
+    fun `OnEvent should allow size race changes`() {
         val newSize = "Grande (a cima de 25kg)"
         val event = RaceSizeFormEvent.PetSize(petSize = newSize)
         viewModelTest.onEvent(event)
@@ -275,8 +335,7 @@ class PetViewModelRaceSizeTest {
     }
 
     @Test
-    fun `OnEvent deve permitir alterações de raça de pet`() {
-        // Testa se o método OnEvent permite alterações de gênero de pet
+    fun `OnEvent should allow pet race changes`() {
         val newRace = "Akita"
         val event = RaceSizeFormEvent.PetRace(petRace = newRace)
         viewModelTest.onEvent(event)
@@ -285,9 +344,7 @@ class PetViewModelRaceSizeTest {
     }
 
     @Test
-    fun `OnEvent deve permitir alterações de raça outros de pet`() {
-        // Testa se o método OnEvent permite alterações de gênero de pet
-
+    fun `OnEvent should allow other pet race changes`() {
         val newRaceOthers = "Other Race"
         val event = RaceSizeFormEvent.PetRaceOthers(petRaceOthers = newRaceOthers)
         viewModelTest.onEvent(event)
