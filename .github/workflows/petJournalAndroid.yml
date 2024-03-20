@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - develop
-      - cicdtest
-      - 'instTest/nameAndGender'
+
 
 jobs:
   lint:
