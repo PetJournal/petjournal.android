@@ -28,7 +28,7 @@ abstract class ViewModelRaceSize : ViewModel() {
     abstract fun change(
         petRace: String? = null,
         petSize: String? = null,
-        petRaceOthers: String? = null
+        petRaceOthers: String? = null,
     )
 
 }

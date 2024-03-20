@@ -59,7 +59,9 @@ class ViewModelRaceSizeImpl(
             is RaceSizeFormEvent.NextButton -> {
                 change(petRace = state.race)
                 change(petSize = state.size)
-                change(petRaceOthers = state.raceOthers)
+                if (_isTextFiledOthersVisible.value) {
+                    change(petRaceOthers = state.raceOthers)
+                }
             }
 
             else -> {}
@@ -101,12 +103,11 @@ class ViewModelRaceSizeImpl(
             }
 
             petRaceOthers != null -> {
-                if (_isTextFiledOthersVisible.value) {
-                    state = state.copy(raceOthers = petRaceOthers)
-                    val result = validation.inputPetName(state.raceOthers)
-                    state = if (result.success) state.copy(raceOthersError = null)
-                    else state.copy(raceOthersError = result.errorMessage)
-                }
+                state = state.copy(raceOthers = petRaceOthers)
+                val result = validation.inputPetName(state.raceOthers)
+                state = if (result.success) state.copy(raceOthersError = null)
+                else state.copy(raceOthersError = result.errorMessage)
+
             }
         }
     }
