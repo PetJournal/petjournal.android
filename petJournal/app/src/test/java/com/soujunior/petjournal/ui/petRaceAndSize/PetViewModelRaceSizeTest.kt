@@ -132,37 +132,40 @@ class PetViewModelRaceSizeTest {
     }
 
     @Test
-    fun `cannot enable button with empty size`() {
+    fun `cannot enable button with error size`() {
         viewModelTest.state = RaceSizeFormState(
-            size = "",
-            race = "Race",
-            raceOthers = "Outro",
+            sizeError = listOf("Tamanho inválido"),
+            raceError = listOf(),
+            raceOthersError = listOf()
         )
         val enableButton = viewModelTest.enableButton()
         assertThat(enableButton).isFalse()
     }
 
     @Test
-    fun `can't enable button with empty race`() {
+    fun `can't enable button with error race`() {
         viewModelTest.state = RaceSizeFormState(
-            size = "Médio (11 à 24kg)",
-            race = ""
+            sizeError = listOf() ,
+            raceError = listOf("Raça inválida"),
+            raceOthersError = listOf()
         )
         val enableButton = viewModelTest.enableButton()
         assertThat(enableButton).isFalse()
     }
 
     @Test
-    fun `can't enable button with other empty race`() {
+    fun `cannot enable button with errors in fields`() {
         viewModelTest.state = RaceSizeFormState(
             size = "Médio (11 à 24kg)",
-            race = "outro",
-            raceOthers = ""
+            race = "Outro",
+            raceOthers = "Pastor",
+            sizeError = listOf("Tamanho inválido"),
+            raceError = listOf("Raça inválida"),
+            raceOthersError = listOf("Raça Outro inválido")
         )
         val enableButton = viewModelTest.enableButton()
         assertThat(enableButton).isFalse()
     }
-
     @Test
     fun `when change() is called with another size, it should change the size if it is in the list`() {
         val newSize = "Pequeno (até 10kg)"
