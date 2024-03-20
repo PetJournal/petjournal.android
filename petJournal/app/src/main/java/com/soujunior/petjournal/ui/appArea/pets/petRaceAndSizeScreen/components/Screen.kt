@@ -178,7 +178,6 @@ fun Screen(petName: String?, navController: NavController) {
                                             )
 
                                             if (isTextFiledOthersVisible) {
-                                                // Caso a opção outros foi selecionada
                                                 if (viewModel.enableButton() &&
                                                     viewModel.state.raceOthers.isNotEmpty() &&
                                                     viewModel.state.size.isNotEmpty()
@@ -195,7 +194,6 @@ fun Screen(petName: String?, navController: NavController) {
 
                                                 }
                                             } else {
-                                                // Caso a opção outros não foi selecionada
                                                 if (viewModel.enableButton() &&
                                                     viewModel.state.race.isNotEmpty() &&
                                                     viewModel.state.size.isNotEmpty() &&
