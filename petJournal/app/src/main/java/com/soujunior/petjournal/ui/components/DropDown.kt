@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -75,8 +76,6 @@ fun DropDown(
                     .padding(5.dp)
                     .height(50.dp)
                     .drawBehind {
-
-
                         val stroke = Stroke(
                             width = 1.dp.toPx(),
                             pathEffect = PathEffect.dashPathEffect(
@@ -127,6 +126,8 @@ fun DropDown(
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background)
                         .width(IntrinsicSize.Max)
+                        .padding(top = 5.dp)
+                        .border(BorderStroke(2.dp, MaterialTheme.colorScheme.primary), RoundedCornerShape(10.dp))
 
 
                 ) {

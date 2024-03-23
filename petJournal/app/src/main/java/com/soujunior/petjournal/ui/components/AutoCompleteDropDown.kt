@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -182,14 +183,14 @@ fun AutoCompleteDropDown(
                         .padding(horizontal = 5.dp)
                         .heightIn(max = 180.dp),
                     elevation = 15.dp,
-                    shape = RoundedCornerShape(10.dp)
+                    shape = RoundedCornerShape(10.dp),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
                 ) {
 
                     LazyColumn(
                         modifier = Modifier
                             .heightIn(max = 180.dp)
-                            .padding(5.dp),
-
+                            .padding(5.dp)
                         ) {
 
                         if (textValue.isNotEmpty()) {

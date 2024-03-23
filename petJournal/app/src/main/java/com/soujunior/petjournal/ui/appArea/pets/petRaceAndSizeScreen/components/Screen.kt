@@ -25,6 +25,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -32,11 +33,11 @@ import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.ViewModelRaceSize
+import com.soujunior.petjournal.ui.components.AutoCompleteDropDown
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.DropDown
-import com.soujunior.petjournal.ui.components.AutoCompleteDropDown
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import org.koin.androidx.compose.getViewModel
@@ -56,7 +57,7 @@ fun Screen(petName: String?, navController: NavController) {
             contentToUse = {
                 Box(modifier = Modifier.padding(it)) {
                     Image(
-                        painter = painterResource( R.drawable.rastro),
+                        painter = painterResource(R.drawable.rastro),
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxSize()
@@ -64,7 +65,6 @@ fun Screen(petName: String?, navController: NavController) {
                             .offset(y = 120.dp)
                             .align(Alignment.BottomEnd)
                     )
-
 
                     LazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -147,18 +147,37 @@ fun Screen(petName: String?, navController: NavController) {
                                     )
                                 }
                             }
-                            item{
+
+                            item {
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .align(Alignment.TopCenter)
-                                        .padding(start = 30.dp,top = 50.dp)
+                                        .width(250.dp)
+                                        .height(250.dp)
+                                        .offset(y = (-60).dp)
                                 ) {
+                                    Image(
+                                        painter = painterResource(R.drawable.pet_heart),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .background(Color.Transparent)
+                                    )
+                                }
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .align(Alignment.Center)
+                                        .padding(start = 30.dp)
+                                        .offset(y = (-60).dp)
+                                ) {
+
 
                                     Button3(
                                         submit = { navController.popBackStack() },
                                         enableButton = true,
-                                        modifier = Modifier.width(150.dp)
+                                        modifier = Modifier
+                                            .width(150.dp)
                                             .height(50.dp),
                                         border = BorderStroke(
                                             width = 2.dp,
@@ -183,7 +202,7 @@ fun Screen(petName: String?, navController: NavController) {
                                                     viewModel.state.size.isNotEmpty()
 
                                                 ) {
-                                                    viewModel.state.size.let {size ->
+                                                    viewModel.state.size.let { size ->
                                                         //navController.navigate("pets/raceAndSize/$it")
                                                         Log.i("outros", size)
                                                     }
@@ -199,7 +218,7 @@ fun Screen(petName: String?, navController: NavController) {
                                                     viewModel.state.size.isNotEmpty() &&
                                                     viewModel.state.race.lowercase() != "outro"
                                                 ) {
-                                                    viewModel.state.race.let {race ->
+                                                    viewModel.state.race.let { race ->
                                                         Log.i("race", race)
                                                         //navController.navigate("pets/raceAndSize/$it")
 
@@ -214,7 +233,9 @@ fun Screen(petName: String?, navController: NavController) {
 
                                         },
                                         enableButton = viewModel.enableButton(),
-                                        modifier = Modifier.width(150.dp).height(50.dp),
+                                        modifier = Modifier
+                                            .width(150.dp)
+                                            .height(50.dp),
                                         border = BorderStroke(
                                             width = 2.dp,
                                             color =
@@ -229,6 +250,7 @@ fun Screen(petName: String?, navController: NavController) {
                                 }
                             }
                         })
+
 
                 }
 
