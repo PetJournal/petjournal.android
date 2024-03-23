@@ -37,16 +37,12 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.soujunior.petjournal.R
 
 @Composable
 fun AutoCompleteDropDown(
@@ -145,7 +141,7 @@ fun AutoCompleteDropDown(
                                     contentDescription = "arrow",
                                     tint = MaterialTheme.colorScheme.outline,
 
-                                )
+                                    )
                             }
 
                         },
@@ -191,7 +187,7 @@ fun AutoCompleteDropDown(
                         modifier = Modifier
                             .heightIn(max = 180.dp)
                             .padding(5.dp)
-                        ) {
+                    ) {
 
                         if (textValue.isNotEmpty()) {
                             dropdownItems?.filter {
