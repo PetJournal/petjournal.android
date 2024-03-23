@@ -74,7 +74,7 @@ fun Screen(petName: String?, navController: NavController) {
                             .padding(start = 12.dp, end = 12.dp),
                         content = {
                             item {
-                                Breadcrumb(index = 1)
+                                Breadcrumb(index = 2)
                             }
                             item {
 

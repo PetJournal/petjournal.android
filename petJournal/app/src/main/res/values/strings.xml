@@ -2,6 +2,7 @@
     <string name="app_name">PetJournal</string>
     <string name="pet_registration">Cadastro Pet</string>
     <string name="pet_races">Raças</string>
+    <string name="pet_name_gender">Nome</string>
     <string name="pet_size">Porte</string>
     <string name="pet_birth">Nascimento</string>
     <string name="others">Outros...</string>
