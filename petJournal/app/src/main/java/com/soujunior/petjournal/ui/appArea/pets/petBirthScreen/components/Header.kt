@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.appArea.pets.petBirthScreen.components
 
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,17 +19,21 @@ import com.soujunior.petjournal.R
 
 
 @Composable
-fun Header(modifier: Modifier = Modifier.fillMaxWidth(), species: String = "Bolinha") {
+fun Header(modifier: Modifier = Modifier, petName: String = "Bolinha") {
     Spacer(modifier = Modifier.padding(12.dp))
 
     val text = buildAnnotatedString {
         withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
-            append(stringResource(id = R.string.wow))
+            append(stringResource(id = R.string.info_menssage_pet_birth_date, petName))
         }
         append("\n")
         append("\n")
-        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
-            append(stringResource(id = R.string.register_message, species))
+        val textStyle = MaterialTheme.typography.bodyMedium.toSpanStyle().copy(
+            color = MaterialTheme.colorScheme.onSurface
+        )
+
+        withStyle(style = textStyle) {
+            append(stringResource(id = R.string.adoption_info_message, petName))
         }
     }
     Text(
@@ -43,10 +46,11 @@ fun Header(modifier: Modifier = Modifier.fillMaxWidth(), species: String = "Boli
         fontWeight = FontWeight.Bold
     )
 
+
     Spacer(modifier = Modifier.padding(bottom = 20.dp))
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun PreviewHeader() {
     Header()
