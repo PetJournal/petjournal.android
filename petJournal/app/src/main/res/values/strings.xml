@@ -2,6 +2,7 @@
     <string name="app_name">PetJournal</string>
     <string name="pet_registration">Cadastro Pet</string>
     <string name="pet_races">Raças</string>
+    <string name="pet_name_gender">Nome</string>
     <string name="pet_size">Porte</string>
     <string name="pet_birth">Nascimento</string>
     <string name="others">Outros...</string>
@@ -54,6 +55,10 @@
     <string name="success">Sucesso ao realizar ação!</string>
     <string name="wow">Uau!</string>
     <string name="register_message">Ficamos felizes em receber mais um %s em nossa comunidade </string>
+    <string name="register_message_race">Nos conte mais!\nQual a raça de %s?</string>
+    <string name="pet_size_small">Pequeno (até 10kg)</string>
+    <string name="pet_size_medium">Médio (11 à 24kg)</string>
+    <string name="pet_size_big">Grande (a cima de 25kg)</string>
     <string name="pet_name">Qual o nome do seu companheiro?</string>
     <string name="pet_gender">Qual o sexo do seu Pet?</string>
     <string name="pet_gender_male">Macho</string>
