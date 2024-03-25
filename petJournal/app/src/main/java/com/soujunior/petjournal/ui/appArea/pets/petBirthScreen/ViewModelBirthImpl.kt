@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.appArea.pets.petBirthScreen
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -15,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class ViewModelBirthImpl(
     val validation: ValidationRepository
-): ViewModelBirth() {
+) : ViewModelBirth() {
 
     override var state by mutableStateOf(BirthFormState())
     override val validationEventChannel: Channel<ValidationEvent>
@@ -26,8 +25,8 @@ class ViewModelBirthImpl(
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
 
-    private val _petSpecie: MutableStateFlow<String> = MutableStateFlow("")
-    override val petSpecie: StateFlow<String> = _petSpecie
+    private val _petBirth: MutableStateFlow<String> = MutableStateFlow("")
+    override val petBirth: StateFlow<String> = _petBirth
 
 //    init {
 //        getData()
@@ -47,46 +46,32 @@ class ViewModelBirthImpl(
 
     override fun onEvent(event: BirthFormEvent) {
         when (event) {
-            is BirthFormEvent.PetName -> change(petName  = event.petName)
-            is BirthFormEvent.PetGender -> change(petGender = event.petGender)
+            is BirthFormEvent.PetBirth -> change(petBirth = event.petBirth)
             is BirthFormEvent.NextButton -> {
-                change(petName = state.name)
-                change(petGender = state.gender)
+                change(petBirth = state.birth)
             }
+
             else -> {}
         }
     }
 
     override fun enableButton(): Boolean {
-        return state.nameError.isNullOrEmpty() && state.genderError.isNullOrEmpty()
+        return state.birthError.isNullOrEmpty()
     }
 
-    override fun change(petName: String?, petGender: String?) {
-        when{
-            petName != null -> {
-                state = state.copy(name = petName)
-                val result = validation.inputPetName(state.name)
-                state = if (result.success) state.copy(nameError = null)
-                else state.copy(nameError = result.errorMessage)
+    override fun change(petBirth: String?) {
+        when {
+            petBirth != null -> {
+                state = state.copy(birth = petBirth)
+                val result = validation.inputPetName(state.birth)
+                state = if (result.success) state.copy(birthError = null)
+                else state.copy(birthError = result.errorMessage)
 
-            }
-
-            petGender != null -> {
-                state = state.copy(gender = petGender)
-                val result = validation.inputPetGender(state.gender)
-                state = if(result.success) state.copy(genderError = null)
-                else state.copy(genderError = result.errorMessage)
             }
         }
     }
-    fun generic(){
-        Log.d("Teste", state.name)
-        Log.d("Teste", state.gender)
-        Log.d("Teste", state.nameError.toString())
-        Log.d("Teste", state.genderError.toString())
-    }
 
-    private fun getData(){
+    private fun getData() {
 //        viewModelScope.launch {
 //            _taskState.value = TaskState.Loading
 //            val result =
