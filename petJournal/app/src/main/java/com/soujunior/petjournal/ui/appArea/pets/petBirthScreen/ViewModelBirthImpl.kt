@@ -50,8 +50,6 @@ class ViewModelBirthImpl(
             is BirthFormEvent.NextButton -> {
                 change(petBirth = state.birth)
             }
-
-            else -> {}
         }
     }
 
@@ -63,7 +61,7 @@ class ViewModelBirthImpl(
         when {
             petBirth != null -> {
                 state = state.copy(birth = petBirth)
-                val result = validation.inputPetName(state.birth)
+                val result = validation.validateDate(state.birth)
                 state = if (result.success) state.copy(birthError = null)
                 else state.copy(birthError = result.errorMessage)
 
@@ -71,11 +69,5 @@ class ViewModelBirthImpl(
         }
     }
 
-    private fun getData() {
-//        viewModelScope.launch {
-//            _taskState.value = TaskState.Loading
-//            val result =
-//        }
-    }
 
 }

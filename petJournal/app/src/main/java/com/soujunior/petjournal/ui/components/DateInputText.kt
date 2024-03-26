@@ -117,22 +117,23 @@ fun DateInputText(
 
 
             }
+        }
 
-            Row {
-                if (textError != null) {
-                    textError.forEach {
-                        AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
-                    }
-                } else {
-                    Text(
-                        "*Campo Obrigatório.",
-                        color = MaterialTheme.colorScheme.outline,
-                        modifier = Modifier.padding(10.dp),
-                        fontSize = 15.sp
-                    )
+        Row {
+            if (textError != null) {
+                textError.forEach {
+                    AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
                 }
+            } else {
+                Text(
+                    "*Campo Obrigatório.",
+                    color = MaterialTheme.colorScheme.outline,
+                    modifier = Modifier.padding(10.dp),
+                    fontSize = 15.sp
+                )
             }
         }
+
     }
 }
 
