@@ -79,7 +79,10 @@ fun Screen(petName: String?, navController: NavController) {
                                 )
                             }
                             item {
-                                Row {
+                                Row(
+                                    Modifier.padding(top = 50.dp)
+                                ) {
+
                                     Button3(
                                         submit = { navController.popBackStack() },
                                         enableButton = true,
