@@ -67,7 +67,8 @@ fun Screen(petName: String?, navController: NavController) {
                             item {
                                 Header(
                                     petName = petName ?: "ERRO",
-                                    modifier = Modifier.padding(5.dp, 0.dp)
+                                    modifier = Modifier.padding(5.dp, 0.dp),
+                                    petGender = viewModel.petGender.value
                                 )
                             }
                             item {

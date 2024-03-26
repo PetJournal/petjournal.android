@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.MaterialTheme
@@ -25,12 +26,14 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.soujunior.petjournal.R
 
 @Composable
 fun DateInputText(
@@ -112,11 +115,35 @@ fun DateInputText(
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
                         cursorColor = MaterialTheme.colorScheme.primary
-                    )
+                    ),
+                    trailingIcon = {
+                        if (isError) {
+                            val iconResource = R.drawable.icone_erro
+                            val contentDescription = "Erro"
+
+                            Icon(
+                                painter = painterResource(id = iconResource),
+                                contentDescription = contentDescription,
+                                tint = Color.Unspecified,
+                                modifier = Modifier.padding(10.dp)
+                            )
+                        } else if (!isError && textValue.length >= 7) {
+                            val iconResource = R.drawable.icone_verificado_ok
+                            val contentDescription = "Erro"
+
+                            Icon(
+                                painter = painterResource(id = iconResource),
+                                contentDescription = contentDescription,
+                                tint = Color.Unspecified,
+                                modifier = Modifier.padding(10.dp)
+                            )
+                        }
+                    }
                 )
 
 
             }
+
         }
 
         Row {
@@ -133,8 +160,8 @@ fun DateInputText(
                 )
             }
         }
-
     }
 }
+
 
 

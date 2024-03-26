@@ -28,9 +28,13 @@ class ViewModelBirthImpl(
     private val _petBirth: MutableStateFlow<String> = MutableStateFlow("")
     override val petBirth: StateFlow<String> = _petBirth
 
-//    init {
-//        getData()
-//    }
+
+    private var _petGender: MutableStateFlow<String> = MutableStateFlow("")
+    override val petGender: StateFlow<String> = _petGender
+
+    init {
+       verifyPetGender()
+    }
 
     /*Os metodos de Success e Failure vão ser utilizados
     quando houver a nova impl do dataclass*/
@@ -55,6 +59,12 @@ class ViewModelBirthImpl(
 
     override fun enableButton(): Boolean {
         return state.birthError.isNullOrEmpty()
+    }
+
+    override fun verifyPetGender(): Boolean {
+        //Chamada ao Room para verificar qual o genero do pet
+        _petGender.value = "Adotado/Adotada"
+        return true
     }
 
     override fun change(petBirth: String?) {

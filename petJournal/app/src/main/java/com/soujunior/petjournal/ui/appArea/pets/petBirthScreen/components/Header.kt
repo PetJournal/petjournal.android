@@ -19,7 +19,7 @@ import com.soujunior.petjournal.R
 
 
 @Composable
-fun Header(modifier: Modifier = Modifier, petName: String = "Bolinha") {
+fun Header(modifier: Modifier = Modifier, petName: String = "Bolinha", petGender: String = "Adotada") {
     Spacer(modifier = Modifier.padding(12.dp))
 
     val text = buildAnnotatedString {
@@ -33,7 +33,7 @@ fun Header(modifier: Modifier = Modifier, petName: String = "Bolinha") {
         )
 
         withStyle(style = textStyle) {
-            append(stringResource(id = R.string.adoption_info_message, petName))
+            append(stringResource(id = R.string.adoption_info_message, petName, petGender))
         }
     }
     Text(

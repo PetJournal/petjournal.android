@@ -218,7 +218,7 @@ class ValidationRepositoryImpl : ValidationRepository {
         var count = 0
 
         if (!date.matches(Regex("\\d{8}"))) {
-            listErrorMessage.add("Complete a data corretamente!")
+            listErrorMessage.add("* Campo Obrigatório!")
         } else {
             val day = date.substring(0, 2).toInt()
             val month = date.substring(2, 4).toInt()
@@ -234,13 +234,18 @@ class ValidationRepositoryImpl : ValidationRepository {
                 val providedDate = Calendar.getInstance()
                 providedDate.set(year, month - 1, day)
 
+                val minAllowedDate = Calendar.getInstance()
+                minAllowedDate.set(1993, Calendar.JANUARY, 1)
+
                 if (providedDate.after(currentDate)) {
-                    listErrorMessage.add("A data fornecida é inválida.")
+                    listErrorMessage.add("Ops! Verifique se a data preenchida está correta.")
+                }else if (providedDate.before(minAllowedDate)){
+                    listErrorMessage.add("A data não pode ser anterior 1993.")
                 } else {
                     count++
                 }
             } catch (e: Exception) {
-                listErrorMessage.add("A data fornecida é inválida.")
+                listErrorMessage.add("Ops! Verifique se a data preenchida está correta.")
             }
         }
 

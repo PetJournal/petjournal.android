@@ -14,6 +14,7 @@ abstract class ViewModelBirth : ViewModel(){
     abstract val message: StateFlow<String>
     abstract val taskState: StateFlow<TaskState>
     abstract val petBirth: StateFlow<String>
+    abstract val petGender: StateFlow<String>
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 
@@ -21,6 +22,7 @@ abstract class ViewModelBirth : ViewModel(){
     abstract fun failed(exception: Throwable?)
     abstract fun onEvent(event: BirthFormEvent)
     abstract fun enableButton(): Boolean
+    abstract fun verifyPetGender(): Boolean
     abstract fun change(
         petBirth: String? = null,
     )
