@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.appArea.pets.petBirthScreen.components
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -71,37 +72,16 @@ fun Screen(petName: String?, navController: NavController) {
                             }
                             item {
                                 DateInputText(
-                                    placeholderText = stringResource(id = R.string.eg_phone),
+                                    placeholderText =  "DD/MM/AAAA",
                                     textValue = viewModel.state.birth,
                                     textError = viewModel.state.birthError,
                                     isError = !viewModel.state.birthError.isNullOrEmpty(),
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .testTag("input_phone"),
+                                        .fillMaxWidth(),
                                     onEvent = { it: String -> viewModel.onEvent(BirthFormEvent.PetBirth(it)) },
                                     visualTransformation = { formatDate(it) }
                                 )
                             }
-                            /*
-                            item {
-                                DateInputText(
-                                    modifier = Modifier,
-                                    textInputModifier = Modifier,
-                                    placeholderText = "DD/MM/AAAA",
-                                    textValue = viewModel.state.birth,
-                                    textError = viewModel.state.birthError,
-                                    isError = !viewModel.state.birthError.isNullOrEmpty(),
-                                    titleText = "Data de Nascimento: ",
-                                    onEvent = { it: String ->
-                                        viewModel.onEvent(
-                                            BirthFormEvent.PetBirth(it)
-                                        )
-                                    }
-                                )
-                            }
-
-                             */
-
                             item {
                                 Row {
                                     Button3(
@@ -128,10 +108,10 @@ fun Screen(petName: String?, navController: NavController) {
                                             if (viewModel.enableButton() &&
                                                 viewModel.state.birth.isNotEmpty()
                                             ) {
-
-                                                viewModel.state.birth.let {
+                                                Log.i("Date", viewModel.state.birth)
+                                                /*viewModel.state.birth.let {
                                                     navController.navigate("pets/raceAndSize/$it")
-                                                }
+                                                }*/
                                             }
                                         },
                                         enableButton = viewModel.enableButton(),
