@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
@@ -47,9 +48,9 @@ fun DateInputText(
     onEvent: (String) -> Unit,
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
-    var inFocus by remember {
-        mutableStateOf(false)
-    }
+
+    var inFocus by remember { mutableStateOf(false) }
+
     Column(modifier = modifier) {
         Row {
             Text(
@@ -63,7 +64,6 @@ fun DateInputText(
                     .padding(start = 10.dp, bottom = 5.dp)
             )
         }
-
         Row {
             Box(
                 modifier = Modifier.fillMaxWidth()
@@ -73,6 +73,13 @@ fun DateInputText(
                         .fillMaxWidth()
                         .padding(5.dp)
                         .height(50.dp)
+                        .onFocusChanged {
+                            inFocus = if (it.hasFocus)
+                                it.hasFocus
+                            else {
+                                it.hasFocus
+                            }
+                        }
                         .drawBehind {
                             val stroke = Stroke(
                                 width = 1.dp.toPx(),
@@ -85,7 +92,6 @@ fun DateInputText(
                                 style = stroke,
                                 cornerRadius = CornerRadius(10.dp.toPx())
                             )
-
                         }
                         .border(
                             2.dp,
@@ -99,13 +105,11 @@ fun DateInputText(
                     value = textValue,
                     onValueChange = { newValue ->
                         onEvent(newValue)
-                        inFocus = true
                     },
                     textStyle = TextStyle(
                         fontSize = 15.sp,
                         color = MaterialTheme.colorScheme.onSurface
                     ),
-
                     placeholder = { Text(text = placeholderText) },
                     maxLines = 1,
                     visualTransformation = visualTransformation,
@@ -145,7 +149,6 @@ fun DateInputText(
             }
 
         }
-
         Row {
             if (textError != null) {
                 textError.forEach {

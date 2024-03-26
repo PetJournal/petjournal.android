@@ -14,36 +14,29 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petBirthScreen.BirthFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petBirthScreen.ViewModelBirth
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DateInputText
-import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.mask.formatDate
-import com.soujunior.petjournal.ui.components.mask.mobileNumberFilter
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun Screen(petName: String?, navController: NavController) {
     val viewModel: ViewModelBirth = getViewModel()
-
 
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
@@ -73,13 +66,15 @@ fun Screen(petName: String?, navController: NavController) {
                             }
                             item {
                                 DateInputText(
-                                    placeholderText =  "DD/MM/AAAA",
+                                    placeholderText = "DD/MM/AAAA",
                                     textValue = viewModel.state.birth,
                                     textError = viewModel.state.birthError,
                                     isError = !viewModel.state.birthError.isNullOrEmpty(),
                                     modifier = Modifier
                                         .fillMaxWidth(),
-                                    onEvent = { it: String -> viewModel.onEvent(BirthFormEvent.PetBirth(it)) },
+                                    onEvent = { value: String ->
+                                        viewModel.onEvent(BirthFormEvent.PetBirth(value))
+                                    },
                                     visualTransformation = { formatDate(it) }
                                 )
                             }
@@ -134,7 +129,6 @@ fun Screen(petName: String?, navController: NavController) {
                 }
 
             })
-
     }
 
 }
