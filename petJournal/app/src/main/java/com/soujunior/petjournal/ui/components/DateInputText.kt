@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -104,7 +105,11 @@ fun DateInputText(
 
                     value = textValue,
                     onValueChange = { newValue ->
-                        onEvent(newValue)
+                        Log.i("test", newValue)
+                        if (newValue.length <= 8) {
+
+                            onEvent(newValue)
+                        }
                     },
                     textStyle = TextStyle(
                         fontSize = 15.sp,
@@ -113,7 +118,8 @@ fun DateInputText(
                     placeholder = { Text(text = placeholderText) },
                     maxLines = 1,
                     visualTransformation = visualTransformation,
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number),
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,

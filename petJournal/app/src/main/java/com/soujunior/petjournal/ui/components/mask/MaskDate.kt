@@ -9,7 +9,7 @@ import androidx.compose.ui.text.input.TransformedText
 const val DATE_MASK = "DD/MM/AAAA"
 
 fun formatDate(text: AnnotatedString): TransformedText {
-    val trimmed = if (text.text.length >= 25) text.text.substring(0 until 8) else text.text
+    val trimmed = if (text.text.length >= 9) text.text.substring(0 until 8) else text.text
 
     val annotatedString = AnnotatedString.Builder().apply {
         for (i in trimmed.indices) {
