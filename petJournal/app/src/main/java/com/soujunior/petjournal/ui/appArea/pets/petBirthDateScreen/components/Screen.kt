@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.appArea.pets.petBirthScreen.components
+package com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.components
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -23,8 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.appArea.pets.petBirthScreen.BirthFormEvent
-import com.soujunior.petjournal.ui.appArea.pets.petBirthScreen.ViewModelBirth
+import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateFormEvent
+import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.ViewModelBirthDate
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DateInputText
@@ -36,7 +36,7 @@ import org.koin.androidx.compose.getViewModel
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun Screen(petName: String?, navController: NavController) {
-    val viewModel: ViewModelBirth = getViewModel()
+    val viewModel: ViewModelBirthDate = getViewModel()
 
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
@@ -73,14 +73,14 @@ fun Screen(petName: String?, navController: NavController) {
                                     modifier = Modifier
                                         .fillMaxWidth(),
                                     onEvent = { value: String ->
-                                        viewModel.onEvent(BirthFormEvent.PetBirth(value))
+                                        viewModel.onEvent(BirthDateFormEvent.PetBirthDate(value))
                                     },
                                     visualTransformation = { formatDate(it) }
                                 )
                             }
                             item {
                                 Row(
-                                    Modifier.padding(top = 50.dp)
+                                    Modifier.padding(top = 80.dp)
                                 ) {
 
                                     Button3(
@@ -101,7 +101,7 @@ fun Screen(petName: String?, navController: NavController) {
                                     Button3(
                                         submit = {
                                             viewModel.onEvent(
-                                                BirthFormEvent.NextButton
+                                                BirthDateFormEvent.NextButton
                                             )
 
                                             if (viewModel.enableButton() &&

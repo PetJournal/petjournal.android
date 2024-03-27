@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.petBirth
+package com.soujunior.petjournal.ui.petBirthDate
 
 import androidx.lifecycle.viewModelScope
 import assertk.assertThat
@@ -6,9 +6,9 @@ import assertk.assertions.isFalse
 import assertk.assertions.isTrue
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.util.ValidationResult
-import com.soujunior.petjournal.ui.appArea.pets.petBirthScreen.BirthFormEvent
-import com.soujunior.petjournal.ui.appArea.pets.petBirthScreen.BirthFormState
-import com.soujunior.petjournal.ui.appArea.pets.petBirthScreen.ViewModelBirthImpl
+import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateFormEvent
+import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateFormState
+import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.ViewModelBirthDateImpl
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -21,16 +21,16 @@ import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 
-class PetBirthViewModelTest {
+class PetBirthDateViewModelTest {
 
-    private lateinit var viewModelTest: ViewModelBirthImpl
+    private lateinit var viewModelTest: ViewModelBirthDateImpl
     private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
         Dispatchers.setMain(Dispatchers.Unconfined)
-        viewModelTest = ViewModelBirthImpl(validation)
+        viewModelTest = ViewModelBirthDateImpl(validation)
     }
 
     @After
@@ -41,11 +41,11 @@ class PetBirthViewModelTest {
     @Test
     fun `enable button when of the birth date are validated`() {
 
-        every { this@PetBirthViewModelTest.validation.validateDate(any()) } returns ValidationResult(
+        every { this@PetBirthDateViewModelTest.validation.validateDate(any()) } returns ValidationResult(
             success = true
         )
 
-        viewModelTest.state = BirthFormState(
+        viewModelTest.state = BirthDateFormState(
             birth = "22/10/2020",
         )
         val enableButton = viewModelTest.enableButton()
@@ -54,7 +54,7 @@ class PetBirthViewModelTest {
 
     @Test
     fun `cannot enable button with empty birth date`() {
-        viewModelTest.state = BirthFormState(
+        viewModelTest.state = BirthDateFormState(
             birthError = listOf("Ops! Verifique se a data preenchida está correta."),
         )
         val enableButton = viewModelTest.enableButton()
@@ -63,7 +63,7 @@ class PetBirthViewModelTest {
 
     @Test
     fun `cannot enable button with birth date format invalid`() {
-        viewModelTest.state = BirthFormState(
+        viewModelTest.state = BirthDateFormState(
             birthError = listOf("Ops! Verifique se a data preenchida está correta."),
         )
         val enableButton = viewModelTest.enableButton()
@@ -75,7 +75,7 @@ class PetBirthViewModelTest {
     fun `when change() is called with another birth date, should change the date`() {
         val newBirth = "22/12/2020"
 
-        every { this@PetBirthViewModelTest.validation.validateDate(newBirth) } returns ValidationResult(
+        every { this@PetBirthDateViewModelTest.validation.validateDate(newBirth) } returns ValidationResult(
             success = true
         )
 
@@ -89,7 +89,7 @@ class PetBirthViewModelTest {
         val newBirth = "abcdefghijklmnopqrstwxyz"
 
         every {
-            this@PetBirthViewModelTest.validation.validateDate(newBirth)
+            this@PetBirthDateViewModelTest.validation.validateDate(newBirth)
         } returns ValidationResult(
             success = false,
             errorMessage = listOf("Ops! Verifique se a data preenchida está correta.")
@@ -105,7 +105,7 @@ class PetBirthViewModelTest {
         val newBirth = ""
 
         every {
-            this@PetBirthViewModelTest.validation.validateDate(newBirth)
+            this@PetBirthDateViewModelTest.validation.validateDate(newBirth)
         } returns ValidationResult(
             success = false,
             errorMessage = listOf("Ops! Verifique se a data preenchida está correta.")
@@ -121,7 +121,7 @@ class PetBirthViewModelTest {
         val newBirth = "22/12/20"
 
         every {
-            this@PetBirthViewModelTest.validation.validateDate(newBirth)
+            this@PetBirthDateViewModelTest.validation.validateDate(newBirth)
         } returns ValidationResult(
             success = false,
             errorMessage = listOf("Ops! Verifique se a data preenchida está correta.")
@@ -137,7 +137,7 @@ class PetBirthViewModelTest {
         val newBirth = "22/02/20220"
 
         every {
-            this@PetBirthViewModelTest.validation.validateDate(newBirth)
+            this@PetBirthDateViewModelTest.validation.validateDate(newBirth)
         } returns ValidationResult(
             success = false,
             errorMessage = listOf("Ops! Verifique se a data preenchida está correta.")
@@ -153,7 +153,7 @@ class PetBirthViewModelTest {
         val newBirth = "22/12/2028"
 
         every {
-            this@PetBirthViewModelTest.validation.validateDate(newBirth)
+            this@PetBirthDateViewModelTest.validation.validateDate(newBirth)
         } returns ValidationResult(
             success = false,
             errorMessage = listOf("Ops! Verifique se a data preenchida está correta.")
@@ -169,7 +169,7 @@ class PetBirthViewModelTest {
         val newBirth = "01/01/1993"
 
         every {
-            this@PetBirthViewModelTest.validation.validateDate(newBirth)
+            this@PetBirthDateViewModelTest.validation.validateDate(newBirth)
         } returns ValidationResult(
             success = false,
             errorMessage = listOf("A data não pode ser anterior 1993.")
@@ -185,7 +185,7 @@ class PetBirthViewModelTest {
         val newBirth = "22/10/2010"
 
         every {
-            this@PetBirthViewModelTest.validation.validateDate(newBirth)
+            this@PetBirthDateViewModelTest.validation.validateDate(newBirth)
         } returns ValidationResult(
             success = true
         )
@@ -197,7 +197,7 @@ class PetBirthViewModelTest {
     @Test
     fun `OnEvent should allow pet birth date changes`() {
         val newBirth = "22/10/2019"
-        val event = BirthFormEvent.PetBirth(petBirth = newBirth)
+        val event = BirthDateFormEvent.PetBirthDate(petBirth = newBirth)
         viewModelTest.onEvent(event)
         assertEquals(newBirth, viewModelTest.state.birth)
         assertEquals(emptyList<String>(), viewModelTest.state.birthError)

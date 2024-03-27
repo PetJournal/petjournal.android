@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.appArea.pets.petBirthScreen.components
+package com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -29,7 +29,9 @@ fun Header(modifier: Modifier = Modifier, petName: String = "Bolinha", petGender
         append("\n")
         append("\n")
         val textStyle = MaterialTheme.typography.bodyMedium.toSpanStyle().copy(
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = 16.sp,
+
         )
 
         withStyle(style = textStyle) {

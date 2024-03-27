@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.appArea.pets.petBirthScreen
+package com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ViewModelBirthImpl(
+class ViewModelBirthDateImpl(
     val validation: ValidationRepository
-) : ViewModelBirth() {
+) : ViewModelBirthDate() {
 
-    override var state by mutableStateOf(BirthFormState())
+    override var state by mutableStateOf(BirthDateFormState())
     override val validationEventChannel: Channel<ValidationEvent>
         get() = TODO("Not yet implemented")
     override val message: StateFlow<String>
@@ -48,10 +48,10 @@ class ViewModelBirthImpl(
         }
     }
 
-    override fun onEvent(event: BirthFormEvent) {
+    override fun onEvent(event: BirthDateFormEvent) {
         when (event) {
-            is BirthFormEvent.PetBirth -> change(petBirth = event.petBirth)
-            is BirthFormEvent.NextButton -> {
+            is BirthDateFormEvent.PetBirthDate -> change(petBirth = event.petBirth)
+            is BirthDateFormEvent.NextButton -> {
                 change(petBirth = state.birth)
             }
         }
@@ -64,7 +64,7 @@ class ViewModelBirthImpl(
     override fun verifyPetGender() {
         //Chamada ao Room para verificar qual o genero do pet
 
-        _petGender.value = "Adotado/Adotada"
+        _petGender.value = "Adotada"
     }
 
     override fun change(petBirth: String?) {
@@ -78,6 +78,5 @@ class ViewModelBirthImpl(
             }
         }
     }
-
 
 }

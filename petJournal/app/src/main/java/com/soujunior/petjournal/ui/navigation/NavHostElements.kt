@@ -12,7 +12,7 @@ import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreen
 import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.RegisterPetScreen
-import com.soujunior.petjournal.ui.appArea.pets.petBirthScreen.PetBirthScreen
+import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.PetBirthScreen
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.PetNameAndGenderScreen
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.SpeciesChoiceScreen
 import com.soujunior.petjournal.ui.appArea.tutor.tutorScreen.TutorScreen

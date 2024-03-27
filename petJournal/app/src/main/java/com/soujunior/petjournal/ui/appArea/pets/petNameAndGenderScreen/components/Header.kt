@@ -47,7 +47,7 @@ fun Header(modifier : Modifier = Modifier.fillMaxWidth(), species: String = "Gat
     Spacer(modifier = Modifier.padding(bottom = 20.dp))
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun PreviewHeader(){
     Header()
