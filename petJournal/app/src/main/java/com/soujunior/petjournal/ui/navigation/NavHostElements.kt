@@ -12,6 +12,7 @@ import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterScreen
 import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.RegisterPetScreen
+import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.PetBirthScreen
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.PetNameAndGenderScreen
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.SpeciesChoiceScreen
 import com.soujunior.petjournal.ui.appArea.tutor.tutorScreen.TutorScreen
@@ -58,6 +59,12 @@ fun NavHostMainContent() {
                 backStackEntry.arguments?.getString("arg"),
                 navController)
         }
+        composable("pets/birth/{arg}"){
+                backStackEntry ->
+            PetBirthScreen(
+                backStackEntry.arguments?.getString("arg"),
+                navController)
+        }
     }
 }
 
@@ -69,9 +76,12 @@ fun NavHostMainContent() {
 @Composable
 fun NavTestScreen(){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "changePassword") {
+    NavHost(navController = navController, startDestination = "pets/birth") {
         composable("pets/nameAndGender"){
             PetNameAndGenderScreen(petSpecie = "Gato", navController = navController)}
+        composable("pets/birth"){
+            PetBirthScreen(petName = "Bolinha", navController = navController)
+        }
         composable("home") { HomeScreen(navController) }
         composable("login") { LoginScreen(navController) }
         composable("splash") { SplashScreen(navController) }

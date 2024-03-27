@@ -1,7 +1,6 @@
-package com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.components
+package com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.components
 
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -11,7 +10,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,17 +19,23 @@ import com.soujunior.petjournal.R
 
 
 @Composable
-fun Header(modifier : Modifier = Modifier.fillMaxWidth(), species: String = "Gato"){
+fun Header(modifier: Modifier = Modifier, petName: String = "Bolinha", petGender: String = "Adotada") {
     Spacer(modifier = Modifier.padding(12.dp))
 
     val text = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)){
-            append(stringResource(id = R.string.wow))
+        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+            append(stringResource(id = R.string.info_menssage_pet_birth_date, petName))
         }
         append("\n")
         append("\n")
-        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)){
-            append(stringResource(id = R.string.register_message, species))
+        val textStyle = MaterialTheme.typography.bodyMedium.toSpanStyle().copy(
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = 16.sp,
+
+        )
+
+        withStyle(style = textStyle) {
+            append(stringResource(id = R.string.adoption_info_message, petName, petGender))
         }
     }
     Text(
@@ -42,13 +46,14 @@ fun Header(modifier : Modifier = Modifier.fillMaxWidth(), species: String = "Gat
         color = MaterialTheme.colorScheme.primary,
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold
-        )
+    )
+
 
     Spacer(modifier = Modifier.padding(bottom = 20.dp))
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewHeader(){
+private fun PreviewHeader() {
     Header()
 }
