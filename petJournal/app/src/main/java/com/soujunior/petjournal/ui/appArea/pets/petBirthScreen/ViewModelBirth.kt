@@ -22,7 +22,7 @@ abstract class ViewModelBirth : ViewModel(){
     abstract fun failed(exception: Throwable?)
     abstract fun onEvent(event: BirthFormEvent)
     abstract fun enableButton(): Boolean
-    abstract fun verifyPetGender(): Boolean
+    abstract fun verifyPetGender()
     abstract fun change(
         petBirth: String? = null,
     )

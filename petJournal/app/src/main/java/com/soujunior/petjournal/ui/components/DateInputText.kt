@@ -131,7 +131,7 @@ fun DateInputText(
                                 tint = Color.Unspecified,
                                 modifier = Modifier.padding(10.dp)
                             )
-                        } else if (!isError && textValue.length >= 7) {
+                        } else if (textValue.length >= 7) {
                             val iconResource = R.drawable.icone_verificado_ok
                             val contentDescription = "Erro"
 

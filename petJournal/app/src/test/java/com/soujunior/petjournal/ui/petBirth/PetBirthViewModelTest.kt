@@ -133,8 +133,8 @@ class PetBirthViewModelTest {
     }
 
     @Test
-    fun `should not accept pet birth date with more than 30 chars`() {
-        val newBirth = "Shoryukenhadoukentatsumakisenpukyaku"
+    fun `should not accept pet birth date with more than 8 chars`() {
+        val newBirth = "22/02/20220"
 
         every {
             this@PetBirthViewModelTest.validation.validateDate(newBirth)
@@ -201,6 +201,11 @@ class PetBirthViewModelTest {
         viewModelTest.onEvent(event)
         assertEquals(newBirth, viewModelTest.state.birth)
         assertEquals(emptyList<String>(), viewModelTest.state.birthError)
+    }
+
+    @Test
+    fun `verifyPetGender have to bring the genre saved in the room db`() {
+        // A ser implementado quando tiver o useCase
     }
 
 }

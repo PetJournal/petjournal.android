@@ -61,10 +61,10 @@ class ViewModelBirthImpl(
         return state.birthError.isNullOrEmpty()
     }
 
-    override fun verifyPetGender(): Boolean {
+    override fun verifyPetGender() {
         //Chamada ao Room para verificar qual o genero do pet
+
         _petGender.value = "Adotado/Adotada"
-        return true
     }
 
     override fun change(petBirth: String?) {
