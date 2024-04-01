@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.petjournal.database.database.entity.GuardianProfile
+import com.petjournal.database.database.entity.PetInformation
 
 @Dao
 interface GuardianProfileDao {
@@ -16,4 +17,7 @@ interface GuardianProfileDao {
 
     @Query("DELETE FROM guardian_profile")
     suspend fun deleteAllProfiles()
+
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    suspend fun insertPetInformation(petInformation: PetInformation) : Long
 }

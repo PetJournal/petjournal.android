@@ -6,14 +6,15 @@ import com.petjournal.database.database.dao.ApplicationInformationDao
 import com.petjournal.database.database.dao.GuardianProfileDao
 import com.petjournal.database.database.entity.ApplicationInformation
 import com.petjournal.database.database.entity.GuardianProfile
+import com.petjournal.database.database.entity.PetInformation
+import com.soujunior.domain.model.mapper.PetInformationModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.repository.GuardianLocalDataSource
 
 class GuardianLocalDataSourceImpl(
     private val guardianDao: GuardianProfileDao,
     private val appInfoDao: ApplicationInformationDao,
-) :
-    GuardianLocalDataSource {
+) : GuardianLocalDataSource {
 
     override suspend fun getGuardianName(): String? {
         return guardianDao.getProfile(1)?.firstName
@@ -35,6 +36,15 @@ class GuardianLocalDataSourceImpl(
             saveGuardianName(response)
         }
 
+    }
+
+    override suspend fun savePetInformation(petInformationModel: PetInformationModel): Long {
+      return  guardianDao.insertPetInformation(
+            PetInformation(
+                species = petInformationModel.species,
+                guardianId = petInformationModel.guardianId!!
+            )
+        )
     }
 
     override suspend fun deleteDatabase() {

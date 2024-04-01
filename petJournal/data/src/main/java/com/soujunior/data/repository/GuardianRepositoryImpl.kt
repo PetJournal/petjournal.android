@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import com.soujunior.data.remote.GuardianService
 import com.soujunior.data.util.manager.JwtManager
+import com.soujunior.domain.model.mapper.PetInformationModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianLocalDataSource
@@ -40,4 +41,19 @@ class GuardianRepositoryImpl(
             }
         }
     }
+
+    override suspend fun savePetInformation(petInformationModel: PetInformationModel) : Long {
+        val guardianId = 1 // tera que fazer uma chamada no db para recuperar id do guardian
+        val petInformation = petInformationModel.copy(
+            species = petInformationModel.species,
+            guardianId = guardianId
+        )
+        return try {
+            guardianLocalDataSourceImpl.savePetInformation(petInformation)
+        } catch (e: Exception){
+            e.message!!.length.toLong()
+        }
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.components
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.PetFormEvent
@@ -49,6 +53,8 @@ fun Screen(navController: NavController) {
     var isOthersFieldVisible by remember { mutableStateOf(false) }
     var isClearSpecies by remember { mutableStateOf(false) }
     var speciesName: String? = null
+    val idRoomPetInfoState by viewModel.idRoomPetInformation.collectAsState()
+
 
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
@@ -145,7 +151,9 @@ fun Screen(navController: NavController) {
                                         Button2(
                                             submit = {
                                                 speciesName?.let {
-                                                    navController.navigate("pets/nameAndGender/$it")
+                                                viewModel.savePetInformation(it)
+                                                    //navController.navigate("pets/nameAndGender/${viewModel.idRoomPetInformation}")
+                                                    Log.i("tela", idRoomPetInfoState.toString())
                                                 }
                                             },
                                             modifier = Modifier.width(150.dp),

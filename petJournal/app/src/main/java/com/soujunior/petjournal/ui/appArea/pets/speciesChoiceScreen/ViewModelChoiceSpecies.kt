@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen
 
 import androidx.lifecycle.ViewModel
+import com.soujunior.domain.model.mapper.PetInformationModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
@@ -18,6 +19,7 @@ abstract class ViewModelChoiceSpecies : ViewModel() {
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 
+    abstract val idRoomPetInformation: StateFlow<Long>
     abstract fun success(name: GuardianNameResponse)
     abstract fun failed(exception: Throwable?)
     abstract fun onEvent(event: PetFormEvent)
@@ -26,4 +28,5 @@ abstract class ViewModelChoiceSpecies : ViewModel() {
         specieSelected: String? = null,
         specieWritten: String? = null
     )
+    abstract fun savePetInformation(specie: String)
 }
