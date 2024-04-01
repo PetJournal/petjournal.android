@@ -66,6 +66,7 @@ fun Screen(petName: String?, navController: NavController) {
                             }
                             item {
                                 DateInputText(
+                                    titleText = "Data de nascimento",
                                     placeholderText = "DD/MM/AAAA",
                                     textValue = viewModel.state.birth,
                                     textError = viewModel.state.birthError,

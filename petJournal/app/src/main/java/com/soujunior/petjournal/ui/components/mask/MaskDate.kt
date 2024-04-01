@@ -26,7 +26,7 @@ fun formatDate(text: AnnotatedString): TransformedText {
         override fun originalToTransformed(offset: Int): Int {
             return when {
                 offset <= 2 -> offset
-                offset <= 5 -> offset + 1
+                offset <= 4 -> offset + 1
                 else -> offset + 2
             }
         }
@@ -34,7 +34,7 @@ fun formatDate(text: AnnotatedString): TransformedText {
         override fun transformedToOriginal(offset: Int): Int {
             return when {
                 offset <= 2 -> offset
-                offset <= 5 -> offset - 1
+                offset <= 4 -> offset - 1
                 else -> offset - 2
             }.coerceAtMost(text.length)
         }
