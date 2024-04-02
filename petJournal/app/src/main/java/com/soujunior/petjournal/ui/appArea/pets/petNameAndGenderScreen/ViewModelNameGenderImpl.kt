@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
+import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.util.ValidationResult
 import com.soujunior.petjournal.ui.states.TaskState
@@ -16,8 +17,9 @@ import kotlinx.coroutines.launch
 
 class ViewModelNameGenderImpl(
 //    val getPetSpeciesUseCase: GetPetSpecieUseCase,
-    val validation: ValidationRepository
-): ViewModelNameGender() {
+    val validation: ValidationRepository,
+    val repository: GuardianRepository
+) : ViewModelNameGender() {
 
     override var state by mutableStateOf(NameGenderFormState())
     override val validationEventChannel: Channel<ValidationEvent>
@@ -31,9 +33,9 @@ class ViewModelNameGenderImpl(
     private val _petSpecie: MutableStateFlow<String> = MutableStateFlow("")
     override val petSpecie: StateFlow<String> = _petSpecie
 
-//    init {
-//        getData()
-//    }
+    init {
+        getPetInformation(21)
+    }
 
     /*Os metodos de Success e Failure vão ser utilizados
     quando houver a nova impl do dataclass*/
@@ -49,12 +51,13 @@ class ViewModelNameGenderImpl(
 
     override fun onEvent(event: NameGenderFormEvent) {
         when (event) {
-            is NameGenderFormEvent.PetName -> change(petName  = event.petName)
+            is NameGenderFormEvent.PetName -> change(petName = event.petName)
             is NameGenderFormEvent.PetGender -> change(petGender = event.petGender)
             is NameGenderFormEvent.NextButton -> {
                 change(petName = state.name)
                 change(petGender = state.gender)
             }
+
             else -> {}
         }
     }
@@ -64,7 +67,7 @@ class ViewModelNameGenderImpl(
     }
 
     override fun change(petName: String?, petGender: String?) {
-        when{
+        when {
             petName != null -> {
                 state = state.copy(name = petName)
                 val result = validation.inputPetName(state.name)
@@ -76,19 +79,31 @@ class ViewModelNameGenderImpl(
             petGender != null -> {
                 state = state.copy(gender = petGender)
                 val result = validation.inputPetGender(state.gender)
-                state = if(result.success) state.copy(genderError = null)
+                state = if (result.success) state.copy(genderError = null)
                 else state.copy(genderError = result.errorMessage)
             }
         }
     }
-    fun generic(){
+
+    override fun getPetInformation(id: Long) {
+        viewModelScope.launch {
+            try {
+                val petInformation = repository.getPetInformation(id)
+                Log.i("petinfo", petInformation.toString())
+            } catch (e: Exception) {
+                e.message.toString()
+            }
+        }
+    }
+
+    fun generic() {
         Log.d("Teste", state.name)
         Log.d("Teste", state.gender)
         Log.d("Teste", state.nameError.toString())
         Log.d("Teste", state.genderError.toString())
     }
 
-    private fun getData(){
+    private fun getData() {
 //        viewModelScope.launch {
 //            _taskState.value = TaskState.Loading
 //            val result =

@@ -7,4 +7,5 @@ import com.soujunior.domain.network.NetworkResult
 interface GuardianRepository {
     suspend fun getGuardianName(): NetworkResult<GuardianNameResponse>
     suspend fun savePetInformation(petInformationModel: PetInformationModel): Long
+    suspend fun getPetInformation(idPetInformation: Long): PetInformationModel
 }

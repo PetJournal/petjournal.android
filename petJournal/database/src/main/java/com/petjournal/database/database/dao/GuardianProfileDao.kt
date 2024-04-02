@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.petjournal.database.database.entity.GuardianProfile
 import com.petjournal.database.database.entity.PetInformation
+import com.soujunior.domain.model.mapper.PetInformationModel
 
 @Dao
 interface GuardianProfileDao {
@@ -19,5 +20,8 @@ interface GuardianProfileDao {
     suspend fun deleteAllProfiles()
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insertPetInformation(petInformation: PetInformation) : Long
+    suspend fun insertPetInformation(petInformation: PetInformation): Long
+
+    @Query("SELECT * FROM pet_information WHERE id = :id")
+    suspend fun getPetInformation(id: Long): PetInformationModel
 }

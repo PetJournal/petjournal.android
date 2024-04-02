@@ -47,6 +47,10 @@ class GuardianLocalDataSourceImpl(
         )
     }
 
+    override suspend fun getPetInformation(id: Long): PetInformationModel {
+        return guardianDao.getPetInformation(id)
+    }
+
     override suspend fun deleteDatabase() {
         guardianDao.deleteAllProfiles()
         appInfoDao.deleteAllInformation()

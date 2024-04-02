@@ -55,5 +55,13 @@ class GuardianRepositoryImpl(
         }
     }
 
+    override suspend fun getPetInformation(idPetInformation: Long): PetInformationModel {
+        return try {
+            guardianLocalDataSourceImpl.getPetInformation(idPetInformation)
+        }catch (e: Throwable){
+            PetInformationModel()
+        }
+    }
+
 
 }
