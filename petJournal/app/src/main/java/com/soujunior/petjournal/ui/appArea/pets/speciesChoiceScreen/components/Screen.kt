@@ -41,6 +41,9 @@ import com.soujunior.petjournal.ui.components.InputSpecies
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.states.TaskState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -150,10 +153,12 @@ fun Screen(navController: NavController) {
                                         Spacer(modifier = Modifier.width(16.dp))
                                         Button2(
                                             submit = {
-                                                speciesName?.let {
-                                                viewModel.savePetInformation(it)
-                                                    //navController.navigate("pets/nameAndGender/${viewModel.idRoomPetInformation}")
-                                                    Log.i("tela", idRoomPetInfoState.toString())
+                                                speciesName?.let { specie ->
+                                                    viewModel.savePetInformation(specie)
+                                                    if (idRoomPetInfoState != null) {
+                                                        Log.i("tela", idRoomPetInfoState.toString())
+                                                    }
+                                                    //navController.navigate("pets/nameAndGender/${it}")
                                                 }
                                             },
                                             modifier = Modifier.width(150.dp),

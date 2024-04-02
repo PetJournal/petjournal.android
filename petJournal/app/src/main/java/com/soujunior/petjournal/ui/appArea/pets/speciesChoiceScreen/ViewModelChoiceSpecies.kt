@@ -19,7 +19,7 @@ abstract class ViewModelChoiceSpecies : ViewModel() {
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 
-    abstract val idRoomPetInformation: StateFlow<Long>
+    abstract val idRoomPetInformation: StateFlow<Long?>
     abstract fun success(name: GuardianNameResponse)
     abstract fun failed(exception: Throwable?)
     abstract fun onEvent(event: PetFormEvent)

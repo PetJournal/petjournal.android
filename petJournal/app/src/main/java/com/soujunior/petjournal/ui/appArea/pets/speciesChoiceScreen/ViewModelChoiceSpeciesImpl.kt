@@ -40,9 +40,8 @@ class ViewModelChoiceSpeciesImpl(
 
     override val name: StateFlow<String> get() = _name
     private val _name = MutableStateFlow("")
-
-    override val idRoomPetInformation: StateFlow<Long> get() = _idRoomPetInformation
-    private val _idRoomPetInformation = MutableStateFlow<Long>(0)
+    override val idRoomPetInformation: StateFlow<Long?> get() = _idRoomPetInformation
+    private val _idRoomPetInformation = MutableStateFlow<Long?>(null)
 
     init {
         getData()
@@ -111,13 +110,12 @@ class ViewModelChoiceSpeciesImpl(
             species = specie
         )
 
+        _taskState.value = TaskState.Loading
         viewModelScope.launch {
-            _taskState.value = TaskState.Loading
             val result = savePetInformationUseCase.execute(petInformation)
-           _idRoomPetInformation.value = result.success.data
+            _idRoomPetInformation.value = result.success.data
             _taskState.value = TaskState.Idle
         }
-
     }
 
     private fun getData() {
