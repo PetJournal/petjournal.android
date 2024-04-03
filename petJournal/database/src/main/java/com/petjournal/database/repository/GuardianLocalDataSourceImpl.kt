@@ -52,8 +52,12 @@ class GuardianLocalDataSourceImpl(
 
     }
 
-    override suspend fun getPetInformation(id: Long): PetInformationModel {
-        return guardianDao.getPetInformation(id)
+    override suspend fun getPetInformation(id: Long): DataResult<PetInformationModel> {
+        return try {
+            DataResult.Success(guardianDao.getPetInformation(id))
+        } catch (e: Throwable){
+            DataResult.Failure(e)
+        }
     }
 
     override suspend fun deleteDatabase() {

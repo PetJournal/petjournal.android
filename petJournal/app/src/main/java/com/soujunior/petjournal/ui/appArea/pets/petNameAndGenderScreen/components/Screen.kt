@@ -71,7 +71,7 @@ fun Screen(petSpecie: String?, navController: NavController){
                                 }
                                 item {
                                     Header(
-                                        species = petSpecie ?: "ERRO",
+                                        species = viewModel.state.specie,
                                         modifier = Modifier.padding(5.dp, 0.dp)
                                     )
                                 }
