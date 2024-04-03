@@ -42,10 +42,14 @@ import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun Screen(petSpecie: String?, navController: NavController){
+fun Screen(idPetInformation: String?, navController: NavController){
     val viewModel : ViewModelNameGender = getViewModel()
     val taskState = viewModel.taskState.collectAsState()
     var isClearGender by remember { mutableStateOf(false) }
+    if (idPetInformation != null) {
+        viewModel.getPetInformation(idPetInformation.toLong())
+        NameGenderFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
+    }
 
     Column(modifier = Modifier.navigationBarsPadding()){
         ScaffoldCustom(
@@ -152,7 +156,7 @@ fun Screen(petSpecie: String?, navController: NavController){
                                                 ) {
 
                                                     viewModel.state.name.let {
-                                                        navController.navigate("pets/raceAndSize/$it")
+                                                        navController.navigate("pets/raceAndSize/$idPetInformation")
                                                     }
                                                 }
                                             },

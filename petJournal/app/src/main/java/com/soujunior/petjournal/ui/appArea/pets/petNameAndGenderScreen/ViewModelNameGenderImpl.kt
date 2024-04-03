@@ -29,7 +29,7 @@ class ViewModelNameGenderImpl(
     override val taskState: StateFlow<TaskState> = _taskState
 
     init {
-        getPetInformation(1)
+        //getPetInformation(state.idPetInformation!!)
     }
 
     override fun success(petInformation: PetInformationModel) {
@@ -49,6 +49,7 @@ class ViewModelNameGenderImpl(
         when (event) {
             is NameGenderFormEvent.PetName -> change(petName = event.petName)
             is NameGenderFormEvent.PetGender -> change(petGender = event.petGender)
+            is NameGenderFormEvent.IdPetInformation -> change(idPetInformation = event.idPetInformation)
             is NameGenderFormEvent.NextButton -> {
                 change(petName = state.name)
                 change(petGender = state.gender)
@@ -62,7 +63,7 @@ class ViewModelNameGenderImpl(
         return state.nameError.isNullOrEmpty() && state.genderError.isNullOrEmpty()
     }
 
-    override fun change(petName: String?, petGender: String?) {
+    override fun change(petName: String?, petGender: String?, idPetInformation: Long?) {
         when {
             petName != null -> {
                 state = state.copy(name = petName)
@@ -77,6 +78,9 @@ class ViewModelNameGenderImpl(
                 val result = validation.inputPetGender(state.gender)
                 state = if (result.success) state.copy(genderError = null)
                 else state.copy(genderError = result.errorMessage)
+            }
+            idPetInformation != null -> {
+                state = state.copy(idPetInformation = idPetInformation)
             }
         }
     }

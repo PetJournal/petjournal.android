@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 
-abstract class ViewModelNameGender : ViewModel(){
+abstract class ViewModelNameGender : ViewModel() {
     abstract var state: NameGenderFormState
     abstract val validationEventChannel: Channel<ValidationEvent>
     abstract val message: StateFlow<String>
@@ -23,7 +23,8 @@ abstract class ViewModelNameGender : ViewModel(){
     abstract fun enableButton(): Boolean
     abstract fun change(
         petName: String? = null,
-        petGender: String? = null
+        petGender: String? = null,
+        idPetInformation: Long? = null
     )
 
     abstract fun getPetInformation(id: Long)

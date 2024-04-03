@@ -5,6 +5,7 @@ data class NameGenderFormState(
     val gender: String = "",
     val nameError: List<String>? = null,
     val genderError: List<String>? = null,
-    val specie: String = ""
+    val specie: String = "",
+    val idPetInformation : Long? = null
 )
 

@@ -78,7 +78,7 @@ fun NavTestScreen(){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "pets/nameAndGender") {
         composable("pets/nameAndGender"){
-            PetNameAndGenderScreen(petSpecie = "Gato", navController = navController)}
+            PetNameAndGenderScreen(idPetInformation = "1", navController = navController)}
         composable("pets/birth"){
             PetBirthScreen(petName = "Bolinha", navController = navController)
         }
