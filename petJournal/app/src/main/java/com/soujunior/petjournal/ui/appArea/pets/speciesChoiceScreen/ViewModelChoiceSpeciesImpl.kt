@@ -9,14 +9,12 @@ import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.mapper.PetInformationModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.use_case.base.DataResult
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationResult
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,11 +36,6 @@ class ViewModelChoiceSpeciesImpl(
     override val validationEvents: Flow<ValidationEvent>
         get() = super.validationEvents
 
-    override val name: StateFlow<String> get() = _name
-    private val _name = MutableStateFlow("")
-    override val idRoomPetInformation: StateFlow<Long?> get() = _idRoomPetInformation
-    private val _idRoomPetInformation = MutableStateFlow<Long?>(null)
-
     init {
         getData()
     }
@@ -51,11 +44,17 @@ class ViewModelChoiceSpeciesImpl(
         return listOf(result).any { !it.success }
     }
 
+    private fun setIdPetInformation(id: Long) {
+        state = state.copy(idRoomPetInformation = id)
+        viewModelScope.launch {
+            validationEventChannel.send(ValidationEvent.Success)
+        }
+    }
+
     override fun success(name: GuardianNameResponse) {
-        _name.value = name.firstName
+        state = state.copy(name = name.firstName)
         viewModelScope.launch {
             _taskState.value = TaskState.Idle
-            validationEventChannel.send(ValidationEvent.Success)
         }
     }
 
@@ -70,7 +69,7 @@ class ViewModelChoiceSpeciesImpl(
         return speciesResult.success
     }
 
-    fun generic() {
+    private fun generic() {
         Log.e(TAG, "Clicado!")
     }
 
@@ -81,7 +80,6 @@ class ViewModelChoiceSpeciesImpl(
             is PetFormEvent.NextButton -> generic()
             is PetFormEvent.ReturnButton -> generic()
             is PetFormEvent.OtherButton -> generic()
-            else -> {}
         }
     }
 
@@ -92,7 +90,7 @@ class ViewModelChoiceSpeciesImpl(
         when {
             specieSelected != null -> {
                 state = state.copy(specie = specieSelected)
-                val result = validation.inputSpecieType(state.specie)
+                validation.inputSpecieType(state.specie)
             }
 
             specieWritten != null -> {
@@ -109,11 +107,10 @@ class ViewModelChoiceSpeciesImpl(
         val petInformation = PetInformationModel(
             species = specie
         )
-
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val result = savePetInformationUseCase.execute(petInformation)
-            _idRoomPetInformation.value = result.success.data
+            result.handleResult(::setIdPetInformation, ::failed)
             _taskState.value = TaskState.Idle
         }
     }

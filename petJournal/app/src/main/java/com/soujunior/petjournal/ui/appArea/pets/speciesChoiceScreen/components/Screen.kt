@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.components
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -27,10 +28,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.PetFormEvent
@@ -41,9 +41,7 @@ import com.soujunior.petjournal.ui.components.InputSpecies
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.states.TaskState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -51,12 +49,23 @@ import org.koin.androidx.compose.getViewModel
 fun Screen(navController: NavController) {
     val viewModel: ViewModelChoiceSpecies = getViewModel()
     val activateContinueButton = remember { mutableStateOf(false) }
-    val name = remember { viewModel.name }
     val taskState by viewModel.taskState.collectAsState()
     var isOthersFieldVisible by remember { mutableStateOf(false) }
     var isClearSpecies by remember { mutableStateOf(false) }
     var speciesName: String? = null
-    val idRoomPetInfoState by viewModel.idRoomPetInformation.collectAsState()
+    val context = LocalContext.current
+    LaunchedEffect(context) {
+        viewModel.validationEvents.collect { event ->
+            when (event) {
+                is ValidationEvent.Success -> {
+                    navController.navigate("pets/nameAndGender/${viewModel.state.idRoomPetInformation}")
+                }
+                is ValidationEvent.Failed -> {
+                    Log.i(TAG, viewModel.state.idRoomPetInformation.toString())
+                }
+            }
+        }
+    }
 
 
     Column(modifier = Modifier.navigationBarsPadding()) {
@@ -80,7 +89,7 @@ fun Screen(navController: NavController) {
                                 .padding(start = 12.dp, end = 12.dp)
                         ) {
                             item {
-                                Header(name = name.value)
+                                Header(name = viewModel.state.name ?: "")
 
                                 GridVectors(
                                     selectedSpecies = { selectedSpecies ->
@@ -155,10 +164,6 @@ fun Screen(navController: NavController) {
                                             submit = {
                                                 speciesName?.let { specie ->
                                                     viewModel.savePetInformation(specie)
-                                                    if (idRoomPetInfoState != null) {
-                                                        Log.i("tela", idRoomPetInfoState.toString())
-                                                    }
-                                                    //navController.navigate("pets/nameAndGender/${it}")
                                                 }
                                             },
                                             modifier = Modifier.width(150.dp),
@@ -176,7 +181,8 @@ fun Screen(navController: NavController) {
                                                 else MaterialTheme.colorScheme.surface
                                             ),
                                             textColor = if (activateContinueButton.value) MaterialTheme.colorScheme.surface
-                                            else MaterialTheme.colorScheme.outline
+                                            else MaterialTheme.colorScheme.outline,
+                                            isLoading = taskState is TaskState.Loading
                                         )
 
                                     }

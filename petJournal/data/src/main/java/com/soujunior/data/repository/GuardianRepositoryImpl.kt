@@ -10,12 +10,13 @@ import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianLocalDataSource
 import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.use_case.base.DataResult
 import kotlinx.coroutines.coroutineScope
 
 class GuardianRepositoryImpl(
     private val guardianApi: GuardianService,
     private val guardianLocalDataSourceImpl: GuardianLocalDataSource,
-    private val context: Context
+    context: Context
 ) : GuardianRepository {
 
     private val jwtManager: JwtManager = JwtManager.getInstance(context)
@@ -42,16 +43,16 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun savePetInformation(petInformationModel: PetInformationModel) : Long {
+    override suspend fun savePetInformation(petInformationModel: PetInformationModel) : DataResult<Long>  {
         val guardianId = 1 // tera que fazer uma chamada no db para recuperar id do guardian
         val petInformation = petInformationModel.copy(
             species = petInformationModel.species,
             guardianId = guardianId
         )
         return try {
-            guardianLocalDataSourceImpl.savePetInformation(petInformation)
-        } catch (e: Exception){
-            e.message!!.length.toLong()
+            DataResult.Success(guardianLocalDataSourceImpl.savePetInformation(petInformation).success.data)
+        } catch (e: Throwable){
+            DataResult.Failure(e)
         }
     }
 

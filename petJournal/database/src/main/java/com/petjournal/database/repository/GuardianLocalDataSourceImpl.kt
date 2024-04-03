@@ -1,7 +1,5 @@
 package com.petjournal.database.repository
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import com.petjournal.database.database.dao.ApplicationInformationDao
 import com.petjournal.database.database.dao.GuardianProfileDao
 import com.petjournal.database.database.entity.ApplicationInformation
@@ -10,6 +8,7 @@ import com.petjournal.database.database.entity.PetInformation
 import com.soujunior.domain.model.mapper.PetInformationModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.repository.GuardianLocalDataSource
+import com.soujunior.domain.use_case.base.DataResult
 
 class GuardianLocalDataSourceImpl(
     private val guardianDao: GuardianProfileDao,
@@ -30,21 +29,27 @@ class GuardianLocalDataSourceImpl(
                 )
             )
             appInfoDao.insertInformation(ApplicationInformation(1, false))
-        }
-        else {
+        } else {
             deleteDatabase()
             saveGuardianName(response)
         }
 
     }
 
-    override suspend fun savePetInformation(petInformationModel: PetInformationModel): Long {
-      return  guardianDao.insertPetInformation(
-            PetInformation(
-                species = petInformationModel.species,
-                guardianId = petInformationModel.guardianId!!
+    override suspend fun savePetInformation(petInformationModel: PetInformationModel): DataResult<Long> {
+        return try {
+            DataResult.Success(
+                guardianDao.insertPetInformation(
+                    PetInformation(
+                        species = petInformationModel.species,
+                        guardianId = petInformationModel.guardianId!!
+                    )
+                )
             )
-        )
+        } catch (e: Throwable) {
+            DataResult.Failure(e)
+        }
+
     }
 
     override suspend fun getPetInformation(id: Long): PetInformationModel {
