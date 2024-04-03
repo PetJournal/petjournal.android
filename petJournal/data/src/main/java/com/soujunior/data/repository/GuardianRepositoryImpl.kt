@@ -5,7 +5,7 @@ import android.content.Context
 import android.util.Log
 import com.soujunior.data.remote.GuardianService
 import com.soujunior.data.util.manager.JwtManager
-import com.soujunior.domain.model.mapper.PetInformationModel
+import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianLocalDataSource

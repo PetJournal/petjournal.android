@@ -5,7 +5,7 @@ import com.petjournal.database.database.dao.GuardianProfileDao
 import com.petjournal.database.database.entity.ApplicationInformation
 import com.petjournal.database.database.entity.GuardianProfile
 import com.petjournal.database.database.entity.PetInformation
-import com.soujunior.domain.model.mapper.PetInformationModel
+import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.repository.GuardianLocalDataSource
 import com.soujunior.domain.use_case.base.DataResult
@@ -42,7 +42,7 @@ class GuardianLocalDataSourceImpl(
                 guardianDao.insertPetInformation(
                     PetInformation(
                         species = petInformationModel.species,
-                        guardianId = petInformationModel.guardianId!!
+                        guardianId = petInformationModel.guardianId ?: 0
                     )
                 )
             )

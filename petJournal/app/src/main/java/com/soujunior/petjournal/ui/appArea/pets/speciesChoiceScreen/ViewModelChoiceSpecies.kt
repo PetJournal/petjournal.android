@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen
 
 import androidx.lifecycle.ViewModel
-import com.soujunior.domain.model.mapper.PetInformationModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent

@@ -1,6 +1,6 @@
 package com.soujunior.domain.use_case.pet
 
-import com.soujunior.domain.model.mapper.PetInformationModel
+import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
