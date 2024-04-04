@@ -103,7 +103,7 @@ class ViewModelNameGenderImpl(
 
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
-             val petInformation = PetInformationModel(
+            val petInformation = PetInformationModel(
                 id = state.idPetInformation ?: 0L,
                 species = state.specie,
                 name = state.name,
@@ -113,14 +113,17 @@ class ViewModelNameGenderImpl(
 
             val result = updatePetInformationUseCase.execute(petInformation)
             Log.i("tt", result.isFailure.toString())
-           // result.handleResult(::success, ::failed)
+            result.handleResult(::successPetUpdate, ::failed)
+            _taskState.value = TaskState.Idle
         }
+
+
+    }
+
+    override fun successPetUpdate(unit: Unit) {
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
-        _taskState.value = TaskState.Idle
-
-
     }
 
     fun generic() {

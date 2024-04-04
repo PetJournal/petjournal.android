@@ -29,4 +29,6 @@ abstract class ViewModelNameGender : ViewModel() {
 
     abstract fun getPetInformation(id: Long)
     abstract fun updatePetInformation()
+
+    abstract fun successPetUpdate(unit: Unit)
 }
