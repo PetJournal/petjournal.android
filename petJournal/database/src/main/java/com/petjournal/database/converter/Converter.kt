@@ -6,6 +6,7 @@ import com.soujunior.domain.model.PetInformationModel
 object Converter{
     fun PetInformation.toModel(): PetInformationModel {
         return PetInformationModel(
+            id = this.id,
             species = this.species,
             name = this.name,
             gender = this.gender,
@@ -18,6 +19,7 @@ object Converter{
 
     fun PetInformationModel.toEntity(): PetInformation {
         return PetInformation(
+            id = this.id,
             guardianId = this.guardianId ?: 0,
             species = this.species,
             name = this.name,

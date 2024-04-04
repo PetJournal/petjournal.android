@@ -1,10 +1,10 @@
 package com.petjournal.database.repository
 
+import com.petjournal.database.converter.Converter.toEntity
 import com.petjournal.database.database.dao.ApplicationInformationDao
 import com.petjournal.database.database.dao.GuardianProfileDao
 import com.petjournal.database.database.entity.ApplicationInformation
 import com.petjournal.database.database.entity.GuardianProfile
-import com.petjournal.database.database.entity.PetInformation
 import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.repository.GuardianLocalDataSource
@@ -39,12 +39,7 @@ class GuardianLocalDataSourceImpl(
     override suspend fun savePetInformation(petInformationModel: PetInformationModel): DataResult<Long> {
         return try {
             DataResult.Success(
-                guardianDao.insertPetInformation(
-                    PetInformation(
-                        species = petInformationModel.species,
-                        guardianId = petInformationModel.guardianId ?: 0
-                    )
-                )
+                guardianDao.insertPetInformation(petInformationModel.toEntity())
             )
         } catch (e: Throwable) {
             DataResult.Failure(e)
@@ -55,7 +50,15 @@ class GuardianLocalDataSourceImpl(
     override suspend fun getPetInformation(id: Long): DataResult<PetInformationModel> {
         return try {
             DataResult.Success(guardianDao.getPetInformation(id))
-        } catch (e: Throwable){
+        } catch (e: Throwable) {
+            DataResult.Failure(e)
+        }
+    }
+
+    override suspend fun updatePetInformation(petInformationModel: PetInformationModel): DataResult<Unit> {
+        return try {
+            DataResult.Success(guardianDao.updatePetInformation(petInformationModel.toEntity()))
+        } catch (e: Throwable) {
             DataResult.Failure(e)
         }
     }

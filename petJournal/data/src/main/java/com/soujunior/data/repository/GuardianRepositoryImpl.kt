@@ -64,5 +64,14 @@ class GuardianRepositoryImpl(
         }
     }
 
+    override suspend fun updatePetInformation(petInformationModel: PetInformationModel): DataResult<Unit> {
+        return try {
+            DataResult.Success(guardianLocalDataSourceImpl.updatePetInformation(petInformationModel).success.data)
+        }catch (e: Throwable){
+            Log.i("tt", e.message.toString())
+            DataResult.Failure(e)
+        }
+    }
+
 
 }

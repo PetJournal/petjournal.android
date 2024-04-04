@@ -36,15 +36,17 @@ import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.ViewModel
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DashedInputText
+import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.states.TaskState
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun Screen(idPetInformation: String?, navController: NavController){
     val viewModel : ViewModelNameGender = getViewModel()
-    val taskState = viewModel.taskState.collectAsState()
+    val taskState by viewModel.taskState.collectAsState()
     var isClearGender by remember { mutableStateOf(false) }
     if (idPetInformation != null) {
         viewModel.getPetInformation(idPetInformation.toLong())
@@ -60,9 +62,9 @@ fun Screen(idPetInformation: String?, navController: NavController){
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = {
                 Box(modifier = Modifier.padding(it)){
-//                    if (taskState is TaskState.Loading)
-//                        IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.Center))
-//                    else {
+                    if (taskState is TaskState.Loading)
+                        IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.Center))
+                    else {
                         LazyColumn(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Top,
@@ -154,10 +156,8 @@ fun Screen(idPetInformation: String?, navController: NavController){
                                                     viewModel.state.name.isNotEmpty() &&
                                                     viewModel.state.gender.isNotEmpty()
                                                 ) {
-
-                                                    viewModel.state.name.let {
-                                                        navController.navigate("pets/raceAndSize/$idPetInformation")
-                                                    }
+                                                    viewModel.updatePetInformation()
+                                                    navController.navigate("pets/birth/$idPetInformation")
                                                 }
                                             },
                                             enableButton = viewModel.enableButton(),
@@ -178,7 +178,7 @@ fun Screen(idPetInformation: String?, navController: NavController){
                             })
                         }
 
-//                    }
+                    }
                 })
 
     }

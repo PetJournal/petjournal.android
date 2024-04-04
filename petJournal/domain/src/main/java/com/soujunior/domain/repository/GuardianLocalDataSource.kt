@@ -10,4 +10,5 @@ interface GuardianLocalDataSource {
     suspend fun saveGuardianName(response: GuardianNameResponse)
     suspend fun savePetInformation(petInformationModel: PetInformationModel) : DataResult<Long>
     suspend fun getPetInformation(id: Long) : DataResult<PetInformationModel>
+    suspend fun updatePetInformation(petInformationModel: PetInformationModel) : DataResult<Unit>
 }

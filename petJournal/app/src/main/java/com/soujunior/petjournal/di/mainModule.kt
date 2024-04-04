@@ -30,6 +30,7 @@ import com.soujunior.domain.use_case.guardian.GetPetRegistrationWentLive
 import com.soujunior.domain.use_case.guardian.SetPetRegistrationWentLive
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
+import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModel
 import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModelImpl
@@ -96,6 +97,7 @@ val mainModule = module {
     factory { SetPetRegistrationWentLive(get()) }
     factory { SavePetInformationUseCase(get()) }
     factory { GetPetInformationUseCase(get()) }
+    factory { UpdatePetInformationUseCase(get()) }
 
     single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
     single<GuardianService> { get<Retrofit>().create(GuardianService::class.java) }
@@ -126,6 +128,6 @@ val mainModule = module {
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
     viewModel { SplashViewModel(get()) }
     viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get(), get()) }
-    viewModel<ViewModelNameGender> {ViewModelNameGenderImpl(get(), get())}
+    viewModel<ViewModelNameGender> {ViewModelNameGenderImpl(get(), get(), get())}
     viewModel<ViewModelBirthDate> {ViewModelBirthDateImpl(get())}
 }
