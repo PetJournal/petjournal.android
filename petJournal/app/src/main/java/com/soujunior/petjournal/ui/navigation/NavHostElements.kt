@@ -91,7 +91,7 @@ fun NavTestScreen() {
             PetBirthScreen(petName = "Bolinha", navController = navController)
         }
         composable("pets/raceAndSize") {
-            PetRaceAndSizeScreen(petName = "El bravo", navController = navController)
+            PetRaceAndSizeScreen(idPetInformation = "1", navController = navController)
 
         }
         composable("home") { HomeScreen(navController) }

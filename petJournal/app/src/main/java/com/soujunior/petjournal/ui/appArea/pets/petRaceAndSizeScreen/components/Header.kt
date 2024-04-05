@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.components
 
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,7 +19,7 @@ import com.soujunior.petjournal.R
 
 
 @Composable
-fun Header(modifier: Modifier = Modifier.fillMaxWidth(), petName: String = "Bolinha") {
+fun Header(modifier: Modifier = Modifier, petName: String = "Bolinha") {
     Spacer(modifier = Modifier.padding(20.dp))
 
     val text = buildAnnotatedString {

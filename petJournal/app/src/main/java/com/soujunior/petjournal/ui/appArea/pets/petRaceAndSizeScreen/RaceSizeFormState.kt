@@ -7,5 +7,9 @@ data class RaceSizeFormState(
     val raceError: List<String>? = null,
     val sizeError: List<String>? = null,
     val raceOthersError: List<String>? = null,
+    val specie: String = "",
+    val idPetInformation : Long? = null,
+    val name: String = "",
+    val gender: String = "",
 )
 

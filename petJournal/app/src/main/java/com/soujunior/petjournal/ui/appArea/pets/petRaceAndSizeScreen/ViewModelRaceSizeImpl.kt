@@ -4,7 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
+import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.repository.ValidationRepository
+import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
+import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
+import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,34 +16,41 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ViewModelRaceSizeImpl(
-    val validation: ValidationRepository
+    val validation: ValidationRepository,
+    private val getPetInformationUseCase: GetPetInformationUseCase,
+    private val updatePetInformationUseCase: UpdatePetInformationUseCase
 ) : ViewModelRaceSize() {
 
     override var state by mutableStateOf(RaceSizeFormState())
-    override val validationEventChannel: Channel<ValidationEvent>
-        get() = TODO("Not yet implemented")
+    override val validationEventChannel get() = Channel<ValidationEvent>()
     override val message: StateFlow<String>
         get() = TODO("Not yet implemented")
 
     private val _isTextFiledOthersVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    override val isTextFiledOthersVisible: StateFlow<Boolean> = _isTextFiledOthersVisible
+    override val isTextFiledOthersVisible: StateFlow<Boolean> get() = _isTextFiledOthersVisible
 
     private val _sizeList: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
-    override val sizeList: StateFlow<List<String>> = _sizeList
+    override val sizeList: StateFlow<List<String>> get()= _sizeList
 
     private val _raceList: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
-    override val raceList: StateFlow<List<String>> = _raceList
+    override val raceList: StateFlow<List<String>> get() = _raceList
 
+    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
+    override val taskState: StateFlow<TaskState> get() = _taskState
 
     init {
         getData()
 
     }
 
-    /*Os metodos de Success e Failure vão ser utilizados
-    quando houver a nova impl do dataclass*/
-    override fun success() {
-        TODO("teste")
+    override fun success(petInformationModel: PetInformationModel) {
+        state = state.copy(specie = petInformationModel.species ?: "")
+        state = state.copy(idPetInformation = petInformationModel.id)
+        state = state.copy(name = petInformationModel.name ?: "")
+        state = state.copy(gender = petInformationModel.gender ?: "")
+        viewModelScope.launch {
+            validationEventChannel.send(ValidationEvent.Success)
+        }
     }
 
     override fun failed(exception: Throwable?) {
@@ -109,6 +120,45 @@ class ViewModelRaceSizeImpl(
                 else state.copy(raceOthersError = result.errorMessage)
 
             }
+        }
+    }
+
+    override fun getPetInformation(id: Long) {
+        viewModelScope.launch {
+            _taskState.value = TaskState.Loading
+            val result = getPetInformationUseCase.execute(id)
+            result.handleResult(::success, ::failed)
+            _taskState.value = TaskState.Idle
+
+        }
+    }
+
+    override fun updatePetInformation() {
+
+        val petRace = if (state.race.lowercase() == "outro") state.raceOthers else state.race
+
+        _taskState.value = TaskState.Loading
+        viewModelScope.launch {
+            val petInformation = PetInformationModel(
+                id = state.idPetInformation ?: 0L,
+                species = state.specie,
+                name = state.name,
+                gender = state.gender,
+                size = state.size,
+                petRace = petRace,
+                guardianId = 1
+            )
+
+            val result = updatePetInformationUseCase.execute(petInformation)
+
+            result.handleResult(::successPetUpdate, ::failed)
+            _taskState.value = TaskState.Idle
+        }
+    }
+
+    override fun successPetUpdate(unit: Unit) {
+        viewModelScope.launch {
+            validationEventChannel.send(ValidationEvent.Success)
         }
     }
 

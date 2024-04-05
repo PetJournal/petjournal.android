@@ -6,6 +6,6 @@ import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.components.
 
 
 @Composable
-fun PetRaceAndSizeScreen(petName: String?, navController: NavController){
-    Screen(petName, navController)
+fun PetRaceAndSizeScreen(idPetInformation: String?, navController: NavController){
+    Screen(idPetInformation, navController)
 }

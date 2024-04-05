@@ -112,7 +112,6 @@ class ViewModelNameGenderImpl(
             )
 
             val result = updatePetInformationUseCase.execute(petInformation)
-            Log.i("tt", result.isFailure.toString())
             result.handleResult(::successPetUpdate, ::failed)
             _taskState.value = TaskState.Idle
         }

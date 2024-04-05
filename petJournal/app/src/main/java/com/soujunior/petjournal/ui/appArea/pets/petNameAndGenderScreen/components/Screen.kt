@@ -157,7 +157,7 @@ fun Screen(idPetInformation: String?, navController: NavController){
                                                     viewModel.state.gender.isNotEmpty()
                                                 ) {
                                                     viewModel.updatePetInformation()
-                                                    navController.navigate("pets/birth/$idPetInformation")
+                                                    navController.navigate("pets/raceAndSize/$idPetInformation")
                                                 }
                                             },
                                             enableButton = viewModel.enableButton(),

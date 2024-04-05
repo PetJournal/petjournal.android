@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.components
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -44,9 +43,13 @@ import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun Screen(petName: String?, navController: NavController) {
+fun Screen(idPetInformation: String?, navController: NavController) {
     val viewModel: ViewModelRaceSize = getViewModel()
     val isTextFiledOthersVisible by viewModel.isTextFiledOthersVisible.collectAsState()
+    if (idPetInformation != null) {
+        viewModel.getPetInformation(idPetInformation.toLong())
+        RaceSizeFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
+    }
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
             modifier = Modifier,
@@ -85,7 +88,7 @@ fun Screen(petName: String?, navController: NavController) {
                                     contentAlignment = Alignment.TopStart
                                 ) {
                                     Header(
-                                        petName = petName ?: "ERRO",
+                                        petName = viewModel.state.name,
                                         modifier = Modifier.padding(5.dp, 0.dp)
                                     )
 
@@ -202,15 +205,8 @@ fun Screen(petName: String?, navController: NavController) {
                                                     viewModel.state.size.isNotEmpty()
 
                                                 ) {
-                                                    viewModel.state.size.let { size ->
-                                                        //navController.navigate("pets/raceAndSize/$it")
-                                                        Log.i("outros", size)
-                                                    }
-                                                    viewModel.state.raceOthers.let { raceOther ->
-                                                        //navController.navigate("pets/raceAndSize/$it")
-                                                        Log.i("outros", raceOther)
-                                                    }
-
+                                                    viewModel.updatePetInformation()
+                                                    navController.navigate("pets/birth/$idPetInformation")
                                                 }
                                             } else {
                                                 if (viewModel.enableButton() &&
@@ -218,15 +214,8 @@ fun Screen(petName: String?, navController: NavController) {
                                                     viewModel.state.size.isNotEmpty() &&
                                                     viewModel.state.race.lowercase() != "outro"
                                                 ) {
-                                                    viewModel.state.race.let { race ->
-                                                        Log.i("race", race)
-                                                        //navController.navigate("pets/raceAndSize/$it")
-
-                                                    }
-                                                    viewModel.state.size.let { size ->
-                                                        Log.i("race", size)
-                                                        //navController.navigate("pets/raceAndSize/$it")
-                                                    }
+                                                    viewModel.updatePetInformation()
+                                                    navController.navigate("pets/birth/$idPetInformation")
                                                 }
                                             }
 

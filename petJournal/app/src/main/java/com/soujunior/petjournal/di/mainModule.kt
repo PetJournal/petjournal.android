@@ -132,5 +132,5 @@ val mainModule = module {
     viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get(), get()) }
     viewModel<ViewModelNameGender> {ViewModelNameGenderImpl(get(), get(), get())}
     viewModel<ViewModelBirthDate> {ViewModelBirthDateImpl(get())}
-    viewModel<ViewModelRaceSize> {ViewModelRaceSizeImpl(get())}
+    viewModel<ViewModelRaceSize> {ViewModelRaceSizeImpl(get(), get(), get())}
 }
