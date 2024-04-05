@@ -258,6 +258,28 @@ class ValidationRepositoryImpl : ValidationRepository {
         }
     }
 
+    override fun validateDropDownRaceOthers(raceOther: String): ValidationResult {
+        return if (raceOther.lowercase() == "outro") {
+            ValidationResult(success = true)
+        } else {
+            ValidationResult(success = false)
+        }
+    }
+
+    override fun validateDropdown(value: String, list: List<String>): ValidationResult {
+
+        return if (value.isNotEmpty() && list.contains(value)) {
+            ValidationResult(
+                success = true,
+            )
+        } else {
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* Campo obrigatório!")
+            )
+
+        }
+    }
 
     private fun isCodeValidLenght(input: String): Boolean {
         return if (input.isNotBlank()) {
