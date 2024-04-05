@@ -6,9 +6,9 @@ import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.components.Sc
 
 
 @Composable
-fun PetBirthScreen(petName: String?, navController: NavController) {
+fun PetBirthScreen(idPetInformation: String?, navController: NavController) {
 
-    Screen(petName, navController)
+    Screen(idPetInformation, navController)
 }
 
 

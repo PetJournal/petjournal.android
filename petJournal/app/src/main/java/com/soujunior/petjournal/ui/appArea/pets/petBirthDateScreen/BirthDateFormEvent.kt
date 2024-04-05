@@ -9,4 +9,6 @@ sealed class BirthDateFormEvent{
 
     object NextButton : BirthDateFormEvent()
 
+    data class IdPetInformation(val idPetInformation: Long): BirthDateFormEvent()
+
 }

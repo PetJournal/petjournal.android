@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen
 
 import androidx.lifecycle.ViewModel
+import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -13,18 +14,19 @@ abstract class ViewModelBirthDate : ViewModel(){
     abstract val validationEventChannel: Channel<ValidationEvent>
     abstract val message: StateFlow<String>
     abstract val taskState: StateFlow<TaskState>
-    abstract val petBirth: StateFlow<String>
-    abstract val petGender: StateFlow<String>
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 
-    abstract fun success()
+    abstract fun success(petInformationModel: PetInformationModel)
     abstract fun failed(exception: Throwable?)
     abstract fun onEvent(event: BirthDateFormEvent)
     abstract fun enableButton(): Boolean
-    abstract fun verifyPetGender()
     abstract fun change(
         petBirth: String? = null,
+        idPetInformation: Long? = null,
     )
+    abstract fun getPetInformation(id: Long)
+    abstract fun updatePetInformation()
 
+    abstract fun successPetUpdate(unit: Unit)
 }

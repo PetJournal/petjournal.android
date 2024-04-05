@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.components
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -25,6 +27,7 @@ import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.ViewModelBirthDate
+import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DateInputText
@@ -35,9 +38,12 @@ import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun Screen(petName: String?, navController: NavController) {
+fun Screen(idPetInformation: String?, navController: NavController) {
     val viewModel: ViewModelBirthDate = getViewModel()
-
+    if (idPetInformation != null) {
+        viewModel.getPetInformation(idPetInformation.toLong())
+        RaceSizeFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
+    }
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
             modifier = Modifier,
@@ -58,11 +64,19 @@ fun Screen(petName: String?, navController: NavController) {
                                 Breadcrumb(index = 3)
                             }
                             item {
-                                Header(
-                                    petName = petName ?: "ERRO",
-                                    modifier = Modifier.padding(5.dp, 0.dp),
-                                    petGender = viewModel.petGender.value
-                                )
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(5.dp, 0.dp),
+                                    contentAlignment = Alignment.TopStart
+                                ) {
+                                    Header(
+                                        petName = viewModel.state.name,
+                                        modifier = Modifier.padding(5.dp, 0.dp),
+                                        petGender = if (viewModel.state.gender.uppercase() == "M") "Adotado" else "Adotada"
+                                    )
+                                }
+
                             }
                             item {
                                 DateInputText(
@@ -87,7 +101,9 @@ fun Screen(petName: String?, navController: NavController) {
                                     Button3(
                                         submit = { navController.popBackStack() },
                                         enableButton = true,
-                                        modifier = Modifier.width(150.dp),
+                                        modifier = Modifier
+                                            .width(150.dp)
+                                            .height(50.dp),
                                         border = BorderStroke(
                                             width = 2.dp,
                                             color = MaterialTheme.colorScheme.primary
@@ -108,14 +124,15 @@ fun Screen(petName: String?, navController: NavController) {
                                             if (viewModel.enableButton() &&
                                                 viewModel.state.birth.isNotEmpty()
                                             ) {
-                                                Log.i("Date", viewModel.state.birth)
-                                                /*viewModel.state.birth.let {
-                                                    navController.navigate("pets/raceAndSize/$it")
-                                                }*/
+                                                Log.i(TAG, viewModel.state.birth)
+                                                viewModel.updatePetInformation()
+                                                //navController.navigate("pets/birth/$it")
                                             }
                                         },
                                         enableButton = viewModel.enableButton(),
-                                        modifier = Modifier.width(150.dp),
+                                        modifier = Modifier
+                                            .width(150.dp)
+                                            .height(50.dp),
                                         border = BorderStroke(
                                             width = 2.dp,
                                             color =

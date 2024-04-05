@@ -28,7 +28,7 @@ class ViewModelNameGenderImpl(
         get() = TODO("Not yet implemented")
 
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
-    override val taskState: StateFlow<TaskState> = _taskState
+    override val taskState: StateFlow<TaskState> get() = _taskState
 
     init {
         //getPetInformation(state.idPetInformation!!)

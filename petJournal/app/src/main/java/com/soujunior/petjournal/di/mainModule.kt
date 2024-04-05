@@ -131,6 +131,6 @@ val mainModule = module {
     viewModel { SplashViewModel(get()) }
     viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get(), get()) }
     viewModel<ViewModelNameGender> {ViewModelNameGenderImpl(get(), get(), get())}
-    viewModel<ViewModelBirthDate> {ViewModelBirthDateImpl(get())}
+    viewModel<ViewModelBirthDate> {ViewModelBirthDateImpl(get(), get(), get())}
     viewModel<ViewModelRaceSize> {ViewModelRaceSizeImpl(get(), get(), get())}
 }
