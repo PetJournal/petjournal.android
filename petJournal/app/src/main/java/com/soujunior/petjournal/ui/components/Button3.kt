@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -37,7 +38,7 @@ fun Button3(
         androidx.compose.material3.Button(
             onClick = { submit() },
             enabled = enableButton,
-            modifier = modifier,
+            modifier = modifier.testTag("button3_test"),
             border = border,
             shape = RoundedCornerShape(10.dp),
             colors = buttonColor

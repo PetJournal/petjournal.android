@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.ui.accountManager.registerScreen
 
+import com.soujunior.domain.model.mapper.User
+
 data class RegisterFormState(
     val name: String = "",
     val nameError: List<String>? = null,
@@ -14,4 +16,5 @@ data class RegisterFormState(
     val repeatedPassword: String = "",
     val repeatedPasswordError: List<String>? = null,
     val privacyPolicy: Boolean = false,
+    val userProfile: User? = null
 )

@@ -25,8 +25,6 @@ import org.junit.Test
 class RegisterMethodTest {
 
     @get:Rule
-    //val instantTaskExecutorRule = InstantTaskExecutorRule()
-
     private lateinit var viewModel: RegisterViewModelImpl
     private val signUpUseCase = mockk<SignUpUseCase>(relaxed = true)
     private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
@@ -43,7 +41,7 @@ class RegisterMethodTest {
     }
 
     @Test
-    fun `if success() is call, set success message`() = runTest {
+    fun `if success() is call, set the value on state userProfile`() = runTest {
         val successMessage = User(
             "123456",
             "John",
@@ -52,7 +50,7 @@ class RegisterMethodTest {
             "11998018914"
         )
         viewModel.success(successMessage)
-        assertEquals(successMessage, viewModel.message.value)
+        assertEquals(successMessage, viewModel.state.userProfile)
     }
 
     @Test
@@ -85,7 +83,7 @@ class RegisterMethodTest {
                 any()
             )
         } returns ValidationResult(success = true)
-        viewModel.state = RegisterFormState(
+        viewModel.state = viewModel.state.copy(
             name = "John",
             lastName = "Doe",
             email = "john.doe@example.com",
@@ -387,7 +385,7 @@ class RegisterMethodTest {
 
     @Test
     fun `test onEvent PrivacyPolicyChanged`() {
-        val privacyPolicy = true
+        val privacyPolicy = false
         val event = RegisterFormEvent.PrivacyPolicyChanged(privacyPolicy = privacyPolicy)
         viewModel.onEvent(event)
         assertEquals(privacyPolicy, viewModel.state.privacyPolicy)

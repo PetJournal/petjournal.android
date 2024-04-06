@@ -28,6 +28,7 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -76,7 +77,7 @@ fun DashedInputText(
                     .background(
                         Color.Transparent
                     )
-                    .fillMaxWidth()
+                    .fillMaxWidth().testTag("dashedInputField_test")
                     .padding(5.dp)
                     .height(40.dp)
                     .drawBehind {
