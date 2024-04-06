@@ -23,8 +23,8 @@ class ViewModelRaceSizeImpl(
 
     override var state by mutableStateOf(RaceSizeFormState())
     override val validationEventChannel get() = Channel<ValidationEvent>()
-    override val message: StateFlow<String>
-        get() = TODO("Not yet implemented")
+    override val message: StateFlow<String> get() = _message
+    private val _message = MutableStateFlow("")
 
     private val _isTextFiledOthersVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val isTextFiledOthersVisible: StateFlow<Boolean> get() = _isTextFiledOthersVisible
@@ -51,12 +51,14 @@ class ViewModelRaceSizeImpl(
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
+        _message.value = "Sucesso"
     }
 
     override fun failed(exception: Throwable?) {
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Failed)
         }
+        _message.value = "Error"
     }
 
     override fun onEvent(event: RaceSizeFormEvent) {
@@ -160,6 +162,7 @@ class ViewModelRaceSizeImpl(
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
+        _message.value = "Sucesso"
     }
 
 

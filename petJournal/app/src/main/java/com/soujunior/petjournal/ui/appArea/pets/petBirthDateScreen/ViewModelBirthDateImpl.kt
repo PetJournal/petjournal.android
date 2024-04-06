@@ -23,8 +23,8 @@ class ViewModelBirthDateImpl(
 
     override var state by mutableStateOf(BirthDateFormState())
     override val validationEventChannel get() = Channel<ValidationEvent>()
-    override val message: StateFlow<String>
-        get() = TODO("Not yet implemented")
+    override val message: StateFlow<String> get() = _message
+    private val _message = MutableStateFlow("")
 
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
@@ -43,12 +43,14 @@ class ViewModelBirthDateImpl(
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
+        _message.value = "Sucesso"
     }
 
     override fun failed(exception: Throwable?) {
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Failed)
         }
+        _message.value = "Error"
     }
 
     override fun onEvent(event: BirthDateFormEvent) {
@@ -110,6 +112,7 @@ class ViewModelBirthDateImpl(
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
+        _message.value = "Sucesso"
     }
 
 }

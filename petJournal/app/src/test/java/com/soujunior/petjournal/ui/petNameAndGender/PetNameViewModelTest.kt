@@ -4,6 +4,8 @@ import androidx.lifecycle.viewModelScope
 import assertk.assertThat
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
+import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
+import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.util.ValidationResult
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.NameGenderFormEvent
@@ -25,11 +27,13 @@ class PetNameViewModelTest {
 
     private lateinit var viewModelTest: ViewModelNameGenderImpl
     private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
+    private val getPetInformationUseCase = mockk<GetPetInformationUseCase>(relaxed = true)
+    private val updatePetInformationUseCase = mockk<UpdatePetInformationUseCase>(relaxed = true)
 
     @Before
     fun setup(){
         Dispatchers.setMain(Dispatchers.Unconfined)
-        viewModelTest = ViewModelNameGenderImpl(validation)
+        viewModelTest = ViewModelNameGenderImpl(validation, getPetInformationUseCase, updatePetInformationUseCase)
     }
 
     @After

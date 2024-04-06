@@ -4,11 +4,16 @@ import androidx.lifecycle.viewModelScope
 import assertk.assertThat
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
+import com.soujunior.domain.use_case.base.DataResult
+import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
+import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.util.ValidationResult
+import com.soujunior.petjournal.setup.perInformation
 import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateFormState
 import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.ViewModelBirthDateImpl
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -25,12 +30,13 @@ class PetBirthDateViewModelTest {
 
     private lateinit var viewModelTest: ViewModelBirthDateImpl
     private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
-
+    private val getPetInformationUseCase = mockk<GetPetInformationUseCase>(relaxed = true)
+    private val updatePetInformationUseCase = mockk<UpdatePetInformationUseCase>(relaxed = true)
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
         Dispatchers.setMain(Dispatchers.Unconfined)
-        viewModelTest = ViewModelBirthDateImpl(validation)
+        viewModelTest = ViewModelBirthDateImpl(validation, getPetInformationUseCase, updatePetInformationUseCase)
     }
 
     @After
@@ -202,10 +208,48 @@ class PetBirthDateViewModelTest {
         assertEquals(newBirth, viewModelTest.state.birth)
         assertEquals(emptyList<String>(), viewModelTest.state.birthError)
     }
-
     @Test
-    fun `verifyPetGender have to bring the genre saved in the room db`() {
-        // A ser implementado quando tiver o useCase
+    fun `get petinformation tem que chamar o use case e preencher os 4 campos de state, vindos do room`() {
+
+        coEvery { getPetInformationUseCase.execute(any()) } returns DataResult.Success(
+            perInformation
+        )
+        viewModelTest.getPetInformation(perInformation.id)
+
+        assertEquals(perInformation.name, viewModelTest.state.name)
+        assertEquals(perInformation.gender, viewModelTest.state.gender)
+        assertEquals(perInformation.id, viewModelTest.state.idPetInformation)
+        assertEquals(perInformation.species, viewModelTest.state.specie)
+        assertEquals(perInformation.petRace, viewModelTest.state.race)
+        assertEquals(perInformation.size, viewModelTest.state.size)
+        assertEquals("Sucesso", viewModelTest.message.value)
+    }
+    @Test
+    fun `tem que retornar mensage de erro caso o get de petinformation no room falhe`() {
+
+        coEvery { getPetInformationUseCase.execute(any()) } returns DataResult.Failure(
+            Throwable()
+        )
+        viewModelTest.getPetInformation(perInformation.id)
+        assertEquals("Error", viewModelTest.message.value)
+    }
+    @Test
+    fun `update petinformation tem que chamar o use case fazer o update no room`() {
+
+        coEvery { updatePetInformationUseCase.execute(any()) } returns DataResult.Success(
+            Unit
+        )
+        viewModelTest.updatePetInformation()
+        assertEquals("Sucesso", viewModelTest.message.value)
+    }
+    @Test
+    fun `update tem que retornar mensage de erro caso petinformation não seja atualizado`() {
+
+        coEvery { updatePetInformationUseCase.execute(any()) } returns DataResult.Failure(
+            Throwable()
+        )
+        viewModelTest.updatePetInformation()
+        assertEquals("Error", viewModelTest.message.value)
     }
 
 }
