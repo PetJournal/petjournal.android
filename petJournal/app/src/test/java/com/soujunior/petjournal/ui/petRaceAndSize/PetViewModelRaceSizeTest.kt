@@ -2,10 +2,8 @@ package com.soujunior.petjournal.ui.petRaceAndSize
 
 import androidx.lifecycle.viewModelScope
 import assertk.assertThat
-import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
-import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.use_case.base.DataResult
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
@@ -15,18 +13,12 @@ import com.soujunior.petjournal.setup.perInformation
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.RaceSizeFormState
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
-import com.soujunior.petjournal.ui.util.ValidationEvent
-import io.mockk.Runs
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
-import io.mockk.just
 import io.mockk.mockk
-import junit.framework.TestCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -70,6 +62,7 @@ class PetViewModelRaceSizeTest {
         "Outro"
     )
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
         Dispatchers.setMain(Dispatchers.Unconfined)
@@ -373,7 +366,7 @@ class PetViewModelRaceSizeTest {
     }
 
     @Test
-    fun `get petinformation tem que chamar o use case e preencher os 4 campos de state, vindos do room`() {
+    fun `getPetInformation should call the use case and fill the ViewModel state fields with data from the room`() {
 
         coEvery { getPetInformationUseCase.execute(any()) } returns DataResult.Success(
             perInformation
@@ -386,17 +379,19 @@ class PetViewModelRaceSizeTest {
         assertEquals(perInformation.species, viewModelTest.state.specie)
         assertEquals("Sucesso", viewModelTest.message.value)
     }
-    @Test
-    fun `tem que retornar mensage de erro caso o get de petinformation no room falhe`() {
 
-      coEvery { getPetInformationUseCase.execute(any()) } returns DataResult.Failure(
+    @Test
+    fun `should return error message if petInformation retrieval from room fails`() {
+
+        coEvery { getPetInformationUseCase.execute(any()) } returns DataResult.Failure(
             Throwable()
         )
         viewModelTest.getPetInformation(2)
         assertEquals("Error", viewModelTest.message.value)
     }
+
     @Test
-    fun `update petinformation tem que chamar o use case fazer o update no room`() {
+    fun `updatePetInformation should call the use case to update pet information in the room`() {
 
         coEvery { updatePetInformationUseCase.execute(any()) } returns DataResult.Success(
             Unit
@@ -404,8 +399,9 @@ class PetViewModelRaceSizeTest {
         viewModelTest.updatePetInformation()
         assertEquals("Sucesso", viewModelTest.message.value)
     }
+
     @Test
-    fun `update tem que retornar mensage de erro caso petinformation não seja atualizado`() {
+    fun `update should return error message if pet information is not updated`() {
 
         coEvery { updatePetInformationUseCase.execute(any()) } returns DataResult.Failure(
             Throwable()

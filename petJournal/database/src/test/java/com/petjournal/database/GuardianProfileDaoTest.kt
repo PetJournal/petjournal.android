@@ -10,7 +10,6 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -67,8 +66,9 @@ class GuardianProfileDaoTest {
         }
         assertEquals(profileWithNullName, retrievedProfile)
     }
+
     @Test
-    fun `insert and get pet information`() = runBlocking{
+    fun `insert and get pet information`() = runBlocking {
         val insertPetInformation = guardianProfileDao.insertPetInformation(petInformation)
         coEvery { guardianProfileDao.insertPetInformation(petInformation) }
         assertEquals(1L, insertPetInformation)
@@ -76,8 +76,9 @@ class GuardianProfileDaoTest {
         coVerify { guardianProfileDao.getPetInformation(1) }
         assertEquals(petInformation, retrievedPetInformation.toEntity())
     }
+
     @Test
-    fun `update and get pet information must be the same`() = runBlocking{
+    fun `update and get pet information must be the same`() = runBlocking {
 
         coEvery { guardianProfileDao.updatePetInformation(newPetInformation) }
         val getPetInformation = guardianProfileDao.getPetInformation(2)

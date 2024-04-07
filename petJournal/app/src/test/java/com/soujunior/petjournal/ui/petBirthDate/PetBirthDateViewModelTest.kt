@@ -209,7 +209,7 @@ class PetBirthDateViewModelTest {
         assertEquals(emptyList<String>(), viewModelTest.state.birthError)
     }
     @Test
-    fun `get petinformation tem que chamar o use case e preencher os 4 campos de state, vindos do room`() {
+    fun `getPetInformation should call the use case and fill the ViewModel state fields with data from the room`() {
 
         coEvery { getPetInformationUseCase.execute(any()) } returns DataResult.Success(
             perInformation
@@ -225,7 +225,7 @@ class PetBirthDateViewModelTest {
         assertEquals("Sucesso", viewModelTest.message.value)
     }
     @Test
-    fun `tem que retornar mensage de erro caso o get de petinformation no room falhe`() {
+    fun `should return error message if petInformation retrieval from room fails`() {
 
         coEvery { getPetInformationUseCase.execute(any()) } returns DataResult.Failure(
             Throwable()
@@ -234,7 +234,7 @@ class PetBirthDateViewModelTest {
         assertEquals("Error", viewModelTest.message.value)
     }
     @Test
-    fun `update petinformation tem que chamar o use case fazer o update no room`() {
+    fun `updatePetInformation should call the use case to update pet information in the room`() {
 
         coEvery { updatePetInformationUseCase.execute(any()) } returns DataResult.Success(
             Unit
@@ -243,7 +243,7 @@ class PetBirthDateViewModelTest {
         assertEquals("Sucesso", viewModelTest.message.value)
     }
     @Test
-    fun `update tem que retornar mensage de erro caso petinformation não seja atualizado`() {
+    fun `update should return error message if pet information is not updated`() {
 
         coEvery { updatePetInformationUseCase.execute(any()) } returns DataResult.Failure(
             Throwable()
