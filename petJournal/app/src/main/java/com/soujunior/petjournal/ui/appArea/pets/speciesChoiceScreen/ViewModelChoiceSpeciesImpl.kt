@@ -27,8 +27,6 @@ class ViewModelChoiceSpeciesImpl(
     private val savePetInformationUseCase: SavePetInformationUseCase
 ) : ViewModelChoiceSpecies() {
     override var state by mutableStateOf(PetFormState())
-    override val message: StateFlow<String>
-        get() = TODO("Not yet implemented")
 
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState

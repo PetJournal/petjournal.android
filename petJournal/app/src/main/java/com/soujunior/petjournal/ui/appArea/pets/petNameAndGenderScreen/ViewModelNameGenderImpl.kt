@@ -24,19 +24,13 @@ class ViewModelNameGenderImpl(
 
     override var state by mutableStateOf(NameGenderFormState())
     override val validationEventChannel get() = Channel<ValidationEvent>()
-    override val message: StateFlow<String>
-        get() = TODO("Not yet implemented")
 
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> get() = _taskState
 
-    init {
-        //getPetInformation(state.idPetInformation!!)
-    }
-
     override fun success(petInformation: PetInformationModel) {
         state = state.copy(specie = petInformation.species ?: "")
-        state = state.copy(idPetInformation = petInformation.id ?: 0L)
+        state = state.copy(idPetInformation = petInformation.id)
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
@@ -118,29 +112,10 @@ class ViewModelNameGenderImpl(
 
 
     }
-
     override fun successPetUpdate(unit: Unit) {
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
-    }
-
-    fun generic() {
-        Log.d("Teste", state.name)
-        Log.d("Teste", state.gender)
-        Log.d("Teste", state.nameError.toString())
-        Log.d("Teste", state.genderError.toString())
-    }
-
-    private fun getData() {
-        /*
-        viewModelScope.launch {
-            _taskState.value = TaskState.Loading
-            val result = getGuardianNameUseCase.execute(Unit)
-            state = state.copy(name = result.success.data.firstName)
-        }
-
-         */
     }
 
 }

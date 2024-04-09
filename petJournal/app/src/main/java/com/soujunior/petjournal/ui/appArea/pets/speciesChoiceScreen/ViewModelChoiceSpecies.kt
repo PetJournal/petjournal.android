@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 abstract class ViewModelChoiceSpecies : ViewModel() {
     abstract var state: PetFormState
     abstract val validationEventChannel: Channel<ValidationEvent>
-    abstract val message: StateFlow<String>
     abstract val taskState: StateFlow<TaskState>
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()

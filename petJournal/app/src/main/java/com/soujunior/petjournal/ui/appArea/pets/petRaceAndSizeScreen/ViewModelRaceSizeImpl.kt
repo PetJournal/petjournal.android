@@ -30,7 +30,7 @@ class ViewModelRaceSizeImpl(
     override val isTextFiledOthersVisible: StateFlow<Boolean> get() = _isTextFiledOthersVisible
 
     private val _sizeList: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
-    override val sizeList: StateFlow<List<String>> get()= _sizeList
+    override val sizeList: StateFlow<List<String>> get() = _sizeList
 
     private val _raceList: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
     override val raceList: StateFlow<List<String>> get() = _raceList
@@ -40,7 +40,6 @@ class ViewModelRaceSizeImpl(
 
     init {
         getData()
-
     }
 
     override fun success(petInformationModel: PetInformationModel) {

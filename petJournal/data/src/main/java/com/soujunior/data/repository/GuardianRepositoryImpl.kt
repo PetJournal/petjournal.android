@@ -44,7 +44,7 @@ class GuardianRepositoryImpl(
     }
 
     override suspend fun savePetInformation(petInformationModel: PetInformationModel) : DataResult<Long>  {
-        val guardianId = 1 // tera que fazer uma chamada no db para recuperar id do guardian
+        val guardianId = 1
         val petInformation = petInformationModel.copy(
             species = petInformationModel.species,
             guardianId = guardianId
@@ -68,7 +68,6 @@ class GuardianRepositoryImpl(
         return try {
             DataResult.Success(guardianLocalDataSourceImpl.updatePetInformation(petInformationModel).success.data)
         }catch (e: Throwable){
-            Log.i("tt", e.message.toString())
             DataResult.Failure(e)
         }
     }
