@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class ViewModelChoiceSpeciesImpl(
     private val getGuardianNameUseCase: GetGuardianNameUseCase,
