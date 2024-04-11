@@ -24,7 +24,6 @@ node_modules/husky/package.json
 node_modules/husky/README.md
 package-lock.json
 package.json
->>>>>>> Stashed changes
 .DS_Store
 .husky/.DS_Store
 .husky/commit-msg
