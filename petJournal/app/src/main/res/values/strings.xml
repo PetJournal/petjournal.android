@@ -72,5 +72,10 @@
     <string name="animal_gender_icon">Icone de genero do animal</string>
     <string name="info_menssage_pet_birth_date">Qual a data de nascimento de %s?</string>
     <string name="adoption_info_message">Caso %s tenha sido %s, e você \nnão saiba a data certa, não se preocupe! \n \nVocê pode adicionar apenas a data \naproximada que você se lembra!</string>
+    <string name="pet_he_adopted">Adotado</string>
+    <string name="pet_she_adopted">Adotada</string>
+    <string name="pet_birth_date">Data de nascimento</string>
+    <string name="placeholder_text_DD_MM_YYYY">DD/MM/AAAA</string>
+    <string name="pet_gender_letter_M">M</string>
 
 </resources>

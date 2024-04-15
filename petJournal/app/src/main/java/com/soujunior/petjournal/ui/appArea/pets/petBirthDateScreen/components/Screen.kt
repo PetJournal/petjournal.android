@@ -73,15 +73,19 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                     Header(
                                         petName = viewModel.state.name,
                                         modifier = Modifier.padding(5.dp, 0.dp),
-                                        petGender = if (viewModel.state.gender.uppercase() == "M") "Adotado" else "Adotada"
+                                        petGender = if (viewModel.state.gender.uppercase() == stringResource(
+                                                R.string.pet_gender_letter_M
+                                            )
+                                        ) stringResource(R.string.pet_he_adopted)
+                                        else stringResource(R.string.pet_she_adopted)
                                     )
                                 }
 
                             }
                             item {
                                 DateInputText(
-                                    titleText = "Data de nascimento",
-                                    placeholderText = "DD/MM/AAAA",
+                                    titleText = stringResource(R.string.pet_birth_date),
+                                    placeholderText = stringResource(R.string.placeholder_text_DD_MM_YYYY),
                                     textValue = viewModel.state.birth,
                                     textError = viewModel.state.birthError,
                                     isError = !viewModel.state.birthError.isNullOrEmpty(),
