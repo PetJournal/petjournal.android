@@ -54,6 +54,7 @@ fun NavHostMainContent() {
         composable("tutorScreen") { TutorScreen(navController) }
         composable("pets/introRegisterPet") { RegisterPetScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
+
         composable("pets/nameAndGender/{arg}") { backStackEntry ->
             PetNameAndGenderScreen(
                 backStackEntry.arguments?.getString("arg"),

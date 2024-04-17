@@ -5,7 +5,6 @@ import androidx.navigation.NavController
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.components.Screen
 
 @Composable
-fun PetRaceAndSizeScreen(idPetInformation: String?, navController: NavController){
+fun PetRaceAndSizeScreen(idPetInformation: String?, navController: NavController) {
     Screen(idPetInformation, navController)
-
 }

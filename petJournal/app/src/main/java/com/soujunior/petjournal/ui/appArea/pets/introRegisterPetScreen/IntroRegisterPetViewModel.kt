@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class IntroRegisterPetViewModel : ViewModel() {
     abstract val name: StateFlow<String?>
-    abstract val visualizedScreen : StateFlow<Boolean>
+    abstract val visualizedScreen: StateFlow<Boolean>
 
     abstract val message: StateFlow<String>
     abstract val validationEventChannel: Channel<ValidationEvent>

@@ -46,11 +46,12 @@ class IntroIntroRegisterPetViewModelImpl(
             validationEventChannel.send(ValidationEvent.Failed)
         }
     }
-    private fun verification(state: Boolean){
-        if(!state) {
+
+    private fun verification(state: Boolean) {
+        if (!state) {
             _visualizedScreen.value = false
             getName()
-        }else {
+        } else {
             _visualizedScreen.value = true
             success()
         }
@@ -70,7 +71,7 @@ class IntroIntroRegisterPetViewModelImpl(
     override fun setWasViewed() {
         viewModelScope.launch {
             val result = setWasViewed.execute(true)
-            result.handleResult({verification(true)}, ::failed)
+            result.handleResult({ verification(true) }, ::failed)
         }
     }
 
@@ -78,7 +79,7 @@ class IntroIntroRegisterPetViewModelImpl(
         viewModelScope.launch {
             val result = getName.execute(Unit)
             result.handleResult(
-                { name -> run {_name.value = name.firstName}},
+                { name -> run { _name.value = name.firstName } },
                 { error -> run { Log.e(TAG, "Error ->>: $error") } })
             _taskState.value = TaskState.Idle
         }

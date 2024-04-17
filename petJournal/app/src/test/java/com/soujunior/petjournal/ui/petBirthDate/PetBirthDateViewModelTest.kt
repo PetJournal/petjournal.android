@@ -12,7 +12,7 @@ import com.soujunior.domain.use_case.util.ValidationResult
 import com.soujunior.petjournal.setup.perInformation
 import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateFormState
-import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.ViewModelBirthDateImpl
+import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateViewModelImpl
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -28,7 +28,7 @@ import org.junit.Test
 
 class PetBirthDateViewModelTest {
 
-    private lateinit var viewModelTest: ViewModelBirthDateImpl
+    private lateinit var viewModelTest: BirthDateViewModelImpl
     private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
     private val getPetInformationUseCase = mockk<GetPetInformationUseCase>(relaxed = true)
     private val updatePetInformationUseCase = mockk<UpdatePetInformationUseCase>(relaxed = true)
@@ -36,7 +36,7 @@ class PetBirthDateViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(Dispatchers.Unconfined)
-        viewModelTest = ViewModelBirthDateImpl(validation, getPetInformationUseCase, updatePetInformationUseCase)
+        viewModelTest = BirthDateViewModelImpl(validation, getPetInformationUseCase, updatePetInformationUseCase)
     }
 
     @After

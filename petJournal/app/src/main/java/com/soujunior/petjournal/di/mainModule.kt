@@ -46,8 +46,8 @@ import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.IntroIntroRegisterPetViewModelImpl
 import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.IntroRegisterPetViewModel
-import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.ViewModelBirthDate
-import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.ViewModelBirthDateImpl
+import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateViewModel
+import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateViewModelImpl
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.ViewModelNameGender
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.ViewModelNameGenderImpl
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.ViewModelRaceSize
@@ -131,6 +131,6 @@ val mainModule = module {
     viewModel { SplashViewModel(get()) }
     viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get(), get()) }
     viewModel<ViewModelNameGender> {ViewModelNameGenderImpl(get(), get(), get())}
-    viewModel<ViewModelBirthDate> {ViewModelBirthDateImpl(get(), get(), get())}
+    viewModel<BirthDateViewModel> {BirthDateViewModelImpl(get(), get(), get())}
     viewModel<ViewModelRaceSize> {ViewModelRaceSizeImpl(get(), get(), get())}
 }

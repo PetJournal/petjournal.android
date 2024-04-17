@@ -15,11 +15,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ViewModelBirthDateImpl(
+class BirthDateViewModelImpl(
     val validation: ValidationRepository,
     private val getPetInformationUseCase: GetPetInformationUseCase,
     private val updatePetInformationUseCase: UpdatePetInformationUseCase
-) : ViewModelBirthDate() {
+) : BirthDateViewModel() {
 
     override var state by mutableStateOf(BirthDateFormState())
     override val validationEventChannel get() = Channel<ValidationEvent>()

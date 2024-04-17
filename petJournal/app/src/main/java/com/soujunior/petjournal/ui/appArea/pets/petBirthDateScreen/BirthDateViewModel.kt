@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 
-abstract class ViewModelBirthDate : ViewModel(){
+abstract class BirthDateViewModel : ViewModel(){
     abstract var state: BirthDateFormState
     abstract val validationEventChannel: Channel<ValidationEvent>
     abstract val message: StateFlow<String>

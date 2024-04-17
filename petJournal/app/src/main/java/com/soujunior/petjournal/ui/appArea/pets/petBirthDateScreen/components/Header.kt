@@ -17,9 +17,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 
-
 @Composable
-fun Header(modifier: Modifier = Modifier, petName: String = "Bolinha", petGender: String = "Adotada") {
+fun Header(
+    modifier: Modifier = Modifier,
+    petName: String = "Bolinha",
+    petGender: String = "Adotada"
+) {
     Spacer(modifier = Modifier.padding(20.dp))
 
     val text = buildAnnotatedString {
@@ -33,7 +36,7 @@ fun Header(modifier: Modifier = Modifier, petName: String = "Bolinha", petGender
             color = MaterialTheme.colorScheme.onSurface,
             fontSize = 16.sp,
 
-        )
+            )
 
         withStyle(style = textStyle) {
             append(stringResource(id = R.string.adoption_info_message, petName, petGender))
@@ -49,7 +52,6 @@ fun Header(modifier: Modifier = Modifier, petName: String = "Bolinha", petGender
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold
     )
-
 
     Spacer(modifier = Modifier.padding(bottom = 20.dp))
 }

@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateFormEvent
-import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.ViewModelBirthDate
+import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateViewModel
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
@@ -39,7 +39,7 @@ import org.koin.androidx.compose.getViewModel
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun Screen(idPetInformation: String?, navController: NavController) {
-    val viewModel: ViewModelBirthDate = getViewModel()
+    val viewModel: BirthDateViewModel = getViewModel()
     if (idPetInformation != null) {
         viewModel.getPetInformation(idPetInformation.toLong())
         RaceSizeFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
@@ -152,7 +152,6 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                             }
                         })
                 }
-
             })
     }
 

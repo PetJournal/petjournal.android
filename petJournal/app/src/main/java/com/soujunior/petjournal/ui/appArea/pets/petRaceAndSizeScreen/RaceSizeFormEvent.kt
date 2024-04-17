@@ -7,10 +7,7 @@ sealed class RaceSizeFormEvent {
     data class PetRace(val petRace: String) : RaceSizeFormEvent()
     data class PetRaceOthers(val petRaceOthers: String) : RaceSizeFormEvent()
     data class PetSize(val petSize: String) : RaceSizeFormEvent()
-
-    object ReturnButton : RaceSizeFormEvent()
-
-    object NextButton : RaceSizeFormEvent()
-
     data class IdPetInformation(val idPetInformation: Long) : RaceSizeFormEvent()
+    object NextButton : RaceSizeFormEvent()
+    object ReturnButton : RaceSizeFormEvent()
 }

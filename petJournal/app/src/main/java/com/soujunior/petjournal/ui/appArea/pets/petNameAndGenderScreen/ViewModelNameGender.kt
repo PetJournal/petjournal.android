@@ -15,6 +15,7 @@ abstract class ViewModelNameGender : ViewModel() {
     abstract val taskState: StateFlow<TaskState>
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
+
     abstract fun success(petInformation: PetInformationModel)
     abstract fun failed(exception: Throwable?)
     abstract fun onEvent(event: NameGenderFormEvent)
@@ -24,6 +25,7 @@ abstract class ViewModelNameGender : ViewModel() {
         petGender: String? = null,
         idPetInformation: Long? = null
     )
+
     abstract fun getPetInformation(id: Long)
     abstract fun updatePetInformation()
     abstract fun successPetUpdate(unit: Unit)
