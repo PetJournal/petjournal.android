@@ -11,28 +11,18 @@ import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.PetNameAn
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.PetRaceAndSizeScreen
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.SpeciesChoiceScreen
 import com.soujunior.petjournal.ui.appArea.tutor.tutorScreen.TutorScreen
-import com.soujunior.petjournal.ui.navigation.AccountManager
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun NavHostMock(navController: NavHostController, startDestination: String) {
+fun navHostMock(navController: NavHostController, startDestination: String) {
     NavHost(navController = navController, startDestination = startDestination) {
         composable("home") { HomeScreen(navController) }
-        composable("accountManager") { AccountManager() }
+        composable("account_manager") { AccountManager() }
         composable("tutorScreen") { TutorScreen(navController) }
+
         composable("pets/introRegisterPet") { RegisterPetScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
-        composable("pets/nameAndGender/{arg}"){
-                backStackEntry ->
-            PetNameAndGenderScreen(
-                backStackEntry.arguments?.getString("arg"),
-                navController)
-        }
-        composable("pets/RaceAndSize/{arg}"){
-                navBackStackEntry ->
-            PetRaceAndSizeScreen(
-                petName = navBackStackEntry.arguments?.getString("arg"),
-                navController = navController)
-        }
+        composable("pets/nameAndGender/{arg}") { backStackEntry -> PetNameAndGenderScreen(backStackEntry.arguments?.getLong("arg"), navController) }
+        composable("pets/RaceAndSize/{arg}") { navBackStackEntry -> PetRaceAndSizeScreen( idPetInformation = navBackStackEntry.arguments?.getString("arg"), navController = navController ) }
     }
 }

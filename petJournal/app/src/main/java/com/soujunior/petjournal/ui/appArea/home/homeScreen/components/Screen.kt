@@ -100,7 +100,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                             onClick = {
                                 showDropdownMenu.value = false
                                 viewModel.logout()
-                                navController.navigate("accountManager")
+                                navController.navigate("account_manager")
                             },
                             text = {
                                 Text(text = stringResource(R.string.logout), fontSize = 18.sp)

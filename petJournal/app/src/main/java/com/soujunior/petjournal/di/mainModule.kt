@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.di
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
 import com.petjournal.database.database.db.AppDatabase
 import com.petjournal.database.repository.AppInfoDataBaseImpl
@@ -32,16 +33,6 @@ import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
-import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModel
-import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModelImpl
-import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordViewModel
-import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordViewModelImpl
-import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordViewModel
-import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordViewModelImpl
-import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModel
-import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModelImpl
-import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterViewModel
-import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterViewModelImpl
 import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.appArea.home.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.IntroIntroRegisterPetViewModelImpl
@@ -54,7 +45,17 @@ import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.ViewModelRa
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.ViewModelChoiceSpecies
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.ViewModelChoiceSpeciesImpl
-import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashViewModel
+import com.soujunior.petjournal.ui.screens_app.screens_apresentation.splashScreen.SplashViewModel
+import com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeViewModel
+import com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeViewModelImpl
+import com.soujunior.petjournal.ui.screens_app.account_manager.changePasswordScreen.ChangePasswordViewModel
+import com.soujunior.petjournal.ui.screens_app.account_manager.changePasswordScreen.ChangePasswordViewModelImpl
+import com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.ForgotPasswordViewModel
+import com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.ForgotPasswordViewModelImpl
+import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginViewModel
+import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginViewModelImpl
+import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterViewModel
+import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterViewModelImpl
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.android.ext.koin.androidContext
@@ -100,6 +101,7 @@ val mainModule = module {
     factory { SavePetInformationUseCase(get()) }
     factory { GetPetInformationUseCase(get()) }
     factory { UpdatePetInformationUseCase(get()) }
+    factory { SavedStateHandle() }
 
     single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
     single<GuardianService> { get<Retrofit>().create(GuardianService::class.java) }
@@ -120,6 +122,8 @@ val mainModule = module {
             .build()
     }
 
+//        viewModel { (handle: SavedStateHandle) -> CleanerTaskViewModel(savedStateHandle = handle) }
+
     // ViewModels
     viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get()) }
     viewModel<IntroRegisterPetViewModel> { IntroIntroRegisterPetViewModelImpl(get(), get(), get()) }
@@ -130,7 +134,17 @@ val mainModule = module {
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
     viewModel { SplashViewModel(get()) }
     viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get(), get()) }
-    viewModel<ViewModelNameGender> {ViewModelNameGenderImpl(get(), get(), get())}
-    viewModel<BirthDateViewModel> {BirthDateViewModelImpl(get(), get(), get())}
-    viewModel<ViewModelRaceSize> {ViewModelRaceSizeImpl(get(), get(), get())}
+
+    //viewModel<ViewModelNameGender> { (handle: SavedStateHandle) -> ViewModelNameGenderImpl(get(), get(), get(), handle) }
+    viewModel {// (handle: SavedStateHandle) ->
+        ViewModelNameGenderImpl(
+            validation = get(),
+            getPetInformationUseCase = get(),
+            updatePetInformationUseCase = get(),
+            savedStateHandle = get()
+        )
+    }
+
+    viewModel<BirthDateViewModel> { BirthDateViewModelImpl(get(), get(), get()) }
+    viewModel<ViewModelRaceSize> { ViewModelRaceSizeImpl(get(), get(), get()) }
 }

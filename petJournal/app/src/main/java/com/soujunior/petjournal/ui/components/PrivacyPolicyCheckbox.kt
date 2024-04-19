@@ -14,7 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.soujunior.petjournal.ui.accountManager.registerScreen.state.StatesRegister
+import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.state.StatesRegister
 
 @Composable
 fun PrivacyPolicyCheckbox(
