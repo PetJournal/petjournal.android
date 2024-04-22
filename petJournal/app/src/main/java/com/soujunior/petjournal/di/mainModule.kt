@@ -136,12 +136,12 @@ val mainModule = module {
     viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get(), get()) }
 
     //viewModel<ViewModelNameGender> { (handle: SavedStateHandle) -> ViewModelNameGenderImpl(get(), get(), get(), handle) }
-    viewModel {// (handle: SavedStateHandle) ->
+    viewModel<ViewModelNameGender> {// (handle: SavedStateHandle) ->
         ViewModelNameGenderImpl(
             validation = get(),
             getPetInformationUseCase = get(),
             updatePetInformationUseCase = get(),
-            savedStateHandle = get()
+            //savedStateHandle = get()
         )
     }
 
