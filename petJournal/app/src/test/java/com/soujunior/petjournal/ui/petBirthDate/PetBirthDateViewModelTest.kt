@@ -10,9 +10,9 @@ import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.util.ValidationResult
 import com.soujunior.petjournal.setup.perInformation
-import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateFormEvent
-import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateFormState
-import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.BirthDateViewModelImpl
+import com.soujunior.petjournal.ui.screens_app.pets_screens.petBirthDateScreen.BirthDateFormEvent
+import com.soujunior.petjournal.ui.screens_app.pets_screens.petBirthDateScreen.BirthDateFormState
+import com.soujunior.petjournal.ui.screens_app.pets_screens.petBirthDateScreen.BirthDateViewModelImpl
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
