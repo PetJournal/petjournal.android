@@ -8,9 +8,9 @@ import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.util.ValidationResult
-import com.soujunior.petjournal.ui.screens_app.pets_screens.petNameAndGenderScreen.NameGenderFormEvent
-import com.soujunior.petjournal.ui.screens_app.pets_screens.petNameAndGenderScreen.NameGenderFormState
-import com.soujunior.petjournal.ui.screens_app.pets_screens.petNameAndGenderScreen.ViewModelNameGenderImpl
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.NameGenderFormEvent
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.NameGenderFormState
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.ViewModelNameGenderImpl
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +18,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test

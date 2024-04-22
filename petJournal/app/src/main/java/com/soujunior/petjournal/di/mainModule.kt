@@ -33,17 +33,17 @@ import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
-import com.soujunior.petjournal.ui.screens_app.home_screen.homeScreen.HomeScreenViewModel
-import com.soujunior.petjournal.ui.screens_app.home_screen.homeScreen.HomeScreenViewModelImpl
-import com.soujunior.petjournal.ui.screens_app.pets_screens.introRegisterPetScreen.IntroRegisterPetViewModel
-import com.soujunior.petjournal.ui.screens_app.pets_screens.petBirthDateScreen.BirthDateViewModel
-import com.soujunior.petjournal.ui.screens_app.pets_screens.petBirthDateScreen.BirthDateViewModelImpl
-import com.soujunior.petjournal.ui.screens_app.pets_screens.petNameAndGenderScreen.ViewModelNameGender
-import com.soujunior.petjournal.ui.screens_app.pets_screens.petNameAndGenderScreen.ViewModelNameGenderImpl
-import com.soujunior.petjournal.ui.screens_app.pets_screens.petRaceAndSizeScreen.ViewModelRaceSize
-import com.soujunior.petjournal.ui.screens_app.pets_screens.petRaceAndSizeScreen.ViewModelRaceSizeImpl
-import com.soujunior.petjournal.ui.screens_app.pets_screens.speciesChoiceScreen.ViewModelChoiceSpecies
-import com.soujunior.petjournal.ui.screens_app.pets_screens.speciesChoiceScreen.ViewModelChoiceSpeciesImpl
+import com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.HomeScreenViewModel
+import com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.HomeScreenViewModelImpl
+import com.soujunior.petjournal.ui.screens_app.screens_pets.introRegisterPetScreen.IntroRegisterPetViewModel
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateViewModel
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateViewModelImpl
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.ViewModelNameGender
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.ViewModelNameGenderImpl
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.ViewModelRaceSize
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
+import com.soujunior.petjournal.ui.screens_app.screens_pets.speciesChoiceScreen.ViewModelChoiceSpecies
+import com.soujunior.petjournal.ui.screens_app.screens_pets.speciesChoiceScreen.ViewModelChoiceSpeciesImpl
 import com.soujunior.petjournal.ui.screens_app.screens_apresentation.splashScreen.SplashViewModel
 import com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeViewModel
 import com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeViewModelImpl
@@ -126,7 +126,7 @@ val mainModule = module {
     // ViewModels
     viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get()) }
     viewModel<IntroRegisterPetViewModel> {
-        com.soujunior.petjournal.ui.screens_app.pets_screens.introRegisterPetScreen.IntroIntroRegisterPetViewModelImpl(
+        com.soujunior.petjournal.ui.screens_app.screens_pets.introRegisterPetScreen.IntroIntroRegisterPetViewModelImpl(
             get(),
             get(),
             get()

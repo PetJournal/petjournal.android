@@ -10,9 +10,9 @@ import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.util.ValidationResult
 import com.soujunior.petjournal.setup.perInformation
-import com.soujunior.petjournal.ui.screens_app.pets_screens.petRaceAndSizeScreen.RaceSizeFormEvent
-import com.soujunior.petjournal.ui.screens_app.pets_screens.petRaceAndSizeScreen.RaceSizeFormState
-import com.soujunior.petjournal.ui.screens_app.pets_screens.petRaceAndSizeScreen.ViewModelRaceSizeImpl
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormState
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
