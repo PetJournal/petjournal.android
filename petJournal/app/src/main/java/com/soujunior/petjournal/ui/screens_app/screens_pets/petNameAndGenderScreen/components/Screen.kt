@@ -40,20 +40,35 @@ import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.util.Constants.BIRD
+import com.soujunior.petjournal.ui.util.Constants.CAT
+import com.soujunior.petjournal.ui.util.Constants.DOG
+import com.soujunior.petjournal.ui.util.Constants.FISH
+import com.soujunior.petjournal.ui.util.Constants.REPTILE
+import com.soujunior.petjournal.ui.util.Constants.RODENT
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun Screen(idPetInformation: String?, navController: NavController){
-    val viewModel : ViewModelNameGender = getViewModel()
+fun Screen(idPetInformation: String?, navController: NavController) {
+    val viewModel: ViewModelNameGender = getViewModel()
     val taskState by viewModel.taskState.collectAsState()
     var isClearGender by remember { mutableStateOf(false) }
     if (idPetInformation != null) {
         viewModel.getPetInformation(idPetInformation.toLong())
         NameGenderFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
     }
+    val specieName: Int = when (viewModel.state.specie) {
+        DOG -> R.string.dog
+        CAT -> R.string.cat
+        BIRD -> R.string.bird
+        FISH -> R.string.fish
+        REPTILE -> R.string.reptile
+        RODENT -> R.string.rodent
+        else -> R.string.other
+    }
 
-    Column(modifier = Modifier.navigationBarsPadding()){
+    Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
             modifier = Modifier,
             navigationUp = navController,
@@ -61,7 +76,7 @@ fun Screen(idPetInformation: String?, navController: NavController){
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = {
-                Box(modifier = Modifier.padding(it)){
+                Box(modifier = Modifier.padding(it)) {
                     if (taskState is TaskState.Loading)
                         IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.Center))
                     else {
@@ -77,7 +92,7 @@ fun Screen(idPetInformation: String?, navController: NavController){
                                 }
                                 item {
                                     Header(
-                                        species = viewModel.state.specie,
+                                        species = if (specieName == R.string.other) viewModel.state.specie else stringResource(id = specieName),
                                         modifier = Modifier.padding(5.dp, 0.dp)
                                     )
                                 }
@@ -176,10 +191,10 @@ fun Screen(idPetInformation: String?, navController: NavController){
                                     }
                                 }
                             })
-                        }
-
                     }
-                })
+
+                }
+            })
 
     }
 
