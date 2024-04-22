@@ -11,7 +11,7 @@ import com.soujunior.petjournal.ui.screens_app.pets_screens.petBirthDateScreen.P
 import com.soujunior.petjournal.ui.screens_app.pets_screens.petNameAndGenderScreen.PetNameAndGenderScreen
 import com.soujunior.petjournal.ui.screens_app.pets_screens.petRaceAndSizeScreen.PetRaceAndSizeScreen
 import com.soujunior.petjournal.ui.screens_app.pets_screens.speciesChoiceScreen.SpeciesChoiceScreen
-import com.soujunior.petjournal.ui.appArea.tutor.tutorScreen.TutorScreen
+import com.soujunior.petjournal.ui.screens_app.tutor_screen.tutorScreen.TutorScreen
 import com.soujunior.petjournal.ui.screens_app.screens_apresentation.splashScreen.SplashScreen
 import com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeScreen
 import com.soujunior.petjournal.ui.screens_app.account_manager.changePasswordScreen.ChangePasswordScreen

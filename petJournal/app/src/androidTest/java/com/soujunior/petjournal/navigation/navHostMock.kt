@@ -10,7 +10,7 @@ import com.soujunior.petjournal.ui.screens_app.pets_screens.introRegisterPetScre
 import com.soujunior.petjournal.ui.screens_app.pets_screens.petNameAndGenderScreen.PetNameAndGenderScreen
 import com.soujunior.petjournal.ui.screens_app.pets_screens.petRaceAndSizeScreen.PetRaceAndSizeScreen
 import com.soujunior.petjournal.ui.screens_app.pets_screens.speciesChoiceScreen.SpeciesChoiceScreen
-import com.soujunior.petjournal.ui.appArea.tutor.tutorScreen.TutorScreen
+import com.soujunior.petjournal.ui.screens_app.tutor_screen.tutorScreen.TutorScreen
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
