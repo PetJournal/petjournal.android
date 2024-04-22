@@ -82,10 +82,14 @@ class ViewModelRaceSizeImpl(
 
     override fun enableButton(): Boolean {
 
-        return if (_isTextFiledOthersVisible.value) {
-            state.raceError.isNullOrEmpty() && state.sizeError.isNullOrEmpty() && state.raceOthersError.isNullOrEmpty()
-        } else {
-            state.raceError.isNullOrEmpty() && state.sizeError.isNullOrEmpty()
+        return if (enableRace()){
+            if (_isTextFiledOthersVisible.value) {
+                state.raceError.isNullOrEmpty() && state.sizeError.isNullOrEmpty() && state.raceOthersError.isNullOrEmpty()
+            } else {
+                state.raceError.isNullOrEmpty() && state.sizeError.isNullOrEmpty()
+            }
+        }else{
+            state.sizeError.isNullOrEmpty()
         }
 
     }
@@ -94,6 +98,10 @@ class ViewModelRaceSizeImpl(
         val raceOtherResult = validation.validateDropDownRaceOthers(state.race)
         _isTextFiledOthersVisible.value = raceOtherResult.success
         return raceOtherResult.success
+    }
+
+    override fun enableRace(): Boolean {
+        return state.specie == "Cat" || state.specie == "Dog"
     }
 
     override fun change(petRace: String?, petSize: String?, petRaceOthers: String?) {

@@ -116,20 +116,22 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                             }
 
                             item {
-                                AutoCompleteDropDown(
-                                    modifier = Modifier,
-                                    placeholderText = "Raça do seu pet",
-                                    textValue = viewModel.state.race,
-                                    textError = viewModel.state.raceError,
-                                    isError = !viewModel.state.raceError.isNullOrEmpty(),
-                                    titleText = "Raça: ",
-                                    dropdownItems = viewModel.raceList.value,
-                                    onEvent = { it: String ->
-                                        viewModel.onEvent(
-                                            RaceSizeFormEvent.PetRace(it)
-                                        )
-                                    }
-                                )
+                                if (viewModel.enableRace()) {
+                                    AutoCompleteDropDown(
+                                        modifier = Modifier,
+                                        placeholderText = "Raça do seu pet",
+                                        textValue = viewModel.state.race,
+                                        textError = viewModel.state.raceError,
+                                        isError = !viewModel.state.raceError.isNullOrEmpty(),
+                                        titleText = "Raça: ",
+                                        dropdownItems = viewModel.raceList.value,
+                                        onEvent = { it: String ->
+                                            viewModel.onEvent(
+                                                RaceSizeFormEvent.PetRace(it)
+                                            )
+                                        }
+                                    )
+                                }
                             }
 
                             if (viewModel.enableRaceOthers()) {
@@ -198,26 +200,35 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                             viewModel.onEvent(
                                                 RaceSizeFormEvent.NextButton
                                             )
-
-                                            if (isTextFiledOthersVisible) {
+                                            if (!viewModel.enableRace()){
                                                 if (viewModel.enableButton() &&
-                                                    viewModel.state.raceOthers.isNotEmpty() &&
                                                     viewModel.state.size.isNotEmpty()
-
                                                 ) {
                                                     viewModel.updatePetInformation()
                                                     navController.navigate("pets/birth/$idPetInformation")
                                                 }
-                                            } else {
-                                                if (viewModel.enableButton() &&
-                                                    viewModel.state.race.isNotEmpty() &&
-                                                    viewModel.state.size.isNotEmpty() &&
-                                                    viewModel.state.race.lowercase() != "outro"
-                                                ) {
-                                                    viewModel.updatePetInformation()
-                                                    navController.navigate("pets/birth/$idPetInformation")
+                                            }else{
+                                                if (isTextFiledOthersVisible) {
+                                                    if (viewModel.enableButton() &&
+                                                        viewModel.state.raceOthers.isNotEmpty() &&
+                                                        viewModel.state.size.isNotEmpty()
+
+                                                    ) {
+                                                        viewModel.updatePetInformation()
+                                                        navController.navigate("pets/birth/$idPetInformation")
+                                                    }
+                                                } else {
+                                                    if (viewModel.enableButton() &&
+                                                        viewModel.state.race.isNotEmpty() &&
+                                                        viewModel.state.size.isNotEmpty() &&
+                                                        viewModel.state.race.lowercase() != "outro"
+                                                    ) {
+                                                        viewModel.updatePetInformation()
+                                                        navController.navigate("pets/birth/$idPetInformation")
+                                                    }
                                                 }
                                             }
+
 
 
                                         },
