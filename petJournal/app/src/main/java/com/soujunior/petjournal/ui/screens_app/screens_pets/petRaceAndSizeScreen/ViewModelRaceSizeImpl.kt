@@ -29,17 +29,11 @@ class ViewModelRaceSizeImpl(
     private val _isTextFiledOthersVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val isTextFiledOthersVisible: StateFlow<Boolean> get() = _isTextFiledOthersVisible
 
-    private val _sizeList: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
-    override val sizeList: StateFlow<List<String>> get() = _sizeList
-
-    private val _raceList: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
-    override val raceList: StateFlow<List<String>> get() = _raceList
-
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> get() = _taskState
 
     init {
-        getData()
+        requestGetListSizes()
     }
 
     override fun success(petInformationModel: PetInformationModel) {
@@ -51,6 +45,7 @@ class ViewModelRaceSizeImpl(
             validationEventChannel.send(ValidationEvent.Success)
         }
         _message.value = "Sucesso"
+        getListRacePets()
     }
 
     override fun failed(exception: Throwable?) {
@@ -82,13 +77,13 @@ class ViewModelRaceSizeImpl(
 
     override fun enableButton(): Boolean {
 
-        return if (enableRace()){
+        return if (enableRace()) {
             if (_isTextFiledOthersVisible.value) {
                 state.raceError.isNullOrEmpty() && state.sizeError.isNullOrEmpty() && state.raceOthersError.isNullOrEmpty()
             } else {
                 state.raceError.isNullOrEmpty() && state.sizeError.isNullOrEmpty()
             }
-        }else{
+        } else {
             state.sizeError.isNullOrEmpty()
         }
 
@@ -108,7 +103,7 @@ class ViewModelRaceSizeImpl(
         when {
             petSize != null -> {
                 state = state.copy(size = petSize)
-                val result = validation.validateDropdown(state.size, sizeList.value)
+                val result = validation.validateDropdown(state.size, state.listSizes)
                 state = if (result.success) state.copy(sizeError = null)
                 else state.copy(sizeError = result.errorMessage)
 
@@ -116,7 +111,7 @@ class ViewModelRaceSizeImpl(
 
             petRace != null -> {
                 state = state.copy(race = petRace)
-                val result = validation.validateDropdown(state.race, raceList.value)
+                val result = validation.validateDropdown(state.race, state.listRace)
                 state = if (result.success) state.copy(raceError = null)
                 else state.copy(raceError = result.errorMessage)
 
@@ -172,37 +167,198 @@ class ViewModelRaceSizeImpl(
         _message.value = "Sucesso"
     }
 
+    override fun getListRacePets() {
+        if (state.specie == "Cat") {
+            requestListFakeCats()
+        } else if (state.specie == "Dog") {
+            requestListFakeDogs()
+        }
+    }
 
-    private fun getData() {
-        _sizeList.value = listOf(
-            "Pequeno (até 10kg)",
-            "Médio (11 à 24kg)",
-            "Grande (a cima de 25kg)"
+
+    private fun requestListFakeCats() {
+        state = state.copy(
+            listRace = listOf(
+                "Abissínio",
+                "American Bobtail de Pelo Curto",
+                "American Bobtail de Pelo Longo",
+                "American Shorthair",
+                "American Wirehair",
+                "Angorá Turco",
+                "Arabian Mau",
+                "Ashera",
+                "Australian Mist",
+                "Balinês",
+                "Bengal",
+                "Bobtail americano",
+                "Bobtail japonês",
+                "Bombay",
+                "Brazilian Shorthair",
+                "British de Pelo Longo",
+                "Burmês",
+                "Burmês vermelho",
+                "California Spangled",
+                "Chartreux",
+                "Chausie",
+                "Cornish Rex",
+                "Curl Americano de Pelo Curto",
+                "Curl Americano de Pelo Longo",
+                "Cymric",
+                "Devon Rex",
+                "Doméstico de Pelo Curto",
+                "Doméstico de Pelo Longo",
+                "Don Sphynx",
+                "Egyptian Mau",
+                "Europeu",
+                "Exótico de Pelo Curto",
+                "Gato Asiático de Pelo Semi-Longo",
+                "German Rex",
+                "Havana",
+                "Himalaio",
+                "Khao Manee",
+                "Korat",
+                "Kurilian Bobtail de Pelo Curto",
+                "Kurilian Bobtail de Pelo Longo",
+                "LaPerm de Pelo Curto",
+                "LaPerm de Pelo Longo",
+                "Maine Coon",
+                "Manx",
+                "Mekong Bobtail",
+                "Mistura de serval, gato-leopardo e gato doméstico (Ashera)",
+                "Munchkin de Pelo Curto",
+                "Munchkin de Pelo Longo",
+                "Nebelung",
+                "Ocicat",
+                "Ojos Azules de Pelo Curto",
+                "Oriental de Pelo Curto",
+                "Oriental de Pelo Longo",
+                "Persa",
+                "Peterbald",
+                "Pixiebob de Pelo Curto",
+                "Pixiebob de Pelo Longo",
+                "Ragamuffin",
+                "Ragdoll",
+                "Russo Azul",
+                "Sagrado da Birmânia",
+                "Savannah",
+                "Scottish Fold",
+                "Selkirk Rex de Pelo Curto",
+                "Selkirk Rex de Pelo Longo",
+                "Serengeti",
+                "Sem Raça Definida (SRD)",
+                "Siamês",
+                "Siberiano",
+                "Singapura",
+                "Snowshoe",
+                "Sokoke",
+                "Somali",
+                "Sphynx",
+                "Thai",
+                "Tonquinês de Pelo Curto",
+                "Toyger",
+                "Van Turco",
+                "York Chocolate",
+                "Outro"
+            )
         )
-        _raceList.value = listOf(
-            "Afghan Hound",
-            "Affenpinscher",
-            "Airedale Terrier",
-            "Akita",
-            "American Staffordshire Terrier",
-            "Basenji",
-            "Basset Hound",
-            "Beagle",
-            "Beagle Harrier",
-            "Bearded Collie",
-            "Bedlington Terrier",
-            "Bichon Frisé",
-            "Bloodhound",
-            "Bobtail",
-            "Boiadeiro Australiano",
-            "Boiadeiro Bernês",
-            "Border Collie",
-            "Border Terrier",
-            "Borzoi",
-            "Boston Terrier",
-            "Boxer",
-            "Outro"
+    }
+
+    private fun requestListFakeDogs() {
+        state = state.copy(
+            listRace = listOf(
+                "Afghan Hound",
+                "Affenpinscher",
+                "Airedale Terrier",
+                "Akita",
+                "American Staffordshire Terrier",
+                "Basenji",
+                "Basset Hound",
+                "Beagle",
+                "Beagle Harrier",
+                "Bearded Collie",
+                "Bedlington Terrier",
+                "Bichon Frisé",
+                "Bloodhound",
+                "Bobtail",
+                "Boiadeiro Australiano",
+                "Boiadeiro Bernês",
+                "Border Collie",
+                "Border Terrier",
+                "Borzoi",
+                "Boston Terrier",
+                "Boxer",
+                "Buldogue Francês",
+                "Buldogue Inglês",
+                "Bull Terrier",
+                "Bulmastife",
+                "Cairn Terrier",
+                "Cane Corso",
+                "Cão de Água Português",
+                "Cão de Crista Chinês",
+                "Cavalier King Charles Spaniel",
+                "Chesapeake Bay Retriever",
+                "Chihuahua",
+                "Chow Chow",
+                "Cocker Spaniel Americano",
+                "Cocker Spaniel Inglês",
+                "Collie",
+                "Coton de Tuléar",
+                "Dachshund",
+                "Dálmata",
+                "Dandie Dinmont Terrier",
+                "Dobermann",
+                "Dogo Argentino",
+                "Dogue Alemão",
+                "Fila Brasileiro",
+                "Fox Terrier (Pelo Duro e Pelo Liso)",
+                "Foxhound Inglês",
+                "Galgo Escocês",
+                "Galgo Irlandês",
+                "Golden Retriever",
+                "Grande Boiadeiro Suiço",
+                "Greyhound",
+                "Grifo da Bélgica",
+                "Husky Siberiano",
+                "Jack Russell Terrier",
+                "King Charles",
+                "Komondor",
+                "Labradoodle",
+                "Labrador Retriever",
+                "Leonberger",
+                "Lhasa Apso",
+                "Malamute do Alasca",
+                "Maltês",
+                "Mastife",
+                "Mastim Napolitano",
+                "Norfolk Terrier",
+                "Norwich Terrier",
+                "Papillon",
+                "Pastor Alemão",
+                "Pinscher Miniatura",
+                "Poodle",
+                "Pug",
+                "Rottweiler",
+                "Sem Raça Definida (SRD)",
+                "ShihTzu",
+                "Silky Terrier",
+                "Skye Terrier",
+                "Staffordshire Bull Terrier",
+                "Terrier Escocês",
+                "Yorkshire Terrier",
+                "Outro"
+            )
         )
+    }
+
+    private fun requestGetListSizes() {
+        state = state.copy(
+            listSizes = listOf(
+                "Pequeno (até 10kg)",
+                "Médio (11 à 24kg)",
+                "Grande (a cima de 25kg)"
+            )
+        )
+
     }
 
 }

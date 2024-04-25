@@ -106,7 +106,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                     textError = viewModel.state.sizeError,
                                     isError = !viewModel.state.sizeError.isNullOrEmpty(),
                                     titleText = "Porte: ",
-                                    dropdownItems = viewModel.sizeList.value,
+                                    dropdownItems = viewModel.state.listSizes,
                                     onEvent = { it: String ->
                                         viewModel.onEvent(
                                             RaceSizeFormEvent.PetSize(it)
@@ -124,7 +124,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                         textError = viewModel.state.raceError,
                                         isError = !viewModel.state.raceError.isNullOrEmpty(),
                                         titleText = "Raça: ",
-                                        dropdownItems = viewModel.raceList.value,
+                                        dropdownItems = viewModel.state.listRace,
                                         onEvent = { it: String ->
                                             viewModel.onEvent(
                                                 RaceSizeFormEvent.PetRace(it)

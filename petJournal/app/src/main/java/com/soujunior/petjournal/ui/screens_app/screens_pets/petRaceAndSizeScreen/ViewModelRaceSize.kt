@@ -15,8 +15,6 @@ abstract class ViewModelRaceSize : ViewModel() {
     abstract val message: StateFlow<String>
     abstract val taskState: StateFlow<TaskState>
     abstract val isTextFiledOthersVisible: StateFlow<Boolean>
-    abstract val sizeList: StateFlow<List<String>>
-    abstract val raceList: StateFlow<List<String>>
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 
@@ -35,5 +33,5 @@ abstract class ViewModelRaceSize : ViewModel() {
     abstract fun updatePetInformation()
 
     abstract fun successPetUpdate(unit: Unit)
-
+    abstract fun getListRacePets()
 }

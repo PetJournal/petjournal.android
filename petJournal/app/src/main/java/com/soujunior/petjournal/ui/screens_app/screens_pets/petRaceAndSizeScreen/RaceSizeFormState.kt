@@ -11,5 +11,7 @@ data class RaceSizeFormState(
     val idPetInformation : Long? = null,
     val name: String = "",
     val gender: String = "",
+    val listRace: List<String> = emptyList(),
+    val listSizes: List<String> = emptyList()
 )
 
