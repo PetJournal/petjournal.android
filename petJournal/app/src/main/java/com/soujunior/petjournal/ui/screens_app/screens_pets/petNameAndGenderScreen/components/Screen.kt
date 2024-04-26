@@ -31,14 +31,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.NameGenderFormEvent
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.ViewModelNameGender
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.NameGenderFormEvent
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.ViewModelNameGender
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.Constants.BIRD
 import com.soujunior.petjournal.ui.util.Constants.CAT
@@ -56,7 +56,6 @@ fun Screen(idPetInformation: String?, navController: NavController) {
     var isClearGender by remember { mutableStateOf(false) }
     if (idPetInformation != null) {
         viewModel.getPetInformation(idPetInformation.toLong())
-        NameGenderFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
     }
     val specieName: Int = when (viewModel.state.specie) {
         DOG -> R.string.dog
@@ -67,7 +66,6 @@ fun Screen(idPetInformation: String?, navController: NavController) {
         RODENT -> R.string.rodent
         else -> R.string.other
     }
-
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
             modifier = Modifier,
@@ -92,7 +90,9 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                 }
                                 item {
                                     Header(
-                                        species = if (specieName == R.string.other) viewModel.state.specie else stringResource(id = specieName),
+                                        species = if (specieName == R.string.other) viewModel.state.specie else stringResource(
+                                            id = specieName
+                                        ),
                                         modifier = Modifier.padding(5.dp, 0.dp)
                                     )
                                 }
@@ -136,7 +136,6 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                                     selectedGender
                                                 )
                                             )
-
                                         },
                                         clearSelection = {
                                             isClearGender
@@ -192,10 +191,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                 }
                             })
                     }
-
                 }
             })
-
     }
-
 }

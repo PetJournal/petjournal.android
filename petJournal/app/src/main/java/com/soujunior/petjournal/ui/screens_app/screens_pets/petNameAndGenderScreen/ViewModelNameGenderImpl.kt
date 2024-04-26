@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ViewModelNameGenderImpl(
-    val validation: ValidationRepository,
+    private val validation: ValidationRepository,
     private val getPetInformationUseCase: GetPetInformationUseCase,
     private val updatePetInformationUseCase: UpdatePetInformationUseCase
 ) : ViewModelNameGender() {
@@ -27,12 +27,8 @@ class ViewModelNameGenderImpl(
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> get() = _taskState
 
-    override fun success(petInformation: PetInformationModel) {
-        state = state.copy(specie = petInformation.species ?: "")
-        state = state.copy(idPetInformation = petInformation.id)
-        viewModelScope.launch {
-            validationEventChannel.send(ValidationEvent.Success)
-        }
+    init {
+        _taskState.value = TaskState.Loading
     }
 
     override fun failed(exception: Throwable?) {
@@ -43,15 +39,24 @@ class ViewModelNameGenderImpl(
 
     override fun onEvent(event: NameGenderFormEvent) {
         when (event) {
-            is NameGenderFormEvent.PetName -> change(petName = event.petName)
-            is NameGenderFormEvent.PetGender -> change(petGender = event.petGender)
-            is NameGenderFormEvent.IdPetInformation -> change(idPetInformation = event.idPetInformation)
-            is NameGenderFormEvent.NextButton -> {
-                change(petName = state.name)
-                change(petGender = state.gender)
+            is NameGenderFormEvent.PetName -> {
+                change(petName = event.petName)
             }
 
-            else -> {}
+            is NameGenderFormEvent.PetGender -> {
+                change(petGender = event.petGender)
+            }
+
+            is NameGenderFormEvent.IdPetInformation -> {
+                change(idPetInformation = event.idPetInformation)
+            }
+
+            is NameGenderFormEvent.NextButton -> {
+                change(petName = state.name, petGender = state.gender)
+            }
+
+            else -> {
+            }
         }
     }
 
@@ -84,11 +89,15 @@ class ViewModelNameGenderImpl(
 
     override fun getPetInformation(id: Long) {
         viewModelScope.launch {
-            _taskState.value = TaskState.Loading
             val result = getPetInformationUseCase.execute(id)
-            result.handleResult(::success, ::failed)
+            result.handleResult({
+                state = state.copy(
+                    specie = it.species ?: "",
+                    idPetInformation = it.id
+                )
+            }, ::failed)
             _taskState.value = TaskState.Idle
-
+            validationEventChannel.send(ValidationEvent.Success)
         }
     }
 

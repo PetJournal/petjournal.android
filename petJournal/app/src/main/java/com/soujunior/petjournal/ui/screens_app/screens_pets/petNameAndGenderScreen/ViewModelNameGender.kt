@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen
 
 import androidx.lifecycle.ViewModel
-import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -16,7 +15,6 @@ abstract class ViewModelNameGender : ViewModel() {
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 
-    abstract fun success(petInformation: PetInformationModel)
     abstract fun failed(exception: Throwable?)
     abstract fun onEvent(event: NameGenderFormEvent)
     abstract fun enableButton(): Boolean
