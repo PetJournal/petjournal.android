@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,9 +18,11 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,8 +33,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.ViewModelRaceSize
 import com.soujunior.petjournal.ui.components.AutoCompleteDropDown
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
@@ -39,6 +40,8 @@ import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.DropDown
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.ViewModelRaceSize
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -49,6 +52,14 @@ fun Screen(idPetInformation: String?, navController: NavController) {
     if (idPetInformation != null) {
         viewModel.getPetInformation(idPetInformation.toLong())
         RaceSizeFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
+    }
+    val scrollState = rememberLazyListState()
+    LaunchedEffect(Unit) {
+        viewModel.shouldScrollToTop.collect { shouldScroll ->
+            if (shouldScroll) {
+                scrollState.animateScrollBy(2500.0F)
+            }
+        }
     }
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
@@ -70,6 +81,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                     )
 
                     LazyColumn(
+                        state = scrollState,
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Top,
                         modifier = Modifier
@@ -129,9 +141,11 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                             viewModel.onEvent(
                                                 RaceSizeFormEvent.PetRace(it)
                                             )
+                                            viewModel.onEvent(RaceSizeFormEvent.ScrollToTop(true))
                                         }
                                     )
                                 }
+
                             }
 
                             if (viewModel.enableRaceOthers()) {

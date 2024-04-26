@@ -18,4 +18,5 @@ interface ValidationRepository {
     fun validateDate(date: String) : ValidationResult
     fun validateDropDownRaceOthers(raceOther : String) : ValidationResult
     fun validateDropdown(value : String, list: List<String>) : ValidationResult
+    fun validateDropDownPetRace(value : String, list: List<String>) : ValidationResult
 }

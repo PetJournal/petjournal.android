@@ -281,6 +281,20 @@ class ValidationRepositoryImpl : ValidationRepository {
         }
     }
 
+    override fun validateDropDownPetRace(value: String, list: List<String>): ValidationResult {
+        return if (value.isNotEmpty() && list.contains(value)) {
+            ValidationResult(
+                success = true,
+            )
+        } else {
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* Raça $value não encontrada. Escolha uma raça da lista a baixo ou escolha 'outro' para registrar uma nova.")
+            )
+
+        }
+    }
+
     private fun isCodeValidLenght(input: String): Boolean {
         return if (input.isNotBlank()) {
             input.length == 6 && input.isNotEmpty()

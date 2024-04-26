@@ -31,6 +31,7 @@ class ViewModelRaceSizeImpl(
 
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> get() = _taskState
+    override val shouldScrollToTop = MutableStateFlow(false)
 
     init {
         requestGetListSizes()
@@ -57,6 +58,9 @@ class ViewModelRaceSizeImpl(
 
     override fun onEvent(event: RaceSizeFormEvent) {
         when (event) {
+            is RaceSizeFormEvent.ScrollToTop -> {
+                shouldScrollToTop.value = true
+            }
             is RaceSizeFormEvent.PetRace -> {
                 change(petRace = event.petRace)
             }
@@ -111,7 +115,7 @@ class ViewModelRaceSizeImpl(
 
             petRace != null -> {
                 state = state.copy(race = petRace)
-                val result = validation.validateDropdown(state.race, state.listRace)
+                val result = validation.validateDropDownPetRace(state.race, state.listRace)
                 state = if (result.success) state.copy(raceError = null)
                 else state.copy(raceError = result.errorMessage)
 
