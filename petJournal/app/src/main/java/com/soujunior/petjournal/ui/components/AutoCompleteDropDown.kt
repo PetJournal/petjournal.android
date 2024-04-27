@@ -33,6 +33,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
@@ -55,13 +58,12 @@ fun AutoCompleteDropDown(
     dropdownItems: List<String>? = null,
     onEvent: (String) -> Unit,
     onDropdownItemSelected: (String) -> Unit = {},
+    onFocusChange: (Boolean) -> Unit = {}
 ) {
 
     var expanded by remember {
         mutableStateOf(false)
     }
-
-
     Column(modifier = modifier) {
         Row {
             Text(
@@ -87,6 +89,13 @@ fun AutoCompleteDropDown(
                             .fillMaxWidth()
                             .padding(5.dp)
                             .height(50.dp)
+                            .onFocusChanged {focusState ->
+                                if (focusState.isFocused){
+                                    onFocusChange(true)
+                                }else{
+                                    onFocusChange(false)
+                                }
+                            }
                             .drawBehind {
                                 val stroke = Stroke(
                                     width = 1.dp.toPx(),

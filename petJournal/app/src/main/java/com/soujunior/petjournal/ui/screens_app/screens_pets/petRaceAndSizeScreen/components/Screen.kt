@@ -142,6 +142,15 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                                 RaceSizeFormEvent.PetRace(it)
                                             )
                                             viewModel.onEvent(RaceSizeFormEvent.ScrollToTop(true))
+                                        },
+                                        onFocusChange = { isFocus ->
+                                            if (!isFocus) {
+                                                viewModel.onEvent(
+                                                    RaceSizeFormEvent.ScrollToTop(
+                                                        false
+                                                    )
+                                                )
+                                            }
                                         }
                                     )
                                 }
@@ -214,14 +223,14 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                             viewModel.onEvent(
                                                 RaceSizeFormEvent.NextButton
                                             )
-                                            if (!viewModel.enableRace()){
+                                            if (!viewModel.enableRace()) {
                                                 if (viewModel.enableButton() &&
                                                     viewModel.state.size.isNotEmpty()
                                                 ) {
                                                     viewModel.updatePetInformation()
                                                     navController.navigate("pets/birth/$idPetInformation")
                                                 }
-                                            }else{
+                                            } else {
                                                 if (isTextFiledOthersVisible) {
                                                     if (viewModel.enableButton() &&
                                                         viewModel.state.raceOthers.isNotEmpty() &&
@@ -242,7 +251,6 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                                     }
                                                 }
                                             }
-
 
 
                                         },

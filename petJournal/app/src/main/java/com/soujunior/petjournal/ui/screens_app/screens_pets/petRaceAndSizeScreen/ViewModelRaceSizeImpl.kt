@@ -59,7 +59,7 @@ class ViewModelRaceSizeImpl(
     override fun onEvent(event: RaceSizeFormEvent) {
         when (event) {
             is RaceSizeFormEvent.ScrollToTop -> {
-                shouldScrollToTop.value = true
+                shouldScrollToTop.value = event.scrollToTop
             }
             is RaceSizeFormEvent.PetRace -> {
                 change(petRace = event.petRace)

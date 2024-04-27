@@ -10,5 +10,5 @@ sealed class RaceSizeFormEvent {
     data class IdPetInformation(val idPetInformation: Long) : RaceSizeFormEvent()
     object NextButton : RaceSizeFormEvent()
     object ReturnButton : RaceSizeFormEvent()
-    data class ScrollToTop(val ScrollToTop: Boolean) : RaceSizeFormEvent()
+    data class ScrollToTop(val scrollToTop: Boolean) : RaceSizeFormEvent()
 }
