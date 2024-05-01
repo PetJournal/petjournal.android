@@ -176,7 +176,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                 }
                             }
 
-                            item {
+                            item{
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -196,7 +196,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .align(Alignment.Center)
-                                        .padding(start = 30.dp)
+                                        .padding(start = 60.dp)
                                         .offset(y = (-60).dp)
                                 ) {
 

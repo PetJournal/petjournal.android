@@ -3,6 +3,7 @@ package com.soujunior.petjournal.navigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.core.view.WindowCompat
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
@@ -12,7 +13,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            PresentationManager()
+            TestScreen()
         }
     }
 }
@@ -43,6 +44,20 @@ fun MainContent() {
         isIntro = false,
         content = {
             NavHostMainContent()
+        }
+    )
+}
+/**
+ * Metodo utilizado para testar as telas em desenvolvimento,
+ * SEMPRE LEMBRAR DE RETIRAR ESTE METODO DO OnCreate !!!
+ **/
+@Composable
+fun TestScreen() {
+    PetJournalTheme(
+        isIntro = false,
+        darkTheme = isSystemInDarkTheme(),
+        content = {
+            NavTestScreen()
         }
     )
 }
