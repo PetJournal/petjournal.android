@@ -42,6 +42,7 @@ import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.ViewModelRaceSize
+import com.soujunior.petjournal.ui.util.getScreenHeightInch
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -54,10 +55,11 @@ fun Screen(idPetInformation: String?, navController: NavController) {
         RaceSizeFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
     }
     val scrollState = rememberLazyListState()
+    val screenHeight = getScreenHeightInch()
     LaunchedEffect(Unit) {
         viewModel.shouldScrollToTop.collect { shouldScroll ->
             if (shouldScroll) {
-                scrollState.animateScrollBy(2500.0F)
+                scrollState.animateScrollBy(screenHeight)
             }
         }
     }
@@ -176,7 +178,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                 }
                             }
 
-                            item{
+                            item {
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
