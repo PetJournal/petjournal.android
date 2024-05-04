@@ -7,20 +7,12 @@ plugins {
 android {
     namespace 'com.soujunior.petjournal'
     compileSdk 34
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
-    }
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
     defaultConfig {
         applicationId "com.soujunior.petjournal"
         minSdk 24
         targetSdk 34
-        versionCode 1
-        versionName "1.0"
+        versionCode 6
+        versionName "1.0.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -32,6 +24,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -54,6 +47,14 @@ android {
     }
     ndkVersion '23.1.7779620'
     buildToolsVersion '33.0.1'
+
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+    }
 }
 
 dependencies {

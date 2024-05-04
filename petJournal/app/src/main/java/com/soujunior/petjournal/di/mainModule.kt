@@ -115,7 +115,7 @@ val mainModule = module {
     // Retrofit Service
     single {
         Retrofit.Builder()
-            .baseUrl("https://petjournal-api.onrender.com/")
+            .baseUrl("https://petjournal-api-z9gs.onrender.com/")
             .addConverterFactory(MoshiConverterFactory.create(get()))
             .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
             .build()

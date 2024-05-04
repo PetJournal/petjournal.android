@@ -22,7 +22,7 @@ fun navHostMock(navController: NavHostController, startDestination: String) {
 
         composable("pets/introRegisterPet") { RegisterPetScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
-        composable("pets/nameAndGender/{arg}") { backStackEntry -> PetNameAndGenderScreen(backStackEntry.arguments?.getLong("arg"), navController) }
+        composable("pets/nameAndGender/{arg}") { backStackEntry -> PetNameAndGenderScreen(backStackEntry.arguments?.getString("arg"), navController) }
         composable("pets/RaceAndSize/{arg}") { navBackStackEntry -> PetRaceAndSizeScreen( idPetInformation = navBackStackEntry.arguments?.getString("arg"), navController = navController ) }
     }
 }
