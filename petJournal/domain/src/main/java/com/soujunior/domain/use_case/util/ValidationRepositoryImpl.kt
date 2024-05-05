@@ -1,6 +1,9 @@
 package com.soujunior.domain.use_case.util
 
 import com.soujunior.domain.repository.ValidationRepository
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import java.util.regex.Pattern
 
 class ValidationRepositoryImpl : ValidationRepository {
@@ -36,32 +39,34 @@ class ValidationRepositoryImpl : ValidationRepository {
         } else
             ValidationResult(success = true)
     }
+
     override fun inputPetName(name: String): ValidationResult {
 
-        return if(name.isEmpty()){
+        return if (name.isEmpty()) {
             ValidationResult(
                 success = false,
                 errorMessage = listOf("* Campo Obrigatório!")
             )
-        }else if(hasSpecialChar(name)){
+        } else if (hasSpecialChar(name)) {
             ValidationResult(
                 success = false,
-                errorMessage = listOf("* Não são permitidos caracteres especiais. " +
-                        "Por favor, insira um nome válido.")
+                errorMessage = listOf(
+                    "* Não são permitidos caracteres especiais. " +
+                            "Por favor, insira um nome válido."
+                )
             )
-        }else if(isValidLenght(name)){
+        } else if (isValidLenght(name)) {
             ValidationResult(
                 success = false,
                 errorMessage = listOf("* O nome fornecido deve ter entre 2 e 30 caracteres.")
             )
-        }
-        else
+        } else
             ValidationResult(success = true)
 
     }
 
     override fun inputPetGender(value: String): ValidationResult {
-        return if(value == "M" || value == "F")
+        return if (value == "M" || value == "F")
             ValidationResult(success = true)
         else
             ValidationResult(
@@ -208,6 +213,88 @@ class ValidationRepositoryImpl : ValidationRepository {
         }
     }
 
+    override fun validateDate(date: String): ValidationResult {
+        val listErrorMessage: MutableList<String> = mutableListOf()
+        var count = 0
+
+        if (!date.matches(Regex("\\d{8}"))) {
+            listErrorMessage.add("* Campo Obrigatório!")
+        } else {
+            val day = date.substring(0, 2).toInt()
+            val month = date.substring(2, 4).toInt()
+            val year = date.substring(4, 8).toInt()
+
+            try {
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("pt", "BR"))
+                dateFormat.isLenient = false
+                dateFormat.parse("$day/$month/$year")
+
+                val currentDate = Calendar.getInstance()
+
+                val providedDate = Calendar.getInstance()
+                providedDate.set(year, month - 1, day)
+
+                val minAllowedDate = Calendar.getInstance()
+                minAllowedDate.set(1993, Calendar.JANUARY, 1)
+
+                if (providedDate.after(currentDate)) {
+                    listErrorMessage.add("Ops! Verifique se a data preenchida está correta.")
+                }else if (providedDate.before(minAllowedDate)){
+                    listErrorMessage.add("A data não pode ser anterior 1993.")
+                } else {
+                    count++
+                }
+            } catch (e: Exception) {
+                listErrorMessage.add("Ops! Verifique se a data preenchida está correta.")
+            }
+        }
+
+        val hasError = count != 1
+
+        return if (hasError) {
+            ValidationResult(success = false, errorMessage = listErrorMessage)
+        } else {
+            ValidationResult(success = true)
+        }
+    }
+
+    override fun validateDropDownRaceOthers(raceOther: String): ValidationResult {
+        return if (raceOther.lowercase() == "outro") {
+            ValidationResult(success = true)
+        } else {
+            ValidationResult(success = false)
+        }
+    }
+
+    override fun validateDropdown(value: String, list: List<String>): ValidationResult {
+
+        return if (value.isNotEmpty() && list.contains(value)) {
+            ValidationResult(
+                success = true,
+            )
+        } else {
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* Campo obrigatório!")
+            )
+
+        }
+    }
+
+    override fun validateDropDownPetRace(value: String, list: List<String>): ValidationResult {
+        return if (value.isNotEmpty() && list.contains(value)) {
+            ValidationResult(
+                success = true,
+            )
+        } else {
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* Raça $value não encontrada. Escolha uma raça da lista a baixo ou escolha 'outro' para registrar uma nova.")
+            )
+
+        }
+    }
+
     private fun isCodeValidLenght(input: String): Boolean {
         return if (input.isNotBlank()) {
             input.length == 6 && input.isNotEmpty()
@@ -239,7 +326,7 @@ class ValidationRepositoryImpl : ValidationRepository {
      *
      * @return true if contains char, otherwise, returns false
      * */
-    private fun hasSpecialChar(input: String): Boolean{
+    private fun hasSpecialChar(input: String): Boolean {
         val regex = Regex("[^a-zA-ZÀ-ÖØ-öø-ÿ0-9]")
         return regex.containsMatchIn(input)
     }

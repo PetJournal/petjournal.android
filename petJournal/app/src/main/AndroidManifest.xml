@@ -17,7 +17,7 @@
         android:theme="@style/Theme.PetJournal"
         tools:targetApi="31">
         <activity
-            android:name=".ui.navigation.MainActivity"
+            android:name=".navigation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.PetJournal">

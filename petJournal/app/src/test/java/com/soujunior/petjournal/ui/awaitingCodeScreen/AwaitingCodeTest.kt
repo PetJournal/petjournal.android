@@ -1,28 +1,5 @@
 package com.soujunior.petjournal.ui.awaitingCodeScreen
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
-import assertk.assertThat
-import assertk.assertions.isEqualTo
-import assertk.assertions.isNull
-import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
-import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
-import com.soujunior.petjournal.ui.util.ValidationEvent
-import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeFormEvent
-import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeFormState
-import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModel
-import com.soujunior.petjournal.ui.accountManager.awaitingCodeScreen.AwaitingCodeViewModelImpl
-import io.mockk.mockk
-import io.mockk.verify
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 //
 //class AwaitingCodeTest {
 //
