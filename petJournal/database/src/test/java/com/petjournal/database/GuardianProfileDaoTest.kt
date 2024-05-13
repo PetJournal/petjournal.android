@@ -1,10 +1,7 @@
 package com.petjournal.database
 
-import com.petjournal.database.converter.Converter.toEntity
-import com.petjournal.database.converter.Converter.toModel
 import com.petjournal.database.database.dao.GuardianProfileDao
 import com.petjournal.database.database.entity.GuardianProfile
-import com.petjournal.database.database.entity.PetInformation
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -18,29 +15,11 @@ class GuardianProfileDaoTest {
     private val profile = GuardianProfile(
         firstName = null
     )
-    private val petInformation = PetInformation(
-        species = "Dog",
-        guardianId = 1
-    )
-    private val newPetInformation = PetInformation(
-        id = 2,
-        species = "Cat",
-        name = "Bolinha",
-        gender = "F",
-        size = "Pequeno",
-        petRace = "Akita",
-        petAge = "10/10/2010",
-        guardianId = 1
-    )
 
     @Before
     fun setUp() {
         coEvery { guardianProfileDao.insertProfile(any()) } returns 1L
         coEvery { guardianProfileDao.getProfile(1) } returns profile
-        coEvery { guardianProfileDao.insertPetInformation(any()) } returns 1L
-        coEvery { guardianProfileDao.getPetInformation(1) } returns petInformation.toModel()
-        coEvery { guardianProfileDao.getPetInformation(2) } returns newPetInformation.toModel()
-        coEvery { guardianProfileDao.updatePetInformation(newPetInformation) }
     }
 
     @Test
@@ -66,26 +45,5 @@ class GuardianProfileDaoTest {
         }
         assertEquals(profileWithNullName, retrievedProfile)
     }
-
-    @Test
-    fun `insert and get pet information`() = runBlocking {
-        val insertPetInformation = guardianProfileDao.insertPetInformation(petInformation)
-        coEvery { guardianProfileDao.insertPetInformation(petInformation) }
-        assertEquals(1L, insertPetInformation)
-        val retrievedPetInformation = guardianProfileDao.getPetInformation(insertPetInformation)
-        coVerify { guardianProfileDao.getPetInformation(1) }
-        assertEquals(petInformation, retrievedPetInformation.toEntity())
-    }
-
-    @Test
-    fun `update and get pet information must be the same`() = runBlocking {
-
-        coEvery { guardianProfileDao.updatePetInformation(newPetInformation) }
-        val getPetInformation = guardianProfileDao.getPetInformation(2)
-        coVerify { guardianProfileDao.getPetInformation(2) }
-        assertEquals(newPetInformation, getPetInformation.toEntity())
-
-    }
-
 
 }

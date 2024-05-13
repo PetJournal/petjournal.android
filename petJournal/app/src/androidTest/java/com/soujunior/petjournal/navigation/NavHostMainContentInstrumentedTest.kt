@@ -4,7 +4,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.soujunior.petjournal.navigation.navHostMock
+import com.soujunior.petjournal.navigation.NavHostMock
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -23,14 +23,14 @@ class NavHostMainContentInstrumentedTest {
     fun navigateFrom_Home_to_accountManager(){
         composeTestRule.setContent {
             navController = rememberNavController()
-            navHostMock(navController = navController, startDestination = "home")
+            NavHostMock(navController = navController, startDestination = "home")
         }
 
         composeTestRule.runOnUiThread {
-            navController.navigate("account_manager")
+            navController.navigate("accountManager")
         }
 
-        assertEquals(navController.currentDestination?.route, "account_manager")
+        assertEquals(navController.currentDestination?.route, "accountManager")
 
     }
 
@@ -38,7 +38,7 @@ class NavHostMainContentInstrumentedTest {
     fun navigateFrom_accountManager_to_tutorScreen(){
         composeTestRule.setContent {
             navController = rememberNavController()
-            navHostMock(navController = navController, startDestination = "account_manager")
+            NavHostMock(navController = navController, startDestination = "accountManager")
         }
 
         composeTestRule.runOnUiThread {
@@ -53,7 +53,7 @@ class NavHostMainContentInstrumentedTest {
     fun navigateFrom_tutorScreen_to_introRegisterPet(){
         composeTestRule.setContent {
             navController = rememberNavController()
-            navHostMock(navController = navController, startDestination = "tutorScreen")
+            NavHostMock(navController = navController, startDestination = "tutorScreen")
         }
 
         composeTestRule.runOnUiThread {
@@ -68,7 +68,7 @@ class NavHostMainContentInstrumentedTest {
     fun navigateFrom_introRegisterPet_to_speciesChoice(){
         composeTestRule.setContent {
             navController = rememberNavController()
-            navHostMock(navController = navController, startDestination = "pets/introRegisterPet")
+            NavHostMock(navController = navController, startDestination = "pets/introRegisterPet")
         }
 
         composeTestRule.runOnUiThread {
@@ -82,7 +82,7 @@ class NavHostMainContentInstrumentedTest {
     fun navigateFrom_speciesChoice_to_nameGenderScreen(){
         composeTestRule.setContent {
             navController = rememberNavController()
-            navHostMock(navController = navController, startDestination = "pets/speciesChoice")
+            NavHostMock(navController = navController, startDestination = "pets/speciesChoice")
         }
 
         composeTestRule.runOnUiThread {

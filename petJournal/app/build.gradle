@@ -7,12 +7,20 @@ plugins {
 android {
     namespace 'com.soujunior.petjournal'
     compileSdk 34
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
     defaultConfig {
         applicationId "com.soujunior.petjournal"
         minSdk 24
         targetSdk 34
-        versionCode 6
-        versionName "1.0.6"
+        versionCode 1
+        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

@@ -9,9 +9,9 @@ package com.soujunior.petjournal.ui.changePassword
 //import com.soujunior.domain.usecase.auth.util.ValidationResult
 //import com.soujunior.domain.usecase.base.DataResult
 //import com.soujunior.petjournal.ui.util.ValidationEvent
-//import com.soujunior.petjournal.ui.account_manager.changePasswordScreen.ChangePasswordFormEvent
-//import com.soujunior.petjournal.ui.account_manager.changePasswordScreen.ChangePasswordFormState
-//import com.soujunior.petjournal.ui.account_manager.changePasswordScreen.ChangePasswordViewModelImpl
+//import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordFormEvent
+//import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordFormState
+//import com.soujunior.petjournal.ui.accountManager.changePasswordScreen.ChangePasswordViewModelImpl
 //import io.mockk.Runs
 //import io.mockk.coEvery
 //import io.mockk.coVerify

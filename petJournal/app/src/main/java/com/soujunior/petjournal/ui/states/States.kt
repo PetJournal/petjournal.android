@@ -10,6 +10,7 @@ object States {
     var localPasswordError = compositionLocalOf { mutableStateOf(false) }
     var localConfirmPasswordState = compositionLocalOf { mutableStateOf("") }
     var localConfirmPasswordError = compositionLocalOf { mutableStateOf(false) }
+    //var textMessageDialog = compositionLocalOf { mutableStateOf("") }
     var checked = compositionLocalOf { mutableStateOf(false) }
     var otpFullCode = compositionLocalOf { mutableStateOf("") }
 }
