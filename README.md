@@ -47,6 +47,8 @@ Nesta seção, você encontrará informações detalhadas sobre as diferentes te
 - [Tela padrão inicial](doc/screens/tela_padrao_inicial.md)
 - [Tela padrão espécie](doc/screens/tela_padrao_especie.md)
 - [Tela padrão nome e gênero](doc/screens/tela_padrao_nome_genero.md)
+- [Tela padrão raça e porte](doc/screens/tela_padrao_raca_e_porte.md)
+- [Tela padrão data de Nascimento](doc/screens/tela_padrao_data_de_nascimento.md)
 
 
 ## 5. Padrões de Design e Melhores Práticas
