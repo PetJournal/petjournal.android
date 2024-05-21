@@ -1,7 +1,7 @@
 - **Tela padrão Raça e Porte:**
     - **Diagrama UML:**
 
-      ![Tela_padrão_Raca_e_Porte](https://github.com/PetJournal/petjournal.android/assets/63371272/dfa58cbf-f82d-4b5c-b8a0-7b0a735c9d12)
+    ![Tela raça e porte drawio](https://github.com/PetJournal/petjournal.android/assets/63371272/c74f6a5d-79ae-4e44-93a4-b250bc2c20bb)
 
     - **UX/Design:**
 

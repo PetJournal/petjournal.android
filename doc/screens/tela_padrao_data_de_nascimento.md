@@ -1,7 +1,8 @@
 - **Tela padrão Data de Nascimento:**
     - **Diagrama UML:**
 
-      ![Tela_padrão_Data_de_Nascimento](https://github.com/PetJournal/petjournal.android/assets/63371272/11d0a224-dff9-4a35-b0eb-6453697f2a41)
+    ![Tela Data de Nascimento drawio](https://github.com/PetJournal/petjournal.android/assets/63371272/f7bb84a8-3b1f-44e6-8c0b-f454595b5e81)
+
 
     - **UX/Design:**
 
