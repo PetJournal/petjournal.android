@@ -6,6 +6,7 @@ import com.soujunior.petjournal.di.mainModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 class PetJournalApplicationKoin : Application() {
     override fun onCreate() {
@@ -15,7 +16,8 @@ class PetJournalApplicationKoin : Application() {
 
     private fun setupKoin() {
         startKoin {
-            androidLogger()
+            //androidLogger()
+            androidLogger(Level.ERROR)
             androidContext(this@PetJournalApplicationKoin)
             modules(mainModule)
         }
