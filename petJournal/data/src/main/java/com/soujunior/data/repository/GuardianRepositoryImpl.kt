@@ -6,6 +6,7 @@ import android.util.Log
 import com.soujunior.data.remote.GuardianService
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianLocalDataSource
@@ -43,7 +44,7 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun savePetInformation(petInformationModel: PetInformationModel) : DataResult<Long>  {
+    override suspend fun savePetInformation(petInformationModel: PetInformationModel): DataResult<Long> {
         val guardianId = 1
         val petInformation = petInformationModel.copy(
             species = petInformationModel.species,
@@ -51,7 +52,7 @@ class GuardianRepositoryImpl(
         )
         return try {
             DataResult.Success(guardianLocalDataSourceImpl.savePetInformation(petInformation).success.data)
-        } catch (e: Throwable){
+        } catch (e: Throwable) {
             DataResult.Failure(e)
         }
     }
@@ -59,7 +60,7 @@ class GuardianRepositoryImpl(
     override suspend fun getPetInformation(idPetInformation: Long): DataResult<PetInformationModel> {
         return try {
             DataResult.Success(guardianLocalDataSourceImpl.getPetInformation(idPetInformation).success.data)
-        }catch (e: Throwable){
+        } catch (e: Throwable) {
             DataResult.Failure(e)
         }
     }
@@ -67,10 +68,37 @@ class GuardianRepositoryImpl(
     override suspend fun updatePetInformation(petInformationModel: PetInformationModel): DataResult<Unit> {
         return try {
             DataResult.Success(guardianLocalDataSourceImpl.updatePetInformation(petInformationModel).success.data)
-        }catch (e: Throwable){
+        } catch (e: Throwable) {
             DataResult.Failure(e)
         }
     }
 
+    override suspend fun getListPetSizes(petSpecie: String): NetworkResult<List<PetSizeItemModel>> {
+        val localListPetSizes = guardianLocalDataSourceImpl.getListPetSizes(petSpecie)
+        return if (!localListPetSizes?.success?.data.isNullOrEmpty()) {
+            val list: MutableList<PetSizeItemModel> = mutableListOf()
+            localListPetSizes?.success?.data?.forEach {
+                list.add(it)
+            }
+            NetworkResult.Success(list)
+        } else {
+            val token = "Bearer " + jwtManager.getToken()
+            when (val apiResult = guardianApi.getListPetSizes(token, petSpecie)) {
+                is NetworkResult.Success -> {
+                    coroutineScope {
+                        try {
+                            guardianLocalDataSourceImpl.saveListPetSizes(petSpecie, apiResult.data)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Exeption: " + e.message)
+                        }
+                    }
+
+                    NetworkResult.Success(apiResult.data)
+                }
+
+                else -> apiResult
+            }
+        }
+    }
 
 }

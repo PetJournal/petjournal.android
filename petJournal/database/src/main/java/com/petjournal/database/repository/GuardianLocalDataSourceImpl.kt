@@ -1,11 +1,14 @@
 package com.petjournal.database.repository
 
 import com.petjournal.database.converter.Converter.toEntity
+import com.petjournal.database.converter.Converter.toListPetSizeEntity
+import com.petjournal.database.converter.Converter.toListPetSizeItemModel
 import com.petjournal.database.database.dao.ApplicationInformationDao
 import com.petjournal.database.database.dao.GuardianProfileDao
 import com.petjournal.database.database.entity.ApplicationInformation
 import com.petjournal.database.database.entity.GuardianProfile
 import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.repository.GuardianLocalDataSource
 import com.soujunior.domain.use_case.base.DataResult
@@ -61,6 +64,30 @@ class GuardianLocalDataSourceImpl(
         } catch (e: Throwable) {
             DataResult.Failure(e)
         }
+    }
+
+    override suspend fun getListPetSizes(id: String): DataResult<List<PetSizeItemModel>>? {
+        return try {
+            val data = guardianDao.getListPetSizes(id)
+            if (data != null) {
+                DataResult.Success(data.toListPetSizeItemModel())
+            } else {
+                DataResult.Success(emptyList())
+            }
+        } catch (error: Throwable) {
+            DataResult.Failure(error)
+        }
+    }
+
+
+    override suspend fun saveListPetSizes(id: String, listPetSize: List<PetSizeItemModel>): DataResult<String> {
+        return try {
+            guardianDao.insertListPetSizes(listPetSize.toListPetSizeEntity(id))
+            DataResult.Success(id)
+        } catch (e: Throwable) {
+            DataResult.Failure(e)
+        }
+
     }
 
     override suspend fun deleteDatabase() {

@@ -1,7 +1,7 @@
 package com.petjournal.database
 
-import com.petjournal.database.converter.Converter.toEntity
-import com.petjournal.database.converter.Converter.toModel
+import com.soujunior.petjournal.ui.util.Converter.toEntity
+import com.soujunior.petjournal.ui.util.Converter.toModel
 import com.petjournal.database.database.dao.GuardianProfileDao
 import com.petjournal.database.database.entity.GuardianProfile
 import com.petjournal.database.database.entity.PetInformation

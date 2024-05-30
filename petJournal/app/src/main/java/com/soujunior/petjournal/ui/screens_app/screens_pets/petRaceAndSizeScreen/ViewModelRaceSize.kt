@@ -1,7 +1,9 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen
 
 import androidx.lifecycle.ViewModel
+import com.petjournal.database.database.entity.ListPetSizes
 import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -20,6 +22,7 @@ abstract class ViewModelRaceSize : ViewModel() {
         get() = validationEventChannel.receiveAsFlow()
 
     abstract fun success(petInformationModel: PetInformationModel)
+    abstract fun successGetPetSizes(listPetSizes: List<PetSizeItemModel>)
     abstract fun failed(exception: Throwable?)
     abstract fun onEvent(event: RaceSizeFormEvent)
     abstract fun enableButton(): Boolean
@@ -36,4 +39,5 @@ abstract class ViewModelRaceSize : ViewModel() {
 
     abstract fun successPetUpdate(unit: Unit)
     abstract fun getListRacePets()
+    abstract fun requestGetListSizes(specie: String)
 }

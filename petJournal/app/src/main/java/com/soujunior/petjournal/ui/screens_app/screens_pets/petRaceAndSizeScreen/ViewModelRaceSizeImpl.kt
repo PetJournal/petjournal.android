@@ -5,7 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.repository.ValidationRepository
+import com.soujunior.domain.use_case.pet.GetListPetSizesUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.petjournal.ui.states.TaskState
@@ -18,7 +20,8 @@ import kotlinx.coroutines.launch
 class ViewModelRaceSizeImpl(
     val validation: ValidationRepository,
     private val getPetInformationUseCase: GetPetInformationUseCase,
-    private val updatePetInformationUseCase: UpdatePetInformationUseCase
+    private val updatePetInformationUseCase: UpdatePetInformationUseCase,
+    private val getListPetSizesUseCase: GetListPetSizesUseCase
 ) : ViewModelRaceSize() {
 
     override var state by mutableStateOf(RaceSizeFormState())
@@ -33,20 +36,28 @@ class ViewModelRaceSizeImpl(
     override val taskState: StateFlow<TaskState> get() = _taskState
     override val shouldScrollToTop = MutableStateFlow(false)
 
-    init {
-        requestGetListSizes()
-    }
-
     override fun success(petInformationModel: PetInformationModel) {
         state = state.copy(specie = petInformationModel.species ?: "")
         state = state.copy(idPetInformation = petInformationModel.id)
         state = state.copy(name = petInformationModel.name ?: "")
         state = state.copy(gender = petInformationModel.gender ?: "")
+
+
+        getListRacePets()
+        requestGetListSizes(state.specie)
+
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
         _message.value = "Sucesso"
-        getListRacePets()
+    }
+
+    override fun successGetPetSizes(listPetSizes: List<PetSizeItemModel>) {
+        state = state.copy(listSizes = listPetSizes)
+        viewModelScope.launch {
+            validationEventChannel.send(ValidationEvent.Success)
+        }
+        _message.value = "Sucesso"
     }
 
     override fun failed(exception: Throwable?) {
@@ -61,6 +72,7 @@ class ViewModelRaceSizeImpl(
             is RaceSizeFormEvent.ScrollToTop -> {
                 shouldScrollToTop.value = event.scrollToTop
             }
+
             is RaceSizeFormEvent.PetRace -> {
                 change(petRace = event.petRace)
             }
@@ -132,12 +144,11 @@ class ViewModelRaceSizeImpl(
     }
 
     override fun getPetInformation(id: Long) {
+        _taskState.value = TaskState.Loading
         viewModelScope.launch {
-            _taskState.value = TaskState.Loading
             val result = getPetInformationUseCase.execute(id)
             result.handleResult(::success, ::failed)
             _taskState.value = TaskState.Idle
-
         }
     }
 
@@ -354,14 +365,15 @@ class ViewModelRaceSizeImpl(
         )
     }
 
-    private fun requestGetListSizes() {
-        state = state.copy(
-            listSizes = listOf(
-                "Pequeno (até 10kg)",
-                "Médio (11 à 24kg)",
-                "Grande (a cima de 25kg)"
-            )
-        )
+    override fun requestGetListSizes(specie: String) {
+        _taskState.value = TaskState.Loading
+        if (state.specie == "Cat" || state.specie == "Dog") {
+            viewModelScope.launch {
+                val result = getListPetSizesUseCase.execute(specie)
+                result.handleResult(::successGetPetSizes, ::failed)
+                _taskState.value = TaskState.Idle
+            }
+        }
 
     }
 
