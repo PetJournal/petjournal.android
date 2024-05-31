@@ -6,6 +6,7 @@ import android.util.Log
 import com.soujunior.data.remote.GuardianService
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.network.NetworkResult
@@ -84,6 +85,30 @@ class GuardianRepositoryImpl(
                     coroutineScope {
                         try {
                             guardianLocalDataSourceImpl.saveListPetSizes(petSpecie, apiResult.data)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Exeption: " + e.message)
+                        }
+                    }
+
+                    NetworkResult.Success(apiResult.data)
+                }
+
+                else -> apiResult
+            }
+        }
+    }
+
+    override suspend fun getListPetRaces(petSpecie: String): NetworkResult<List<PetRaceItemModel>> {
+        val localListPetRaces = guardianLocalDataSourceImpl.getListPetRaces(petSpecie)?.success?.data
+        return if (!localListPetRaces.isNullOrEmpty()) {
+            NetworkResult.Success(localListPetRaces)
+        } else {
+            val token = "Bearer " + jwtManager.getToken()
+            when (val apiResult = guardianApi.getListPetRaces(token, petSpecie)) {
+                is NetworkResult.Success -> {
+                    coroutineScope {
+                        try {
+                            guardianLocalDataSourceImpl.saveListPetRaces(petSpecie, apiResult.data)
                         } catch (e: Exception) {
                             Log.e(TAG, "Exeption: " + e.message)
                         }

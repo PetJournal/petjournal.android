@@ -1,5 +1,6 @@
 package com.soujunior.data.remote
 
+import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.network.NetworkResult
@@ -16,4 +17,10 @@ interface GuardianService {
         @Header("Authorization") token: String,
         @Path("petSpecie") petSpecie: String
     ): NetworkResult<List<PetSizeItemModel>>
+
+    @GET("api/breeds/{petSpecie}")
+    suspend fun getListPetRaces(
+        @Header("Authorization") token: String,
+        @Path("petSpecie") petSpecie: String
+    ): NetworkResult<List<PetRaceItemModel>>
 }

@@ -1,8 +1,10 @@
 package com.petjournal.database.converter
 
+import com.petjournal.database.database.entity.ListPetRaces
 import com.petjournal.database.database.entity.ListPetSizes
 import com.petjournal.database.database.entity.PetInformation
 import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 
 object Converter{
@@ -42,6 +44,20 @@ object Converter{
         return ListPetSizes(
             id = id,
             listPetSizes = this
+        )
+    }
+
+    fun ListPetRaces.toListPetRaceItemModel(): List<PetRaceItemModel> {
+        val listPetRacesItemModel: MutableList<PetRaceItemModel> = mutableListOf()
+        this.listPetRaces?.forEach {
+            listPetRacesItemModel.add(it)
+        }
+        return listPetRacesItemModel
+    }
+    fun List<PetRaceItemModel>.toListPetRaceEntity(id: String): ListPetRaces {
+        return ListPetRaces(
+            id = id,
+            listPetRaces = this
         )
     }
 }

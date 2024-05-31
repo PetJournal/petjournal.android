@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.petjournal.database.database.entity.GuardianProfile
+import com.petjournal.database.database.entity.ListPetRaces
 import com.petjournal.database.database.entity.ListPetSizes
 import com.petjournal.database.database.entity.PetInformation
 import com.soujunior.domain.model.PetInformationModel
@@ -35,4 +36,10 @@ interface GuardianProfileDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertListPetSizes(listPetSizes: ListPetSizes): Long
+
+    @Query("SELECT * FROM list_pet_races WHERE id = :id")
+    suspend fun getListPetRaces(id: String): ListPetRaces?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertListPetRaces(listPetSizes: ListPetRaces): Long
 }
