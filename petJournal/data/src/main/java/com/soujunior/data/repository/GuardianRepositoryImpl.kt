@@ -74,13 +74,9 @@ class GuardianRepositoryImpl(
     }
 
     override suspend fun getListPetSizes(petSpecie: String): NetworkResult<List<PetSizeItemModel>> {
-        val localListPetSizes = guardianLocalDataSourceImpl.getListPetSizes(petSpecie)
-        return if (!localListPetSizes?.success?.data.isNullOrEmpty()) {
-            val list: MutableList<PetSizeItemModel> = mutableListOf()
-            localListPetSizes?.success?.data?.forEach {
-                list.add(it)
-            }
-            NetworkResult.Success(list)
+        val localListPetSizes = guardianLocalDataSourceImpl.getListPetSizes(petSpecie)?.success?.data
+        return if (!localListPetSizes.isNullOrEmpty()) {
+            NetworkResult.Success(localListPetSizes)
         } else {
             val token = "Bearer " + jwtManager.getToken()
             when (val apiResult = guardianApi.getListPetSizes(token, petSpecie)) {

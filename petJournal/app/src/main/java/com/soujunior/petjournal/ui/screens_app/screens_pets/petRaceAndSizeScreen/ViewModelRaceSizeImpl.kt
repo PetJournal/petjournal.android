@@ -44,7 +44,7 @@ class ViewModelRaceSizeImpl(
 
 
         getListRacePets()
-        requestGetListSizes(state.specie)
+        requestGetListSizes()
 
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
@@ -365,11 +365,11 @@ class ViewModelRaceSizeImpl(
         )
     }
 
-    override fun requestGetListSizes(specie: String) {
+    override fun requestGetListSizes() {
         _taskState.value = TaskState.Loading
         if (state.specie == "Cat" || state.specie == "Dog") {
             viewModelScope.launch {
-                val result = getListPetSizesUseCase.execute(specie)
+                val result = getListPetSizesUseCase.execute(state.specie)
                 result.handleResult(::successGetPetSizes, ::failed)
                 _taskState.value = TaskState.Idle
             }

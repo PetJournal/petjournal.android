@@ -39,5 +39,5 @@ abstract class ViewModelRaceSize : ViewModel() {
 
     abstract fun successPetUpdate(unit: Unit)
     abstract fun getListRacePets()
-    abstract fun requestGetListSizes(specie: String)
+    abstract fun requestGetListSizes()
 }

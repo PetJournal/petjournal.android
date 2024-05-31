@@ -2,7 +2,6 @@ package com.soujunior.data.remote
 
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
-import com.soujunior.domain.model.response.ListPetSizesResponse
 import com.soujunior.domain.network.NetworkResult
 import retrofit2.http.GET
 import retrofit2.http.Header
