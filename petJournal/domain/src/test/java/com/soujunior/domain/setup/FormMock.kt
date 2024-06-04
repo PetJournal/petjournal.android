@@ -4,6 +4,7 @@ import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.domain.model.request.LoginModel
 import com.soujunior.domain.model.request.PetRaceItemModel
+import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.request.SignUpModel
 
 val formLogin  = LoginModel (
@@ -31,7 +32,7 @@ val petInformation = PetInformationModel(
     guardianId = 1
 )
 
-val listCatsRace = listOf(
+val listPetRaces = listOf(
     PetRaceItemModel(
         "99c18d37-d7ba-4e53-88c8-eddbe82f0063",
         "Curl Americano de Pelo Longo",
@@ -67,4 +68,26 @@ val listCatsRace = listOf(
         "Mekong Bobtail",
         "a0f385f5-c0b4-4f85-8d06-cf2a4f698f93"
     ),
+)
+val listPetSizes = listOf(
+    PetSizeItemModel(
+        id = "5b5bbd95-dfed-4423-be32-2e1be8555938",
+        name = "Médio (15 à 24Kg)",
+        specieId = "2dac1e0a-5cd7-4e93-924c-0c2fe36653dc"
+    ),
+    PetSizeItemModel(
+        id = "655adc19-d163-4c38-aa8c-49a7513a67a3",
+        name = "Pequeno (6 à 14Kg)",
+        specieId = "2dac1e0a-5cd7-4e93-924c-0c2fe36653dc"
+    ),
+    PetSizeItemModel(
+        id = "5e7ea2b5-24f3-4eca-80b6-7dd91734dff6",
+        name = "Mini (Até 6Kg)",
+        specieId = "2dac1e0a-5cd7-4e93-924c-0c2fe36653dc"
+    ),
+    PetSizeItemModel(
+        id = "66178e06-cb65-422a-8786-d2038a52f3f3",
+        name = "Gigante (Acima de 45Kg)",
+        specieId = "2dac1e0a-5cd7-4e93-924c-0c2fe36653dc"
+    )
 )

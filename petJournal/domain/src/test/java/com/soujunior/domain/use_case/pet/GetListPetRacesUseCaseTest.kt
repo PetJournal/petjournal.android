@@ -4,7 +4,7 @@ import assertk.assertions.isEqualTo
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.setup.MainCoroutineRule
-import com.soujunior.domain.setup.listCatsRace
+import com.soujunior.domain.setup.listPetRaces
 import com.soujunior.domain.setup.petInformation
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -35,12 +35,12 @@ class GetListPetRacesUseCaseTest{
     @Test
     fun `successful in get list pet races`() = runBlocking {
 
-        coEvery { repository.getListPetRaces(petInformation.species ?: "Cat") } returns NetworkResult.Success(data = listCatsRace)
+        coEvery { repository.getListPetRaces(petInformation.species ?: "Cat") } returns NetworkResult.Success(data = listPetRaces)
         val getListPetRacesUseCase = GetListPetRacesUseCase(repository = repository)
 
         val result = getListPetRacesUseCase.execute(petInformation.species ?: "Cat")
 
-        assertk.assertThat(result.success.data).isEqualTo(listCatsRace)
+        assertk.assertThat(result.success.data).isEqualTo(listPetRaces)
     }
 
 }
