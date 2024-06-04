@@ -1,10 +1,12 @@
 package com.petjournal.database
 
-import com.soujunior.petjournal.ui.util.Converter.toEntity
-import com.soujunior.petjournal.ui.util.Converter.toModel
+import com.petjournal.database.converter.Converter.toEntity
+import com.petjournal.database.converter.Converter.toModel
 import com.petjournal.database.database.dao.GuardianProfileDao
 import com.petjournal.database.database.entity.GuardianProfile
 import com.petjournal.database.database.entity.PetInformation
+import com.petjournal.setup.listPetRaces
+import com.petjournal.setup.listPetSizes
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -41,6 +43,10 @@ class GuardianProfileDaoTest {
         coEvery { guardianProfileDao.getPetInformation(1) } returns petInformation.toModel()
         coEvery { guardianProfileDao.getPetInformation(2) } returns newPetInformation.toModel()
         coEvery { guardianProfileDao.updatePetInformation(newPetInformation) }
+        coEvery { guardianProfileDao.getListPetSizes("Cat") } returns listPetSizes
+        coEvery { guardianProfileDao.insertListPetSizes(any()) } returns 1L
+        coEvery { guardianProfileDao.getListPetRaces("Dog") } returns listPetRaces
+        coEvery { guardianProfileDao.insertListPetRaces(any()) } returns 1L
     }
 
     @Test
@@ -87,5 +93,39 @@ class GuardianProfileDaoTest {
 
     }
 
+    @Test
+    fun `get list pet sizes must be the same`() = runBlocking {
+        val getListPetSizes = guardianProfileDao.getListPetSizes("Cat")
+        coEvery { guardianProfileDao.getListPetSizes("Cat") }
+        assertEquals(listPetSizes.listPetSizes, getListPetSizes?.listPetSizes)
+    }
 
+    @Test
+    fun `insert and get list Pet Sizes`() = runBlocking {
+        val insertListPetSizes = guardianProfileDao.insertListPetSizes(listPetSizes)
+        coEvery { guardianProfileDao.insertListPetSizes(listPetSizes) }
+        assertEquals(1L, insertListPetSizes)
+
+        val retrievedListPetSizes = guardianProfileDao.getListPetSizes("Cat")
+        coVerify { guardianProfileDao.getListPetSizes("Cat") }
+        assertEquals(listPetSizes, retrievedListPetSizes)
+    }
+
+    @Test
+    fun `get list pet races must be the same`() = runBlocking {
+        val getListPetRaces = guardianProfileDao.getListPetRaces("Dog")
+        coEvery { guardianProfileDao.getListPetRaces("Dog") }
+        assertEquals(listPetRaces.listPetRaces, getListPetRaces?.listPetRaces)
+    }
+
+    @Test
+    fun `insert and get list Pet Races`() = runBlocking {
+        val insertListPetRaces = guardianProfileDao.insertListPetRaces(listPetRaces)
+        coEvery { guardianProfileDao.insertListPetRaces(listPetRaces) }
+        assertEquals(1L, insertListPetRaces)
+
+        val retrievedListPetRaces = guardianProfileDao.getListPetRaces("Dog")
+        coVerify { guardianProfileDao.getListPetRaces("Dog") }
+        assertEquals(listPetRaces.listPetRaces, retrievedListPetRaces?.listPetRaces)
+    }
 }
