@@ -3,6 +3,7 @@ package com.soujunior.domain.use_case.pet
 import assertk.assertions.isEqualTo
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.setup.CAT
 import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.setup.listPetRaces
 import com.soujunior.domain.setup.petInformation
@@ -22,12 +23,12 @@ class GetListPetRacesUseCaseTest{
 
     @Test
     fun `failure get list pet races`() = runBlocking {
-        coEvery { repository.getListPetRaces(petInformation.species ?: "Cat") } returns NetworkResult.Exception(
+        coEvery { repository.getListPetRaces(petInformation.species ?: CAT) } returns NetworkResult.Exception(
             Throwable()
         )
         val getListPetRacesUseCase = GetListPetRacesUseCase(repository = repository)
 
-        val result = getListPetRacesUseCase.execute(petInformation.species ?: "Cat")
+        val result = getListPetRacesUseCase.execute(petInformation.species ?: CAT)
 
         assertk.assertThat(result.isFailure).isEqualTo(true)
     }
@@ -35,10 +36,10 @@ class GetListPetRacesUseCaseTest{
     @Test
     fun `successful in get list pet races`() = runBlocking {
 
-        coEvery { repository.getListPetRaces(petInformation.species ?: "Cat") } returns NetworkResult.Success(data = listPetRaces)
+        coEvery { repository.getListPetRaces(petInformation.species ?: CAT) } returns NetworkResult.Success(data = listPetRaces)
         val getListPetRacesUseCase = GetListPetRacesUseCase(repository = repository)
 
-        val result = getListPetRacesUseCase.execute(petInformation.species ?: "Cat")
+        val result = getListPetRacesUseCase.execute(petInformation.species ?: CAT)
 
         assertk.assertThat(result.success.data).isEqualTo(listPetRaces)
     }

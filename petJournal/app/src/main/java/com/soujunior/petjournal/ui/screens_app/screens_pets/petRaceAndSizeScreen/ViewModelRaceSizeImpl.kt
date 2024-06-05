@@ -13,6 +13,12 @@ import com.soujunior.domain.use_case.pet.GetListPetSizesUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.util.Constants.CAT
+import com.soujunior.petjournal.ui.util.Constants.DOG
+import com.soujunior.petjournal.ui.util.Constants.ERROR_MESSAGE
+import com.soujunior.petjournal.ui.util.Constants.OTHER_RACE
+import com.soujunior.petjournal.ui.util.Constants.RACE_OTHER
+import com.soujunior.petjournal.ui.util.Constants.SUCCESS_MESSAGE
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,15 +50,11 @@ class ViewModelRaceSizeImpl(
             specie = petInformationModel.species ?: "", idPetInformation = petInformationModel.id,
             name = petInformationModel.name ?: "", gender = petInformationModel.gender ?: ""
         )
-
-
-        requestGetListRaces()
-        requestGetListSizes()
-
         viewModelScope.launch {
-            validationEventChannel.send(ValidationEvent.Success)
+            launch { requestGetListRaces() }
+            launch { requestGetListSizes() }
         }
-        _message.value = "Sucesso"
+        _message.value = SUCCESS_MESSAGE
     }
 
     override fun successGetPetSizes(listPetSizes: List<PetSizeItemModel>) {
@@ -60,15 +62,15 @@ class ViewModelRaceSizeImpl(
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
-        _message.value = "Sucesso"
+        _message.value = SUCCESS_MESSAGE
     }
 
     override fun successGetPetRaces(listPetRaces: List<PetRaceItemModel>) {
         val listPetRaceFormat = mutableListOf<PetRaceItemModel>()
 
         listPetRaces.forEach { item ->
-            val modifiedItem = if (item.name.startsWith("Outra raça")) {
-                item.copy(name = "Outro")
+            val modifiedItem = if (item.name.startsWith(OTHER_RACE)) {
+                item.copy(name = RACE_OTHER)
             } else {
                 item
             }
@@ -79,14 +81,14 @@ class ViewModelRaceSizeImpl(
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
-        _message.value = "Sucesso"
+        _message.value = SUCCESS_MESSAGE
     }
 
     override fun failed(exception: Throwable?) {
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Failed)
         }
-        _message.value = "Error"
+        _message.value = ERROR_MESSAGE
     }
 
     override fun onEvent(event: RaceSizeFormEvent) {
@@ -134,7 +136,7 @@ class ViewModelRaceSizeImpl(
     }
 
     override fun enableRace(): Boolean {
-        return state.specie == "Cat" || state.specie == "Dog"
+        return state.specie == CAT || state.specie == DOG
     }
 
     override fun change(petRace: String?, petSize: String?, petRaceOthers: String?) {
@@ -176,7 +178,7 @@ class ViewModelRaceSizeImpl(
 
     override fun updatePetInformation() {
 
-        val petRace = if (state.race.lowercase() == "outro") state.raceOthers else state.race
+        val petRace = if (state.race.lowercase() == RACE_OTHER) state.raceOthers else state.race
 
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
@@ -201,29 +203,26 @@ class ViewModelRaceSizeImpl(
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
-        _message.value = "Sucesso"
+        _message.value = SUCCESS_MESSAGE
     }
 
-    override fun requestGetListSizes() {
+    override suspend fun requestGetListSizes() {
         _taskState.value = TaskState.Loading
-        if (state.specie == "Cat" || state.specie == "Dog") {
-            viewModelScope.launch {
-                val result = getListPetSizesUseCase.execute(state.specie)
-                result.handleResult(::successGetPetSizes, ::failed)
-                _taskState.value = TaskState.Idle
-            }
+        if (state.specie == CAT || state.specie == DOG) {
+            val result = getListPetSizesUseCase.execute(state.specie)
+            result.handleResult(::successGetPetSizes, ::failed)
+            _taskState.value = TaskState.Idle
+
         }
 
     }
 
-    override fun requestGetListRaces() {
+    override suspend fun requestGetListRaces() {
         _taskState.value = TaskState.Loading
-        if (state.specie == "Cat" || state.specie == "Dog") {
-            viewModelScope.launch {
-                val result = getListPetRacesUseCase.execute(state.specie)
-                result.handleResult(::successGetPetRaces, ::failed)
-                _taskState.value = TaskState.Idle
-            }
+        if (state.specie == CAT || state.specie == DOG) {
+            val result = getListPetRacesUseCase.execute(state.specie)
+            result.handleResult(::successGetPetRaces, ::failed)
+            _taskState.value = TaskState.Idle
         }
     }
 

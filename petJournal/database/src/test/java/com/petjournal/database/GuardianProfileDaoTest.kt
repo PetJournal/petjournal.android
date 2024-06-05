@@ -4,9 +4,13 @@ import com.petjournal.database.converter.Converter.toEntity
 import com.petjournal.database.converter.Converter.toModel
 import com.petjournal.database.database.dao.GuardianProfileDao
 import com.petjournal.database.database.entity.GuardianProfile
-import com.petjournal.database.database.entity.PetInformation
+import com.petjournal.setup.CAT
+import com.petjournal.setup.DOG
 import com.petjournal.setup.listPetRaces
 import com.petjournal.setup.listPetSizes
+import com.petjournal.setup.newPetInformation
+import com.petjournal.setup.petInformation
+import com.petjournal.setup.profile
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -17,23 +21,7 @@ import org.junit.Test
 
 class GuardianProfileDaoTest {
     private val guardianProfileDao: GuardianProfileDao = mockk()
-    private val profile = GuardianProfile(
-        firstName = null
-    )
-    private val petInformation = PetInformation(
-        species = "Dog",
-        guardianId = 1
-    )
-    private val newPetInformation = PetInformation(
-        id = 2,
-        species = "Cat",
-        name = "Bolinha",
-        gender = "F",
-        size = "Pequeno",
-        petRace = "Akita",
-        petAge = "10/10/2010",
-        guardianId = 1
-    )
+
 
     @Before
     fun setUp() {
@@ -43,9 +31,9 @@ class GuardianProfileDaoTest {
         coEvery { guardianProfileDao.getPetInformation(1) } returns petInformation.toModel()
         coEvery { guardianProfileDao.getPetInformation(2) } returns newPetInformation.toModel()
         coEvery { guardianProfileDao.updatePetInformation(newPetInformation) }
-        coEvery { guardianProfileDao.getListPetSizes("Cat") } returns listPetSizes
+        coEvery { guardianProfileDao.getListPetSizes(CAT) } returns listPetSizes
         coEvery { guardianProfileDao.insertListPetSizes(any()) } returns 1L
-        coEvery { guardianProfileDao.getListPetRaces("Dog") } returns listPetRaces
+        coEvery { guardianProfileDao.getListPetRaces(DOG) } returns listPetRaces
         coEvery { guardianProfileDao.insertListPetRaces(any()) } returns 1L
     }
 
@@ -95,8 +83,8 @@ class GuardianProfileDaoTest {
 
     @Test
     fun `get list pet sizes must be the same`() = runBlocking {
-        val getListPetSizes = guardianProfileDao.getListPetSizes("Cat")
-        coEvery { guardianProfileDao.getListPetSizes("Cat") }
+        val getListPetSizes = guardianProfileDao.getListPetSizes(CAT)
+        coEvery { guardianProfileDao.getListPetSizes(CAT) }
         assertEquals(listPetSizes.listPetSizes, getListPetSizes?.listPetSizes)
     }
 
@@ -106,15 +94,15 @@ class GuardianProfileDaoTest {
         coEvery { guardianProfileDao.insertListPetSizes(listPetSizes) }
         assertEquals(1L, insertListPetSizes)
 
-        val retrievedListPetSizes = guardianProfileDao.getListPetSizes("Cat")
-        coVerify { guardianProfileDao.getListPetSizes("Cat") }
+        val retrievedListPetSizes = guardianProfileDao.getListPetSizes(CAT)
+        coVerify { guardianProfileDao.getListPetSizes(CAT) }
         assertEquals(listPetSizes, retrievedListPetSizes)
     }
 
     @Test
     fun `get list pet races must be the same`() = runBlocking {
-        val getListPetRaces = guardianProfileDao.getListPetRaces("Dog")
-        coEvery { guardianProfileDao.getListPetRaces("Dog") }
+        val getListPetRaces = guardianProfileDao.getListPetRaces(DOG)
+        coEvery { guardianProfileDao.getListPetRaces(DOG) }
         assertEquals(listPetRaces.listPetRaces, getListPetRaces?.listPetRaces)
     }
 
@@ -124,8 +112,8 @@ class GuardianProfileDaoTest {
         coEvery { guardianProfileDao.insertListPetRaces(listPetRaces) }
         assertEquals(1L, insertListPetRaces)
 
-        val retrievedListPetRaces = guardianProfileDao.getListPetRaces("Dog")
-        coVerify { guardianProfileDao.getListPetRaces("Dog") }
+        val retrievedListPetRaces = guardianProfileDao.getListPetRaces(DOG)
+        coVerify { guardianProfileDao.getListPetRaces(DOG) }
         assertEquals(listPetRaces.listPetRaces, retrievedListPetRaces?.listPetRaces)
     }
 }

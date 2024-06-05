@@ -1,9 +1,32 @@
 package com.petjournal.setup
 
+import com.petjournal.database.database.entity.GuardianProfile
 import com.petjournal.database.database.entity.ListPetRaces
 import com.petjournal.database.database.entity.ListPetSizes
+import com.petjournal.database.database.entity.PetInformation
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
+
+const val DOG = "Dog"
+const val CAT = "Cat"
+
+val profile = GuardianProfile(
+    firstName = null
+)
+val petInformation = PetInformation(
+    species = DOG,
+    guardianId = 1
+)
+val newPetInformation = PetInformation(
+    id = 2,
+    species = CAT,
+    name = "Bolinha",
+    gender = "F",
+    size = "Pequeno",
+    petRace = "Akita",
+    petAge = "10/10/2010",
+    guardianId = 1
+)
 
 
 val listPetRaceModel = listOf(

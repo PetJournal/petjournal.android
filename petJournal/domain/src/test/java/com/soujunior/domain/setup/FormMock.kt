@@ -91,3 +91,4 @@ val listPetSizes = listOf(
         specieId = "2dac1e0a-5cd7-4e93-924c-0c2fe36653dc"
     )
 )
+const val CAT = "Cat"
