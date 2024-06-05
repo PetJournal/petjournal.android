@@ -27,6 +27,9 @@ interface GuardianProfileDao {
     @Query("SELECT * FROM pet_information WHERE id = :id")
     suspend fun getPetInformation(id: Long): PetInformationModel
 
+    @Query("SELECT * FROM pet_information")
+    suspend fun getAllPetInformation() : List<PetInformationModel>
+
     @Update
     fun updatePetInformation(petInformation: PetInformation)
 

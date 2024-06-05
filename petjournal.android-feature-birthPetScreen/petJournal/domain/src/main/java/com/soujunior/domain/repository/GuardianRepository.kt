@@ -10,4 +10,6 @@ interface GuardianRepository {
     suspend fun savePetInformation(petInformationModel: PetInformationModel): DataResult<Long>
     suspend fun getPetInformation(idPetInformation: Long): DataResult<PetInformationModel>
     suspend fun updatePetInformation(petInformationModel: PetInformationModel) : DataResult<Unit>
+
+    suspend fun getAllPetInformation(): DataResult<List<PetInformationModel>>
 }

@@ -106,5 +106,5 @@ private fun buildString(screens: List<String>, index: Int): AnnotatedString{
 @Preview
 @Composable
 private fun PreviewScreenIndicator(){
-    Breadcrumb(index = 2)
+    Breadcrumb(index = 1)
 }

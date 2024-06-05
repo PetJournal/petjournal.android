@@ -11,18 +11,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class ViewModelRegisteredPets : ViewModel() {
-    abstract var state: RegisteredPetFormState
+//    abstract var state: RegisteredPetFormState
     abstract val validationEventChannel: Channel<ValidationEvent>
-    abstract val message: StateFlow<String>
     abstract val taskState: StateFlow<TaskState>
-//    abstract val petList: StateFlow<List<RegisteredPetFormEvent>>
-open val validationEvents: Flow<ValidationEvent>
-    get() = validationEventChannel.receiveAsFlow()
+    open val validationEvents: Flow<ValidationEvent>
+        get() = validationEventChannel.receiveAsFlow()
 
-    abstract fun success(petInformationModel: PetInformationModel)
+    abstract fun success(petList: List<PetInformationModel>)
     abstract fun failed(exception: Throwable?)
     abstract fun onEvent(event: RegisteredPetFormEvent)
-    abstract fun enableButton(): Boolean
-    abstract fun change()
-    abstract fun getPetInformation(id: Long)
+    abstract fun getAllPetInformation()
 }
