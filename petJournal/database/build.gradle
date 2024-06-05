@@ -1,16 +1,15 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
 }
 
 android {
     namespace 'com.petjournal.database'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
-        minSdk 24
-        targetSdk 33
+        minSdk 27
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -38,7 +37,9 @@ android {
 }
 dependencies {
     implementation(project(":domain"))
-    kapt 'androidx.room:room-compiler:2.4.3'
+//    kapt 'androidx.room:room-compiler:2.4.3'
+    ksp 'androidx.room:room-compiler:2.4.3'
+
     def dependencies = rootProject.ext.dependencies
     implementation dependencies.roomRuntime
     implementation dependencies.roomKtx

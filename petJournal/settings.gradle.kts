@@ -10,10 +10,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://jitpack.io")
     }
 }
+
 rootProject.name = "PetJournal"
-include ':app'
-include ':data'
-include ':domain'
-include ':database'
+include (":app")
+include (":data")
+include (":domain")
+include (":database")
