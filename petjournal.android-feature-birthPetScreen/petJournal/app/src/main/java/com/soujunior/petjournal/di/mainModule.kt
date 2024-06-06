@@ -28,6 +28,7 @@ import com.soujunior.domain.use_case.auth.SignUpUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.guardian.GetPetRegistrationWentLive
 import com.soujunior.domain.use_case.guardian.SetPetRegistrationWentLive
+import com.soujunior.domain.use_case.pet.GetAllPetInformationUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
@@ -52,6 +53,8 @@ import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.ViewModel
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.ViewModelNameGenderImpl
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.ViewModelRaceSize
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
+import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.ViewModelRegisteredPets
+import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.ViewModelRegisteredPetsImpl
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.ViewModelChoiceSpecies
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.ViewModelChoiceSpeciesImpl
 import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashViewModel
@@ -99,6 +102,7 @@ val mainModule = module {
     factory { SetPetRegistrationWentLive(get()) }
     factory { SavePetInformationUseCase(get()) }
     factory { GetPetInformationUseCase(get()) }
+    factory { GetAllPetInformationUseCase(get()) }
     factory { UpdatePetInformationUseCase(get()) }
 
     single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
@@ -130,6 +134,7 @@ val mainModule = module {
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
     viewModel { SplashViewModel(get()) }
     viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get(), get()) }
+    viewModel<ViewModelRegisteredPets> { ViewModelRegisteredPetsImpl(get(), get()) }
     viewModel<ViewModelNameGender> {ViewModelNameGenderImpl(get(), get(), get())}
     viewModel<ViewModelBirthDate> {ViewModelBirthDateImpl(get(), get(), get())}
     viewModel<ViewModelRaceSize> {ViewModelRaceSizeImpl(get(), get(), get())}

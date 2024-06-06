@@ -16,9 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.soujunior.domain.model.PetInformationModel
 
 @Composable
-fun PetItemCard(){
+fun PetItemCard(info : PetInformationModel){
     /*Nome, Raça, imagem com a espécie*/
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -35,8 +36,8 @@ fun PetItemCard(){
             .fillMaxWidth()
             .padding(16.dp)) {
             Column() {
-                Text(text = "Teste do nome do Pet", fontSize = 15.sp)
-                Text(text = "Teste da raça do Pet", fontSize = 12.sp)
+                info.name?.let { Text(text = it, fontSize = 15.sp) }
+                info.petRace?.let { Text(text = it, fontSize = 12.sp) }
             }
         }
     }
@@ -45,5 +46,6 @@ fun PetItemCard(){
 @Preview
 @Composable
 private fun previewPetItemCard(){
-    PetItemCard()
+    val petItem = PetInformationModel(0, name = "Jake Tesouro", petRace = "Pointer")
+    PetItemCard(petItem)
 }

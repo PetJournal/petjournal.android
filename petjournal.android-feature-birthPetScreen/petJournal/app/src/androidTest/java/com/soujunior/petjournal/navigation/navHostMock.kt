@@ -31,7 +31,7 @@ fun NavHostMock(navController: NavHostController, startDestination: String) {
         composable("pets/RaceAndSize/{arg}"){
                 navBackStackEntry ->
             PetRaceAndSizeScreen(
-                petName = navBackStackEntry.arguments?.getString("arg"),
+                idPetInformation  = navBackStackEntry.arguments?.getString("arg"),
                 navController = navController)
         }
     }

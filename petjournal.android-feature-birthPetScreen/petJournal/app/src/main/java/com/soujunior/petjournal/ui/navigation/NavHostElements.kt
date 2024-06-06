@@ -15,6 +15,7 @@ import com.soujunior.petjournal.ui.appArea.pets.introRegisterPetScreen.RegisterP
 import com.soujunior.petjournal.ui.appArea.pets.petBirthDateScreen.PetBirthScreen
 import com.soujunior.petjournal.ui.appArea.pets.petNameAndGenderScreen.PetNameAndGenderScreen
 import com.soujunior.petjournal.ui.appArea.pets.petRaceAndSizeScreen.PetRaceAndSizeScreen
+import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.RegisteredPetScreen
 import com.soujunior.petjournal.ui.appArea.pets.speciesChoiceScreen.SpeciesChoiceScreen
 import com.soujunior.petjournal.ui.appArea.tutor.tutorScreen.TutorScreen
 import com.soujunior.petjournal.ui.apresentation.splashScreen.SplashScreen
@@ -52,6 +53,7 @@ fun NavHostMainContent() {
         composable("home") { HomeScreen(navController) }
         composable("accountManager") { AccountManager() }
         composable("tutorScreen") { TutorScreen(navController) }
+        composable("pets/registeredPets"){ RegisteredPetScreen(navController)}
         composable("pets/introRegisterPet") { RegisterPetScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
         composable("pets/nameAndGender/{arg}") { backStackEntry ->

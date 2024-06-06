@@ -25,8 +25,10 @@ class ViewModelRegisteredPetsImpl(
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> get() = _taskState
 
-    var registeredPets by mutableStateOf<List<PetInformationModel>>(emptyList())
-
+    override var registeredPets by mutableStateOf<List<PetInformationModel>>(emptyList())
+    init {
+        getAllPetInformation()
+    }
     override fun success(petList: List<PetInformationModel>) {
         registeredPets = petList
         viewModelScope.launch {
