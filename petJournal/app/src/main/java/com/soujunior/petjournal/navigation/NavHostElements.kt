@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.RegisteredPetScreen
 import com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.screens_app.screens_pets.introRegisterPetScreen.RegisterPetScreen
 import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.PetBirthScreen
@@ -53,6 +54,7 @@ fun NavHostMainContent() {
         composable("account_manager") { AccountManager() }
         composable("tutorScreen") { TutorScreen(navController) }
         composable("pets/introRegisterPet") { RegisterPetScreen(navController) }
+        composable("pets/registeredPets") { RegisteredPetScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
 
         composable("pets/nameAndGender/{arg}") { backStackEntry ->

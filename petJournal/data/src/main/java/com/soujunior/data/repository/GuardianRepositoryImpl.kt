@@ -72,5 +72,11 @@ class GuardianRepositoryImpl(
         }
     }
 
-
+    override suspend fun getAllPetInformation(): DataResult<List<PetInformationModel>> {
+        return try {
+            DataResult.Success(guardianLocalDataSourceImpl.getAllPetInformation().success.data)
+        }catch (e: Throwable){
+            DataResult.Failure(e)
+        }
+    }
 }

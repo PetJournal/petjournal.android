@@ -18,7 +18,8 @@ sealed class NavigationBarItems(
 
     object Pets : NavigationBarItems(
         title = "pets",
-        route = "pets/introRegisterPet",
+        route = "pets/registeredPets",
+//        route = "pets/introRegisterPet",
         icons = R.drawable.pets_button_bar,
         group = "pets"
     )
