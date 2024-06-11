@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +37,7 @@ fun ScaffoldCustom(
     showActions: Boolean = false,
     showButtonToReturn: Boolean = false,
     showBottomBarNavigation: Boolean = false,
+    floatingActionButton: @Composable RowScope.() -> Unit = { FloatingActionButton({}){}},
     navigationUp: NavController,
     bottomNavigationBar: @Composable () -> Unit = {},
     contentToUse: @Composable (PaddingValues) -> Unit = {},
@@ -132,9 +134,11 @@ fun ScaffoldCustom(
                                 .fillMaxWidth(),
                                 contentAlignment = Center){
                                 ImageLogo(
-                                    modifier = Modifier.size(
-                                        width = 100.dp,
-                                        height = 100.dp)
+                                    modifier = Modifier
+                                        .size(
+                                            width = 100.dp,
+                                            height = 100.dp
+                                        )
                                         .padding(8.dp),
                                     isBlack = false)
                             }

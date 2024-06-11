@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.pet.GetAllPetInformationUseCase
-import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -27,7 +26,8 @@ class ViewModelRegisteredPetsImpl(
 
     override var registeredPets by mutableStateOf<List<PetInformationModel>>(emptyList())
     init {
-        getAllPetInformation()
+        _taskState.value = TaskState.Loading
+//        getAllPetInformation()
     }
     override fun success(petList: List<PetInformationModel>) {
         registeredPets = petList
@@ -37,7 +37,9 @@ class ViewModelRegisteredPetsImpl(
     }
 
     override fun failed(exception: Throwable?) {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+            validationEventChannel.send(ValidationEvent.Failed)
+        }
     }
 
     override fun onEvent(event: RegisteredPetFormEvent) {

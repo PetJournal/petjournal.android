@@ -25,15 +25,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateFormEvent
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateViewModel
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DateInputText
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.mask.formatDate
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateFormEvent
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateViewModel
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
