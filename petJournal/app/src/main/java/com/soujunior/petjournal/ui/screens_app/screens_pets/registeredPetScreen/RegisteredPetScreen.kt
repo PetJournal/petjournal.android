@@ -20,21 +20,12 @@ import org.koin.androidx.compose.getViewModel
 fun RegisteredPetScreen(navController: NavController){
     val viewModel : ViewModelRegisteredPets = getViewModel()
     val taskState by viewModel.taskState.collectAsState()
-    var requested by remember { mutableStateOf(false) }
-
-    if(!requested) {
-        viewModel.getAllPetInformation()
-        requested = true
-    }
 
     Box {
         if (taskState is TaskState.Loading)
             IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.Center))
         else {
-            if (viewModel.registeredPets.isEmpty())
-                navController.navigate("pets/introRegisterPet")
-            else
-                Screen(navController, viewModel.registeredPets)
+            Screen(navController, viewModel.registeredPets)
         }
     }
 }

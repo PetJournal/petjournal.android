@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen
+package com.soujunior.petjournal.ui.screens_app.screens_pets.registeredPetScreen
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.pet.GetAllPetInformationUseCase
+import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.RegisteredPetFormEvent
+import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.ViewModelRegisteredPets
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -27,7 +29,7 @@ class ViewModelRegisteredPetsImpl(
     override var registeredPets by mutableStateOf<List<PetInformationModel>>(emptyList())
     init {
         _taskState.value = TaskState.Loading
-//        getAllPetInformation()
+        getAllPetInformation()
     }
     override fun success(petList: List<PetInformationModel>) {
         registeredPets = petList

@@ -37,7 +37,7 @@ fun ScaffoldCustom(
     showActions: Boolean = false,
     showButtonToReturn: Boolean = false,
     showBottomBarNavigation: Boolean = false,
-    floatingActionButton: @Composable RowScope.() -> Unit = { FloatingActionButton({}){}},
+    floatingActionButton: @Composable () -> Unit = {},
     navigationUp: NavController,
     bottomNavigationBar: @Composable () -> Unit = {},
     contentToUse: @Composable (PaddingValues) -> Unit = {},
@@ -96,6 +96,7 @@ fun ScaffoldCustom(
                 bottomNavigationBar()
             }
         },
+        floatingActionButton = floatingActionButton ,
         content = { it ->
             contentToUse(it)
         },
@@ -107,7 +108,7 @@ fun ScaffoldCustom(
 //This scaffold is customized to Design 2.0?
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldCustom(
+fun ScaffoldCustom2(
    isLoading: Boolean = false,
    shadowBelowTopBar: Dp = 4.dp,
    showTopBar: Boolean = false,
