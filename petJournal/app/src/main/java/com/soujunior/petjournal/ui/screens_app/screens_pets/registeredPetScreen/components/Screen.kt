@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.registeredPetScreen.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -14,22 +16,30 @@ import androidx.compose.material.icons.filled.Deck
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.petjournal.ui.components.DeleteDialog
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.PetItemCard
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Screen(navController: NavController,
            registeredPetsList: List<PetInformationModel>){
 
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     ScaffoldCustom( modifier = Modifier.navigationBarsPadding(),
         navigationUp = navController,
@@ -62,17 +72,44 @@ fun Screen(navController: NavController,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(it)){
+
                 items(items = registeredPetsList,
                     itemContent = {
-                    item -> PetItemCard(item)
+                    item -> PetItemCard(
+                        item,
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(16.dp)
+                            .combinedClickable
+                                (onClick = {
+                                    /*Abrir Tela do Pet*/
+                                },
+                                onLongClick = {
+                                    showDeleteDialog = true
+                                })
+                    )
                 })
             }
         })
+
+    if(showDeleteDialog){
+        DeleteDialog(
+            onDismissRequest = { showDeleteDialog = false },
+            onConfirmation = { showDeleteDialog = false },
+            dialogTitle = "Deletar Card",
+            dialogText = "Deseja mesmo deletar as informações deste pet?"
+        )
+    }
 }
 
 @Composable
 @Preview
 private fun PreviewScreen(){
+    val registeredPetsList = listOf(
+        PetInformationModel(0, name = "Jake Tesouro", petRace = "Pointer", petAge = "10", gender = "F"),
+        PetInformationModel(1, name = "Jake Tesouro", petRace = "Pointer", petAge = "10", gender = "M"),
+        PetInformationModel(2, name = "Jake Tesouro", petRace = "Pointer", petAge = "10", gender = "F")
+    )
     Screen(navController = NavController(context = LocalContext.current),
-        registeredPetsList = emptyList())
+        registeredPetsList = registeredPetsList)
 }
+
