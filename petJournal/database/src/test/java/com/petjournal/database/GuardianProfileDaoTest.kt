@@ -30,7 +30,8 @@ class GuardianProfileDaoTest {
         size = "Pequeno",
         petRace = "Akita",
         petAge = "10/10/2010",
-        guardianId = 1
+        guardianId = 1,
+        castration = true
     )
 
     @Before

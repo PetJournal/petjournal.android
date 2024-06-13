@@ -38,6 +38,7 @@ val perInformation = PetInformationModel(
     size = "Pequeno",
     petRace = "Akita",
     petAge = "12122012",
-    guardianId = 1
+    guardianId = 1,
+    castration = true
 )
 
