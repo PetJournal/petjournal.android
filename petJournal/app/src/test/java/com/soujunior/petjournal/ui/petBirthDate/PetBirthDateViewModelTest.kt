@@ -224,7 +224,7 @@ class PetBirthDateViewModelTest {
         assertEquals(null, viewModelTest.state.castrationError)
     }
     @Test
-    fun `must accept castration string when passed N`() {
+    fun `must accept castration string when passed false`() {
         val newCastration = false
 
         every {
@@ -267,6 +267,7 @@ class PetBirthDateViewModelTest {
         assertEquals(perInformation.species, viewModelTest.state.specie)
         assertEquals(perInformation.petRace, viewModelTest.state.race)
         assertEquals(perInformation.size, viewModelTest.state.size)
+        assertEquals(perInformation.castration, viewModelTest.state.castration)
         assertEquals("Sucesso", viewModelTest.message.value)
     }
     @Test
