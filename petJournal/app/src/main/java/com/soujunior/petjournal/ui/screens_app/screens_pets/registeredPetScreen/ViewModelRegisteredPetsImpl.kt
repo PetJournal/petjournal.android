@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.repository.ValidationRepository
+import com.soujunior.domain.use_case.pet.DeletePetInformationUseCase
 import com.soujunior.domain.use_case.pet.GetAllPetInformationUseCase
 import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.RegisteredPetFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.ViewModelRegisteredPets
@@ -19,6 +20,7 @@ import kotlinx.coroutines.launch
 class ViewModelRegisteredPetsImpl(
     val validation: ValidationRepository,
     private val getAllPetInformationUseCase: GetAllPetInformationUseCase,
+    private val deletePetInformationUseCase: DeletePetInformationUseCase
 ) : ViewModelRegisteredPets() {
 
     override val validationEventChannel get() = Channel<ValidationEvent>()
@@ -53,6 +55,19 @@ class ViewModelRegisteredPetsImpl(
             _taskState.value = TaskState.Loading
             val result = getAllPetInformationUseCase.execute(Unit)
             result.handleResult(::success, ::failed)
+            _taskState.value = TaskState.Idle
+        }
+    }
+
+    override fun deletePetInformation(petId: Long) {
+        viewModelScope.launch {
+            _taskState.value = TaskState.Loading
+            val result = deletePetInformationUseCase.execute(petId)
+            result.handleResult({
+                viewModelScope.launch {
+                    validationEventChannel.send(ValidationEvent.Success)
+                }
+            }, ::failed)
             _taskState.value = TaskState.Idle
         }
     }

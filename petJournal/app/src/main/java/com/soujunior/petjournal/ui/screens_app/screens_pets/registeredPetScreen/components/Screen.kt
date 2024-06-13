@@ -94,7 +94,7 @@ fun Screen(navController: NavController,
     if(showDeleteDialog){
         DeleteDialog(
             onDismissRequest = { showDeleteDialog = false },
-            onConfirmation = { showDeleteDialog = false },
+            onConfirmation = {  },
             dialogTitle = "Deletar Card",
             dialogText = "Deseja mesmo deletar as informações deste pet?"
         )

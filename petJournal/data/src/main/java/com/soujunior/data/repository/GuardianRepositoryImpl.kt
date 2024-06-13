@@ -72,6 +72,14 @@ class GuardianRepositoryImpl(
         }
     }
 
+    override suspend fun deletePetInformation(idPetInformation: Long): DataResult<Unit> {
+        return try{
+            DataResult.Success(guardianLocalDataSourceImpl.deletePetInformation(idPetInformation).success.data)
+        }catch (e: Throwable){
+            DataResult.Failure(e)
+        }
+    }
+
     override suspend fun getAllPetInformation(): DataResult<List<PetInformationModel>> {
         return try {
             DataResult.Success(guardianLocalDataSourceImpl.getAllPetInformation().success.data)

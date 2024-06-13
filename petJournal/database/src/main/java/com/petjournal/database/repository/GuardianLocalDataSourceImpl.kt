@@ -54,6 +54,15 @@ class GuardianLocalDataSourceImpl(
             DataResult.Failure(e)
         }
     }
+
+    override suspend fun deletePetInformation(id: Long): DataResult<Unit> {
+        return try {
+            DataResult.Success(guardianDao.deletePetInformation(id))
+        } catch (e: Throwable) {
+            DataResult.Failure(e)
+        }
+    }
+
     override suspend fun getPetInformation(id: Long): DataResult<PetInformationModel> {
         return try {
             DataResult.Success(guardianDao.getPetInformation(id))

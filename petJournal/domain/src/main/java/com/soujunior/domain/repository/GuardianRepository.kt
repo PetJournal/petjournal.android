@@ -11,5 +11,6 @@ interface GuardianRepository {
     suspend fun getPetInformation(idPetInformation: Long): DataResult<PetInformationModel>
     suspend fun updatePetInformation(petInformationModel: PetInformationModel) : DataResult<Unit>
 
+    suspend fun deletePetInformation(idPetInformation: Long): DataResult<Unit>
     suspend fun getAllPetInformation(): DataResult<List<PetInformationModel>>
 }

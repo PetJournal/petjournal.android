@@ -30,6 +30,9 @@ interface GuardianProfileDao {
     @Query("SELECT * FROM pet_information")
     suspend fun getAllPetInformation() : List<PetInformationModel>
 
+    @Query("DELETE FROM pet_information WHERE id =:id")
+    suspend fun deletePetInformation(id: Long)
+
     @Update
     fun updatePetInformation(petInformation: PetInformation)
 

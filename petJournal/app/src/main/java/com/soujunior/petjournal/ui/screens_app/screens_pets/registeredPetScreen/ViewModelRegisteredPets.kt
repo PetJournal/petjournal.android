@@ -20,4 +20,5 @@ abstract class ViewModelRegisteredPets : ViewModel() {
     abstract fun failed(exception: Throwable?)
     abstract fun onEvent(event: RegisteredPetFormEvent)
     abstract fun getAllPetInformation()
+    abstract fun deletePetInformation(petId: Long)
 }
