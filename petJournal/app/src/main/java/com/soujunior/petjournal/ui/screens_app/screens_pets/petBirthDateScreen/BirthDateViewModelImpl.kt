@@ -37,8 +37,7 @@ class BirthDateViewModelImpl(
             name = petInformationModel.name ?: "",
             gender = petInformationModel.gender ?: "",
             size = petInformationModel.size ?: "",
-            race = petInformationModel.petRace ?: "",
-            castration = petInformationModel.castration ?: ""
+            race = petInformationModel.petRace ?: ""
         )
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
@@ -69,7 +68,7 @@ class BirthDateViewModelImpl(
         return state.birthError.isNullOrEmpty() && state.castrationError.isNullOrEmpty()
     }
 
-    override fun change(petBirth: String?, idPetInformation: Long?, petCastration: String?) {
+    override fun change(petBirth: String?, idPetInformation: Long?, petCastration: Boolean?) {
         when {
             petBirth != null -> {
                 state = state.copy(birth = petBirth)
@@ -77,7 +76,7 @@ class BirthDateViewModelImpl(
                 state = if (result.success) state.copy(birthError = null)
                 else state.copy(birthError = result.errorMessage)
             }
-            petCastration != null -> {
+            petCastration == null || petCastration == true || petCastration == false-> {
                 state = state.copy(castration = petCastration)
                 val result = validation.validatePetCastration(state.castration)
                 state = if (result.success) state.copy(castrationError = null)

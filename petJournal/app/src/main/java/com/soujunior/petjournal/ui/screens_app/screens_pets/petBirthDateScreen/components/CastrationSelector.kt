@@ -30,7 +30,7 @@ import com.soujunior.petjournal.ui.components.RoundedSquare
 
 @Composable
 fun CastrationSelector(
-    selectedCastration: (String) -> Unit,
+    selectedCastration: (Boolean?) -> Unit,
     clearSelection: () -> Boolean,
     textError: List<String>? = null,
     textNamePet: String = "Bolinha"
@@ -63,7 +63,7 @@ fun CastrationSelector(
 
 @Composable
 private fun CastrationButtons(
-    selectedCastration: (String) -> Unit,
+    selectedCastration: (Boolean?) -> Unit,
     clearSelection: () -> Boolean,
     textError: List<String>? = null,
 ) {
@@ -71,7 +71,7 @@ private fun CastrationButtons(
     var selectedItem by remember { mutableStateOf("") }
     if (clearSelection()) {
         selectedItem = ""
-        selectedCastration("")
+        selectedCastration(null)
     }
 
     Row(
@@ -98,7 +98,7 @@ private fun CastrationButtons(
             colorBackground = Color.Transparent,
             onClick = {
                 selectedItem = "S"
-                selectedCastration("S")
+                selectedCastration(true)
             }
         )
 
@@ -118,7 +118,7 @@ private fun CastrationButtons(
             colorBackground = Color.Transparent,
             onClick = {
                 selectedItem = "N"
-                selectedCastration("N")
+                selectedCastration(false)
             }
         )
     }

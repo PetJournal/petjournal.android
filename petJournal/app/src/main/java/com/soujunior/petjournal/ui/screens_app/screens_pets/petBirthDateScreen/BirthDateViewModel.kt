@@ -24,7 +24,7 @@ abstract class BirthDateViewModel : ViewModel(){
     abstract fun change(
         petBirth: String? = null,
         idPetInformation: Long? = null,
-        petCastration: String? = null
+        petCastration: Boolean? = null
     )
     abstract fun getPetInformation(id: Long)
     abstract fun updatePetInformation()

@@ -106,7 +106,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                 CastrationSelector(
                                     textNamePet = viewModel.state.name,
                                     selectedCastration = { selectedCastration ->
-                                        if (selectedCastration.isNotEmpty()) {
+                                        if (selectedCastration != null) {
                                             isClearCastration = false
                                         }
                                         viewModel.onEvent(
@@ -151,9 +151,9 @@ fun Screen(idPetInformation: String?, navController: NavController) {
 
                                             if (viewModel.enableButton() &&
                                                 viewModel.state.birth.isNotEmpty() &&
-                                                viewModel.state.castration.isNotEmpty()
+                                                viewModel.state.castration != null
                                             ) {
-                                                Log.i(TAG, viewModel.state.birth + viewModel.state.castration)
+                                                Log.i(TAG, viewModel.state.birth + viewModel.state.castration.toString())
                                                 viewModel.updatePetInformation()
                                                 //navController.navigate("pets/birth/$it")
                                             }

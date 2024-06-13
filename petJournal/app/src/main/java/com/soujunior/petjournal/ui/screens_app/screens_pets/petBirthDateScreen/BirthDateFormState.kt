@@ -9,7 +9,7 @@ data class BirthDateFormState(
     val gender: String = "",
     val size: String = "",
     val race: String = "",
-    val castration: String = "",
+    val castration: Boolean? = null,
     val castrationError: List<String>? = null
 )
 
