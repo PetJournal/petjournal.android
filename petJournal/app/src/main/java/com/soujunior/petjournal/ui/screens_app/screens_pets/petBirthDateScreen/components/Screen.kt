@@ -19,27 +19,32 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateFormEvent
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateViewModel
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DateInputText
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.mask.formatDate
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateFormEvent
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateViewModel
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun Screen(idPetInformation: String?, navController: NavController) {
     val viewModel: BirthDateViewModel = getViewModel()
+    var isClearCastration by remember { mutableStateOf(false) }
     if (idPetInformation != null) {
         viewModel.getPetInformation(idPetInformation.toLong())
         RaceSizeFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
@@ -98,6 +103,25 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                 )
                             }
                             item {
+                                CastrationSelector(
+                                    textNamePet = viewModel.state.name,
+                                    selectedCastration = { selectedCastration ->
+                                        if (selectedCastration.isNotEmpty()) {
+                                            isClearCastration = false
+                                        }
+                                        viewModel.onEvent(
+                                            BirthDateFormEvent.PetCastration(
+                                                selectedCastration
+                                            )
+                                        )
+                                    },
+                                    clearSelection = {
+                                        isClearCastration
+                                    },
+                                    textError = viewModel.state.castrationError
+                                )
+                            }
+                            item {
                                 Row(
                                     Modifier.padding(top = 80.dp)
                                 ) {
@@ -126,10 +150,11 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                             )
 
                                             if (viewModel.enableButton() &&
-                                                viewModel.state.birth.isNotEmpty()
+                                                viewModel.state.birth.isNotEmpty() &&
+                                                viewModel.state.castration.isNotEmpty()
                                             ) {
                                                 Log.i(TAG, viewModel.state.birth)
-                                                viewModel.updatePetInformation()
+                                                //viewModel.updatePetInformation()
                                                 //navController.navigate("pets/birth/$it")
                                             }
                                         },

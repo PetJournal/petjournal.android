@@ -37,8 +37,8 @@ class BirthDateViewModelImpl(
             name = petInformationModel.name ?: "",
             gender = petInformationModel.gender ?: "",
             size = petInformationModel.size ?: "",
-            race = petInformationModel.petRace ?: ""
-
+            race = petInformationModel.petRace ?: "",
+            castration = ""
         )
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
@@ -58,22 +58,33 @@ class BirthDateViewModelImpl(
             is BirthDateFormEvent.PetBirthDate -> change(petBirth = event.petBirth)
             is BirthDateFormEvent.IdPetInformation -> change(idPetInformation = event.idPetInformation)
             is BirthDateFormEvent.NextButton -> {
+                change(petCastration = state.castration)
                 change(petBirth = state.birth)
             }
+            is BirthDateFormEvent.PetCastration -> change(petCastration = event.petCastration)
         }
     }
 
     override fun enableButton(): Boolean {
-        return state.birthError.isNullOrEmpty()
+        return state.birthError.isNullOrEmpty() && state.castrationError.isNullOrEmpty()
     }
 
-    override fun change(petBirth: String?, idPetInformation: Long?) {
+    override fun change(petBirth: String?, idPetInformation: Long?, petCastration: String?) {
         when {
             petBirth != null -> {
                 state = state.copy(birth = petBirth)
                 val result = validation.validateDate(state.birth)
                 state = if (result.success) state.copy(birthError = null)
                 else state.copy(birthError = result.errorMessage)
+            }
+            petCastration != null -> {
+                state = state.copy(castration = petCastration)
+                val result = validation.validatePetCastration(state.castration)
+                state = if (result.success) state.copy(castrationError = null)
+                else state.copy(castrationError = result.errorMessage)
+            }
+            idPetInformation != null -> {
+                state = state.copy(idPetInformation = idPetInformation)
             }
         }
     }

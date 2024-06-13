@@ -19,4 +19,5 @@ interface ValidationRepository {
     fun validateDropDownRaceOthers(raceOther : String) : ValidationResult
     fun validateDropdown(value : String, list: List<String>) : ValidationResult
     fun validateDropDownPetRace(value : String, list: List<String>) : ValidationResult
+    fun validatePetCastration(value: String): ValidationResult
 }

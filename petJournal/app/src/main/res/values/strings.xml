@@ -78,5 +78,8 @@
     <string name="pet_birth_date">Data de nascimento</string>
     <string name="placeholder_text_DD_MM_YYYY">DD/MM/AAAA</string>
     <string name="pet_gender_letter_M">M</string>
+    <string name="pet_castration">Nos conte, %s é castrado?</string>
+    <string name="text_yes">Sim</string>
+    <string name="text_no">Não</string>
 
 </resources>

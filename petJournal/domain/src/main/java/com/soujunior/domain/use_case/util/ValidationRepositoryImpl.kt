@@ -374,4 +374,13 @@ class ValidationRepositoryImpl : ValidationRepository {
     private fun isValidString(str: String): Boolean {
         return EMAIL_ADDRESS_PATTERN.matcher(str).matches()
     }
+    override fun validatePetCastration(value: String): ValidationResult {
+        return if (value == "S" || value == "N")
+            ValidationResult(success = true)
+        else
+            ValidationResult(
+                success = false,
+                errorMessage = listOf("* Campo Obrigatório!")
+            )
+    }
 }
