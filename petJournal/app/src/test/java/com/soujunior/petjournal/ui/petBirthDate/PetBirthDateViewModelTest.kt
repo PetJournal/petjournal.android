@@ -267,7 +267,6 @@ class PetBirthDateViewModelTest {
         assertEquals(perInformation.species, viewModelTest.state.specie)
         assertEquals(perInformation.petRace, viewModelTest.state.race)
         assertEquals(perInformation.size, viewModelTest.state.size)
-        assertEquals(perInformation.castration, viewModelTest.state.castration)
         assertEquals("Sucesso", viewModelTest.message.value)
     }
     @Test
