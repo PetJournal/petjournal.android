@@ -8,5 +8,6 @@ data class PetInformationModel(
     val size: String? = null,
     val petRace: String? = null,
     val petAge: String? = null,
-    val guardianId: Int? = null
+    val guardianId: Int? = null,
+    val castration: String? = null
 )

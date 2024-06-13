@@ -153,8 +153,8 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                                 viewModel.state.birth.isNotEmpty() &&
                                                 viewModel.state.castration.isNotEmpty()
                                             ) {
-                                                Log.i(TAG, viewModel.state.birth)
-                                                //viewModel.updatePetInformation()
+                                                Log.i(TAG, viewModel.state.birth + viewModel.state.castration)
+                                                viewModel.updatePetInformation()
                                                 //navController.navigate("pets/birth/$it")
                                             }
                                         },

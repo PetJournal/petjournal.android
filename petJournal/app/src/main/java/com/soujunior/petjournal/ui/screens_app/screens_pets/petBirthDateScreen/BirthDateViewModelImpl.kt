@@ -38,7 +38,7 @@ class BirthDateViewModelImpl(
             gender = petInformationModel.gender ?: "",
             size = petInformationModel.size ?: "",
             race = petInformationModel.petRace ?: "",
-            castration = ""
+            castration = petInformationModel.castration ?: ""
         )
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
@@ -110,7 +110,8 @@ class BirthDateViewModelImpl(
                 size = state.size,
                 petRace = state.race,
                 petAge = state.birth,
-                guardianId = 1
+                guardianId = 1,
+                castration = state.castration
             )
 
             val result = updatePetInformationUseCase.execute(petInformation)
