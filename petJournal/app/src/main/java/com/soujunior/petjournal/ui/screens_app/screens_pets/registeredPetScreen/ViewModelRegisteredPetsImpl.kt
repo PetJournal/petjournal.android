@@ -9,12 +9,15 @@ import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.pet.DeletePetInformationUseCase
 import com.soujunior.domain.use_case.pet.GetAllPetInformationUseCase
 import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.RegisteredPetFormEvent
+import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.RegisteredPetFormState
 import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.ViewModelRegisteredPets
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.NameGenderFormState
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ViewModelRegisteredPetsImpl(
@@ -28,13 +31,17 @@ class ViewModelRegisteredPetsImpl(
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> get() = _taskState
 
-    override var registeredPets by mutableStateOf<List<PetInformationModel>>(emptyList())
+    override var state by mutableStateOf(RegisteredPetFormState())
+
+
+    //    override var registeredPets by mutableStateOf<List<PetInformationModel>>(emptyList())
     init {
         _taskState.value = TaskState.Loading
         getAllPetInformation()
     }
     override fun success(petList: List<PetInformationModel>) {
-        registeredPets = petList
+//        registeredPets = petList
+        state = state.copy(registeredPetList = petList)
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
@@ -47,7 +54,11 @@ class ViewModelRegisteredPetsImpl(
     }
 
     override fun onEvent(event: RegisteredPetFormEvent) {
-        TODO("Not yet implemented")
+        when (event) {
+            RegisteredPetFormEvent.SelectButton -> {
+                TODO()
+            }
+        }
     }
 
     override fun getAllPetInformation() {
@@ -60,10 +71,16 @@ class ViewModelRegisteredPetsImpl(
     }
 
     override fun deletePetInformation(petId: Long) {
+        val _currList = state.registeredPetList.toMutableList()
+        _currList.removeAll {
+            it.id == petId
+        }
+
         viewModelScope.launch {
             _taskState.value = TaskState.Loading
             val result = deletePetInformationUseCase.execute(petId)
             result.handleResult({
+                state = state.copy(registeredPetList = _currList)
                 viewModelScope.launch {
                     validationEventChannel.send(ValidationEvent.Success)
                 }

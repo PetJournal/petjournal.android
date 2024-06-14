@@ -16,7 +16,10 @@ fun DeleteDialog(
     AlertDialog(
         onDismissRequest = { onDismissRequest() },
         confirmButton = {
-            TextButton(onClick = { onConfirmation() }) {
+            TextButton(onClick = {
+                onConfirmation()
+                onDismissRequest()
+            }) {
                 Text(text = "Confirmar")
             }
         },

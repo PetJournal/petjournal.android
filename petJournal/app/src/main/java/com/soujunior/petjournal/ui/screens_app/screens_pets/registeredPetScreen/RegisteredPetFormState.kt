@@ -1,4 +1,7 @@
 package com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen
 
-class RegisteredPetFormState {
-}
+import com.soujunior.domain.model.PetInformationModel
+
+data class RegisteredPetFormState (
+    val registeredPetList : List<PetInformationModel> = emptyList()
+)

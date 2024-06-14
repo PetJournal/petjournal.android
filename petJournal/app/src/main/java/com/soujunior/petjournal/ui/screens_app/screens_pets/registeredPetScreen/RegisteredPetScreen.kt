@@ -18,14 +18,5 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun RegisteredPetScreen(navController: NavController){
-    val viewModel : ViewModelRegisteredPets = getViewModel()
-    val taskState by viewModel.taskState.collectAsState()
-
-    Box {
-        if (taskState is TaskState.Loading)
-            IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.Center))
-        else {
-            Screen(navController, viewModel.registeredPets)
-        }
-    }
+    Screen(navController)
 }

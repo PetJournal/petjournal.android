@@ -29,6 +29,7 @@ import com.soujunior.domain.use_case.auth.SignUpUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.guardian.GetPetRegistrationWentLive
 import com.soujunior.domain.use_case.guardian.SetPetRegistrationWentLive
+import com.soujunior.domain.use_case.pet.DeletePetInformationUseCase
 import com.soujunior.domain.use_case.pet.GetAllPetInformationUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
@@ -101,6 +102,7 @@ val mainModule = module {
     factory { GetPetRegistrationWentLive(get()) }
     factory { SetPetRegistrationWentLive(get()) }
     factory { SavePetInformationUseCase(get()) }
+    factory { DeletePetInformationUseCase(get()) }
     factory { GetPetInformationUseCase(get()) }
     factory { GetAllPetInformationUseCase(get()) }
     factory { UpdatePetInformationUseCase(get()) }
@@ -138,7 +140,7 @@ val mainModule = module {
     }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get()) }
     viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get()) }
-    viewModel<ViewModelRegisteredPets> { ViewModelRegisteredPetsImpl(get(), get()) }
+    viewModel<ViewModelRegisteredPets> { ViewModelRegisteredPetsImpl(get(), get(), get()) }
     viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get(), get()) }
     viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModelImpl(get(), get()) }
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
