@@ -1,23 +1,23 @@
 package com.soujunior.petjournal.ui.loginScreen
 
-import com.soujunior.domain.model.request.LoginModel
-import com.soujunior.domain.use_case.auth.LoginUseCase
-import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
-import com.soujunior.domain.use_case.util.ValidationResult
-import com.soujunior.domain.use_case.base.DataResult
-import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
-import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormState
-import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModelImpl
-import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.mockk
-import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+//import com.soujunior.domain.model.request.LoginModel
+//import com.soujunior.domain.use_case.auth.LoginUseCase
+//import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
+//import com.soujunior.domain.use_case.util.ValidationResult
+//import com.soujunior.domain.use_case.base.DataResult
+//import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormEvent
+//import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginFormState
+//import com.soujunior.petjournal.ui.accountManager.loginScreen.LoginViewModelImpl
+//import io.mockk.coEvery
+//import io.mockk.every
+//import io.mockk.mockk
+//import junit.framework.TestCase.assertEquals
+//import kotlinx.coroutines.Dispatchers
+//import kotlinx.coroutines.test.resetMain
+//import kotlinx.coroutines.test.setMain
+//import org.junit.After
+//import org.junit.Before
+//import org.junit.Test
 //
 //class LoginSplashViewModelImplTest {
 //    private val loginUseCase = mockk<LoginUseCase>(relaxed = true)
