@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen
 
 import androidx.lifecycle.ViewModel
-import com.petjournal.database.database.entity.ListPetSizes
 import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel

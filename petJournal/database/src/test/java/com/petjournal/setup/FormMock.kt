@@ -1,8 +1,8 @@
 package com.petjournal.setup
 
 import com.petjournal.database.database.entity.GuardianProfile
-import com.petjournal.database.database.entity.ListPetRaces
-import com.petjournal.database.database.entity.ListPetSizes
+import com.petjournal.database.database.entity.PetRace
+import com.petjournal.database.database.entity.PetSize
 import com.petjournal.database.database.entity.PetInformation
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
@@ -84,12 +84,12 @@ val listPetSizesModel = listOf(
         specieId = "a0f385f5-c0b4-4f85-8d06-cf2a4f698f93"
     )
 )
-val listPetSizes = ListPetSizes(
+val petSize = PetSize(
     id = "Dog",
     listPetSizes = listPetSizesModel
 )
 
-val listPetRaces = ListPetRaces(
+val petRace = PetRace(
     id = "Dog",
     listPetRaces = listPetRaceModel
 )
