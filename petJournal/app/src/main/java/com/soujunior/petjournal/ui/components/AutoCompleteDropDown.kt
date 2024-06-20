@@ -33,9 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
@@ -46,6 +44,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.soujunior.domain.model.request.PetRaceItemModel
 
 @Composable
 fun AutoCompleteDropDown(
@@ -55,7 +54,7 @@ fun AutoCompleteDropDown(
     textValue: String,
     isError: Boolean = false,
     textError: List<String>? = null,
-    dropdownItems: List<String>? = null,
+    dropdownItems: List<PetRaceItemModel>? = null,
     onEvent: (String) -> Unit,
     onDropdownItemSelected: (String) -> Unit = {},
     onFocusChange: (Boolean) -> Unit = {}
@@ -200,30 +199,29 @@ fun AutoCompleteDropDown(
 
                         if (textValue.isNotEmpty()) {
                             dropdownItems?.filter {
-                                it.lowercase()
-                                    .contains(textValue.lowercase()) || it.lowercase()
+                                it.name.lowercase()
+                                    .contains(textValue.lowercase()) || it.name.lowercase()
                                     .contains("Outro")
                             }?.let { itemList ->
                                 items(
                                     itemList
-                                        .sorted()
                                 ) { itemFilter ->
-                                    CategoryItems(true, title = itemFilter) {
+                                    CategoryItems(true, title = itemFilter.name) {
                                         expanded = false
-                                        onEvent(itemFilter)
-                                        onDropdownItemSelected(itemFilter)
+                                        onEvent(itemFilter.name)
+                                        onDropdownItemSelected(itemFilter.name)
                                     }
                                 }
                             }
                         } else {
                             if (dropdownItems != null) {
                                 items(
-                                    dropdownItems.sorted()
+                                    dropdownItems
                                 ) { itemFilter ->
-                                    CategoryItems(false, title = itemFilter) {
+                                    CategoryItems(false, title = itemFilter.name) {
                                         expanded = false
-                                        onEvent(itemFilter)
-                                        onDropdownItemSelected(itemFilter)
+                                        onEvent(itemFilter.name)
+                                        onDropdownItemSelected(itemFilter.name)
                                     }
                                 }
                             }

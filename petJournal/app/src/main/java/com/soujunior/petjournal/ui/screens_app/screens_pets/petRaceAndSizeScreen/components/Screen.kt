@@ -197,9 +197,8 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .align(Alignment.Center)
-                                        .padding(start = 60.dp)
-                                        .offset(y = (-60).dp)
+                                        .padding(start = 30.dp)
+                                        .offset(y = (-30).dp)
                                 ) {
 
 

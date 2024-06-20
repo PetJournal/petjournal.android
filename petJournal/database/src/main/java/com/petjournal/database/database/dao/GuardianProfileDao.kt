@@ -6,9 +6,10 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.petjournal.database.database.entity.GuardianProfile
+import com.petjournal.database.database.entity.PetRace
+import com.petjournal.database.database.entity.PetSize
 import com.petjournal.database.database.entity.PetInformation
 import com.soujunior.domain.model.PetInformationModel
-import com.soujunior.domain.use_case.base.DataResult
 
 @Dao
 interface GuardianProfileDao {
@@ -30,5 +31,15 @@ interface GuardianProfileDao {
     @Update
     fun updatePetInformation(petInformation: PetInformation)
 
+    @Query("SELECT * FROM list_pet_sizes WHERE tag = :tag")
+    suspend fun getListPetSizes(tag: String): List<PetSize>?
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertListPetSizes(petSize: List<PetSize>)
+
+    @Query("SELECT * FROM list_pet_races WHERE tag = :tag")
+    suspend fun getListPetRaces(tag: String): List<PetRace>?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertListPetRaces(listPetSizes: List<PetRace>)
 }
