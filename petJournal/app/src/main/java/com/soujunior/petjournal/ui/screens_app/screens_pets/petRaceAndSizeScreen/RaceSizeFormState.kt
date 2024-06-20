@@ -1,5 +1,8 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen
 
+import com.soujunior.domain.model.request.PetRaceItemModel
+import com.soujunior.domain.model.request.PetSizeItemModel
+
 data class RaceSizeFormState(
     val race: String = "",
     val size: String = "",
@@ -11,7 +14,7 @@ data class RaceSizeFormState(
     val idPetInformation : Long? = null,
     val name: String = "",
     val gender: String = "",
-    val listRace: List<String> = emptyList(),
-    val listSizes: List<String> = emptyList()
+    val listRace: List<PetRaceItemModel> = emptyList(),
+    val listSizes: List<PetSizeItemModel> = emptyList()
 )
 

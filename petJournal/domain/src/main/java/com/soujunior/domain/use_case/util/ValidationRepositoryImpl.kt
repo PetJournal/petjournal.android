@@ -1,5 +1,7 @@
 package com.soujunior.domain.use_case.util
 
+import com.soujunior.domain.model.request.PetRaceItemModel
+import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.repository.ValidationRepository
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -266,9 +268,9 @@ class ValidationRepositoryImpl : ValidationRepository {
         }
     }
 
-    override fun validateDropdown(value: String, list: List<String>): ValidationResult {
+    override fun validateDropdown(value: String, list: List<PetSizeItemModel>): ValidationResult {
 
-        return if (value.isNotEmpty() && list.contains(value)) {
+        return if (value.isNotEmpty() && list.any { it.name == value }) {
             ValidationResult(
                 success = true,
             )
@@ -281,8 +283,8 @@ class ValidationRepositoryImpl : ValidationRepository {
         }
     }
 
-    override fun validateDropDownPetRace(value: String, list: List<String>): ValidationResult {
-        return if (value.isNotEmpty() && list.contains(value)) {
+    override fun validateDropDownPetRace(value: String, list: List<PetRaceItemModel>): ValidationResult {
+        return if (value.isNotEmpty() && list.any{it.name == value}) {
             ValidationResult(
                 success = true,
             )

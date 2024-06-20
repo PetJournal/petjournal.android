@@ -43,6 +43,7 @@ dependencies {
     def dependencies = rootProject.ext.dependencies
     implementation dependencies.roomRuntime
     implementation dependencies.roomKtx
+    implementation dependencies.moshiKotlin
 
     testImplementation testKotlinxCoroutines
     testImplementation testMockk
