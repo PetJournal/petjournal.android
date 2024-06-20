@@ -40,6 +40,6 @@ class DeletePetInformationUseCaseTest {
 
         val result = deletePetInformationUseCase.execute(petInformation.id)
 
-        assertk.assertThat(result.isSuccess).isEqualTo(true)
+        assertThat(result.isSuccess).isEqualTo(true)
     }
 }

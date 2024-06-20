@@ -29,3 +29,7 @@ val petInformation = PetInformationModel(
     species = "Dog",
     guardianId = 1
 )
+
+val petInformationList = listOf(
+    petInformation, petInformation, petInformation
+)
