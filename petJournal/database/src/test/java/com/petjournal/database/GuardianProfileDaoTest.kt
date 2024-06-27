@@ -10,6 +10,7 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -33,6 +34,21 @@ class GuardianProfileDaoTest {
         guardianId = 1
     )
 
+    private val newPetInformation2 = PetInformation(
+        id = 1,
+        species = "Cat",
+        name = "Bolinha",
+        gender = "F",
+        size = "Pequeno",
+        petRace = "Akita",
+        petAge = "10/10/2010",
+        guardianId = 1
+    )
+    private val petInformationList = listOf(
+        newPetInformation2.toModel(),
+        newPetInformation.toModel(),
+        newPetInformation.toModel()
+    )
     @Before
     fun setUp() {
         coEvery { guardianProfileDao.insertProfile(any()) } returns 1L
@@ -41,6 +57,11 @@ class GuardianProfileDaoTest {
         coEvery { guardianProfileDao.getPetInformation(1) } returns petInformation.toModel()
         coEvery { guardianProfileDao.getPetInformation(2) } returns newPetInformation.toModel()
         coEvery { guardianProfileDao.updatePetInformation(newPetInformation) }
+        coEvery { guardianProfileDao.getAllPetInformation() } returns petInformationList
+//        coEvery { guardianProfileDao.deletePetInformation(1) }
+        coEvery {
+            guardianProfileDao.deletePetInformation(any())
+        }returns Unit
     }
 
     @Test
@@ -87,5 +108,26 @@ class GuardianProfileDaoTest {
 
     }
 
+    @Test
+    fun `should get all pet information`() = runBlocking {
+        val oldPetInformationList = guardianProfileDao.getAllPetInformation()
+        coVerify { guardianProfileDao.getAllPetInformation() }
+        assertEquals(petInformationList, oldPetInformationList)
+    }
 
+    @Test
+    fun `should delete pet information`() = runBlocking {
+        val deletedItemId : Long = 1
+
+        guardianProfileDao.deletePetInformation(deletedItemId)
+
+        coVerify {
+            guardianProfileDao.deletePetInformation(deletedItemId)
+        }
+        val newPetInformationList = petInformationList.toMutableList().also {
+            it.removeAll { it.id == deletedItemId }
+        }
+
+        assertNotEquals(newPetInformationList, petInformationList)
+    }
 }
