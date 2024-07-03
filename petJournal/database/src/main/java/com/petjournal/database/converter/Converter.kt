@@ -6,6 +6,7 @@ import com.petjournal.database.database.entity.PetSize
 import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
+import com.soujunior.domain.model.response.PetInformationResponse
 
 object Converter {
     fun PetInformation.toModel(): PetInformationModel {
@@ -33,6 +34,18 @@ object Converter {
             petAge = this.petAge
         )
     }
+    fun PetInformationModel.toResponse(): PetInformationResponse {
+        return PetInformationResponse(
+            specieName = this.species,
+            petName = this.name,
+            gender = this.gender,
+            breedName = this.petRace,
+            size = this.size,
+            castrated = this.castrated,
+            dateOfBirth = this.petAge
+        )
+    }
+
 
     fun List<PetSize>.toListPetSizeItemModel(): List<PetSizeItemModel> {
         val listPetSizesItemModel: MutableList<PetSizeItemModel> = mutableListOf()

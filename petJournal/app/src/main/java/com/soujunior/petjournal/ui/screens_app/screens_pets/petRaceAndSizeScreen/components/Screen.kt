@@ -38,10 +38,12 @@ import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.DropDown
+import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.ViewModelRaceSize
+import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.getScreenHeightInch
 import org.koin.androidx.compose.getViewModel
 
@@ -49,6 +51,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun Screen(idPetInformation: String?, navController: NavController) {
     val viewModel: ViewModelRaceSize = getViewModel()
+    val taskState by viewModel.taskState.collectAsState()
     val isTextFiledOthersVisible by viewModel.isTextFiledOthersVisible.collectAsState()
     if (idPetInformation != null) {
         viewModel.getPetInformation(idPetInformation.toLong())
@@ -71,7 +74,9 @@ fun Screen(idPetInformation: String?, navController: NavController) {
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = {
-                Box(modifier = Modifier.padding(it)) {
+                if (taskState is TaskState.Loading)
+                    IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                else Box(modifier = Modifier.padding(it)) {
                     Image(
                         painter = painterResource(R.drawable.rastro),
                         contentDescription = null,

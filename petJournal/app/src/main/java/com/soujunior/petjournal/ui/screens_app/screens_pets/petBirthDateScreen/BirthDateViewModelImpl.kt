@@ -1,11 +1,14 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.repository.ValidationRepository
+import com.soujunior.domain.use_case.pet.CreatePetInformationApiUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.petjournal.ui.states.TaskState
@@ -14,11 +17,15 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 class BirthDateViewModelImpl(
     val validation: ValidationRepository,
     private val getPetInformationUseCase: GetPetInformationUseCase,
-    private val updatePetInformationUseCase: UpdatePetInformationUseCase
+    private val updatePetInformationUseCase: UpdatePetInformationUseCase,
+    private val createPetInformationApiUseCase: CreatePetInformationApiUseCase
 ) : BirthDateViewModel() {
 
     override var state by mutableStateOf(BirthDateFormState())
@@ -89,6 +96,24 @@ class BirthDateViewModelImpl(
     }
 
     override fun updatePetInformation() {
+        viewModelScope.launch {
+            val petInformation = PetInformationModel(
+                id = state.idPetInformation ?: 0L,
+                species = state.specie,
+                name = state.name,
+                gender = state.gender,
+                size = state.size,
+                petRace = state.race,
+                petAge = formatToIso8601(state.birth),
+                guardianId = 1
+            )
+
+            val result = updatePetInformationUseCase.execute(petInformation)
+            result.handleResult(::successPetUpdate, ::failed)
+        }
+    }
+
+    override fun createPetInformation() {
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val petInformation = PetInformationModel(
@@ -98,12 +123,13 @@ class BirthDateViewModelImpl(
                 gender = state.gender,
                 size = state.size,
                 petRace = state.race,
-                petAge = state.birth,
+                petAge = formatToIso8601(state.birth),
                 guardianId = 1
             )
-
-            val result = updatePetInformationUseCase.execute(petInformation)
-            result.handleResult(::successPetUpdate, ::failed)
+                val result = createPetInformationApiUseCase.execute(petInformation)
+                _message.value = result.success.data.toString()
+                result.handleResult(::successPetUpdate, ::failed)
+                Log.i(TAG, result.success.data.toString())
             _taskState.value = TaskState.Idle
         }
     }
@@ -113,6 +139,15 @@ class BirthDateViewModelImpl(
             validationEventChannel.send(ValidationEvent.Success)
         }
         _message.value = "Sucesso"
+    }
+
+
+
+    private fun formatToIso8601(date: String): String {
+        val dateFormatter = DateTimeFormatter.ofPattern("ddMMyyyy")
+        val dateF = LocalDate.parse(date, dateFormatter)
+        val localDateTime = dateF.atStartOfDay()
+        return localDateTime.atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE_TIME)
     }
 
 }

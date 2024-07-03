@@ -19,6 +19,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -31,15 +33,18 @@ import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DateInputText
+import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.mask.formatDate
+import com.soujunior.petjournal.ui.states.TaskState
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun Screen(idPetInformation: String?, navController: NavController) {
     val viewModel: BirthDateViewModel = getViewModel()
+    val taskState by viewModel.taskState.collectAsState()
     if (idPetInformation != null) {
         viewModel.getPetInformation(idPetInformation.toLong())
         RaceSizeFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
@@ -52,7 +57,9 @@ fun Screen(idPetInformation: String?, navController: NavController) {
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = { it ->
-                Box(modifier = Modifier.padding(it)) {
+                if (taskState is TaskState.Loading)
+                    IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                else Box(modifier = Modifier.padding(it)) {
                     LazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Top,
@@ -130,6 +137,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                             ) {
                                                 Log.i(TAG, viewModel.state.birth)
                                                 viewModel.updatePetInformation()
+                                                viewModel.createPetInformation()
                                                 //navController.navigate("pets/birth/$it")
                                             }
                                         },

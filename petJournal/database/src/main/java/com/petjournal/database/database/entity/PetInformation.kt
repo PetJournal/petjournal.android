@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.time.LocalDate
 
 @Entity(
     tableName = "pet_information",
@@ -25,5 +26,3 @@ data class PetInformation(
     val petRace: String? = null,
     val petAge: String? = null,
 )
-
-
