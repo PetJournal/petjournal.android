@@ -12,6 +12,8 @@ import com.soujunior.domain.use_case.pet.CreatePetInformationApiUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.util.Constants.ERROR_MESSAGE
+import com.soujunior.petjournal.ui.util.Constants.SUCCESS_MESSAGE
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,14 +52,14 @@ class BirthDateViewModelImpl(
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
-        _message.value = "Sucesso"
+        _message.value = SUCCESS_MESSAGE
     }
 
     override fun failed(exception: Throwable?) {
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Failed)
         }
-        _message.value = "Error"
+        _message.value = ERROR_MESSAGE
     }
 
     override fun onEvent(event: BirthDateFormEvent) {
@@ -138,7 +140,7 @@ class BirthDateViewModelImpl(
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }
-        _message.value = "Sucesso"
+        _message.value = SUCCESS_MESSAGE
     }
 
 
