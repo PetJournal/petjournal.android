@@ -129,7 +129,6 @@ class BirthDateViewModelImpl(
                 guardianId = 1
             )
                 val result = createPetInformationApiUseCase.execute(petInformation)
-                _message.value = result.success.data.toString()
                 result.handleResult(::successPetUpdate, ::failed)
                 Log.i(TAG, result.success.data.toString())
             _taskState.value = TaskState.Idle

@@ -36,7 +36,7 @@ object Converter {
     }
     fun PetInformationModel.toResponse(): PetInformationResponse {
         return PetInformationResponse(
-            specieName = this.species,
+            specieName = if (this.species == "Cat" ) "Gato" else if ( this.species == "Dog") "Cachorro" else this.species,
             petName = this.name,
             gender = this.gender,
             breedName = this.petRace,
