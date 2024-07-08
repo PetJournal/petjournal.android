@@ -7,4 +7,5 @@ sealed class BirthDateFormEvent {
     data class PetBirthDate(val petBirth: String) : BirthDateFormEvent()
     object NextButton : BirthDateFormEvent()
     data class IdPetInformation(val idPetInformation: Long) : BirthDateFormEvent()
+    data class PetCastration(val petCastration: Boolean?) : BirthDateFormEvent()
 }
