@@ -18,8 +18,10 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginViewModel
@@ -59,7 +61,7 @@ fun Footer(
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text(
-                text = "Não tem uma conta? Inscreva-se",
+                text = stringResource(R.string.nao_tem_uma_conta_cadastre_se),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .clickable(onClick = { navController.navigate("register") })

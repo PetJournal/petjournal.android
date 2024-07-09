@@ -19,9 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginViewModel
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.NameGenderFormEvent
 
 @Composable
 fun Screen(navController: NavController, viewModel: LoginViewModel) {
@@ -33,41 +35,48 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
         darkIcons = true
     )
     systemUiController.setNavigationBarColor(Color.Black)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            LoginHeader()
+        }
+        Column(
             modifier = Modifier
                 .padding(start = 20.dp, end = 20.dp)
                 .systemBarsPadding()
                 .align(Alignment.TopCenter)
         ) {
-            Spacer(modifier = Modifier.weight(0.2f))
-            LoginHeader()
-            Spacer(modifier = Modifier.weight(0.1f))
-            InputText(
-                textTop = stringResource(id = R.string.email_label),
-                textHint = stringResource(id = R.string.email_hint),
+            Spacer(modifier = Modifier.weight(0.3f))
+            DashedInputText(
+                modifier = Modifier.testTag("input_email"),
+                textInputModifier = Modifier.fillMaxWidth(),
+                placeholderText = stringResource(id = R.string.email_hint),
                 textValue = viewModel.state.email,
                 textError = viewModel.state.emailError,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-                    .testTag("input_email"),
-                onEvent = { it: String -> viewModel.onEvent(LoginFormEvent.EmailChanged(it)) }
+                isError = !viewModel.state.emailError.isNullOrEmpty(),
+                titleText = stringResource(id = R.string.email_label),
+                onEvent = { it: String ->
+                    viewModel.onEvent(LoginFormEvent.EmailChanged(it))
+                }
             )
-            InputText(
-                textTop = stringResource(id = R.string.password_label),
+            DashedInputText(
+                titleText = stringResource(id = R.string.password_label),
+                textInputModifier = Modifier.fillMaxWidth(),
                 isPassword = true,
-                textHint = stringResource(id = R.string.password_hint),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("input_password"),
+                placeholderText = stringResource(id = R.string.password_hint),
+                modifier = Modifier.testTag("input_password"),
                 textValue = viewModel.state.password,
                 textError = viewModel.state.passwordError,
-                onEvent = { it: String -> viewModel.onEvent(LoginFormEvent.PasswordChanged(it)) }
+                isError = !viewModel.state.passwordError.isNullOrEmpty(),
+                onEvent = { it: String ->
+                    viewModel.onEvent(LoginFormEvent.PasswordChanged(it))
+                }
             )
             RememberPasswordAndForgotSection(navController, viewModel)
             Spacer(modifier = Modifier.weight(0.1f))

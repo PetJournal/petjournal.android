@@ -41,8 +41,8 @@ import com.soujunior.petjournal.R
 
 @Composable
 fun DashedInputText(
-    modifier : Modifier = Modifier
-        .padding(5.dp)
+    modifier: Modifier = Modifier
+        .padding(15.dp)
         .fillMaxWidth(),
     textInputModifier: Modifier = Modifier,
     placeholderText: String = "Placeholder",
@@ -53,7 +53,8 @@ fun DashedInputText(
     textError: List<String>? = null,
     onEvent: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
-    visualTransformation: VisualTransformation = VisualTransformation.None){
+    visualTransformation: VisualTransformation = VisualTransformation.None
+) {
     var inFocus by remember { mutableStateOf(false) }
     var showPassword by remember { mutableStateOf(false) }
 
@@ -71,15 +72,16 @@ fun DashedInputText(
             )
         }
 
-        Row{
+        Row {
             BasicTextField(
                 modifier = textInputModifier
                     .background(
                         Color.Transparent
                     )
-                    .fillMaxWidth().testTag("dashedInputField_test")
+                    .fillMaxWidth()
+                    .testTag("dashedInputField_test")
                     .padding(5.dp)
-                    .height(40.dp)
+                    .height(50.dp)
                     .drawBehind {
                         val stroke = Stroke(
                             width = 1.dp.toPx(),
@@ -94,10 +96,14 @@ fun DashedInputText(
                         )
 
                     }
-                    .border(2.dp, if(isError) MaterialTheme.colorScheme.error else Color.Transparent, shape = RoundedCornerShape(10.dp))
+                    .border(
+                        2.dp,
+                        if (isError) MaterialTheme.colorScheme.error else Color.Transparent,
+                        shape = RoundedCornerShape(10.dp)
+                    )
                     .clip(RoundedCornerShape(10.dp)),
                 value = textValue,
-                onValueChange = {text -> onEvent(text)},
+                onValueChange = { text -> onEvent(text) },
                 singleLine = true,
                 textStyle = TextStyle(
                     fontSize = 15.sp,
@@ -110,28 +116,28 @@ fun DashedInputText(
                     else PasswordVisualTransformation()
                 } else visualTransformation,
                 keyboardOptions = keyboardOptions,
-                decorationBox = {innerTextField ->
+                decorationBox = { innerTextField ->
                     Row(
                         modifier,
                         verticalAlignment = Alignment.CenterVertically
-                    ){
+                    ) {
                         Box(
-                            modifier.weight(1f)){
-                            if(textValue.isEmpty()) //Placeholder
+                            modifier.weight(1f)
+                        ) {
+                            if (textValue.isEmpty()) {
                                 Text(
-                                    modifier = modifier.padding(10.dp),
+                                    modifier = modifier.padding(15.dp),
                                     text = placeholderText,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurface,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.outline,
                                     fontSize = 15.sp
                                 )
-                            else
-                                Text(
-                                    modifier = modifier.padding(10.dp),
-                                    text = textValue
-                                )
+                            }else {
+                                Box(modifier = modifier.padding(15.dp)) {
+                                    innerTextField()
+                                }
+                            }
                         }
-                        //Logica do Icone
                         if (isPassword) {
                             val iconResource =
                                 if (showPassword) R.drawable.eye_visibility_on else R.drawable.eye_visibility_off
@@ -145,7 +151,7 @@ fun DashedInputText(
                                     tint = MaterialTheme.colorScheme.outline
                                 )
                             }
-                        } else if(isError) {
+                        } else if (isError) {
                             val iconResource = R.drawable.icone_erro
                             val contentDescription = "Erro"
 
@@ -156,20 +162,16 @@ fun DashedInputText(
                                 modifier = Modifier.padding(10.dp)
                             )
                         }
-                        else {
-                            null
-                        }
                     }
                 }
             )
         }
         Row {
-            if(textError != null) {
+            if (textError != null) {
                 textError.forEach {
                     AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
                 }
-            }
-            else{
+            } else {
                 Text(
                     "*Campo Obrigatório.",
                     color = MaterialTheme.colorScheme.outline,

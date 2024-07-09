@@ -2,7 +2,7 @@ package com.soujunior.petjournal.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val light_primary = Color(0xFFB90063) //textos, //Cursor do campo input
+val light_primary = Color(0xFF7C54A7) //textos, //Cursor do campo input
 val light_onPrimary = Color(0xFFFFFFFF) //Background do campo input
 val light_primaryContainer = Color(0xFFFFC107)
 val light_onPrimaryContainer = Color(0xFFFFC107)

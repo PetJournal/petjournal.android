@@ -14,8 +14,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.components.Checkbox
 import com.soujunior.petjournal.ui.components.RadioButtonWithText
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginViewModel
@@ -23,30 +25,24 @@ import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.Login
 @Composable
 fun RememberPasswordAndForgotSection(navController: NavController, viewModel: LoginViewModel) {
     val textColor =
-        if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
+        if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.inverseSurface
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
     ) {
         Column(content = {
-            RadioButtonWithText(
-                textResourceId = R.string.remember_label,
-                radioButtonSelected = viewModel.state.rememberPassword,
-                onEvent = { it: Boolean ->
-                    viewModel.onEvent(
-                        LoginFormEvent.RememberPassword(
-                            it
-                        )
-                    )
-                },
+            Checkbox(
+                text = stringResource(R.string.remember_label)
             )
         })
         Column(
             modifier = Modifier.fillMaxWidth(), content = {
                 Text(
                     text = stringResource(id = R.string.forgot_password_label),
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        textDecoration = TextDecoration.Underline
+                    ),
                     textAlign = TextAlign.End,
                     modifier = Modifier
                         .clickable(

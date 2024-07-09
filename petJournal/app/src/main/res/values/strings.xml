@@ -9,11 +9,11 @@
     <string name="back">Voltar</string>
     <string name="text_continue">Continuar</string>
     <string name="access_account">Acessar conta</string>
-    <string name="email_label">Login</string>
-    <string name="email_hint">eg: exemple@petjournal.com</string>
-    <string name="password_label">Senha</string>
+    <string name="email_label">E-mail:</string>
+    <string name="email_hint">petjournal@gmail.com</string>
+    <string name="password_label">Senha:</string>
     <string name="password_hint">Digite sua senha</string>
-    <string name="remember_label">Lembrar</string>
+    <string name="remember_label">Lembrar acesso</string>
     <string name="forgot_password_label">Esqueci minha senha</string>
     <string name="checkbox_text">Texto ao lado do checkbox</string>
     <string name="radiobutton_text">Texto ao lado do radiobutton</string>
@@ -78,5 +78,8 @@
     <string name="pet_birth_date">Data de nascimento</string>
     <string name="placeholder_text_DD_MM_YYYY">DD/MM/AAAA</string>
     <string name="pet_gender_letter_M">M</string>
+    <string name="nao_tem_uma_conta_cadastre_se">Não tem uma conta? <b>Cadastre-se</b></string>
+
+
 
 </resources>
