@@ -1,5 +1,7 @@
 package com.soujunior.domain.repository
 
+import com.soujunior.domain.model.request.PetRaceItemModel
+import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.use_case.util.ValidationResult
 
 interface ValidationRepository {
@@ -17,6 +19,7 @@ interface ValidationRepository {
     fun validateCodeOTP(codeOTP: String) : ValidationResult
     fun validateDate(date: String) : ValidationResult
     fun validateDropDownRaceOthers(raceOther : String) : ValidationResult
-    fun validateDropdown(value : String, list: List<String>) : ValidationResult
-    fun validateDropDownPetRace(value : String, list: List<String>) : ValidationResult
+    fun validateDropdown(value : String, list: List<PetSizeItemModel>) : ValidationResult
+    fun validateDropDownPetRace(value : String, list: List<PetRaceItemModel>) : ValidationResult
+    fun validatePetCastration(value: Boolean?): ValidationResult
 }

@@ -19,6 +19,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -40,6 +44,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun Screen(idPetInformation: String?, navController: NavController) {
     val viewModel: BirthDateViewModel = getViewModel()
+    var isClearCastration by remember { mutableStateOf(false) }
     if (idPetInformation != null) {
         viewModel.getPetInformation(idPetInformation.toLong())
         RaceSizeFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
@@ -98,6 +103,25 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                 )
                             }
                             item {
+                                CastrationSelector(
+                                    textNamePet = viewModel.state.name,
+                                    selectedCastration = { selectedCastration ->
+                                        if (selectedCastration != null) {
+                                            isClearCastration = false
+                                        }
+                                        viewModel.onEvent(
+                                            BirthDateFormEvent.PetCastration(
+                                                selectedCastration
+                                            )
+                                        )
+                                    },
+                                    clearSelection = {
+                                        isClearCastration
+                                    },
+                                    textError = viewModel.state.castrationError
+                                )
+                            }
+                            item {
                                 Row(
                                     Modifier.padding(top = 80.dp)
                                 ) {
@@ -126,9 +150,10 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                             )
 
                                             if (viewModel.enableButton() &&
-                                                viewModel.state.birth.isNotEmpty()
+                                                viewModel.state.birth.isNotEmpty() &&
+                                                viewModel.state.castration != null
                                             ) {
-                                                Log.i(TAG, viewModel.state.birth)
+                                                Log.i(TAG, viewModel.state.birth + viewModel.state.castration.toString())
                                                 viewModel.updatePetInformation()
                                                 //navController.navigate("pets/birth/$it")
                                             }

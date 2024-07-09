@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.soujunior.domain.model.request.PetSizeItemModel
 
 @Composable
 fun DropDown(
@@ -45,7 +46,7 @@ fun DropDown(
     titleText: String = "Title",
     isError: Boolean = false,
     textError: List<String>? = null,
-    dropdownItems: List<String>? = null,
+    dropdownItems: List<PetSizeItemModel>? = null,
     onEvent: (String) -> Unit,
     textValue: String
 ) {
@@ -136,11 +137,11 @@ fun DropDown(
                         DropdownMenuItem(
                             onClick = {
                                 isDropdownExpanded = false
-                                onEvent(item)
+                                onEvent(item.name)
                             }
 
                         ) {
-                            Text(text = item)
+                            Text(text = item.name)
                         }
                     }
                 }
