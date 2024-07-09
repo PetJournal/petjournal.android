@@ -19,7 +19,7 @@ object Converter {
             petRace = this.petRace,
             petAge = this.petAge,
             guardianId = this.guardianId,
-            castration = this.castration
+            castrated = this.castration
         )
     }
 
@@ -33,7 +33,7 @@ object Converter {
             size = this.size,
             petRace = this.petRace,
             petAge = this.petAge,
-            castration = this.castration
+            castration = this.castrated
         )
     }
     fun PetInformationModel.toResponse(): PetInformationResponse {

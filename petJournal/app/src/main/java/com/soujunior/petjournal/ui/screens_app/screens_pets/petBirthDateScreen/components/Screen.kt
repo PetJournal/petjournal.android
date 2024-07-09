@@ -1,8 +1,6 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.components
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,7 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,10 +35,10 @@ import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.mask.formatDate
-import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateFormEvent
 import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateViewModel
 import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
+import com.soujunior.petjournal.ui.states.TaskState
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -160,7 +157,6 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                                 viewModel.state.birth.isNotEmpty() &&
                                                 viewModel.state.castration != null
                                             ) {
-                                                Log.i(TAG, viewModel.state.birth + viewModel.state.castration.toString())
                                                 viewModel.updatePetInformation()
                                                 viewModel.createPetInformation()
                                                 //navController.navigate("pets/birth/$it")

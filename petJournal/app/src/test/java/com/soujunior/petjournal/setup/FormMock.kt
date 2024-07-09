@@ -41,7 +41,7 @@ val perInformation = PetInformationModel(
     petRace = "Akita",
     petAge = "12122012",
     guardianId = 1,
-    castration = true
+    castrated = true
 )
 
 val listDogRaces = listOf(
