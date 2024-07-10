@@ -155,10 +155,13 @@ class BirthDateViewModelImpl(
 
 
     private fun formatToIso8601(date: String): String {
-        val dateFormatter = DateTimeFormatter.ofPattern("ddMMyyyy")
-        val dateF = LocalDate.parse(date, dateFormatter)
-        val localDateTime = dateF.atStartOfDay()
-        return localDateTime.atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE_TIME)
+        if (date.isNotEmpty()){
+            val dateFormatter = DateTimeFormatter.ofPattern("ddMMyyyy")
+            val dateF = LocalDate.parse(date, dateFormatter)
+            val localDateTime = dateF.atStartOfDay()
+            return localDateTime.atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE_TIME)
+        }
+        return ""
     }
 
 }
