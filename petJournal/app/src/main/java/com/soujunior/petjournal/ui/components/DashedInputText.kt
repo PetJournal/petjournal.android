@@ -113,25 +113,29 @@ fun DashedInputText(
                 keyboardOptions = keyboardOptions,
                 decorationBox = { innerTextField ->
                     Row(
-                        modifier.background(Color.White),
+                        modifier = Modifier.background(Color.White).padding(start = 14.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
-                            modifier.weight(1f)
+                            modifier = Modifier.weight(1f)
                         ) {
                             if (textValue.isEmpty()) {
                                 Text(
-                                    modifier = modifier.padding(10.dp),
+                                    modifier = Modifier,
                                     text = placeholderText,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.outline,
                                     fontSize = 15.sp
                                 )
                             } else {
-                                Box(modifier = modifier.padding(15.dp)) {
-                                    innerTextField()
-                                }
+                                Text(
+                                    modifier = Modifier,
+                                    text = textValue,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    fontSize = 15.sp
+                                )
                             }
+
                         }
                         if (isPassword) {
                             val iconResource =
