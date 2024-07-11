@@ -2,6 +2,7 @@ package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -39,8 +40,10 @@ fun Button2(
             enabled = enableButton,
             modifier = modifier,
             border = border,
-            shape = Shapes.large,
-            colors = buttonColor
+            shape = Shapes.medium,
+            colors = buttonColor,
+            contentPadding = PaddingValues(17.dp)
+
         ) {
             if (!isLoading) {
                 Text(

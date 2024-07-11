@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,10 +19,8 @@ import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.DashedInputText
-import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginViewModel
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.NameGenderFormEvent
 
 @Composable
 fun Screen(navController: NavController, viewModel: LoginViewModel) {
@@ -41,18 +38,16 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
+
+        Column {
             LoginHeader()
         }
         Column(
             modifier = Modifier
-                .padding(start = 20.dp, end = 20.dp)
-                .systemBarsPadding()
+                .fillMaxSize()
+                .padding(start = 20.dp, end = 20.dp, top = 200.dp)
                 .align(Alignment.TopCenter)
         ) {
-            Spacer(modifier = Modifier.weight(0.3f))
             DashedInputText(
                 modifier = Modifier.testTag("input_email"),
                 textInputModifier = Modifier.fillMaxWidth(),
@@ -79,9 +74,9 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
                 }
             )
             RememberPasswordAndForgotSection(navController, viewModel)
-            Spacer(modifier = Modifier.weight(0.1f))
+            Spacer(modifier = Modifier.weight(1f))
             Footer(navController, viewModel)
-            Spacer(modifier = Modifier.weight(0.5f))
+            Spacer(modifier = Modifier.weight(0.4f))
         }
     }
 }

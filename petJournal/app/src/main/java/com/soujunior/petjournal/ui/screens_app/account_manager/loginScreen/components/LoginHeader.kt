@@ -11,7 +11,7 @@ import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 @Composable
 fun LoginHeader() {
     CreateTitleAndImageLogo(
-        spaceBetween = 50.dp,
+        spaceBetween = 40.dp,
         title = stringResource(id = R.string.access_account),
         styleTitle = MaterialTheme.typography.displayMedium,
 

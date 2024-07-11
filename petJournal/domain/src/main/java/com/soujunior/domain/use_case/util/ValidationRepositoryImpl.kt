@@ -13,7 +13,7 @@ class ValidationRepositoryImpl : ValidationRepository {
         return if (email.isBlank() || email.isEmpty()) {
             ValidationResult(
                 success = false,
-                errorMessage = listOf("O campo não pode estar em branco!")
+                errorMessage = listOf("*Campo Obrigatório")
             )
         } else {
             val correctFormat = isValidString(email)
@@ -81,7 +81,7 @@ class ValidationRepositoryImpl : ValidationRepository {
         return if (value.isEmpty())
             ValidationResult(
                 success = false,
-                errorMessage = listOf("O campo não pode ficar em branco!")
+                errorMessage = listOf("*Campo Obrigatório")
             )
         else
             ValidationResult(success = true)

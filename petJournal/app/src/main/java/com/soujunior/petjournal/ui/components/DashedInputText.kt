@@ -41,9 +41,7 @@ import com.soujunior.petjournal.R
 
 @Composable
 fun DashedInputText(
-    modifier: Modifier = Modifier
-        .padding(15.dp)
-        .fillMaxWidth(),
+    modifier: Modifier = Modifier,
     textInputModifier: Modifier = Modifier,
     placeholderText: String = "Placeholder",
     titleText: String = "Title",
@@ -55,8 +53,8 @@ fun DashedInputText(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
-    var inFocus by remember { mutableStateOf(false) }
     var showPassword by remember { mutableStateOf(false) }
+    val colorBorder = MaterialTheme.colorScheme.outline
 
     Column(modifier = modifier) {
         Row {
@@ -75,9 +73,6 @@ fun DashedInputText(
         Row {
             BasicTextField(
                 modifier = textInputModifier
-                    .background(
-                        Color.Transparent
-                    )
                     .fillMaxWidth()
                     .testTag("dashedInputField_test")
                     .padding(5.dp)
@@ -86,11 +81,11 @@ fun DashedInputText(
                         val stroke = Stroke(
                             width = 1.dp.toPx(),
                             pathEffect = PathEffect.dashPathEffect(
-                                intervals = floatArrayOf(8.dp.toPx(), 8.dp.toPx(), 0f)
+                                intervals = floatArrayOf(12.dp.toPx(), 12.dp.toPx(), 0f)
                             )
                         )
                         drawRoundRect(
-                            color = if (isError) Color.Transparent else Color.Black,
+                            color = if (isError) Color.Transparent else colorBorder,
                             style = stroke,
                             cornerRadius = CornerRadius(10.dp.toPx())
                         )
@@ -118,7 +113,7 @@ fun DashedInputText(
                 keyboardOptions = keyboardOptions,
                 decorationBox = { innerTextField ->
                     Row(
-                        modifier,
+                        modifier.background(Color.White),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
@@ -126,13 +121,13 @@ fun DashedInputText(
                         ) {
                             if (textValue.isEmpty()) {
                                 Text(
-                                    modifier = modifier.padding(15.dp),
+                                    modifier = modifier.padding(10.dp),
                                     text = placeholderText,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.outline,
                                     fontSize = 15.sp
                                 )
-                            }else {
+                            } else {
                                 Box(modifier = modifier.padding(15.dp)) {
                                     innerTextField()
                                 }

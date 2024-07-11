@@ -19,6 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
@@ -33,12 +37,33 @@ fun Footer(
     viewModel: LoginViewModel
 ) {
     val taskState by viewModel.taskState.collectAsState()
-
+    val annotatedText = buildAnnotatedString {
+        append(stringResource(R.string.nao_tem_uma_conta))
+        withStyle(style = SpanStyle(
+            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.inverseSurface,
+            textDecoration = TextDecoration.Underline
+        )) {
+            append(stringResource(R.string.cadastre_se))
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        //TODO("Extrair string")
+        Row(
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text(
+                text = annotatedText,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier
+                    .clickable(onClick = { navController.navigate("register") })
+                    .align(CenterVertically)
+                    .testTag("link_to_register"),
+                color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
+            )
+        }
+        Spacer(modifier = Modifier.padding(top = 20.dp))
         Row(modifier = Modifier.fillMaxWidth()) {
             Button2(
                 text = "Continuar",
@@ -53,21 +78,6 @@ fun Footer(
                     containerColor = MaterialTheme.colorScheme.primary
                 ),
                 isLoading = taskState is TaskState.Loading
-            )
-        }
-        Spacer(modifier = Modifier.padding(top = 20.dp))
-        //TODO("Extrair string")
-        Row(
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        ) {
-            Text(
-                text = stringResource(R.string.nao_tem_uma_conta_cadastre_se),
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier
-                    .clickable(onClick = { navController.navigate("register") })
-                    .align(CenterVertically)
-                    .testTag("link_to_register"),
-                color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
             )
         }
     }
