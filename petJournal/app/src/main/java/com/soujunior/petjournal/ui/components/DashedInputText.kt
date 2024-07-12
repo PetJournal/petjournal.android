@@ -111,7 +111,7 @@ fun DashedInputText(
                     else PasswordVisualTransformation()
                 } else visualTransformation,
                 keyboardOptions = keyboardOptions,
-                decorationBox = { innerTextField ->
+                decorationBox = {
                     Row(
                         modifier = Modifier.background(Color.White).padding(start = 14.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -127,14 +127,8 @@ fun DashedInputText(
                                     color = MaterialTheme.colorScheme.outline,
                                     fontSize = 15.sp
                                 )
-                            } else {
-                                Text(
-                                    modifier = Modifier,
-                                    text = textValue,
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    fontSize = 15.sp
-                                )
                             }
+                            it()
 
                         }
                         if (isPassword) {
