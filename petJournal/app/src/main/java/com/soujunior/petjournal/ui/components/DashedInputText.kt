@@ -66,7 +66,7 @@ fun DashedInputText(
                 fontSize = 15.sp,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, bottom = 5.dp)
+                    .padding(start = 10.dp, bottom = 5.dp, top = 15.dp)
             )
         }
 
@@ -113,7 +113,9 @@ fun DashedInputText(
                 keyboardOptions = keyboardOptions,
                 decorationBox = {
                     Row(
-                        modifier = Modifier.background(Color.White).padding(start = 14.dp),
+                        modifier = Modifier
+                            .background(Color.White)
+                            .padding(start = 14.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
@@ -159,20 +161,22 @@ fun DashedInputText(
                 }
             )
         }
-        Row {
-            if (textError != null) {
-                textError.forEach {
-                    AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
-                }
-            } else {
-                Text(
-                    "*Campo Obrigatório.",
-                    color = MaterialTheme.colorScheme.outline,
-                    modifier = Modifier.padding(10.dp),
-                    fontSize = 15.sp
-                )
-            }
+    }
+    if (textError != null) {
+        textError.forEach {
+
+            AlertText(
+                textMessage = it,
+                modifier = Modifier.padding(top = 6.dp, bottom = 6.dp, start = 10.dp)
+            )
         }
+    } else {
+        Text(
+            "*Campo Obrigatório.",
+            color = MaterialTheme.colorScheme.outline,
+            modifier = Modifier.padding(10.dp),
+            fontSize = 15.sp
+        )
     }
 
 }

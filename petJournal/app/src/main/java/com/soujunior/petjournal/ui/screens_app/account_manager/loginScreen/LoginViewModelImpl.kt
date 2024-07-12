@@ -93,7 +93,7 @@ class LoginViewModelImpl(
 
             password != null -> {
                 state = state.copy(password = password)
-                val passwordResult = validation.validateField(state.password)
+                val passwordResult = validation.validatePassword(state.password)
                 state =
                     if (hasError(passwordResult)) state.copy(passwordError = passwordResult.errorMessage)
                     else state.copy(passwordError = null)
