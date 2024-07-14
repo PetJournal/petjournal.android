@@ -50,6 +50,7 @@ fun DashedInputText(
     isError: Boolean = false,
     textError: List<String>? = null,
     onEvent: (String) -> Unit,
+    hasAMask: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
@@ -121,7 +122,7 @@ fun DashedInputText(
                         Box(
                             modifier = Modifier.weight(1f)
                         ) {
-                            if (textValue.isEmpty()) {
+                            if (textValue.isEmpty() && !hasAMask) {
                                 Text(
                                     modifier = Modifier,
                                     text = placeholderText,
@@ -131,7 +132,6 @@ fun DashedInputText(
                                 )
                             }
                             it()
-
                         }
                         if (isPassword) {
                             val iconResource =

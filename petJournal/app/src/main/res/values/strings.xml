@@ -50,7 +50,7 @@
     <string name="password">Senha</string>
     <string name="eg_password">Digite sua senha</string>
     <string name="confirm_password">Confirmar senha</string>
-    <string name="register">Cadastrar</string>
+    <string name="register">Continuar</string>
     <string name="required_field">* Campo obrigatório</string>
     <string name="success">Sucesso ao realizar ação!</string>
     <string name="wow">Uau!</string>
@@ -81,6 +81,7 @@
     <string name="nao_tem_uma_conta_cadastre_se">Não possui uma conta? Cadastre-se</string>
     <string name="nao_tem_uma_conta">"Não tem uma conta? "</string>
     <string name="cadastre_se">Cadastre-se</string>
+    <string name="eu_concordo_com_os">Eu concordo com os</string>
 
 
 </resources>
