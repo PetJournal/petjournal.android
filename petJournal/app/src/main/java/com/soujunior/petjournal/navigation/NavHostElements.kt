@@ -86,7 +86,7 @@ fun NavHostMainContent() {
 @Composable
 fun NavTestScreen() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "register") {
+    NavHost(navController = navController, startDestination = "forgotPassword") {
         composable("pets/nameAndGender") {
             PetNameAndGenderScreen(idPetInformation = "1", navController = navController)
         }
@@ -101,6 +101,7 @@ fun NavTestScreen() {
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
         composable("splash") { SplashScreen(navController) }
+        composable("forgotPassword") { ForgotPasswordScreen(navController) }
         composable("changePassword") { ChangePasswordScreen(navController) }
 
         composable("awaitingCode/{arg}") { backStackEntry ->

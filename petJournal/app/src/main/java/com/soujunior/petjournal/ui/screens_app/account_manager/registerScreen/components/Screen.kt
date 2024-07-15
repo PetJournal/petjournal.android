@@ -73,7 +73,7 @@ fun Screen(navController: NavController, viewModel: RegisterViewModel) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 20.dp, end = 20.dp, top = 120.dp),
+                    .padding(start = 20.dp, end = 20.dp, top = 150.dp),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
             ) {

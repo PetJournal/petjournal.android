@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.components
 
+import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowInsetsCompat
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
@@ -39,45 +43,58 @@ fun CreateTitleAndImageLogo(
     spaceBottom: Dp = 16.dp,
     textAlign: TextAlign? = null
 ) {
+    val view = LocalView.current
+    val cutoutInsets = WindowInsetsCompat.toWindowInsetsCompat(view.rootWindowInsets, view)
+
+    val topPadding = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        with(LocalDensity.current) {
+            (cutoutInsets.displayCutout?.safeInsetTop?.toDp() ?: 10.dp) + 4.dp
+        }
+    } else {
+        10.dp
+    }
     BoxWithConstraints(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column {
-            Box( modifier = Modifier.fillMaxWidth()
-                .shadow(
-                    elevation = 8.dp,
-                    shape = RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp),
-                    clip = false
-                )
-            ){
-            Row(
-                Modifier
+            Box(
+                modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.White)
-                    .padding(top = 30.dp, bottom = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
+                    .shadow(
+                        elevation = 8.dp,
+                        shape = RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp),
+                        clip = false
+                    )
             ) {
-                ImageLogo(modifier = modifierImage)
-            }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .background(Color.White)
+                        .padding(top = topPadding, bottom = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    ImageLogo(modifier = modifierImage)
+                }
             }
             Spacer(modifier = Modifier.height(spaceBetween))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth().padding(start = 10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp),
             ) {
                 Text(
                     text = title,
                     style = styleTitle,
                     modifier = modifierTextTitle,
-                    color =  MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.primary,
                     textAlign = textAlign,
                     fontWeight = FontWeight(10)
                 )
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)

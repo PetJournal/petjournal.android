@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.components
 
+import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +22,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -29,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowInsetsCompat
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
@@ -43,7 +47,16 @@ fun HeaderImageLogoImagePasswordAndTitle(
     isDarkMode: Boolean = false,
     textAlign: TextAlign? = null
 ) {
+    val view = LocalView.current
+    val cutoutInsets = WindowInsetsCompat.toWindowInsetsCompat(view.rootWindowInsets, view)
 
+    val topPadding = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        with(LocalDensity.current) {
+            (cutoutInsets.displayCutout?.safeInsetTop?.toDp() ?: 0.dp) + 10.dp
+        }
+    } else {
+        10.dp
+    }
     BoxWithConstraints(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -61,7 +74,7 @@ fun HeaderImageLogoImagePasswordAndTitle(
                     Modifier
                         .fillMaxWidth()
                         .background(Color.White)
-                        .padding(top = 30.dp, bottom = 10.dp),
+                        .padding(top = topPadding, bottom = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
