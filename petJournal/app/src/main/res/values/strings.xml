@@ -82,6 +82,11 @@
     <string name="nao_tem_uma_conta">"Não tem uma conta? "</string>
     <string name="cadastre_se">Cadastre-se</string>
     <string name="eu_concordo_com_os">Eu concordo com os</string>
+    <string name="reset_password_in_two_steps">Redefina a senha em duas etapas!</string>
+    <string name="forgot_password">Esqueceu a senha?</string>
+    <string name="what_is_your_registered_email_address">1. Qual o seu e-mail cadastrado?</string>
+    <string name="send">Enviar</string>
+    <string name="content_description_image_password">Imagem Password</string>
 
 
 </resources>

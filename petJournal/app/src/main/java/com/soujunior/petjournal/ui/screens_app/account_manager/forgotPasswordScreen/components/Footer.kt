@@ -13,10 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
+import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.ForgotPasswordFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.ForgotPasswordViewModel
 import com.soujunior.petjournal.ui.states.TaskState
@@ -29,48 +32,43 @@ fun Footer(
     val taskState by viewModel.taskState.collectAsState()
 
     Column(
-        modifier = Modifier
+        modifier = Modifier.padding(bottom = 40.dp)
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            Modifier.padding(20.dp)
+        ) {
+            Button3(
+                submit = { navController.popBackStack() },
+                enableButton = true,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 5.dp),
+                text = stringResource(R.string.back),
+                buttonColor = ButtonDefaults.buttonColors(
+                    MaterialTheme.colorScheme.surface
+                ),
+                textColor = MaterialTheme.colorScheme.primary
+            )
             Button2(
-                text = "Continuar",
+
+                text = stringResource(R.string.send),
                 border = null,
                 submit = {
                     viewModel.onEvent(ForgotPasswordFormEvent.Submit)
                 },
                 enableButton = viewModel.enableButton(),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 40.dp, end = 40.dp),
-                buttonColor = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                ),
+                    .weight(1f)
+                    .padding(start = 5.dp),
                 isLoading = taskState is TaskState.Loading
-            )
-        }
-        //TODO("Extrair string")
-        Spacer(modifier = Modifier.padding(top = 10.dp))
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Button2(
-                text = "Cancelar",
-                border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
-                submit = { navController.navigate("login") },
-                enableButton = true,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 40.dp, end = 40.dp),
-                buttonColor = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                textColor = MaterialTheme.colorScheme.primary,
             )
         }
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun test() {
+fun FooterPreview() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
