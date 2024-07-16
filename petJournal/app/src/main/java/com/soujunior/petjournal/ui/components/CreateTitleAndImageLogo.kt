@@ -40,7 +40,6 @@ fun CreateTitleAndImageLogo(
     modifierTextTitle: Modifier = Modifier.padding(start = 8.dp),
     styleTitle: TextStyle = MaterialTheme.typography.displayMedium,
     spaceBetween: Dp = 0.dp,
-    spaceBottom: Dp = 16.dp,
     textAlign: TextAlign? = null
 ) {
     val view = LocalView.current
