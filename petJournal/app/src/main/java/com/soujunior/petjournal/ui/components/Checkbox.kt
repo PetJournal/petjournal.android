@@ -50,10 +50,10 @@ fun Checkbox(
                 Checkbox(
                     checked = radioButtonSelected,
                     onCheckedChange = { onEvent(!radioButtonSelected) },
-                    colors = CheckboxDefaults.colors(
+                    colors = CheckboxDefaults.colors (
                         checkedColor = Color.Transparent,
                         uncheckedColor = Color.Transparent,
-                        checkmarkColor = MaterialTheme.colorScheme.primary
+                        checkmarkColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.primary
                     ),
                     modifier = Modifier.size(10.dp)
                 )
