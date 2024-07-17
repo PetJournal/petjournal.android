@@ -47,7 +47,7 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 20.dp, end = 20.dp, top = 200.dp)
+                .padding(start = 20.dp, end = 20.dp, top = 240.dp)
                 .align(Alignment.TopCenter)
         ) {
             DashedInputText(

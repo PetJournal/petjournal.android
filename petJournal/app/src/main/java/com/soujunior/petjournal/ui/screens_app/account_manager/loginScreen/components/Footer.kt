@@ -36,6 +36,7 @@ fun Footer(
     navController: NavController,
     viewModel: LoginViewModel
 ) {
+    val isDarkMode = isSystemInDarkTheme()
     val taskState by viewModel.taskState.collectAsState()
     val annotatedText = buildAnnotatedString {
         append(stringResource(R.string.nao_tem_uma_conta))
@@ -68,6 +69,7 @@ fun Footer(
             Button2(
                 text = "Continuar",
                 border = null,
+                textColor = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.White,
                 submit = { viewModel.onEvent(LoginFormEvent.Submit) },
                 enableButton = viewModel.enableButton(),
                 modifier = Modifier
@@ -75,7 +77,7 @@ fun Footer(
                     .padding(start = 40.dp, end = 40.dp)
                     .testTag("button_continue"),
                 buttonColor = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
+                    containerColor =  MaterialTheme.colorScheme.primary
                 ),
                 isLoading = taskState is TaskState.Loading
             )
