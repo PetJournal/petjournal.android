@@ -39,10 +39,11 @@ fun PrivacyPolicyCheckbox(
     var showPrivacyPolicy by StatesRegister.showPrivacyPolicy.current
     val annotatedText = buildAnnotatedString {
         append(stringResource(R.string.eu_concordo_com_os))
-        withStyle(style = SpanStyle(
-            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.inverseSurface,
-            textDecoration = TextDecoration.Underline
-        )
+        withStyle(
+            style = SpanStyle(
+                color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.inverseSurface,
+                textDecoration = TextDecoration.Underline
+            )
         ) {
             append(" termos de política e privacidade")
         }
@@ -73,7 +74,7 @@ fun PrivacyPolicyCheckbox(
                         colors = CheckboxDefaults.colors(
                             checkedColor = Color.Transparent,
                             uncheckedColor = Color.Transparent,
-                            checkmarkColor = MaterialTheme.colorScheme.primary
+                            checkmarkColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.primary
                         ),
                         modifier = Modifier.size(10.dp)
                     )

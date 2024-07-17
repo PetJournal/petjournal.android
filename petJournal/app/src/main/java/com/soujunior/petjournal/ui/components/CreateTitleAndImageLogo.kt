@@ -43,7 +43,6 @@ fun CreateTitleAndImageLogo(
     spaceBetween: Dp = 0.dp,
     textAlign: TextAlign? = null
 ) {
-    val isDarkMode = isSystemInDarkTheme()
     val view = LocalView.current
     val cutoutInsets = WindowInsetsCompat.toWindowInsetsCompat(view.rootWindowInsets, view)
 
@@ -61,7 +60,7 @@ fun CreateTitleAndImageLogo(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth().background(if (isDarkMode) MaterialTheme.colorScheme.background else Color.White)
+                .fillMaxWidth().background(MaterialTheme.colorScheme.background)
         ) {
             Box(
                 modifier = Modifier
@@ -75,7 +74,7 @@ fun CreateTitleAndImageLogo(
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .background(if (isDarkMode) MaterialTheme.colorScheme.background else Color.White)
+                        .background(MaterialTheme.colorScheme.background)
                         .padding(top = topPadding, bottom = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,

@@ -47,7 +47,6 @@ fun HeaderImageLogoImagePasswordAndTitle(
     spaceBetween: Dp = 0.dp,
     textAlign: TextAlign? = null
 ) {
-    val  isDarkMode = isSystemInDarkTheme()
     val view = LocalView.current
     val cutoutInsets = WindowInsetsCompat.toWindowInsetsCompat(view.rootWindowInsets, view)
 
@@ -61,7 +60,7 @@ fun HeaderImageLogoImagePasswordAndTitle(
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
-            .background(if (isDarkMode) MaterialTheme.colorScheme.background else Color.White)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column {
             Box(
@@ -76,7 +75,7 @@ fun HeaderImageLogoImagePasswordAndTitle(
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .background(if (isDarkMode) MaterialTheme.colorScheme.background else Color.White)
+                        .background(MaterialTheme.colorScheme.background)
                         .padding(top = topPadding, bottom = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
@@ -146,7 +145,7 @@ fun HeaderImageLogoImagePasswordAndTitle(
                 androidx.compose.material.Text(
                     text = subText,
                     style = MaterialTheme.typography.titleLarge,
-                    color = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.Unspecified,
+                    color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified,
                 )
             }
         }
