@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,6 +43,7 @@ import com.soujunior.petjournal.ui.states.TaskState
 fun Screen(navController: NavController, viewModel: RegisterViewModel) {
     val taskState by viewModel.taskState.collectAsState()
     val systemUiController = rememberSystemUiController()
+    val isDarkMode = isSystemInDarkTheme()
     systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
     systemUiController.setNavigationBarColor(Color.Black)
     Box(
@@ -73,7 +75,7 @@ fun Screen(navController: NavController, viewModel: RegisterViewModel) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 20.dp, end = 20.dp, top = 150.dp),
+                    .padding(start = 20.dp, end = 20.dp, top = 180.dp),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
             ) {
@@ -230,6 +232,9 @@ fun Screen(navController: NavController, viewModel: RegisterViewModel) {
 
                             text = stringResource(id = R.string.register),
                             border = null,
+                            buttonColor = if (isDarkMode) ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimary)
+                            else ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                            textColor = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.White,
                             submit = {
                                 viewModel.onEvent(RegisterFormEvent.Submit)
                             },
