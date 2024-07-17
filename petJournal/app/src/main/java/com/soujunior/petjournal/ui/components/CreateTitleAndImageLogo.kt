@@ -61,7 +61,7 @@ fun CreateTitleAndImageLogo(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth() .background(if (isDarkMode) MaterialTheme.colorScheme.background else Color.White)
+                .fillMaxWidth().background(if (isDarkMode) MaterialTheme.colorScheme.background else Color.White)
         ) {
             Box(
                 modifier = Modifier

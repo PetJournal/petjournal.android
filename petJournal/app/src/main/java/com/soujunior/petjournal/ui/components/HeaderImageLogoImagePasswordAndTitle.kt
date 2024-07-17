@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.components
 import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -44,9 +45,9 @@ fun HeaderImageLogoImagePasswordAndTitle(
     modifierTextTitle: Modifier = Modifier.padding(start = 8.dp),
     styleTitle: TextStyle = MaterialTheme.typography.displayMedium,
     spaceBetween: Dp = 0.dp,
-    isDarkMode: Boolean = false,
     textAlign: TextAlign? = null
 ) {
+    val  isDarkMode = isSystemInDarkTheme()
     val view = LocalView.current
     val cutoutInsets = WindowInsetsCompat.toWindowInsetsCompat(view.rootWindowInsets, view)
 
@@ -58,7 +59,9 @@ fun HeaderImageLogoImagePasswordAndTitle(
         10.dp
     }
     BoxWithConstraints(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(if (isDarkMode) MaterialTheme.colorScheme.background else Color.White)
     ) {
         Column {
             Box(
@@ -73,7 +76,7 @@ fun HeaderImageLogoImagePasswordAndTitle(
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .background(Color.White)
+                        .background(if (isDarkMode) MaterialTheme.colorScheme.background else Color.White)
                         .padding(top = topPadding, bottom = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,

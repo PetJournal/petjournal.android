@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,7 +32,7 @@ fun Footer(
     viewModel: ForgotPasswordViewModel
 ) {
     val taskState by viewModel.taskState.collectAsState()
-
+    val isDarkMode = isSystemInDarkTheme()
     Column(
         modifier = Modifier.padding(bottom = 40.dp)
     ) {
@@ -50,9 +52,11 @@ fun Footer(
                 textColor = MaterialTheme.colorScheme.primary
             )
             Button2(
-
+                buttonColor = if (isDarkMode) ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimary)
+                else ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                 text = stringResource(R.string.send),
                 border = null,
+                textColor = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.White,
                 submit = {
                     viewModel.onEvent(ForgotPasswordFormEvent.Submit)
                 },
