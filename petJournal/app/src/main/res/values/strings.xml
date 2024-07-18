@@ -87,6 +87,10 @@
     <string name="what_is_your_registered_email_address">1. Qual o seu e-mail cadastrado?</string>
     <string name="send">Enviar</string>
     <string name="content_description_image_password">Imagem Password</string>
+    <string name="policy_and_privacy_terms">" termos de política e privacidade"</string>
+    <string name="now_create_a_new_password">Agora crie uma nova senha!</string>
+    <string name="enter_a_new_password">3. Informe uma nova senha:</string>
+    <string name="enter_your_password_again">Digite sua senha novamente</string>
 
 
 </resources>

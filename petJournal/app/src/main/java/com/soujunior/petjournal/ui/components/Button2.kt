@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.ui.theme.Shapes
 
 @Composable
@@ -49,8 +50,9 @@ fun Button2(
             if (!isLoading) {
                 Text(
                     text = text,
-                    fontWeight = FontWeight(100),
-                    style = MaterialTheme.typography.headlineLarge,
+                    fontWeight = FontWeight(900),
+                    fontSize = 16.sp,
+                    style = MaterialTheme.typography.titleLarge,
                     color = textColor
                 )
             } else {

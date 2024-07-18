@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowInsetsCompat
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
@@ -40,7 +41,7 @@ import com.soujunior.petjournal.ui.theme.PetJournalTheme
 @Composable
 fun HeaderImageLogoImagePasswordAndTitle(
     title: String,
-    subText: String,
+    subText: String = "",
     modifierImage: Modifier = Modifier,
     modifierTextTitle: Modifier = Modifier.padding(start = 8.dp),
     styleTitle: TextStyle = MaterialTheme.typography.displayMedium,
@@ -132,7 +133,8 @@ fun HeaderImageLogoImagePasswordAndTitle(
                     modifier = modifierTextTitle,
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = textAlign,
-                    fontWeight = FontWeight(10)
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight(100)
                 )
             }
             Row(
