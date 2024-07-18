@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.components
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -149,10 +148,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                             submit = { navController.popBackStack() },
                                             enableButton = true,
                                             modifier = Modifier.width(150.dp),
-                                            border = BorderStroke(
-                                                width = 2.dp,
-                                                color = MaterialTheme.colorScheme.primary
-                                            ),
+
                                             text = stringResource(R.string.back),
                                             buttonColor = ButtonDefaults.buttonColors(
                                                 MaterialTheme.colorScheme.surface
@@ -176,11 +172,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                             },
                                             enableButton = viewModel.enableButton(),
                                             modifier = Modifier.width(150.dp),
-                                            border = BorderStroke(
-                                                width = 2.dp,
-                                                color =
-                                                MaterialTheme.colorScheme.primary
-                                            ),
+
                                             text = stringResource(R.string.text_continue),
                                             buttonColor = ButtonDefaults.buttonColors(
                                                 MaterialTheme.colorScheme.primary

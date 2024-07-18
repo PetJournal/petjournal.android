@@ -3,7 +3,6 @@ package com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.util.Log
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,9 +26,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateFormEvent
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateViewModel
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DateInputText
@@ -37,6 +33,9 @@ import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.mask.formatDate
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateFormEvent
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateViewModel
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
 import com.soujunior.petjournal.ui.states.TaskState
 import org.koin.androidx.compose.getViewModel
 
@@ -115,10 +114,6 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                         modifier = Modifier
                                             .width(150.dp)
                                             .height(50.dp),
-                                        border = BorderStroke(
-                                            width = 2.dp,
-                                            color = MaterialTheme.colorScheme.primary
-                                        ),
                                         text = stringResource(R.string.back),
                                         buttonColor = ButtonDefaults.buttonColors(
                                             MaterialTheme.colorScheme.surface
@@ -145,11 +140,6 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                         modifier = Modifier
                                             .width(150.dp)
                                             .height(50.dp),
-                                        border = BorderStroke(
-                                            width = 2.dp,
-                                            color =
-                                            MaterialTheme.colorScheme.primary
-                                        ),
                                         text = stringResource(R.string.text_continue),
                                         buttonColor = ButtonDefaults.buttonColors(
                                             MaterialTheme.colorScheme.primary
