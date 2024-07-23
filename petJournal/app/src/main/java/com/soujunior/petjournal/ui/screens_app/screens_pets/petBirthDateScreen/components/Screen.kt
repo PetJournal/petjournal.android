@@ -155,7 +155,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                             ) {
                                                 Log.i(TAG, viewModel.state.birth + viewModel.state.castration.toString())
                                                 viewModel.updatePetInformation()
-                                                //navController.navigate("pets/birth/$it")
+                                                navController.navigate("pets/registeredPets")
                                             }
                                         },
                                         enableButton = viewModel.enableButton(),

@@ -14,6 +14,7 @@ import com.soujunior.domain.repository.GuardianLocalDataSource
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.DataResult
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 
 class GuardianRepositoryImpl(
     private val guardianApi: GuardianService,
@@ -129,7 +130,7 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun getAllPetInformation(): DataResult<List<PetInformationModel>> {
+    override suspend fun getAllPetInformation(): DataResult<Flow<List<PetInformationModel>>> {
         return try {
             DataResult.Success(guardianLocalDataSourceImpl.getAllPetInformation().success.data)
         }catch (e: Throwable){

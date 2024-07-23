@@ -15,6 +15,7 @@ import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.repository.GuardianLocalDataSource
 import com.soujunior.domain.use_case.base.DataResult
+import kotlinx.coroutines.flow.Flow
 
 class GuardianLocalDataSourceImpl(
     private val guardianDao: GuardianProfileDao,
@@ -52,7 +53,7 @@ class GuardianLocalDataSourceImpl(
         }
 
     }
-    override suspend fun getAllPetInformation() : DataResult<List<PetInformationModel>>{
+    override suspend fun getAllPetInformation() : DataResult<Flow<List<PetInformationModel>>>{
         return try{
             DataResult.Success(guardianDao.getAllPetInformation())
         }

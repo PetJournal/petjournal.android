@@ -42,6 +42,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.util.calculateAge
+import com.soujunior.petjournal.ui.util.formatAge
 
 @Composable
 fun PetItemCard(info : PetInformationModel, modifier: Modifier){
@@ -73,7 +75,7 @@ fun PetItemCard(info : PetInformationModel, modifier: Modifier){
                 Column(Modifier.padding(horizontal = 10.dp, vertical = 5.dp)) {
                     info.name?.let { Text(text = it, fontSize = 15.sp, color = if(info.gender == "M") Color(0xFF5888ED) else Color(0xFF9A0963)) }
                     info.petRace?.let { Text(text = it, fontSize = 12.sp) }
-                    info.petAge?.let { Text(text = "$it anos", fontSize = 12.sp) }
+                    info.petAge?.let { Text(text = formatAge(calculateAge(it)), fontSize = 12.sp) }
                 }
                 Column (
                     Modifier

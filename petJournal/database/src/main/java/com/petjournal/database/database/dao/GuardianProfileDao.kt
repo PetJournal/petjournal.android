@@ -10,6 +10,7 @@ import com.petjournal.database.database.entity.PetRace
 import com.petjournal.database.database.entity.PetSize
 import com.petjournal.database.database.entity.PetInformation
 import com.soujunior.domain.model.PetInformationModel
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GuardianProfileDao {
@@ -29,7 +30,7 @@ interface GuardianProfileDao {
     suspend fun getPetInformation(id: Long): PetInformationModel
 
     @Query("SELECT * FROM pet_information")
-    suspend fun getAllPetInformation() : List<PetInformationModel>
+    fun getAllPetInformation() : Flow<List<PetInformationModel>>
 
     @Query("DELETE FROM pet_information WHERE id =:id")
     suspend fun deletePetInformation(id: Long)

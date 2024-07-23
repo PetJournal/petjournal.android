@@ -10,14 +10,13 @@ import com.soujunior.domain.use_case.pet.DeletePetInformationUseCase
 import com.soujunior.domain.use_case.pet.GetAllPetInformationUseCase
 import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.RegisteredPetFormEvent
 import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.RegisteredPetFormState
-import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.ViewModelRegisteredPets
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.NameGenderFormState
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class ViewModelRegisteredPetsImpl(
@@ -39,10 +38,11 @@ class ViewModelRegisteredPetsImpl(
         _taskState.value = TaskState.Loading
         getAllPetInformation()
     }
-    override fun success(petList: List<PetInformationModel>) {
+    override fun success(petList: Flow<List<PetInformationModel>>) {
 //        registeredPets = petList
-        state = state.copy(registeredPetList = petList)
         viewModelScope.launch {
+            val collectedPetList = petList.first()
+            state = state.copy(registeredPetList = collectedPetList)
             validationEventChannel.send(ValidationEvent.Success)
         }
     }

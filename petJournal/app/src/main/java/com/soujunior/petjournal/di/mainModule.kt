@@ -37,7 +37,7 @@ import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
-import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.ViewModelRegisteredPets
+import com.soujunior.petjournal.ui.screens_app.screens_pets.registeredPetScreen.ViewModelRegisteredPets
 import com.soujunior.petjournal.ui.screens_app.screens_pets.registeredPetScreen.ViewModelRegisteredPetsImpl
 import com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.HomeScreenViewModelImpl
