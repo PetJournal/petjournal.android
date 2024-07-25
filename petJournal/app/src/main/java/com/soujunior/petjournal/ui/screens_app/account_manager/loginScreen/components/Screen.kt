@@ -47,7 +47,7 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 20.dp, end = 20.dp, top = 240.dp)
+                .padding(start = 20.dp, end = 20.dp, top = 200.dp)
                 .align(Alignment.TopCenter)
         ) {
             DashedInputText(
@@ -79,7 +79,7 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
             RememberPasswordAndForgotSection(navController, viewModel)
             Spacer(modifier = Modifier.weight(1f))
             Footer(navController, viewModel)
-            Spacer(modifier = Modifier.weight(0.4f))
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
 }

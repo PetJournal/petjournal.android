@@ -43,7 +43,7 @@ fun Screen(navController: NavController, viewModel: ForgotPasswordViewModel) {
             HeaderImageLogoImagePasswordAndTitle(
                 subText = stringResource(R.string.reset_password_in_two_steps),
                 title = stringResource(R.string.forgot_password),
-                spaceBetween = 90.dp,
+                spaceBetween = 40.dp,
                 styleTitle = MaterialTheme.typography.headlineLarge
             )
             LazyColumn(
@@ -67,16 +67,10 @@ fun Screen(navController: NavController, viewModel: ForgotPasswordViewModel) {
                         }
                     )
                 }
+                item {
+                    Footer(navController, viewModel)
+                }
             }
-        }
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .padding(20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Footer(navController, viewModel)
         }
     }
 }
