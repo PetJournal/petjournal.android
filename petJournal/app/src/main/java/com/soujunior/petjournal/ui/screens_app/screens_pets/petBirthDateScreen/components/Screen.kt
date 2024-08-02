@@ -1,8 +1,6 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.components
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,18 +31,21 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DateInputText
+import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.mask.formatDate
 import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateFormEvent
 import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.BirthDateViewModel
 import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
+import com.soujunior.petjournal.ui.states.TaskState
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun Screen(idPetInformation: String?, navController: NavController) {
     val viewModel: BirthDateViewModel = getViewModel()
+    val taskState by viewModel.taskState.collectAsState()
     var isClearCastration by remember { mutableStateOf(false) }
     if (idPetInformation != null) {
         viewModel.getPetInformation(idPetInformation.toLong())
@@ -57,7 +59,9 @@ fun Screen(idPetInformation: String?, navController: NavController) {
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = { it ->
-                Box(modifier = Modifier.padding(it)) {
+                if (taskState is TaskState.Loading)
+                    IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                else Box(modifier = Modifier.padding(it)) {
                     LazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Top,
@@ -153,9 +157,10 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                                 viewModel.state.birth.isNotEmpty() &&
                                                 viewModel.state.castration != null
                                             ) {
-                                                Log.i(TAG, viewModel.state.birth + viewModel.state.castration.toString())
                                                 viewModel.updatePetInformation()
                                                 navController.navigate("pets/registeredPets")
+                                                viewModel.createPetInformation()
+                                                //navController.navigate("pets/birth/$it")
                                             }
                                         },
                                         enableButton = viewModel.enableButton(),

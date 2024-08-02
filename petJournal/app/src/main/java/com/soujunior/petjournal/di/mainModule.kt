@@ -31,6 +31,7 @@ import com.soujunior.domain.use_case.guardian.GetPetRegistrationWentLive
 import com.soujunior.domain.use_case.guardian.SetPetRegistrationWentLive
 import com.soujunior.domain.use_case.pet.DeletePetInformationUseCase
 import com.soujunior.domain.use_case.pet.GetAllPetInformationUseCase
+import com.soujunior.domain.use_case.pet.CreatePetInformationApiUseCase
 import com.soujunior.domain.use_case.pet.GetListPetRacesUseCase
 import com.soujunior.domain.use_case.pet.GetListPetSizesUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
@@ -111,6 +112,7 @@ val mainModule = module {
     factory { SavedStateHandle() }
     factory { GetListPetSizesUseCase(get()) }
     factory { GetListPetRacesUseCase(get()) }
+    factory { CreatePetInformationApiUseCase(get()) }
 
     single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
     single<GuardianService> { get<Retrofit>().create(GuardianService::class.java) }
@@ -161,6 +163,6 @@ val mainModule = module {
         )
     }
 
-    viewModel<BirthDateViewModel> { BirthDateViewModelImpl(get(), get(), get()) }
+    viewModel<BirthDateViewModel> { BirthDateViewModelImpl(get(), get(), get(), get()) }
     viewModel<ViewModelRaceSize> { ViewModelRaceSizeImpl(get(), get(), get(), get(), get()) }
 }

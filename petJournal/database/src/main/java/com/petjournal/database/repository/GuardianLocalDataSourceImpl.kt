@@ -53,11 +53,11 @@ class GuardianLocalDataSourceImpl(
         }
 
     }
-    override suspend fun getAllPetInformation() : DataResult<Flow<List<PetInformationModel>>>{
-        return try{
+
+    override suspend fun getAllPetInformation(): DataResult<List<PetInformationModel>> {
+        return try {
             DataResult.Success(guardianDao.getAllPetInformation())
-        }
-        catch (e:Throwable){
+        } catch (e: Throwable) {
             DataResult.Failure(e)
         }
     }
@@ -127,7 +127,7 @@ class GuardianLocalDataSourceImpl(
     }
 
     override suspend fun saveListPetRaces(
-       tag: String, listPetRace: List<PetRaceItemModel>
+        tag: String, listPetRace: List<PetRaceItemModel>
     ): DataResult<String> {
         return try {
             guardianDao.insertListPetRaces(listPetRace.toListPetRaceEntity(tag))
@@ -136,7 +136,6 @@ class GuardianLocalDataSourceImpl(
             DataResult.Failure(e)
         }
     }
-
 
 
     override suspend fun deleteDatabase() {

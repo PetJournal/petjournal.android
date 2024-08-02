@@ -30,7 +30,7 @@ interface GuardianProfileDao {
     suspend fun getPetInformation(id: Long): PetInformationModel
 
     @Query("SELECT * FROM pet_information")
-    fun getAllPetInformation() : Flow<List<PetInformationModel>>
+    suspend fun getAllPetInformation() : List<PetInformationModel>
 
     @Query("DELETE FROM pet_information WHERE id =:id")
     suspend fun deletePetInformation(id: Long)

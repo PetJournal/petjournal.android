@@ -3,9 +3,14 @@ package com.soujunior.data.remote
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.model.response.PetInformationResponse
+import com.soujunior.domain.model.response.pet_information.PetInformationItem
 import com.soujunior.domain.network.NetworkResult
+import com.soujunior.domain.use_case.base.DataResult
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface GuardianService {
@@ -23,4 +28,15 @@ interface GuardianService {
         @Header("Authorization") token: String,
         @Path("petSpecie") petSpecie: String
     ): NetworkResult<List<PetRaceItemModel>>
+
+    @POST("api/pet")
+    suspend fun savePetInformation(
+        @Header("Authorization") token: String,
+        @Body petInformationResponse: PetInformationResponse
+    ): NetworkResult<Unit>
+
+    @GET("api/pet")
+    suspend fun getAllPetInformation(
+        @Header("Authorization") token: String
+    ): NetworkResult<List<PetInformationItem>>
 }

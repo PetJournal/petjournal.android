@@ -5,11 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.response.PetInformationResponse
+import com.soujunior.domain.model.response.pet_information.PetInformationItem
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.pet.DeletePetInformationUseCase
 import com.soujunior.domain.use_case.pet.GetAllPetInformationUseCase
 import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.RegisteredPetFormEvent
-import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.RegisteredPetFormState
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -38,11 +39,10 @@ class ViewModelRegisteredPetsImpl(
         _taskState.value = TaskState.Loading
         getAllPetInformation()
     }
-    override fun success(petList: Flow<List<PetInformationModel>>) {
-//        registeredPets = petList
+
+    override fun success(petList: List<PetInformationItem>) {
         viewModelScope.launch {
-            val collectedPetList = petList.first()
-            state = state.copy(registeredPetList = collectedPetList)
+            state = state.copy(registeredPetList = petList)
             validationEventChannel.send(ValidationEvent.Success)
         }
     }
@@ -73,7 +73,7 @@ class ViewModelRegisteredPetsImpl(
     override fun deletePetInformation(petId: Long) {
         val _currList = state.registeredPetList.toMutableList()
         _currList.removeAll {
-            it.id == petId
+            it.id == petId.toString()
         }
 
         viewModelScope.launch {

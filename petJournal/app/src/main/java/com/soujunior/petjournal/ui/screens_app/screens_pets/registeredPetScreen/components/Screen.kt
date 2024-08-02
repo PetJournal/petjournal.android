@@ -96,7 +96,7 @@ fun Screen(navController: NavController){
                                         /*Abrir Tela do Pet*/
                                     },
                                         onLongClick = {
-                                            actualPetId = item.id
+                                            actualPetId = 1
                                             showDeleteDialog = true
                                         })
                             )
