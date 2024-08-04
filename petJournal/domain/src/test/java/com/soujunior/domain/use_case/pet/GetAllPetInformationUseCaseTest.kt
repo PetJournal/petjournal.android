@@ -2,11 +2,10 @@ package com.soujunior.domain.use_case.pet
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.setup.MainCoroutineRule
-import com.soujunior.domain.setup.petInformation
-import com.soujunior.domain.setup.petInformationList
-import com.soujunior.domain.use_case.base.DataResult
+import com.soujunior.domain.setup.petInformationItemList
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,7 +22,7 @@ class GetAllPetInformationUseCaseTest {
 
     @Test
     fun `should return failure when get pet information`() = runBlocking {
-        coEvery { repository.getAllPetInformation() } returns DataResult.Failure(
+        coEvery { repository.getAllPetInformation() } returns NetworkResult.Exception(
             Throwable()
         )
         val getAllPetInformationUseCase = GetAllPetInformationUseCase(repository = repository)
@@ -36,11 +35,11 @@ class GetAllPetInformationUseCaseTest {
     @Test
     fun `should return success when get pet information`() = runBlocking {
 
-        coEvery { repository.getAllPetInformation() } returns DataResult.Success(data = petInformationList)
+        coEvery { repository.getAllPetInformation() } returns NetworkResult.Success(data = petInformationItemList)
         val getAllPetInformationUseCase = GetAllPetInformationUseCase(repository = repository)
 
         val result = getAllPetInformationUseCase.execute(Unit)
 
-        assertThat(result.success.data).isEqualTo(petInformationList)
+        assertThat(result.success.data).isEqualTo(petInformationItemList)
     }
 }
