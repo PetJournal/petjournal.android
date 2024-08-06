@@ -111,7 +111,7 @@ fun Screen(viewModel: ChangePasswordViewModel, navController: NavController) {
                 }
                 item {
                     Row(
-                        Modifier.padding(top = 40.dp, bottom = 20.dp)
+                        Modifier.padding(top = 40.dp, bottom = 40.dp)
                     ) {
                         Button3(
                             submit = { navController.popBackStack() },
