@@ -30,7 +30,7 @@ fun RememberPasswordAndForgotSection(navController: NavController, viewModel: Lo
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp, start = 5.dp)
+            .padding(top = 30.dp, start = 5.dp, bottom = 20.dp)
     ) {
         Column(content = {
             Checkbox(

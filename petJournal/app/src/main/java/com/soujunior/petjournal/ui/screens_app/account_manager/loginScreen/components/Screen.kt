@@ -1,12 +1,17 @@
 package com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -34,52 +39,77 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
         darkIcons = true
     )
     systemUiController.setNavigationBarColor(Color.Black)
-
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.background),
     ) {
-
-        Column {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top,
+        ) {
             LoginHeader()
+
         }
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 20.dp, end = 20.dp, top = 200.dp)
-                .align(Alignment.TopCenter)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top,
         ) {
-            DashedInputText(
-                modifier = Modifier.testTag("input_email"),
-                textInputModifier = Modifier.fillMaxWidth(),
-                placeholderText = stringResource(id = R.string.email_hint),
-                textValue = viewModel.state.email,
-                textError = viewModel.state.emailError,
-                isError = !viewModel.state.emailError.isNullOrEmpty(),
-                titleText = stringResource(id = R.string.email_label),
-                onEvent = { it: String ->
-                    viewModel.onEvent(LoginFormEvent.EmailChanged(it))
-                },
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email)
-            )
-            DashedInputText(
-                titleText = stringResource(id = R.string.password_label),
-                textInputModifier = Modifier.fillMaxWidth(),
-                isPassword = true,
-                placeholderText = stringResource(id = R.string.password_hint),
-                modifier = Modifier.testTag("input_password"),
-                textValue = viewModel.state.password,
-                textError = viewModel.state.passwordError,
-                isError = !viewModel.state.passwordError.isNullOrEmpty(),
-                onEvent = { it: String ->
-                    viewModel.onEvent(LoginFormEvent.PasswordChanged(it))
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 20.dp, end = 20.dp, top = 250.dp, bottom = 60.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Top,
+            ) {
+                item {
+                    DashedInputText(
+                        modifier = Modifier.testTag("input_email"),
+                        textInputModifier = Modifier.fillMaxWidth(),
+                        placeholderText = stringResource(id = R.string.email_hint),
+                        textValue = viewModel.state.email,
+                        textError = viewModel.state.emailError,
+                        isError = !viewModel.state.emailError.isNullOrEmpty(),
+                        titleText = stringResource(id = R.string.email_label),
+                        onEvent = { it: String ->
+                            viewModel.onEvent(LoginFormEvent.EmailChanged(it))
+                        },
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email)
+                    )
                 }
-            )
-            RememberPasswordAndForgotSection(navController, viewModel)
-            Spacer(modifier = Modifier.weight(1f))
-            Footer(navController, viewModel)
-            Spacer(modifier = Modifier.weight(1f))
+                item {
+                    DashedInputText(
+                        titleText = stringResource(id = R.string.password_label),
+                        textInputModifier = Modifier.fillMaxWidth(),
+                        isPassword = true,
+                        placeholderText = stringResource(id = R.string.password_hint),
+                        modifier = Modifier.testTag("input_password"),
+                        textValue = viewModel.state.password,
+                        textError = viewModel.state.passwordError,
+                        isError = !viewModel.state.passwordError.isNullOrEmpty(),
+                        onEvent = { it: String ->
+                            viewModel.onEvent(LoginFormEvent.PasswordChanged(it))
+                        }
+                    )
+                }
+                item {
+                    RememberPasswordAndForgotSection(navController, viewModel)
+                }
+                item{
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(2f)
+                    )
+                    Footer(navController, viewModel)
+
+                }
+            }
         }
     }
 }
