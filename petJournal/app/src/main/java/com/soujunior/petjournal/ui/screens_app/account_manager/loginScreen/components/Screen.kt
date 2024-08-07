@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,6 +25,7 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginViewModel
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun Screen(navController: NavController, viewModel: LoginViewModel) {
@@ -98,12 +98,13 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
                 item {
                     RememberPasswordAndForgotSection(navController, viewModel)
                 }
-                item{
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(2f)
-                    )
+                item {
+
+                    Spacer(modifier = Modifier.padding(top = 75.sdp))
+
+                }
+                item {
+
                     Footer(navController, viewModel)
 
                 }
