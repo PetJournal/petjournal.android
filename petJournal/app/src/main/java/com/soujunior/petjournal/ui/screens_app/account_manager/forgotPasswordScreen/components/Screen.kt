@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
@@ -22,6 +21,7 @@ import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.HeaderImageLogoImagePasswordAndTitle
 import com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.ForgotPasswordFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.ForgotPasswordViewModel
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun Screen(navController: NavController, viewModel: ForgotPasswordViewModel) {
@@ -43,13 +43,13 @@ fun Screen(navController: NavController, viewModel: ForgotPasswordViewModel) {
             HeaderImageLogoImagePasswordAndTitle(
                 subText = stringResource(R.string.reset_password_in_two_steps),
                 title = stringResource(R.string.forgot_password),
-                spaceBetween = 40.dp,
+                spaceBetween = 40.sdp,
                 styleTitle = MaterialTheme.typography.headlineLarge
             )
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 20.dp, end = 20.dp, top = 40.dp),
+                    .padding(start = 20.sdp, end = 20.sdp, top = 40.sdp),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Center,
             ) {

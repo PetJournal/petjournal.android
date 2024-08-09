@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
@@ -25,6 +24,7 @@ import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.ForgotPasswordFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.ForgotPasswordViewModel
 import com.soujunior.petjournal.ui.states.TaskState
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun Footer(
@@ -34,17 +34,17 @@ fun Footer(
     val taskState by viewModel.taskState.collectAsState()
     val isDarkMode = isSystemInDarkTheme()
     Column(
-        modifier = Modifier.padding(bottom = 40.dp)
+        modifier = Modifier.padding(bottom = 40.sdp)
     ) {
         Row(
-            Modifier.padding(20.dp)
+            Modifier.padding(20.sdp)
         ) {
             Button3(
                 submit = { navController.popBackStack() },
                 enableButton = true,
                 modifier = Modifier
                     .weight(1f)
-                    .padding(end = 5.dp),
+                    .padding(end = 5.sdp),
                 text = stringResource(R.string.back),
                 buttonColor = ButtonDefaults.buttonColors(
                     MaterialTheme.colorScheme.surface
@@ -63,7 +63,7 @@ fun Footer(
                 enableButton = viewModel.enableButton(),
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 5.dp),
+                    .padding(start = 5.sdp),
                 isLoading = taskState is TaskState.Loading
             )
         }
@@ -85,22 +85,22 @@ fun FooterPreview() {
 
                 },
                 enableButton = true,
-                modifier = Modifier.size(height = 50.dp, width = 240.dp),
+                modifier = Modifier.size(height = 50.sdp, width = 240.sdp),
                 buttonColor = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 )
             )
         }
-        Spacer(modifier = Modifier.padding(top = 10.dp))
+        Spacer(modifier = Modifier.padding(top = 10.sdp))
         Row {
             Button2(
                 text = "Cancelar",
-                border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
+                border = BorderStroke(2.sdp, MaterialTheme.colorScheme.primary),
                 submit = { },
                 enableButton = true,
                 modifier = Modifier
-                    .size(height = 50.dp, width = 240.dp)
-                    .padding(bottom = 50.dp),
+                    .size(height = 50.sdp, width = 240.sdp)
+                    .padding(bottom = 50.sdp),
                 buttonColor = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.surface
                 ),
