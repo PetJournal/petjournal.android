@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
@@ -38,6 +37,7 @@ import com.soujunior.petjournal.ui.components.mask.mobileNumberFilter
 import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterViewModel
 import com.soujunior.petjournal.ui.states.TaskState
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun Screen(navController: NavController, viewModel: RegisterViewModel) {
@@ -60,7 +60,7 @@ fun Screen(navController: NavController, viewModel: RegisterViewModel) {
 
             CreateTitleAndImageLogo(
                 title = stringResource(id = R.string.sign_up),
-                spaceBetween = 40.dp,
+                spaceBetween = 40.sdp,
                 styleTitle = MaterialTheme.typography.displayMedium
             )
 
@@ -75,7 +75,7 @@ fun Screen(navController: NavController, viewModel: RegisterViewModel) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 20.dp, end = 20.dp, top = 180.dp),
+                    .padding(start = 20.sdp, end = 20.sdp, top = 140.sdp),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
             ) {
@@ -193,7 +193,7 @@ fun Screen(navController: NavController, viewModel: RegisterViewModel) {
                         },
                     )
                 }
-                item { Spacer(modifier = Modifier.height(5.dp)) }
+                item { Spacer(modifier = Modifier.height(5.sdp)) }
                 item {
                     PrivacyPolicyCheckbox(
                         valueChecked = viewModel.state.privacyPolicy,
@@ -209,19 +209,19 @@ fun Screen(navController: NavController, viewModel: RegisterViewModel) {
                         }
                     )
                 }
-                item { Spacer(modifier = Modifier.height(5.dp)) }
+                item { Spacer(modifier = Modifier.height(5.sdp)) }
                 item {
 
 
                     Row(
-                        Modifier.padding(20.dp)
+                        Modifier.padding(20.sdp)
                     ) {
                         Button3(
                             submit = { navController.popBackStack() },
                             enableButton = true,
                             modifier = Modifier
                                 .weight(1f)
-                                .padding(end = 5.dp),
+                                .padding(end = 5.sdp),
                             text = stringResource(R.string.back),
                             buttonColor = ButtonDefaults.buttonColors(
                                 MaterialTheme.colorScheme.surface
@@ -241,7 +241,7 @@ fun Screen(navController: NavController, viewModel: RegisterViewModel) {
                             enableButton = viewModel.enableButton(),
                             modifier = Modifier
                                 .weight(1f)
-                                .padding(start = 5.dp)
+                                .padding(start = 5.sdp)
                                 .testTag("button_register"),
                             isLoading = taskState is TaskState.Loading
                         )
