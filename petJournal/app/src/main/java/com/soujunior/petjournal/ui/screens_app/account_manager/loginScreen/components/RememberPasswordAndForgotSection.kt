@@ -15,12 +15,12 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Checkbox
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginViewModel
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun RememberPasswordAndForgotSection(navController: NavController, viewModel: LoginViewModel) {
@@ -30,7 +30,7 @@ fun RememberPasswordAndForgotSection(navController: NavController, viewModel: Lo
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 30.dp, start = 5.dp, bottom = 20.dp)
+            .padding(top = 30.sdp, start = 5.sdp, bottom = 20.sdp)
     ) {
         Column(content = {
             Checkbox(

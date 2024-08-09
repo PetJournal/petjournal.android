@@ -23,13 +23,13 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginViewModel
 import com.soujunior.petjournal.ui.states.TaskState
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun Footer(
@@ -64,7 +64,7 @@ fun Footer(
                 color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
             )
         }
-        Spacer(modifier = Modifier.padding(top = 20.dp))
+        Spacer(modifier = Modifier.padding(top = 20.sdp))
         Row(modifier = Modifier.fillMaxWidth()) {
             Button2(
                 text = "Continuar",
@@ -76,7 +76,7 @@ fun Footer(
                 enableButton = viewModel.enableButton(),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 40.dp, end = 40.dp)
+                    .padding(start = 40.sdp, end = 40.sdp)
                     .testTag("button_continue"),
                 isLoading = taskState is TaskState.Loading
             )

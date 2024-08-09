@@ -4,14 +4,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun LoginHeader() {
     CreateTitleAndImageLogo(
-        spaceBetween = 40.dp,
+        spaceBetween = 40.sdp,
         title = stringResource(id = R.string.access_account),
         styleTitle = MaterialTheme.typography.displayMedium,
 
