@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
@@ -30,6 +29,7 @@ import com.soujunior.petjournal.ui.components.HeaderImageLogoImagePasswordAndTit
 import com.soujunior.petjournal.ui.screens_app.account_manager.changePasswordScreen.ChangePasswordFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.changePasswordScreen.ChangePasswordViewModel
 import com.soujunior.petjournal.ui.states.TaskState
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun Screen(viewModel: ChangePasswordViewModel, navController: NavController) {
@@ -52,13 +52,13 @@ fun Screen(viewModel: ChangePasswordViewModel, navController: NavController) {
         ) {
             HeaderImageLogoImagePasswordAndTitle(
                 title = stringResource(R.string.now_create_a_new_password),
-                spaceBetween = 40.dp,
+                spaceBetween = 40.sdp,
                 styleTitle = MaterialTheme.typography.headlineSmall
             )
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 40.dp),
+                    .padding(start = 20.sdp, end = 20.sdp, top = 10.sdp, bottom = 40.sdp),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Center,
             ) {
@@ -111,14 +111,14 @@ fun Screen(viewModel: ChangePasswordViewModel, navController: NavController) {
                 }
                 item {
                     Row(
-                        Modifier.padding(top = 40.dp, bottom = 40.dp)
+                        Modifier.padding(top = 40.sdp, bottom = 40.sdp)
                     ) {
                         Button3(
                             submit = { navController.popBackStack() },
                             enableButton = true,
                             modifier = Modifier
                                 .weight(1f)
-                                .padding(end = 4.dp),
+                                .padding(end = 4.sdp),
                             text = stringResource(R.string.back),
                             buttonColor = ButtonDefaults.buttonColors(
                                 MaterialTheme.colorScheme.surface
@@ -128,7 +128,7 @@ fun Screen(viewModel: ChangePasswordViewModel, navController: NavController) {
                         Button2(
                             modifier = Modifier
                                 .weight(1f)
-                                .padding(start = 4.dp),
+                                .padding(start = 4.sdp),
                             border = null,
                             buttonColor = if (isDarkMode) ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimary)
                             else ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),

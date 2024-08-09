@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.PrivacyPolicy
 import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.state.StatesRegister
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun LogoutDevicesChangingPassword(
@@ -39,20 +40,20 @@ fun LogoutDevicesChangingPassword(
     Column(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth().padding(top = 15.dp)
+            modifier = Modifier.fillMaxWidth().padding(top = 15.sdp)
         ) {
 
             Column {
                 Box(
                     modifier = Modifier
-                        .padding(end = 6.dp)
-                        .size(22.dp)
-                        .clip(RoundedCornerShape(8.dp))
+                        .padding(end = 6.sdp)
+                        .size(22.sdp)
+                        .clip(RoundedCornerShape(8.sdp))
                         .background(Color.White)
                         .border(
                             1.2.dp,
                             if (valueChecked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
-                            RoundedCornerShape(8.dp)
+                            RoundedCornerShape(8.sdp)
                         ),
                     contentAlignment = Alignment.Center
                 ) {
@@ -64,7 +65,7 @@ fun LogoutDevicesChangingPassword(
                             uncheckedColor = Color.Transparent,
                             checkmarkColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.primary
                         ),
-                        modifier = Modifier.size(10.dp)
+                        modifier = Modifier.size(10.sdp)
                     )
                 }
             }
