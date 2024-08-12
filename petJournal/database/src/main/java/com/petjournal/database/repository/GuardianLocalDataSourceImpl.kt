@@ -15,6 +15,7 @@ import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.repository.GuardianLocalDataSource
 import com.soujunior.domain.use_case.base.DataResult
+import kotlinx.coroutines.flow.Flow
 
 class GuardianLocalDataSourceImpl(
     private val guardianDao: GuardianProfileDao,
@@ -51,6 +52,22 @@ class GuardianLocalDataSourceImpl(
             DataResult.Failure(e)
         }
 
+    }
+
+    override suspend fun getAllPetInformation(): DataResult<List<PetInformationModel>> {
+        return try {
+            DataResult.Success(guardianDao.getAllPetInformation())
+        } catch (e: Throwable) {
+            DataResult.Failure(e)
+        }
+    }
+
+    override suspend fun deletePetInformation(id: Long): DataResult<Unit> {
+        return try {
+            DataResult.Success(guardianDao.deletePetInformation(id))
+        } catch (e: Throwable) {
+            DataResult.Failure(e)
+        }
     }
 
     override suspend fun getPetInformation(id: Long): DataResult<PetInformationModel> {
@@ -110,7 +127,7 @@ class GuardianLocalDataSourceImpl(
     }
 
     override suspend fun saveListPetRaces(
-       tag: String, listPetRace: List<PetRaceItemModel>
+        tag: String, listPetRace: List<PetRaceItemModel>
     ): DataResult<String> {
         return try {
             guardianDao.insertListPetRaces(listPetRace.toListPetRaceEntity(tag))
@@ -119,6 +136,7 @@ class GuardianLocalDataSourceImpl(
             DataResult.Failure(e)
         }
     }
+
 
     override suspend fun deleteDatabase() {
         guardianDao.deleteAllProfiles()

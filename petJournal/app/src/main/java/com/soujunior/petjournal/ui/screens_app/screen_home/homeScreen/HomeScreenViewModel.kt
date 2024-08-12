@@ -4,8 +4,8 @@ package com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen
 import androidx.lifecycle.ViewModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow

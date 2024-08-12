@@ -158,6 +158,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                                 viewModel.state.castration != null
                                             ) {
                                                 viewModel.updatePetInformation()
+                                                navController.navigate("pets/registeredPets")
                                                 viewModel.createPetInformation()
                                                 //navController.navigate("pets/birth/$it")
                                             }

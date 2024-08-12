@@ -4,6 +4,7 @@ import com.petjournal.database.converter.Converter.toEntity
 import com.petjournal.database.converter.Converter.toModel
 import com.petjournal.database.database.dao.GuardianProfileDao
 import com.petjournal.database.database.entity.GuardianProfile
+import com.petjournal.database.database.entity.PetInformation
 import com.petjournal.setup.CAT
 import com.petjournal.setup.listPetRace
 import com.petjournal.setup.listPetSizes
@@ -17,12 +18,45 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 
 class GuardianProfileDaoTest {
     private val guardianProfileDao: GuardianProfileDao = mockk()
+    private val profile = GuardianProfile(
+        firstName = null
+    )
+    private val petInformation = PetInformation(
+        species = "Dog",
+        guardianId = 1
+    )
+    private val newPetInformation = PetInformation(
+        id = 2,
+        species = "Cat",
+        name = "Bolinha",
+        gender = "F",
+        size = "Pequeno",
+        petRace = "Akita",
+        petAge = "10/10/2010",
+        guardianId = 1
+    )
 
+    private val newPetInformation2 = PetInformation(
+        id = 1,
+        species = "Cat",
+        name = "Bolinha",
+        gender = "F",
+        size = "Pequeno",
+        petRace = "Akita",
+        petAge = "10/10/2010",
+        guardianId = 1
+    )
+    private val petInformationList = listOf(
+        newPetInformation2.toModel(),
+        newPetInformation.toModel(),
+        newPetInformation.toModel()
+    )
     @Before
     fun setUp() {
         coEvery { guardianProfileDao.insertProfile(any()) } returns 1L
@@ -31,6 +65,10 @@ class GuardianProfileDaoTest {
         coEvery { guardianProfileDao.getPetInformation(1) } returns petInformation.toModel()
         coEvery { guardianProfileDao.getPetInformation(2) } returns newPetInformation.toModel()
         coEvery { guardianProfileDao.updatePetInformation(newPetInformation) }
+        coEvery { guardianProfileDao.getAllPetInformation() } returns petInformationList
+        coEvery {
+            guardianProfileDao.deletePetInformation(any())
+        }returns Unit
         coEvery { guardianProfileDao.getListPetSizes(CAT) } returns listPetSizes
         coEvery { guardianProfileDao.insertListPetSizes(any()) }
         coEvery { guardianProfileDao.getListPetRaces(CAT) } returns listPetRace
@@ -82,6 +120,16 @@ class GuardianProfileDaoTest {
     }
 
     @Test
+    fun `should get all pet information`() = runBlocking {
+        val oldPetInformationList = guardianProfileDao.getAllPetInformation()
+        coVerify { guardianProfileDao.getAllPetInformation() }
+        assertEquals(petInformationList, oldPetInformationList)
+    }
+
+    @Test
+    fun `should delete pet information`() = runBlocking {
+        val deletedItemId : Long = 1
+    @Test
     fun `get list pet sizes must be the same`() = runBlocking {
         val getListPetSizes = guardianProfileDao.getListPetSizes(CAT)
         coEvery { guardianProfileDao.getListPetSizes(CAT) }
@@ -96,6 +144,17 @@ class GuardianProfileDaoTest {
 
         coEvery { guardianProfileDao.getListPetSizes(CAT) } returns listPetSizes
 
+        guardianProfileDao.deletePetInformation(deletedItemId)
+
+        coVerify {
+            guardianProfileDao.deletePetInformation(deletedItemId)
+        }
+        val newPetInformationList = petInformationList.toMutableList().also {
+            it.removeAll { it.id == deletedItemId }
+        }
+
+        assertNotEquals(newPetInformationList, petInformationList)
+    }
         val retrievedListPetSizes = guardianProfileDao.getListPetSizes(CAT)
 
         coVerify { guardianProfileDao.insertListPetSizes(listPetSizes) }

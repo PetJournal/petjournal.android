@@ -1,8 +1,8 @@
 package com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen
 
 import androidx.lifecycle.ViewModel
-import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow

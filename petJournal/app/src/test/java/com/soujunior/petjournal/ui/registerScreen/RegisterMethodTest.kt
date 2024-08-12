@@ -7,9 +7,9 @@ import com.soujunior.domain.model.mapper.User
 import com.soujunior.domain.use_case.auth.SignUpUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.util.ValidationResult
-import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterFormEvent
-import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterFormState
-import com.soujunior.petjournal.ui.accountManager.registerScreen.RegisterViewModelImpl
+import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterFormEvent
+import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterFormState
+import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterViewModelImpl
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals

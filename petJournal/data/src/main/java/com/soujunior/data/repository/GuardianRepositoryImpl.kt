@@ -6,11 +6,16 @@ import android.util.Log
 import com.petjournal.database.converter.Converter.toResponse
 import com.soujunior.data.remote.GuardianService
 import com.soujunior.data.util.manager.JwtManager
+import com.soujunior.data.util.toPetInformationItemList
 import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.model.response.pet_information.PetInformationItem
 import com.soujunior.domain.network.NetworkResult
+import com.soujunior.domain.network.onError
+import com.soujunior.domain.network.onException
+import com.soujunior.domain.network.onSuccess
 import com.soujunior.domain.repository.GuardianLocalDataSource
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.DataResult
@@ -75,6 +80,14 @@ class GuardianRepositoryImpl(
         }
     }
 
+    override suspend fun deletePetInformation(idPetInformation: Long): DataResult<Unit> {
+        return try {
+            DataResult.Success(guardianLocalDataSourceImpl.deletePetInformation(idPetInformation).success.data)
+        } catch (e: Throwable) {
+            DataResult.Failure(e)
+        }
+    }
+
     override suspend fun getListPetSizes(petSpecie: String): NetworkResult<List<PetSizeItemModel>> {
         val localListPetSizes =
             guardianLocalDataSourceImpl.getListPetSizes(petSpecie)?.success?.data
@@ -123,6 +136,41 @@ class GuardianRepositoryImpl(
                 else -> apiResult
             }
         }
+    }
+
+    override suspend fun getAllPetInformation(): NetworkResult<List<PetInformationItem>> {
+        val localListPetInformation =
+            guardianLocalDataSourceImpl.getAllPetInformation().success.data
+
+        return if (!localListPetInformation.isNullOrEmpty()) {
+            NetworkResult.Success(localListPetInformation.toPetInformationItemList())
+        } else {
+            val token = "Bearer " + jwtManager.getToken()
+
+            val apiResult = guardianApi.getAllPetInformation(token)
+
+            apiResult.onSuccess {
+                Log.i("API", "$it")
+            }
+
+            apiResult.onError { code, body ->
+                Log.i("API", "$body")
+            }
+
+            apiResult.onException {
+                Log.i("API", "$it")
+            }
+
+            when (val apiResult = guardianApi.getAllPetInformation(token)) {
+                is NetworkResult.Success -> {
+                    NetworkResult.Success(apiResult.data)
+                }
+
+                else -> apiResult
+            }
+
+        }
+
     }
 
     override suspend fun createPetInformationApi(petInformationModel: PetInformationModel): NetworkResult<Unit> {

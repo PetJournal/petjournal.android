@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +37,7 @@ fun ScaffoldCustom(
     showActions: Boolean = false,
     showButtonToReturn: Boolean = false,
     showBottomBarNavigation: Boolean = false,
+    floatingActionButton: @Composable () -> Unit = {},
     navigationUp: NavController,
     bottomNavigationBar: @Composable () -> Unit = {},
     contentToUse: @Composable (PaddingValues) -> Unit = {},
@@ -94,6 +96,7 @@ fun ScaffoldCustom(
                 bottomNavigationBar()
             }
         },
+        floatingActionButton = floatingActionButton ,
         content = { it ->
             contentToUse(it)
         },
@@ -105,7 +108,7 @@ fun ScaffoldCustom(
 //This scaffold is customized to Design 2.0?
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldCustom(
+fun ScaffoldCustom2(
    isLoading: Boolean = false,
    shadowBelowTopBar: Dp = 4.dp,
    showTopBar: Boolean = false,
@@ -132,9 +135,11 @@ fun ScaffoldCustom(
                                 .fillMaxWidth(),
                                 contentAlignment = Center){
                                 ImageLogo(
-                                    modifier = Modifier.size(
-                                        width = 100.dp,
-                                        height = 100.dp)
+                                    modifier = Modifier
+                                        .size(
+                                            width = 100.dp,
+                                            height = 100.dp
+                                        )
                                         .padding(8.dp),
                                     isBlack = false)
                             }

@@ -29,6 +29,8 @@ import com.soujunior.domain.use_case.auth.SignUpUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.guardian.GetPetRegistrationWentLive
 import com.soujunior.domain.use_case.guardian.SetPetRegistrationWentLive
+import com.soujunior.domain.use_case.pet.DeletePetInformationUseCase
+import com.soujunior.domain.use_case.pet.GetAllPetInformationUseCase
 import com.soujunior.domain.use_case.pet.CreatePetInformationApiUseCase
 import com.soujunior.domain.use_case.pet.GetListPetRacesUseCase
 import com.soujunior.domain.use_case.pet.GetListPetSizesUseCase
@@ -36,6 +38,8 @@ import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
+import com.soujunior.petjournal.ui.screens_app.screens_pets.registeredPetScreen.ViewModelRegisteredPets
+import com.soujunior.petjournal.ui.screens_app.screens_pets.registeredPetScreen.ViewModelRegisteredPetsImpl
 import com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.screens_app.screens_pets.introRegisterPetScreen.IntroRegisterPetViewModel
@@ -101,7 +105,9 @@ val mainModule = module {
     factory { GetPetRegistrationWentLive(get()) }
     factory { SetPetRegistrationWentLive(get()) }
     factory { SavePetInformationUseCase(get()) }
+    factory { DeletePetInformationUseCase(get()) }
     factory { GetPetInformationUseCase(get()) }
+    factory { GetAllPetInformationUseCase(get()) }
     factory { UpdatePetInformationUseCase(get()) }
     factory { SavedStateHandle() }
     factory { GetListPetSizesUseCase(get()) }
@@ -140,6 +146,7 @@ val mainModule = module {
     }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get()) }
     viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get()) }
+    viewModel<ViewModelRegisteredPets> { ViewModelRegisteredPetsImpl(get(), get(), get()) }
     viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get(), get()) }
     viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModelImpl(get(), get()) }
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }

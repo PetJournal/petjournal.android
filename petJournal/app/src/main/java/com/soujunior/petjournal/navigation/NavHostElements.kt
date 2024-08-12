@@ -5,19 +5,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.HomeScreen
-import com.soujunior.petjournal.ui.screens_app.screens_pets.introRegisterPetScreen.RegisterPetScreen
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.PetBirthScreen
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.PetNameAndGenderScreen
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.PetRaceAndSizeScreen
-import com.soujunior.petjournal.ui.screens_app.screens_pets.speciesChoiceScreen.SpeciesChoiceScreen
-import com.soujunior.petjournal.ui.screens_app.screen_tutor.tutorScreen.TutorScreen
-import com.soujunior.petjournal.ui.screens_app.screens_apresentation.splashScreen.SplashScreen
+import com.soujunior.petjournal.ui.screens_app.screens_pets.registeredPetScreen.RegisteredPetScreen
 import com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeScreen
 import com.soujunior.petjournal.ui.screens_app.account_manager.changePasswordScreen.ChangePasswordScreen
 import com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.ForgotPasswordScreen
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterScreen
+import com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.HomeScreen
+import com.soujunior.petjournal.ui.screens_app.screen_tutor.tutorScreen.TutorScreen
+import com.soujunior.petjournal.ui.screens_app.screens_apresentation.splashScreen.SplashScreen
+import com.soujunior.petjournal.ui.screens_app.screens_pets.introRegisterPetScreen.RegisterPetScreen
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.PetBirthScreen
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.PetNameAndGenderScreen
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.PetRaceAndSizeScreen
+import com.soujunior.petjournal.ui.screens_app.screens_pets.speciesChoiceScreen.SpeciesChoiceScreen
 
 @Composable
 fun Presentation() {
@@ -53,6 +54,7 @@ fun NavHostMainContent() {
         composable("account_manager") { AccountManager() }
         composable("tutorScreen") { TutorScreen(navController) }
         composable("pets/introRegisterPet") { RegisterPetScreen(navController) }
+        composable("pets/registeredPets") { RegisteredPetScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
 
         composable("pets/nameAndGender/{arg}") { backStackEntry ->

@@ -1,0 +1,38 @@
+ext {
+    koinVersion = "3.2.0"
+    retrofit2 = "2.9.0"
+    moshiVersion = "2.4.0"
+    moshiKotlinVersion = "1.12.0"
+
+    dependencies = [
+            koinCompose            : "io.insert-koin:koin-androidx-compose:$koinVersion",
+            koinCore               : "io.insert-koin:koin-core:$koinVersion",
+            koinAndroid            : "io.insert-koin:koin-android:$koinVersion",
+
+            retrofit2Retrofit      : "com.squareup.retrofit2:retrofit:$retrofit2",
+            moshiKotlin            : "com.squareup.moshi:moshi-kotlin:$moshiKotlinVersion",
+            retrofit2ConverterMoshi: "com.squareup.retrofit2:converter-moshi:$moshiVersion",
+
+            coreKtx                : 'androidx.core:core-ktx:1.10.0',
+            lifecycleKtx           : 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1',
+
+            coroutineCore          : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1",
+            coroutineAndroid       : "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4",
+
+            securityCrypto         : "androidx.security:security-crypto-ktx:1.1.0-alpha06",
+            preference             : 'androidx.preference:preference:1.2.0',
+
+            roomRuntime            : 'androidx.room:room-runtime:2.4.3',
+            roomKtx                : 'androidx.room:room-ktx:2.4.3',
+            roomCompiler           : 'androidx.room:room-compiler:2.4.3',
+            roomTesting            : "androidx.room:room-testing:2.4.3",
+
+    ]
+
+    testJunit = "junit:junit:4.13.2"
+    testMockk = "io.mockk:mockk:1.12.5"
+    testAssertk = "com.willowtreeapps.assertk:assertk-jvm:0.25"
+    testKotlinxCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    androidTestJunit = "androidx.test.ext:junit:1.1.5"
+    androidTestExpresso = "androidx.test.espresso:espresso-core:3.5.1"
+}

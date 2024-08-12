@@ -6,6 +6,10 @@ import com.soujunior.domain.model.request.LoginModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.request.SignUpModel
+import com.soujunior.domain.model.response.pet_information.Breed
+import com.soujunior.domain.model.response.pet_information.PetInformationItem
+import com.soujunior.domain.model.response.pet_information.Size
+import com.soujunior.domain.model.response.pet_information.Specie
 
 val formLogin  = LoginModel (
     "fulano@email.com",
@@ -32,6 +36,27 @@ val petInformation = PetInformationModel(
     guardianId = 1
 )
 
+val petInformationItem = PetInformationItem(
+    id = "1",
+    guardianId = "123",
+    specie = Specie("1", "Cachorro"),
+    specieAlias = "Dog",
+    petName = "Rex",
+    gender = "Masculino",
+    breedAlias = "Pastor Alemão",
+    breed = Breed("1", "Pastor Alemão"),
+    size = Size("1", "Grande"),
+    castrated = true,
+    dateOfBirth = "2018/5/20"
+)
+
+val petInformationList = listOf(
+    petInformation, petInformation, petInformation
+)
+
+val petInformationItemList = listOf(
+    petInformationItem, petInformationItem, petInformationItem
+)
 val listPetRaces = listOf(
     PetRaceItemModel(
         "99c18d37-d7ba-4e53-88c8-eddbe82f0063",
