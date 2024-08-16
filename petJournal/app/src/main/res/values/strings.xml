@@ -91,6 +91,8 @@
     <string name="now_create_a_new_password">Agora crie uma nova senha!</string>
     <string name="enter_a_new_password">3. Informe uma nova senha:</string>
     <string name="enter_your_password_again">Digite sua senha novamente</string>
-
+    <string name="pet_castration">Nos conte, %s é castrado?</string>
+    <string name="text_yes">Sim</string>
+    <string name="text_no">Não</string>
 
 </resources>

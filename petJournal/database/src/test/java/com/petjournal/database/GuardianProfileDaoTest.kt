@@ -23,7 +23,6 @@ import org.junit.Test
 class GuardianProfileDaoTest {
     private val guardianProfileDao: GuardianProfileDao = mockk()
 
-
     @Before
     fun setUp() {
         coEvery { guardianProfileDao.insertProfile(any()) } returns 1L

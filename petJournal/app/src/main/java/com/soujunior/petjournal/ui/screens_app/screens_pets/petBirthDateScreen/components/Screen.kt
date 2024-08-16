@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -44,6 +48,7 @@ import org.koin.androidx.compose.getViewModel
 fun Screen(idPetInformation: String?, navController: NavController) {
     val viewModel: BirthDateViewModel = getViewModel()
     val taskState by viewModel.taskState.collectAsState()
+    var isClearCastration by remember { mutableStateOf(false) }
     if (idPetInformation != null) {
         viewModel.getPetInformation(idPetInformation.toLong())
         RaceSizeFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
@@ -104,6 +109,25 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                 )
                             }
                             item {
+                                CastrationSelector(
+                                    textNamePet = viewModel.state.name,
+                                    selectedCastration = { selectedCastration ->
+                                        if (selectedCastration != null) {
+                                            isClearCastration = false
+                                        }
+                                        viewModel.onEvent(
+                                            BirthDateFormEvent.PetCastration(
+                                                selectedCastration
+                                            )
+                                        )
+                                    },
+                                    clearSelection = {
+                                        isClearCastration
+                                    },
+                                    textError = viewModel.state.castrationError
+                                )
+                            }
+                            item {
                                 Row(
                                     Modifier.padding(top = 80.dp)
                                 ) {
@@ -128,9 +152,9 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                             )
 
                                             if (viewModel.enableButton() &&
-                                                viewModel.state.birth.isNotEmpty()
+                                                viewModel.state.birth.isNotEmpty() &&
+                                                viewModel.state.castration != null
                                             ) {
-                                                Log.i(TAG, viewModel.state.birth)
                                                 viewModel.updatePetInformation()
                                                 viewModel.createPetInformation()
                                                 //navController.navigate("pets/birth/$it")
