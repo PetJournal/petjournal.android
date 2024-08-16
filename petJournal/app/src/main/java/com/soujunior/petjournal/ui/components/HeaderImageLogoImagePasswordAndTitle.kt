@@ -37,6 +37,8 @@ import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowInsetsCompat
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
+import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun HeaderImageLogoImagePasswordAndTitle(
@@ -45,7 +47,7 @@ fun HeaderImageLogoImagePasswordAndTitle(
     modifierImage: Modifier = Modifier,
     modifierTextTitle: Modifier = Modifier.padding(start = 8.dp),
     styleTitle: TextStyle = MaterialTheme.typography.displayMedium,
-    spaceBetween: Dp = 0.dp,
+    spaceBetween: Dp = 0.sdp,
     textAlign: TextAlign? = null
 ) {
     val view = LocalView.current
@@ -53,7 +55,7 @@ fun HeaderImageLogoImagePasswordAndTitle(
 
     val topPadding = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
         with(LocalDensity.current) {
-            (cutoutInsets.displayCutout?.safeInsetTop?.toDp() ?: 0.dp) + 10.dp
+            (cutoutInsets.displayCutout?.safeInsetTop?.toDp() ?: 0.sdp) + 5.sdp
         }
     } else {
         10.dp
@@ -68,8 +70,8 @@ fun HeaderImageLogoImagePasswordAndTitle(
                 modifier = Modifier
                     .fillMaxWidth()
                     .shadow(
-                        elevation = 8.dp,
-                        shape = RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp),
+                        elevation = 8.sdp,
+                        shape = RoundedCornerShape(bottomStart = 8.sdp, bottomEnd = 8.sdp),
                         clip = false
                     )
             ) {
@@ -77,7 +79,7 @@ fun HeaderImageLogoImagePasswordAndTitle(
                     Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background)
-                        .padding(top = topPadding, bottom = 10.dp),
+                        .padding(top = topPadding, bottom = 3.sdp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
@@ -90,13 +92,13 @@ fun HeaderImageLogoImagePasswordAndTitle(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp),
+                    .padding(start = 10.sdp),
             ) {
 
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .size(150.dp)
+                        .size(120.sdp)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.image_password_semi_circulo),
@@ -113,7 +115,7 @@ fun HeaderImageLogoImagePasswordAndTitle(
                                 painter = painterResource(id = R.drawable.image_password_asterisk),
                                 contentDescription = stringResource(R.string.content_description_image_password),
                                 modifier = Modifier
-                                    .size(35.dp)
+                                    .size(30.sdp)
 
                             )
                         }
@@ -125,7 +127,7 @@ fun HeaderImageLogoImagePasswordAndTitle(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp),
+                    .padding(12.sdp),
             ) {
                 Text(
                     text = title,
@@ -133,22 +135,24 @@ fun HeaderImageLogoImagePasswordAndTitle(
                     modifier = modifierTextTitle,
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = textAlign,
-                    fontSize = 24.sp,
+                    fontSize = 20.ssp,
                     fontWeight = FontWeight(100)
                 )
             }
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp),
-            ) {
-                androidx.compose.material.Text(
-                    text = subText,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified,
-                )
+            if (!subText.isEmpty()){
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(15.sdp),
+                ) {
+                    androidx.compose.material.Text(
+                        text = subText,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
+                    )
+                }
             }
         }
     }

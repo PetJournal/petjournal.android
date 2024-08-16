@@ -47,12 +47,12 @@ class AwaitingCodeViewModelImpl(
         }
     }
 
-    override fun onEvent(event: com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormEvent) {
+    override fun onEvent(event: AwaitingCodeFormEvent) {
         when (event) {
-            is com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormEvent.CodeOTPChanged -> changeCode(event.code)
-            is com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormEvent.EmailChanged -> changeEmail(event.email)
-            is com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormEvent.Submit -> postOtpVerification()
-            is com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormEvent.ResendCode -> resendOtpVerification()
+            is AwaitingCodeFormEvent.CodeOTPChanged -> changeCode(event.code)
+            is AwaitingCodeFormEvent.EmailChanged -> changeEmail(event.email)
+            is AwaitingCodeFormEvent.Submit -> postOtpVerification()
+            is AwaitingCodeFormEvent.ResendCode -> resendOtpVerification()
         }
     }
 

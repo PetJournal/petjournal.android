@@ -52,13 +52,13 @@ fun Screen(viewModel: ChangePasswordViewModel, navController: NavController) {
         ) {
             HeaderImageLogoImagePasswordAndTitle(
                 title = stringResource(R.string.now_create_a_new_password),
-                spaceBetween = 40.sdp,
-                styleTitle = MaterialTheme.typography.headlineSmall
+                spaceBetween = 10.sdp,
+                styleTitle = MaterialTheme.typography.bodyMedium
             )
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 20.sdp, end = 20.sdp, top = 10.sdp, bottom = 40.sdp),
+                    .padding(start = 20.sdp, end = 20.sdp, bottom = 40.sdp),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Center,
             ) {
