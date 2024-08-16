@@ -1,23 +1,26 @@
 package com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.components
 
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun LoginHeader() {
     CreateTitleAndImageLogo(
+        spaceBetween = 40.sdp,
         title = stringResource(id = R.string.access_account),
-        styleTitle = MaterialTheme.typography.displayLarge,
-        modifierImage = Modifier
-            .wrapContentSize(Alignment.Center)
-//            .size(width = 200.dp, height = 200.dp)
-//            .padding(top = 20.dp)
+        styleTitle = MaterialTheme.typography.displayMedium,
+
     )
-    //Spacer(modifier = Modifier.padding(top = 50.dp))
+}
+@Preview(showBackground = true)
+@Composable
+fun LoginHeaderPrev() {
+    MaterialTheme {
+        LoginHeader()
+    }
 }

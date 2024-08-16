@@ -1,6 +1,8 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.components
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -136,10 +138,6 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                         modifier = Modifier
                                             .width(150.dp)
                                             .height(50.dp),
-                                        border = BorderStroke(
-                                            width = 2.dp,
-                                            color = MaterialTheme.colorScheme.primary
-                                        ),
                                         text = stringResource(R.string.back),
                                         buttonColor = ButtonDefaults.buttonColors(
                                             MaterialTheme.colorScheme.surface
@@ -166,11 +164,6 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                         modifier = Modifier
                                             .width(150.dp)
                                             .height(50.dp),
-                                        border = BorderStroke(
-                                            width = 2.dp,
-                                            color =
-                                            MaterialTheme.colorScheme.primary
-                                        ),
                                         text = stringResource(R.string.text_continue),
                                         buttonColor = ButtonDefaults.buttonColors(
                                             MaterialTheme.colorScheme.primary

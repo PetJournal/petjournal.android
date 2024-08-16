@@ -1,36 +1,31 @@
 package com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
-import com.soujunior.petjournal.ui.components.InputText
+import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.components.DashedInputText
+import com.soujunior.petjournal.ui.components.HeaderImageLogoImagePasswordAndTitle
 import com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.ForgotPasswordFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.ForgotPasswordViewModel
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun Screen(navController: NavController, viewModel: ForgotPasswordViewModel) {
     val systemUiController = rememberSystemUiController()
-    val isDarkMode = isSystemInDarkTheme()
 
     systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
     systemUiController.setNavigationBarColor(Color.Black)
@@ -41,59 +36,41 @@ fun Screen(navController: NavController, viewModel: ForgotPasswordViewModel) {
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .systemBarsPadding()
-                .padding(start = 20.dp, end = 20.dp)
-                .align(Alignment.TopCenter)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top,
         ) {
-            Spacer(modifier = Modifier.weight(0.1f))
-            CreateTitleAndImageLogo(
-                title = "Esqueceu a senha?",
-                styleTitle = MaterialTheme.typography.displayMedium,
-                modifierImage = Modifier
-                    .size(width = 200.dp, height = 200.dp)
-                    .padding(top = 20.dp),
+            HeaderImageLogoImagePasswordAndTitle(
+                subText = stringResource(R.string.reset_password_in_two_steps),
+                title = stringResource(R.string.forgot_password),
+                spaceBetween = 40.sdp,
+                styleTitle = MaterialTheme.typography.headlineLarge
             )
-            Spacer(modifier = Modifier.weight(0.1f))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(
-                    text = "Redefina a sua senha em duas etapas",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.Unspecified,
-                )
-            }
-            Spacer(modifier = Modifier.weight(0.1f))
-            //TODO("Extrair string")
-
-            Row(modifier = Modifier.fillMaxWidth()) {
-                InputText(
-                    textTop = "Qual seu e-mail de cadastro?",
-                    textHint = "eg: exemple@petjournal.com",
-                    textValue = viewModel.state.email,
-                    textError = viewModel.state.emailError,
-                    onEvent = { it: String ->
-                        viewModel.onEvent(
-                            ForgotPasswordFormEvent.EmailChanged(
-                                it
-                            )
-                        )
-                    }
-                )
-            }
-            Spacer(modifier = Modifier.weight(0.2f))
-            Row(
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .align(Alignment.CenterHorizontally)
+                    .padding(start = 20.sdp, end = 20.sdp, top = 40.sdp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Center,
             ) {
-                Footer(navController, viewModel)
+                item {
+                    DashedInputText(
+                        titleText = stringResource(R.string.what_is_your_registered_email_address),
+                        placeholderText = stringResource(R.string.email_hint),
+                        textValue = viewModel.state.email,
+                        textError = viewModel.state.emailError,
+                        isError = !viewModel.state.emailError.isNullOrEmpty(),
+                        onEvent = { it: String ->
+                            viewModel.onEvent(
+                                ForgotPasswordFormEvent.EmailChanged(it)
+                            )
+                        }
+                    )
+                }
+                item {
+                    Footer(navController, viewModel)
+                }
             }
-            Spacer(modifier = Modifier.weight(0.3f))
         }
     }
 }

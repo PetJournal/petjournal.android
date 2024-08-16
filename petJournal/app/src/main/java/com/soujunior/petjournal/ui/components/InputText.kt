@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -16,12 +17,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.Shapes
@@ -45,8 +48,7 @@ fun InputText(
             Text(
                 text = textTop,
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)
             )
         }
         Row {
@@ -59,7 +61,7 @@ fun InputText(
                 placeholder = {
                     Text(
                         text = textHint,
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyLarge,
                     )
                 },
                 singleLine = true,

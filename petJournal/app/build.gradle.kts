@@ -66,7 +66,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
-
+    implementation ("com.github.Kaaveh:sdp-compose:1.1.0")
     // Room
 //    val roomVersion = "2.3.0"
 //    implementation("androidx.room:room-runtime:$roomVersion")

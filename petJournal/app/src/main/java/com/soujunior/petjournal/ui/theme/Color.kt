@@ -2,7 +2,7 @@ package com.soujunior.petjournal.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val light_primary = Color(0xFFB90063) //textos, //Cursor do campo input
+val light_primary = Color(0xFF7C54A7) //textos, //Cursor do campo input
 val light_onPrimary = Color(0xFFFFFFFF) //Background do campo input
 val light_primaryContainer = Color(0xFFFFC107)
 val light_onPrimaryContainer = Color(0xFFFFC107)
@@ -17,13 +17,13 @@ val light_inverseSurface = Color(0xFF54C1E9) //BlueGrid
 val light_inverseOnSurface = Color(0xFFFFC107)
 val light_tertiaryContainer = Color(0xFFFFC107)
 val light_onTertiaryContainer = Color(0xFFFFC107)
-val light_background = Color(0xFFFFFFFE)
+val light_background = Color(0xFFFAFAFA)
 val light_onBackground = Color(0xFF201A1B)
 val light_error = Color(0xFFFF917A)
 val light_onError = Color(0xFFFFFFFF)
 val light_errorContainer = Color(0xFFFFC107)
 val light_onErrorContainer = Color(0xFFFFC107)
-val light_outline = Color(0xFF8D8D8D) //texto hint //Linha da borda de um input text
+val light_outline = Color(0xFFB6B0B0) //texto hint //Linha da borda de um input text
 val light_outlineVariant = Color(0xFBAFD9DB) //borda do layout OTPTextField
 val light_scrim = Color(0xFF000000)
 val light_surface = Color(0xFFFFFFFF)

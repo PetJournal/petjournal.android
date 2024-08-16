@@ -1,9 +1,11 @@
 package com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,22 +25,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.components.Button
+import com.soujunior.petjournal.ui.components.Button2
+import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
-import com.soujunior.petjournal.ui.components.InputText
+import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.PrivacyPolicyCheckbox
 import com.soujunior.petjournal.ui.components.mask.mobileNumberFilter
 import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterViewModel
 import com.soujunior.petjournal.ui.states.TaskState
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
-fun Screen(viewModel: RegisterViewModel) {
+fun Screen(navController: NavController, viewModel: RegisterViewModel) {
     val taskState by viewModel.taskState.collectAsState()
     val systemUiController = rememberSystemUiController()
+    val isDarkMode = isSystemInDarkTheme()
     systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
     systemUiController.setNavigationBarColor(Color.Black)
     Box(
@@ -45,6 +51,20 @@ fun Screen(viewModel: RegisterViewModel) {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top,
+        ) {
+
+            CreateTitleAndImageLogo(
+                title = stringResource(id = R.string.sign_up),
+                spaceBetween = 40.sdp,
+                styleTitle = MaterialTheme.typography.displayMedium
+            )
+
+        }
         Column(
             modifier = Modifier
                 .systemBarsPadding()
@@ -55,36 +75,30 @@ fun Screen(viewModel: RegisterViewModel) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 20.dp, end = 20.dp),
+                    .padding(start = 20.sdp, end = 20.sdp, top = 140.sdp),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
             ) {
                 item {
-                    CreateTitleAndImageLogo(
-                        stringResource(id = R.string.sign_up),
-                        spaceBottom = 10.dp
-                    )
-                }
-                item { Spacer(modifier = Modifier.height(15.dp)) }
-                item {
-                    InputText(
-                        textTop = stringResource(id = R.string.name),
-                        textHint = stringResource(id = R.string.eg_enter_your_first_name),
+                    DashedInputText(
+                        titleText = stringResource(id = R.string.name),
+                        placeholderText = stringResource(id = R.string.eg_enter_your_first_name),
                         textValue = viewModel.state.name,
                         textError = viewModel.state.nameError,
+                        isError = !viewModel.state.nameError.isNullOrEmpty(),
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag("input_name"),
                         onEvent = { it: String -> viewModel.onEvent(RegisterFormEvent.NameChanged(it)) }
                     )
                 }
-                item { Spacer(modifier = Modifier.height(15.dp)) }
                 item {
-                    InputText(
-                        textTop = stringResource(id = R.string.lastname),
-                        textHint = stringResource(id = R.string.eg_enter_your_last_name),
+                    DashedInputText(
+                        titleText = stringResource(id = R.string.lastname),
+                        placeholderText = stringResource(id = R.string.eg_enter_your_last_name),
                         textValue = viewModel.state.lastName,
                         textError = viewModel.state.lastNameError,
+                        isError = !viewModel.state.lastNameError.isNullOrEmpty(),
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag("input_lastname"),
@@ -97,13 +111,13 @@ fun Screen(viewModel: RegisterViewModel) {
                         }
                     )
                 }
-                item { Spacer(modifier = Modifier.height(15.dp)) }
                 item {
-                    InputText(
-                        textTop = stringResource(id = R.string.email),
-                        textHint = stringResource(id = R.string.eg_email),
+                    DashedInputText(
+                        titleText = stringResource(id = R.string.email),
+                        placeholderText = stringResource(id = R.string.eg_email),
                         textValue = viewModel.state.email,
                         textError = viewModel.state.emailError,
+                        isError = !viewModel.state.emailError.isNullOrEmpty(),
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag("input_email"),
@@ -117,13 +131,14 @@ fun Screen(viewModel: RegisterViewModel) {
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                     )
                 }
-                item { Spacer(modifier = Modifier.height(15.dp)) }
                 item {
-                    InputText(
-                        textTop = stringResource(id = R.string.phone),
-                        textHint = stringResource(id = R.string.eg_phone),
+                    DashedInputText(
+                        titleText = stringResource(id = R.string.phone),
+                        placeholderText = stringResource(id = R.string.eg_phone),
                         textValue = viewModel.state.phone,
                         textError = viewModel.state.phoneError,
+                        isError = !viewModel.state.phoneError.isNullOrEmpty(),
+                        hasAMask = true,
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag("input_phone"),
@@ -138,13 +153,13 @@ fun Screen(viewModel: RegisterViewModel) {
                         visualTransformation = { mobileNumberFilter(it) }
                     )
                 }
-                item { Spacer(modifier = Modifier.height(15.dp)) }
                 item {
-                    InputText(
-                        textTop = stringResource(id = R.string.password),
-                        textHint = stringResource(id = R.string.eg_password),
+                    DashedInputText(
+                        titleText = stringResource(id = R.string.password),
+                        placeholderText = stringResource(id = R.string.eg_password),
                         textValue = viewModel.state.password,
                         textError = viewModel.state.passwordError,
+                        isError = !viewModel.state.passwordError.isNullOrEmpty(),
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag("input_password"),
@@ -158,13 +173,13 @@ fun Screen(viewModel: RegisterViewModel) {
                         },
                     )
                 }
-                item { Spacer(modifier = Modifier.height(15.dp)) }
                 item {
-                    InputText(
-                        textTop = stringResource(id = R.string.confirm_password),
-                        textHint = stringResource(id = R.string.confirm_password),
+                    DashedInputText(
+                        titleText = stringResource(id = R.string.confirm_password),
+                        placeholderText = stringResource(id = R.string.confirm_password),
                         textValue = viewModel.state.repeatedPassword,
                         textError = viewModel.state.repeatedPasswordError,
+                        isError = !viewModel.state.repeatedPasswordError.isNullOrEmpty(),
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag("input_confirm_password"),
@@ -178,7 +193,7 @@ fun Screen(viewModel: RegisterViewModel) {
                         },
                     )
                 }
-                item { Spacer(modifier = Modifier.height(5.dp)) }
+                item { Spacer(modifier = Modifier.height(5.sdp)) }
                 item {
                     PrivacyPolicyCheckbox(
                         valueChecked = viewModel.state.privacyPolicy,
@@ -194,23 +209,45 @@ fun Screen(viewModel: RegisterViewModel) {
                         }
                     )
                 }
-                item { Spacer(modifier = Modifier.height(5.dp)) }
+                item { Spacer(modifier = Modifier.height(5.sdp)) }
                 item {
-                    Button(
-                        text = stringResource(id = R.string.register),
-                        border = null,
-                        submit = {
-                            viewModel.onEvent(RegisterFormEvent.Submit)
-                        },
-                        enableButton = viewModel.enableButton(),
-                        setSystemBarColor = true,
-                        inDarkMode = true,
-                        modifier = Modifier
-                            .padding(bottom = 50.dp)
-                            .testTag("button_register"),
-                        isLoading = taskState is TaskState.Loading
-                    )
+
+
+                    Row(
+                        Modifier.padding(20.sdp)
+                    ) {
+                        Button3(
+                            submit = { navController.popBackStack() },
+                            enableButton = true,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(end = 5.sdp),
+                            text = stringResource(R.string.back),
+                            buttonColor = ButtonDefaults.buttonColors(
+                                MaterialTheme.colorScheme.surface
+                            ),
+                            textColor = MaterialTheme.colorScheme.primary
+                        )
+                        Button2(
+
+                            text = stringResource(id = R.string.register),
+                            border = null,
+                            buttonColor = if (isDarkMode) ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimary)
+                            else ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                            textColor = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.White,
+                            submit = {
+                                viewModel.onEvent(RegisterFormEvent.Submit)
+                            },
+                            enableButton = viewModel.enableButton(),
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = 5.sdp)
+                                .testTag("button_register"),
+                            isLoading = taskState is TaskState.Loading
+                        )
+                    }
                 }
+
             }
         }
     }
