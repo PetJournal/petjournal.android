@@ -41,11 +41,7 @@ fun Screen(navController: NavController, viewModel: AwaitingCodeViewModel) {
     systemUiController.setNavigationBarColor(Color.Black)
     val state by viewModel.state.collectAsState()
 
-    val resendCodeStyle = TextStyle(
-        fontFamily = FontFamily(FredokaRegular),
-        fontSize = 11.ssp,
-        textDecoration = TextDecoration.Underline,
-    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -78,25 +74,9 @@ fun Screen(navController: NavController, viewModel: AwaitingCodeViewModel) {
                                 )
                             )
                         },
-                        textError = state.codeOTPError
+                        textError = state.codeOTPError,
+                        viewModel = viewModel
                     )
-                }
-                item {
-                    Box(
-                        modifier = Modifier
-                            .padding(top = 10.sdp, bottom = 15.sdp)
-                            .fillMaxWidth(),
-                        contentAlignment = Alignment.TopStart
-                    ) {
-                        Text(
-                            text = stringResource(R.string.txt_resend_code),
-                            style = resendCodeStyle,
-                            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.inverseSurface,
-                            modifier = Modifier.clickable {
-                                viewModel.onEvent(AwaitingCodeFormEvent.ResendCode)
-                            }
-                        )
-                    }
                 }
                 item {
                     Box(

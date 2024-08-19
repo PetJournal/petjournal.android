@@ -1,11 +1,15 @@
 package com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -22,13 +27,22 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.AlertText
+import com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormEvent
+import com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeViewModel
+import com.soujunior.petjournal.ui.theme.FredokaRegular
 import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun OTPTextField(
@@ -38,12 +52,19 @@ fun OTPTextField(
     textValue: String,
     onEvent: (String) -> Unit,
     textError: List<String>?,
+    viewModel: AwaitingCodeViewModel
 ) {
     LaunchedEffect(Unit) {
         if (textValue.length > otpCount) {
             throw IllegalArgumentException("O valor do texto OTP não deve ter mais de $otpCount caracteres")
         }
     }
+    val resendCodeStyle = TextStyle(
+        fontFamily = FontFamily(FredokaRegular),
+        fontSize = 11.ssp,
+        textDecoration = TextDecoration.Underline,
+    )
+
 
     BasicTextField(
         modifier = modifier,
@@ -63,12 +84,30 @@ fun OTPTextField(
                         index = index,
                         text = textValue
                     )
+
                     Spacer(modifier = Modifier.width(8.sdp))
                 }
             }
         }
     )
+    Spacer(modifier = Modifier.height(20.sdp))
+    Box(
+        modifier = Modifier
+            .padding(top = 10.sdp, bottom = 15.sdp)
+            .fillMaxWidth(),
+        contentAlignment = Alignment.TopStart
+    ) {
+        Text(
+            text = stringResource(R.string.txt_resend_code),
+            style = resendCodeStyle,
+            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.inverseSurface,
+            modifier = Modifier.clickable {
+                viewModel.onEvent(AwaitingCodeFormEvent.ResendCode)
+            }
+        )
+    }
     textError?.forEach { AlertText(textMessage = it) }
+    Spacer(modifier = Modifier.height(20.sdp))
 }
 
 @Composable
@@ -84,6 +123,13 @@ private fun TextFieldSingleView(index: Int, text: String, isError: Boolean = fal
         modifier = Modifier
             .width(35.sdp)
             .height(35.sdp)
+            .offset(
+                y = if (text.isNotEmpty()) {
+                    if (index == 0) 0.sdp else 20.sdp
+                } else {
+                    0.sdp
+                }
+            )
             .drawBehind {
                 val stroke = Stroke(
                     width = 1.dp.toPx(),

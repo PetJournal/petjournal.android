@@ -145,7 +145,7 @@ fun HeaderImageLogoImagePasswordAndTitle(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(15.sdp),
+                        .padding(10.sdp),
                 ) {
                     androidx.compose.material.Text(
                         text = subText,
