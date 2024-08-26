@@ -18,7 +18,7 @@ fun AwaitingCodeScreen(arg: String?, navController: NavController) {
         if (arg != null) {
             viewModel.onEvent(AwaitingCodeFormEvent.EmailChanged(arg))
         } else {
-            //navController.navigateUp()
+            navController.navigateUp()
         }
         viewModel.validationEvents.collect { event ->
             when (event) {
