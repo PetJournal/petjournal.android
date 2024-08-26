@@ -6,8 +6,8 @@ import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
 import com.soujunior.domain.use_case.auth.ForgotPasswordUseCase
-import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,8 +20,10 @@ class AwaitingCodeViewModelImpl(
     private val forgotPasswordUseCase: ForgotPasswordUseCase
 ) : AwaitingCodeViewModel() {
 
-    private val _state = MutableStateFlow(com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormState())
-    override val state: StateFlow<com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormState> = _state
+    private val _state =
+        MutableStateFlow(com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormState())
+    override val state: StateFlow<com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormState> =
+        _state
 
     private val _buttonIsEnable = MutableStateFlow(false)
     override val buttonIsEnable: StateFlow<Boolean> = _buttonIsEnable

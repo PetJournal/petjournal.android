@@ -197,9 +197,6 @@ class ValidationRepositoryImpl : ValidationRepository {
         var count = 0
 
         if (codeOTP.isNotBlank()) {
-            if (!isCodeValidLenght(codeOTP))
-                listErrorMessage.add("O campo precisa ter 6 digitos..") else count++
-
             if (!isStringOnlyDigits(codeOTP))
                 listErrorMessage.add("Caracteres especiais e letras não são permitidos!") else count++
         } else {
@@ -207,12 +204,13 @@ class ValidationRepositoryImpl : ValidationRepository {
             listErrorMessage.add("O campo não pode ficar em branco!")
         }
 
-        val hasError = count != 2
+        val hasError = count != 1
         return if (hasError) {
             ValidationResult(success = false, errorMessage = listErrorMessage)
         } else {
             ValidationResult(success = true)
         }
+
     }
 
     override fun validateDate(date: String): ValidationResult {
@@ -241,7 +239,7 @@ class ValidationRepositoryImpl : ValidationRepository {
 
                 if (providedDate.after(currentDate)) {
                     listErrorMessage.add("Ops! Verifique se a data preenchida está correta.")
-                }else if (providedDate.before(minAllowedDate)){
+                } else if (providedDate.before(minAllowedDate)) {
                     listErrorMessage.add("A data não pode ser anterior 1993.")
                 } else {
                     count++
@@ -283,8 +281,11 @@ class ValidationRepositoryImpl : ValidationRepository {
         }
     }
 
-    override fun validateDropDownPetRace(value: String, list: List<PetRaceItemModel>): ValidationResult {
-        return if (value.isNotEmpty() && list.any{it.name == value}) {
+    override fun validateDropDownPetRace(
+        value: String,
+        list: List<PetRaceItemModel>
+    ): ValidationResult {
+        return if (value.isNotEmpty() && list.any { it.name == value }) {
             ValidationResult(
                 success = true,
             )
@@ -376,6 +377,7 @@ class ValidationRepositoryImpl : ValidationRepository {
     private fun isValidString(str: String): Boolean {
         return EMAIL_ADDRESS_PATTERN.matcher(str).matches()
     }
+
     override fun validatePetCastration(value: Boolean?): ValidationResult {
         return if (value == true || value == false)
             ValidationResult(success = true)
