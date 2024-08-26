@@ -21,8 +21,8 @@ class AwaitingCodeViewModelImpl(
 ) : AwaitingCodeViewModel() {
 
     private val _state =
-        MutableStateFlow(com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormState())
-    override val state: StateFlow<com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormState> =
+        MutableStateFlow(AwaitingCodeFormState())
+    override val state: StateFlow<AwaitingCodeFormState> =
         _state
 
     private val _buttonIsEnable = MutableStateFlow(false)

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class AwaitingCodeViewModel : ViewModel() {
-    abstract val state: StateFlow<com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormState>
+    abstract val state: StateFlow<AwaitingCodeFormState>
     abstract val buttonIsEnable: StateFlow<Boolean>
     abstract val validationEventChannel: Channel<ValidationEvent>
     open val validationEvents: Flow<ValidationEvent>

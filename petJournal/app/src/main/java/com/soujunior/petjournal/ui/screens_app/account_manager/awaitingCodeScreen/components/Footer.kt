@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
@@ -27,7 +26,7 @@ fun Footer(navController: NavController, viewModel: AwaitingCodeViewModel) {
     val buttonIsEnable by viewModel.buttonIsEnable.collectAsState()
     val taskState by viewModel.taskState.collectAsState()
     val isDarkMode = isSystemInDarkTheme()
-    Spacer(modifier = Modifier.padding(20.dp))
+    Spacer(modifier = Modifier.padding(20.sdp))
     Row {
         Button3(
             submit = { navController.popBackStack() },
