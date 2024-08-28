@@ -69,7 +69,7 @@ fun GridVectors() {
         )
         Image(
             painter = if (isSystemInDarkTheme()) painterResource(id = R.drawable.logo_white) else painterResource(
-                id = R.drawable.logo_purple
+                id = R.drawable.logo_black
             ),
             contentDescription = "Image logo",
             modifier = Modifier
