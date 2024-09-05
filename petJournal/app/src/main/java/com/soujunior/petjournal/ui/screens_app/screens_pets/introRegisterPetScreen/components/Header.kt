@@ -20,7 +20,7 @@ import ir.kaaveh.sdpcompose.ssp
 fun Header(name: String?) {
     if (!name.isNullOrEmpty()) {
         CreateTitleAndImageLogo(
-            spaceBetween = 20.sdp,
+            spaceBetween = 10.sdp,
             title = stringResource(id = R.string.hello_name, name.capitalizeFirstLetter()),
             styleTitle = MaterialTheme.typography.headlineLarge,
         )
@@ -35,7 +35,7 @@ fun Header(name: String?) {
         )
     } else {
         CreateTitleAndImageLogo(
-            spaceBetween = 15.sdp,
+            spaceBetween = 10.sdp,
             title = "",
             styleTitle = MaterialTheme.typography.headlineLarge,
         )

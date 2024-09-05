@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class IntroIntroRegisterPetViewModelImpl(
+class IntroRegisterPetViewModelImpl(
     private val setWasViewed: SetPetRegistrationWentLive,
     private val getWasViewed: GetPetRegistrationWentLive,
     private val getName: GetGuardianNameUseCase,

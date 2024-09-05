@@ -20,7 +20,7 @@ import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun GridVectors() {
-    val defaultSize = 13
+    val defaultSize = 11
     Row(
         modifier = Modifier.padding(vertical = 2.sdp),
         horizontalArrangement = Arrangement.spacedBy(8.sdp)
@@ -120,7 +120,7 @@ fun GridVectors() {
         )
 
     }
-    Spacer(modifier = Modifier.padding(top = 25.sdp))
+    Spacer(modifier = Modifier.padding(top = 13.sdp))
 }
 
 private fun calcDefault(sizeToMultiply: Int, quantity: Int): Dp {
