@@ -89,7 +89,7 @@ fun Screen(navController: NavController, viewModel: AwaitingCodeViewModel) {
                     }
                 }
                 item {
-                    Spacer(modifier = Modifier.height(70.sdp))
+                    Spacer(modifier = Modifier.height(20.sdp))
                     Footer(navController = navController, viewModel = viewModel)
 
                 }

@@ -26,7 +26,7 @@ fun Footer(navController: NavController, viewModel: AwaitingCodeViewModel) {
     val buttonIsEnable by viewModel.buttonIsEnable.collectAsState()
     val taskState by viewModel.taskState.collectAsState()
     val isDarkMode = isSystemInDarkTheme()
-    Spacer(modifier = Modifier.padding(20.sdp))
+    Spacer(modifier = Modifier.padding(10.sdp))
     Row {
         Button3(
             submit = { navController.popBackStack() },
