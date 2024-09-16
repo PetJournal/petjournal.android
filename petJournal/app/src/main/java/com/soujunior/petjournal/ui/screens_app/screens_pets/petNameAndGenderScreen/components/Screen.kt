@@ -23,12 +23,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Breadcrumb
 import com.soujunior.petjournal.ui.components.Button3
@@ -36,9 +39,11 @@ import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.FakeNameAndGenderViewModel
 import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.NameGenderFormEvent
 import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.ViewModelNameGender
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.Constants.BIRD
 import com.soujunior.petjournal.ui.util.Constants.CAT
 import com.soujunior.petjournal.ui.util.Constants.DOG
@@ -47,10 +52,19 @@ import com.soujunior.petjournal.ui.util.Constants.REPTILE
 import com.soujunior.petjournal.ui.util.Constants.RODENT
 import org.koin.androidx.compose.getViewModel
 
+@Composable
+fun getNameAndGenderViewModelForPreview(): ViewModelNameGender {
+    return if (LocalInspectionMode.current) {
+        FakeNameAndGenderViewModel()
+    } else {
+        getViewModel()
+    }
+}
+
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun Screen(idPetInformation: String?, navController: NavController) {
-    val viewModel: ViewModelNameGender = getViewModel()
+    val viewModel: ViewModelNameGender = getNameAndGenderViewModelForPreview()
     val taskState by viewModel.taskState.collectAsState()
     var isClearGender by remember { mutableStateOf(false) }
     if (idPetInformation != null) {
@@ -185,5 +199,14 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                     }
                 }
             })
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun NameAndGenderPreview() {
+    val nav = rememberNavController()
+    PetJournalTheme {
+        Screen("1", nav)
     }
 }
