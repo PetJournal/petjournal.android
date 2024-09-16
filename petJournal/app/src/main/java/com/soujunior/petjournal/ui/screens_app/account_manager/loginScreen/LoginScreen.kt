@@ -33,5 +33,5 @@ fun LoginScreen(navController: NavController) {
             }
         }
     }
-    Screen(navController, viewModel)
+    Screen(navController)
 }
