@@ -94,5 +94,9 @@
     <string name="pet_castration">Nos conte, %s é castrado?</string>
     <string name="text_yes">Sim</string>
     <string name="text_no">Não</string>
+    <string name="txt_we_just_sent_a_code_to_your_email">Acabamos de enviar um código para o seu e-mail!</string>
+    <string name="txt_enter_the_6_digit_verification_code_sent_to_your_email_in_the_field_below">2. Insira no campo abaixo o código de verificação de 6 dígitos enviado para o seu email:</string>
+    <string name="txt_resend_code">Reenviar código?</string>
+    <string name="txt_tip_If_you_dont_find_the_email_in_your_inbox_check_your_spam_folder">Dica:  Se não localizar o e-mail em sua caixa de entrada, verifique a pasta de spam.</string>
 
 </resources>

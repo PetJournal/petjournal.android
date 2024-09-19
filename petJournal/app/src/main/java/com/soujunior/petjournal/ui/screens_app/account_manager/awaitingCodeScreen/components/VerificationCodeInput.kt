@@ -39,7 +39,8 @@ fun VerificationCodeInput(viewModel: AwaitingCodeViewModel) {
                 )
             )
         },
-        textError = state.codeOTPError
+        textError = state.codeOTPError,
+        viewModel = viewModel
     )
     Box(
         modifier = Modifier
