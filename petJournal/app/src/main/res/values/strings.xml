@@ -23,7 +23,7 @@
     <string name="disconnect_devices_question">Encerrar sessão em todos os dispositivos após a alteração da senha?</string>
     <string name="reset_password_button">Redefinir Senha</string>
     <string name="hello">Olá, %1$s!</string>
-    <string name="hello_name">Olá %1$s!</string>
+    <string name="hello_name">Olá, %1$s!</string>
     <string name="hello_user">Olá,</string>
     <string name="hello_choice_specie">Olá, %1$s, gostaríamos de saber qual a espécie do seu Pet:</string>
     <string name="choice_specie">, gostaríamos de saber qual a espécie do seu Pet:</string>
