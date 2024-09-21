@@ -121,7 +121,7 @@ val mainModule = module {
     // Retrofit Service
     single {
         Retrofit.Builder()
-            .baseUrl("https://petjournal-api-z9gs.onrender.com/")
+            .baseUrl("https://petjournal-api-pm3z.onrender.com/")
             .addConverterFactory(MoshiConverterFactory.create(get()))
             .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
             .build()
@@ -132,7 +132,7 @@ val mainModule = module {
     // ViewModels
     viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get()) }
     viewModel<IntroRegisterPetViewModel> {
-        com.soujunior.petjournal.ui.screens_app.screens_pets.introRegisterPetScreen.IntroIntroRegisterPetViewModelImpl(
+        com.soujunior.petjournal.ui.screens_app.screens_pets.introRegisterPetScreen.IntroRegisterPetViewModelImpl(
             get(),
             get(),
             get()

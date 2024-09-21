@@ -143,11 +143,13 @@ fun Screen(navController: NavController, viewModel: RegisterViewModel) {
                             .fillMaxWidth()
                             .testTag("input_phone"),
                         onEvent = { it: String ->
-                            viewModel.onEvent(
-                                RegisterFormEvent.PhoneChanged(
-                                    it
+                            if (it.length <= 11) {
+                                viewModel.onEvent(
+                                    RegisterFormEvent.PhoneChanged(
+                                        it
+                                    )
                                 )
-                            )
+                            }
                         },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         visualTransformation = { mobileNumberFilter(it) }

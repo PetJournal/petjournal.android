@@ -4,16 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -32,6 +33,7 @@ import com.soujunior.petjournal.ui.screens_app.screens_pets.introRegisterPetScre
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
+import ir.kaaveh.sdpcompose.sdp
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -61,6 +63,7 @@ fun Screen(navController: NavController) {
 
                     is ValidationEvent.Failed -> {}
                 }
+
             }
         }
     }
@@ -77,28 +80,47 @@ fun Screen(navController: NavController) {
             contentToUse = {
                 if (taskState is TaskState.Loading)
                     IndeterminateCircularIndicator(modifier = Modifier.align(CenterHorizontally))
-                else
-                    LazyColumn(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
+                else {
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .padding(it)
-                            .background(MaterialTheme.colorScheme.background),
-                        content = {
-                            item { Header(name) }
-                            item { GridVectors() }
-                            item {
-                                Button2(
-                                    submit = {
-                                        viewModel.setWasViewed()
-                                    },
-                                    enableButton = true,
-                                    text = stringResource(id = R.string.text_continue)
+                            .fillMaxSize(),
+                        horizontalAlignment = CenterHorizontally,
+                        verticalArrangement = Arrangement.Top,
+                    )
+                    {
+
+                        Header(name)
+
+                        LazyColumn(
+                            horizontalAlignment = CenterHorizontally,
+                            verticalArrangement = Arrangement.Top,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight()
+                                .padding(
+                                    start = 16.sdp,
+                                    end = 16.sdp,
+                                    top = 25.sdp,
+                                    bottom = it.calculateBottomPadding()
                                 )
-                            }
-                        })
+                                .background(MaterialTheme.colorScheme.background),
+                            content = {
+                                item { GridVectors() }
+                                item {
+                                    Button2(
+                                        modifier = Modifier
+                                            .width(200.sdp)
+                                            .padding(bottom = 20.sdp),
+                                        submit = {
+                                            viewModel.setWasViewed()
+                                        },
+                                        enableButton = true,
+                                        text = stringResource(id = R.string.text_continue)
+                                    )
+                                }
+                            })
+                    }
+                }
             })
     }
 }
