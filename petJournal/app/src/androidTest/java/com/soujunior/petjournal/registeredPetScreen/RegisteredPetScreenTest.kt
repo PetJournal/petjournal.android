@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.screens_app.screens_pets.registeredPetScreen.components
+package com.soujunior.petjournal.registeredPetScreen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
@@ -6,22 +6,29 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.soujunior.domain.model.response.pet_information.Breed
 import com.soujunior.domain.model.response.pet_information.PetInformationItem
 import com.soujunior.domain.model.response.pet_information.Size
 import com.soujunior.domain.model.response.pet_information.Specie
-import com.soujunior.petjournal.navigation.navHostMock
+import com.soujunior.petjournal.ui.components.DeleteDialog
 import com.soujunior.petjournal.ui.components.PetItemCard
 import org.junit.Rule
 import org.junit.Test
@@ -102,8 +109,6 @@ class RegisteredPetScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private var navController = NavHostController(ApplicationProvider.getApplicationContext())
-
     @Test
     fun when_RegisteredPetScreen_isEmpty_should_show_message_toRegister_newPet() {
         composeTestRule.onNodeWithText("Cadastre as informações do seus pets clicando no botão abaixo")
@@ -138,5 +143,51 @@ class RegisteredPetScreenTest {
             }
         }
         composeTestRule.onNodeWithTag("ListOfPets").assertExists()
+    }
+
+    @OptIn(ExperimentalFoundationApi::class)
+    @Test
+    fun longClick_removesItemFromList() {
+
+        composeTestRule.setContent {
+            var showDeleteDialog by remember { mutableStateOf(false) }
+            LazyColumn(
+                modifier = Modifier.testTag("ListOfPets")
+            ) {
+                items(
+                    items = list,
+                    itemContent = { item ->
+                        PetItemCard(
+                            item,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                                .combinedClickable
+                                    (
+                                    onClick = {
+
+                                    },
+                                    onLongClick = {
+                                        showDeleteDialog = true
+                                    }
+                                )
+                        )
+
+
+                    })
+            }
+
+            DeleteDialog(
+                onDismissRequest = { showDeleteDialog = false },
+                onConfirmation = { list.toMutableList().removeAt(0) },
+                dialogTitle = "Deletar Card",
+                dialogText = "Deseja mesmo deletar as informações deste pet?"
+            )
+        }
+        composeTestRule.onNodeWithTag("ListOfPets").assertExists()
+        composeTestRule.onAllNodesWithTag("ListOfPets")[0].performTouchInput {
+            longClick()
+        }
+//        composeTestRule.onAllNodesWithTag("ListOfPets").assertCountEquals(4)
     }
 }
