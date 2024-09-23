@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.RoundedSquare
@@ -39,7 +40,7 @@ fun GridVectors(
     selectedSpecies: (String) -> Unit,
     clearSelection: () -> Boolean
 ) {
-    val defaultSize = 13
+    val defaultSize = 11
     var selectedItem by remember { mutableStateOf("") }
 
     if (clearSelection()) {
@@ -297,4 +298,10 @@ fun GridVectors(
             }
         }
     }
+}
+@Preview(showBackground = true)
+@Composable
+fun PrevGrid(){
+    val isClearSpecies by remember { mutableStateOf(false) }
+    GridVectors(selectedSpecies = {}, clearSelection = { isClearSpecies })
 }
