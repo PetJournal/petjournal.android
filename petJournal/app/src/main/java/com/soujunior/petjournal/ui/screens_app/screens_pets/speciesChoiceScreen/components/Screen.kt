@@ -30,26 +30,40 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.screens_app.screens_pets.speciesChoiceScreen.PetFormEvent
-import com.soujunior.petjournal.ui.screens_app.screens_pets.speciesChoiceScreen.ViewModelChoiceSpecies
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.InputSpecies
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.screens_app.screens_pets.speciesChoiceScreen.FakeChoiceSpeciesViewModel
+import com.soujunior.petjournal.ui.screens_app.screens_pets.speciesChoiceScreen.PetFormEvent
+import com.soujunior.petjournal.ui.screens_app.screens_pets.speciesChoiceScreen.ViewModelChoiceSpecies
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import ir.kaaveh.sdpcompose.sdp
 import org.koin.androidx.compose.getViewModel
 
+@Composable
+fun getSpecieChoiceViewModelForPreview(): ViewModelChoiceSpecies {
+    return if (LocalInspectionMode.current) {
+        FakeChoiceSpeciesViewModel()
+    } else {
+        getViewModel()
+    }
+}
+
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun Screen(navController: NavController) {
-    val viewModel: ViewModelChoiceSpecies = getViewModel()
+    val viewModel: ViewModelChoiceSpecies = getSpecieChoiceViewModelForPreview()
     val activateContinueButton = remember { mutableStateOf(false) }
     val taskState by viewModel.taskState.collectAsState()
     var isOthersFieldVisible by remember { mutableStateOf(false) }
@@ -218,5 +232,14 @@ fun Screen(navController: NavController) {
                 }
             }
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SpecieChoicePreview() {
+    val nav = rememberNavController()
+    PetJournalTheme {
+        Screen(nav)
     }
 }

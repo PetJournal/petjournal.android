@@ -18,35 +18,52 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.screens_app.screens_pets.introRegisterPetScreen.FakeIntroRegisterPetViewModel
 import com.soujunior.petjournal.ui.screens_app.screens_pets.introRegisterPetScreen.IntroRegisterPetViewModel
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import ir.kaaveh.sdpcompose.sdp
 import org.koin.androidx.compose.getViewModel
 
 @Composable
+fun getIntroRegisterPetViewModelForPreview(): IntroRegisterPetViewModel {
+    return if (LocalInspectionMode.current) {
+        FakeIntroRegisterPetViewModel()
+    } else {
+        getViewModel()
+    }
+}
+
+@Composable
 fun Screen(navController: NavController) {
-    val viewModel: IntroRegisterPetViewModel = getViewModel()
+    val viewModel: IntroRegisterPetViewModel = getIntroRegisterPetViewModelForPreview()
     val context = LocalContext.current
     val name by viewModel.name.collectAsState()
     val taskState by viewModel.taskState.collectAsState()
 
-    LaunchedEffect(key1 = context) {
-        viewModel.validationEvents.collect { event ->
-            when (event) {
-                is ValidationEvent.Success -> {
-                    navController.popBackStack()
-                    navController.navigate("pets/speciesChoice")
+    if(!LocalInspectionMode.current){
+        LaunchedEffect(key1 = context) {
+            viewModel.validationEvents.collect { event ->
+                when (event) {
+                    is ValidationEvent.Success -> {
+                        navController.popBackStack()
+                        navController.navigate("pets/speciesChoice")
+                    }
+
+                    is ValidationEvent.Failed -> {}
                 }
 
-                is ValidationEvent.Failed -> {}
             }
         }
     }
@@ -105,5 +122,14 @@ fun Screen(navController: NavController) {
                     }
                 }
             })
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun IntroRegister(){
+    val nav = rememberNavController()
+    PetJournalTheme {
+        Screen(nav)
     }
 }
