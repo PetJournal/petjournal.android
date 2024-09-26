@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -24,9 +25,8 @@ fun NavigationBar(navController: NavController) {
     )
 
     BottomNavigation(
-        modifier = Modifier
-            .fillMaxWidth(),
-        backgroundColor = if (darkTheme) Color(0xFFFF4081) else Color(0xFFB90063)
+        modifier = Modifier.fillMaxWidth(),
+        backgroundColor = if (darkTheme) Color(0xFFFF4081) else MaterialTheme.colorScheme.primary
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route

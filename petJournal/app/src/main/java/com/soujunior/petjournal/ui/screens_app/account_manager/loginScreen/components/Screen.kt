@@ -15,20 +15,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.DashedInputText
+import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.FakeLoginViewModel
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginViewModel
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import ir.kaaveh.sdpcompose.sdp
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun Screen(navController: NavController, viewModel: LoginViewModel) {
-
+fun getLoginViewModelForPreview(): LoginViewModel {
+    return if (LocalInspectionMode.current) {
+        FakeLoginViewModel()
+    } else {
+        getViewModel()
+    }
+}
+@Composable
+fun Screen(navController: NavController, /*viewModel: LoginViewModel*/) {
+    val viewModel = getLoginViewModelForPreview()
     val systemUiController = rememberSystemUiController()
 
     systemUiController.setSystemBarsColor(
@@ -99,7 +113,7 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
                 }
                 item {
 
-                    Spacer(modifier = Modifier.padding(top = 75.sdp))
+                    Spacer(modifier = Modifier.padding(top = 45.sdp))
 
                 }
                 item {
@@ -109,5 +123,13 @@ fun Screen(navController: NavController, viewModel: LoginViewModel) {
                 }
             }
         }
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun LoginRegisterPreview(){
+    val nav = rememberNavController()
+    PetJournalTheme {
+        Screen(nav)
     }
 }
