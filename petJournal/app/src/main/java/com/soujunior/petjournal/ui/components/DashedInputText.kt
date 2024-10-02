@@ -37,8 +37,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
+import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun DashedInputText(
@@ -65,10 +66,10 @@ fun DashedInputText(
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
-                fontSize = 15.sp,
+                fontSize = 15.ssp,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, bottom = 5.dp, top = 15.dp)
+                    .padding(start = 10.sdp, bottom = 5.sdp, top = 15.sdp)
             )
         }
 
@@ -77,8 +78,8 @@ fun DashedInputText(
                 modifier = textInputModifier
                     .fillMaxWidth()
                     .testTag("dashedInputField_test")
-                    .padding(5.dp)
-                    .height(50.dp)
+                    .padding(5.sdp)
+                    .height(50.sdp)
                     .drawBehind {
                         val stroke = Stroke(
                             width = 1.dp.toPx(),
@@ -96,14 +97,14 @@ fun DashedInputText(
                     .border(
                         2.dp,
                         if (isError) MaterialTheme.colorScheme.error else Color.Transparent,
-                        shape = RoundedCornerShape(10.dp)
+                        shape = RoundedCornerShape(10.sdp)
                     )
-                    .clip(RoundedCornerShape(10.dp)),
+                    .clip(RoundedCornerShape(10.sdp)),
                 value = textValue,
                 onValueChange = { text -> onEvent(text) },
                 singleLine = true,
                 textStyle = TextStyle(
-                    fontSize = 15.sp,
+                    fontSize = 15.ssp,
                     color = if (isSystemInDarkTheme()) Color.Black else MaterialTheme.colorScheme.onSurface
                 ),
                 maxLines = 1,
@@ -117,7 +118,7 @@ fun DashedInputText(
                     Row(
                         modifier = Modifier
                             .background(Color.White)
-                            .padding(start = 14.dp),
+                            .padding(start = 14.sdp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
@@ -129,7 +130,7 @@ fun DashedInputText(
                                     text = placeholderText,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.outline,
-                                    fontSize = 15.sp
+                                    fontSize = 15.ssp
                                 )
                             }
                             it()
@@ -155,7 +156,7 @@ fun DashedInputText(
                                 painter = painterResource(id = iconResource),
                                 contentDescription = contentDescription,
                                 tint = Color.Unspecified,
-                                modifier = Modifier.padding(10.dp)
+                                modifier = Modifier.padding(10.sdp)
                             )
                         }
                     }
@@ -168,15 +169,15 @@ fun DashedInputText(
 
             AlertText(
                 textMessage = it,
-                modifier = Modifier.padding(top = 6.dp, bottom = 6.dp, start = 10.dp)
+                modifier = Modifier.padding(top = 6.sdp, bottom = 6.sdp, start = 10.sdp)
             )
         }
     } else {
         Text(
             "*Campo Obrigatório.",
             color = MaterialTheme.colorScheme.outline,
-            modifier = Modifier.padding(10.dp),
-            fontSize = 15.sp
+            modifier = Modifier.padding(10.sdp),
+            fontSize = 11.ssp
         )
     }
 

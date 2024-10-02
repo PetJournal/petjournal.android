@@ -24,17 +24,17 @@
     <string name="reset_password_button">Redefinir Senha</string>
     <string name="hello">Olá, %1$s!</string>
     <string name="hello_name">Olá, %1$s!</string>
-    <string name="hello_user">Olá,</string>
     <string name="hello_choice_specie">Olá, %1$s, gostaríamos de saber qual a espécie do seu Pet:</string>
-    <string name="choice_specie">, gostaríamos de saber qual a espécie do seu Pet:</string>
+    <string name="choice_specie">Olá, gostaríamos de saber qual a espécie do seu Pet:</string>
     <string name="beautiful_person">Pessoa bonita</string>
     <string name="services">Serviços</string>
     <string name="see_more">Ver mais</string>
     <string name="logout">Logout</string>
     <string name="leaving">Saindo</string>
-    <string name="welcome_message">Sabemos o quanto o seu pet é especial, e estamos muito animados em recebê-los, venha se juntar a nossa comunidade de amantes de Pets, para melhor aproveitar a nossa plataforma.</string>    <string name="menu_description">Menu</string>
+    <string name="welcome_message">Sabemos o quanto o seu pet é especial, e estamos muito animados em recebê-los, venha se juntar a nossa comunidade de amantes de Pets, para melhor aproveitar a nossa plataforma.</string>
+    <string name="menu_description">Menu</string>
     <string name="logout_description">Logout</string>
-    <string name="insert_the_species">Insira a espécie:</string>
+    <string name="insert_the_species">Nome da espécie:</string>
     <string name="type_here">Digite aqui...</string>
     <string name="incorrect_username_password">Usuário ou senha incorretos</string>
     <string name="sign_up">Inscreva-se</string>
