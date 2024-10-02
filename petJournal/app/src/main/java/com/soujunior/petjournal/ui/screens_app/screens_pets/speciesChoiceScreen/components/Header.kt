@@ -31,7 +31,6 @@ fun Header(name: String?) {
             styleTitle = MaterialTheme.typography.headlineLarge,
         )
     }
-    Spacer(modifier = Modifier.padding(12.dp))
 
 }
 

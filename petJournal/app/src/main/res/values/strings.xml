@@ -34,7 +34,7 @@
     <string name="welcome_message">Sabemos o quanto o seu pet é especial, e estamos muito animados em recebê-los, venha se juntar a nossa comunidade de amantes de Pets, para melhor aproveitar a nossa plataforma.</string>
     <string name="menu_description">Menu</string>
     <string name="logout_description">Logout</string>
-    <string name="insert_the_species">Insira a espécie:</string>
+    <string name="insert_the_species">Nome da espécie:</string>
     <string name="type_here">Digite aqui...</string>
     <string name="incorrect_username_password">Usuário ou senha incorretos</string>
     <string name="sign_up">Inscreva-se</string>
