@@ -98,5 +98,14 @@
     <string name="txt_enter_the_6_digit_verification_code_sent_to_your_email_in_the_field_below">2. Insira no campo abaixo o código de verificação de 6 dígitos enviado para o seu email:</string>
     <string name="txt_resend_code">Reenviar código?</string>
     <string name="txt_tip_If_you_dont_find_the_email_in_your_inbox_check_your_spam_folder">Dica:  Se não localizar o e-mail em sua caixa de entrada, verifique a pasta de spam.</string>
+    <string name="title_dialog_Email_Confirmation">Confirmação do E-mail</string>
+    <string name="txt_your_petJournal_account_is_almost_ready_to_activate_it_please_confirm_your_email">Sua conta PetJournal está quase pronta. Para ativá-la, por favor confirme seu email.</string>
+    <string name="txt_If_you_have_not_registered_with_petJournal_recently_please_ignore_this_email">Se você não se cadastrou na PetJournal recentemente, por favor ignore este email.</string>
+    <string name="txt_petJournal_team">Equipe PetJournal</string>
+    <string name="txt_btn_understood">Entendi</string>
+    <string name="email_are_not_confirmed">401 -> your email are not confirmed></string>
+    <string name="user_not_found">401 -> Not found: User not found</string>
+    <string name="Unauthorized">401 -> Unauthorized</string>
+    <string name="something_went_wrong_try_again_later">Algo deu errado...Tente de novo mais tarde!</string>
 
 </resources>
