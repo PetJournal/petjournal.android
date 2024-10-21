@@ -103,7 +103,7 @@
     <string name="txt_If_you_have_not_registered_with_petJournal_recently_please_ignore_this_email">Se você não se cadastrou na PetJournal recentemente, por favor ignore este email.</string>
     <string name="txt_petJournal_team">Equipe PetJournal</string>
     <string name="txt_btn_understood">Entendi</string>
-    <string name="email_are_not_confirmed">401 -> your email are not confirmed></string>
+    <string name="email_are_not_confirmed">401 -> your email are not confirmed</string>
     <string name="user_not_found">401 -> Not found: User not found</string>
     <string name="Unauthorized">401 -> Unauthorized</string>
     <string name="something_went_wrong_try_again_later">Algo deu errado...Tente de novo mais tarde!</string>
