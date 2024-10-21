@@ -41,7 +41,7 @@ fun getLoginViewModelForPreview(): LoginViewModel {
     }
 }
 @Composable
-fun Screen(navController: NavController, /*viewModel: LoginViewModel*/) {
+fun Screen(navController: NavController) {
     val viewModel = getLoginViewModelForPreview()
     val systemUiController = rememberSystemUiController()
 
