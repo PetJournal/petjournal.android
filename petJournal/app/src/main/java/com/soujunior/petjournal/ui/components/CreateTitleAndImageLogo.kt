@@ -33,14 +33,16 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowInsetsCompat
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
+import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun CreateTitleAndImageLogo(
     title: String,
     modifierImage: Modifier = Modifier ,
-    modifierTextTitle: Modifier = Modifier.padding(start = 8.dp),
+    modifierTextTitle: Modifier = Modifier.padding(start = 8.sdp),
     styleTitle: TextStyle = MaterialTheme.typography.displayMedium,
-    spaceBetween: Dp = 0.dp,
+    spaceBetween: Dp = 0.sdp,
     textAlign: TextAlign? = null
 ) {
     val view = LocalView.current
@@ -48,10 +50,10 @@ fun CreateTitleAndImageLogo(
 
     val topPadding = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
         with(LocalDensity.current) {
-            (cutoutInsets.displayCutout?.safeInsetTop?.toDp() ?: 10.dp) + 4.dp
+            (cutoutInsets.displayCutout?.safeInsetTop?.toDp() ?: 10.sdp) + 4.sdp
         }
     } else {
-        10.dp
+        10.sdp
     }
     BoxWithConstraints(
         modifier = Modifier
@@ -66,8 +68,8 @@ fun CreateTitleAndImageLogo(
                 modifier = Modifier
                     .fillMaxWidth()
                     .shadow(
-                        elevation = 8.dp,
-                        shape = RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp),
+                        elevation = 8.sdp,
+                        shape = RoundedCornerShape(bottomStart = 8.sdp, bottomEnd = 8.sdp),
                         clip = false
                     )
             ) {
@@ -75,7 +77,7 @@ fun CreateTitleAndImageLogo(
                     Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background)
-                        .padding(top = topPadding, bottom = 10.dp),
+                        .padding(top = topPadding, bottom = 10.sdp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
@@ -87,7 +89,7 @@ fun CreateTitleAndImageLogo(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp),
+                    .padding(start = 10.sdp, end = 10.sdp),
             ) {
                 Text(
                     text = title,
@@ -95,7 +97,8 @@ fun CreateTitleAndImageLogo(
                     modifier = modifierTextTitle,
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = textAlign,
-                    fontWeight = FontWeight(10)
+                    fontWeight = FontWeight(10),
+                    fontSize = 16.ssp
                 )
             }
         }

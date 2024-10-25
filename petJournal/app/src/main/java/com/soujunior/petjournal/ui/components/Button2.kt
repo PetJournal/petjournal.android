@@ -16,9 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.ui.theme.Shapes
+import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun Button2(
@@ -44,20 +44,20 @@ fun Button2(
             border = border,
             shape = Shapes.medium,
             colors = buttonColor,
-            contentPadding = PaddingValues(17.dp)
+            contentPadding = PaddingValues(12.sdp)
 
         ) {
             if (!isLoading) {
                 Text(
                     text = text,
                     fontWeight = FontWeight(900),
-                    fontSize = 16.sp,
+                    fontSize = 12.ssp,
                     style = MaterialTheme.typography.titleLarge,
                     color = textColor
                 )
             } else {
                 CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(17.sdp),
                     color = MaterialTheme.colorScheme.onPrimary
                 )
             }
