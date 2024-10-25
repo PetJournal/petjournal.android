@@ -74,7 +74,7 @@ object ColorGrid {
 
 object ColorCustom {
     val dark_texts_variant = Color(0xFF686767)
-    val green_confirm = Color(0xFF50C24E)
+    val link_200 = Color(0xFFA5EFFB)
 }
 
 
