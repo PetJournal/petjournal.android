@@ -39,6 +39,7 @@
     <string name="incorrect_username_password">Usuário ou senha incorretos</string>
     <string name="sign_up">Inscreva-se</string>
     <string name="name">Nome</string>
+    <string name="name_pet">Nome: </string>
     <string name="eg_enter_your_first_name">"Digite seu primeiro nome"</string>
     <string name="eg_species">eg: Viralata</string>
     <string name="lastname">Sobrenome</string>
@@ -54,7 +55,8 @@
     <string name="required_field">* Campo obrigatório</string>
     <string name="success">Sucesso ao realizar ação!</string>
     <string name="wow">Uau!</string>
-    <string name="register_message">Ficamos felizes em receber mais um %s em nossa comunidade </string>
+    <string name="register_message">Ficamos felizes em receber mais um %s em nossa comunidade!</string>
+    <string name="register_message_others">Ficamos felizes em receber seu pet em nossa comunidade!</string>
     <string name="register_message_race">Nos conte mais!\nQual a raça de %s?</string>
     <string name="pet_size_small">Pequeno (até 10kg)</string>
     <string name="pet_size_medium">Médio (11 à 24kg)</string>
@@ -107,5 +109,6 @@
     <string name="user_not_found">401 -> Not found: User not found</string>
     <string name="Unauthorized">401 -> Unauthorized</string>
     <string name="something_went_wrong_try_again_later">Algo deu errado...Tente de novo mais tarde!</string>
+    <string name="name_your_pet">Digite o nome do seu pet</string>
 
 </resources>
