@@ -21,6 +21,7 @@ import com.soujunior.petjournal.ui.components.Checkbox
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginViewModel
 import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun RememberPasswordAndForgotSection(navController: NavController, viewModel: LoginViewModel) {
@@ -53,6 +54,7 @@ fun RememberPasswordAndForgotSection(navController: NavController, viewModel: Lo
                         textDecoration = TextDecoration.Underline
                     ),
                     textAlign = TextAlign.End,
+                    fontSize = 11.ssp,
                     modifier = Modifier
                         .clickable(
                             onClick = {
