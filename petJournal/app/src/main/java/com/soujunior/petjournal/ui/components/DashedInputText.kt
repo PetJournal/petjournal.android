@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -66,7 +67,7 @@ fun DashedInputText(
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
-                fontSize = 15.ssp,
+                fontSize = 12.ssp,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.sdp, bottom = 5.sdp, top = 15.sdp)
@@ -164,21 +165,29 @@ fun DashedInputText(
             )
         }
     }
-    if (textError != null) {
-        textError.forEach {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
+    ) {
+        if (textError != null) {
+            textError.forEach {
 
-            AlertText(
-                textMessage = it,
-                modifier = Modifier.padding(top = 6.sdp, bottom = 6.sdp, start = 10.sdp)
+                AlertText(
+                    textMessage = it,
+                    modifier = Modifier.padding(top = 6.sdp, bottom = 6.sdp, start = 10.sdp)
+                )
+            }
+        } else {
+            Text(
+                "*Campo Obrigatório.",
+                color = MaterialTheme.colorScheme.outline,
+                modifier = Modifier.padding(10.sdp),
+                fontSize = 11.ssp
             )
         }
-    } else {
-        Text(
-            "*Campo Obrigatório.",
-            color = MaterialTheme.colorScheme.outline,
-            modifier = Modifier.padding(10.sdp),
-            fontSize = 11.ssp
-        )
     }
 
 }

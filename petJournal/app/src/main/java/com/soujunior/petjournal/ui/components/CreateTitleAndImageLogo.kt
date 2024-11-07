@@ -2,7 +2,6 @@ package com.soujunior.petjournal.ui.components
 
 import android.os.Build
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -20,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
@@ -38,10 +36,14 @@ import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun CreateTitleAndImageLogo(
-    title: String,
-    modifierImage: Modifier = Modifier ,
+    title: String? = "",
+    titleSecundary: String,
+    breadcrumbEnable: Boolean? = false,
+    breadcrumbIndex: Int? = 0,
+    modifierImage: Modifier = Modifier,
     modifierTextTitle: Modifier = Modifier.padding(start = 8.sdp),
     styleTitle: TextStyle = MaterialTheme.typography.displayMedium,
+    spaceBetweenbreadcrumbAndTitle: Dp = 0.sdp,
     spaceBetween: Dp = 0.sdp,
     textAlign: TextAlign? = null
 ) {
@@ -62,7 +64,8 @@ fun CreateTitleAndImageLogo(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth().background(MaterialTheme.colorScheme.background)
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background)
         ) {
             Box(
                 modifier = Modifier
@@ -84,6 +87,38 @@ fun CreateTitleAndImageLogo(
                     ImageLogo(modifier = modifierImage)
                 }
             }
+            if (breadcrumbEnable == true) {
+                Spacer(modifier = Modifier.height(4.sdp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 10.sdp, end = 10.sdp),
+                ) {
+                    if (breadcrumbIndex != null) {
+                        Breadcrumb(index = breadcrumbIndex)
+                    }
+                }
+            }
+            if (!title.isNullOrEmpty()) {
+                Spacer(modifier = Modifier.height(spaceBetweenbreadcrumbAndTitle))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 10.sdp, end = 10.sdp),
+                ) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = modifierTextTitle,
+                        color = MaterialTheme.colorScheme.primary,
+                        textAlign = textAlign,
+                        fontWeight = FontWeight(10),
+                        fontSize = 16.ssp
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(spaceBetween))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -92,7 +127,7 @@ fun CreateTitleAndImageLogo(
                     .padding(start = 10.sdp, end = 10.sdp),
             ) {
                 Text(
-                    text = title,
+                    text = titleSecundary,
                     style = styleTitle,
                     modifier = modifierTextTitle,
                     color = MaterialTheme.colorScheme.primary,
@@ -110,7 +145,12 @@ fun CreateTitleAndImageLogo(
 fun TesteImage() {
     PetJournalTheme {
         CreateTitleAndImageLogo(
-            title = stringResource(id = R.string.access_account),
+            title = "Uau",
+            titleSecundary = stringResource(id = R.string.access_account),
+            breadcrumbEnable = true,
+            breadcrumbIndex = 0,
+            spaceBetweenbreadcrumbAndTitle = 20.sdp,
+            spaceBetween = 15.sdp,
             styleTitle = MaterialTheme.typography.displayLarge,
             modifierImage = Modifier
                 .size(width = 200.dp, height = 200.dp)
