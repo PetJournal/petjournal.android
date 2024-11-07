@@ -45,6 +45,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.domain.model.request.PetRaceItemModel
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun AutoCompleteDropDown(
@@ -59,7 +60,7 @@ fun AutoCompleteDropDown(
     onDropdownItemSelected: (String) -> Unit = {},
     onFocusChange: (Boolean) -> Unit = {}
 ) {
-
+    val colorBorder = MaterialTheme.colorScheme.outline
     var expanded by remember {
         mutableStateOf(false)
     }
@@ -99,11 +100,11 @@ fun AutoCompleteDropDown(
                                 val stroke = Stroke(
                                     width = 1.dp.toPx(),
                                     pathEffect = PathEffect.dashPathEffect(
-                                        intervals = floatArrayOf(8.dp.toPx(), 8.dp.toPx(), 0f)
+                                        intervals = floatArrayOf(12.dp.toPx(), 12.dp.toPx(), 0f)
                                     )
                                 )
                                 drawRoundRect(
-                                    color = if (isError) Color.Transparent else if (expanded) Color.Transparent else Color.Black,
+                                    color = if (isError) Color.Transparent else colorBorder,
                                     style = stroke,
                                     cornerRadius = CornerRadius(10.dp.toPx())
                                 )
@@ -111,12 +112,10 @@ fun AutoCompleteDropDown(
                             }
                             .border(
                                 2.dp,
-                                if (isError) MaterialTheme.colorScheme.error
-                                else if (expanded) MaterialTheme.colorScheme.primary
-                                else Color.Transparent,
-                                shape = RoundedCornerShape(10.dp)
+                                if (isError) MaterialTheme.colorScheme.error else Color.Transparent,
+                                shape = RoundedCornerShape(10.sdp)
                             )
-                            .clip(RoundedCornerShape(10.dp)),
+                            .clip(RoundedCornerShape(10.sdp)),
 
 
                         value = textValue,

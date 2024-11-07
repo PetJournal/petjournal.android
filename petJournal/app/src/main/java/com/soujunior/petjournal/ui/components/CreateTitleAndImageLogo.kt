@@ -37,7 +37,7 @@ import ir.kaaveh.sdpcompose.ssp
 @Composable
 fun CreateTitleAndImageLogo(
     title: String? = "",
-    titleSecundary: String,
+    titleSecundary: String? = "",
     breadcrumbEnable: Boolean? = false,
     breadcrumbIndex: Int? = 0,
     modifierImage: Modifier = Modifier,
@@ -119,22 +119,24 @@ fun CreateTitleAndImageLogo(
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(spaceBetween))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.sdp, end = 10.sdp),
-            ) {
-                Text(
-                    text = titleSecundary,
-                    style = styleTitle,
-                    modifier = modifierTextTitle,
-                    color = MaterialTheme.colorScheme.primary,
-                    textAlign = textAlign,
-                    fontWeight = FontWeight(10),
-                    fontSize = 16.ssp
-                )
+            if (!titleSecundary.isNullOrEmpty()) {
+                Spacer(modifier = Modifier.height(spaceBetween))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 10.sdp, end = 10.sdp),
+                ) {
+                    Text(
+                        text = titleSecundary,
+                        style = styleTitle,
+                        modifier = modifierTextTitle,
+                        color = MaterialTheme.colorScheme.primary,
+                        textAlign = textAlign,
+                        fontWeight = FontWeight(10),
+                        fontSize = 16.ssp
+                    )
+                }
             }
         }
     }

@@ -26,32 +26,26 @@ import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun Header(modifier: Modifier = Modifier, petName: String = "Bolinha") {
+    if (petName.isNotEmpty()) {
+        CreateTitleAndImageLogo(
+            spaceBetween = 15.sdp,
+            spaceBetweenbreadcrumbAndTitle = 10.sdp,
+            title = stringResource(R.string.register_message_race, petName),
+            breadcrumbEnable = true,
+            breadcrumbIndex = 2,
+            styleTitle = MaterialTheme.typography.headlineLarge,
+        )
 
-    val text = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
-
-        }
-        append("\n")
-        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
-            append(stringResource(id = R.string.register_message_race, petName))
-        }
-        append("\n")
+    } else {
+        CreateTitleAndImageLogo(
+            spaceBetween = 20.sdp,
+            spaceBetweenbreadcrumbAndTitle = 15.sdp,
+            title = stringResource(id = R.string.register_message_race_empity),
+            breadcrumbEnable = true,
+            breadcrumbIndex = 2,
+            styleTitle = MaterialTheme.typography.headlineLarge,
+        )
     }
-    CreateTitleAndImageLogo(
-        spaceBetween = 1.sdp,
-        title = "",
-        styleTitle = MaterialTheme.typography.headlineLarge,
-    )
-    Breadcrumb(index = 2)
-    Text(
-        text = text,
-        style = MaterialTheme.typography.titleLarge,
-        fontSize = 12.ssp,
-        textAlign = TextAlign.Start,
-        color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else ColorCustom.dark_texts_variant,
-        modifier = modifier
-    )
-
     Spacer(modifier = Modifier.padding(bottom = 20.dp))
 }
 

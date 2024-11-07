@@ -58,6 +58,7 @@
     <string name="register_message">Ficamos felizes em receber mais um %s em nossa comunidade!</string>
     <string name="register_message_others">Ficamos felizes em receber seu pet em nossa comunidade!</string>
     <string name="register_message_race">Nos conte mais!\nQual a raça de %s?</string>
+    <string name="register_message_race_empity">Nos conte mais!\nQual a raça do seu pet?</string>
     <string name="pet_size_small">Pequeno (até 10kg)</string>
     <string name="pet_size_medium">Médio (11 à 24kg)</string>
     <string name="pet_size_big">Grande (a cima de 25kg)</string>
