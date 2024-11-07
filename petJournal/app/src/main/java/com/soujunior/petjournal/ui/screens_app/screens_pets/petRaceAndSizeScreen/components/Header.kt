@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.components
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -16,11 +17,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.components.Breadcrumb
+import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
+import com.soujunior.petjournal.ui.theme.ColorCustom
+import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 
 @Composable
 fun Header(modifier: Modifier = Modifier, petName: String = "Bolinha") {
-    Spacer(modifier = Modifier.padding(20.dp))
 
     val text = buildAnnotatedString {
         withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
@@ -32,20 +37,25 @@ fun Header(modifier: Modifier = Modifier, petName: String = "Bolinha") {
         }
         append("\n")
     }
+    CreateTitleAndImageLogo(
+        spaceBetween = 1.sdp,
+        title = "",
+        styleTitle = MaterialTheme.typography.headlineLarge,
+    )
+    Breadcrumb(index = 2)
     Text(
-        modifier = modifier,
         text = text,
-        style = MaterialTheme.typography.bodyMedium,
+        style = MaterialTheme.typography.titleLarge,
+        fontSize = 12.ssp,
         textAlign = TextAlign.Start,
-        color = MaterialTheme.colorScheme.primary,
-        fontSize = 20.sp,
-        fontWeight = FontWeight.Bold
+        color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else ColorCustom.dark_texts_variant,
+        modifier = modifier
     )
 
     Spacer(modifier = Modifier.padding(bottom = 20.dp))
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun PreviewHeader() {
     Header()

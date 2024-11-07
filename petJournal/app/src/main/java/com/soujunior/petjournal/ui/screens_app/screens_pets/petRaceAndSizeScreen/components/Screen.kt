@@ -24,7 +24,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -49,6 +51,7 @@ import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.getScreenHeightInch
+import ir.kaaveh.sdpcompose.sdp
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -89,17 +92,19 @@ fun Screen(idPetInformation: String?, navController: NavController) {
             contentToUse = {
                 if (taskState is TaskState.Loading)
                     IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-                else Box(modifier = Modifier.padding(it)) {
-                    Image(
-                        painter = painterResource(R.drawable.rastro),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.background)
-                            .offset(y = 120.dp)
-                            .align(Alignment.BottomEnd)
-                    )
+                else  Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = CenterHorizontally,
+                    verticalArrangement = Arrangement.Top,
+                )
+                {
+                    Header(
+                        petName = viewModel.state.name,
+                        modifier = Modifier.padding(start =  16.sdp, end = 16.sdp).align(Alignment.Start)
 
+                    )
+                    
                     LazyColumn(
                         state = scrollState,
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -109,7 +114,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                             .padding(start = 12.dp, end = 12.dp),
                         content = {
                             item {
-                                Breadcrumb(index = 2)
+
                             }
                             item {
 
@@ -119,10 +124,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                         .padding(5.dp, 0.dp),
                                     contentAlignment = Alignment.TopStart
                                 ) {
-                                    Header(
-                                        petName = viewModel.state.name,
-                                        modifier = Modifier.padding(5.dp, 0.dp)
-                                    )
+
 
                                 }
 
@@ -284,7 +286,15 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                 }
                             }
                         })
-
+                    Image(
+                        painter = painterResource(R.drawable.rastro),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.background)
+                            .offset(y = 120.dp)
+                            .align(AbsoluteAlignment.Left)
+                    )
 
                 }
 
