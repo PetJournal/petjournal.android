@@ -67,7 +67,7 @@ fun DashedInputText(
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
-                fontSize = 12.ssp,
+                fontSize = 14.ssp,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.sdp, bottom = 5.sdp, top = 15.sdp)
@@ -105,7 +105,7 @@ fun DashedInputText(
                 onValueChange = { text -> onEvent(text) },
                 singleLine = true,
                 textStyle = TextStyle(
-                    fontSize = 15.ssp,
+                    fontSize = 12.ssp,
                     color = if (isSystemInDarkTheme()) Color.Black else MaterialTheme.colorScheme.onSurface
                 ),
                 maxLines = 1,
@@ -131,7 +131,7 @@ fun DashedInputText(
                                     text = placeholderText,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.outline,
-                                    fontSize = 15.ssp
+                                    fontSize = 14.ssp
                                 )
                             }
                             it()
