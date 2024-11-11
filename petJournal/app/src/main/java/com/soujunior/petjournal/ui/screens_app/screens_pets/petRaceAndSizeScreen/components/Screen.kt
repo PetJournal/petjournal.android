@@ -199,7 +199,6 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                             .fillMaxWidth()
                                             .width(200.sdp)
                                             .height(200.sdp)
-                                            .offset(y = (-60).sdp)
                                     ) {
                                         Image(
                                             painter = painterResource(R.drawable.pet_heart),
