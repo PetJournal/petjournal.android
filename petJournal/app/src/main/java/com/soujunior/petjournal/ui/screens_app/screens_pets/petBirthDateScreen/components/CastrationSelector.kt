@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.components
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -132,7 +133,7 @@ private fun CastrationButtons(
                 text = stringResource(id = R.string.required_field),
                 modifier = Modifier.padding(start = 2.sdp, top = 10.sdp),
                 fontSize = 12.ssp,
-                color = MaterialTheme.colorScheme.outline,
+                color = if (isSystemInDarkTheme()) Color.White else MaterialTheme.colorScheme.outline,
                 textAlign = TextAlign.Start
             )
         }

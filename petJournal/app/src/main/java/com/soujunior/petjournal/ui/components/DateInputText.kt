@@ -2,6 +2,7 @@ package com.soujunior.petjournal.ui.components
 
 import android.util.Log
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -163,7 +164,7 @@ fun DateInputText(
             } else {
                 Text(
                     "*Campo Obrigatório.",
-                    color = MaterialTheme.colorScheme.outline,
+                    color = if (isSystemInDarkTheme()) Color.White else MaterialTheme.colorScheme.outline,
                     modifier = Modifier.padding(10.sdp),
                     fontSize = 12.ssp
                 )

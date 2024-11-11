@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.components
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -8,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -55,7 +57,7 @@ fun Header(
             text = text,
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Start,
-            color = ColorCustom.gray_200,
+            color = if(isSystemInDarkTheme()) Color.White else ColorCustom.gray_200,
             fontSize = 12.ssp,
             fontWeight = FontWeight(400)
         )

@@ -204,7 +204,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                                 text = stringResource(R.string.text_continue),
                                                 buttonColor = if (isDarkMode)  ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onSecondary)
                                                 else ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-                                                textColor = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.White,
+                                                textColor = if (isDarkMode) MaterialTheme.colorScheme.surface else Color.White,
                                             )
                                         }
                                     }
