@@ -34,8 +34,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
+import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun DateInputText(
@@ -51,7 +52,7 @@ fun DateInputText(
 ) {
 
     var inFocus by remember { mutableStateOf(false) }
-
+    val colorBorder = MaterialTheme.colorScheme.outline
     Column(modifier = modifier) {
         Row {
             Text(
@@ -59,10 +60,10 @@ fun DateInputText(
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
-                fontSize = 15.sp,
+                fontSize = 14.ssp,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, bottom = 5.dp)
+                    .padding(start = 10.sdp, bottom = 5.sdp)
             )
         }
         Row {
@@ -72,8 +73,8 @@ fun DateInputText(
                 OutlinedTextField(
                     modifier = textInputModifier
                         .fillMaxWidth()
-                        .padding(5.dp)
-                        .height(50.dp)
+                        .padding(5.sdp)
+                        .height(45.sdp)
                         .onFocusChanged {
                             inFocus = if (it.hasFocus)
                                 it.hasFocus
@@ -85,23 +86,22 @@ fun DateInputText(
                             val stroke = Stroke(
                                 width = 1.dp.toPx(),
                                 pathEffect = PathEffect.dashPathEffect(
-                                    intervals = floatArrayOf(8.dp.toPx(), 8.dp.toPx(), 8.dp.toPx())
+                                    intervals = floatArrayOf(12.dp.toPx(), 12.dp.toPx(), 0f)
                                 )
                             )
                             drawRoundRect(
-                                color = if (isError) Color.Transparent else if (inFocus) Color.Transparent else Color.Black,
+                                color = if (isError) Color.Transparent else colorBorder,
                                 style = stroke,
                                 cornerRadius = CornerRadius(10.dp.toPx())
                             )
+
                         }
                         .border(
                             2.dp,
-                            if (isError) MaterialTheme.colorScheme.error
-                            else if (inFocus) MaterialTheme.colorScheme.primary
-                            else Color.Transparent,
-                            shape = RoundedCornerShape(10.dp)
+                            if (isError) MaterialTheme.colorScheme.error else Color.Transparent,
+                            shape = RoundedCornerShape(10.sdp)
                         )
-                        .clip(RoundedCornerShape(10.dp)),
+                        .clip(RoundedCornerShape(10.sdp)),
 
                     value = textValue,
                     onValueChange = { newValue ->
@@ -112,7 +112,7 @@ fun DateInputText(
                         }
                     },
                     textStyle = TextStyle(
-                        fontSize = 15.sp,
+                        fontSize = 14.ssp,
                         color = MaterialTheme.colorScheme.onSurface
                     ),
                     placeholder = { Text(text = placeholderText) },
@@ -135,7 +135,7 @@ fun DateInputText(
                                 painter = painterResource(id = iconResource),
                                 contentDescription = contentDescription,
                                 tint = Color.Unspecified,
-                                modifier = Modifier.padding(10.dp)
+                                modifier = Modifier.padding(10.sdp)
                             )
                         } else if (textValue.length >= 7) {
                             val iconResource = R.drawable.icone_verificado_ok
@@ -145,7 +145,7 @@ fun DateInputText(
                                 painter = painterResource(id = iconResource),
                                 contentDescription = contentDescription,
                                 tint = Color.Unspecified,
-                                modifier = Modifier.padding(10.dp)
+                                modifier = Modifier.padding(10.sdp)
                             )
                         }
                     }
@@ -158,14 +158,14 @@ fun DateInputText(
         Row {
             if (textError != null) {
                 textError.forEach {
-                    AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
+                    AlertText(textMessage = it, modifier = Modifier.padding(10.sdp))
                 }
             } else {
                 Text(
                     "*Campo Obrigatório.",
                     color = MaterialTheme.colorScheme.outline,
-                    modifier = Modifier.padding(10.dp),
-                    fontSize = 15.sp
+                    modifier = Modifier.padding(10.sdp),
+                    fontSize = 12.ssp
                 )
             }
         }

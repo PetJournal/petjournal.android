@@ -106,11 +106,11 @@ fun CreateTitleAndImageLogo(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 10.sdp, end = 10.sdp),
+                        .padding(horizontal = 8.sdp),
                 ) {
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.bodyLarge,
                         modifier = modifierTextTitle,
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = textAlign,
