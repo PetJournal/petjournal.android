@@ -68,7 +68,6 @@ fun Screen(navController: NavController) {
     val taskState by viewModel.taskState.collectAsState()
     var isOthersFieldVisible by remember { mutableStateOf(false) }
     var isClearSpecies by remember { mutableStateOf(false) }
-    var speciesName: String? = null
     val context = LocalContext.current
     val isDarkMode = isSystemInDarkTheme()
     LaunchedEffect(context) {
@@ -96,7 +95,7 @@ fun Screen(navController: NavController) {
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = {
-                if (taskState is TaskState.Idle) {
+                if (taskState is TaskState.Loading) {
                     IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                 } else {
                     Column(
@@ -130,8 +129,12 @@ fun Screen(navController: NavController) {
                                                 activateContinueButton.value = true
                                                 isOthersFieldVisible = false
                                                 isClearSpecies = false
-                                                speciesName = selectedSpecies
-                                            }else if (selectedSpecies == RACE_OTHER){
+                                                viewModel.onEvent(
+                                                    PetFormEvent.SpecieChosen(
+                                                        selectedSpecies
+                                                    )
+                                                )
+                                            } else if (selectedSpecies == RACE_OTHER) {
                                                 isOthersFieldVisible = true
                                                 isClearSpecies = false
                                             }
@@ -154,7 +157,7 @@ fun Screen(navController: NavController) {
                                                 viewModel.onEvent(PetFormEvent.OtherSpecie(value))
                                                 activateContinueButton.value =
                                                     viewModel.enableButton()
-                                                speciesName = value
+                                                viewModel.onEvent(PetFormEvent.OtherSpecie(value))
                                             })
                                     }
                                     Spacer(modifier = Modifier.padding(10.sdp))
@@ -181,14 +184,23 @@ fun Screen(navController: NavController) {
                                             )
                                             Spacer(modifier = Modifier.width(10.sdp))
                                             Button2(
-                                                buttonColor = if (isDarkMode) ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onPrimary)
+                                                buttonColor = if (isDarkMode) ButtonDefaults.buttonColors(
+                                                    MaterialTheme.colorScheme.onPrimary
+                                                )
                                                 else ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                                                 text = stringResource(R.string.text_continue),
                                                 border = null,
                                                 textColor = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.White,
                                                 submit = {
-                                                    speciesName?.let { specie ->
+                                                    viewModel.onEvent(PetFormEvent.NextButton)
+                                                    viewModel.state.specie.let { specie ->
                                                         viewModel.savePetInformation(specie)
+                                                        val id =
+                                                            viewModel.state.idRoomPetInformation
+                                                        if (id != null) {
+
+                                                            navController.navigate("pets/nameAndGender/${id}")
+                                                        }
                                                     }
                                                 },
                                                 enableButton = viewModel.enableButton(),

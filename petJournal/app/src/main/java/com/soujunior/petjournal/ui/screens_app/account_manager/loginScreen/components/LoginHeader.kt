@@ -12,7 +12,7 @@ import ir.kaaveh.sdpcompose.sdp
 fun LoginHeader() {
     CreateTitleAndImageLogo(
         spaceBetween = 40.sdp,
-        title = stringResource(id = R.string.access_account),
+        titleSecundary = stringResource(id = R.string.access_account),
         styleTitle = MaterialTheme.typography.displayMedium,
 
     )

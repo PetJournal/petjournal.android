@@ -21,6 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun Checkbox(
@@ -36,14 +38,14 @@ fun Checkbox(
         ) {
             Box(
                 modifier = Modifier
-                    .padding(end = 6.dp)
-                    .size(22.dp)
-                    .clip(RoundedCornerShape(8.dp))
+                    .padding(end = 6.sdp)
+                    .size(22.sdp)
+                    .clip(RoundedCornerShape(8.sdp))
                     .background(Color.White)
                     .border(
                         1.2.dp,
                         if (radioButtonSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
-                        RoundedCornerShape(8.dp)
+                        RoundedCornerShape(8.sdp)
                     ),
                 contentAlignment = Alignment.Center
             ) {
@@ -55,12 +57,13 @@ fun Checkbox(
                         uncheckedColor = Color.Transparent,
                         checkmarkColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.primary
                     ),
-                    modifier = Modifier.size(10.dp)
+                    modifier = Modifier.size(10.sdp)
                 )
             }
 
             Text(
                 text = text,
+                fontSize = 11.ssp,
                 style = styleText,
                 color = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.Unspecified
             )
