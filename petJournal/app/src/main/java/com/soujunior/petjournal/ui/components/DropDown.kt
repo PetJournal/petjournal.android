@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.domain.model.request.PetSizeItemModel
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun DropDown(
@@ -51,7 +52,7 @@ fun DropDown(
     textValue: String
 ) {
     var isDropdownExpanded by remember { mutableStateOf(false) }
-
+    val colorBorder = MaterialTheme.colorScheme.outline
 
     Column(modifier = modifier) {
         Row {
@@ -78,13 +79,11 @@ fun DropDown(
                         val stroke = Stroke(
                             width = 1.dp.toPx(),
                             pathEffect = PathEffect.dashPathEffect(
-                                intervals = floatArrayOf(8.dp.toPx(), 8.dp.toPx(), 0f)
+                                intervals = floatArrayOf(12.dp.toPx(), 12.dp.toPx(), 0f)
                             )
                         )
-
-
                         drawRoundRect(
-                            color = if (isError) Color.Transparent else if (isDropdownExpanded) Color.Transparent else Color.Black,
+                            color = if (isError) Color.Transparent else colorBorder,
                             style = stroke,
                             cornerRadius = CornerRadius(10.dp.toPx())
                         )
@@ -92,12 +91,10 @@ fun DropDown(
                     }
                     .border(
                         2.dp,
-                        if (isError) MaterialTheme.colorScheme.error
-                        else if (isDropdownExpanded) MaterialTheme.colorScheme.primary
-                        else Color.Transparent,
-                        shape = RoundedCornerShape(10.dp)
+                        if (isError) MaterialTheme.colorScheme.error else Color.Transparent,
+                        shape = RoundedCornerShape(10.sdp)
                     )
-                    .clip(RoundedCornerShape(10.dp))
+                    .clip(RoundedCornerShape(10.sdp))
                     .clickable { isDropdownExpanded = true }
             ) {
                 Text(

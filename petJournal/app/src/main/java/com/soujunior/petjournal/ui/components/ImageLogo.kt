@@ -17,12 +17,12 @@ import com.soujunior.petjournal.R
 fun ImageLogo(
     modifier: Modifier = Modifier
         .size(width = 150.dp, height = 150.dp)
-        .padding(top = 20.dp),
+        .padding(top = 30.dp),
     darkMode: Boolean = isSystemInDarkTheme(),
     isBlack : Boolean = false
 ) {
     val image : Painter = if(!isBlack) {
-        val imageLight = painterResource(id = R.drawable.logo_purple)
+        val imageLight = painterResource(id = R.drawable.logo_roxo)
         val imageDark = painterResource(id = R.drawable.logo_white)
         if (darkMode) imageDark else imageLight
     }else if (darkMode) painterResource(id = R.drawable.logo_white) else painterResource(id = R.drawable.logo_black)

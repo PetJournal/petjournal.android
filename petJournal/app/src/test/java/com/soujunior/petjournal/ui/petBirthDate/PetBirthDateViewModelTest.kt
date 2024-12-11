@@ -5,6 +5,7 @@ import assertk.assertThat
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
 import com.soujunior.domain.use_case.base.DataResult
+import com.soujunior.domain.use_case.pet.CreatePetInformationApiUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
@@ -32,11 +33,12 @@ class PetBirthDateViewModelTest {
     private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
     private val getPetInformationUseCase = mockk<GetPetInformationUseCase>(relaxed = true)
     private val updatePetInformationUseCase = mockk<UpdatePetInformationUseCase>(relaxed = true)
+    private val createPetInformationApiUseCase = mockk<CreatePetInformationApiUseCase>(relaxed = true)
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
         Dispatchers.setMain(Dispatchers.Unconfined)
-        viewModelTest = BirthDateViewModelImpl(validation, getPetInformationUseCase, updatePetInformationUseCase)
+        viewModelTest = BirthDateViewModelImpl(validation, getPetInformationUseCase, updatePetInformationUseCase, createPetInformationApiUseCase)
     }
 
     @After
@@ -45,14 +47,18 @@ class PetBirthDateViewModelTest {
     }
 
     @Test
-    fun `enable button when of the birth date are validated`() {
+    fun `enable button when of the birth date and castration are validated`() {
 
         every { this@PetBirthDateViewModelTest.validation.validateDate(any()) } returns ValidationResult(
+            success = true
+        )
+        every { this@PetBirthDateViewModelTest.validation.validatePetCastration(any()) } returns ValidationResult(
             success = true
         )
 
         viewModelTest.state = BirthDateFormState(
             birth = "22/10/2020",
+            castration = true
         )
         val enableButton = viewModelTest.enableButton()
         assertThat(enableButton).isTrue()
@@ -75,7 +81,14 @@ class PetBirthDateViewModelTest {
         val enableButton = viewModelTest.enableButton()
         assertThat(enableButton).isFalse()
     }
-
+    @Test
+    fun `cannot enable button with null castration`() {
+        viewModelTest.state = BirthDateFormState(
+            castrationError = listOf("* Campo obrigatório"),
+        )
+        val enableButton = viewModelTest.enableButton()
+        assertThat(enableButton).isFalse()
+    }
 
     @Test
     fun `when change() is called with another birth date, should change the date`() {
@@ -199,6 +212,32 @@ class PetBirthDateViewModelTest {
         assertEquals(newBirth, viewModelTest.state.birth)
         assertEquals(null, viewModelTest.state.birthError)
     }
+    @Test
+    fun `must accept castration string when passed true`() {
+        val newCastration = true
+
+        every {
+            this@PetBirthDateViewModelTest.validation.validatePetCastration(newCastration)
+        } returns ValidationResult(
+            success = true
+        )
+        viewModelTest.change(petCastration = newCastration)
+        assertEquals(newCastration, viewModelTest.state.castration)
+        assertEquals(null, viewModelTest.state.castrationError)
+    }
+    @Test
+    fun `must accept castration string when passed false`() {
+        val newCastration = false
+
+        every {
+            this@PetBirthDateViewModelTest.validation.validatePetCastration(newCastration)
+        } returns ValidationResult(
+            success = true
+        )
+        viewModelTest.change(petCastration = newCastration)
+        assertEquals(newCastration, viewModelTest.state.castration)
+        assertEquals(null, viewModelTest.state.castrationError)
+    }
 
     @Test
     fun `OnEvent should allow pet birth date changes`() {
@@ -207,6 +246,14 @@ class PetBirthDateViewModelTest {
         viewModelTest.onEvent(event)
         assertEquals(newBirth, viewModelTest.state.birth)
         assertEquals(emptyList<String>(), viewModelTest.state.birthError)
+    }
+    @Test
+    fun `OnEvent should allow pet castration changes`() {
+        val newCastration = true
+        val event = BirthDateFormEvent.PetCastration(petCastration =  newCastration)
+        viewModelTest.onEvent(event)
+        assertEquals(newCastration, viewModelTest.state.castration)
+        assertEquals(emptyList<String>(), viewModelTest.state.castrationError)
     }
     @Test
     fun `getPetInformation should call the use case and fill the ViewModel state fields with data from the room`() {
@@ -251,5 +298,13 @@ class PetBirthDateViewModelTest {
         viewModelTest.updatePetInformation()
         assertEquals("Error", viewModelTest.message.value)
     }
+    @Test
+    fun `createPetInformation should call the use case to create pet information in the api`() {
 
+        coEvery { createPetInformationApiUseCase.execute(any()) } returns DataResult.Success(
+            Unit
+        )
+        viewModelTest.createPetInformation()
+        assertEquals("Sucesso", viewModelTest.message.value)
+    }
 }

@@ -44,7 +44,9 @@ class ViewModelRaceSizeImpl(
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> get() = _taskState
     override val shouldScrollToTop = MutableStateFlow(false)
-
+    init {
+        _taskState.value = TaskState.Loading
+    }
     override fun success(petInformationModel: PetInformationModel) {
         state = state.copy(
             specie = petInformationModel.species ?: "", idPetInformation = petInformationModel.id,
@@ -168,11 +170,9 @@ class ViewModelRaceSizeImpl(
     }
 
     override fun getPetInformation(id: Long) {
-        _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val result = getPetInformationUseCase.execute(id)
             result.handleResult(::success, ::failed)
-            _taskState.value = TaskState.Idle
         }
     }
 
@@ -207,7 +207,6 @@ class ViewModelRaceSizeImpl(
     }
 
     override suspend fun requestGetListSizes() {
-        _taskState.value = TaskState.Loading
         if (state.specie == CAT || state.specie == DOG) {
             val result = getListPetSizesUseCase.execute(state.specie)
             result.handleResult(::successGetPetSizes, ::failed)
@@ -218,7 +217,7 @@ class ViewModelRaceSizeImpl(
     }
 
     override suspend fun requestGetListRaces() {
-        _taskState.value = TaskState.Loading
+
         if (state.specie == CAT || state.specie == DOG) {
             val result = getListPetRacesUseCase.execute(state.specie)
             result.handleResult(::successGetPetRaces, ::failed)

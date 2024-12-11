@@ -42,6 +42,7 @@ fun ScaffoldCustom(
     modifier: Modifier = Modifier
 ) {
     Scaffold(
+        /*
         topBar = {
             if (showTopBar) {
                 Surface(shadowElevation = shadowBelowTopBar) {
@@ -89,6 +90,8 @@ fun ScaffoldCustom(
                 }
             }
         },
+
+         */
         bottomBar = {
             if (showBottomBarNavigation) {
                 bottomNavigationBar()
@@ -118,6 +121,7 @@ fun ScaffoldCustom(
    contentToUse: @Composable (PaddingValues) -> Unit = {},
    modifier: Modifier = Modifier){
     Scaffold(
+        /*
         topBar = {
             if (showTopBar) {
                 Surface(shadowElevation = shadowBelowTopBar) {
@@ -148,6 +152,8 @@ fun ScaffoldCustom(
                 }
             }
         },
+
+         */
         bottomBar = {
             if (showBottomBarNavigation) {
                 bottomNavigationBar()

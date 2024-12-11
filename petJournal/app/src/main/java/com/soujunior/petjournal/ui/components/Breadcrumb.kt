@@ -20,9 +20,9 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
+import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 /**
  * Este metodo é responsável por exibir um pequeno "roadmap" de qual tela o usuário se encontra
@@ -56,14 +56,14 @@ fun Breadcrumb(index: Int){
     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
         Column(
             horizontalAlignment = Alignment.Start,
-            modifier = Modifier.padding(2.dp)
+            modifier = Modifier.padding(2.sdp)
         ){
             Icon(
                 painter = painterResource(id = R.drawable.home),
                 contentDescription = "Home Icon",
                 tint = MaterialTheme.colorScheme.primary)
         }
-        Column(modifier = Modifier.padding(2.dp)) {
+        Column(modifier = Modifier.padding(2.sdp)) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = text,
@@ -80,7 +80,7 @@ private fun buildString(screens: List<String>, index: Int): AnnotatedString{
             val isLast = index == screenText.size-1
             withStyle(
                 style = SpanStyle(
-                    fontSize = 10.sp,
+                    fontSize = 10.ssp,
                     fontFamily = MaterialTheme.typography.headlineMedium.fontFamily,
                     letterSpacing = MaterialTheme.typography.headlineMedium.letterSpacing,
                     color =
@@ -91,7 +91,7 @@ private fun buildString(screens: List<String>, index: Int): AnnotatedString{
             }
             if(!isLast) {
                 withStyle(style = SpanStyle(
-                    fontSize = 10.sp,
+                    fontSize = 10.ssp,
                     fontFamily = MaterialTheme.typography.headlineMedium.fontFamily,
                     letterSpacing = MaterialTheme.typography.headlineMedium.letterSpacing,
                     color = MaterialTheme.colorScheme.onBackground

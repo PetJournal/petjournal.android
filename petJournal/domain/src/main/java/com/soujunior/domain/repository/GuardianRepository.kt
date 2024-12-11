@@ -14,4 +14,5 @@ interface GuardianRepository {
     suspend fun updatePetInformation(petInformationModel: PetInformationModel) : DataResult<Unit>
     suspend fun getListPetSizes(petSpecie: String): NetworkResult<List<PetSizeItemModel>>
     suspend fun getListPetRaces(petSpecie: String): NetworkResult<List<PetRaceItemModel>>
+    suspend fun createPetInformationApi(petInformationModel: PetInformationModel): NetworkResult<Unit>
 }

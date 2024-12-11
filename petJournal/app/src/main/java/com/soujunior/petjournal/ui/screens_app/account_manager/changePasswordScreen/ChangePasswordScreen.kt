@@ -28,5 +28,5 @@ fun ChangePasswordScreen(navController: NavController) {
             }
         }
     }
-    Screen(viewModel)
+    Screen(viewModel, navController)
 }

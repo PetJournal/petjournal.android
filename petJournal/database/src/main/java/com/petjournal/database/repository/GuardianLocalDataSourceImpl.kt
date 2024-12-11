@@ -2,7 +2,7 @@ package com.petjournal.database.repository
 
 import com.petjournal.database.converter.Converter.toEntity
 import com.petjournal.database.converter.Converter.toListPetRaceEntity
-import com.petjournal.database.converter.Converter.toListPetRaceItemModel
+import com.petjournal.database.converter.Converter.toListPetRaceModel
 import com.petjournal.database.converter.Converter.toListPetSizeEntity
 import com.petjournal.database.converter.Converter.toListPetSizeItemModel
 import com.petjournal.database.database.dao.ApplicationInformationDao
@@ -69,9 +69,9 @@ class GuardianLocalDataSourceImpl(
         }
     }
 
-    override suspend fun getListPetSizes(id: String): DataResult<List<PetSizeItemModel>>? {
+    override suspend fun getListPetSizes(tag: String): DataResult<List<PetSizeItemModel>>? {
         return try {
-            val data = guardianDao.getListPetSizes(id)
+            val data = guardianDao.getListPetSizes(tag)
             if (data != null) {
                 DataResult.Success(data.toListPetSizeItemModel())
             } else {
@@ -84,23 +84,23 @@ class GuardianLocalDataSourceImpl(
 
 
     override suspend fun saveListPetSizes(
-        id: String,
+        tag: String,
         listPetSize: List<PetSizeItemModel>
     ): DataResult<String> {
         return try {
-            guardianDao.insertListPetSizes(listPetSize.toListPetSizeEntity(id))
-            DataResult.Success(id)
+            guardianDao.insertListPetSizes(listPetSize.toListPetSizeEntity(tag))
+            DataResult.Success(tag)
         } catch (e: Throwable) {
             DataResult.Failure(e)
         }
 
     }
 
-    override suspend fun getListPetRaces(id: String): DataResult<List<PetRaceItemModel>>? {
+    override suspend fun getListPetRaces(tag: String): DataResult<List<PetRaceItemModel>>? {
         return try {
-            val data = guardianDao.getListPetRaces(id)
+            val data = guardianDao.getListPetRaces(tag)
             if (data != null) {
-                DataResult.Success(data.toListPetRaceItemModel())
+                DataResult.Success(data.toListPetRaceModel())
             } else {
                 DataResult.Success(emptyList())
             }
@@ -109,11 +109,12 @@ class GuardianLocalDataSourceImpl(
         }
     }
 
-    override suspend fun saveListPetRaces(id: String, listPetRace: List<PetRaceItemModel>
+    override suspend fun saveListPetRaces(
+       tag: String, listPetRace: List<PetRaceItemModel>
     ): DataResult<String> {
         return try {
-            guardianDao.insertListPetRaces(listPetRace.toListPetRaceEntity(id))
-            DataResult.Success(id)
+            guardianDao.insertListPetRaces(listPetRace.toListPetRaceEntity(tag))
+            DataResult.Success(tag)
         } catch (e: Throwable) {
             DataResult.Failure(e)
         }

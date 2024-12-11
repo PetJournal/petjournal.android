@@ -19,13 +19,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.AlertText
 import com.soujunior.petjournal.ui.components.RoundedSquare
+import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 
 @Composable
@@ -35,8 +36,7 @@ fun GenderSelector(
     textError: List<String>? = null,
 ) {
     Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp),
+        .fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         content = {
@@ -44,14 +44,14 @@ fun GenderSelector(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.pet_gender),
-                    fontSize = 15.sp,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    textAlign = TextAlign.Center
+                    style = MaterialTheme.typography.bodySmall,
+                    textAlign = TextAlign.Center,
+                    fontSize = 14.ssp,
+                    fontWeight = FontWeight.W400
                 )
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
-                    .padding(25.dp))
+                    .padding(20.sdp))
             }
             
             GenderButtons(selectedGender, clearSelection, textError)
@@ -72,17 +72,17 @@ private fun GenderButtons(
     }
 
     Row(
-        modifier = Modifier.padding(horizontal = 2.dp).testTag("genderButtons_test"),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        modifier = Modifier.padding(horizontal = 2.sdp).testTag("genderButtons_test"),
+        horizontalArrangement = Arrangement.spacedBy(16.sdp)
     ){
         RoundedSquare(
             text = stringResource(id = R.string.pet_gender_male),
             isSelected = selectedItem == "M",
-            size = 150.dp,
-            topLeftRadius = 32.dp,
-            topRightRadius = 32.dp,
-            bottomLeftRadius = 32.dp,
-            bottomRightRadius = 32.dp,
+            size = 100.sdp,
+            topLeftRadius = 32.sdp,
+            topRightRadius = 32.sdp,
+            bottomLeftRadius = 32.sdp,
+            bottomRightRadius = 32.sdp,
             image = painterResource(id = R.drawable.icone_macho),
             selectedColor = if(selectedItem == "M") MaterialTheme.colorScheme.primary else Color.Transparent,
             colorBackground =  Color.Transparent,
@@ -95,11 +95,11 @@ private fun GenderButtons(
         RoundedSquare(
             text = stringResource(id = R.string.pet_gender_female),
             isSelected = selectedItem == "F",
-            size = 150.dp,
-            topLeftRadius = 32.dp,
-            topRightRadius = 32.dp,
-            bottomLeftRadius = 32.dp,
-            bottomRightRadius = 32.dp,
+            size = 100.sdp,
+            topLeftRadius = 32.sdp,
+            topRightRadius = 32.sdp,
+            bottomLeftRadius = 32.sdp,
+            bottomRightRadius = 32.sdp,
             image = painterResource(id = R.drawable.icone_femea),
             selectedColor = if(selectedItem == "F") MaterialTheme.colorScheme.primary else Color.Transparent,
             colorBackground =  Color.Transparent,
@@ -109,26 +109,26 @@ private fun GenderButtons(
             }
         )
     }
-    Row(modifier = Modifier.fillMaxWidth()){
+    Row(modifier = Modifier.fillMaxWidth().padding(start = 16.sdp)){
         if(textError != null) {
             textError.forEach {
-                AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
+                AlertText(textMessage = it, modifier = Modifier.padding(10.sdp))
             }
         }
         else{
             Text(
                 text = stringResource(id = R.string.required_field),
-                modifier = Modifier.padding(start = 2.dp, top = 10.dp),
-                fontSize = 15.sp,
+                modifier = Modifier.padding(start = 2.sdp, top = 10.sdp),
+                fontSize = 12.ssp,
                 textAlign = TextAlign.Start)
         }
     }
 }
 
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun m(){
+fun GenderSelectorPreview(){
     GenderSelector(
         selectedGender = {},
         clearSelection = {true},

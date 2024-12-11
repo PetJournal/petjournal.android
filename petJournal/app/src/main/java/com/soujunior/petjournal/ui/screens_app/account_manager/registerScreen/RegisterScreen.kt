@@ -27,5 +27,5 @@ fun RegisterScreen(navController: NavController) {
             }
         }
     }
-    Screen(viewModel)
+    Screen( navController, viewModel)
 }

@@ -52,7 +52,8 @@ class ViewModelNameGenderImpl(
             }
 
             is NameGenderFormEvent.NextButton -> {
-                change(petName = state.name, petGender = state.gender)
+                change(petGender = state.gender)
+                change(petName = state.name)
             }
 
             else -> {

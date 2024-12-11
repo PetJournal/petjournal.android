@@ -9,5 +9,5 @@ import org.koin.androidx.compose.getViewModel
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(navController: NavController) {
-    Screen(navController, getViewModel())
+    Screen(navController)
 }

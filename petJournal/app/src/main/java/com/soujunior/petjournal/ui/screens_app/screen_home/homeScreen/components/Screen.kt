@@ -27,24 +27,40 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.FakeHomeViewModel
+import com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.util.capitalizeFirstLetter
+import org.koin.androidx.compose.getViewModel
+
+@Composable
+fun getHomeViewModelForPreview(): HomeScreenViewModel {
+    return if (LocalInspectionMode.current) {
+        FakeHomeViewModel()
+    } else {
+        getViewModel()
+    }
+}
 
 @ExperimentalPagerApi
 @Composable
-fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
+fun Screen(navController: NavController) {
+    val viewModel: HomeScreenViewModel = getHomeViewModelForPreview()
     val showDropdownMenu = remember { mutableStateOf(false) }
     val taskState by viewModel.taskState.collectAsState()
     val name = remember { mutableStateOf(viewModel.name.value.firstName) }
@@ -64,7 +80,7 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
     }
 
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor( color = Color.Transparent, darkIcons = true )
+    systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
     systemUiController.setNavigationBarColor(Color.Black)
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
@@ -154,5 +170,15 @@ fun Screen(navController: NavController, viewModel: HomeScreenViewModel) {
                     }
                 }
             })
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview() {
+    val nav = rememberNavController()
+    PetJournalTheme {
+        Screen(nav)
     }
 }

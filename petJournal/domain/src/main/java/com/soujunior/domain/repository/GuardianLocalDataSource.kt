@@ -13,9 +13,9 @@ interface GuardianLocalDataSource {
     suspend fun savePetInformation(petInformationModel: PetInformationModel) : DataResult<Long>
     suspend fun getPetInformation(id: Long) : DataResult<PetInformationModel>
     suspend fun updatePetInformation(petInformationModel: PetInformationModel) : DataResult<Unit>
-    suspend fun getListPetSizes(id: String): DataResult<List<PetSizeItemModel>>?
-    suspend fun saveListPetSizes(id: String, listPetSize: List<PetSizeItemModel>): DataResult<String>
-    suspend fun getListPetRaces(id: String): DataResult<List<PetRaceItemModel>>?
-    suspend fun saveListPetRaces(id: String, listPetRace: List<PetRaceItemModel>): DataResult<String>
+    suspend fun getListPetSizes(tag: String): DataResult<List<PetSizeItemModel>>?
+    suspend fun saveListPetSizes(tag: String, listPetSize: List<PetSizeItemModel>): DataResult<String>
+    suspend fun getListPetRaces(tag: String): DataResult<List<PetRaceItemModel>>?
+    suspend fun saveListPetRaces(tag: String, listPetRace: List<PetRaceItemModel>): DataResult<String>
 
 }
