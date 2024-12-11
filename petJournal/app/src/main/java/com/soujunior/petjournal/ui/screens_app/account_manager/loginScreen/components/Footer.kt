@@ -30,6 +30,7 @@ import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.Login
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginViewModel
 import com.soujunior.petjournal.ui.states.TaskState
 import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun Footer(
@@ -57,6 +58,7 @@ fun Footer(
             Text(
                 text = annotatedText,
                 style = MaterialTheme.typography.bodyLarge,
+                fontSize = 12.ssp,
                 modifier = Modifier
                     .clickable(onClick = { navController.navigate("register") })
                     .align(CenterVertically)

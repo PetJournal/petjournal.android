@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.components
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,11 +22,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.AlertText
 import com.soujunior.petjournal.ui.components.RoundedSquare
+import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 
 @Composable
@@ -37,7 +38,7 @@ fun CastrationSelector(
 ) {
     Column(modifier = Modifier
         .fillMaxWidth()
-        .padding(16.dp),
+        .padding(16.sdp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         content = {
@@ -45,7 +46,7 @@ fun CastrationSelector(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.pet_castration, textNamePet),
-                    fontSize = 17.sp,
+                    fontSize = 17.ssp,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center
@@ -53,7 +54,7 @@ fun CastrationSelector(
                 Spacer(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(25.dp)
+                        .padding(25.sdp)
                 )
             }
 
@@ -76,19 +77,19 @@ private fun CastrationButtons(
 
     Row(
         modifier = Modifier
-            .padding(horizontal = 2.dp)
+            .padding(horizontal = 2.sdp)
             .testTag("genderButtons_test"),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.sdp)
     ) {
         RoundedSquare(
             text = stringResource(id = R.string.text_yes),
             colorText = if (selectedItem == "S") MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurfaceVariant,
             isSelected = selectedItem == "S",
-            size = 120.dp,
-            topLeftRadius = 32.dp,
-            topRightRadius = 32.dp,
-            bottomLeftRadius = 32.dp,
-            bottomRightRadius = 32.dp,
+            size = 95.sdp,
+            topLeftRadius = 32.sdp,
+            topRightRadius = 32.sdp,
+            bottomLeftRadius = 32.sdp,
+            bottomRightRadius = 32.sdp,
             image = if (selectedItem == "S") painterResource(id = R.drawable.icon_solid_check_enable) else painterResource(
                 id = R.drawable.icon_check
             ),
@@ -106,11 +107,11 @@ private fun CastrationButtons(
             text = stringResource(id = R.string.text_no),
             colorText = if (selectedItem == "N") MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
             isSelected = selectedItem == "N",
-            size = 120.dp,
-            topLeftRadius = 32.dp,
-            topRightRadius = 32.dp,
-            bottomLeftRadius = 32.dp,
-            bottomRightRadius = 32.dp,
+            size = 95.sdp,
+            topLeftRadius = 32.sdp,
+            topRightRadius = 32.sdp,
+            bottomLeftRadius = 32.sdp,
+            bottomRightRadius = 32.sdp,
             image = if (selectedItem == "N") painterResource(id = R.drawable.icon_solid_close_enable) else painterResource(
                 id = R.drawable.icon_close
             ),
@@ -125,13 +126,14 @@ private fun CastrationButtons(
     Row(modifier = Modifier.fillMaxWidth()) {
         if (textError != null) {
             textError.forEach {
-                AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
+                AlertText(textMessage = it, modifier = Modifier.padding(10.sdp))
             }
         } else {
             Text(
                 text = stringResource(id = R.string.required_field),
-                modifier = Modifier.padding(start = 2.dp, top = 10.dp),
-                fontSize = 15.sp,
+                modifier = Modifier.padding(start = 2.sdp, top = 10.sdp),
+                fontSize = 12.ssp,
+                color = if (isSystemInDarkTheme()) Color.White else MaterialTheme.colorScheme.outline,
                 textAlign = TextAlign.Start
             )
         }
@@ -145,6 +147,6 @@ fun CastrationSelectorPreview() {
     CastrationSelector(
         selectedCastration = {},
         clearSelection = { true },
-        textError = null
+        textError = null,
     )
 }

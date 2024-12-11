@@ -59,7 +59,7 @@ fun Screen(navController: NavController, viewModel: RegisterViewModel) {
         ) {
 
             CreateTitleAndImageLogo(
-                title = stringResource(id = R.string.sign_up),
+                titleSecundary = stringResource(id = R.string.sign_up),
                 spaceBetween = 40.sdp,
                 styleTitle = MaterialTheme.typography.displayMedium
             )

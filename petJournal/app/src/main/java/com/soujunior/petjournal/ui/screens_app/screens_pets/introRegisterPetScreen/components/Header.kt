@@ -21,7 +21,7 @@ fun Header(name: String?) {
     if (!name.isNullOrEmpty()) {
         CreateTitleAndImageLogo(
             spaceBetween = 10.sdp,
-            title = stringResource(id = R.string.hello_name, name.capitalizeFirstLetter()),
+            titleSecundary = stringResource(id = R.string.hello_name, name.capitalizeFirstLetter()),
             styleTitle = MaterialTheme.typography.headlineLarge,
         )
         Spacer(modifier = Modifier.padding(10.sdp))
@@ -36,7 +36,7 @@ fun Header(name: String?) {
     } else {
         CreateTitleAndImageLogo(
             spaceBetween = 10.sdp,
-            title = "",
+            titleSecundary = "",
             styleTitle = MaterialTheme.typography.headlineLarge,
         )
         Text(
