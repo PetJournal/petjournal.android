@@ -6,8 +6,8 @@ import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 
 class GetPetInformationUseCase(private val repository: GuardianRepository) :
-    BaseUseCase<String, PetInformationModel>() {
-    override suspend fun doWork(value: String): DataResult<PetInformationModel> {
+    BaseUseCase<Long, PetInformationModel>() {
+    override suspend fun doWork(value: Long): DataResult<PetInformationModel> {
         return try {
             val result = repository.getPetInformation(value)
             DataResult.Success(result.success.data)

@@ -14,9 +14,9 @@ import kotlinx.coroutines.flow.Flow
 interface GuardianRepository {
     suspend fun getGuardianName(): NetworkResult<GuardianNameResponse>
     suspend fun savePetInformation(petInformationModel: PetInformationModel): DataResult<Long>
-    suspend fun getPetInformation(idPetInformation: String): DataResult<PetInformationModel>
+    suspend fun getPetInformation(idPetInformation: Long): DataResult<PetInformationModel>
     suspend fun updatePetInformation(petInformationModel: PetInformationModel) : DataResult<Unit>
-    suspend fun deletePetInformation(idPetInformation: String): NetworkResult<PetInformationDeleted>
+    suspend fun deletePetInformation(idPetInformation: Long): NetworkResult<PetInformationDeleted>
     suspend fun deleteAllPetInformation(): DataResult<Unit>
     suspend fun getAllPetInformation(): NetworkResult<List<PetInformationItem>>
     suspend fun getListPetSizes(petSpecie: String): NetworkResult<List<PetSizeItemModel>>

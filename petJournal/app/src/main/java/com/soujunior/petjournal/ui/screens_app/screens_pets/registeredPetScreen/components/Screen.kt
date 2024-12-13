@@ -48,7 +48,7 @@ fun Screen(navController: NavController) {
     val viewModel: ViewModelRegisteredPets = getViewModel()
     val taskState by viewModel.taskState.collectAsState()
     var showDeleteDialog by remember { mutableStateOf(false) }
-    var actualPetId: String by remember { mutableStateOf("") }
+    var actualPetId: Long by remember { mutableStateOf(0) }
 
     val pullRefreshState = rememberPullRefreshState(
         refreshing = taskState is TaskState.Loading,
@@ -113,7 +113,7 @@ fun Screen(navController: NavController) {
                                             /*Abrir Tela do Pet*/
                                         },
                                             onLongClick = {
-                                                actualPetId = item.id!!
+                                                actualPetId = item.id
                                                 showDeleteDialog = true
                                             })
                                 )
@@ -133,6 +133,7 @@ fun Screen(navController: NavController) {
     if (showDeleteDialog) {
         DeleteDialog(
             onDismissRequest = { showDeleteDialog = false },
+            // TODO: ADICIONAR ID DA API PARA RESOLVER ESSA REMOÇÃO DE DADOS
             onConfirmation = { viewModel.deletePetInformation(actualPetId) },
             dialogTitle = "Deletar Card",
             dialogText = "Deseja mesmo deletar as informações deste pet?"

@@ -78,7 +78,7 @@ class BirthDateViewModelImpl(
         return state.birthError.isNullOrEmpty() && state.castrationError.isNullOrEmpty()
     }
 
-    override fun change(petBirth: String?, idPetInformation: String?, petCastration: Boolean?) {
+    override fun change(petBirth: String?, idPetInformation: Long, petCastration: Boolean?) {
         when {
             petBirth != null -> {
                 state = state.copy(birth = petBirth)
@@ -100,7 +100,7 @@ class BirthDateViewModelImpl(
         }
     }
 
-    override fun getPetInformation(id: String) {
+    override fun getPetInformation(id: Long) {
         viewModelScope.launch {
             _taskState.value = TaskState.Loading
             val result = getPetInformationUseCase.execute(id)
@@ -113,7 +113,7 @@ class BirthDateViewModelImpl(
     override fun updatePetInformation() {
         viewModelScope.launch {
             val petInformation = PetInformationModel(
-                id = state.idPetInformation ?: "0",
+                id = state.idPetInformation,
                 species = state.specie,
                 name = state.name,
                 gender = state.gender,
@@ -132,7 +132,7 @@ class BirthDateViewModelImpl(
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val petInformation = PetInformationModel(
-                id = state.idPetInformation ?: "0",
+                id = state.idPetInformation,
                 species = state.specie,
                 name = state.name,
                 gender = state.gender,

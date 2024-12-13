@@ -29,11 +29,20 @@ class FakeBirthDateViewModel : BirthDateViewModel() {
 
 
     override fun enableButton(): Boolean = true
-    override fun change(petBirth: String?, idPetInformation: Long?, petCastration: Boolean?) {}
+    override fun change(petBirth: String?, idPetInformation: Long, petCastration: Boolean?) {
+    }
 
-    override fun getPetInformation(id: Long) {}
+    override fun getPetInformation(id: Long) {
+
+    }
+
+//    override fun change(petBirth: String?, idPetInformation: String, petCastration: Boolean?) {}
+
+//    override fun getPetInformation(id: Long) {}
     override fun updatePetInformation() {}
     override fun createPetInformation() {}
+    override fun deleteAllPetInformation() {
+    }
 
     override fun successPetUpdate(unit: Unit) {}
 
@@ -53,13 +62,16 @@ abstract class BirthDateViewModel : ViewModel() {
     abstract fun enableButton(): Boolean
     abstract fun change(
         petBirth: String? = null,
-        idPetInformation: Long? = null,
+        idPetInformation: Long = 0,
         petCastration: Boolean? = null
     )
 
     abstract fun getPetInformation(id: Long)
+//    abstract fun getPetInformation(id: String)
+
     abstract fun updatePetInformation()
     abstract fun createPetInformation()
+    abstract fun deleteAllPetInformation()
 
     abstract fun successPetUpdate(unit: Unit)
 }

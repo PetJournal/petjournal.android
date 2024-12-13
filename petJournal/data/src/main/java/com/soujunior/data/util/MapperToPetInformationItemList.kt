@@ -10,6 +10,7 @@ fun List<PetInformationModel>.toPetInformationItemList(): List<PetInformationIte
     return this.map { model ->
         PetInformationItem(
             id = model.id,
+            idApi = model.apiId,
             guardianId = model.guardianId,
             specie = model.species?.let { Specie(id = "", name = it) },
             specieAlias = null,
@@ -27,7 +28,8 @@ fun List<PetInformationModel>.toPetInformationItemList(): List<PetInformationIte
 fun List<PetInformationItem>.toPetInformationModelList(): List<PetInformationModel> {
     return this.map { model ->
         PetInformationModel(
-            id = model.id!!,
+            id = model.id,
+            apiId = model.idApi,
             guardianId = model.guardianId,
             species = model.specie!!.name,
             name = model.petName,

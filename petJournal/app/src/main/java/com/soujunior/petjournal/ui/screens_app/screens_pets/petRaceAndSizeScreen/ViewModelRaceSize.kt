@@ -43,6 +43,7 @@ class FakeRaceAndSizeViewModel : ViewModelRaceSize() {
 
     override fun change(petRace: String?, petSize: String?, petRaceOthers: String?) {}
 
+//    override fun getPetInformation(id: String) {}
     override fun getPetInformation(id: Long) {}
     override fun updatePetInformation() {}
 
@@ -77,6 +78,7 @@ abstract class ViewModelRaceSize : ViewModel() {
         petRaceOthers: String? = null,
     )
 
+//    abstract fun getPetInformation(id: String)
     abstract fun getPetInformation(id: Long)
     abstract fun updatePetInformation()
 

@@ -16,7 +16,8 @@ import androidx.room.PrimaryKey
     indices = [Index("guardianId")]
 )
 data class PetInformation(
-    @PrimaryKey val id: String,
+    @PrimaryKey(autoGenerate = true) val id: Long,
+    val idApi : String? = null,
     val guardianId: String,
     val species: String? = null,
     val name: String? = null,

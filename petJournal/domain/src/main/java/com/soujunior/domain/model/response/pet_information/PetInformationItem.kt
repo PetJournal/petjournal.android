@@ -2,7 +2,8 @@ package com.soujunior.domain.model.response.pet_information
 
 
 data class PetInformationItem(
-    val id: String? = null,
+    val id: Long,
+    val idApi: String? = null,
     val guardianId: String? = null,
     val specie: Specie? = null,
     val specieAlias: String? = null,

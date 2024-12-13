@@ -67,7 +67,7 @@ class ViewModelRegisteredPetsImpl(
         }
     }
 
-    override fun deletePetInformation(petId: String) {
+    override fun deletePetInformation(petId: Long) {
         val _currList = state.registeredPetList.toMutableList()
         _currList.removeAll {
             it.id == petId

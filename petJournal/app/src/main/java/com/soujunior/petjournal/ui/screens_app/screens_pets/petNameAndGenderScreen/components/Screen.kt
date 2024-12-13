@@ -72,6 +72,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
     val taskState by viewModel.taskState.collectAsState()
     var isClearGender by remember { mutableStateOf(false) }
     if (idPetInformation != null) {
+//        viewModel.getPetInformation(idPetInformation)
         viewModel.getPetInformation(idPetInformation.toLong())
     }
     val isDarkMode = isSystemInDarkTheme()

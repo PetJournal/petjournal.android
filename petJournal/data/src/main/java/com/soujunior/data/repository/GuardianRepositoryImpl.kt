@@ -64,7 +64,7 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun getPetInformation(idPetInformation: String): DataResult<PetInformationModel> {
+    override suspend fun getPetInformation(idPetInformation: Long): DataResult<PetInformationModel> {
         return try {
             DataResult.Success(guardianLocalDataSourceImpl.getPetInformation(idPetInformation).success.data)
         } catch (e: Throwable) {
@@ -80,12 +80,12 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun deletePetInformation(idPetInformation: String): NetworkResult<PetInformationDeleted> {
+    override suspend fun deletePetInformation(idPetInformation: Long): NetworkResult<PetInformationDeleted> {
         return try {
             val token = "Bearer " + jwtManager.getToken()
             val apiResult = guardianApi.deletePetInformation(token, idPetInformation.toString())
             apiResult.onSuccess {
-                guardianLocalDataSourceImpl.deletePetInformation(it.petId!!)
+                guardianLocalDataSourceImpl.deletePetInformation(it.petId)
                 return@onSuccess
             }
 

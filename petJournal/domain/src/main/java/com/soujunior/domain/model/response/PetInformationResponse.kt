@@ -1,5 +1,6 @@
 package com.soujunior.domain.model.response
 
+// TODO: Trocar para petInformationRequest ou PetInformationRequestBody
 data class PetInformationResponse(
     val specieName: String? = null,
     val petName: String? = null,

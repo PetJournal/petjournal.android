@@ -27,7 +27,7 @@ interface GuardianProfileDao {
     suspend fun insertPetInformation(petInformation: PetInformation): Long
 
     @Query("SELECT * FROM pet_information WHERE id = :id")
-    suspend fun getPetInformation(id: String): PetInformation
+    suspend fun getPetInformation(id: Long): PetInformation
 
     @Query("SELECT * FROM pet_information")
     suspend fun getAllPetInformation(): List<PetInformationModel>
@@ -36,7 +36,7 @@ interface GuardianProfileDao {
     suspend fun insertPetInformationList(petInformationList: List<PetInformation>)
 
     @Query("DELETE FROM pet_information WHERE id =:id")
-    suspend fun deletePetInformation(id: String)
+    suspend fun deletePetInformation(id: Long)
 
     @Query("DELETE FROM pet_information")
     suspend fun deleteAllPetInformation()

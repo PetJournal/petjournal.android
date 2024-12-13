@@ -68,7 +68,9 @@ fun Screen(idPetInformation: String?, navController: NavController) {
     val taskState by viewModel.taskState.collectAsState()
     val isTextFiledOthersVisible by viewModel.isTextFiledOthersVisible.collectAsState()
     if (idPetInformation != null) {
+//        viewModel.getPetInformation(idPetInformation)
         viewModel.getPetInformation(idPetInformation.toLong())
+//        RaceSizeFormEvent.IdPetInformation(idPetInformation = idPetInformation)
         RaceSizeFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
     }
     val scrollState = rememberLazyListState()

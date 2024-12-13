@@ -58,7 +58,7 @@ class RegisteredPetScreenTest {
                 mutableStateOf(
                     listOf(
                         PetInformationItem(
-                            id = "1",
+                            id = 1,
                             guardianId = "G001",
                             specie = Specie(null, null),
                             specieAlias = "Canine",
@@ -71,7 +71,7 @@ class RegisteredPetScreenTest {
                             dateOfBirth = "2024-09-16T00:00:00.000Z"
                         ),
                         PetInformationItem(
-                            id = "2",
+                            id = 2,
                             guardianId = "G002",
                             specie = Specie(null, null),
                             specieAlias = "Feline",
@@ -84,7 +84,7 @@ class RegisteredPetScreenTest {
                             dateOfBirth = "2024-09-16T00:00:00.000Z"
                         ),
                         PetInformationItem(
-                            id = "3",
+                            id = 3,
                             guardianId = "G003",
                             specie = Specie(null, null),
                             specieAlias = "Avian",
@@ -97,7 +97,7 @@ class RegisteredPetScreenTest {
                             dateOfBirth = "2024-09-16T00:00:00.000Z"
                         ),
                         PetInformationItem(
-                            id = "4",
+                            id = 4,
                             guardianId = "G004",
                             specie = Specie(null, null),
                             specieAlias = "Canine",
@@ -110,7 +110,7 @@ class RegisteredPetScreenTest {
                             dateOfBirth = "2024-09-16T00:00:00.000Z"
                         ),
                         PetInformationItem(
-                            id = "5",
+                            id = 5,
                             guardianId = "G005",
                             specie = Specie(null, null),
                             specieAlias = "Feline",
@@ -160,7 +160,7 @@ class RegisteredPetScreenTest {
                 mutableStateOf(
                     listOf(
                         PetInformationItem(
-                            id = "1",
+                            id = 1,
                             guardianId = "G001",
                             specie = Specie(null, null),
                             specieAlias = "Canine",
@@ -173,7 +173,7 @@ class RegisteredPetScreenTest {
                             dateOfBirth = "2024-09-16T00:00:00.000Z"
                         ),
                         PetInformationItem(
-                            id = "2",
+                            id = 2,
                             guardianId = "G002",
                             specie = Specie(null, null),
                             specieAlias = "Feline",
@@ -186,7 +186,7 @@ class RegisteredPetScreenTest {
                             dateOfBirth = "2024-09-16T00:00:00.000Z"
                         ),
                         PetInformationItem(
-                            id = "3",
+                            id = 3,
                             guardianId = "G003",
                             specie = Specie(null, null),
                             specieAlias = "Avian",
@@ -199,7 +199,7 @@ class RegisteredPetScreenTest {
                             dateOfBirth = "2024-09-16T00:00:00.000Z"
                         ),
                         PetInformationItem(
-                            id = "4",
+                            id = 4,
                             guardianId = "G004",
                             specie = Specie(null, null),
                             specieAlias = "Canine",
@@ -212,7 +212,7 @@ class RegisteredPetScreenTest {
                             dateOfBirth = "2024-09-16T00:00:00.000Z"
                         ),
                         PetInformationItem(
-                            id = "5",
+                            id = 5,
                             guardianId = "G005",
                             specie = Specie(null, null),
                             specieAlias = "Feline",

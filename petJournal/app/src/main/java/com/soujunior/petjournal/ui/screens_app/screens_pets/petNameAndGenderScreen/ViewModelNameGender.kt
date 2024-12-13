@@ -24,9 +24,15 @@ class FakeNameAndGenderViewModel : ViewModelNameGender() {
 
     override fun onEvent(event: NameGenderFormEvent) {}
     override fun enableButton(): Boolean = true
-    override fun change(petName: String?, petGender: String?, idPetInformation: Long?) {}
+    override fun change(petName: String?, petGender: String?, idPetInformation: Long) {
+    }
 
-    override fun getPetInformation(id: Long) {}
+    override fun getPetInformation(id: Long) {
+    }
+
+    //    override fun change(petName: String?, petGender: String?, idPetInformation: Long?) {}
+//
+//    override fun getPetInformation(id: Long) {}
     override fun updatePetInformation() {}
 
     override fun successPetUpdate(unit: Unit) {}
@@ -46,10 +52,10 @@ abstract class ViewModelNameGender : ViewModel() {
     abstract fun change(
         petName: String? = null,
         petGender: String? = null,
-        idPetInformation: String? = null
+        idPetInformation: Long = 0
     )
 
-    abstract fun getPetInformation(id: String)
+    abstract fun getPetInformation(id: Long)
     abstract fun updatePetInformation()
     abstract fun successPetUpdate(unit: Unit)
 }

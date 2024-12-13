@@ -67,6 +67,8 @@ fun Screen(idPetInformation: String?, navController: NavController) {
     val taskState by viewModel.taskState.collectAsState()
     var isClearCastration by remember { mutableStateOf(false) }
     if (idPetInformation != null) {
+//        viewModel.getPetInformation(idPetInformation)
+//        RaceSizeFormEvent.IdPetInformation(idPetInformation = idPetInformation)
         viewModel.getPetInformation(idPetInformation.toLong())
         RaceSizeFormEvent.IdPetInformation(idPetInformation = idPetInformation.toLong())
     }

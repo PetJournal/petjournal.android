@@ -198,7 +198,6 @@ fun Screen(navController: NavController) {
                                                         val id =
                                                             viewModel.state.idRoomPetInformation
                                                         if (id != null) {
-
                                                             navController.navigate("pets/nameAndGender/${id}")
                                                         }
                                                     }

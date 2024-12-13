@@ -2,7 +2,8 @@ package com.soujunior.domain.model
 
 
 data class PetInformationModel(
-    val id: String,
+    val id: Long,
+    val apiId: String? = null,
     val species: String? = null,
     val name: String? = null,
     val gender: String? = null,

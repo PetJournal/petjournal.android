@@ -70,7 +70,7 @@ class GuardianLocalDataSourceImpl(
         }
     }
 
-    override suspend fun deletePetInformation(id: String): DataResult<Unit> {
+    override suspend fun deletePetInformation(id: Long): DataResult<Unit> {
         return try {
             DataResult.Success(guardianDao.deletePetInformation(id))
         } catch (e: Throwable) {
@@ -86,7 +86,7 @@ class GuardianLocalDataSourceImpl(
         }
     }
 
-    override suspend fun getPetInformation(id: String): DataResult<PetInformationModel> {
+    override suspend fun getPetInformation(id: Long): DataResult<PetInformationModel> {
         return try {
             val petInformation = guardianDao.getPetInformation(id)
             DataResult.Success(petInformation.toPetInformationModel())

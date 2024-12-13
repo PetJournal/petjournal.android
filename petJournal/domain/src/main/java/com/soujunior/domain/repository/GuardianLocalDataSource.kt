@@ -11,10 +11,10 @@ interface GuardianLocalDataSource {
     suspend fun deleteDatabase()
     suspend fun saveGuardianName(response: GuardianNameResponse)
     suspend fun savePetInformation(petInformationModel: PetInformationModel) : DataResult<Long>
-    suspend fun getPetInformation(id: String) : DataResult<PetInformationModel>
+    suspend fun getPetInformation(id: Long) : DataResult<PetInformationModel>
     suspend fun getAllPetInformation() : DataResult<List<PetInformationModel>>
     suspend fun insertPetInformationList(petInformationList: List<PetInformationModel>) : DataResult<Unit>
-    suspend fun deletePetInformation(id: String) : DataResult<Unit>
+    suspend fun deletePetInformation(id: Long) : DataResult<Unit>
     suspend fun deleteAllPetInformation() : DataResult<Unit>
     suspend fun updatePetInformation(petInformationModel: PetInformationModel) : DataResult<Unit>
     suspend fun getListPetSizes(tag: String): DataResult<List<PetSizeItemModel>>?
