@@ -6,12 +6,13 @@ import com.petjournal.database.database.entity.PetSize
 import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
-import com.soujunior.domain.model.response.PetInformationResponse
+import com.soujunior.domain.model.response.PetInformationRequest
 
 object Converter {
     fun PetInformation.toModel(): PetInformationModel {
         return PetInformationModel(
-            id = this.id,
+//            idLocal  = this.idLocal,
+            id = this.idApi,
             species = this.species,
             name = this.name,
             gender = this.gender,
@@ -25,7 +26,8 @@ object Converter {
 
     fun PetInformationModel.toEntity(): PetInformation {
         return PetInformation(
-            id = this.id,
+            idLocal = null,
+            idApi = this.id,
             guardianId = this.guardianId!!,
             species = this.species,
             name = this.name,
@@ -36,8 +38,9 @@ object Converter {
             castration = this.castration
         )
     }
-    fun PetInformationModel.toResponse(): PetInformationResponse {
-        return PetInformationResponse(
+    fun PetInformationModel.toRequest(): PetInformationRequest {
+        return PetInformationRequest(
+            id = "",
             specieName = if (this.species == "Cat" ) "Gato" else if ( this.species == "Dog") "Cachorro" else this.species,
             petName = this.name,
             gender = this.gender,

@@ -4,7 +4,7 @@ import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.PetInformationDeleted
-import com.soujunior.domain.model.response.PetInformationResponse
+import com.soujunior.domain.model.response.PetInformationRequest
 import com.soujunior.domain.model.response.pet_information.PetInformationItem
 import com.soujunior.domain.network.NetworkResult
 import retrofit2.http.Body
@@ -33,7 +33,7 @@ interface GuardianService {
     @POST("api/pet")
     suspend fun savePetInformation(
         @Header("Authorization") token: String,
-        @Body petInformationResponse: PetInformationResponse
+        @Body petInformationRequest: PetInformationRequest
     ): NetworkResult<Unit>
 
     @GET("api/pet")

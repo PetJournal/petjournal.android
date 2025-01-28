@@ -49,7 +49,7 @@ class ViewModelRaceSizeImpl(
     }
     override fun success(petInformationModel: PetInformationModel) {
         state = state.copy(
-            specie = petInformationModel.species ?: "", idPetInformation = petInformationModel.id,
+            specie = petInformationModel.species ?: "", idPetInformation = petInformationModel.idLocal!!,
             name = petInformationModel.name ?: "", gender = petInformationModel.gender ?: ""
         )
         viewModelScope.launch {
@@ -183,7 +183,7 @@ class ViewModelRaceSizeImpl(
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val petInformation = PetInformationModel(
-                id = state.idPetInformation,
+                idLocal = state.idPetInformation,
                 species = state.specie,
                 name = state.name,
                 gender = state.gender,

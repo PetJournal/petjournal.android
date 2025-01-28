@@ -2,7 +2,6 @@ package com.soujunior.petjournal.ui.screens_app.screens_pets.registeredPetScreen
 
 import androidx.lifecycle.ViewModel
 import com.soujunior.domain.model.PetInformationModel
-import com.soujunior.domain.model.response.PetInformationResponse
 import com.soujunior.domain.model.response.pet_information.PetInformationItem
 import com.soujunior.petjournal.ui.appArea.pets.registeredPetScreen.RegisteredPetFormEvent
 import com.soujunior.petjournal.ui.states.TaskState
@@ -20,7 +19,7 @@ abstract class ViewModelRegisteredPets : ViewModel() {
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 
-    abstract fun success(petList: List<PetInformationItem>)
+    abstract fun success(petList: List<PetInformationModel>)
     abstract fun failed(exception: Throwable?)
     abstract fun onEvent(event: RegisteredPetFormEvent)
 

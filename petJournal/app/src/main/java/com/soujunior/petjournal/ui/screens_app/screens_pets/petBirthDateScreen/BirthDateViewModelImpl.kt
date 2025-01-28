@@ -41,7 +41,7 @@ class BirthDateViewModelImpl(
 
     override fun success(petInformationModel: PetInformationModel) {
         state = state.copy(
-            idPetInformation = petInformationModel.id,
+            idPetInformation = petInformationModel.idLocal!!,
             specie = petInformationModel.species ?: "",
             name = petInformationModel.name ?: "",
             gender = petInformationModel.gender ?: "",
@@ -113,13 +113,14 @@ class BirthDateViewModelImpl(
     override fun updatePetInformation() {
         viewModelScope.launch {
             val petInformation = PetInformationModel(
-                id = state.idPetInformation,
+                idLocal = state.idPetInformation,
                 species = state.specie,
                 name = state.name,
                 gender = state.gender,
                 size = state.size,
                 petRace = state.race,
                 petAge = formatToIso8601(state.birth),
+                castration = state.castration,
                 guardianId = "0"
             )
 
@@ -132,16 +133,16 @@ class BirthDateViewModelImpl(
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val petInformation = PetInformationModel(
-                id = state.idPetInformation,
+                idLocal = state.idPetInformation,
                 species = state.specie,
                 name = state.name,
                 gender = state.gender,
                 size = state.size,
                 petRace = state.race,
                 petAge = formatToIso8601(state.birth),
-                guardianId = "0",
-                castration = state.castration
-            )
+                castration = state.castration,
+                guardianId = "0"
+                )
             val result = createPetInformationApiUseCase.execute(petInformation)
             result.handleResult(::successPetUpdate, ::failed)
             _taskState.value = TaskState.Idle

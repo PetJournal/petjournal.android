@@ -10,16 +10,14 @@ import kotlinx.coroutines.flow.Flow
 import java.lang.Exception
 
 class GetAllPetInformationUseCase(private val repository: GuardianRepository) :
-    BaseUseCase<Unit, List<PetInformationItem>>() {
-    override suspend fun doWork(value: Unit): DataResult<List<PetInformationItem>> {
+    BaseUseCase<Unit, List<PetInformationModel>>() {
+    override suspend fun doWork(value: Unit): DataResult<List<PetInformationModel>> {
         return when (val response = repository.getAllPetInformation()) {
             is NetworkResult.Success -> {
                 DataResult.Success(response.data)
             }
-
             is NetworkResult.Error -> DataResult.Failure(Throwable(message = "${response.code} -> ${response.body?.error}"))
             is NetworkResult.Exception -> DataResult.Failure(response.e)
-
         }
     }
 }

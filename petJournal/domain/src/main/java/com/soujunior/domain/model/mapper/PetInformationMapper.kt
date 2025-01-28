@@ -1,11 +1,11 @@
 package com.soujunior.domain.model.mapper
 
 import com.soujunior.domain.model.PetInformationModel
-import com.soujunior.domain.model.response.PetInformationResponse
+import com.soujunior.domain.model.response.PetInformationRequest
 
-fun PetInformationResponse.toPetInformationModel(id: Long, guardianId: String? = null): PetInformationModel {
+fun PetInformationRequest.toPetInformationModel(id: String, guardianId: String? = null): PetInformationModel {
     return PetInformationModel(
-        id = id,
+        id = this.id,
         species = this.specieName,
         name = this.petName,
         gender = this.gender,

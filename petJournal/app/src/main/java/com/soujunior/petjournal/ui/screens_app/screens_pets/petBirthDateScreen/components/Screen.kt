@@ -189,7 +189,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                                 ) {
                                                     viewModel.updatePetInformation()
                                                     viewModel.createPetInformation()
-                                                    //navController.navigate("pets/birth/$it")
+                                                    navController.navigate("pets/registeredPets")
                                                 }
                                             },
                                             enableButton = viewModel.enableButton(),

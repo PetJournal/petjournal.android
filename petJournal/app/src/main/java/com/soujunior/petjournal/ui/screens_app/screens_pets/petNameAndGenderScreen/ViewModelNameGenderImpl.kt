@@ -93,7 +93,7 @@ class ViewModelNameGenderImpl(
             val result = getPetInformationUseCase.execute(id)
             result.handleResult({
                 state = state.copy(
-                    idPetInformation = it.id,
+                    idPetInformation = it.idLocal!!,
                     specie = it.species!!,
                 )
             }, ::failed)
@@ -106,7 +106,7 @@ class ViewModelNameGenderImpl(
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val petInformation = PetInformationModel(
-                id = state.idPetInformation,
+                idLocal = state.idPetInformation,
                 species = state.specie,
                 name = state.name,
                 gender = state.gender,

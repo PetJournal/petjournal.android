@@ -33,13 +33,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.model.response.pet_information.PetInformationItem
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.util.calculateAge
 import com.soujunior.petjournal.ui.util.formatAge
 
 @Composable
-fun PetItemCard(info : PetInformationItem, modifier: Modifier){
+fun PetItemCard(info : PetInformationModel, modifier: Modifier){
     /*Nome, Raça, imagem com a espécie*/
 
     Card(modifier = modifier,
@@ -66,9 +67,9 @@ fun PetItemCard(info : PetInformationItem, modifier: Modifier){
                         .border(1.dp, Color.LightGray, CircleShape)
                 )
                 Column(Modifier.padding(horizontal = 10.dp, vertical = 5.dp)) {
-                    info.petName?.let { Text(text = it, fontSize = 15.sp, color = if(info.gender == "M") Color(0xFF5888ED) else Color(0xFF9A0963)) }
+                    info.name?.let { Text(text = it, fontSize = 15.sp, color = if(info.gender == "M") Color(0xFF5888ED) else Color(0xFF9A0963)) }
                     info.gender?.let { Text(text = it, fontSize = 12.sp) }
-                    info.dateOfBirth?.let { Text(text = formatAge(calculateAge(it)), fontSize = 12.sp) }
+                    info.petAge?.let { Text(text = formatAge(calculateAge(it)), fontSize = 12.sp) }
                 }
                 Column (
                     Modifier

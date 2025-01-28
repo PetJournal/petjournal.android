@@ -6,7 +6,8 @@ import com.soujunior.domain.model.PetInformationModel
 fun List<PetInformationModel>.toPetInformationList(): List<PetInformation> {
     return this.map { model ->
         PetInformation(
-            id = model.id,
+            idLocal = null,
+            idApi = model.id,
             guardianId = "0",
             species = model.species,
             name = model.name,
@@ -21,7 +22,8 @@ fun List<PetInformationModel>.toPetInformationList(): List<PetInformation> {
 
 fun PetInformation.toPetInformationModel(): PetInformationModel {
     return PetInformationModel(
-        id = this.id,
+//        idLocal = this.idLocal,
+        id = this.idApi,
         species = this.species,
         name = this.name,
         gender = this.gender,

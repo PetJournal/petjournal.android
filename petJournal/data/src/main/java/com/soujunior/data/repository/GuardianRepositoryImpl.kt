@@ -3,7 +3,7 @@ package com.soujunior.data.repository
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
-import com.petjournal.database.converter.Converter.toResponse
+import com.petjournal.database.converter.Converter.toRequest
 import com.soujunior.data.remote.GuardianService
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.data.util.toPetInformationItemList
@@ -154,19 +154,19 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun getAllPetInformation(): NetworkResult<List<PetInformationItem>> {
+    override suspend fun getAllPetInformation(): NetworkResult<List<PetInformationModel>> {
         val localListPetInformation =
             guardianLocalDataSourceImpl.getAllPetInformation().success.data
 
         return if (!localListPetInformation.isNullOrEmpty()) {
-            NetworkResult.Success(localListPetInformation.toPetInformationItemList())
+            NetworkResult.Success(localListPetInformation)
         } else {
             val token = "Bearer " + jwtManager.getToken()
 
             when (val apiResult = guardianApi.getAllPetInformation(token)) {
                 is NetworkResult.Success -> {
                     guardianLocalDataSourceImpl.insertPetInformationList(apiResult.data.toPetInformationModelList())
-                    NetworkResult.Success(apiResult.data)
+                    NetworkResult.Success(apiResult.data.toPetInformationModelList())
                 }
 
                 is NetworkResult.Exception -> {
@@ -184,7 +184,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun createPetInformationApi(petInformationModel: PetInformationModel): NetworkResult<Unit> {
         val token = "Bearer " + jwtManager.getToken()
-        val pet = petInformationModel.toResponse()
+        val pet = petInformationModel.toRequest()
         return guardianApi.savePetInformation(token, pet)
     }
 

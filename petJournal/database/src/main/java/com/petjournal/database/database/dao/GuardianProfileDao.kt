@@ -26,16 +26,16 @@ interface GuardianProfileDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertPetInformation(petInformation: PetInformation): Long
 
-    @Query("SELECT * FROM pet_information WHERE id = :id")
+    @Query("SELECT * FROM pet_information WHERE idLocal = :id")
     suspend fun getPetInformation(id: Long): PetInformation
 
     @Query("SELECT * FROM pet_information")
     suspend fun getAllPetInformation(): List<PetInformationModel>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     suspend fun insertPetInformationList(petInformationList: List<PetInformation>)
 
-    @Query("DELETE FROM pet_information WHERE id =:id")
+    @Query("DELETE FROM pet_information WHERE idLocal =:id")
     suspend fun deletePetInformation(id: Long)
 
     @Query("DELETE FROM pet_information")

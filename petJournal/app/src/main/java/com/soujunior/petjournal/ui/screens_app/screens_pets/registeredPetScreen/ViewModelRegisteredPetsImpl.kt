@@ -1,9 +1,11 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.registeredPetScreen
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
+import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.model.response.pet_information.PetInformationItem
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.pet.DeleteAllPetInformationUseCase
@@ -37,8 +39,9 @@ class ViewModelRegisteredPetsImpl(
         getAllPetInformation()
     }
 
-    override fun success(petList: List<PetInformationItem>) {
+    override fun success(petList: List<PetInformationModel>) {
         viewModelScope.launch {
+            Log.d("network", "Aprovado")
             state = state.copy(registeredPetList = petList)
             validationEventChannel.send(ValidationEvent.Success)
         }
@@ -46,6 +49,7 @@ class ViewModelRegisteredPetsImpl(
 
     override fun failed(exception: Throwable?) {
         viewModelScope.launch {
+            Log.d("network", exception?.printStackTrace().toString())
             validationEventChannel.send(ValidationEvent.Failed)
         }
     }
@@ -67,23 +71,24 @@ class ViewModelRegisteredPetsImpl(
         }
     }
 
+    // TODO: REALIZAR A CHAMADA DA API PARA DELETAR PET
     override fun deletePetInformation(petId: Long) {
-        val _currList = state.registeredPetList.toMutableList()
-        _currList.removeAll {
-            it.id == petId
-        }
-
-        viewModelScope.launch {
-            _taskState.value = TaskState.Loading
-            val result = deletePetInformationUseCase.execute(petId)
-            result.handleResult({
-                state = state.copy(registeredPetList = _currList)
-                viewModelScope.launch {
-                    validationEventChannel.send(ValidationEvent.Success)
-                }
-            }, ::failed)
-            _taskState.value = TaskState.Idle
-        }
+//        val _currList = state.registeredPetList.toMutableList()
+//        _currList.removeAll {
+//            it.idLocal == petId
+//        }
+//
+//        viewModelScope.launch {
+//            _taskState.value = TaskState.Loading
+//            val result = deletePetInformationUseCase.execute(petId)
+//            result.handleResult({
+//                state = state.copy(registeredPetList = _currList)
+//                viewModelScope.launch {
+//                    validationEventChannel.send(ValidationEvent.Success)
+//                }
+//            }, ::failed)
+//            _taskState.value = TaskState.Idle
+//        }
     }
 
     override fun deleteAllPetInformation() {

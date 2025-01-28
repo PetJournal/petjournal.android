@@ -31,13 +31,13 @@ val formForgot  = ForgotPasswordModel (
 )
 
 val petInformation = PetInformationModel(
-    id = 1,
+    idLocal = 1,
     species = "Dog",
-    guardianId = 1
+    guardianId = "1"
 )
 
 val petInformationItem = PetInformationItem(
-    id = "1",
+    idLocal = 1,
     guardianId = "123",
     specie = Specie("1", "Cachorro"),
     specieAlias = "Dog",
