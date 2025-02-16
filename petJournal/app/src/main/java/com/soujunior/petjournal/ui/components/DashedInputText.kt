@@ -37,6 +37,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import ir.kaaveh.sdpcompose.sdp
@@ -190,4 +191,10 @@ fun DashedInputText(
         }
     }
 
+}
+
+@Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
+@Composable
+fun DashedInputTextPreview() {
+    DashedInputText(Modifier, onEvent = {}, textValue = "")
 }
