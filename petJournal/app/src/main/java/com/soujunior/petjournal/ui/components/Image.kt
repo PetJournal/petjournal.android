@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -38,7 +36,6 @@ fun ImagePet(
             },
         contentAlignment = Alignment.Center
     ) {
-        // TODO: Colocar icone de imagem vazia corretamente
         Icon(
             painter = painterResource(id = R.drawable.logo_black),
             contentDescription = "Pet Icon",
@@ -55,12 +52,11 @@ fun ImagePet(
                 .clickable { },
             contentAlignment = Alignment.Center
         ) {
-            // TODO: Colocar icone de editar corretamente
             Icon(
-                imageVector = Icons.Outlined.Edit,
+                painter = painterResource(id = R.drawable.ic_edit),
                 contentDescription = "Edit Icon",
                 tint = Color.White,
-                modifier = Modifier.size(15.dp)
+                modifier = Modifier.size(10.dp)
             )
         }
     }
