@@ -10,6 +10,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -19,9 +20,11 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -223,4 +226,29 @@ fun ScaffoldCustom3(
         modifier = modifier.shadow(4.dp),
         content = { it -> contentToUse(it) },
     )
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun ScaffoldCustom3Preview() {
+    val navController = rememberNavController()
+
+    MaterialTheme {
+        ScaffoldCustom3(
+            isLoading = false,
+            showTopBar = true,
+            showBottomBarNavigation = true,
+            navigationUp = navController,
+            contentToUse = { paddingValues ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("Conteúdo da Tela", style = MaterialTheme.typography.headlineMedium)
+                }
+            }
+        )
+    }
 }

@@ -111,9 +111,6 @@ fun DashedInputText(
                 textStyle = MaterialTheme.typography.titleMedium.copy(
                     color = if (isSystemInDarkTheme()) Color.Black else MaterialTheme.colorScheme.onSurface
                 ),
-//                textStyle = MaterialTheme.typography.labelLarge.copy(
-//                    color = if (isSystemInDarkTheme()) Color.Black else MaterialTheme.colorScheme.onSurface
-//                ),
                 maxLines = 1,
                 visualTransformation =
                 if (isPassword) {
@@ -134,10 +131,10 @@ fun DashedInputText(
                                 Text(
                                     modifier = Modifier,
                                     text = placeholderText,
-//                                    style = MaterialTheme.typography.labelLarge,
+//todo:                                    style = MaterialTheme.typography.labelLarge,
                                     style = MaterialTheme.typography.titleMedium,
                                     color = MaterialTheme.colorScheme.outline,
-//                                    A fonte é definida pelo Style, nao faz sentido colocar isso diretamente no código
+//todo:                                    A fonte é definida pelo Style, nao faz sentido colocar isso diretamente no código
 //                                    fontSize = 14.ssp
                                 )
                             }
@@ -149,7 +146,7 @@ fun DashedInputText(
                             val contentDescription =
                                 if (showPassword) "O" +
                                         stringResource(R.string.hide_psswd) else stringResource(R.string.show_psswd)
-//                            Strings Devem ser colocadas no arquivo de strings!
+//todo:                            Strings Devem ser colocadas no arquivo de strings!
 //                                        "cultar senha" else "Mostrar senha"
 
                             IconButton(onClick = { showPassword = !showPassword }) {
@@ -162,7 +159,7 @@ fun DashedInputText(
                         } else if (isError) {
                             val iconResource = R.drawable.icone_erro
                             val contentDescription = stringResource(R.string.error)
-//                          Strings Devem ser colocadas no arquivo de strings!
+//todo:                          Strings Devem ser colocadas no arquivo de strings!
 //                          val contentDescription = "Erro"
 
                             Icon(
@@ -177,7 +174,7 @@ fun DashedInputText(
             )
         }
     }
-//    Esse componente precisa ser um Column
+//todo:    Esse componente precisa ser um Column
 //    Row(
     Column(
         Modifier
