@@ -77,8 +77,8 @@ object ColorCustom {
     val gray_200 = Color(0xFF2C2B2B)
     val link_200 = Color(0xFFA5EFFB)
     val green_confirm = Color(0xFF50C24E)
+    val error_color = Color(0xFFFF917A)
 }
-
 
 
 

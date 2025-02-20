@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.ui.theme.Shapes
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
@@ -26,8 +27,8 @@ fun Button3(
     enableButton: Boolean,
     modifier: Modifier = Modifier,
     text: String = "Button",
-    buttonColor: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-    textColor: Color = MaterialTheme.colorScheme.onPrimary,
+    buttonColor: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
+    textColor: Color = MaterialTheme.colorScheme.primary,
     isLoading: Boolean = false
 ) {
     Row(
@@ -65,4 +66,10 @@ fun Button3(
             }
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
+@Composable
+fun Button3Preview() {
+    Button3(submit = { /*TODO*/ }, enableButton = true, text = "Macho")
 }

@@ -31,9 +31,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.domain.model.request.PetSizeItemModel
@@ -77,10 +77,7 @@ fun DropDown(
                     .height(50.dp)
                     .drawBehind {
                         val stroke = Stroke(
-                            width = 1.dp.toPx(),
-                            pathEffect = PathEffect.dashPathEffect(
-                                intervals = floatArrayOf(12.dp.toPx(), 12.dp.toPx(), 0f)
-                            )
+                            width = 2.dp.toPx(),
                         )
                         drawRoundRect(
                             color = if (isError) Color.Transparent else colorBorder,
@@ -89,11 +86,6 @@ fun DropDown(
                         )
 
                     }
-                    .border(
-                        2.dp,
-                        if (isError) MaterialTheme.colorScheme.error else Color.Transparent,
-                        shape = RoundedCornerShape(10.sdp)
-                    )
                     .clip(RoundedCornerShape(10.sdp))
                     .clickable { isDropdownExpanded = true }
             ) {
@@ -161,4 +153,10 @@ fun DropDown(
         }
     }
 
+}
+
+@Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
+@Composable
+fun DropDownPreview() {
+    DropDown(textValue = "", onEvent = {}, dropdownItems = null, textError = null)
 }
