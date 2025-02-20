@@ -164,6 +164,63 @@ fun ScaffoldCustom(
         },
         modifier = modifier.shadow(4.dp)
     )
+}
 
-
+//This scaffold is customized to Design 3.0?
+/**
+ * Esse Scaffod aqui é um teste para tentar deixar um pouco mais limpo o design atual
+ * */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ScaffoldCustom3(
+    isLoading: Boolean = false,
+    shadowBelowTopBar: Dp = 4.dp,
+    showTopBar: Boolean = false,
+    actions: @Composable RowScope.() -> Unit = {},
+    showActions: Boolean = false,
+    showButtonToReturn: Boolean = false,
+    showBottomBarNavigation: Boolean = false,
+    navigationUp: NavController,
+    bottomNavigationBar: @Composable () -> Unit = { NavigationBar(navigationUp) },
+    contentToUse: @Composable (PaddingValues) -> Unit = {},
+    modifier: Modifier = Modifier,
+    topBar : @Composable () -> Unit = {
+        Surface(
+            shadowElevation = 4.dp
+        ){
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                ),
+                title = {},
+                navigationIcon = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        contentAlignment = Center
+                    ) {
+                        ImageLogo(
+                            modifier = Modifier.size(
+                                width = 37.dp,
+                                height = 36.42.dp
+                            ),
+                            isBlack = false
+                        )
+                    }
+                },
+                actions = {
+                    if (showActions) actions()
+                    else Spacer(modifier = Modifier.size(ButtonDefaults.IconSize))
+                }
+            )
+        }
+    }
+    ){
+    Scaffold(
+        topBar = { if (showTopBar) { topBar() } },
+        bottomBar = { if (showBottomBarNavigation) { bottomNavigationBar() } },
+        modifier = modifier.shadow(4.dp),
+        content = { it -> contentToUse(it) },
+    )
 }

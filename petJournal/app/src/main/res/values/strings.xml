@@ -111,5 +111,8 @@
     <string name="Unauthorized">401 -> Unauthorized</string>
     <string name="something_went_wrong_try_again_later">Algo deu errado...Tente de novo mais tarde!</string>
     <string name="name_your_pet">Digite o nome do seu pet</string>
+    <string name="hide_psswd">Ocultar senha</string>
+    <string name="show_psswd">Mostrar senha</string>
+    <string name="error">Erro</string>
 
 </resources>
