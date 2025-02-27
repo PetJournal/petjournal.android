@@ -3,7 +3,7 @@
     <string name="pet_registration">Cadastro Pet</string>
     <string name="pet_races">Raças</string>
     <string name="pet_name_gender">Nome</string>
-    <string name="pet_size">Porte</string>
+    <string name="pet_size">Porte do seu pet</string>
     <string name="pet_birth">Nascimento</string>
     <string name="others">Outros...</string>
     <string name="back">Voltar</string>
@@ -62,7 +62,7 @@
     <string name="pet_size_small">Pequeno (até 10kg)</string>
     <string name="pet_size_medium">Médio (11 à 24kg)</string>
     <string name="pet_size_big">Grande (a cima de 25kg)</string>
-    <string name="pet_name">Qual o nome do seu companheiro?</string>
+    <string name="pet_name">Nome do pet</string>
     <string name="pet_gender">Qual o sexo do seu Pet?</string>
     <string name="pet_gender_male">Macho</string>
     <string name="pet_gender_female">Fêmea</string>
@@ -111,5 +111,22 @@
     <string name="Unauthorized">401 -> Unauthorized</string>
     <string name="something_went_wrong_try_again_later">Algo deu errado...Tente de novo mais tarde!</string>
     <string name="name_your_pet">Digite o nome do seu pet</string>
+    <string name="edit_pet_data">Editar dados do Pet</string>
+    <string name="description_edit_icon">Edit Icon</string>
+    <string name="description_pet_icon">Pet Icon</string>
+    <string name="pet_breed">Raça do seu pet</string>
+    <string name="breed">Raça</string>
+    <string name="size">Porte</string>
+    <string name="pet_weight">Peso do seu pet</string>
+    <string name="weight">Peso</string>
+    <string name="pet_type">Tipo do seu pet</string>
+    <string name="type">Tipo</string>
+    <string name="pet_sex">Sexo</string>
+    <string name="male">Macho</string>
+    <string name="female">Fêmea</string>
+    <string name="castrated">Castrado</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="save">Salvar</string>
 
 </resources>
