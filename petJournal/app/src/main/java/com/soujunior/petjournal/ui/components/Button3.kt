@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -35,12 +37,13 @@ fun Button3(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier = modifier
+            .padding(top = 15.sdp)
             .fillMaxWidth()
     ) {
         androidx.compose.material3.Button(
             onClick = { submit() },
             enabled = enableButton,
-            modifier = modifier,
+            modifier = modifier.width(120.sdp),
             border = BorderStroke(
                 width = 1.sdp,
                 color = MaterialTheme.colorScheme.primary
@@ -71,5 +74,5 @@ fun Button3(
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable
 fun Button3Preview() {
-    Button3(submit = { /*TODO*/ }, enableButton = true, text = "Macho")
+    Button3(submit = { /*TODO*/ }, enableButton = true, text = "Salvar")
 }
