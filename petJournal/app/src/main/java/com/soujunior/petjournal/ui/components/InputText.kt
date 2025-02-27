@@ -30,8 +30,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -69,6 +69,7 @@ fun InputText(
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
                 fontSize = 14.ssp,
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.sdp, bottom = 5.sdp, top = 15.sdp)
@@ -80,7 +81,7 @@ fun InputText(
                     .fillMaxWidth()
                     .testTag("inputField_test")
                     .padding(5.sdp)
-                    .height(50.sdp)
+                    .height(45.sdp)
                     .drawBehind {
                         val stroke = Stroke(
                             width = 2.dp.toPx(),
@@ -172,12 +173,12 @@ fun InputText(
                 )
             }
         } else {
-            Text(
-                text = stringResource(id = R.string.required_field),
-                color = MaterialTheme.colorScheme.outline,
-                modifier = Modifier.padding(10.sdp),
-                fontSize = 11.ssp
-            )
+//            Text(
+//                text = stringResource(id = R.string.required_field),
+//                color = MaterialTheme.colorScheme.outline,
+//                modifier = Modifier.padding(10.sdp),
+//                fontSize = 11.ssp
+//            )
         }
     }
 }
