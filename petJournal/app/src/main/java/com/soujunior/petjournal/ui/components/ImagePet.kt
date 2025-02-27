@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
@@ -27,7 +28,7 @@ fun ImagePet(
 ) {
     Box(
         modifier = modifier
-            .size(120.dp)
+            .size(150.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(Color.White)
             .border(1.dp, Color.LightGray, RoundedCornerShape(16.dp))
@@ -38,15 +39,15 @@ fun ImagePet(
     ) {
         Icon(
             painter = painterResource(id = R.drawable.logo_black),
-            contentDescription = "Pet Icon",
+            contentDescription = stringResource(R.string.description_pet_icon),
             tint = Color.Gray,
-            modifier = Modifier.size(48.dp)
+            modifier = Modifier.size(140.dp)
         )
         Box(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(8.dp)
-                .size(20.dp)
+                .size(40.dp)
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.primary)
                 .clickable { },
@@ -54,9 +55,9 @@ fun ImagePet(
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_edit),
-                contentDescription = "Edit Icon",
+                contentDescription = stringResource(R.string.description_edit_icon),
                 tint = Color.White,
-                modifier = Modifier.size(10.dp)
+                modifier = Modifier.size(30.dp)
             )
         }
     }
