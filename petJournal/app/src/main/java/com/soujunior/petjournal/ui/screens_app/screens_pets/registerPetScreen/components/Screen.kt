@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -66,9 +67,9 @@ fun Screen(navController: NavController) {
                         }
                         item {
                             InputText(
-                                modifier = Modifier,
+                                modifier = Modifier.testTag("inputField_test"),
                                 placeholderText = stringResource(R.string.name_your_pet),
-                                titleText = stringResource(id = R.string.pet_name),
+                                titleText = stringResource(R.string.pet_name),
                                 textValue = "",
                                 onEvent = { }
                             )
@@ -101,7 +102,9 @@ fun Screen(navController: NavController) {
                                 modifier = Modifier
                                     .fillMaxWidth(),
                                 onEvent = { },
-                                visualTransformation = { formatDate(it) }
+                                visualTransformation = { date ->
+                                    formatDate(date)
+                                }
                             )
                         }
                         item {

@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,6 +25,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -74,6 +74,7 @@ fun DateInputText(
                 OutlinedTextField(
                     modifier = textInputModifier
                         .fillMaxWidth()
+                        .testTag("dateInputField")
                         .padding(5.sdp)
                         .height(45.sdp)
                         .onFocusChanged {
@@ -98,9 +99,7 @@ fun DateInputText(
 
                     value = textValue,
                     onValueChange = { newValue ->
-                        Log.i("test", newValue)
                         if (newValue.length <= 8) {
-
                             onEvent(newValue)
                         }
                     },
