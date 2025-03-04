@@ -43,6 +43,23 @@ import com.soujunior.petjournal.ui.theme.ColorCustom
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 
+/**
+ * Composable that displays a text input field with support for masking, password input, and error display.
+ *
+ * @param modifier Default modifier to style the component. (Optional)
+ * @param textInputModifier Modifier specifically for styling the text input field. (Optional)
+ * @param placeholderText Text displayed when the field is empty. Default is "Placeholder". (Optional)
+ * @param titleText Title displayed above the input field. Default is "Title". (Optional)
+ * @param textValue Current value of the input field. (Required)
+ * @param isPassword Indicates whether the input field is a password field (hides the entered text). Default is `false`. (Optional)
+ * @param isError Indicates whether the field should be displayed with an error state. Default is `false`. (Optional)
+ * @param textError List of error messages to be displayed below the field (if any errors exist). Default is `null`. (Optional)
+ * @param onEvent Callback triggered whenever the input field value changes. (Required)
+ * @param hasAMask Indicates whether the field has a mask applied to the entered value. Default is `false`. (Optional)
+ * @param keyboardOptions Keyboard settings, such as input type (text, number, etc.). Default is `KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)`. (Optional)
+ * @param visualTransformation Visual transformation of the entered text (e.g., password masking). Default is `VisualTransformation.None`. (Optional)
+ */
+
 @Composable
 fun InputText(
     modifier: Modifier = Modifier,
