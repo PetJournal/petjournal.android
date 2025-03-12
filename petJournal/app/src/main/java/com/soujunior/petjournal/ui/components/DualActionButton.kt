@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ButtonColors
@@ -24,24 +23,54 @@ import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 
 @Composable
-fun Button3(
-    submit: () -> Unit,
+fun DualActionButton(
+    rightButtonSubmit: () -> Unit,
+    leftButtonSubmit: () -> Unit,
     enableButton: Boolean,
     modifier: Modifier = Modifier,
-    text: String = "Button",
-    buttonColor: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
-    textColor: Color = MaterialTheme.colorScheme.primary,
+    rightButtonText: String = "Button",
+    leftButtonText: String = "Button",
+    rightButtonColor: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+    leftButtonColor: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
+    rightButtonTextColor: Color = MaterialTheme.colorScheme.onPrimary,
+    leftButtonTextColor: Color = MaterialTheme.colorScheme.primary,
     isLoading: Boolean = false
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
-            .padding(top = 15.sdp)
             .fillMaxWidth()
     ) {
         androidx.compose.material3.Button(
-            onClick = { submit() },
+            onClick = { rightButtonSubmit() },
+            enabled = enableButton,
+            modifier = modifier.width(120.sdp),
+            border = BorderStroke(
+                width = 1.sdp,
+                color = MaterialTheme.colorScheme.primary
+            ),
+            shape = Shapes.medium,
+            colors = rightButtonColor,
+            contentPadding = PaddingValues(2.sdp)
+        ) {
+            if (!isLoading) {
+                Text(
+                    text = rightButtonText,
+                    fontWeight = FontWeight.W900,
+                    fontSize = 12.ssp,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = rightButtonTextColor
+                )
+            } else {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(17.sdp),
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        }
+        androidx.compose.material3.Button(
+            onClick = { leftButtonSubmit() },
             enabled = enableButton,
             modifier = modifier.width(120.sdp),
             border = BorderStroke(
@@ -50,16 +79,16 @@ fun Button3(
             ),
 
             shape = Shapes.medium,
-            colors = buttonColor,
-            contentPadding = PaddingValues(12.sdp)
+            colors = leftButtonColor,
+            contentPadding = PaddingValues(2.sdp)
         ) {
             if (!isLoading) {
                 Text(
-                    text = text,
+                    text = leftButtonText,
                     fontWeight = FontWeight.W900,
                     fontSize = 12.ssp,
                     style = MaterialTheme.typography.titleLarge,
-                    color = textColor
+                    color = leftButtonTextColor
                 )
             } else {
                 CircularProgressIndicator(
@@ -73,6 +102,12 @@ fun Button3(
 
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable
-fun Button3Preview() {
-    Button3(submit = { /*TODO*/ }, enableButton = true, text = "Salvar")
+fun DualActionButtonPreview() {
+    DualActionButton(
+        rightButtonSubmit = {},
+        leftButtonSubmit = {},
+        enableButton = true,
+        rightButtonText = "Macho",
+        leftButtonText = "Fêmea"
+    )
 }

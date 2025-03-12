@@ -32,12 +32,14 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.domain.model.request.PetSizeItemModel
 import ir.kaaveh.sdpcompose.sdp
+import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun DropDown(
@@ -61,10 +63,11 @@ fun DropDown(
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
-                fontSize = 15.sp,
+                fontSize = 14.ssp,
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, bottom = 5.dp)
+                    .padding(start = 10.sdp, bottom = 5.sdp, top = 15.sdp)
             )
         }
 
@@ -74,7 +77,7 @@ fun DropDown(
                     .background(Color.Transparent)
                     .fillMaxWidth()
                     .padding(5.dp)
-                    .height(50.dp)
+                    .height(45.dp)
                     .drawBehind {
                         val stroke = Stroke(
                             width = 2.dp.toPx(),
@@ -143,12 +146,12 @@ fun DropDown(
                     AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
                 }
             } else {
-                Text(
-                    "*Campo Obrigatório.",
-                    color = MaterialTheme.colorScheme.outline,
-                    modifier = Modifier.padding(10.dp),
-                    fontSize = 15.sp
-                )
+//                Text(
+//                    "*Campo Obrigatório.",
+//                    color = MaterialTheme.colorScheme.outline,
+//                    modifier = Modifier.padding(10.dp),
+//                    fontSize = 15.sp
+//                )
             }
         }
     }

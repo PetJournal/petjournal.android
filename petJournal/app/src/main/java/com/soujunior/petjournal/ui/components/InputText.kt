@@ -30,8 +30,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -42,6 +42,23 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
+
+/**
+ * Composable that displays a text input field with support for masking, password input, and error display.
+ *
+ * @param modifier Default modifier to style the component. (Optional)
+ * @param textInputModifier Modifier specifically for styling the text input field. (Optional)
+ * @param placeholderText Text displayed when the field is empty. Default is "Placeholder". (Optional)
+ * @param titleText Title displayed above the input field. Default is "Title". (Optional)
+ * @param textValue Current value of the input field. (Required)
+ * @param isPassword Indicates whether the input field is a password field (hides the entered text). Default is `false`. (Optional)
+ * @param isError Indicates whether the field should be displayed with an error state. Default is `false`. (Optional)
+ * @param textError List of error messages to be displayed below the field (if any errors exist). Default is `null`. (Optional)
+ * @param onEvent Callback triggered whenever the input field value changes. (Required)
+ * @param hasAMask Indicates whether the field has a mask applied to the entered value. Default is `false`. (Optional)
+ * @param keyboardOptions Keyboard settings, such as input type (text, number, etc.). Default is `KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)`. (Optional)
+ * @param visualTransformation Visual transformation of the entered text (e.g., password masking). Default is `VisualTransformation.None`. (Optional)
+ */
 
 @Composable
 fun InputText(
@@ -69,6 +86,7 @@ fun InputText(
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
                 fontSize = 14.ssp,
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.sdp, bottom = 5.sdp, top = 15.sdp)
@@ -80,7 +98,7 @@ fun InputText(
                     .fillMaxWidth()
                     .testTag("inputField_test")
                     .padding(5.sdp)
-                    .height(50.sdp)
+                    .height(45.sdp)
                     .drawBehind {
                         val stroke = Stroke(
                             width = 2.dp.toPx(),
@@ -172,12 +190,12 @@ fun InputText(
                 )
             }
         } else {
-            Text(
-                text = stringResource(id = R.string.required_field),
-                color = MaterialTheme.colorScheme.outline,
-                modifier = Modifier.padding(10.sdp),
-                fontSize = 11.ssp
-            )
+//            Text(
+//                text = stringResource(id = R.string.required_field),
+//                color = MaterialTheme.colorScheme.outline,
+//                modifier = Modifier.padding(10.sdp),
+//                fontSize = 11.ssp
+//            )
         }
     }
 }

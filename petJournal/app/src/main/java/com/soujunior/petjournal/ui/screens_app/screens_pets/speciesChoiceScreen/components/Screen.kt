@@ -89,7 +89,7 @@ fun Screen(navController: NavController) {
         ScaffoldCustom(
             modifier = Modifier,
             titleTopBar = stringResource(id = R.string.pet_registration),
-            titleTopBarAligh = Alignment.Center,
+//            titleTopBarAligh = Alignment.Center,
             navigationUp = navController,
             showTopBar = true,
             showBottomBarNavigation = true,
