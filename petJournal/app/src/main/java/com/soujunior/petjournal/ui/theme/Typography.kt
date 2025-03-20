@@ -72,9 +72,9 @@ val Typography = Typography(
         letterSpacing = 1.25.sp
     ),
     labelLarge = TextStyle(
-        fontFamily = FontFamily(FredokaLight),
+        fontFamily = FontFamily(FredokaMedium),
         fontSize = 12.sp,
-        letterSpacing = 0.4.sp
+        letterSpacing = 0.4.sp,
     ),
     labelSmall = TextStyle(
         fontFamily = FontFamily(FredokaSemiBold),

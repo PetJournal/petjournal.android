@@ -13,7 +13,7 @@ import ir.kaaveh.sdpcompose.ssp
 fun AlertText(modifier: Modifier = Modifier.fillMaxWidth(), textMessage: String?) {
     if (textMessage != null)
         Text(
-            fontSize = 12.ssp,
+            style = MaterialTheme.typography.labelLarge,
             text = textMessage,
             modifier = modifier,
             color = MaterialTheme.colorScheme.error
