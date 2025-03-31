@@ -11,7 +11,7 @@ val RobotoSemiBold = Font(R.font.roboto_semi_bold)
 val RobotoRegular = Font(R.font.roboto_regular)
 val RobotoMedium = Font(R.font.roboto_medium)
 val RobotoLight = Font(R.font.roboto_light)
-val RobotoBold = Font(R.font.fredoka_bold)
+val RobotoBold = Font(R.font.roboto_bold)
 
 val Typography = Typography(
     displayLarge = TextStyle(
