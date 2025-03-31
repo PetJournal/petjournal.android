@@ -10,23 +10,30 @@ sealed class NavigationBarItems(
     var group: String
 ) {
     object Home : NavigationBarItems(
-        title = "home",
+        title = "Home",
         route = "home",
-        icons = R.drawable.home_button_bar,
+        icons = R.drawable.ic_home,
         group = "home"
     )
 
+    object Schedule : NavigationBarItems(
+        title = "Agenda",
+        route = "scheduleScreen",
+        icons = R.drawable.ic_schedule,
+        group = "schedule"
+    )
+
     object Pets : NavigationBarItems(
-        title = "pets",
+        title = "Pets",
         route = "pets/introRegisterPet",
-        icons = R.drawable.pets_button_bar,
+        icons = R.drawable.ic_pet,
         group = "pets"
     )
 
-    object Tutor : NavigationBarItems(
-        title = "tutor",
-        route = "tutorScreen",
-        icons = R.drawable.tutor_button_bar,
-        group = "tutor"
+    object Profile : NavigationBarItems(
+        title = "Perfil",
+        route = "profileScreen",
+        icons = R.drawable.ic_profile,
+        group = "profile"
     )
 }
