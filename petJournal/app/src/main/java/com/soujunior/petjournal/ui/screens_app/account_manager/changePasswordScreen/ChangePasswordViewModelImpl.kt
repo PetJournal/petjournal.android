@@ -115,7 +115,6 @@ class ChangePasswordViewModelImpl(
 
     override fun disconnectOtherDevices() {
         if (state.disconnectOtherDevices) {
-            //TODO: criar metodo para desconectar outros dispositivos
         }
     }
 

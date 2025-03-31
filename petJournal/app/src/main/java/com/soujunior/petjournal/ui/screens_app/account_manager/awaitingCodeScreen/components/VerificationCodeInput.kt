@@ -19,13 +19,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeViewModel
-import com.soujunior.petjournal.ui.theme.FredokaRegular
+import com.soujunior.petjournal.ui.theme.RobotoRegular
 
 @Composable
 fun VerificationCodeInput(viewModel: AwaitingCodeViewModel) {
     val state by viewModel.state.collectAsState()
     val resendCodeStyle = TextStyle(
-        fontFamily = FontFamily(FredokaRegular),
+        fontFamily = FontFamily(RobotoRegular),
         fontSize = 14.sp,
         textDecoration = TextDecoration.Underline,
     )
@@ -48,7 +48,6 @@ fun VerificationCodeInput(viewModel: AwaitingCodeViewModel) {
             .fillMaxWidth(),
         contentAlignment = Alignment.CenterEnd
     ) {
-        //TODO("Extrair string")
         Text(
             text = "Reenviar código?",
             style = resendCodeStyle,
