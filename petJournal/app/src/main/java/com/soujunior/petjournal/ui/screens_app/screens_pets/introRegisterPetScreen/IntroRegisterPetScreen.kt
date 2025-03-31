@@ -5,6 +5,6 @@ import androidx.navigation.NavController
 import com.soujunior.petjournal.ui.screens_app.screens_pets.introRegisterPetScreen.components.Screen
 
 @Composable
-fun RegisterPetScreen(navController: NavController) {
+fun IntroRegisterPetScreen(navController: NavController) {
     Screen(navController)
 }
