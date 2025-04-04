@@ -18,6 +18,7 @@ import com.soujunior.petjournal.ui.screens_app.account_manager.changePasswordScr
 import com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.ForgotPasswordScreen
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterScreen
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petListScreen.PetListScreen
 
 @Composable
 fun Presentation() {
@@ -53,6 +54,7 @@ fun NavHostMainContent() {
         composable("account_manager") { AccountManager() }
         composable("tutorScreen") { TutorScreen(navController) }
         composable("pets/introRegisterPet") { RegisterPetScreen(navController) }
+        composable("pets/petList") { PetListScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
 
         composable("pets/nameAndGender/{arg}") { backStackEntry ->
