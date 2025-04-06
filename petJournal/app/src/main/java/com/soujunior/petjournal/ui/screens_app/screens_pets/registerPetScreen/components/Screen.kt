@@ -61,7 +61,7 @@ fun Screen(navController: NavController) {
                         .fillMaxSize()
                         .fillMaxHeight()
                         .padding(
-                            top = it.calculateTopPadding(),
+                            top = it.calculateTopPadding() + 12.sdp,
                             bottom = it.calculateBottomPadding() + 2.sdp
                         )
                         .background(Color.Transparent),
