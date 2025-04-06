@@ -74,7 +74,7 @@ val Typography = Typography(
     labelLarge = TextStyle(
         fontFamily = FontFamily(RobotoLight),
         fontSize = 12.sp,
-        letterSpacing = 0.4.sp
+        letterSpacing = 0.4.sp,
     ),
     labelSmall = TextStyle(
         fontFamily = FontFamily(RobotoSemiBold),

@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,6 +18,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +35,7 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -67,8 +71,7 @@ fun DashedInputText(
                 text = titleText,
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.bodyMedium,
-                fontSize = 14.ssp,
+                style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 10.sdp, bottom = 5.sdp, top = 15.sdp)
@@ -81,7 +84,7 @@ fun DashedInputText(
                     .fillMaxWidth()
                     .testTag("dashedInputField_test")
                     .padding(5.sdp)
-                    .height(50.sdp)
+                    .height(40.sdp)
                     .drawBehind {
                         val stroke = Stroke(
                             width = 1.dp.toPx(),
@@ -105,21 +108,19 @@ fun DashedInputText(
                 value = textValue,
                 onValueChange = { text -> onEvent(text) },
                 singleLine = true,
-                textStyle = TextStyle(
-                    fontSize = 12.ssp,
+                textStyle = MaterialTheme.typography.titleMedium.copy(
                     color = if (isSystemInDarkTheme()) Color.Black else MaterialTheme.colorScheme.onSurface
                 ),
                 maxLines = 1,
                 visualTransformation =
                 if (isPassword) {
-                    if (showPassword) VisualTransformation.None
-                    else PasswordVisualTransformation()
+                    if (showPassword) VisualTransformation.None else PasswordVisualTransformation()
                 } else visualTransformation,
                 keyboardOptions = keyboardOptions,
                 decorationBox = {
                     Row(
                         modifier = Modifier
-                            .background(Color.White)
+                            .background(MaterialTheme.colorScheme.onPrimary)
                             .padding(start = 14.sdp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -130,9 +131,11 @@ fun DashedInputText(
                                 Text(
                                     modifier = Modifier,
                                     text = placeholderText,
-                                    style = MaterialTheme.typography.bodyLarge,
+//todo:                                    style = MaterialTheme.typography.labelLarge,
+                                    style = MaterialTheme.typography.titleMedium,
                                     color = MaterialTheme.colorScheme.outline,
-                                    fontSize = 14.ssp
+//todo:                                    A fonte é definida pelo Style, nao faz sentido colocar isso diretamente no código
+//                                    fontSize = 14.ssp
                                 )
                             }
                             it()
@@ -141,7 +144,10 @@ fun DashedInputText(
                             val iconResource =
                                 if (showPassword) R.drawable.eye_visibility_on else R.drawable.eye_visibility_off
                             val contentDescription =
-                                if (showPassword) "Ocultar senha" else "Mostrar senha"
+                                if (showPassword) "O" +
+                                        stringResource(R.string.hide_psswd) else stringResource(R.string.show_psswd)
+//todo:                            Strings Devem ser colocadas no arquivo de strings!
+//                                        "cultar senha" else "Mostrar senha"
 
                             IconButton(onClick = { showPassword = !showPassword }) {
                                 Icon(
@@ -152,7 +158,9 @@ fun DashedInputText(
                             }
                         } else if (isError) {
                             val iconResource = R.drawable.icone_erro
-                            val contentDescription = "Erro"
+                            val contentDescription = stringResource(R.string.error)
+//todo:                          Strings Devem ser colocadas no arquivo de strings!
+//                          val contentDescription = "Erro"
 
                             Icon(
                                 painter = painterResource(id = iconResource),
@@ -166,27 +174,36 @@ fun DashedInputText(
             )
         }
     }
-    Row(
+//todo:    Esse componente precisa ser um Column
+//    Row(
+    Column(
         Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start,
+//        verticalAlignment = Alignment.CenterVertically,
+//        horizontalArrangement = Arrangement.Start,
     ) {
         if (textError != null) {
             textError.forEach {
-
                 AlertText(
                     textMessage = it,
-                    modifier = Modifier.padding(top = 6.sdp, bottom = 6.sdp, start = 10.sdp)
+                    modifier = Modifier.padding(
+                        top = 4.sdp,
+                        bottom = 6.sdp,
+                        start = 10.sdp
+                    )
                 )
             }
         } else {
             Text(
-                "*Campo Obrigatório.",
+//                Strings Devem ser colocadas no arquivo de strings!
+//                "*Campo Obrigatório.",
+                stringResource(R.string.required_field),
                 color = MaterialTheme.colorScheme.outline,
+                style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier.padding(10.sdp),
-                fontSize = 11.ssp
+//                Fontes sao definidas pelo Typography!
+//                fontSize = 11.ssp
             )
         }
     }

@@ -132,5 +132,9 @@
     <string name="hide_password">Ocultar senha</string>
     <string name="show_password">Mostrar senha</string>
     <string name="description_error">Erro</string>
+    <string name="name_your_pet">Digite o nome do seu pet</string>
+    <string name="hide_psswd">Ocultar senha</string>
+    <string name="show_psswd">Mostrar senha</string>
+    <string name="error">Erro</string>
 
 </resources>
