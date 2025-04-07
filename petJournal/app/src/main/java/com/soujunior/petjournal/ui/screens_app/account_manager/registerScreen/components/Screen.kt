@@ -41,7 +41,7 @@ import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.PrivacyPolicyCheckbox
-import com.soujunior.petjournal.ui.components.ScaffoldCustom3
+import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.mask.mobileNumberFilter
 import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.FakeRegisterViewModel
 import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterFormEvent
@@ -71,7 +71,7 @@ fun Screen(navController: NavController, viewModel: RegisterViewModel = getRegis
     systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
     systemUiController.setNavigationBarColor(Color.Black)
 
-    ScaffoldCustom3(
+    ScaffoldCustom(
         navigationUp = navController,
         showTopBar = true,
         contentToUse = { it ->

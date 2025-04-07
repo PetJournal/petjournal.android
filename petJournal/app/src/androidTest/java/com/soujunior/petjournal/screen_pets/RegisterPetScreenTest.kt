@@ -374,8 +374,8 @@ class RegisterPetScreenTest {
 
         composeTestRule.setContent {
             DualActionButton(
-                rightButtonText = stringResource(R.string.male),
-                leftButtonText = stringResource(R.string.female),
+                leftButtonText = stringResource(R.string.male),
+                rightButtonText = stringResource(R.string.female),
                 rightButtonSubmit = { maleSelected = true },
                 leftButtonSubmit = { },
                 enableButton = true
@@ -393,8 +393,8 @@ class RegisterPetScreenTest {
 
         composeTestRule.setContent {
             DualActionButton(
-                rightButtonText = stringResource(R.string.male),
-                leftButtonText = stringResource(R.string.female),
+                leftButtonText = stringResource(R.string.male),
+                rightButtonText = stringResource(R.string.female),
                 leftButtonSubmit = { femaleSelected = true },
                 rightButtonSubmit = {},
                 enableButton = true
@@ -412,8 +412,8 @@ class RegisterPetScreenTest {
 
         composeTestRule.setContent {
             DualActionButton(
-                rightButtonText = stringResource(R.string.male),
-                leftButtonText = stringResource(R.string.female),
+                leftButtonText = stringResource(R.string.male),
+                rightButtonText = stringResource(R.string.female),
                 enableButton = false,
                 rightButtonSubmit = { clicks++ },
                 leftButtonSubmit = { clicks++ }
@@ -433,8 +433,8 @@ class RegisterPetScreenTest {
 
         composeTestRule.setContent {
             DualActionButton(
-                rightButtonText = stringResource(R.string.yes),
-                leftButtonText = stringResource(R.string.no),
+                leftButtonText = stringResource(R.string.yes),
+                rightButtonText = stringResource(R.string.no),
                 rightButtonSubmit = {  },
                 leftButtonSubmit = { petCastrate = false },
                 enableButton = true,
@@ -452,8 +452,8 @@ class RegisterPetScreenTest {
 
         composeTestRule.setContent {
             DualActionButton(
-                rightButtonText = stringResource(R.string.yes),
-                leftButtonText = stringResource(R.string.no),
+                leftButtonText = stringResource(R.string.yes),
+                rightButtonText = stringResource(R.string.no),
                 rightButtonSubmit = { petCastrate = true },
                 leftButtonSubmit = {  },
                 enableButton = true,

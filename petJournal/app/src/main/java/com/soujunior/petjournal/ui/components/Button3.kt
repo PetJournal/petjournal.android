@@ -39,7 +39,7 @@ fun Button3(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier = modifier
-            .padding(top = 15.sdp)
+            .padding(top = 20.sdp, bottom = 20.sdp)
             .fillMaxWidth()
     ) {
         androidx.compose.material3.Button(

@@ -162,37 +162,37 @@ fun Screen(navController: NavController) {
                         item {
                             DualActionButton(
                                 buttonModifier = Modifier.padding(
-                                    start = 24.sdp,
+                                    start = 32.sdp,
                                     end = 24.sdp,
-                                    bottom = 12.sdp,
-                                    top = 4.sdp
+                                    bottom = 32.sdp,
+                                    top = 8.sdp
                                 ),
                                 titleText = stringResource(R.string.pet_sex),
                                 rightButtonSubmit = {},
                                 leftButtonSubmit = {},
                                 enableButton = true,
-                                rightButtonText = stringResource(R.string.male),
-                                leftButtonText = stringResource(R.string.female)
+                                leftButtonText = stringResource(R.string.male),
+                                rightButtonText = stringResource(R.string.female)
                             )
                         }
                         item {
                             DualActionButton(
                                 buttonModifier = Modifier.padding(
-                                    start = 24.sdp,
+                                    start = 32.sdp,
                                     end = 24.sdp,
-                                    bottom = 12.sdp,
-                                    top = 4.sdp
+                                    bottom = 32.sdp,
+                                    top = 8.sdp
                                 ),
                                 titleText = stringResource(R.string.castrated),
                                 rightButtonSubmit = {},
                                 leftButtonSubmit = {},
                                 enableButton = true,
-                                rightButtonText = stringResource(R.string.yes),
-                                leftButtonText = stringResource(R.string.no),
-                                rightButtonColor = ButtonDefaults.buttonColors(androidx.compose.material3.MaterialTheme.colorScheme.background),
-                                leftButtonColor = ButtonDefaults.buttonColors(androidx.compose.material3.MaterialTheme.colorScheme.primary),
-                                rightButtonTextColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
-                                leftButtonTextColor = androidx.compose.material3.MaterialTheme.colorScheme.onPrimary,
+                                leftButtonText = stringResource(R.string.yes),
+                                rightButtonText = stringResource(R.string.no),
+                                leftButtonColor = ButtonDefaults.buttonColors(androidx.compose.material3.MaterialTheme.colorScheme.background),
+                                rightButtonColor = ButtonDefaults.buttonColors(androidx.compose.material3.MaterialTheme.colorScheme.primary),
+                                leftButtonTextColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
+                                rightButtonTextColor = androidx.compose.material3.MaterialTheme.colorScheme.onPrimary,
                             )
                         }
                         item {
@@ -203,6 +203,7 @@ fun Screen(navController: NavController) {
                                 submit = {},
                                 enableButton = true,
                                 text = stringResource(R.string.save)
+
                             )
                         }
                     }
