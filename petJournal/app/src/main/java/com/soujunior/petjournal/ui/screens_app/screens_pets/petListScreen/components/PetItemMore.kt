@@ -30,7 +30,7 @@ fun PetItemMore(modifier: Modifier = Modifier, onClick: () -> Unit) {
     ) {
         Surface(
             modifier = Modifier
-                .size(100.sdp),
+                .size(108.sdp),
             shape = RoundedCornerShape(16.sdp),
             color = MaterialTheme.colorScheme.primary,
             onClick = onClick
