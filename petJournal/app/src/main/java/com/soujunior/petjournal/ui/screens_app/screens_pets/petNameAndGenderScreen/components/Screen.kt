@@ -134,7 +134,7 @@ fun Screen(idPetInformation: String?, navController: NavController) {
                                         DashedInputText(
                                             modifier = Modifier,
                                             textInputModifier = Modifier.height(45.sdp),
-                                            placeholderText = stringResource(R.string.name_your_pet),
+                                            placeholderText = stringResource(R.string.placeholder_name_pet),
                                             textValue = viewModel.state.name,
                                             textError = viewModel.state.nameError,
                                             isError = !viewModel.state.nameError.isNullOrEmpty(),

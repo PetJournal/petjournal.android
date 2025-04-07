@@ -8,7 +8,6 @@ import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.AuthRepository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
-//TODO: Extrair strings para um arquivo strings separado se for possível
 
 class ForgotPasswordUseCase(
     private val repository: AuthRepository

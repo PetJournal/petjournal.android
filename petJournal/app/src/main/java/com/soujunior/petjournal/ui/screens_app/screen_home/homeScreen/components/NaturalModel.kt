@@ -6,7 +6,6 @@ data class CarouselModel(
     val desc: String,
 
 )
-//Todo: (Gelson)? esse também não entendi
 val natural = listOf(
     CarouselModel(
         "Sample 1",

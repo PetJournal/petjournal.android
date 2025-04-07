@@ -210,57 +210,8 @@ fun DashedInputText(
 
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable
 fun DashedInputTextPreview() {
-    var text by remember { mutableStateOf("") }
-    val isError = text.isEmpty()
-
-    MaterialTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
-                DashedInputText(
-                    titleText = "Nome",
-                    textValue = text,
-                    placeholderText = "Digite seu nome",
-                    isError = false,
-                    textError = if (false) listOf("Campo obrigatório") else null,
-                    isPassword = false,
-                    onEvent = { text = it }
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                DashedInputText(
-                    titleText = "Senha",
-                    textValue = text,
-                    placeholderText = "Digite sua senha",
-                    isPassword = true,
-                    isError = isError,
-                    textError = if (isError) listOf("Campo obrigatório") else null,
-                    onEvent = { text = it }
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                DashedInputText(
-                    titleText = "Erros",
-                    textValue = text,
-                    placeholderText = "campo vazio",
-                    isPassword = true,
-                    isError = isError,
-                    textError = if (isError) listOf("Campo obrigatório", "asdasdasdasdasd", "lista de erros") else null,
-                    onEvent = { text = it }
-                )
-            }
-        }
-    }
+    DashedInputText(Modifier, onEvent = {}, textValue = "")
 }

@@ -29,14 +29,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.domain.model.request.PetSizeItemModel
+import com.soujunior.petjournal.ui.theme.ColorCustom
+import com.soujunior.petjournal.ui.theme.ColorGrid
 import ir.kaaveh.sdpcompose.sdp
 
 @Composable
@@ -52,59 +57,60 @@ fun DropDown(
     textValue: String
 ) {
     var isDropdownExpanded by remember { mutableStateOf(false) }
-    val colorBorder = MaterialTheme.colorScheme.outline
 
     Column(modifier = modifier) {
         Row {
             Text(
                 text = titleText,
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = MaterialTheme.colorScheme.scrim,
                 style = MaterialTheme.typography.bodyMedium,
-                fontSize = 15.sp,
+                fontWeight = FontWeight(500),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, bottom = 5.dp)
+                    .padding(start = 24.sdp, end = 24.sdp)
             )
         }
-
         Row {
             Box(
                 modifier = textInputModifier
-                    .background(Color.Transparent)
-                    .fillMaxWidth()
-                    .padding(5.dp)
+                    .shadow(
+                        elevation = 30.dp,
+                        spotColor = ColorCustom.shadow_color,
+                        ambientColor = ColorCustom.shadow_color
+                    )
                     .height(50.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.surface,
+                        shape = RoundedCornerShape(size = 12.dp)
+                    )
+                    .fillMaxWidth()
                     .drawBehind {
                         val stroke = Stroke(
-                            width = 1.dp.toPx(),
-                            pathEffect = PathEffect.dashPathEffect(
-                                intervals = floatArrayOf(12.dp.toPx(), 12.dp.toPx(), 0f)
-                            )
+                            width = 2.dp.toPx(),
                         )
                         drawRoundRect(
-                            color = if (isError) Color.Transparent else colorBorder,
+                            color = if (isError) Color.Transparent else ColorGrid.edge_not_selected,
                             style = stroke,
-                            cornerRadius = CornerRadius(10.dp.toPx())
+                            cornerRadius = CornerRadius(12.dp.toPx())
                         )
 
                     }
-                    .border(
-                        2.dp,
-                        if (isError) MaterialTheme.colorScheme.error else Color.Transparent,
-                        shape = RoundedCornerShape(10.sdp)
-                    )
                     .clip(RoundedCornerShape(10.sdp))
                     .clickable { isDropdownExpanded = true }
             ) {
                 Text(
                     modifier = Modifier
-                        .padding(10.dp)
+                        .padding(start = 14.sdp)
                         .align(Alignment.CenterStart),
                     text = if (isError) "X" else textValue.ifEmpty { placeholderText },
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
-                    fontSize = 15.sp
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        lineHeight = 21.sp,
+                        fontWeight = FontWeight(300),
+                        color = MaterialTheme.colorScheme.scrim,
+                    ),
+                    color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.scrim,
                 )
 
                 Icon(
@@ -146,19 +152,16 @@ fun DropDown(
         }
 
         Row {
-            if (textError != null) {
-                textError.forEach {
-                    AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
-                }
-            } else {
-                Text(
-                    "*Campo Obrigatório.",
-                    color = MaterialTheme.colorScheme.outline,
-                    modifier = Modifier.padding(10.dp),
-                    fontSize = 15.sp
-                )
+            textError?.forEach {
+                AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
             }
         }
     }
 
+}
+
+@Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
+@Composable
+fun DropDownPreview() {
+    DropDown(textValue = "", onEvent = {}, dropdownItems = null, textError = null)
 }

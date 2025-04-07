@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PetJournal"
+rootProject.name = "petJournal"
 include (":app")
 include (":data")
 include (":domain")

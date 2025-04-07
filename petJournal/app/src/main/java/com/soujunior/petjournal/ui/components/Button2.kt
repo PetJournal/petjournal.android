@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.ui.theme.Shapes
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
@@ -63,4 +64,10 @@ fun Button2(
             }
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
+@Composable
+fun Button2Preview() {
+    Button2(submit = { /*TODO*/ }, enableButton = true, text = "Macho")
 }
