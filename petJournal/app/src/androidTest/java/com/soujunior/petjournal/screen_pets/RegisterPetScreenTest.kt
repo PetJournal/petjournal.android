@@ -61,7 +61,7 @@ class RegisterPetScreenTest {
         composeTestRule.setContent {
             InputText(
                 titleText = stringResource(R.string.pet_name),
-                placeholderText = stringResource(R.string.name_your_pet),
+                placeholderText = stringResource(R.string.placeholder_name_pet),
                 textValue = actualText,
                 onEvent = { actualText = it }
             )
@@ -101,16 +101,15 @@ class RegisterPetScreenTest {
         composeTestRule.setContent {
             DropDown(
                 titleText = stringResource(R.string.breed),
-                placeholderText = stringResource(R.string.pet_breed),
+                placeholderText = stringResource(R.string.placeholder_breed),
                 dropdownItems = mockItems,
                 onEvent = {},
                 textValue = ""
             )
         }
 
-        composeTestRule.onNodeWithText("Raça do seu pet").performClick()
+        composeTestRule.onNodeWithText("Golden Retrivier").performClick()
 
-        composeTestRule.onNodeWithText("Golden Retriever").assertExists()
         composeTestRule.onNodeWithText("Persa").assertExists()
         composeTestRule.onNodeWithText("Calopsita").assertExists()
     }
@@ -122,14 +121,14 @@ class RegisterPetScreenTest {
         composeTestRule.setContent {
             DropDown(
                 titleText = stringResource(R.string.breed),
-                placeholderText = stringResource(R.string.pet_breed),
+                placeholderText = stringResource(R.string.placeholder_breed),
                 dropdownItems = mockItems,
                 onEvent = { selectedValue = it },
                 textValue = selectedValue
             )
         }
 
-        composeTestRule.onNodeWithText("Raça do seu pet").performClick()
+        composeTestRule.onNodeWithText("Golden Retrivier").performClick()
         composeTestRule.onNodeWithText("Persa").performClick()
 
         assertTrue(selectedValue == "Persa")
@@ -139,13 +138,13 @@ class RegisterPetScreenTest {
     fun dropdown_ShowPlaceholder_WhenNoSelection() {
         composeTestRule.setContent {
             DropDown(
-                placeholderText = stringResource(R.string.pet_breed),
+                placeholderText = stringResource(R.string.placeholder_breed),
                 onEvent = {},
                 textValue = ""
             )
         }
 
-        composeTestRule.onNodeWithText("Raça do seu pet").assertExists()
+        composeTestRule.onNodeWithText("Golden Retrivier").assertExists()
     }
 
     // Tests for size
@@ -156,14 +155,14 @@ class RegisterPetScreenTest {
         composeTestRule.setContent {
             DropDown(
                 titleText = stringResource(R.string.size),
-                placeholderText = stringResource(R.string.pet_size),
+                placeholderText = stringResource(R.string.placeholder_size),
                 dropdownItems = mockSizes,
                 onEvent = { selectedSize = it },
                 textValue = selectedSize
             )
         }
 
-        composeTestRule.onNodeWithText("Porte do seu pet").performClick()
+        composeTestRule.onNodeWithText("Pequeno (6kg a 14kg)").performClick()
 
         mockSizes.forEach {
             composeTestRule.onNodeWithText(it.name).assertExists()
@@ -303,14 +302,14 @@ class RegisterPetScreenTest {
         composeTestRule.setContent {
             DropDown(
                 titleText = stringResource(R.string.weight),
-                placeholderText = stringResource(R.string.pet_weight),
+                placeholderText = stringResource(R.string.placeholder_weight),
                 dropdownItems = weightOptions,
                 onEvent = { selectedWeight = it },
                 textValue = selectedWeight
             )
         }
 
-        composeTestRule.onNodeWithText("Peso do seu pet").performClick()
+        composeTestRule.onNodeWithText("4 kg").performClick()
         composeTestRule.onNodeWithText("5-10 kg").performClick()
 
         assertEquals("5-10 kg", selectedWeight)
@@ -337,14 +336,14 @@ class RegisterPetScreenTest {
         composeTestRule.setContent {
             DropDown(
                 titleText = stringResource(R.string.type),
-                placeholderText = stringResource(R.string.pet_type),
+                placeholderText = stringResource(R.string.placeholder_type),
                 dropdownItems = mockPetTypes,
                 onEvent = { selectedType = it },
                 textValue = selectedType
             )
         }
 
-        composeTestRule.onNodeWithText("Tipo do seu pet").performClick()
+        composeTestRule.onNodeWithText("Cachorro").performClick()
         composeTestRule.onNodeWithText("Gato").performClick()
 
         assertEquals("Gato", selectedType)

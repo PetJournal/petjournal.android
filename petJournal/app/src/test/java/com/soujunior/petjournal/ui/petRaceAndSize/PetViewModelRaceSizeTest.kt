@@ -251,7 +251,6 @@ class PetViewModelRaceSizeTest {
 
     @Test
     fun `should not accept other pet race with less than 2 characters`() {
-        // Testa se o método change() não aceita nomes com menos de 2 caracteres
         val newRaceOther = "A"
 
         every {

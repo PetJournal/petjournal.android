@@ -3,7 +3,7 @@
     <string name="pet_registration">Cadastro Pet</string>
     <string name="pet_races">Raças</string>
     <string name="pet_name_gender">Nome</string>
-    <string name="pet_size">Porte do seu pet</string>
+    <string name="placeholder_size">Pequeno (6kg a 14kg)</string>
     <string name="pet_birth">Nascimento</string>
     <string name="others">Outros...</string>
     <string name="back">Voltar</string>
@@ -79,7 +79,7 @@
     <string name="pet_he_adopted">Adotado</string>
     <string name="pet_she_adopted">Adotada</string>
     <string name="pet_birth_date">Data de nascimento</string>
-    <string name="placeholder_text_DD_MM_YYYY">DD/MM/AAAA</string>
+    <string name="placeholder_text_DD_MM_YYYY">13/05/1996</string>
     <string name="pet_gender_letter_M">M</string>
     <string name="nao_tem_uma_conta_cadastre_se">Não possui uma conta? Cadastre-se</string>
     <string name="nao_tem_uma_conta">"Não tem uma conta? "</string>
@@ -110,16 +110,16 @@
     <string name="user_not_found">401 -> Not found: User not found</string>
     <string name="Unauthorized">401 -> Unauthorized</string>
     <string name="something_went_wrong_try_again_later">Algo deu errado...Tente de novo mais tarde!</string>
-    <string name="name_your_pet">Digite o nome do seu pet</string>
+    <string name="placeholder_name_pet">Felicia Vasconcelos</string>
     <string name="edit_pet_data">Editar dados do Pet</string>
     <string name="description_edit_icon">Edit Icon</string>
     <string name="description_pet_icon">Pet Icon</string>
-    <string name="pet_breed">Raça do seu pet</string>
+    <string name="placeholder_breed">Golden Retrivier</string>
     <string name="breed">Raça</string>
     <string name="size">Porte</string>
-    <string name="pet_weight">Peso do seu pet</string>
+    <string name="placeholder_weight">4 kg</string>
     <string name="weight">Peso</string>
-    <string name="pet_type">Tipo do seu pet</string>
+    <string name="placeholder_type">Cachorro</string>
     <string name="type">Tipo</string>
     <string name="pet_sex">Sexo</string>
     <string name="male">Macho</string>
@@ -128,5 +128,13 @@
     <string name="yes">Sim</string>
     <string name="no">Não</string>
     <string name="save">Salvar</string>
+    <string name="navigate_to_previous_screen">navigate to previous screen</string>
+    <string name="hide_password">Ocultar senha</string>
+    <string name="show_password">Mostrar senha</string>
+    <string name="description_error">Erro</string>
+    <string name="name_your_pet">Digite o nome do seu pet</string>
+    <string name="hide_psswd">Ocultar senha</string>
+    <string name="show_psswd">Mostrar senha</string>
+    <string name="error">Erro</string>
 
 </resources>

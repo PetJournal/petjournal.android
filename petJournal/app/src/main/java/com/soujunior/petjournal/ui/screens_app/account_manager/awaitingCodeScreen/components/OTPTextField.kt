@@ -40,7 +40,7 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.AlertText
 import com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeFormEvent
 import com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeViewModel
-import com.soujunior.petjournal.ui.theme.FredokaRegular
+import com.soujunior.petjournal.ui.theme.RobotoRegular
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 
@@ -60,7 +60,7 @@ fun OTPTextField(
         }
     }
     val resendCodeStyle = TextStyle(
-        fontFamily = FontFamily(FredokaRegular),
+        fontFamily = FontFamily(RobotoRegular),
         fontSize = 11.ssp,
         textDecoration = TextDecoration.Underline,
     )

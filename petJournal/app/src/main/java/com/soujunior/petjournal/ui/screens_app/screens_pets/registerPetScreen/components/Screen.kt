@@ -1,26 +1,25 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.registerPetScreen.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -33,13 +32,12 @@ import com.soujunior.petjournal.ui.components.ImagePet
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
-import com.soujunior.petjournal.ui.components.mask.formatDate
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun Screen(navController: NavController) {
-    Column(modifier = Modifier.navigationBarsPadding()) {
+    Column(modifier = Modifier) {
         ScaffoldCustom(
             modifier = Modifier,
             navigationUp = navController,
@@ -48,6 +46,14 @@ fun Screen(navController: NavController) {
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = {
+                Image(
+                    painter = painterResource(R.drawable.rastro),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .offset(y = 300.sdp)
+                        .align(AbsoluteAlignment.Left)
+                )
                 LazyColumn(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top,
@@ -55,20 +61,25 @@ fun Screen(navController: NavController) {
                         .fillMaxSize()
                         .fillMaxHeight()
                         .padding(
-                            start = 16.sdp,
-                            top = 24.sdp,
-                            end = 16.sdp,
-                            bottom = it.calculateBottomPadding() + 1.sdp
+                            top = it.calculateTopPadding() + 12.sdp,
+                            bottom = it.calculateBottomPadding() + 2.sdp
                         )
-                        .background(MaterialTheme.colors.background),
+                        .background(Color.Transparent),
                     content = {
                         item {
                             ImagePet()
                         }
                         item {
                             InputText(
-                                modifier = Modifier.testTag("inputField_test"),
-                                placeholderText = stringResource(R.string.name_your_pet),
+                                textInputModifier = Modifier
+                                    .testTag("inputField_test")
+                                    .padding(
+                                        start = 24.sdp,
+                                        end = 24.sdp,
+                                        bottom = 12.sdp,
+                                        top = 4.sdp
+                                    ),
+                                placeholderText = stringResource(R.string.placeholder_name_pet),
                                 titleText = stringResource(R.string.pet_name),
                                 textValue = "",
                                 onEvent = { }
@@ -76,9 +87,13 @@ fun Screen(navController: NavController) {
                         }
                         item {
                             DropDown(
-                                modifier = Modifier,
-                                textInputModifier = Modifier,
-                                placeholderText = stringResource(R.string.pet_breed),
+                                textInputModifier = Modifier.padding(
+                                    start = 24.sdp,
+                                    end = 24.sdp,
+                                    bottom = 12.sdp,
+                                    top = 4.sdp
+                                ),
+                                placeholderText = stringResource(R.string.placeholder_breed),
                                 titleText = stringResource(R.string.breed),
                                 textValue = "",
                                 onEvent = { }
@@ -86,9 +101,13 @@ fun Screen(navController: NavController) {
                         }
                         item {
                             DropDown(
-                                modifier = Modifier,
-                                textInputModifier = Modifier,
-                                placeholderText = stringResource(R.string.pet_size),
+                                textInputModifier = Modifier.padding(
+                                    start = 24.sdp,
+                                    end = 24.sdp,
+                                    bottom = 12.sdp,
+                                    top = 4.sdp
+                                ),
+                                placeholderText = stringResource(R.string.placeholder_size),
                                 titleText = stringResource(R.string.size),
                                 textValue = "",
                                 onEvent = { }
@@ -96,22 +115,31 @@ fun Screen(navController: NavController) {
                         }
                         item {
                             DateInputText(
+                                textInputModifier = Modifier.padding(
+                                    start = 24.sdp,
+                                    end = 24.sdp,
+                                    bottom = 12.sdp,
+                                    top = 4.sdp
+                                ),
                                 titleText = stringResource(R.string.pet_birth_date),
                                 placeholderText = stringResource(R.string.placeholder_text_DD_MM_YYYY),
                                 textValue = "",
-                                modifier = Modifier
-                                    .fillMaxWidth(),
                                 onEvent = { },
-                                visualTransformation = { date ->
-                                    formatDate(date)
-                                }
+                                // Será necessário criar uma função para formatar a data
+//                                visualTransformation = { date ->
+//                                    formatDate(date)
+//                                }
                             )
                         }
                         item {
                             DropDown(
-                                modifier = Modifier,
-                                textInputModifier = Modifier,
-                                placeholderText = stringResource(R.string.pet_weight),
+                                textInputModifier = Modifier.padding(
+                                    start = 24.sdp,
+                                    end = 24.sdp,
+                                    bottom = 12.sdp,
+                                    top = 4.sdp
+                                ),
+                                placeholderText = stringResource(R.string.placeholder_weight),
                                 titleText = stringResource(R.string.weight),
                                 textValue = "",
                                 onEvent = { }
@@ -119,29 +147,27 @@ fun Screen(navController: NavController) {
                         }
                         item {
                             DropDown(
-                                modifier = Modifier,
-                                textInputModifier = Modifier,
-                                placeholderText = stringResource(R.string.pet_type),
+                                textInputModifier = Modifier.padding(
+                                    start = 24.sdp,
+                                    end = 24.sdp,
+                                    bottom = 12.sdp,
+                                    top = 4.sdp
+                                ),
+                                placeholderText = stringResource(R.string.placeholder_type),
                                 titleText = stringResource(R.string.type),
                                 textValue = "",
                                 onEvent = { }
                             )
                         }
                         item {
-                            Text(
-                                text = stringResource(R.string.pet_sex),
-                                textAlign = TextAlign.Start,
-                                color = androidx.compose.material3.MaterialTheme.colorScheme.onBackground,
-                                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
-                                fontSize = 14.ssp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(start = 10.sdp, bottom = 5.sdp, top = 15.sdp)
-                            )
-                        }
-                        item {
                             DualActionButton(
+                                buttonModifier = Modifier.padding(
+                                    start = 24.sdp,
+                                    end = 24.sdp,
+                                    bottom = 12.sdp,
+                                    top = 4.sdp
+                                ),
+                                titleText = stringResource(R.string.pet_sex),
                                 rightButtonSubmit = {},
                                 leftButtonSubmit = {},
                                 enableButton = true,
@@ -150,20 +176,14 @@ fun Screen(navController: NavController) {
                             )
                         }
                         item {
-                            Text(
-                                text = stringResource(R.string.castrated),
-                                textAlign = TextAlign.Start,
-                                color = androidx.compose.material3.MaterialTheme.colorScheme.onBackground,
-                                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
-                                fontSize = 14.ssp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(start = 10.sdp, bottom = 5.sdp, top = 15.sdp)
-                            )
-                        }
-                        item {
                             DualActionButton(
+                                buttonModifier = Modifier.padding(
+                                    start = 24.sdp,
+                                    end = 24.sdp,
+                                    bottom = 12.sdp,
+                                    top = 4.sdp
+                                ),
+                                titleText = stringResource(R.string.castrated),
                                 rightButtonSubmit = {},
                                 leftButtonSubmit = {},
                                 enableButton = true,
@@ -176,7 +196,7 @@ fun Screen(navController: NavController) {
                             )
                         }
                         item {
-                            Spacer(modifier = Modifier.height(50.sdp))
+                            Spacer(modifier = Modifier.height(20.sdp))
                         }
                         item {
                             Button3(
@@ -196,5 +216,9 @@ fun Screen(navController: NavController) {
 @Composable
 fun ScreenPreview() {
     val nav = rememberNavController()
-    Screen(nav)
+    PetJournalTheme(
+        content = {
+            Screen(nav)
+        }
+    )
 }

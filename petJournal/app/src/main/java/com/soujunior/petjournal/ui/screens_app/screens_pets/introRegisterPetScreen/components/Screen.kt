@@ -58,7 +58,7 @@ fun Screen(navController: NavController) {
                 when (event) {
                     is ValidationEvent.Success -> {
                         navController.popBackStack()
-                        navController.navigate("pets/speciesChoice")
+                        navController.navigate("pets/registerPet")
                     }
 
                     is ValidationEvent.Failed -> {}
