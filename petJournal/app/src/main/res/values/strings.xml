@@ -136,5 +136,7 @@
     <string name="hide_psswd">Ocultar senha</string>
     <string name="show_psswd">Mostrar senha</string>
     <string name="error">Erro</string>
+    <string name="which_pet_do_you_want_to_see">Vamos ver qual pet?</string>
+    <string name="buttom_add">Adicionar</string>
 
 </resources>

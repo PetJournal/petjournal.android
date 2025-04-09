@@ -58,6 +58,8 @@ import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.Login
 import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginViewModelImpl
 import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterViewModel
 import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterViewModelImpl
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petListScreen.PetListViewModel
+import com.soujunior.petjournal.ui.screens_app.screens_pets.petListScreen.PetListViewModelImpl
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.android.ext.koin.androidContext
@@ -145,6 +147,7 @@ val mainModule = module {
     viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
     viewModel { SplashViewModel(get()) }
     viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get(), get()) }
+    viewModel<PetListViewModel> { PetListViewModelImpl() }
 
     //viewModel<ViewModelNameGender> { (handle: SavedStateHandle) -> ViewModelNameGenderImpl(get(), get(), get(), handle) }
     viewModel<ViewModelNameGender> {// (handle: SavedStateHandle) ->
