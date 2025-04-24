@@ -138,5 +138,12 @@
     <string name="error">Erro</string>
     <string name="which_pet_do_you_want_to_see">Vamos ver qual pet?</string>
     <string name="buttom_add">Adicionar</string>
+    <string name="label_selectable_button_vaccines">Vacinas</string>
+    <string name="label_selectable_button_consultations">Consulta</string>
+    <string name="label_selectable_button_medicine">Medicamento</string>
+    <string name="label_selectable_button_bath">Banho</string>
+    <string name="label_selectable_button_food">Ração</string>
+    <string name="label_selectable_button_pet_walk">Passeio</string>
+    <string name="label_select_main_category">Essa tarefa é...</string>
 
 </resources>
