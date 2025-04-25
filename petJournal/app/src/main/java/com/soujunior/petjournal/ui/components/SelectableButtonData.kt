@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -30,18 +28,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.ColorCustom
+import com.soujunior.petjournal.ui.util.adaptiveWidthForTitle
 
 @Composable
 fun SelectableButton(
     titleButton: String,
     colorButton: Color,
+    isSelected: Boolean,
     modifierSelectableButton: Modifier = Modifier,
-    isSelected: Boolean = false,
-    onSelectionChange: (Boolean) -> Unit = {}
+    onSelectionChanged: (String, Boolean) -> Unit
 ) {
     androidx.compose.material3.Button(
         modifier = modifierSelectableButton
-            .width(115.dp)
             .height(70.dp)
             .padding(top = 15.dp, end = 15.dp, bottom = 15.dp)
             .then(
@@ -55,7 +53,9 @@ fun SelectableButton(
                     Modifier
                 }
             ),
-        onClick = { onSelectionChange(!isSelected) },
+        onClick = {
+            onSelectionChanged(titleButton, !isSelected)
+        },
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isSelected) colorButton else MaterialTheme.colorScheme.onPrimary,
             contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else colorButton
@@ -79,21 +79,36 @@ fun SelectableButton(
     }
 }
 
-
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun GroupSelectableButton(
-    onSelection: (Boolean) -> Unit = {}
+    onSelection: (String) -> Unit = {}
 ) {
     val buttons = listOf(
-        SelectableButtonInfo(stringResource(R.string.label_selectable_button_vaccines), ColorCustom.color_selectable_button_1),
-        SelectableButtonInfo(stringResource(R.string.label_selectable_button_consultations), ColorCustom.color_selectable_button_2),
-        SelectableButtonInfo(stringResource(R.string.label_selectable_button_medicine), ColorCustom.color_selectable_button_3),
-        SelectableButtonInfo(stringResource(R.string.label_selectable_button_bath), ColorCustom.color_selectable_button_4),
-        SelectableButtonInfo(stringResource(R.string.label_selectable_button_food), ColorCustom.color_selectable_button_5),
-        SelectableButtonInfo(stringResource(R.string.label_selectable_button_pet_walk), ColorCustom.color_selectable_button_6),
-        SelectableButtonInfo("Nova Atividade", Color(0xFFFFC107)),
-        SelectableButtonInfo("Outro Item", Color(0xFF4CAF50))
+        SelectableButtonInfo(
+            stringResource(R.string.label_selectable_button_vaccines),
+            ColorCustom.color_selectable_button_1
+        ),
+        SelectableButtonInfo(
+            stringResource(R.string.label_selectable_button_consultations),
+            ColorCustom.color_selectable_button_2
+        ),
+        SelectableButtonInfo(
+            stringResource(R.string.label_selectable_button_medicine),
+            ColorCustom.color_selectable_button_3
+        ),
+        SelectableButtonInfo(
+            stringResource(R.string.label_selectable_button_bath),
+            ColorCustom.color_selectable_button_4
+        ),
+        SelectableButtonInfo(
+            stringResource(R.string.label_selectable_button_food),
+            ColorCustom.color_selectable_button_5
+        ),
+        SelectableButtonInfo(
+            stringResource(R.string.label_selectable_button_pet_walk),
+            ColorCustom.color_selectable_button_6
+        ),
     )
 
     val selectionState = remember { mutableStateListOf(*Array(buttons.size) { false }) }
@@ -119,12 +134,15 @@ fun GroupSelectableButton(
                     titleButton = buttonInfo.title,
                     colorButton = buttonInfo.color,
                     isSelected = selectionState[index],
-                    onSelectionChange = { newState ->
-                        selectionState[index] = newState
-                        onSelection(newState)
+                    onSelectionChanged = { title, selected ->
+                        selectionState[index] = selected
+                        if (selected) {
+                            onSelection(title)
+                        } else {
+                            onSelection("")
+                        }
                     },
-                    modifierSelectableButton = if (buttonInfo.title == stringResource(R.string.label_selectable_button_medicine))
-                        Modifier.widthIn(min = 140.dp) else Modifier
+                    modifierSelectableButton = Modifier.adaptiveWidthForTitle(buttonInfo.title)
                 )
             }
         }
@@ -136,7 +154,6 @@ data class SelectableButtonInfo(
     val title: String,
     val color: Color
 )
-
 
 
 @Preview(showBackground = true, showSystemUi = true, device = "id:pixel_4_xl")
