@@ -3,130 +3,196 @@ package com.soujunior.petjournal.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowOutward
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.VectorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.theme.ColorCustom
 
 @Composable
 fun PetIcon(
     imageRes: Painter? = null,
     isSelected: Boolean = false,
-    icon: ImageVector,
     modifier: Modifier = Modifier
 ) {
+    val backgroundColor = if (isSelected) ColorCustom.color_background_pet_icon else Color.White
+
     Box(
         modifier = modifier
-            .size(64.dp)
-            .background(if (isSelected) Color(0xFF9C4DCC) else Color.White)
+            .shadow(
+                elevation = 13.1762.dp,
+                spotColor = ColorCustom.color_spot_pet_icon,
+                ambientColor = ColorCustom.color_spot_pet_icon
+            )
+            .padding(1.dp)
+            .size(width = 66.dp, height = 72.dp)
+            .background(
+                color = backgroundColor,
+                shape = RoundedCornerShape(8.dp)
+            )
             .border(
-                width = 2.dp,
-                color = if (isSelected) Color(0xFF9C4DCC) else Color(0xFFCCCCCC),
+                width = 1.dp,
+                color = ColorCustom.color_border_pet_icon,
+                shape = RoundedCornerShape(8.dp)
             ),
         contentAlignment = Alignment.Center
     ) {
-        if (imageRes != null) {
-            Image(
-                painter = imageRes,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
-            )
+        when {
+            imageRes is VectorPainter -> {
+                Icon(
+                    painter = imageRes,
+                    contentDescription = null,
+                    tint = if (isSelected) Color.White else ColorCustom.color_background_pet_icon,
+                    modifier = Modifier.size(32.dp)
+                )
+            }
+            imageRes != null -> {
+                Image(
+                    painter = imageRes,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(8.dp))
+                )
+
+                if (isSelected) {
+                    val defaultPainter = painterResource(id = R.drawable.icon_pet_selected)
+                    Icon(
+                        painter = defaultPainter,
+                        contentDescription = null,
+                        tint = ColorCustom.color_background_pet_icon,
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+            }
+            else -> {
+                if (isSelected) {
+                    val defaultPainter = painterResource(id = R.drawable.icon_pet_selected)
+                    Icon(
+                        painter = defaultPainter,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+            }
         }
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = if (isSelected || imageRes != null) Color.White else Color(0xFF9C4DCC),
-            modifier = Modifier.size(24.dp)
-        )
     }
-}
+    }
+
 
 @Composable
 fun PetFilterItem(
     name: String,
     isSelected: Boolean,
-    icon: ImageVector,
-    imageRes: Painter? = null
+    imageRes: Painter? = null,
+    onSelect: (String) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier
+            .padding(start = 8.dp, end = 8.dp)
+            .clickable { onSelect(name) }
     ) {
         PetIcon(
-            imageRes = imageRes,
+            imageRes = if (name == "Todos") painterResource(id = R.drawable.icon_pet_selected) else imageRes,
             isSelected = isSelected,
-            icon = icon
         )
-        Spacer(modifier = Modifier.height(4.dp))
         Text(
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight(500),
+            color = ColorCustom.color_title_pet_icon,
+
+            textAlign = TextAlign.Center,
             text = name,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodySmall
         )
     }
 }
 
+data class Pets(
+    val id: Int = 0,
+    val imageRes: Painter? = null,
+    val name: String? = null
+)
+
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable
-fun PetFilterListPreview() {
-    val icon = Icons.Default.ArrowOutward
-    Row(
+fun PetFilterList(
+    listPet: List<Pets> = listOf(),
+    onSelectedPet: (String) -> Unit = {}
+) {
+
+    var selectedPets by remember { mutableStateOf(listOf<String>()) }
+
+    LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly
+            .padding(top = 20.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Column {
-            PetFilterItem(name = "Jujuba", isSelected = false, icon = icon, imageRes = null)
+        item {
             PetFilterItem(
-                name = "Jujuba",
-                isSelected = true,
-                icon = icon,
-                imageRes = null
+                name = "Todos",
+                isSelected = selectedPets.contains(stringResource(R.string.label_all_pets)),
+                imageRes = null,
+                onSelect = { name ->
+                    selectedPets = if (selectedPets.contains(name)) {
+                        selectedPets - name
+                    } else {
+                        selectedPets + name
+                    }
+                    onSelectedPet(if (selectedPets.contains(name)) name else "")
+                }
             )
         }
-        Column {
-            PetFilterItem(name = "Todos", isSelected = false, icon = icon)
-            PetFilterItem(name = "Todos", isSelected = true, icon = icon)
-        }
-        Column {
+        items(
+            items = listPet,
+            key = { it.id }
+        ) { item ->
             PetFilterItem(
-                name = "Alfredo",
-                isSelected = false,
-                icon = icon,
-                imageRes = null
-            )
-            PetFilterItem(
-                name = "Alfredo",
-                isSelected = true,
-                icon = icon,
-                imageRes = null
+                name = item.name!!,
+                isSelected = selectedPets.contains(item.name),
+                imageRes = item.imageRes,
+                onSelect = { name ->
+                    selectedPets = if (selectedPets.contains(name)) {
+                        selectedPets - name
+                    } else {
+                        selectedPets + name
+                    }
+                    onSelectedPet(if (selectedPets.contains(name)) name else "")
+                }
             )
         }
     }
