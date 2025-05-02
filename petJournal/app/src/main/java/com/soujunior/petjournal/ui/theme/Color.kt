@@ -80,5 +80,13 @@ object ColorCustom {
     val error_color = Color(0xFFFF917A)
     val shadow_color = Color(0x0A3A0176)
     val text_style_color = Color(0xFF2E2E2E)
+    val shadow_color_selectable_button = Color(0x40000000)
+    val border_color_selectable_button = Color(0xFF959EA6)
+    val color_selectable_button_1 = Color(0xFFFA680E)
+    val color_selectable_button_2 = Color(0xFF007C31)
+    val color_selectable_button_3 = Color(0xFF0099FF)
+    val color_selectable_button_4 = Color(0xFFD03A94)
+    val color_selectable_button_5 = Color(0xFFFC5555)
+    val color_selectable_button_6 = Color(0xFFB78AF7)
 }
 
