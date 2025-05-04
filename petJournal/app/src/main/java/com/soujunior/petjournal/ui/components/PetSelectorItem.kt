@@ -76,6 +76,7 @@ fun PetIcon(
                     modifier = Modifier.size(32.dp)
                 )
             }
+
             imageRes != null -> {
                 Image(
                     painter = imageRes,
@@ -96,6 +97,7 @@ fun PetIcon(
                     )
                 }
             }
+
             else -> {
                 if (isSelected) {
                     val defaultPainter = painterResource(id = R.drawable.icon_pet_selected)
@@ -109,7 +111,7 @@ fun PetIcon(
             }
         }
     }
-    }
+}
 
 
 @Composable
@@ -147,7 +149,6 @@ data class Pets(
     val name: String? = null
 )
 
-@Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable
 fun PetFilterList(
     listPet: List<Pets> = listOf(),
@@ -198,3 +199,24 @@ fun PetFilterList(
     }
 }
 
+@Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
+@Composable
+fun PetFilterListPreview() {
+    val listPet = listOf(
+        Pets(
+            id = 1,
+            imageRes = painterResource(R.drawable.image_jujuba),
+            name = "Jujuba"
+        ),
+        Pets(
+            id = 2,
+            imageRes = painterResource(R.drawable.image_alfredo),
+            name = "Alfredo"
+        )
+    )
+
+    PetFilterList(
+        listPet,
+        onSelectedPet = {}
+    )
+}
