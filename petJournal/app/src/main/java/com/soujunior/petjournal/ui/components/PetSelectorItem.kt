@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -55,7 +56,7 @@ fun PetIcon(
                 ambientColor = ColorCustom.color_spot_pet_icon
             )
             .padding(1.dp)
-            .size(width = 66.dp, height = 72.dp)
+            .size(66.dp)
             .background(
                 color = backgroundColor,
                 shape = RoundedCornerShape(8.dp)
@@ -73,7 +74,9 @@ fun PetIcon(
                     painter = imageRes,
                     contentDescription = null,
                     tint = if (isSelected) Color.White else ColorCustom.color_background_pet_icon,
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier
+                        .size(32.dp)
+                        .offset(y = 4.dp)
                 )
             }
 
