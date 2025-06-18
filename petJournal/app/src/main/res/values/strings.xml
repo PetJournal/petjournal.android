@@ -149,5 +149,7 @@
     <string name="label_task_added_successfully">Tarefa adicionada\ncom sucesso!</string>
     <string name="label_new_task">Nova tarefa</string>
     <string name="label_go_to_home">Ir para a HomePage</string>
+    <string name="am">AM</string>
+    <string name="pm">PM</string>
 
 </resources>
