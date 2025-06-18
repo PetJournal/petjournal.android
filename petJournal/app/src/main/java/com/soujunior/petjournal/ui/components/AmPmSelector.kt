@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 @Composable
 fun AmPmSelector(
@@ -97,7 +98,9 @@ fun AmPmSelector(
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable
 fun AmPmSelectorPreview() {
-    AmPmSelector(
-        onPeriodSelected = {},
-    )
+    PetJournalTheme{
+        AmPmSelector(
+            onPeriodSelected = {},
+        )
+    }
 }
