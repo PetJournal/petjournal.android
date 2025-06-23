@@ -25,7 +25,6 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-val purpleBorderColor = Color(0xFF6F42C1)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,10 +37,10 @@ fun CustomDatePicker(
     textStyle: TextStyle = LocalTextStyle.current.copy(fontSize = 16.sp, fontWeight = FontWeight.Normal),
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(
         disabledTextColor = Color.DarkGray,
-        disabledBorderColor = purpleBorderColor,
-        disabledLabelColor = purpleBorderColor,
-        disabledLeadingIconColor = Color.Gray,
-        disabledTrailingIconColor = Color.Gray
+        disabledBorderColor = MaterialTheme.colorScheme.primary,
+        disabledLabelColor = MaterialTheme.colorScheme.primary,
+        disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
     )
 ) {
     val _00_00_0000 = stringResource(R.string._00_00_0000)
@@ -108,7 +107,7 @@ fun CustomDatePicker(
                         onValueChange(datePickerState.selectedDateMillis)
                         showDatePicker = false
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = purpleBorderColor)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
                     Text(stringResource(R.string.ok))
                 }
@@ -117,10 +116,10 @@ fun CustomDatePicker(
                 OutlinedButton(
                     onClick = { showDatePicker = false },
                     border = ButtonDefaults.outlinedButtonBorder.copy(
-                        brush = SolidColor(purpleBorderColor)
+                        brush = SolidColor(MaterialTheme.colorScheme.primary)
                     )
                 ) {
-                    Text(stringResource(R.string.cancel), color = purpleBorderColor)
+                    Text(stringResource(R.string.cancel), color = MaterialTheme.colorScheme.primary)
                 }
             }
         ) {
