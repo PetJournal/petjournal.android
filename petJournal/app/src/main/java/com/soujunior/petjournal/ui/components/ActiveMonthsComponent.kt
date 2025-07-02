@@ -69,7 +69,7 @@ fun ActiveMonthsComponent(activeMonths: Set<String>) {
                             .background(
                                 if (isActive) ColorCustom.color_background_month_active else ColorCustom.color_background_month_disabled
                             )
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = 2.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
@@ -100,7 +100,7 @@ fun ActiveMonthsComponent(activeMonths: Set<String>) {
                         .background(
                             if (isActive) ColorCustom.color_background_month_active else ColorCustom.color_background_month_disabled
                         )
-                        .padding(vertical = 8.dp),
+                        .padding(vertical = 2.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
