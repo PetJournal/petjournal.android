@@ -149,5 +149,6 @@
     <string name="label_new_task">Nova tarefa</string>
     <string name="label_go_to_home">Ir para a HomePage</string>
     <string name="active_in_months">Ativo nos meses</string>
+    <string name="label_all_pets">Todos</string>
 
 </resources>

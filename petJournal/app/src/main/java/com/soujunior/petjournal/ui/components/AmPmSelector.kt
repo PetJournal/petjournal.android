@@ -54,7 +54,7 @@ fun AmPmSelector(
                 text = "AM",
                 style = MaterialTheme.typography.labelLarge,
                 color = Color(0xFF2E2E2E),
-                fontWeight = FontWeight(500),
+                fontWeight = FontWeight(400),
                 lineHeight = 16.sp,
                 textAlign = TextAlign.Center
             )
