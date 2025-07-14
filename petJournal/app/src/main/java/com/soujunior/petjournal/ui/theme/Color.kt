@@ -88,10 +88,12 @@ object ColorCustom {
     val color_selectable_button_4 = Color(0xFFD03A94)
     val color_selectable_button_5 = Color(0xFFFC5555)
     val color_selectable_button_6 = Color(0xFFB78AF7)
-
     val color_spot_pet_icon = Color(0x1A3A0176)
     val color_background_pet_icon = Color(0xFF8D4CD2)
     val color_border_pet_icon = Color(0xFF9C4DCC)
     val color_title_pet_icon = Color(0xFF222222)
+    val color_shadow_dialog = Color(0x4D000000)
+    val color_border_dialog = Color(0xFF8D4CD2)
+    val color_background_button_dialog = Color(0xFF9C4DFF)
 }
 
