@@ -19,18 +19,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 @Composable
 fun AmPmSelector(
     onPeriodSelected: (String) -> Unit
 ) {
     val selected = remember { mutableStateOf<String?>(null) }
-
+    val timePeriodMarkerAm = stringResource(R.string.am)
+    val timePeriodMarkerPm = stringResource(R.string.pm)
     Column(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
@@ -43,15 +47,15 @@ fun AmPmSelector(
                 .fillMaxWidth()
                 .height(35.dp)
                 .width(31.dp)
-                .background(if (selected.value == "AM") Color(0xFFB78AF7) else Color.White)
+                .background(if (selected.value == timePeriodMarkerAm) Color(0xFFB78AF7) else Color.White)
                 .clickable {
-                    selected.value = "AM"
-                    onPeriodSelected("AM")
+                    selected.value = timePeriodMarkerAm
+                    onPeriodSelected(timePeriodMarkerAm)
                 },
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "AM",
+                text = timePeriodMarkerAm,
                 style = MaterialTheme.typography.labelLarge,
                 color = Color(0xFF2E2E2E),
                 fontWeight = FontWeight(400),
@@ -71,15 +75,15 @@ fun AmPmSelector(
                 .fillMaxWidth()
                 .height(35.dp)
                 .width(31.dp)
-                .background(if (selected.value == "PM") Color(0xFFB78AF7) else Color.White)
+                .background(if (selected.value == timePeriodMarkerPm) Color(0xFFB78AF7) else Color.White)
                 .clickable {
-                    selected.value = "PM"
-                    onPeriodSelected("PM")
+                    selected.value = timePeriodMarkerPm
+                    onPeriodSelected(timePeriodMarkerPm)
                 },
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "PM",
+                text = timePeriodMarkerPm,
                 style = MaterialTheme.typography.labelLarge.copy(
                     color = Color(0xFF2E2E2E),
                     fontWeight = FontWeight(400),
@@ -94,7 +98,9 @@ fun AmPmSelector(
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable
 fun AmPmSelectorPreview() {
-    AmPmSelector(
-        onPeriodSelected = {},
-    )
+    PetJournalTheme{
+        AmPmSelector(
+            onPeriodSelected = {},
+        )
+    }
 }
