@@ -13,12 +13,12 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.theme.ColorCustom
 
 @Composable
 fun DescriptionTextField(
@@ -44,18 +44,18 @@ fun DescriptionTextField(
             placeholder = {
                 Text(
                     text = stringResource(R.string.enter_the_task_description_here),
-                    color = Color.LightGray,
+                    color = ColorCustom.color_placeholder,
                     style = MaterialTheme.typography.bodySmall
                 )
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.onPrimary)
                 .height(100.dp),
             shape = RoundedCornerShape(12.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color.LightGray,
-                unfocusedBorderColor = Color.LightGray,
+                focusedBorderColor = ColorCustom.color_placeholder,
+                unfocusedBorderColor = ColorCustom.color_placeholder,
             )
         )
     }
