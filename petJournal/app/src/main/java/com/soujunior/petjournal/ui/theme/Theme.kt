@@ -38,35 +38,35 @@ overline	labelSmall
 colorScheme
  */
 
-val lightExtendedColors: ExtendedColors
-    @Composable
-    get() = ExtendedColors(
-        snowWhite = Color.Cyan,
-        deepOcean = Color.Cyan,
-        skyBlue = Color.Cyan,
-        nightBlue = Color.Cyan,
-        dialogBackground = Color.Cyan,
-    )
 
-val darkExtendedColors: ExtendedColors
-    @Composable
-    get() = ExtendedColors(
-        snowWhite = Color.Blue,
-        deepOcean = Color.Blue,
-        skyBlue = Color.Blue,
-        nightBlue = Color.Blue,
-        dialogBackground = Color.Blue,
-    )
 
-val LocalExtendedColors = staticCompositionLocalOf {
-    ExtendedColors(
-        snowWhite = Color.Red,
-        deepOcean = Color.Red,
-        skyBlue = Color.Red,
-        nightBlue = Color.Red,
-        dialogBackground = Color.Red
-    )
-}
+//val lightExtendedColors: ExtendedColors
+//    @Composable
+//    get() = ExtendedColors(
+//        snowWhite = Color.Cyan,
+//        deepOcean = Color.Cyan,
+//        skyBlue = Color.Cyan,
+//        nightBlue = Color.Cyan,
+//        dialogBackground = Color.Cyan,
+//    )
+//
+//val darkExtendedColors: ExtendedColors @Composable get() = ExtendedColors(
+//        snowWhite = Color.Blue,
+//        deepOcean = Color.Blue,
+//        skyBlue = Color.Blue,
+//        nightBlue = Color.Blue,
+//        dialogBackground = Color.Blue,
+//    )
+//
+//val LocalExtendedColors = staticCompositionLocalOf {
+//    ExtendedColors(
+//        snowWhite = Color.Red,
+//        deepOcean = Color.Red,
+//        skyBlue = Color.Red,
+//        nightBlue = Color.Red,
+//        dialogBackground = Color.Red
+//    )
+//}
 
 @Immutable
 data class ExtendedColors(
@@ -155,6 +155,7 @@ fun PetJournalTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
+
     val systemUiController = rememberSystemUiController()
 
     val colors =
