@@ -93,6 +93,11 @@ object ColorCustom {
     val color_background_button_dialog = Color(0xFF9C4DFF)
     val color_background_month_active = Color(0xFFFFBEB1)
     val color_background_month_disabled = Color(0xFFE8DEF8)
-
+    val color_spot_pet_icon = Color(0x1A3A0176)
+    val color_background_pet_icon = Color(0xFF8D4CD2)
+    val color_border_pet_icon = Color(0xFF9C4DCC)
+    val color_title_pet_icon = Color(0xFF222222)
+    val color_shadow_dialog = Color(0x4D000000)
+    val color_border_dialog = Color(0xFF8D4CD2)
+    val color_background_button_dialog = Color(0xFF9C4DFF)
 }
-
