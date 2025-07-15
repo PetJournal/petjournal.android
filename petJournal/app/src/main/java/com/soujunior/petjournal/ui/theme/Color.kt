@@ -93,5 +93,6 @@ object ColorCustom {
     val color_background_pet_icon = Color(0xFF8D4CD2)
     val color_border_pet_icon = Color(0xFF9C4DCC)
     val color_title_pet_icon = Color(0xFF222222)
+    val color_placeholder = Color(0xFFCCCCCC)
 }
 
