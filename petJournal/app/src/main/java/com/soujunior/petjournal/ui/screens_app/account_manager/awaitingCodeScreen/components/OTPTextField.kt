@@ -126,7 +126,7 @@ private fun TextFieldSingleView(index: Int, text: String, isError: Boolean = fal
             .height(35.sdp)
             .offset(
                 y = if (text.isNotEmpty()) {
-                    if (index == text.length -1) 0.sdp else 20.sdp
+                    if (index == text.length - 1) 0.sdp else 20.sdp
                 } else {
                     0.sdp
                 }
@@ -139,19 +139,19 @@ private fun TextFieldSingleView(index: Int, text: String, isError: Boolean = fal
                     )
                 )
 
-                    drawRoundRect(
-                        color = if (isError && text.length == 6) Color.Transparent
-                        else if (text.length < 6 && text.isNotEmpty() && index == text.length -1) Color.Transparent
-                        else colorBorder,
-                        style = stroke,
-                        cornerRadius = CornerRadius(10.dp.toPx())
-                    )
+                drawRoundRect(
+                    color = if (isError && text.length == 6) Color.Transparent
+                    else if (text.length < 6 && text.isNotEmpty() && index == text.length - 1) Color.Transparent
+                    else colorBorder,
+                    style = stroke,
+                    cornerRadius = CornerRadius(10.dp.toPx())
+                )
 
             }
             .border(
                 1.sdp,
                 if (isError && text.length == 6) MaterialTheme.colorScheme.error
-                else if (text.length < 6 && text.isNotEmpty() && index == text.length -1) MaterialTheme.colorScheme.primary
+                else if (text.length < 6 && text.isNotEmpty() && index == text.length - 1) MaterialTheme.colorScheme.primary
                 else Color.Transparent,
                 shape = RoundedCornerShape(10.sdp)
             )
