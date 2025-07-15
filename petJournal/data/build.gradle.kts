@@ -45,8 +45,8 @@ dependencies {
     implementation(dependencies["coreKtx"]!!)
     implementation(dependencies["preference"]!!)
 
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("io.mockk:mockk:1.14.4")
-    testImplementation("com.willowtreeapps.assertk:assertk:0.28.1")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation(rootProject.ext["testJunit"] as String)
+    testImplementation(rootProject.ext["testMockk"] as String)
+    testImplementation(rootProject.ext["testAssertk"] as String)
+    testImplementation(rootProject.ext["testKotlinxCoroutines"] as String)
 }
