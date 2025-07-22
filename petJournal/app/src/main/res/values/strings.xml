@@ -150,6 +150,8 @@
     <string name="label_go_to_home">Ir para a HomePage</string>
     <string name="active_in_months">Ativo nos meses</string>
     <string name="label_all_pets">Todos</string>
+    <string name="label_description">Descrição</string>
+    <string name="enter_the_task_description_here">Digite aqui a descrição da tarefa</string>
     <string name="cancel">Cancelar</string>
     <string name="ok">OK</string>
     <string name="open_calendar">Abrir Calendário</string>
