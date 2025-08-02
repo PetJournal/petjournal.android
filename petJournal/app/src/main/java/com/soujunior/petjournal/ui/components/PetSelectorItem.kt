@@ -56,7 +56,7 @@ fun PetIcon(
                 ambientColor = ColorCustom.color_spot_pet_icon
             )
             .padding(1.dp)
-            .size(66.dp)
+            .size(55.dp)
             .background(
                 color = backgroundColor,
                 shape = RoundedCornerShape(8.dp)
@@ -160,46 +160,56 @@ fun PetFilterList(
 
     var selectedPets by remember { mutableStateOf(listOf<String>()) }
 
-    LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 20.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        item {
-            PetFilterItem(
-                name = "Todos",
-                isSelected = selectedPets.contains(stringResource(R.string.label_all_pets)),
-                imageRes = null,
-                onSelect = { name ->
-                    selectedPets = if (selectedPets.contains(name)) {
-                        selectedPets - name
-                    } else {
-                        selectedPets + name
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(
+            text = "Quais pets precisam dessa tarefa?",
+            color = MaterialTheme.colorScheme.scrim,
+            fontWeight = FontWeight(500),
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp, start = 10.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            item {
+                PetFilterItem(
+                    name = "Todos",
+                    isSelected = selectedPets.contains(stringResource(R.string.label_all_pets)),
+                    imageRes = null,
+                    onSelect = { name ->
+                        selectedPets = if (selectedPets.contains(name)) {
+                            selectedPets - name
+                        } else {
+                            selectedPets + name
+                        }
+                        onSelectedPet(if (selectedPets.contains(name)) name else "")
                     }
-                    onSelectedPet(if (selectedPets.contains(name)) name else "")
-                }
-            )
-        }
-        items(
-            items = listPet,
-            key = { it.id }
-        ) { item ->
-            PetFilterItem(
-                name = item.name!!,
-                isSelected = selectedPets.contains(item.name),
-                imageRes = item.imageRes,
-                onSelect = { name ->
-                    selectedPets = if (selectedPets.contains(name)) {
-                        selectedPets - name
-                    } else {
-                        selectedPets + name
+                )
+            }
+            items(
+                items = listPet,
+                key = { it.id }
+            ) { item ->
+                PetFilterItem(
+                    name = item.name!!,
+                    isSelected = selectedPets.contains(item.name),
+                    imageRes = item.imageRes,
+                    onSelect = { name ->
+                        selectedPets = if (selectedPets.contains(name)) {
+                            selectedPets - name
+                        } else {
+                            selectedPets + name
+                        }
+                        onSelectedPet(if (selectedPets.contains(name)) name else "")
                     }
-                    onSelectedPet(if (selectedPets.contains(name)) name else "")
-                }
-            )
+                )
+            }
         }
     }
+
 }
 
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
