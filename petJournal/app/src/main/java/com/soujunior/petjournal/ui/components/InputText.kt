@@ -40,7 +40,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.theme.ColorGrid
@@ -64,17 +63,16 @@ fun InputText(
 ) {
     var showPassword by remember { mutableStateOf(false) }
 
-    Column(modifier = modifier.padding(top = 16.sdp)) {
+    Column(modifier = modifier.padding(16.dp)) {
         Row {
             Text(
                 text = titleText,
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.scrim,
-                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight(500),
+                style = MaterialTheme.typography.titleMedium,
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(start = 24.sdp, end = 24.sdp)
             )
         }
         Row {
@@ -134,12 +132,8 @@ fun InputText(
                             if (textValue.isEmpty() && !hasAMask) {
                                 Text(
                                     text = placeholderText,
-                                    style = TextStyle(
-                                        fontSize = 14.sp,
-                                        lineHeight = 21.sp,
-                                        fontWeight = FontWeight(300),
-                                        color = MaterialTheme.colorScheme.scrim,
-                                    )
+                                    color = ColorCustom.color_placeholder,
+                                    style = MaterialTheme.typography.bodyMedium
                                 )
                             }
                         }
