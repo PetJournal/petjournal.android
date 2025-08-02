@@ -147,7 +147,6 @@
     <string name="label_select_main_category">Essa tarefa é...</string>
     <string name="label_task_added_successfully">Tarefa adicionada\ncom sucesso!</string>
     <string name="label_new_task">Nova tarefa</string>
-    <string name="label_go_to_home">Ir para a HomePage</string>
     <string name="active_in_months">Ativo nos meses</string>
     <string name="label_all_pets">Todos</string>
     <string name="label_description">Descrição</string>
@@ -157,9 +156,9 @@
     <string name="open_calendar">Abrir Calendário</string>
     <string name="_00_00_0000">00/00/0000</string>
     <string name="dd_mm_yyyy">dd/MM/yyyy</string>
-    <string name="label_task_added_successfully">Tarefa adicionada\ncom sucesso!</string>
-    <string name="label_new_task">Nova tarefa</string>
     <string name="label_go_to_home">Ir para a HomePage</string>
     <string name="am">AM</string>
     <string name="pm">PM</string>
+    <string name="label_recurrent">Recorrente</string>
+    <string name="label_one_off">Pontual</string>
 </resources>
