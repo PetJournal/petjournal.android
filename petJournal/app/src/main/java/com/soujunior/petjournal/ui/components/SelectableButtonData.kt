@@ -40,8 +40,7 @@ fun SelectableButton(
 ) {
     androidx.compose.material3.Button(
         modifier = modifierSelectableButton
-            .height(70.dp)
-            .padding(top = 15.dp, end = 15.dp, bottom = 15.dp)
+            .height(40.dp)
             .then(
                 if (isSelected) {
                     Modifier.shadow(
@@ -120,14 +119,16 @@ fun GroupSelectableButton(
     ) {
         Text(
             text = stringResource(R.string.label_select_main_category),
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.scrim,
             fontWeight = FontWeight(500),
             lineHeight = 24.sp
         )
 
         FlowRow(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 15.dp)
         ) {
             buttons.forEachIndexed { index, buttonInfo ->
                 SelectableButton(
@@ -142,7 +143,9 @@ fun GroupSelectableButton(
                             onSelection("")
                         }
                     },
-                    modifierSelectableButton = Modifier.adaptiveWidthForTitle(buttonInfo.title)
+                    modifierSelectableButton = Modifier
+                        .adaptiveWidthForTitle(buttonInfo.title)
+                        .padding(bottom = 15.dp, end = 15.dp)
                 )
             }
         }
