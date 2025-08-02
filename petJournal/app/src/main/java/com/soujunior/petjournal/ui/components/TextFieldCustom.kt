@@ -13,15 +13,15 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.ColorCustom
 
 @Composable
-fun DescriptionTextField(
+fun TextFieldCustom(
+    title:String,
+    placeholder:String,
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -31,8 +31,9 @@ fun DescriptionTextField(
             .padding(16.dp)
     ) {
         Text(
-            text = stringResource(R.string.label_description),
-            fontWeight = FontWeight.Bold,
+            text = title,
+            color = MaterialTheme.colorScheme.scrim,
+            fontWeight = FontWeight(500),
             style = MaterialTheme.typography.titleMedium,
         )
 
@@ -43,9 +44,9 @@ fun DescriptionTextField(
             onValueChange = onValueChange,
             placeholder = {
                 Text(
-                    text = stringResource(R.string.enter_the_task_description_here),
+                    text = placeholder,
                     color = ColorCustom.color_placeholder,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodyMedium
                 )
             },
             modifier = Modifier
@@ -64,7 +65,9 @@ fun DescriptionTextField(
 @Preview
 @Composable
 fun DescriptionTextFieldPreview() {
-    DescriptionTextField(
+    TextFieldCustom(
+        title = "Título",
+        placeholder = "Descrição",
         value = "",
         onValueChange = {}
     )
