@@ -145,9 +145,6 @@
     <string name="label_selectable_button_food">Ração</string>
     <string name="label_selectable_button_pet_walk">Passeio</string>
     <string name="label_select_main_category">Essa tarefa é...</string>
-    <string name="label_task_added_successfully">Tarefa adicionada\ncom sucesso!</string>
-    <string name="label_new_task">Nova tarefa</string>
-    <string name="label_go_to_home">Ir para a HomePage</string>
     <string name="active_in_months">Ativo nos meses</string>
     <string name="label_all_pets">Todos</string>
     <string name="label_description">Descrição</string>
