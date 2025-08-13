@@ -21,6 +21,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
@@ -31,6 +33,8 @@ fun Button3(
     enableButton: Boolean,
     modifier: Modifier = Modifier,
     text: String = "Button",
+    textSize: TextUnit = 12.ssp,
+    contentPaddingValues : Dp = 12.sdp,
     buttonColor: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
     textColor: Color = MaterialTheme.colorScheme.primary,
     isLoading: Boolean = false
@@ -54,20 +58,20 @@ fun Button3(
                 )
             ,
             border = BorderStroke(
-                width = 2.sdp,
+                width = 1.sdp,
                 color = Color(0xFF959EA6)
             ),
 
             shape = RoundedCornerShape(size = 50.dp),
             colors = buttonColor,
-            contentPadding = PaddingValues(12.sdp)
+            contentPadding = PaddingValues(contentPaddingValues)
         ) {
             if (!isLoading) {
                 Text(
                     text = text,
-                    fontWeight = FontWeight.W900,
-                    fontSize = 12.ssp,
-                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.W500,
+                    fontSize = textSize,
+                    style = MaterialTheme.typography.headlineLarge,
                     color = textColor
                 )
             } else {
