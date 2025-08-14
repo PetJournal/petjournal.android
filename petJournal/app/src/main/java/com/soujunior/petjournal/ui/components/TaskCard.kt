@@ -31,12 +31,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.soujunior.petjournal.ui.components.data.TaskData
+import com.soujunior.petjournal.ui.components.data.TaskDummyData
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 
 @Composable
-fun TaskCard() {
-    var expanded by remember { mutableStateOf(true) }
+fun TaskCard(
+    taskData: TaskData
+) {
+    var expanded by remember { mutableStateOf(false) }
 
     Surface(
         shape = RoundedCornerShape(8.sdp),
@@ -62,14 +66,14 @@ fun TaskCard() {
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
-                        text = "Carprofeno",
+                        text = taskData.titulo,
                         modifier = Modifier.padding(bottom = 2.sdp),
                         style = MaterialTheme.typography.titleMedium,
                         fontSize = 15.ssp
 
                     )
                     Text(
-                        text = "12/08/2025 - 10:30",
+                        text = taskData.dataHora,
                         style = MaterialTheme.typography.titleMedium,
                         color = Color.Gray,
                         fontSize = 10.ssp
@@ -84,37 +88,11 @@ fun TaskCard() {
                             columns = GridCells.Fixed(3),
                             horizontalArrangement = Arrangement.Start
                         ) {
-                            item {
+                            items(taskData.pets.size) { index ->
                                 Box(modifier = Modifier.aspectRatio(1f)) {
                                     PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
                                 }
                             }
-                            item {
-                                Box(modifier = Modifier.aspectRatio(1f)) {
-                                    PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
-                                }
-                            }
-                            item {
-                                Box(modifier = Modifier.aspectRatio(1f)) {
-                                    PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
-                                }
-                            }
-                            item {
-                                Box(modifier = Modifier.aspectRatio(1f)) {
-                                    PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
-                                }
-                            }
-                            item {
-                                Box(modifier = Modifier.aspectRatio(1f)) {
-                                    PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
-                                }
-                            }
-                            item {
-                                Box(modifier = Modifier.aspectRatio(1f)) {
-                                    PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
-                                }
-                            }
-
                         }
                     }
                 }
@@ -126,8 +104,14 @@ fun TaskCard() {
                         .weight(0.6f),
                     horizontalAlignment = Alignment.Start
                 ) {
+                    val displayText = if (!expanded && taskData.descricaoResumida.length > 50) {
+                        taskData.descricaoResumida.take(50) + "..."
+                    } else {
+                        taskData.descricaoResumida
+                    }
+
                     Text(
-                        text = "Anti-inflamatorio não esteroide para alivio da dor e inflamação",
+                        text = displayText,
                         style = MaterialTheme.typography.titleSmall,
                         modifier = Modifier
                             .fillMaxWidth(1f)
@@ -136,7 +120,7 @@ fun TaskCard() {
 
                     if (expanded) {
                         Text(
-                            text = "E mais um monte de coisa detalhada que vai aparecer quando expandir",
+                            text = taskData.descricaoCompleta,
                             style = MaterialTheme.typography.titleSmall,
                             modifier = Modifier
                                 .fillMaxWidth(1f)
@@ -170,7 +154,7 @@ fun TaskCard() {
                         Text(
                             text = "Editar Tarefa",
                             fontSize = 10.ssp,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = taskData.tipo.cor,
                             style = MaterialTheme.typography.headlineLarge
                         )
                     }
@@ -181,7 +165,7 @@ fun TaskCard() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.error)
+                    .background(taskData.tipo.cor)
                     .clickable { expanded = !expanded } // Toggles the expanded state
             ) {
                 Row(
@@ -205,7 +189,15 @@ fun TaskCard() {
 @Preview
 @Composable
 private fun TaskCardPreview() {
-    // TODO: Fazer ele receber os seguintes dados: Titulo, data, descrição menor, descrição normal
-    // TODO: Imagens dos pets, tipo de tarefa
-    TaskCard()
+    Column(Modifier.padding(8.sdp)) {
+        TaskCard(
+            taskData = TaskDummyData.sampleTasks[0]
+        )
+        TaskCard(
+            taskData = TaskDummyData.sampleTasks[1]
+        )
+        TaskCard(
+            taskData = TaskDummyData.sampleTasks[2]
+        )
+    }
 }
