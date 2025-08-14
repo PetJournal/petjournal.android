@@ -3,18 +3,18 @@ package com.soujunior.petjournal.ui.components
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -28,13 +28,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
-import kotlin.math.exp
 
 @Composable
 fun TaskCard() {
@@ -58,7 +56,9 @@ fun TaskCard() {
             ) {
                 // Left side: Title and Date
                 Column(
-                    modifier = Modifier.padding(horizontal = 8.sdp),
+                    modifier = Modifier
+                        .padding(horizontal = 8.sdp)
+                        .weight(0.4f),
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
@@ -74,11 +74,58 @@ fun TaskCard() {
                         color = Color.Gray,
                         fontSize = 10.ssp
                     )
+
+                    /**
+                     * Vai receber n ids de pets e vai criar a grid com as imagens dos respectivos pets
+                     * */
+                    if (expanded) {
+                        LazyVerticalGrid(
+                            modifier = Modifier.fillMaxWidth(),
+                            columns = GridCells.Fixed(3),
+                            horizontalArrangement = Arrangement.Start
+                        ) {
+                            item {
+                                Box(modifier = Modifier.aspectRatio(1f)) {
+                                    PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
+                                }
+                            }
+                            item {
+                                Box(modifier = Modifier.aspectRatio(1f)) {
+                                    PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
+                                }
+                            }
+                            item {
+                                Box(modifier = Modifier.aspectRatio(1f)) {
+                                    PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
+                                }
+                            }
+                            item {
+                                Box(modifier = Modifier.aspectRatio(1f)) {
+                                    PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
+                                }
+                            }
+                            item {
+                                Box(modifier = Modifier.aspectRatio(1f)) {
+                                    PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
+                                }
+                            }
+                            item {
+                                Box(modifier = Modifier.aspectRatio(1f)) {
+                                    PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
+                                }
+                            }
+
+                        }
+                    }
                 }
 
                 // Right side: Description
-                Column(modifier = Modifier.padding(horizontal = 8.sdp),
-                    horizontalAlignment = Alignment.Start){
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 8.sdp)
+                        .weight(0.6f),
+                    horizontalAlignment = Alignment.Start
+                ) {
                     Text(
                         text = "Anti-inflamatorio não esteroide para alivio da dor e inflamação",
                         style = MaterialTheme.typography.titleSmall,
@@ -87,7 +134,7 @@ fun TaskCard() {
                             .padding(start = 8.sdp)
                     )
 
-                    if(expanded){
+                    if (expanded) {
                         Text(
                             text = "E mais um monte de coisa detalhada que vai aparecer quando expandir",
                             style = MaterialTheme.typography.titleSmall,
@@ -97,7 +144,6 @@ fun TaskCard() {
                         )
                     }
                 }
-
             }
 
             // Expanded content
@@ -107,31 +153,29 @@ fun TaskCard() {
                         .fillMaxWidth()
                         .padding(bottom = 8.sdp, top = 16.sdp),
                 ) {
+                    Button(
+                        onClick = {},
+                        modifier = Modifier
+                            .width(100.sdp)
+                            .height(25.sdp)
+                            .align(Alignment.CenterHorizontally),
+                        border = BorderStroke(
+                            1.sdp, Color(0xFF959EA6)
+                        ),
+                        shape = RoundedCornerShape(50.sdp),
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background)
 
-                   Button(
-                       onClick = {},
-                       modifier = Modifier
-                           .width(100.sdp)
-                           .height(25.sdp)
-                           .align(Alignment.CenterHorizontally),
-                       border = BorderStroke(
-                           1.sdp, Color(0xFF959EA6)
-                       ),
-                       shape = RoundedCornerShape(50.sdp),
-                       colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background)
-                           
-                   ){
-                       // TODO: AJUSTAR A COR DO BOTÃO PARA A COR DA TAREFA
+                    ) {
+                        // TODO: AJUSTAR A COR DO BOTÃO PARA A COR DA TAREFA
                         Text(
                             text = "Editar Tarefa",
                             fontSize = 10.ssp,
                             color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.headlineLarge
                         )
-                   }
+                    }
                 }
             }
-
 
             // Bottom section: "Ver Mais" / "Ver Menos"
             Box(
@@ -157,7 +201,6 @@ fun TaskCard() {
         }
     }
 }
-
 
 @Preview
 @Composable
