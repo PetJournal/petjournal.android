@@ -47,7 +47,7 @@ import ir.kaaveh.sdpcompose.ssp
 fun TaskCard(
     taskData: TaskData
 ) {
-    var expanded by remember { mutableStateOf(true) }
+    var expanded by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier.clip(RectangleShape)
