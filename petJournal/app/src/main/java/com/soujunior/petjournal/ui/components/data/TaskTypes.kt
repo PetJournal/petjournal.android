@@ -1,49 +1,68 @@
 package com.soujunior.petjournal.ui.components.data
 
+import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
+import com.soujunior.petjournal.R
 
 data class TaskType(
     val id: String,
     val nome: String,
     val cor: Color,
-    val icone: String? = null // Preparado para uso futuro
+    @DrawableRes val icone: Int? = null, // Recebe um vetor drawable
+    @DrawableRes val iconeVector: Int? = null // Recebe um drawable vector
 )
 
 object TaskTypes {
     val VACINA = TaskType(
         id = "vacina",
         nome = "Vacina",
-        cor = Color(0xFFFA680E)
+        cor = Color(0xFFFA680E),
+        icone = R.drawable.icone_vacinas,
+        iconeVector = R.drawable.icone_vacinas_vector
     )
 
     val CONSULTAS = TaskType(
         id = "consultas",
         nome = "Consultas",
-        cor = Color(0xFF20955E)
+        cor = Color(0xFF20955E),
+        icone = R.drawable.icone_consulta,
+        iconeVector = R.drawable.icone_consultas_vector
+
     )
 
     val RACAO = TaskType(
         id = "racao",
         nome = "Ração",
-        cor = Color(0xFF881803)
+        cor = Color(0xFF881803),
+        icone = R.drawable.icone_racao,
+        iconeVector = R.drawable.icone_racao_vector
     )
 
     val MEDICAMENTOS = TaskType(
         id = "medicamentos",
         nome = "Medicamentos",
-        cor = Color(0xFF2F99E5)
+        cor = Color(0xFF2F99E5),
+        icone = R.drawable.icone_medicamento,
+        iconeVector = R.drawable.icone_medicamentos_vector
+
     )
 
     val BANHOS = TaskType(
         id = "banhos",
         nome = "Banhos",
-        cor = Color(0xFFD03A94)
+        cor = Color(0xFFD03A94),
+        icone = R.drawable.icone_banho,
+        iconeVector = R.drawable.icone_banhos_vector
+
     )
 
     val PASSEIO = TaskType(
         id = "passeio",
         nome = "Passeio",
-        cor = Color(0xFFB78AF7)
+        cor = Color(0xFFB78AF7),
+        icone = R.drawable.icone_passeio,
+        iconeVector = R.drawable.icone_passeios_vector
+
     )
 
     // Lista com todos os tipos para facilitar iteração
