@@ -28,7 +28,7 @@ fun TextFieldCustom(
 ) {
     Column(
         modifier = modifier
-            .padding(16.dp)
+            .padding(start = 16.dp, end = 16.dp)
     ) {
         Text(
             text = title,
