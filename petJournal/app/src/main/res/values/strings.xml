@@ -161,4 +161,10 @@
     <string name="pm">PM</string>
     <string name="label_recurrent">Recorrente</string>
     <string name="label_one_off">Pontual</string>
+    <string name="label_date_task">Data</string>
+    <string name="enter_task_name_here">Digite aqui o nome da tarefa</string>
+    <string name="task_name">Nome da tarefa</string>
+    <string name="label_observation">Observação</string>
+    <string name="enter_your_observation_here">Digite aqui a sua observação</string>
+    <string name="label_save_task">Salvar</string>
 </resources>
