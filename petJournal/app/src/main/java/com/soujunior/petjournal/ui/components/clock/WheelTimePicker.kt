@@ -23,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
@@ -32,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.soujunior.petjournal.ui.theme.ColorCustom
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlin.math.abs
@@ -59,7 +59,7 @@ fun WheelTimePicker(
     initialMinute: Int = 0,
     textStyle: TextStyle = MaterialTheme.typography.titleLarge,
     focusedColor: Color = Color.Black,
-    unfocusedColor: Color = Color.Gray,
+    unfocusedColor: Color = ColorCustom.color_unfocused_wheelTimePicker,
     onTimeChanged: (hour: Int, minute: Int) -> Unit
 ) {
     require(visibleItemsCount % 2 != 0) { "visibleItemsCount must be an odd number." }
@@ -162,8 +162,10 @@ private fun PickerColumn(
             if (layoutInfo.visibleItemsInfo.isEmpty()) {
                 -1
             } else {
-                val viewportCenter = (layoutInfo.viewportStartOffset + layoutInfo.viewportEndOffset) / 2
-                layoutInfo.visibleItemsInfo.minByOrNull { abs((it.offset + it.size / 2) - viewportCenter) }?.index ?: -1
+                val viewportCenter =
+                    (layoutInfo.viewportStartOffset + layoutInfo.viewportEndOffset) / 2
+                layoutInfo.visibleItemsInfo.minByOrNull { abs((it.offset + it.size / 2) - viewportCenter) }?.index
+                    ?: -1
             }
         }
     }
@@ -176,12 +178,14 @@ private fun PickerColumn(
                 val layoutInfo = listState.layoutInfo
                 if (layoutInfo.visibleItemsInfo.isEmpty()) return@collect
 
-                val viewportCenter = (layoutInfo.viewportStartOffset + layoutInfo.viewportEndOffset) / 2
+                val viewportCenter =
+                    (layoutInfo.viewportStartOffset + layoutInfo.viewportEndOffset) / 2
                 val centralItem = layoutInfo.visibleItemsInfo.minByOrNull {
                     abs((it.offset + it.size / 2) - viewportCenter)
                 } ?: return@collect
 
-                val itemDataIndex = (centralItem.index - halfVisibleItems).coerceIn(0, items.size - 1)
+                val itemDataIndex =
+                    (centralItem.index - halfVisibleItems).coerceIn(0, items.size - 1)
                 val delta = (centralItem.offset + centralItem.size / 2) - viewportCenter
 
                 listState.animateScrollBy(delta.toFloat())
@@ -204,8 +208,14 @@ private fun PickerColumn(
             items(items.size) { dataIndex ->
                 val lazyColumnIndex = dataIndex + halfVisibleItems
                 val isFocused = (lazyColumnIndex == centralLazyColumnIndex)
-                val scale by animateFloatAsState(targetValue = if (isFocused) 1.2f else 1.0f, label = "scale")
-                val alpha by animateFloatAsState(targetValue = if (isFocused) 1.0f else 0.5f, label = "alpha")
+                val scale by animateFloatAsState(
+                    targetValue = if (isFocused) 1.2f else 1.0f,
+                    label = "scale"
+                )
+                val alpha by animateFloatAsState(
+                    targetValue = if (isFocused) 1.0f else 0.5f,
+                    label = "alpha"
+                )
 
                 Box(
                     modifier = Modifier.height(itemHeight),
@@ -215,9 +225,9 @@ private fun PickerColumn(
                         text = items[dataIndex],
                         style = textStyle.copy(
                             color = if (isFocused) focusedColor else unfocusedColor,
-                            fontSize = textStyle.fontSize * scale
+                            fontSize = 34.sp
                         ),
-                        modifier = Modifier.alpha(alpha)
+//                        modifier = Modifier.alpha(alpha)
                     )
                 }
             }
