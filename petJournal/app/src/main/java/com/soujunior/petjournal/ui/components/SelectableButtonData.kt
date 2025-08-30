@@ -81,36 +81,11 @@ fun SelectableButton(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun GroupSelectableButton(
+    listOfTasks: List<SelectableButtonInfo>,
     onSelection: (String) -> Unit = {}
 ) {
-    val buttons = listOf(
-        SelectableButtonInfo(
-            stringResource(R.string.label_selectable_button_vaccines),
-            ColorCustom.color_selectable_button_1
-        ),
-        SelectableButtonInfo(
-            stringResource(R.string.label_selectable_button_consultations),
-            ColorCustom.color_selectable_button_2
-        ),
-        SelectableButtonInfo(
-            stringResource(R.string.label_selectable_button_medicine),
-            ColorCustom.color_selectable_button_3
-        ),
-        SelectableButtonInfo(
-            stringResource(R.string.label_selectable_button_bath),
-            ColorCustom.color_selectable_button_4
-        ),
-        SelectableButtonInfo(
-            stringResource(R.string.label_selectable_button_food),
-            ColorCustom.color_selectable_button_5
-        ),
-        SelectableButtonInfo(
-            stringResource(R.string.label_selectable_button_pet_walk),
-            ColorCustom.color_selectable_button_6
-        ),
-    )
 
-    val selectionState = remember { mutableStateListOf(*Array(buttons.size) { false }) }
+    val selectionState = remember { mutableStateListOf(*Array(listOfTasks.size) { false }) }
 
     Column(
         modifier = Modifier
@@ -130,7 +105,7 @@ fun GroupSelectableButton(
                 .fillMaxWidth()
                 .padding(top = 15.dp)
         ) {
-            buttons.forEachIndexed { index, buttonInfo ->
+            listOfTasks.forEachIndexed { index, buttonInfo ->
                 SelectableButton(
                     titleButton = buttonInfo.title,
                     colorButton = buttonInfo.color,
@@ -162,5 +137,31 @@ data class SelectableButtonInfo(
 @Preview(showBackground = true, showSystemUi = true, device = "id:pixel_4_xl")
 @Composable
 fun CustomSelectableButtonPreview() {
-    GroupSelectableButton()
+    val listOfTasks = listOf(
+        SelectableButtonInfo(
+            stringResource(R.string.label_selectable_button_vaccines),
+            ColorCustom.color_selectable_button_1
+        ),
+        SelectableButtonInfo(
+            stringResource(R.string.label_selectable_button_consultations),
+            ColorCustom.color_selectable_button_2
+        ),
+        SelectableButtonInfo(
+            stringResource(R.string.label_selectable_button_medicine),
+            ColorCustom.color_selectable_button_3
+        ),
+        SelectableButtonInfo(
+            stringResource(R.string.label_selectable_button_bath),
+            ColorCustom.color_selectable_button_4
+        ),
+        SelectableButtonInfo(
+            stringResource(R.string.label_selectable_button_food),
+            ColorCustom.color_selectable_button_5
+        ),
+        SelectableButtonInfo(
+            stringResource(R.string.label_selectable_button_pet_walk),
+            ColorCustom.color_selectable_button_6
+        ),
+    )
+    GroupSelectableButton(listOfTasks)
 }
