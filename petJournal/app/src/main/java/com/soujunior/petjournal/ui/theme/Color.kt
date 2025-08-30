@@ -100,4 +100,5 @@ object ColorCustom {
     val color_placeholder = Color(0xFFCCCCCC)
     val color_text_button_transaction_type = Color(0xFF8dD4CD2)
     val color_border_button_transaction_type = Color(0xFFA2A9B1)
+    val color_unfocused_wheelTimePicker = Color(0xFFDADADA)
 }
