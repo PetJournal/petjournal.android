@@ -37,9 +37,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.data.TaskData
-import com.soujunior.petjournal.ui.components.data.TaskDummyData
+import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 
@@ -217,7 +216,7 @@ fun TaskCard(
 private fun TaskCardPreview() {
     Column(Modifier.padding(8.sdp)) {
         TaskCard(
-            taskData = TaskDummyData.sampleTasks[0]
+            taskData = TaskFakeData.sampleTasks[0]
         )
 //        TaskCard(
 //            taskData = TaskDummyData.sampleTasks[1]

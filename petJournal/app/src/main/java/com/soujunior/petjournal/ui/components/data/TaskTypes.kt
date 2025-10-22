@@ -102,7 +102,7 @@ data class TaskData(
 )
 
 // Dados dummy para exemplo/preview
-object TaskDummyData {
+object TaskFakeData {
     private val samplePets = listOf(
         PetData(id = "pet_001"),
         PetData(id = "pet_002"),
