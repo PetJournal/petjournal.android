@@ -159,4 +159,8 @@
     <string name="label_go_to_home">Ir para a HomePage</string>
     <string name="am">AM</string>
     <string name="pm">PM</string>
+    <string name="next_tasks">Próximas tarefas</string>
+    <string name="daily_tasks">Diárias</string>
+    <string name="weekly_tasks">Semanais</string>
+    <string name="monthly_tasks">Mensais</string>
 </resources>
