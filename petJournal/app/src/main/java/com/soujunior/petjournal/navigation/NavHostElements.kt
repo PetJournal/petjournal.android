@@ -55,8 +55,7 @@ fun NavHostMainContent() {
         composable("account_manager") { AccountManager() }
         composable("tutorScreen") { TutorScreen(navController) }
         composable("pets/introRegisterPet") { IntroRegisterPetScreen(navController) }
-//        composable("pets/introRegisterPet") { RegisterPetScreen(navController) }
-        composable("pets/petList") { PetListScreen(navController) }
+        composable("pets/petListScreen") { PetListScreen(navController) }
         composable("pets/registerPet") { RegisterPetScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
 

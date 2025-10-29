@@ -141,7 +141,11 @@ fun Screen(navController: NavController) {
                                 )
                             }
                             item {
-                                PetItemMore(onClick = {})
+                                PetItemMore(
+                                    onClick = {
+                                        navController.navigate("pets/registerPet")
+                                    }
+                                )
                             }
 
                         }
