@@ -30,11 +30,15 @@ fun TaskDateComponent(
             text = date,
             style = MaterialTheme.typography.titleLarge,
             fontSize = 20.ssp,
-            modifier = Modifier.padding(bottom = 8.sdp, start = 16.sdp)
+            modifier = Modifier.padding(bottom = 8.sdp)
         )
 
         tasks.forEach { taskData ->
-            TaskCard(taskData = taskData)
+            TaskCard(
+                taskData = taskData,
+                modifier = Modifier.padding(start = 8.sdp)
+
+            )
         }
     }
 

@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.screens_app.screens_pets.taskListScreen.comp
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,6 +20,7 @@ import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.screens_app.screens_pets.taskListScreen.DateFilter
+import com.soujunior.petjournal.ui.screens_app.screens_pets.taskListScreen.components.TaskDateComponent
 import com.soujunior.petjournal.ui.theme.RobotoRegular
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
@@ -33,7 +35,10 @@ fun Screen(navController: NavController){
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = { paddingValues ->
-                Column(modifier = Modifier.padding(paddingValues).padding(horizontal = 8.sdp, vertical = 16.sdp)){
+
+                Column(modifier = Modifier
+                    .padding(paddingValues)
+                    .padding(horizontal = 8.sdp, vertical = 16.sdp)){
 
                     Text(text = stringResource(R.string.next_tasks),
                         fontSize = 16.ssp,
@@ -46,13 +51,35 @@ fun Screen(navController: NavController){
                     TabSelector(
                         selectedFilter = DateFilter.DAILY,
                         onFilterSelected = {},
-                        modifier = Modifier.fillMaxWidth().padding(top = 16.sdp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.sdp)
                     )
 
-                    TaskDateComponent(
-                        date = "5 de Janeiro",
-                        tasks = TaskFakeData.sampleTasks.take(4)
-                    )
+                    LazyColumn {
+                        item{
+                            TaskDateComponent(
+                                date = "5 de Janeiro",
+                                tasks = TaskFakeData.sampleTasks.take(2),
+                                modifier = Modifier.padding(top = 16.sdp)
+                            )
+                        }
+                        item {
+                            TaskDateComponent(
+                                date = "3 de Fevereiro",
+                                tasks = TaskFakeData.sampleTasks.take(1),
+                                modifier = Modifier.padding(top = 16.sdp)
+                            )
+                        }
+                        item{
+                            TaskDateComponent(
+                                date = "30 de Setembro",
+                                tasks = TaskFakeData.sampleTasks.take(3),
+                                modifier = Modifier.padding(top = 16.sdp)
+                            )
+                        }
+                    }
+
 
                 }
             }
@@ -67,3 +94,4 @@ private fun ScreenPreview(){
     val nav = rememberNavController()
     Screen(nav)
 }
+
