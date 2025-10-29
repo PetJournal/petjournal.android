@@ -12,19 +12,16 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
-import com.soujunior.petjournal.ui.screens_app.screens_pets.registerPetScreen.components.TabSelector
+import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.screens_app.screens_pets.taskListScreen.DateFilter
-import com.soujunior.petjournal.ui.screens_app.screens_pets.taskListScreen.TaskListViewModel
 import com.soujunior.petjournal.ui.theme.RobotoRegular
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
-import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun Screen(navController: NavController){
@@ -35,8 +32,8 @@ fun Screen(navController: NavController){
             navigationUp = navController,
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
-            contentToUse = {
-                Column(modifier = Modifier.padding(16.sdp)){
+            contentToUse = { paddingValues ->
+                Column(modifier = Modifier.padding(paddingValues).padding(horizontal = 8.sdp, vertical = 16.sdp)){
 
                     Text(text = stringResource(R.string.next_tasks),
                         fontSize = 16.ssp,
@@ -50,6 +47,11 @@ fun Screen(navController: NavController){
                         selectedFilter = DateFilter.DAILY,
                         onFilterSelected = {},
                         modifier = Modifier.fillMaxWidth().padding(top = 16.sdp)
+                    )
+
+                    TaskDateComponent(
+                        date = "5 de Janeiro",
+                        tasks = TaskFakeData.sampleTasks.take(4)
                     )
 
                 }

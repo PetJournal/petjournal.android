@@ -44,19 +44,21 @@ import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun TaskCard(
-    taskData: TaskData
+    taskData: TaskData,
+    modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
 
     Box(
-        modifier = Modifier.clip(RectangleShape)
+        modifier = modifier.clip(RectangleShape)
     ) {
         Surface(
-            shape = RoundedCornerShape(8.sdp),
+            shape = RoundedCornerShape(16.sdp),
             tonalElevation = 2.dp,
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(2.sdp)
-                .animateContentSize() // Animates the size change
+                .animateContentSize()
         ) {
             // Background icon when expanded - outside the Surface
             if (expanded) {
@@ -72,15 +74,13 @@ fun TaskCard(
                 )
             }
             Column {
-                // Main content: Title/Date on Start, Description on End
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(4.sdp),
+                        .padding(2.sdp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Top
                 ) {
-                    // Left side: Title and Date
                     Column(
                         modifier = Modifier
                             .padding(horizontal = 8.sdp)
@@ -187,22 +187,19 @@ fun TaskCard(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .height(20.sdp)
                         .background(taskData.tipo.cor)
-                        .clickable { expanded = !expanded } // Toggles the expanded state
+                        .clickable { expanded = !expanded },
                 ) {
-                    Row(
+                    Text(
+                        text = if (expanded) "Ver Menos" else "Ver Mais",
+                        fontSize = 10.ssp,
+                        color = MaterialTheme.colorScheme.background,
+                        style = MaterialTheme.typography.displaySmall,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 6.sdp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = if (expanded) "Ver Menos" else "Ver Mais",
-                            fontSize = 10.ssp,
-                            color = MaterialTheme.colorScheme.background,
-                            style = MaterialTheme.typography.displaySmall
-                        )
-                    }
+                            .align(Alignment.Center)
+                            .offset(y = -6.sdp)
+                    )
                 }
             }
         }
@@ -218,11 +215,12 @@ private fun TaskCardPreview() {
         TaskCard(
             taskData = TaskFakeData.sampleTasks[0]
         )
-//        TaskCard(
-//            taskData = TaskDummyData.sampleTasks[1]
-//        )
-//        TaskCard(
-//            taskData = TaskDummyData.sampleTasks[2]
-//        )
+        TaskCard(
+            taskData = TaskFakeData.sampleTasks[1]
+        )
+        TaskCard(
+            taskData = TaskFakeData.sampleTasks[2]
+        )
     }
 }
+

@@ -1,12 +1,11 @@
-package com.soujunior.petjournal.ui.screens_app.screens_pets.registerPetScreen.components
+package com.soujunior.petjournal.ui.screens_app.screens_pets.taskListScreen.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,9 +13,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.ui.screens_app.screens_pets.taskListScreen.DateFilter
-import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TabSelector(
     selectedFilter : DateFilter,
@@ -29,21 +28,16 @@ fun TabSelector(
         DateFilter.MONTHLY
     )
     val selectedIndex = tabs.indexOf(selectedFilter)
-    TabRow(
+
+    PrimaryTabRow(
         selectedTabIndex = selectedIndex,
         modifier = modifier,
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.primary,
-        indicator = {
-            tabPositions ->
-            TabRowDefaults.Indicator(
-                Modifier.tabIndicatorOffset(tabPositions[selectedIndex]),
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
-    ) {
+        divider = {/*sem divider*/}
+        ){
         tabs.forEachIndexed {
-            index, filter ->
+                index, filter ->
             Tab(
                 selected = selectedIndex == index,
                 onClick = { onFilterSelected(filter)},
@@ -56,7 +50,6 @@ fun TabSelector(
                     Text(
                         text = stringResource(id = textRes),
                         fontWeight = if (selectedIndex == index) FontWeight.Bold else FontWeight.Normal,
-                        color = if (selectedIndex == index) MaterialTheme.colorScheme.primary else Color.Gray
                     )
                 },
                 selectedContentColor = MaterialTheme.colorScheme.primary,
