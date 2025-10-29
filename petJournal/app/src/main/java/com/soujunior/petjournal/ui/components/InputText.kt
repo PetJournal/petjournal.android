@@ -39,6 +39,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.ColorCustom
@@ -59,11 +60,12 @@ fun InputText(
     onEvent: (String) -> Unit,
     hasAMask: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    textTitleModifier: Modifier = Modifier
 ) {
     var showPassword by remember { mutableStateOf(false) }
 
-    Column(modifier = modifier.padding(16.dp)) {
+    Column(modifier = modifier) {
         Row {
             Text(
                 text = titleText,
@@ -71,7 +73,7 @@ fun InputText(
                 color = MaterialTheme.colorScheme.scrim,
                 fontWeight = FontWeight(500),
                 style = MaterialTheme.typography.titleMedium,
-                modifier = modifier
+                modifier = textTitleModifier
                     .fillMaxWidth()
             )
         }
@@ -88,7 +90,7 @@ fun InputText(
                         color = MaterialTheme.colorScheme.surface,
                         shape = RoundedCornerShape(size = 12.dp)
                     )
-                    .padding(2.sdp)
+                    .padding(0.sdp)
                     .fillMaxWidth()
                     .testTag("inputField_test")
                     .drawBehind {
@@ -119,16 +121,16 @@ fun InputText(
                         else PasswordVisualTransformation()
                     } else visualTransformation,
                 keyboardOptions = keyboardOptions,
-                decorationBox = {
+                decorationBox = { innerTextField ->
                     Row(
                         modifier = Modifier
-                            .background(Color.White)
-                            .padding(start = 14.sdp),
+                            .padding(horizontal = 14.sdp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
                             modifier = Modifier.weight(1f)
                         ) {
+                            innerTextField()
                             if (textValue.isEmpty() && !hasAMask) {
                                 Text(
                                     text = placeholderText,
@@ -188,5 +190,5 @@ fun InputText(
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable
 fun InputTextPreview() {
-    InputText(Modifier, onEvent = {}, textValue = "")
+    InputText(textValue = "", onEvent = {},)
 }

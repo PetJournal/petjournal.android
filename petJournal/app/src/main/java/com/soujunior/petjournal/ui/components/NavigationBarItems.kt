@@ -25,7 +25,7 @@ sealed class NavigationBarItems(
 
     object Pets : NavigationBarItems(
         title = "Pets",
-        route = "pets/introRegisterPet",
+        route = "pets/petListScreen",
         icons = R.drawable.ic_pet,
         group = "pets"
     )

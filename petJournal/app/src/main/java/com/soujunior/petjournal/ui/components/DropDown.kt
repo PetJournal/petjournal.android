@@ -47,6 +47,7 @@ import ir.kaaveh.sdpcompose.sdp
 @Composable
 fun DropDown(
     modifier: Modifier = Modifier,
+    textTitleModifier: Modifier = Modifier,
     textInputModifier: Modifier = Modifier,
     placeholderText: String = "Porte do seu pet",
     titleText: String = "Title",
@@ -66,9 +67,7 @@ fun DropDown(
                 color = MaterialTheme.colorScheme.scrim,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight(500),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.sdp, end = 24.sdp)
+                modifier = textTitleModifier.fillMaxWidth().padding(end = 24.sdp)
             )
         }
         Row {
