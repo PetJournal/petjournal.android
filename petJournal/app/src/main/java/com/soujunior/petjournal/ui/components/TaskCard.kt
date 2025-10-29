@@ -53,7 +53,7 @@ fun TaskCard(
         modifier = modifier.clip(RectangleShape)
     ) {
         Surface(
-            shape = RoundedCornerShape(16.sdp),
+            shape = RoundedCornerShape(10.sdp),
             tonalElevation = 2.dp,
             modifier = Modifier
                 .fillMaxWidth()
@@ -170,14 +170,11 @@ fun TaskCard(
                             ),
                             shape = RoundedCornerShape(50.sdp),
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background)
-
                         ) {
-                            // TODO: AJUSTAR A COR DO BOTÃO PARA A COR DA TAREFA
                             Text(
                                 text = "Editar Tarefa",
                                 fontSize = 10.ssp,
                                 color = taskData.tipo.cor,
-                                style = MaterialTheme.typography.headlineLarge
                             )
                         }
                     }
@@ -195,10 +192,8 @@ fun TaskCard(
                         text = if (expanded) "Ver Menos" else "Ver Mais",
                         fontSize = 10.ssp,
                         color = MaterialTheme.colorScheme.background,
-                        style = MaterialTheme.typography.displaySmall,
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .offset(y = -6.sdp)
                     )
                 }
             }
@@ -215,12 +210,12 @@ private fun TaskCardPreview() {
         TaskCard(
             taskData = TaskFakeData.sampleTasks[0]
         )
-        TaskCard(
-            taskData = TaskFakeData.sampleTasks[1]
-        )
-        TaskCard(
-            taskData = TaskFakeData.sampleTasks[2]
-        )
+//        TaskCard(
+//            taskData = TaskFakeData.sampleTasks[1]
+//        )
+//        TaskCard(
+//            taskData = TaskFakeData.sampleTasks[2]
+//        )
     }
 }
 
