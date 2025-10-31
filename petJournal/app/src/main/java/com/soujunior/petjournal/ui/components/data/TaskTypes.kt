@@ -86,7 +86,7 @@ object TaskTypes {
     }
 }
 
-data class PetData(
+data class FakePetData(
     val id: String,
     val imageRes: String = "" // String vazia por enquanto
 )
@@ -96,20 +96,21 @@ data class TaskData(
     val titulo: String,
     val descricaoResumida: String,
     val descricaoCompleta: String,
-    val dataHora: String,
+    val startAt: String,
+    val endAt: String = "",
     val tipo: TaskType,
-    val pets: List<PetData> = emptyList()
+    val pets: List<FakePetData> = emptyList()
 )
 
 // Dados dummy para exemplo/preview
 object TaskFakeData {
     private val samplePets = listOf(
-        PetData(id = "pet_001"),
-        PetData(id = "pet_002"),
-        PetData(id = "pet_003"),
-        PetData(id = "pet_004"),
-        PetData(id = "pet_005"),
-        PetData(id = "pet_006")
+        FakePetData(id = "pet_001"),
+        FakePetData(id = "pet_002"),
+        FakePetData(id = "pet_003"),
+        FakePetData(id = "pet_004"),
+        FakePetData(id = "pet_005"),
+        FakePetData(id = "pet_006")
     )
 
     val sampleTasks = listOf(
@@ -118,7 +119,7 @@ object TaskFakeData {
             titulo = "Carprofeno",
             descricaoResumida = "Anti-inflamatorio não esteroide para alivio da dor e inflamação",
             descricaoCompleta = "Medicamento anti-inflamatório não esteroide para alívio da dor e inflamação. Deve ser administrado com cuidado e seguindo as instruções veterinárias. Dosagem recomendada conforme peso do animal.",
-            dataHora = "12/08/2025 - 10:30",
+            startAt = "12/08/2025 - 10:30",
             tipo = TaskTypes.MEDICAMENTOS,
             pets = listOf(samplePets[0], samplePets[1], samplePets[2])
         ),
@@ -127,7 +128,7 @@ object TaskFakeData {
             titulo = "Vacina Antirrábica",
             descricaoResumida = "Vacina obrigatória contra raiva para proteção do pet",
             descricaoCompleta = "Vacina antirrábica anual obrigatória. Essencial para proteção contra a raiva e exigida por lei. Deve ser aplicada por veterinário e gera certificado de vacinação.",
-            dataHora = "15/08/2025 - 14:00",
+            startAt = "15/08/2025 - 14:00",
             tipo = TaskTypes.VACINA,
             pets = listOf(samplePets[0])
         ),
@@ -136,7 +137,7 @@ object TaskFakeData {
             titulo = "Consulta de Rotina",
             descricaoResumida = "Check-up geral para avaliação da saúde do pet",
             descricaoCompleta = "Consulta veterinária de rotina para avaliação geral da saúde, verificação de peso, exame físico completo e orientações sobre cuidados preventivos.",
-            dataHora = "20/08/2025 - 09:15",
+            startAt = "20/08/2025 - 09:15",
             tipo = TaskTypes.CONSULTAS,
             pets = listOf(samplePets[1], samplePets[3])
         ),
@@ -145,7 +146,7 @@ object TaskFakeData {
             titulo = "Ração Premium",
             descricaoResumida = "Trocar para ração premium conforme orientação veterinária",
             descricaoCompleta = "Mudança gradual para ração premium de alta qualidade. Fazer transição lenta misturando com a ração atual por 7 dias. Quantidade: 200g por dia dividida em 2 refeições.",
-            dataHora = "18/08/2025 - 18:00",
+            startAt = "18/08/2025 - 18:00",
             tipo = TaskTypes.RACAO,
             pets = listOf(samplePets[0], samplePets[2], samplePets[4], samplePets[5])
         )

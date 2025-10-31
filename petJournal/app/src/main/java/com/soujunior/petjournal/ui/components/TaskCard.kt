@@ -95,7 +95,7 @@ fun TaskCard(
 
                         )
                         Text(
-                            text = taskData.dataHora,
+                            text = taskData.startAt,
                             style = MaterialTheme.typography.titleMedium,
                             color = Color.Gray,
                             fontSize = 10.ssp

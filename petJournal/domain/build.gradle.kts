@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.annotation:annotation-jvm:1.9.1")
     val dependencies = rootProject.ext["dependencies"] as Map<String, String> // Obtendo as dependências do arquivo ext
     implementation(dependencies["coroutineCore"]!!) // Implementação da dependência coroutineCore
     implementation(dependencies["coroutineAndroid"]!!) // Implementação da dependência coroutineAndroid
