@@ -120,7 +120,8 @@ dependencies {
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
 
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
+    androidTestImplementation("io.mockk:mockk-android:1.12.0")
+    androidTestImplementation("io.mockk:mockk-agent:1.12.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.12.0")
     testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.25")
