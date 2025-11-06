@@ -1,11 +1,18 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.registerTaskScreen.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.ModalDrawer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,6 +23,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
@@ -31,6 +39,7 @@ import com.soujunior.petjournal.ui.components.TransactionTypeSelector
 import com.soujunior.petjournal.ui.components.task.OneOffTask
 import com.soujunior.petjournal.ui.components.task.RecurringTask
 import com.soujunior.petjournal.ui.theme.ColorCustom
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.TransactionType
 import ir.kaaveh.sdpcompose.sdp
 
@@ -121,6 +130,8 @@ fun ScreenRegisterTask(navController: NavController) {
         modifier = Modifier,
         navigationUp = navController,
         showTopBar = true,
+        //todo: o valor desse Title bar precisa ser passado por parametro,
+        // assim ele se comportara tanto como "Nova tarefa" quanto "Editar tarefa".
         titleTopBar = stringResource(R.string.label_new_task),
         showBottomBarNavigation = true,
         contentToUse = { paddingValues ->
@@ -135,14 +146,11 @@ fun ScreenRegisterTask(navController: NavController) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
+                verticalArrangement = Arrangement.spacedBy(12.sdp),
+                contentPadding = PaddingValues(horizontal = 14.sdp),
                 content = {
                     item {
-                        GroupSelectableButton(
-                            listOfTasks,
-                            onSelection = {
-
-                            }
-                        )
+                        GroupSelectableButton(listOfTasks)
                     }
                     item {
                         InputText(
@@ -243,4 +251,189 @@ fun ScreenRegisterTask(navController: NavController) {
 fun ScreenRegisterTaskPreview() {
     val nav = rememberNavController()
     ScreenRegisterTask(nav)
+}
+
+
+private val listOfTasks = listOf(
+    SelectableButtonInfo(
+        "Vacinas",
+        ColorCustom.color_selectable_button_1
+    ),
+    SelectableButtonInfo(
+        "Consultas",
+        ColorCustom.color_selectable_button_2
+    ),
+    SelectableButtonInfo(
+        "Remédios",
+        ColorCustom.color_selectable_button_3
+    ),
+    SelectableButtonInfo(
+        "Banho",
+        ColorCustom.color_selectable_button_4
+    ),
+    SelectableButtonInfo(
+        "Comida",
+        ColorCustom.color_selectable_button_5
+    ),
+    SelectableButtonInfo(
+        "Passeio",
+        ColorCustom.color_selectable_button_6
+    ),
+)
+
+@Preview(showBackground = true)
+@Composable
+fun GroupSelectableButtonPreview() {
+    PetJournalTheme {
+        GroupSelectableButton(
+            listOfTasks,
+            onSelection = {
+
+            }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun InputTextTaskNamePreview() {
+    val nameTask = remember { mutableStateOf("") }
+    PetJournalTheme {
+        InputText(
+            modifier = Modifier.testTag("inputFieldTag"),
+            placeholderText = stringResource(R.string.enter_task_name_here),
+            titleText = stringResource(R.string.task_name),
+            textValue = nameTask.value,
+            onEvent = { t ->
+                nameTask.value = t
+            },
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TextFieldCustomDescriptionPreview() {
+    val desc = remember { mutableStateOf("") }
+    PetJournalTheme {
+        TextFieldCustom(
+            title = stringResource(R.string.label_description),
+            placeholder = stringResource(R.string.enter_the_task_description_here),
+            value = desc.value,
+            onValueChange = { d ->
+                desc.value = d
+            }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PetFilterListPreview() {
+    val listPet = listOf(
+        Pets(
+            id = 1,
+            imageRes = painterResource(R.drawable.image_jujuba),
+            name = "Jujuba"
+        ),
+        Pets(
+            id = 2,
+            imageRes = painterResource(R.drawable.image_alfredo),
+            name = "Alfredo"
+        ),
+        Pets(
+            id = 3,
+            imageRes = painterResource(R.drawable.image_alfredo),
+            name = "Alfredo"
+        )
+    )
+    PetJournalTheme {
+        PetFilterList(
+            listPet,
+            onSelectedPet = {
+
+            }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TransactionTypeSelectorPreview() {
+    var selectedType by remember { mutableStateOf<TransactionType?>(null) }
+    PetJournalTheme {
+        TransactionTypeSelector(
+            onSelectionChanged = { type ->
+                selectedType = type
+            }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RecurringTaskPreview() {
+    PetJournalTheme {
+        RecurringTask(
+            setOf(),
+            onAmPmSelector = {
+
+            },
+            onTime = { hour, minute ->
+
+            },
+            onWeekDaySelected = {
+
+            },
+            onDaySelected = {
+
+            }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun OneOffTaskPreview() {
+    PetJournalTheme {
+        OneOffTask(
+            onDateSelected = {
+
+            },
+            onAmPmSelector = {
+
+            },
+            onTime = { hour, minute ->
+
+            }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TextFieldCustomObservationPreview() {
+    val ob = remember { mutableStateOf("") }
+    PetJournalTheme {
+        TextFieldCustom(
+            title = stringResource(R.string.label_observation),
+            placeholder = stringResource(R.string.enter_your_observation_here),
+            value = ob.value,
+            onValueChange = { o ->
+                ob.value = o
+            }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun Button3SaveTaskPreview() {
+    PetJournalTheme {
+        Button3(
+            submit = { /*TODO*/ },
+            enableButton = true,
+            text = stringResource(R.string.label_save_task)
+        )
+    }
 }
