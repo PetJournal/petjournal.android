@@ -18,9 +18,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             ChangeSystemBars()
-//            PresentationManager()
-            val nav = rememberNavController()
-            ScreenRegisterTask(nav)
+            PresentationManager()
         }
     }
 }
