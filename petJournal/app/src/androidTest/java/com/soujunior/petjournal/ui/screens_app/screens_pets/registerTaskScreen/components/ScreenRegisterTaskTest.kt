@@ -1,11 +1,15 @@
 package com.soujunior.petjournal.ui.screens_app.screens_pets.registerTaskScreen.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
@@ -111,7 +115,7 @@ class ScreenRegisterTaskTest {
             InputText(
                 titleText = testTitle,
                 textValue = "",
-                onEvent = {}
+                onEvent = {},
             )
         }
 
@@ -126,7 +130,6 @@ class ScreenRegisterTaskTest {
                 placeholderText = testPlaceholder,
                 textValue = "",
                 onEvent = {},
-                hasAMask = false
             )
         }
 
@@ -141,7 +144,6 @@ class ScreenRegisterTaskTest {
                 placeholderText = testPlaceholder,
                 textValue = "Minha Tarefa",
                 onEvent = {},
-                hasAMask = false
             )
         }
 
@@ -154,9 +156,9 @@ class ScreenRegisterTaskTest {
         composeTestRule.setContent {
             InputText(
                 textValue = "Ops",
-                onEvent = {},
                 isError = true,
-                textError = errorMessages
+                textError = errorMessages,
+                onEvent = {},
             )
         }
         errorMessages.forEach { errorMessage ->
@@ -300,6 +302,61 @@ class ScreenRegisterTaskTest {
     }
 
     @Test
+    fun test_TransactionTypeSelector_TogglesConditionalUI_Correctly() {
+
+        composeTestRule.setContent {
+            var selectedType: TransactionType? = null
+
+            Column {
+                TransactionTypeSelector(
+                    onSelectionChanged = { type ->
+                        selectedType = type
+                    }
+                )
+
+                when (selectedType) {
+                    TransactionType.Recurrent -> {
+                        Box(modifier = Modifier.testTag("RecurringTaskComponent")) {
+                            RecurringTask(
+                                setOf(),
+                                onAmPmSelector = {},
+                                onTime = { _, _ -> },
+                                onWeekDaySelected = {},
+                                onDaySelected = {}
+                            )
+                        }
+                    }
+
+                    TransactionType.OneOff -> {
+                        Box(modifier = Modifier.testTag("OneOffTaskComponent")) {
+                            OneOffTask(
+                                onDateSelected = {},
+                                onAmPmSelector = {},
+                                onTime = { _, _ -> }
+                            )
+                        }
+                    }
+
+                    null -> {}
+                }
+            }
+        }
+
+        composeTestRule.onNodeWithTag("RecurringTaskComponent").assertDoesNotExist()
+        composeTestRule.onNodeWithTag("OneOffTaskComponent").assertDoesNotExist()
+
+        composeTestRule.onNodeWithTag("TaskRecurrent").performClick()
+
+        composeTestRule.onNodeWithTag("RecurringTaskComponent").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("OneOffTaskComponent").assertDoesNotExist()
+
+        composeTestRule.onNodeWithTag("TaskOneOff").performClick()
+
+        composeTestRule.onNodeWithTag("RecurringTaskComponent").assertDoesNotExist()
+        composeTestRule.onNodeWithTag("OneOffTaskComponent").assertIsDisplayed()
+    }
+
+    @Test
     fun shouldShowOneOffTaskWhenOneOffSelected() {
         composeTestRule.setContent {
             var selectedType: TransactionType? = null
@@ -355,6 +412,16 @@ class ScreenRegisterTaskTest {
 
         val text = "Precisa dar o remédio às 14h"
         composeTestRule.onNodeWithText("Digite aqui a sua observação").performTextInput(text)
+    }
+
+    @Test
+    fun test_TransactionTypeSelector_ShowsConditionalUI() {
+        composeTestRule.onNodeWithTag("RecurringTaskComponent").assertDoesNotExist()
+
+        composeTestRule.onNodeWithTag("TaskRecurrent").performClick()
+
+        composeTestRule.onNodeWithTag("RecurringTaskComponent").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("OneOffTaskComponent").assertDoesNotExist()
     }
 
 }
