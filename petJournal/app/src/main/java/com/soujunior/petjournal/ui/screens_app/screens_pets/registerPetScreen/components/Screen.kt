@@ -49,8 +49,7 @@ fun Screen(navController: NavController) {
         ScaffoldCustom(
             modifier = Modifier
                 .navigationBarsPadding()
-                .fillMaxSize()
-            ,
+                .fillMaxSize(),
             navigationUp = navController,
             showTopBar = true,
             titleTopBar = stringResource(R.string.edit_pet_data),

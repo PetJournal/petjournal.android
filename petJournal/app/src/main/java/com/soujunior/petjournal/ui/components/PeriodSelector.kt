@@ -56,6 +56,7 @@ fun PeriodSelector(
 
 @Composable
 fun TriangleIndicator(
+    //TODO: colocar na tabela de cores.
     color: Color = Color(0xFF8D4CD2),
     modifier: Modifier = Modifier
         .width(60.dp)

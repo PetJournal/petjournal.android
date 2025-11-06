@@ -22,7 +22,7 @@ fun OneOffTask(
 ) {
     var selectedTimestamp by remember { mutableStateOf<Long?>(null) }
 
-    Column(modifier = Modifier.padding(start = 20.dp, end = 20.dp)) {
+    Column(modifier = Modifier) {
         CustomDatePicker(
             label = "Data",
             value = selectedTimestamp,

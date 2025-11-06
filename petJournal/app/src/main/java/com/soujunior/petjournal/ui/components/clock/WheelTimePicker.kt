@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
@@ -227,7 +228,7 @@ private fun PickerColumn(
                             color = if (isFocused) focusedColor else unfocusedColor,
                             fontSize = 34.sp
                         ),
-//                        modifier = Modifier.alpha(alpha)
+                        modifier = Modifier//.alpha(alpha)
                     )
                 }
             }

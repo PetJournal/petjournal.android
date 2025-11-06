@@ -56,7 +56,8 @@ fun RecurringTask(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp),
+//                    .padding(top = 16.dp)
+,
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -74,7 +75,7 @@ fun RecurringTask(
                 )
                 Box(
                     modifier = Modifier
-                        .padding(start = 8.dp)
+//                        .padding(start = 8.dp)
                         .height(150.dp)
                         .width(100.dp),
                     contentAlignment = Alignment.Center
@@ -93,7 +94,8 @@ fun RecurringTask(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp),
+//                        .padding(top = 16.dp)
+                    ,
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
