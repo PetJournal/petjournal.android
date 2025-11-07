@@ -45,9 +45,10 @@ import ir.kaaveh.sdpcompose.ssp
 @Composable
 fun TaskCard(
     taskData: TaskData,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    expandValue: Boolean = false
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(expandValue) }
 
     Box(
         modifier = modifier.clip(RectangleShape)
@@ -60,12 +61,11 @@ fun TaskCard(
                 .padding(2.sdp)
                 .animateContentSize()
         ) {
-            // Background icon when expanded - outside the Surface
             if (expanded) {
                 Icon(
-                    painter = painterResource(id = taskData.tipo.iconeVector!!),
-                    contentDescription = "Ícone ${taskData.tipo.nome}",
-                    tint = taskData.tipo.cor.copy(alpha = .5f),
+                    painter = painterResource(id = taskData.type.iconVector!!),
+                    contentDescription = "Ícone ${taskData.type.name}",
+                    tint = taskData.type.color.copy(alpha = .5f),
                     modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(start = 2.sdp, bottom = 42.sdp)
@@ -88,7 +88,7 @@ fun TaskCard(
                         horizontalAlignment = Alignment.Start
                     ) {
                         Text(
-                            text = taskData.titulo,
+                            text = taskData.title,
                             modifier = Modifier.padding(bottom = 2.sdp),
                             style = MaterialTheme.typography.titleMedium,
                             fontSize = 15.ssp
@@ -101,9 +101,6 @@ fun TaskCard(
                             fontSize = 10.ssp
                         )
 
-                        /**
-                         * Vai receber n ids de pets e vai criar a grid com as imagens dos respectivos pets
-                         * */
                         if (expanded) {
                             LazyVerticalGrid(
                                 modifier = Modifier.fillMaxWidth(),
@@ -119,17 +116,16 @@ fun TaskCard(
                         }
                     }
 
-                    // Right side: Description
                     Column(
                         modifier = Modifier
                             .padding(horizontal = 8.sdp)
                             .weight(0.6f),
                         horizontalAlignment = Alignment.Start
                     ) {
-                        val displayText = if (!expanded && taskData.descricaoResumida.length > 50) {
-                            taskData.descricaoResumida.take(50) + "..."
+                        val displayText = if (!expanded && taskData.descriptionResumed.length > 50) {
+                            taskData.descriptionResumed.take(50) + "..."
                         } else {
-                            taskData.descricaoResumida
+                            taskData.descriptionResumed
                         }
 
                         Text(
@@ -142,7 +138,7 @@ fun TaskCard(
 
                         if (expanded) {
                             Text(
-                                text = taskData.descricaoCompleta,
+                                text = taskData.descriptionCompleted,
                                 style = MaterialTheme.typography.titleSmall,
                                 modifier = Modifier
                                     .fillMaxWidth(1f)
@@ -152,7 +148,6 @@ fun TaskCard(
                     }
                 }
 
-                // Expanded content
                 if (expanded) {
                     Column(
                         modifier = Modifier
@@ -174,18 +169,17 @@ fun TaskCard(
                             Text(
                                 text = "Editar Tarefa",
                                 fontSize = 10.ssp,
-                                color = taskData.tipo.cor,
+                                color = taskData.type.color,
                             )
                         }
                     }
                 }
 
-                // Bottom section: "Ver Mais" / "Ver Menos"
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(20.sdp)
-                        .background(taskData.tipo.cor)
+                        .background(taskData.type.color)
                         .clickable { expanded = !expanded },
                 ) {
                     Text(
@@ -206,15 +200,20 @@ fun TaskCard(
 @Preview
 @Composable
 private fun TaskCardPreview() {
-    Column(Modifier.padding(8.sdp)) {
+    Column(Modifier) {
         TaskCard(
             taskData = TaskFakeData.sampleTasks[0]
         )
-//        TaskCard(
-//            taskData = TaskFakeData.sampleTasks[1]
-//        )
-//        TaskCard(
-//            taskData = TaskFakeData.sampleTasks[2]
-//        )
+    }
+}
+
+@Preview
+@Composable
+private fun TaskCardExpandedPreview() {
+    Column(Modifier) {
+        TaskCard(
+            taskData = TaskFakeData.sampleTasks[0],
+            expandValue = true
+        )
     }
 }
