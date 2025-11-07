@@ -17,4 +17,3 @@ data class RaceSizeFormState(
     val listRace: List<PetRaceItemModel> = emptyList(),
     val listSizes: List<PetSizeItemModel> = emptyList()
 )
-

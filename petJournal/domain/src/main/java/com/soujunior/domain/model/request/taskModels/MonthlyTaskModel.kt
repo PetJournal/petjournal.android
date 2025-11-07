@@ -10,4 +10,3 @@ data class MonthlyTaskModel (
     val days_of_month : List<Int>,
     val pets: List<String>
 )
-

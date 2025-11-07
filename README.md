@@ -36,7 +36,7 @@ Ao entrar em nosso projeto voluntário, valorizamos sua contribuição e entusia
 
 
 ## 4. Telas e seus diagramas de funcionamento
-Nesta seção, você encontrará informações detalhadas sobre as diferentes telas do nosso aplicativo e sobre seus funcionamentos. 
+Nesta seção, você encontrará informações detalhadas sobre as diferentes telas do nosso aplicativo e sobre seus funcionamentos.
 - [Splash](doc/screens/splash_screen.md)
 - [Login](doc/screens/login.md)
 - [Cadastro](doc/screens/cadastro.md)
@@ -52,7 +52,7 @@ Nesta seção, você encontrará informações detalhadas sobre as diferentes te
 
 
 ## 5. Padrões de Design e Melhores Práticas
- Utilizamos os recursos a baixo em nosso app, o que torna importante conhecer tais padrões.   
+ Utilizamos os recursos a baixo em nosso app, o que torna importante conhecer tais padrões.
 - [FormEvent](doc/pattern/FormEvent.md)
 - [FormState](doc/pattern/FormState.md)
 - [FormState e FormEvent](doc/pattern/FormStateAndFormEvent.md)

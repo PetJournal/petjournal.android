@@ -39,5 +39,3 @@ fun ImageLogo(
 fun teste(){
     ImageLogo()
 }
-
-

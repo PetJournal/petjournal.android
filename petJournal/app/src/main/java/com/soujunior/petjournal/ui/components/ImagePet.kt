@@ -105,5 +105,3 @@ fun ImagePet(
 fun ImagePetPreview() {
     ImagePet()
 }
-
-

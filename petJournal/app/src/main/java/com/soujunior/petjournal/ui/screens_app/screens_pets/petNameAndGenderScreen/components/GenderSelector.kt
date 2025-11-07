@@ -53,7 +53,7 @@ fun GenderSelector(
                     .fillMaxWidth()
                     .padding(20.sdp))
             }
-            
+
             GenderButtons(selectedGender, clearSelection, textError)
         })
 }

@@ -52,4 +52,3 @@ private fun Preview() {
         tasks = TaskFakeData.sampleTasks.take(3)
     )
 }
-

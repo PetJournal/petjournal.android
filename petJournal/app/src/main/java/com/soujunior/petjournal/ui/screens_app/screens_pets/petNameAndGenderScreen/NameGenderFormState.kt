@@ -8,4 +8,3 @@ data class NameGenderFormState(
     val specie: String = "",
     val idPetInformation: Long? = null
 )
-

@@ -12,4 +12,3 @@ data class BirthDateFormState(
     val castration: Boolean? = null,
     val castrationError: List<String>? = null
 )
-

@@ -35,11 +35,9 @@ fun Screen(navController: NavController){
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = { paddingValues ->
-
                 Column(modifier = Modifier
                     .padding(paddingValues)
                     .padding(horizontal = 8.sdp, vertical = 16.sdp)){
-
                     Text(text = stringResource(R.string.next_tasks),
                         fontSize = 16.ssp,
                         lineHeight = 24.ssp,
@@ -94,4 +92,3 @@ private fun ScreenPreview(){
     val nav = rememberNavController()
     Screen(nav)
 }
-

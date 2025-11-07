@@ -179,6 +179,3 @@ fun DateInputText(
 fun DateInputTextPreview() {
     DateInputText(textValue = "", onEvent = {}, textError = null, placeholderText = "13/05/1996")
 }
-
-
-

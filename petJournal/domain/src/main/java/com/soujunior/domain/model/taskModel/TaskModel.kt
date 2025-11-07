@@ -24,7 +24,7 @@ data class TaskTagModel(
 )
 
 
-// TODO: Criar objetos para os requests pontuais/diarios/semanais/mensais 
+// TODO: Criar objetos para os requests pontuais/diarios/semanais/mensais
 data class TaskModel(
     val id: String,
     val description: String,

@@ -30,4 +30,3 @@ fun Menu(navController: NavController) {
         )
     }
 }
-

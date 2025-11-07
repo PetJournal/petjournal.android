@@ -73,4 +73,3 @@ fun Carousel(imageIds: List<Int>) {
         }
     }
 }
-

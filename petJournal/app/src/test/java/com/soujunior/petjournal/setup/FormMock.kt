@@ -280,4 +280,3 @@ val listPetSizesCat = listOf(
         specieId = "a0f385f5-c0b4-4f85-8d06-cf2a4f698f93"
     )
 )
-

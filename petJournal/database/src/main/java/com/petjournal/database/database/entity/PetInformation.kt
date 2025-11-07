@@ -26,5 +26,3 @@ data class PetInformation(
     val petAge: String? = null,
     val castration: Boolean? = null
 )
-
-

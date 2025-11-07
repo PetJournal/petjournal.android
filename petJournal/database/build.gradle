@@ -49,4 +49,3 @@ dependencies {
     testImplementation testMockk
     testImplementation testJunit
 }
-

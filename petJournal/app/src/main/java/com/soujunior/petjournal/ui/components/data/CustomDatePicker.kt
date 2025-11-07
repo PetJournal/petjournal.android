@@ -165,7 +165,7 @@ fun CustomDatePickerPreview() {
             label = "Data de Nascimento",
             value = selectedTimestamp,
             onValueChange = { selectedTimestamp = it },
-            modifier = customModifier,    
+            modifier = customModifier,
             textStyle = boldTextStyle,
             colors = redBorderColors
         )

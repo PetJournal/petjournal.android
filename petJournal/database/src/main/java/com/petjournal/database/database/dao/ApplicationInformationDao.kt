@@ -18,4 +18,3 @@ interface ApplicationInformationDao {
     @Query("DELETE FROM information")
     suspend fun deleteAllInformation()
 }
-

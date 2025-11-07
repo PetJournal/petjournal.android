@@ -8,5 +8,3 @@ import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.c
 fun PetBirthScreen(idPetInformation: String?, navController: NavController) {
     Screen(idPetInformation, navController)
 }
-
-

@@ -35,4 +35,3 @@ fun AwaitingCodeScreen(arg: String?, navController: NavController) {
     }
     Screen(navController, viewModel)
 }
-
