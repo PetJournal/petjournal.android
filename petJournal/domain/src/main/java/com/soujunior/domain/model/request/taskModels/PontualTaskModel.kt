@@ -7,5 +7,4 @@ data class PontualTaskModel(
     val scheduledAt : String,
     val tag_id : String,
     val pets: List<String>
-
 )

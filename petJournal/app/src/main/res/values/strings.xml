@@ -163,4 +163,16 @@
     <string name="daily_tasks">Diárias</string>
     <string name="weekly_tasks">Semanais</string>
     <string name="monthly_tasks">Mensais</string>
+    <string name="jan">Jan</string>
+    <string name="fev">Fev</string>
+    <string name="mar">Mar</string>
+    <string name="abr">Abr</string>
+    <string name="mai">Mai</string>
+    <string name="jun">Jun</string>
+    <string name="jul">Jul</string>
+    <string name="ago">Ago</string>
+    <string name="set">Set</string>
+    <string name="out">Out</string>
+    <string name="nov">Nov</string>
+    <string name="dez">Dez</string>
 </resources>

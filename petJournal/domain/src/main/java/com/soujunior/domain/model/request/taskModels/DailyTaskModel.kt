@@ -4,8 +4,8 @@ data class DailyTaskModel(
     val title: String,
     val description: String,
     val note : String = "",
-    val start_at : String,
-    val end_at : String,
-    val tag_id : String,
+    val startAt : String,
+    val endAt : String,
+    val tagId : String,
     val pets: List<String>
 )

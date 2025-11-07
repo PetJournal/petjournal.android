@@ -19,8 +19,8 @@ data class TaskTagModel(
     val id: String,
     val name: String,
     val color: String,
-    @DrawableRes val icone: Int? = null, // Recebe um vetor drawable
-    @DrawableRes val iconeVector: Int? = null // Recebe um drawable vector
+    @DrawableRes val icone: Int? = null,
+    @DrawableRes val iconeVector: Int? = null
 )
 
 
@@ -30,8 +30,8 @@ data class TaskModel(
     val description: String,
     val note : String = "",
     val tagId : String,
-    val scheduledAt : String = "", //se for pontual
-    val startAt : String = "", //se for diario/
+    val scheduledAt : String = "",
+    val startAt : String = "",
     val endAt: String = "",
     val daysOfWeek : List<Int> = emptyList<Int>(),
     val daysOfMonth : List<Int> = emptyList<Int>(),
