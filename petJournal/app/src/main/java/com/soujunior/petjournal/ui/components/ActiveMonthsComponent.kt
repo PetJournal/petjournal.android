@@ -74,7 +74,8 @@ fun ActiveMonthsComponent(activeMonths: Set<String>) {
                         Text(
                             text = month,
                             style = MaterialTheme.typography.labelLarge,
-                            color = if (isActive) MaterialTheme.colorScheme.onPrimary else ColorCustom.color_border_dialog,
+                            //todo: corrigir ColorCustom.color_border_dialog,
+                            color = if (isActive) MaterialTheme.colorScheme.onPrimary else ColorCustom.error_color,
                             fontWeight = FontWeight(400)
                         )
                     }
@@ -104,7 +105,8 @@ fun ActiveMonthsComponent(activeMonths: Set<String>) {
                 ) {
                     Text(
                         text = month,
-                        color = if (isActive) MaterialTheme.colorScheme.onPrimary else ColorCustom.color_border_dialog,
+                        //todo: corrigir ColorCustom.color_border_dialog,
+                        color = if (isActive) MaterialTheme.colorScheme.onPrimary else ColorCustom.error_color,
                         fontWeight = FontWeight(400)
                     )
                 }

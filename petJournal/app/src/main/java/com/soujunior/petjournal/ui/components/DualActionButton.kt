@@ -43,20 +43,7 @@ fun DualActionButton(
     rightButtonTextColor: Color = MaterialTheme.colorScheme.primary,
     isLoading: Boolean = false
 ) {
-
     Column(modifier = modifier) {
-        Row {
-            Text(
-                text = titleText,
-                textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.scrim,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight(500),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.sdp, end = 24.sdp)
-            )
-        }
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,

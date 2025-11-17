@@ -51,10 +51,13 @@ fun TaskSuccessDialog(
             modifier = modifier
                 .shadow(
                     elevation = 3.dp,
-                    spotColor = ColorCustom.color_shadow_dialog,
-                    ambientColor = ColorCustom.color_shadow_dialog
+                    //todo: Corrigir ColorCustom.color_shadow_dialog,
+                    spotColor = ColorCustom.error_color,
+                    //todo: Corrigir ColorCustom.color_shadow_dialog,
+                    ambientColor = ColorCustom.error_color
                 )
-                .border(2.dp, ColorCustom.color_border_dialog, RoundedCornerShape(16.dp))
+                //todo: Corrigir ColorCustom.color_border_dialog,
+                .border(2.dp, ColorCustom.error_color, RoundedCornerShape(16.dp))
                 .width(330.dp)
                 .height(338.dp)
                 .background(
@@ -90,7 +93,8 @@ fun TaskSuccessDialog(
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp),
                     onClick = onNewTaskClick,
-                    border = BorderStroke(1.dp, ColorCustom.color_background_button_dialog),
+                    //todo: Corrigir ColorCustom.color_background_button_dialog,
+                    border = BorderStroke(1.dp, ColorCustom.error_color),
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Icon(
@@ -99,14 +103,16 @@ fun TaskSuccessDialog(
                             .height(24.dp),
                         imageVector = Icons.Default.Add,
                         contentDescription = null,
-                        tint = ColorCustom.color_background_button_dialog
+                        //todo: Corrigir ColorCustom.color_background_button_dialog,
+                        tint = ColorCustom.error_color
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = stringResource(R.string.label_new_task),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight(600),
-                        color = ColorCustom.color_border_dialog
+                        //todo: Corrigir ColorCustom.color_border_dialog,
+                        color = ColorCustom.error_color
                     )
                 }
 
@@ -115,7 +121,8 @@ fun TaskSuccessDialog(
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp, top = 6.dp),
                     onClick = onGoToHomeClick,
-                    colors = ButtonDefaults.buttonColors(containerColor = ColorCustom.color_border_dialog),
+                    //todo: Corrigir ColorCustom.color_border_dialog,
+                    colors = ButtonDefaults.buttonColors(containerColor = ColorCustom.error_color),
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(

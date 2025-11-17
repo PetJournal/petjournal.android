@@ -7,8 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.soujunior.petjournal.ui.components.ActiveMonthsComponent
+import com.soujunior.petjournal.ui.screens_app.screens_pets.registerTaskScreen.components.ScreenRegisterTask
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,8 +18,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             ChangeSystemBars()
-//            PresentationManager()
-            ActiveMonthsComponent(activeMonths = setOf("Jan", "Mar", "Mai"))
+            PresentationManager()
         }
     }
 }

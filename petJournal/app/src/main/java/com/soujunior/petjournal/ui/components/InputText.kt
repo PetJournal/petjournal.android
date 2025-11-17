@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,7 +28,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -40,7 +40,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.theme.ColorGrid
@@ -60,23 +59,24 @@ fun InputText(
     onEvent: (String) -> Unit,
     hasAMask: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    textTitleModifier: Modifier = Modifier
 ) {
     var showPassword by remember { mutableStateOf(false) }
 
-    Column(modifier = modifier.padding(top = 16.sdp)) {
+    Column(modifier = modifier) {
         Row {
             Text(
                 text = titleText,
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.scrim,
-                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight(500),
-                modifier = modifier
+                style = MaterialTheme.typography.titleMedium,
+                modifier = textTitleModifier
                     .fillMaxWidth()
-                    .padding(start = 24.sdp, end = 24.sdp)
             )
         }
+        Spacer(modifier = Modifier.height(8.dp))
         Row {
             BasicTextField(
                 modifier = textInputModifier
@@ -90,7 +90,7 @@ fun InputText(
                         color = MaterialTheme.colorScheme.surface,
                         shape = RoundedCornerShape(size = 12.dp)
                     )
-                    .padding(2.sdp)
+                    .padding(0.sdp)
                     .fillMaxWidth()
                     .testTag("inputField_test")
                     .drawBehind {
@@ -121,25 +121,21 @@ fun InputText(
                         else PasswordVisualTransformation()
                     } else visualTransformation,
                 keyboardOptions = keyboardOptions,
-                decorationBox = {
+                decorationBox = { innerTextField ->
                     Row(
                         modifier = Modifier
-                            .background(Color.White)
-                            .padding(start = 14.sdp),
+                            .padding(horizontal = 14.sdp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
                             modifier = Modifier.weight(1f)
                         ) {
+                            innerTextField()
                             if (textValue.isEmpty() && !hasAMask) {
                                 Text(
                                     text = placeholderText,
-                                    style = TextStyle(
-                                        fontSize = 14.sp,
-                                        lineHeight = 21.sp,
-                                        fontWeight = FontWeight(300),
-                                        color = MaterialTheme.colorScheme.scrim,
-                                    )
+                                    color = ColorCustom.color_placeholder,
+                                    style = MaterialTheme.typography.bodyMedium
                                 )
                             }
                         }
@@ -194,5 +190,5 @@ fun InputText(
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable
 fun InputTextPreview() {
-    InputText(Modifier, onEvent = {}, textValue = "")
+    InputText(textValue = "", onEvent = {},)
 }

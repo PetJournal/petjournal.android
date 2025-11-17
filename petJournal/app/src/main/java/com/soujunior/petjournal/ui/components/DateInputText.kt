@@ -47,6 +47,7 @@ import ir.kaaveh.sdpcompose.ssp
 @Composable
 fun DateInputText(
     modifier: Modifier = Modifier,
+    textTitleModifier: Modifier = Modifier,
     textInputModifier: Modifier = Modifier,
     placeholderText: String = "Placeholder",
     titleText: String = "Title",
@@ -67,9 +68,9 @@ fun DateInputText(
                 color = MaterialTheme.colorScheme.scrim,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight(500),
-                modifier = Modifier
+                modifier = textTitleModifier
                     .fillMaxWidth()
-                    .padding(start = 24.sdp, end = 24.sdp)
+                    .padding(end = 24.sdp)
             )
         }
         Row {

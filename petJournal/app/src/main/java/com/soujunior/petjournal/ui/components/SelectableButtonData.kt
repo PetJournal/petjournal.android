@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,10 +40,9 @@ fun SelectableButton(
     modifierSelectableButton: Modifier = Modifier,
     onSelectionChanged: (String, Boolean) -> Unit
 ) {
-    androidx.compose.material3.Button(
+    Button(
         modifier = modifierSelectableButton
-            .height(70.dp)
-            .padding(top = 15.dp, end = 15.dp, bottom = 15.dp)
+            .height(40.dp)
             .then(
                 if (isSelected) {
                     Modifier.shadow(
@@ -79,12 +80,66 @@ fun SelectableButton(
     }
 }
 
+
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun GroupSelectableButton(
-    onSelection: (String) -> Unit = {}
+    listOfTasks: List<SelectableButtonInfo>,
+    onSelection: (String) -> Unit = {},
+    modifier: Modifier = Modifier,
+    maxItemsInEachRow: Int = Int.MAX_VALUE
 ) {
-    val buttons = listOf(
+    val selectionState = remember { mutableStateListOf(*Array(listOfTasks.size) { false }) }
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.label_select_main_category),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.scrim,
+            fontWeight = FontWeight(500),
+            lineHeight = 24.sp
+        )
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(15.dp),
+            maxItemsInEachRow = maxItemsInEachRow
+        ) {
+            listOfTasks.forEachIndexed { index, buttonInfo ->
+                SelectableButton(
+                    titleButton = buttonInfo.title,
+                    colorButton = buttonInfo.color,
+                    isSelected = selectionState[index],
+                    onSelectionChanged = { title, selected ->
+                        selectionState[index] = selected
+                        if (selected) {
+                            onSelection(title)
+                        } else {
+                            onSelection("")
+                        }
+                    },
+                    modifierSelectableButton = Modifier
+                        .adaptiveWidthForTitle(buttonInfo.title)
+                        .padding(bottom = 15.dp)
+                )
+            }
+        }
+    }
+}
+
+
+data class SelectableButtonInfo(
+    val title: String,
+    val color: Color
+)
+
+@Preview()
+@Composable
+fun CustomSelectableButtonWithoutDevicePreview() {
+    val listOfTasks = listOf(
         SelectableButtonInfo(
             stringResource(R.string.label_selectable_button_vaccines),
             ColorCustom.color_selectable_button_1
@@ -110,54 +165,5 @@ fun GroupSelectableButton(
             ColorCustom.color_selectable_button_6
         ),
     )
-
-    val selectionState = remember { mutableStateListOf(*Array(buttons.size) { false }) }
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.label_select_main_category),
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.scrim,
-            fontWeight = FontWeight(500),
-            lineHeight = 24.sp
-        )
-
-        FlowRow(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            buttons.forEachIndexed { index, buttonInfo ->
-                SelectableButton(
-                    titleButton = buttonInfo.title,
-                    colorButton = buttonInfo.color,
-                    isSelected = selectionState[index],
-                    onSelectionChanged = { title, selected ->
-                        selectionState[index] = selected
-                        if (selected) {
-                            onSelection(title)
-                        } else {
-                            onSelection("")
-                        }
-                    },
-                    modifierSelectableButton = Modifier.adaptiveWidthForTitle(buttonInfo.title)
-                )
-            }
-        }
-    }
-}
-
-
-data class SelectableButtonInfo(
-    val title: String,
-    val color: Color
-)
-
-
-@Preview(showBackground = true, showSystemUi = true, device = "id:pixel_4_xl")
-@Composable
-fun CustomSelectableButtonPreview() {
-    GroupSelectableButton()
+    GroupSelectableButton(listOfTasks)
 }

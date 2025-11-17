@@ -60,10 +60,10 @@ class RegisterPetScreenTest {
 
         composeTestRule.setContent {
             InputText(
-                titleText = stringResource(R.string.pet_name),
                 placeholderText = stringResource(R.string.placeholder_name_pet),
+                titleText = stringResource(R.string.pet_name),
                 textValue = actualText,
-                onEvent = { actualText = it }
+                onEvent = { actualText = it },
             )
         }
 
@@ -81,9 +81,9 @@ class RegisterPetScreenTest {
             InputText(
                 titleText = stringResource(R.string.pet_name),
                 textValue = "",
-                onEvent = {},
                 isError = true,
                 textError = listOf(errorMessage),
+                onEvent = {},
             )
         }
 
