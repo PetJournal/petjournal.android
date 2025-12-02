@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.soujunior.petjournal"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.soujunior.petjournal"
         minSdk = 27
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 6
         versionName = "1.0.6"
 
@@ -55,6 +55,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":database"))
     implementation(project(":data"))
+    implementation("androidx.compose.runtime:runtime-android:1.9.5")
 
     val composeUiVersion = "1.4.2"
 

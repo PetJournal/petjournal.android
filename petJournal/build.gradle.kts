@@ -1,7 +1,7 @@
 buildscript {
     apply(from = "dependencies.gradle")
     extra["compose_ui_version"] = "1.4.2"
-    val agp_version by extra("8.2.2")
+    val agp_version by extra("8.13.1")
 
     repositories {
         google()

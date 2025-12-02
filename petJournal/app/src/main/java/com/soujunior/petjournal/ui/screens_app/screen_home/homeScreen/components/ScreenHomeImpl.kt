@@ -51,7 +51,7 @@ import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("ViewModelConstructorInComposable")
 @Composable
-fun getHomeViewModelForPreview2(): HomeScreenViewModel {
+fun getHomeViewModelForPreview(): HomeScreenViewModel {
     return if (LocalInspectionMode.current) {
         FakeHomeViewModel()
     } else {
@@ -61,8 +61,8 @@ fun getHomeViewModelForPreview2(): HomeScreenViewModel {
 
 @ExperimentalPagerApi
 @Composable
-fun Screen(navController: NavController) {
-    val viewModel: HomeScreenViewModel = getHomeViewModelForPreview2()
+fun ScreenHomeImpl(navController: NavController) {
+    val viewModel: HomeScreenViewModel = getHomeViewModelForPreview()
     val showDropdownMenu = remember { mutableStateOf(false) }
     val taskState by viewModel.taskState.collectAsState()
     val name = remember { mutableStateOf(viewModel.name.value.firstName) }
@@ -178,9 +178,9 @@ fun Screen(navController: NavController) {
 @OptIn(ExperimentalPagerApi::class)
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview() {
+fun HomeScreenHomeImplPreview() {
     val nav = rememberNavController()
     PetJournalTheme {
-        Screen(nav)
+        ScreenHomeImpl(nav)
     }
 }
