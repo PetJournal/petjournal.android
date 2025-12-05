@@ -2,6 +2,7 @@ package com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.component
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -104,9 +105,11 @@ fun Screen(navController: NavController) {
                     modifier = Modifier
                         .size(50.dp)
                         .padding(end = 16.dp)
-                        .clickable {
-                            showDropdownMenu.value = true
-                        }
+                        .clickable(
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() },
+                            onClick = { showDropdownMenu.value = true }
+                        )
                 )
                 if (showDropdownMenu.value) {
                     DropdownMenu(
@@ -160,7 +163,11 @@ fun Screen(navController: NavController) {
                             )
                             Text(
                                 text = stringResource(R.string.see_more),
-                                modifier = Modifier.clickable { },
+                                modifier = Modifier.clickable(
+                                    indication = null,
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    onClick = { }
+                                ),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.labelLarge
                             )

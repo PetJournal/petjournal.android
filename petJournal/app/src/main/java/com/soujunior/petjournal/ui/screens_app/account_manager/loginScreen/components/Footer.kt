@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -60,7 +62,11 @@ fun Footer(
                 style = MaterialTheme.typography.bodyLarge,
                 fontSize = 12.ssp,
                 modifier = Modifier
-                    .clickable(onClick = { navController.navigate("register") })
+                    .clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() },
+                        onClick = { navController.navigate("register") }
+                    )
                     .align(CenterVertically)
                     .testTag("link_to_register"),
                 color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified

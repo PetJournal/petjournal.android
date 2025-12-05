@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,7 +41,11 @@ fun RadioButtonWithText(
         )
         Text(
             text = text,
-            modifier = modifierText.clickable(onClick = { onEvent(!radioButtonSelected) }),
+            modifier = modifierText.clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() },
+                onClick = { onEvent(!radioButtonSelected) }
+            ),
             style = styleText,
             color = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.Unspecified
         )

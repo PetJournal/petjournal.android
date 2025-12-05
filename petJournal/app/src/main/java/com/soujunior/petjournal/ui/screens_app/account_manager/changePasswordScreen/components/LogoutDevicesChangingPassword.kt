@@ -4,6 +4,7 @@ package com.soujunior.petjournal.ui.screens_app.account_manager.changePasswordSc
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -72,7 +74,11 @@ fun LogoutDevicesChangingPassword(
             Column {
                 Text(
                     text = stringResource(R.string.disconnect_devices_question),
-                    modifier = Modifier.clickable(onClick = { showPrivacyPolicy = true }),
+                    modifier = Modifier.clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() },
+                        onClick = { showPrivacyPolicy = true }
+                    ),
                     style = MaterialTheme.typography.bodyLarge,
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
                 )
