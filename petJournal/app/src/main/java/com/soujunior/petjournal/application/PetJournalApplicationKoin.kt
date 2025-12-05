@@ -1,8 +1,10 @@
 package com.soujunior.petjournal.application
 
 import android.app.Application
-import androidx.core.app.ComponentActivity
-import com.soujunior.petjournal.di.mainModule
+import com.soujunior.petjournal.di.mockData
+import com.soujunior.petjournal.di.mockModule
+import com.soujunior.petjournal.di.mockUsercase
+import com.soujunior.petjournal.di.mockViewmodel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -19,7 +21,8 @@ class PetJournalApplicationKoin : Application() {
             //androidLogger()
             androidLogger(Level.ERROR)
             androidContext(this@PetJournalApplicationKoin)
-            modules(mainModule)
+            //todo: descomentar para implementar fora do ambiente de teste -> modules(mainModule)
+            modules(listOf(mockModule, mockViewmodel, mockUsercase, mockData))
         }
     }
 

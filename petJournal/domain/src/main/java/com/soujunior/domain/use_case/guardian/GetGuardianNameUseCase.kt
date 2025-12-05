@@ -1,7 +1,5 @@
 package com.soujunior.domain.use_case.guardian
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository
