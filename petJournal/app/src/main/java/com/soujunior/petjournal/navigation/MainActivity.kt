@@ -3,6 +3,7 @@ package com.soujunior.petjournal.navigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
@@ -13,9 +14,12 @@ import com.soujunior.petjournal.ui.screens_app.screens_pets.registerTaskScreen.c
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        //todo: ESTE É UMA SAIDA PALEATIVA PARA UM ERRO GRAVE QUE EU NÃO ENTENDI, saúde e paz para quem resolver.
+        androidx.compose.foundation.ComposeFoundationFlags.isNonComposedClickableEnabled = false
         setContent {
             //ChangeSystemBars()
             PresentationManager()
