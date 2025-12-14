@@ -3,7 +3,90 @@ plugins {
     id("org.jetbrains.kotlin.android")
 //    id("kotlin-kapt")
     id("com.google.devtools.ksp")
+    id("com.diffplug.spotless") version "6.25.0"
 }
+
+spotless {
+    kotlin {
+        target("**/*.kt")
+        ktlint()
+        trimTrailingWhitespace()
+        indentWithSpaces()
+        endWithNewline()
+    }
+    kotlinGradle {
+        target("*.gradle.kts")
+        ktlint()
+    }
+}
+
+tasks.register("installLocalGitHook") {
+    doLast {
+        // 1. RASTREADOR: Começa na pasta do projeto e sobe até achar a pasta .git
+        var currentDir: File? = rootProject.rootDir
+        var gitDir: File? = null
+
+        while (currentDir != null) {
+            val checkGit = File(currentDir, ".git")
+            if (checkGit.exists() && checkGit.isDirectory) {
+                gitDir = checkGit
+                break
+            }
+            currentDir = currentDir.parentFile
+        }
+
+        // Se rodou tudo e não achou
+        if (gitDir == null) {
+            println("❌ ERRO: Não encontrei a pasta .git em nenhum lugar acima de: ${rootProject.rootDir}")
+            return@doLast
+        }
+
+        val hooksDir = File(gitDir, "hooks")
+        if (!hooksDir.exists()) hooksDir.mkdirs() // Cria a pasta hooks se não existir
+
+        // 2. CONFIGURAÇÃO DO CAMINHO
+        // Se o .git está numa pasta acima, precisamos saber o nome da pasta do projeto para o comando 'cd'
+        val isNested = gitDir.parentFile != rootProject.rootDir
+        // Pega o nome da pasta onde está o gradlew (ex: petJournal)
+        val projectFolderName = rootProject.rootDir.name
+        val cdCommand = if (isNested) "cd $projectFolderName || exit 1" else ""
+
+        println("📍 .git encontrado em: ${gitDir.parent}")
+        if (isNested) println("📂 Projeto está dentro da subpasta: $projectFolderName")
+
+        // 3. CRIAÇÃO DO ARQUIVO
+        val preCommitFile = File(hooksDir, "pre-commit")
+
+        val scriptContent =
+            """
+            #!/bin/bash
+            echo "🐶 PetJournal: Verificando e limpando o código com Spotless..."
+            
+            # Garante que o terminal vá para a pasta onde está o gradlew
+            $cdCommand
+            
+            ./gradlew spotlessApply
+            
+            if [ $? -eq 0 ]; then
+                git add .
+                echo "✨ Código limpo e formatado com sucesso!"
+            else
+                echo "❌ Erro ao rodar o Spotless."
+                exit 1
+            fi
+            """.trimIndent()
+
+        // Grava o arquivo
+        preCommitFile.writeText(scriptContent)
+        preCommitFile.setExecutable(true)
+        println("✅ Git Hook instalado com sucesso em: ${preCommitFile.absolutePath}")
+    }
+}
+
+// afterEvaluate {
+//    tasks.getByPath("prepareKotlinBuildScriptModel").dependsOn("installLocalGitHook")
+// }
+tasks.getByPath("preBuild").dependsOn("installLocalGitHook")
 
 android {
     namespace = "com.soujunior.petjournal"
@@ -27,7 +110,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -67,7 +150,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
-    implementation ("com.github.Kaaveh:sdp-compose:1.1.0")
+    implementation("com.github.Kaaveh:sdp-compose:1.1.0")
     // Room
 //    val roomVersion = "2.3.0"
 //    implementation("androidx.room:room-runtime:$roomVersion")
@@ -108,7 +191,7 @@ dependencies {
 
     implementation("com.github.bumptech.glide:glide:4.12.0")
     ksp("com.github.bumptech.glide:ksp:4.14.2")
-    //kapt("com.github.bumptech.glide:compiler:4.12.0")
+    // kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     // TESTE - COMPOSE
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeUiVersion")

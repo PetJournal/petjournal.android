@@ -26,28 +26,29 @@ fun RadioButtonWithText(
     styleText: TextStyle = MaterialTheme.typography.bodyLarge,
     isDarkMode: Boolean = isSystemInDarkTheme(),
     onEvent: (Boolean) -> Unit,
-    radioButtonSelected: Boolean = false
+    radioButtonSelected: Boolean = false,
 ) {
     val text = stringResource(id = textResourceId)
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
-        modifier = modifierRow
+        modifier = modifierRow,
     ) {
         RadioButton(
             selected = radioButtonSelected,
             onClick = { onEvent(!radioButtonSelected) },
-            modifier = modifierRadioButton.align(alignment = Alignment.CenterVertically)
+            modifier = modifierRadioButton.align(alignment = Alignment.CenterVertically),
         )
         Text(
             text = text,
-            modifier = modifierText.clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() },
-                onClick = { onEvent(!radioButtonSelected) }
-            ),
+            modifier =
+                modifierText.clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() },
+                    onClick = { onEvent(!radioButtonSelected) },
+                ),
             style = styleText,
-            color = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.Unspecified
+            color = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.Unspecified,
         )
     }
 }

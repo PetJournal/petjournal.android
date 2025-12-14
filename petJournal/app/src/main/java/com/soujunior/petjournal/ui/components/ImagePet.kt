@@ -27,78 +27,80 @@ import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import ir.kaaveh.sdpcompose.sdp
 
-
 @Composable
-fun ImagePet(
-    modifier: Modifier = Modifier,
-) {
+fun ImagePet(modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(Color.Transparent),
-        horizontalArrangement = Arrangement.Center
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .background(Color.Transparent),
+        horizontalArrangement = Arrangement.Center,
     ) {
-        Column(modifier = modifier.weight(2f),
-            horizontalAlignment = Alignment.End) {
+        Column(
+            modifier = modifier.weight(2f),
+            horizontalAlignment = Alignment.End,
+        ) {
             Box(
-                modifier = modifier
-                    .width(150.dp)
-                    .height(153.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(
-                        color = Color.Transparent,
-                        shape = RoundedCornerShape(size = 17.96.dp)
-                    )
-                    .clickable {
-                        // TODO: Colocar função de abrir galeria e tirar foto
-                    },
-                contentAlignment = Alignment.Center
+                modifier =
+                    modifier
+                        .width(150.dp)
+                        .height(153.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(
+                            color = Color.Transparent,
+                            shape = RoundedCornerShape(size = 17.96.dp),
+                        )
+                        .clickable {
+                            // TODO: Colocar função de abrir galeria e tirar foto
+                        },
+                contentAlignment = Alignment.Center,
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.rectangle_150),
                     contentDescription = "image description",
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Crop,
                 )
                 Box(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(24.dp)
-                        .align(Alignment.BottomEnd)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary)
-                        .clickable { },
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .padding(8.dp)
+                            .size(24.dp)
+                            .align(Alignment.BottomEnd)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.primary)
+                            .clickable { },
+                    contentAlignment = Alignment.Center,
                 ) {
                     Image(
                         modifier = Modifier.size(14.dp),
                         painter = painterResource(id = R.drawable.ic_edit),
                         contentDescription = "edit icon",
-                        contentScale = ContentScale.FillBounds
+                        contentScale = ContentScale.FillBounds,
                     )
                 }
             }
-
         }
-        Column (modifier = modifier.weight(1f),
-            horizontalAlignment = Alignment.End){
+        Column(
+            modifier = modifier.weight(1f),
+            horizontalAlignment = Alignment.End,
+        ) {
             Box(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .padding(end = 24.sdp)
-                    .clickable { },
+                modifier =
+                    Modifier
+                        .clip(CircleShape)
+                        .padding(end = 24.sdp)
+                        .clickable { },
             ) {
                 Image(
                     modifier = Modifier.size(24.dp),
                     painter = painterResource(id = R.drawable.ic_delete),
                     contentDescription = "delete icon",
-                    contentScale = ContentScale.FillBounds
+                    contentScale = ContentScale.FillBounds,
                 )
             }
         }
-
     }
 }
-
 
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable

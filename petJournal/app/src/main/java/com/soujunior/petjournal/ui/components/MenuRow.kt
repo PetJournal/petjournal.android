@@ -16,16 +16,17 @@ import androidx.compose.ui.unit.dp
 fun MenuRow(items: List<Pair<Int, Color>>) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
         items.forEachIndexed { index, pair ->
             CardButton(
                 image = painterResource(id = pair.first),
                 cardColor = pair.second,
                 submit = { },
-                modifier = Modifier
-                    .weight(1f)
-                    .aspectRatio(1f)
+                modifier =
+                    Modifier
+                        .weight(1f)
+                        .aspectRatio(1f),
             )
             if (index < items.size - 1) {
                 Spacer(modifier = Modifier.width(16.dp))

@@ -38,49 +38,55 @@ fun SelectableButton(
     colorButton: Color,
     isSelected: Boolean,
     modifierSelectableButton: Modifier = Modifier,
-    onSelectionChanged: (String, Boolean) -> Unit
+    onSelectionChanged: (String, Boolean) -> Unit,
 ) {
     Button(
-        modifier = modifierSelectableButton
-            .height(40.dp)
-            .then(
-                if (isSelected) {
-                    Modifier.shadow(
-                        elevation = 10.dp,
-                        spotColor = ColorCustom.shadow_color_selectable_button,
-                        ambientColor = ColorCustom.shadow_color_selectable_button
-                    )
-                } else {
-                    Modifier
-                }
-            ),
+        modifier =
+            modifierSelectableButton
+                .height(40.dp)
+                .then(
+                    if (isSelected) {
+                        Modifier.shadow(
+                            elevation = 10.dp,
+                            spotColor = ColorCustom.shadow_color_selectable_button,
+                            ambientColor = ColorCustom.shadow_color_selectable_button,
+                        )
+                    } else {
+                        Modifier
+                    },
+                ),
         onClick = {
             onSelectionChanged(titleButton, !isSelected)
         },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (isSelected) colorButton else MaterialTheme.colorScheme.onPrimary,
-            contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else colorButton
-        ),
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = if (isSelected) colorButton else MaterialTheme.colorScheme.onPrimary,
+                contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else colorButton,
+            ),
         shape = RoundedCornerShape(size = 16.dp),
-        border = if (!isSelected) BorderStroke(
-            1.dp,
-            ColorCustom.border_color_selectable_button
-        ) else null,
+        border =
+            if (!isSelected) {
+                BorderStroke(
+                    1.dp,
+                    ColorCustom.border_color_selectable_button,
+                )
+            } else {
+                null
+            },
     ) {
         Text(
             text = titleButton,
-            style = TextStyle(
-                fontSize = 12.sp,
-                fontFamily = FontFamily(Font(R.font.roboto_medium)),
-                fontWeight = FontWeight(500),
-                color = if (isSelected) MaterialTheme.colorScheme.onPrimary else colorButton,
-                textAlign = TextAlign.Center,
-            )
+            style =
+                TextStyle(
+                    fontSize = 12.sp,
+                    fontFamily = FontFamily(Font(R.font.roboto_medium)),
+                    fontWeight = FontWeight(500),
+                    color = if (isSelected) MaterialTheme.colorScheme.onPrimary else colorButton,
+                    textAlign = TextAlign.Center,
+                ),
         )
     }
 }
-
-
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -88,25 +94,25 @@ fun GroupSelectableButton(
     listOfTasks: List<SelectableButtonInfo>,
     onSelection: (String) -> Unit = {},
     modifier: Modifier = Modifier,
-    maxItemsInEachRow: Int = Int.MAX_VALUE
+    maxItemsInEachRow: Int = Int.MAX_VALUE,
 ) {
     val selectionState = remember { mutableStateListOf(*Array(listOfTasks.size) { false }) }
 
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(
             text = stringResource(R.string.label_select_main_category),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.scrim,
             fontWeight = FontWeight(500),
-            lineHeight = 24.sp
+            lineHeight = 24.sp,
         )
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(15.dp),
-            maxItemsInEachRow = maxItemsInEachRow
+            maxItemsInEachRow = maxItemsInEachRow,
         ) {
             listOfTasks.forEachIndexed { index, buttonInfo ->
                 SelectableButton(
@@ -121,49 +127,50 @@ fun GroupSelectableButton(
                             onSelection("")
                         }
                     },
-                    modifierSelectableButton = Modifier
-                        .adaptiveWidthForTitle(buttonInfo.title)
-                        .padding(bottom = 15.dp)
+                    modifierSelectableButton =
+                        Modifier
+                            .adaptiveWidthForTitle(buttonInfo.title)
+                            .padding(bottom = 15.dp),
                 )
             }
         }
     }
 }
 
-
 data class SelectableButtonInfo(
     val title: String,
-    val color: Color
+    val color: Color,
 )
 
 @Preview()
 @Composable
 fun CustomSelectableButtonWithoutDevicePreview() {
-    val listOfTasks = listOf(
-        SelectableButtonInfo(
-            stringResource(R.string.label_selectable_button_vaccines),
-            ColorCustom.color_selectable_button_1
-        ),
-        SelectableButtonInfo(
-            stringResource(R.string.label_selectable_button_consultations),
-            ColorCustom.color_selectable_button_2
-        ),
-        SelectableButtonInfo(
-            stringResource(R.string.label_selectable_button_medicine),
-            ColorCustom.color_selectable_button_3
-        ),
-        SelectableButtonInfo(
-            stringResource(R.string.label_selectable_button_bath),
-            ColorCustom.color_selectable_button_4
-        ),
-        SelectableButtonInfo(
-            stringResource(R.string.label_selectable_button_food),
-            ColorCustom.color_selectable_button_5
-        ),
-        SelectableButtonInfo(
-            stringResource(R.string.label_selectable_button_pet_walk),
-            ColorCustom.color_selectable_button_6
-        ),
-    )
+    val listOfTasks =
+        listOf(
+            SelectableButtonInfo(
+                stringResource(R.string.label_selectable_button_vaccines),
+                ColorCustom.color_selectable_button_1,
+            ),
+            SelectableButtonInfo(
+                stringResource(R.string.label_selectable_button_consultations),
+                ColorCustom.color_selectable_button_2,
+            ),
+            SelectableButtonInfo(
+                stringResource(R.string.label_selectable_button_medicine),
+                ColorCustom.color_selectable_button_3,
+            ),
+            SelectableButtonInfo(
+                stringResource(R.string.label_selectable_button_bath),
+                ColorCustom.color_selectable_button_4,
+            ),
+            SelectableButtonInfo(
+                stringResource(R.string.label_selectable_button_food),
+                ColorCustom.color_selectable_button_5,
+            ),
+            SelectableButtonInfo(
+                stringResource(R.string.label_selectable_button_pet_walk),
+                ColorCustom.color_selectable_button_6,
+            ),
+        )
     GroupSelectableButton(listOfTasks)
 }

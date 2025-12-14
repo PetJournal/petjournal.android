@@ -25,8 +25,9 @@ import ir.kaaveh.sdpcompose.ssp
 @Composable
 fun PetItem(
     modifier: Modifier = Modifier,
-    imageRes: String, name: String,
-    onClick: () -> Unit
+    imageRes: String,
+    name: String,
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -34,24 +35,25 @@ fun PetItem(
         verticalArrangement = Arrangement.Center,
     ) {
         Surface(
-            modifier = Modifier
-                .size(108.sdp),
+            modifier =
+                Modifier
+                    .size(108.sdp),
             shape = RoundedCornerShape(16.sdp),
-            onClick = onClick
+            onClick = onClick,
         ) {
-            if(!imageRes.isEmpty()) {
+            if (!imageRes.isEmpty()) {
                 GlideImage(
                     modifier = Modifier.fillMaxSize(),
                     context = LocalContext.current,
                     url = imageRes,
-                    scaleType = ImageView.ScaleType.CENTER_CROP
+                    scaleType = ImageView.ScaleType.CENTER_CROP,
                 )
-            }else{
-                //placeholder de imagem vazia
+            } else {
+                // placeholder de imagem vazia
                 Image(
                     painter = painterResource(id = R.drawable.image_pet_empty_selected),
                     contentDescription = "image description",
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Crop,
                 )
             }
         }
@@ -68,6 +70,6 @@ fun PetItem(
 
 @Preview
 @Composable
-private fun previewPetItem(){
+private fun previewPetItem()  {
     PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
 }

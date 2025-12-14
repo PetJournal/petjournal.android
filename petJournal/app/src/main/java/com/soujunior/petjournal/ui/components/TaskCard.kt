@@ -46,66 +46,69 @@ import ir.kaaveh.sdpcompose.ssp
 fun TaskCard(
     taskData: TaskData,
     modifier: Modifier = Modifier,
-    expandValue: Boolean = false
+    expandValue: Boolean = false,
 ) {
     var expanded by remember { mutableStateOf(expandValue) }
 
     Box(
-        modifier = modifier.clip(RectangleShape)
+        modifier = modifier.clip(RectangleShape),
     ) {
         Surface(
             shape = RoundedCornerShape(10.sdp),
             tonalElevation = 2.dp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(2.sdp)
-                .animateContentSize()
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(2.sdp)
+                    .animateContentSize(),
         ) {
             if (expanded) {
                 Icon(
                     painter = painterResource(id = taskData.type.iconVector!!),
                     contentDescription = "Ícone ${taskData.type.name}",
                     tint = taskData.type.color.copy(alpha = .5f),
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(start = 2.sdp, bottom = 42.sdp)
-                        .size(150.sdp)
-                        .offset(x = (-80).dp, y = (70).dp)
+                    modifier =
+                        Modifier
+                            .align(Alignment.BottomStart)
+                            .padding(start = 2.sdp, bottom = 42.sdp)
+                            .size(150.sdp)
+                            .offset(x = (-80).dp, y = (70).dp),
                 )
             }
             Column {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(2.sdp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(2.sdp),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Top
+                    verticalAlignment = Alignment.Top,
                 ) {
                     Column(
-                        modifier = Modifier
-                            .padding(horizontal = 8.sdp)
-                            .weight(0.4f),
-                        horizontalAlignment = Alignment.Start
+                        modifier =
+                            Modifier
+                                .padding(horizontal = 8.sdp)
+                                .weight(0.4f),
+                        horizontalAlignment = Alignment.Start,
                     ) {
                         Text(
                             text = taskData.title,
                             modifier = Modifier.padding(bottom = 2.sdp),
                             style = MaterialTheme.typography.titleMedium,
-                            fontSize = 15.ssp
-
+                            fontSize = 15.ssp,
                         )
                         Text(
                             text = taskData.startAt,
                             style = MaterialTheme.typography.titleMedium,
                             color = Color.Gray,
-                            fontSize = 10.ssp
+                            fontSize = 10.ssp,
                         )
 
                         if (expanded) {
                             LazyVerticalGrid(
                                 modifier = Modifier.fillMaxWidth(),
                                 columns = GridCells.Fixed(3),
-                                horizontalArrangement = Arrangement.Start
+                                horizontalArrangement = Arrangement.Start,
                             ) {
                                 items(taskData.pets.size) { index ->
                                     Box(modifier = Modifier.aspectRatio(1f)) {
@@ -117,32 +120,36 @@ fun TaskCard(
                     }
 
                     Column(
-                        modifier = Modifier
-                            .padding(horizontal = 8.sdp)
-                            .weight(0.6f),
-                        horizontalAlignment = Alignment.Start
+                        modifier =
+                            Modifier
+                                .padding(horizontal = 8.sdp)
+                                .weight(0.6f),
+                        horizontalAlignment = Alignment.Start,
                     ) {
-                        val displayText = if (!expanded && taskData.descriptionResumed.length > 50) {
-                            taskData.descriptionResumed.take(50) + "..."
-                        } else {
-                            taskData.descriptionResumed
-                        }
+                        val displayText =
+                            if (!expanded && taskData.descriptionResumed.length > 50) {
+                                taskData.descriptionResumed.take(50) + "..."
+                            } else {
+                                taskData.descriptionResumed
+                            }
 
                         Text(
                             text = displayText,
                             style = MaterialTheme.typography.titleSmall,
-                            modifier = Modifier
-                                .fillMaxWidth(1f)
-                                .padding(start = 8.sdp)
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth(1f)
+                                    .padding(start = 8.sdp),
                         )
 
                         if (expanded) {
                             Text(
                                 text = taskData.descriptionCompleted,
                                 style = MaterialTheme.typography.titleSmall,
-                                modifier = Modifier
-                                    .fillMaxWidth(1f)
-                                    .padding(start = 8.sdp, top = 8.sdp)
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth(1f)
+                                        .padding(start = 8.sdp, top = 8.sdp),
                             )
                         }
                     }
@@ -150,21 +157,25 @@ fun TaskCard(
 
                 if (expanded) {
                     Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 8.sdp, top = 16.sdp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 8.sdp, top = 16.sdp),
                     ) {
                         Button(
                             onClick = {},
-                            modifier = Modifier
-                                .width(100.sdp)
-                                .height(25.sdp)
-                                .align(Alignment.CenterHorizontally),
-                            border = BorderStroke(
-                                1.sdp, Color(0xFF959EA6)
-                            ),
+                            modifier =
+                                Modifier
+                                    .width(100.sdp)
+                                    .height(25.sdp)
+                                    .align(Alignment.CenterHorizontally),
+                            border =
+                                BorderStroke(
+                                    1.sdp,
+                                    Color(0xFF959EA6),
+                                ),
                             shape = RoundedCornerShape(50.sdp),
-                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background)
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
                         ) {
                             Text(
                                 text = "Editar Tarefa",
@@ -176,24 +187,24 @@ fun TaskCard(
                 }
 
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(20.sdp)
-                        .background(taskData.type.color)
-                        .clickable { expanded = !expanded },
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(20.sdp)
+                            .background(taskData.type.color)
+                            .clickable { expanded = !expanded },
                 ) {
                     Text(
                         text = if (expanded) "Ver Menos" else "Ver Mais",
                         fontSize = 10.ssp,
                         color = MaterialTheme.colorScheme.background,
-                        modifier = Modifier
-                            .align(Alignment.Center)
+                        modifier =
+                            Modifier
+                                .align(Alignment.Center),
                     )
                 }
             }
         }
-
-
     }
 }
 
@@ -202,7 +213,7 @@ fun TaskCard(
 private fun TaskCardPreview() {
     Column(Modifier) {
         TaskCard(
-            taskData = TaskFakeData.sampleTasks[0]
+            taskData = TaskFakeData.sampleTasks[0],
         )
     }
 }
@@ -213,7 +224,7 @@ private fun TaskCardExpandedPreview() {
     Column(Modifier) {
         TaskCard(
             taskData = TaskFakeData.sampleTasks[0],
-            expandValue = true
+            expandValue = true,
         )
     }
 }

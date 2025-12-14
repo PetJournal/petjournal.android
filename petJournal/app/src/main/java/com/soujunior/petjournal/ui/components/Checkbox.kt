@@ -37,27 +37,38 @@ fun Checkbox(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
-                modifier = Modifier
-                    .padding(end = 6.sdp)
-                    .size(22.sdp)
-                    .clip(RoundedCornerShape(8.sdp))
-                    .background(Color.White)
-                    .border(
-                        1.2.dp,
-                        if (radioButtonSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
-                        RoundedCornerShape(8.sdp)
-                    ),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .padding(end = 6.sdp)
+                        .size(22.sdp)
+                        .clip(RoundedCornerShape(8.sdp))
+                        .background(Color.White)
+                        .border(
+                            1.2.dp,
+                            if (radioButtonSelected) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.outline
+                            },
+                            RoundedCornerShape(8.sdp),
+                        ),
+                contentAlignment = Alignment.Center,
             ) {
                 Checkbox(
                     checked = radioButtonSelected,
                     onCheckedChange = { onEvent(!radioButtonSelected) },
-                    colors = CheckboxDefaults.colors (
-                        checkedColor = Color.Transparent,
-                        uncheckedColor = Color.Transparent,
-                        checkmarkColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.primary
-                    ),
-                    modifier = Modifier.size(10.sdp)
+                    colors =
+                        CheckboxDefaults.colors(
+                            checkedColor = Color.Transparent,
+                            uncheckedColor = Color.Transparent,
+                            checkmarkColor =
+                                if (isSystemInDarkTheme()) {
+                                    MaterialTheme.colorScheme.background
+                                } else {
+                                    MaterialTheme.colorScheme.primary
+                                },
+                        ),
+                    modifier = Modifier.size(10.sdp),
                 )
             }
 
@@ -65,9 +76,8 @@ fun Checkbox(
                 text = text,
                 fontSize = 11.ssp,
                 style = styleText,
-                color = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.Unspecified
+                color = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.Unspecified,
             )
-
         }
     }
 }

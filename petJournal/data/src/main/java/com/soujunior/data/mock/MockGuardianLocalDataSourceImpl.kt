@@ -8,7 +8,7 @@ import com.soujunior.domain.repository.GuardianLocalDataSource
 import com.soujunior.domain.use_case.base.DataResult
 
 class MockGuardianLocalDataSourceImpl:GuardianLocalDataSource {
-    override suspend fun getGuardianName(): String? {
+    override suspend fun getGuardianName(): String {
         TODO("Not yet implemented")
     }
 
@@ -32,7 +32,7 @@ class MockGuardianLocalDataSourceImpl:GuardianLocalDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getListPetSizes(tag: String): DataResult<List<PetSizeItemModel>>? {
+    override suspend fun getListPetSizes(tag: String): DataResult<List<PetSizeItemModel>> {
         TODO("Not yet implemented")
     }
 
@@ -43,7 +43,7 @@ class MockGuardianLocalDataSourceImpl:GuardianLocalDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getListPetRaces(tag: String): DataResult<List<PetRaceItemModel>>? {
+    override suspend fun getListPetRaces(tag: String): DataResult<List<PetRaceItemModel>> {
         TODO("Not yet implemented")
     }
 

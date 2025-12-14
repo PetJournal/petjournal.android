@@ -1,0 +1,3 @@
+package com.soujunior.petjournal.ui.screensApp.screensPets.registerPetScreen
+
+interface ViewModelRegisterPet

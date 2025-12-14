@@ -55,7 +55,7 @@ fun DropDown(
     textError: List<String>? = null,
     dropdownItems: List<PetSizeItemModel>? = null,
     onEvent: (String) -> Unit,
-    textValue: String
+    textValue: String,
 ) {
     var isDropdownExpanded by remember { mutableStateOf(false) }
 
@@ -67,48 +67,51 @@ fun DropDown(
                 color = MaterialTheme.colorScheme.scrim,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight(500),
-                modifier = textTitleModifier.fillMaxWidth().padding(end = 24.sdp)
+                modifier = textTitleModifier.fillMaxWidth().padding(end = 24.sdp),
             )
         }
         Row {
             Box(
-                modifier = textInputModifier
-                    .shadow(
-                        elevation = 30.dp,
-                        spotColor = ColorCustom.shadow_color,
-                        ambientColor = ColorCustom.shadow_color
-                    )
-                    .height(50.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(size = 12.dp)
-                    )
-                    .fillMaxWidth()
-                    .drawBehind {
-                        val stroke = Stroke(
-                            width = 2.dp.toPx(),
+                modifier =
+                    textInputModifier
+                        .shadow(
+                            elevation = 30.dp,
+                            spotColor = ColorCustom.shadow_color,
+                            ambientColor = ColorCustom.shadow_color,
                         )
-                        drawRoundRect(
-                            color = if (isError) Color.Transparent else ColorGrid.edge_not_selected,
-                            style = stroke,
-                            cornerRadius = CornerRadius(12.dp.toPx())
+                        .height(50.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.surface,
+                            shape = RoundedCornerShape(size = 12.dp),
                         )
-
-                    }
-                    .clip(RoundedCornerShape(10.sdp))
-                    .clickable { isDropdownExpanded = true }
+                        .fillMaxWidth()
+                        .drawBehind {
+                            val stroke =
+                                Stroke(
+                                    width = 2.dp.toPx(),
+                                )
+                            drawRoundRect(
+                                color = if (isError) Color.Transparent else ColorGrid.edge_not_selected,
+                                style = stroke,
+                                cornerRadius = CornerRadius(12.dp.toPx()),
+                            )
+                        }
+                        .clip(RoundedCornerShape(10.sdp))
+                        .clickable { isDropdownExpanded = true },
             ) {
                 Text(
-                    modifier = Modifier
-                        .padding(start = 14.sdp)
-                        .align(Alignment.CenterStart),
+                    modifier =
+                        Modifier
+                            .padding(start = 14.sdp)
+                            .align(Alignment.CenterStart),
                     text = if (isError) "X" else textValue.ifEmpty { placeholderText },
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        lineHeight = 21.sp,
-                        fontWeight = FontWeight(300),
-                        color = MaterialTheme.colorScheme.scrim,
-                    ),
+                    style =
+                        TextStyle(
+                            fontSize = 14.sp,
+                            lineHeight = 21.sp,
+                            fontWeight = FontWeight(300),
+                            color = MaterialTheme.colorScheme.scrim,
+                        ),
                     color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.scrim,
                 )
 
@@ -116,32 +119,31 @@ fun DropDown(
                     imageVector = Icons.Rounded.KeyboardArrowDown,
                     contentDescription = "Dropdown",
                     tint = MaterialTheme.colorScheme.outline,
-                    modifier = Modifier
-                        .padding(end = 10.dp)
-                        .align(Alignment.CenterEnd)
+                    modifier =
+                        Modifier
+                            .padding(end = 10.dp)
+                            .align(Alignment.CenterEnd),
                 )
 
                 DropdownMenu(
                     expanded = isDropdownExpanded,
                     onDismissRequest = { isDropdownExpanded = false },
-                    modifier = Modifier
-                        .background(MaterialTheme.colorScheme.background)
-                        .width(IntrinsicSize.Max)
-                        .padding(top = 5.dp)
-                        .border(
-                            BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
-                            RoundedCornerShape(10.dp)
-                        )
-
-
+                    modifier =
+                        Modifier
+                            .background(MaterialTheme.colorScheme.background)
+                            .width(IntrinsicSize.Max)
+                            .padding(top = 5.dp)
+                            .border(
+                                BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
+                                RoundedCornerShape(10.dp),
+                            ),
                 ) {
                     dropdownItems?.forEach { item ->
                         DropdownMenuItem(
                             onClick = {
                                 isDropdownExpanded = false
                                 onEvent(item.name)
-                            }
-
+                            },
                         ) {
                             Text(text = item.name)
                         }
@@ -156,7 +158,6 @@ fun DropDown(
             }
         }
     }
-
 }
 
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")

@@ -1,12 +1,9 @@
 package com.soujunior.petjournal.ui.util
 
-import android.view.WindowManager
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import kotlin.math.pow
 import kotlin.math.sqrt
 

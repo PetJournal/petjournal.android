@@ -1,3 +1,5 @@
+@file:Suppress("ktlint")
+
 package com.soujunior.petjournal.ui.components.data
 
 data class FakePetData(

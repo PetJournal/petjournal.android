@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ButtonColors
@@ -18,10 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.ui.theme.Shapes
 import ir.kaaveh.sdpcompose.sdp
@@ -41,25 +38,26 @@ fun DualActionButton(
     rightButtonColor: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
     leftButtonTextColor: Color = MaterialTheme.colorScheme.onPrimary,
     rightButtonTextColor: Color = MaterialTheme.colorScheme.primary,
-    isLoading: Boolean = false
+    isLoading: Boolean = false,
 ) {
     Column(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = buttonModifier.fillMaxWidth()
+            modifier = buttonModifier.fillMaxWidth(),
         ) {
             androidx.compose.material3.Button(
                 onClick = { rightButtonSubmit() },
                 enabled = enableButton,
                 modifier = modifier.width(115.sdp).height(32.sdp),
-                border = BorderStroke(
-                    width = 1.sdp,
-                    color = MaterialTheme.colorScheme.primary
-                ),
+                border =
+                    BorderStroke(
+                        width = 1.sdp,
+                        color = MaterialTheme.colorScheme.primary,
+                    ),
                 shape = Shapes.medium,
                 colors = leftButtonColor,
-                contentPadding = PaddingValues(2.sdp)
+                contentPadding = PaddingValues(2.sdp),
             ) {
                 if (!isLoading) {
                     Text(
@@ -67,28 +65,27 @@ fun DualActionButton(
                         fontWeight = FontWeight.W900,
                         fontSize = 12.ssp,
                         style = MaterialTheme.typography.titleLarge,
-                        color = leftButtonTextColor
+                        color = leftButtonTextColor,
                     )
                 } else {
                     CircularProgressIndicator(
                         modifier = Modifier.size(17.sdp),
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
             }
             androidx.compose.material3.Button(
                 onClick = { leftButtonSubmit() },
                 enabled = enableButton,
-                modifier = modifier.width(115.sdp).height(32.sdp)
-                ,
-                border = BorderStroke(
-                    width = 1.sdp,
-                    color = MaterialTheme.colorScheme.primary
-                ),
-
+                modifier = modifier.width(115.sdp).height(32.sdp),
+                border =
+                    BorderStroke(
+                        width = 1.sdp,
+                        color = MaterialTheme.colorScheme.primary,
+                    ),
                 shape = Shapes.medium,
                 colors = rightButtonColor,
-                contentPadding = PaddingValues(2.sdp)
+                contentPadding = PaddingValues(2.sdp),
             ) {
                 if (!isLoading) {
                     Text(
@@ -96,12 +93,12 @@ fun DualActionButton(
                         fontWeight = FontWeight.W900,
                         fontSize = 12.ssp,
                         style = MaterialTheme.typography.titleLarge,
-                        color = rightButtonTextColor
+                        color = rightButtonTextColor,
                     )
                 } else {
                     CircularProgressIndicator(
                         modifier = Modifier.size(17.sdp),
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
             }
@@ -117,6 +114,6 @@ fun DualActionButtonPreview() {
         leftButtonSubmit = {},
         enableButton = true,
         leftButtonText = "Macho",
-        rightButtonText = "Fêmea"
+        rightButtonText = "Fêmea",
     )
 }

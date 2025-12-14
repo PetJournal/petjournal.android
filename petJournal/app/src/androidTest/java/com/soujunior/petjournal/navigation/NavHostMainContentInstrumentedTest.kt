@@ -12,7 +12,6 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class NavHostMainContentInstrumentedTest {
-
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -20,7 +19,7 @@ class NavHostMainContentInstrumentedTest {
 
     @OptIn(ExperimentalPagerApi::class)
     @Test
-    fun navigateFrom_Home_to_accountManager(){
+    fun navigateFrom_Home_to_accountManager()  {
         composeTestRule.setContent {
             navController = rememberNavController()
             navHostMock(navController = navController, startDestination = "home")
@@ -31,11 +30,10 @@ class NavHostMainContentInstrumentedTest {
         }
 
         assertEquals(navController.currentDestination?.route, "account_manager")
-
     }
 
     @Test
-    fun navigateFrom_accountManager_to_tutorScreen(){
+    fun navigateFrom_accountManager_to_tutorScreen()  {
         composeTestRule.setContent {
             navController = rememberNavController()
             navHostMock(navController = navController, startDestination = "account_manager")
@@ -46,11 +44,10 @@ class NavHostMainContentInstrumentedTest {
         }
 
         assertEquals(navController.currentDestination?.route, "tutorScreen")
-
     }
 
     @Test
-    fun navigateFrom_tutorScreen_to_introRegisterPet(){
+    fun navigateFrom_tutorScreen_to_introRegisterPet()  {
         composeTestRule.setContent {
             navController = rememberNavController()
             navHostMock(navController = navController, startDestination = "tutorScreen")
@@ -61,11 +58,10 @@ class NavHostMainContentInstrumentedTest {
         }
 
         assertEquals(navController.currentDestination?.route, "pets/introRegisterPet")
-
     }
 
     @Test
-    fun navigateFrom_introRegisterPet_to_speciesChoice(){
+    fun navigateFrom_introRegisterPet_to_speciesChoice()  {
         composeTestRule.setContent {
             navController = rememberNavController()
             navHostMock(navController = navController, startDestination = "pets/introRegisterPet")
@@ -79,7 +75,7 @@ class NavHostMainContentInstrumentedTest {
     }
 
     @Test
-    fun navigateFrom_speciesChoice_to_nameGenderScreen(){
+    fun navigateFrom_speciesChoice_to_nameGenderScreen()  {
         composeTestRule.setContent {
             navController = rememberNavController()
             navHostMock(navController = navController, startDestination = "pets/speciesChoice")

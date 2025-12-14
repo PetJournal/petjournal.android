@@ -16,9 +16,9 @@ import com.soujunior.petjournal.setup.listDogRaces
 import com.soujunior.petjournal.setup.listPetSizesCat
 import com.soujunior.petjournal.setup.listPetSizesDog
 import com.soujunior.petjournal.setup.perInformation
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormEvent
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.RaceSizeFormState
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
+import com.soujunior.petjournal.ui.screensApp.screensPets.petRaceAndSizeScreen.RaceSizeFormEvent
+import com.soujunior.petjournal.ui.screensApp.screensPets.petRaceAndSizeScreen.RaceSizeFormState
+import com.soujunior.petjournal.ui.screensApp.screensPets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
 import com.soujunior.petjournal.ui.util.Constants.CAT
 import com.soujunior.petjournal.ui.util.Constants.DOG
 import com.soujunior.petjournal.ui.util.Constants.ERROR_MESSAGE
@@ -40,7 +40,6 @@ import org.junit.Before
 import org.junit.Test
 
 class PetViewModelRaceSizeTest {
-
     private lateinit var viewModelTest: ViewModelRaceSizeImpl
     private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
     private val getPetInformationUseCase = mockk<GetPetInformationUseCase>(relaxed = true)
@@ -48,13 +47,18 @@ class PetViewModelRaceSizeTest {
     private val getListPetSizesUseCase = mockk<GetListPetSizesUseCase>(relaxed = true)
     private val getListPetRacesUseCase = mockk<GetListPetRacesUseCase>(relaxed = true)
 
-
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
         Dispatchers.setMain(Dispatchers.Unconfined)
         viewModelTest =
-            ViewModelRaceSizeImpl(validation, getPetInformationUseCase, updatePetInformationUseCase, getListPetSizesUseCase, getListPetRacesUseCase)
+            ViewModelRaceSizeImpl(
+                validation,
+                getPetInformationUseCase,
+                updatePetInformationUseCase,
+                getListPetSizesUseCase,
+                getListPetRacesUseCase,
+            )
     }
 
     @After
@@ -62,30 +66,32 @@ class PetViewModelRaceSizeTest {
         viewModelTest.viewModelScope.cancel()
     }
 
-
     @Test
     fun `enable button when size and race data is validated`() {
         every {
             this@PetViewModelRaceSizeTest.validation.validateDropdown(
                 any(),
-                any()
+                any(),
             )
-        } returns ValidationResult(
-            success = true
-        )
+        } returns
+            ValidationResult(
+                success = true,
+            )
         every {
             this@PetViewModelRaceSizeTest.validation.validateDropdown(
                 any(),
-                any()
+                any(),
             )
-        } returns ValidationResult(
-            success = true
-        )
-        viewModelTest.state = RaceSizeFormState(
-            size = "Pequeno (até 10kg)",
-            race = "Akita",
-            raceOthers = ""
-        )
+        } returns
+            ValidationResult(
+                success = true,
+            )
+        viewModelTest.state =
+            RaceSizeFormState(
+                size = "Pequeno (até 10kg)",
+                race = "Akita",
+                raceOthers = "",
+            )
         val enableButton = viewModelTest.enableButton()
         assertThat(enableButton).isTrue()
     }
@@ -95,20 +101,23 @@ class PetViewModelRaceSizeTest {
         every {
             this@PetViewModelRaceSizeTest.validation.validateDropdown(
                 any(),
-                any()
+                any(),
             )
-        } returns ValidationResult(
-            success = true
-        )
-        every { this@PetViewModelRaceSizeTest.validation.inputPetName(any()) } returns ValidationResult(
-            success = true
-        )
+        } returns
+            ValidationResult(
+                success = true,
+            )
+        every { this@PetViewModelRaceSizeTest.validation.inputPetName(any()) } returns
+            ValidationResult(
+                success = true,
+            )
 
-        viewModelTest.state = RaceSizeFormState(
-            size = "Pequeno (até 10kg)",
-            race = RACE_OTHER,
-            raceOthers = OTHER_RACE
-        )
+        viewModelTest.state =
+            RaceSizeFormState(
+                size = "Pequeno (até 10kg)",
+                race = RACE_OTHER,
+                raceOthers = OTHER_RACE,
+            )
         val enableButton = viewModelTest.enableButton()
         assertThat(enableButton).isTrue()
     }
@@ -117,11 +126,11 @@ class PetViewModelRaceSizeTest {
     fun `enable race others when race is other`() {
         every {
             this@PetViewModelRaceSizeTest.validation.validateDropDownRaceOthers(any())
-        } returns ValidationResult(
-            success = true
-        )
+        } returns
+            ValidationResult(
+                success = true,
+            )
         val enableRaceOthers = viewModelTest.enableRaceOthers()
-
 
         assertEquals(enableRaceOthers, true)
         assertEquals(null, viewModelTest.state.sizeError)
@@ -129,22 +138,24 @@ class PetViewModelRaceSizeTest {
 
     @Test
     fun `cannot enable button with error size`() {
-        viewModelTest.state = RaceSizeFormState(
-            sizeError = listOf("Tamanho inválido"),
-            raceError = listOf(),
-            raceOthersError = listOf()
-        )
+        viewModelTest.state =
+            RaceSizeFormState(
+                sizeError = listOf("Tamanho inválido"),
+                raceError = listOf(),
+                raceOthersError = listOf(),
+            )
         val enableButton = viewModelTest.enableButton()
         assertThat(enableButton).isFalse()
     }
 
     @Test
     fun `can't enable button with error race`() {
-        viewModelTest.state = RaceSizeFormState(
-            sizeError = listOf(),
-            raceError = listOf("Raça inválida"),
-            raceOthersError = listOf()
-        )
+        viewModelTest.state =
+            RaceSizeFormState(
+                sizeError = listOf(),
+                raceError = listOf("Raça inválida"),
+                raceOthersError = listOf(),
+            )
         viewModelTest.state = viewModelTest.state.copy(specie = DOG)
         val enableButton = viewModelTest.enableButton()
         assertThat(enableButton).isFalse()
@@ -152,14 +163,15 @@ class PetViewModelRaceSizeTest {
 
     @Test
     fun `cannot enable button with errors in fields`() {
-        viewModelTest.state = RaceSizeFormState(
-            size = "Médio (11 à 24kg)",
-            race = RACE_OTHER,
-            raceOthers = "Pastor",
-            sizeError = listOf("Tamanho inválido"),
-            raceError = listOf("Raça inválida"),
-            raceOthersError = listOf("Raça Outro inválido")
-        )
+        viewModelTest.state =
+            RaceSizeFormState(
+                size = "Médio (11 à 24kg)",
+                race = RACE_OTHER,
+                raceOthers = "Pastor",
+                sizeError = listOf("Tamanho inválido"),
+                raceError = listOf("Raça inválida"),
+                raceOthersError = listOf("Raça Outro inválido"),
+            )
         val enableButton = viewModelTest.enableButton()
         assertThat(enableButton).isFalse()
     }
@@ -171,11 +183,12 @@ class PetViewModelRaceSizeTest {
         every {
             this@PetViewModelRaceSizeTest.validation.validateDropdown(
                 newSize,
-                listPetSizesCat
+                listPetSizesCat,
             )
-        } returns ValidationResult(
-            success = true
-        )
+        } returns
+            ValidationResult(
+                success = true,
+            )
 
         viewModelTest.change(petSize = newSize)
         assertEquals(newSize, viewModelTest.state.size)
@@ -190,11 +203,12 @@ class PetViewModelRaceSizeTest {
         every {
             this@PetViewModelRaceSizeTest.validation.validateDropdown(
                 newRace,
-                listPetSizesDog
+                listPetSizesDog,
             )
-        } returns ValidationResult(
-            success = true
-        )
+        } returns
+            ValidationResult(
+                success = true,
+            )
 
         viewModelTest.change(petRace = newRace)
         assertEquals(newRace, viewModelTest.state.race)
@@ -208,9 +222,10 @@ class PetViewModelRaceSizeTest {
 
         every {
             this@PetViewModelRaceSizeTest.validation.inputPetName(newRaceOther)
-        } returns ValidationResult(
-            success = true
-        )
+        } returns
+            ValidationResult(
+                success = true,
+            )
 
         viewModelTest.change(petRaceOthers = newRaceOther)
         assertEquals(newRaceOther, viewModelTest.state.raceOthers)
@@ -223,11 +238,11 @@ class PetViewModelRaceSizeTest {
 
         every {
             this@PetViewModelRaceSizeTest.validation.inputPetName(newRaceOther)
-        } returns ValidationResult(
-            success = false,
-            errorMessage = listOf(ERROR_MESSAGE)
-
-        )
+        } returns
+            ValidationResult(
+                success = false,
+                errorMessage = listOf(ERROR_MESSAGE),
+            )
         viewModelTest.change(petRaceOthers = newRaceOther)
         assertEquals(newRaceOther, viewModelTest.state.raceOthers)
         assertNotNull(viewModelTest.state.raceOthersError)
@@ -239,11 +254,11 @@ class PetViewModelRaceSizeTest {
 
         every {
             this@PetViewModelRaceSizeTest.validation.inputPetName(newRaceOther)
-        } returns ValidationResult(
-            success = false,
-            errorMessage = listOf(ERROR_MESSAGE)
-
-        )
+        } returns
+            ValidationResult(
+                success = false,
+                errorMessage = listOf(ERROR_MESSAGE),
+            )
         viewModelTest.change(petRaceOthers = newRaceOther)
         assertEquals(newRaceOther, viewModelTest.state.raceOthers)
         assertNotNull(viewModelTest.state.raceOthersError)
@@ -255,11 +270,11 @@ class PetViewModelRaceSizeTest {
 
         every {
             this@PetViewModelRaceSizeTest.validation.inputPetName(newRaceOther)
-        } returns ValidationResult(
-            success = false,
-            errorMessage = listOf(ERROR_MESSAGE)
-
-        )
+        } returns
+            ValidationResult(
+                success = false,
+                errorMessage = listOf(ERROR_MESSAGE),
+            )
         viewModelTest.change(petRaceOthers = newRaceOther)
         assertEquals(newRaceOther, viewModelTest.state.raceOthers)
         assertNotNull(viewModelTest.state.raceOthersError)
@@ -271,10 +286,11 @@ class PetViewModelRaceSizeTest {
 
         every {
             this@PetViewModelRaceSizeTest.validation.inputPetName(newRaceOther)
-        } returns ValidationResult(
-            success = false,
-            errorMessage = listOf(ERROR_MESSAGE)
-        )
+        } returns
+            ValidationResult(
+                success = false,
+                errorMessage = listOf(ERROR_MESSAGE),
+            )
         viewModelTest.change(petRaceOthers = newRaceOther)
         assertEquals(newRaceOther, viewModelTest.state.raceOthers)
         assertNotNull(viewModelTest.state.raceOthersError)
@@ -286,10 +302,11 @@ class PetViewModelRaceSizeTest {
 
         every {
             this@PetViewModelRaceSizeTest.validation.inputPetName(newRaceOther)
-        } returns ValidationResult(
-            success = false,
-            errorMessage = listOf(ERROR_MESSAGE)
-        )
+        } returns
+            ValidationResult(
+                success = false,
+                errorMessage = listOf(ERROR_MESSAGE),
+            )
         viewModelTest.change(petRaceOthers = newRaceOther)
         assertEquals(newRaceOther, viewModelTest.state.raceOthers)
         assertNotNull(viewModelTest.state.raceOthersError)
@@ -301,10 +318,11 @@ class PetViewModelRaceSizeTest {
 
         every {
             this@PetViewModelRaceSizeTest.validation.validateDropdown(newSize, listPetSizesCat)
-        } returns ValidationResult(
-            success = false,
-            errorMessage = listOf(ERROR_MESSAGE)
-        )
+        } returns
+            ValidationResult(
+                success = false,
+                errorMessage = listOf(ERROR_MESSAGE),
+            )
 
         viewModelTest.change(petSize = newSize)
         assertEquals(newSize, viewModelTest.state.size)
@@ -317,10 +335,11 @@ class PetViewModelRaceSizeTest {
 
         every {
             this@PetViewModelRaceSizeTest.validation.validateDropDownPetRace(newRace, listDogRaces)
-        } returns ValidationResult(
-            success = false,
-            errorMessage = listOf(ERROR_MESSAGE)
-        )
+        } returns
+            ValidationResult(
+                success = false,
+                errorMessage = listOf(ERROR_MESSAGE),
+            )
 
         viewModelTest.change(petRace = newRace)
         assertEquals(newRace, viewModelTest.state.race)
@@ -356,10 +375,10 @@ class PetViewModelRaceSizeTest {
 
     @Test
     fun `getPetInformation should call the use case and fill the ViewModel state fields with data from the room`() {
-
-        coEvery { getPetInformationUseCase.execute(any()) } returns DataResult.Success(
-            perInformation
-        )
+        coEvery { getPetInformationUseCase.execute(any()) } returns
+            DataResult.Success(
+                perInformation,
+            )
         // TODO: corrigir esse caso de teste
 //        perInformation.idLocal?.let { viewModelTest.getPetInformation(it) }
 
@@ -372,92 +391,111 @@ class PetViewModelRaceSizeTest {
 
     @Test
     fun `should return error message if petInformation retrieval from room fails`() {
-
-        coEvery { getPetInformationUseCase.execute(any()) } returns DataResult.Failure(
-            Throwable()
-        )
+        coEvery { getPetInformationUseCase.execute(any()) } returns
+            DataResult.Failure(
+                Throwable(),
+            )
         viewModelTest.getPetInformation(2)
         assertEquals(ERROR_MESSAGE, viewModelTest.message.value)
     }
 
     @Test
     fun `updatePetInformation should call the use case to update pet information in the room`() {
-
-        coEvery { updatePetInformationUseCase.execute(any()) } returns DataResult.Success(
-            Unit
-        )
+        coEvery { updatePetInformationUseCase.execute(any()) } returns
+            DataResult.Success(
+                Unit,
+            )
         viewModelTest.updatePetInformation()
         assertEquals(SUCCESS_MESSAGE, viewModelTest.message.value)
     }
 
     @Test
     fun `update should return error message if pet information is not updated`() {
-
-        coEvery { updatePetInformationUseCase.execute(any()) } returns DataResult.Failure(
-            Throwable()
-        )
+        coEvery { updatePetInformationUseCase.execute(any()) } returns
+            DataResult.Failure(
+                Throwable(),
+            )
         viewModelTest.updatePetInformation()
         assertEquals(ERROR_MESSAGE, viewModelTest.message.value)
     }
-    @Test
-    fun `should return pet size list for dog`() = runBlocking{
-        coEvery { getListPetSizesUseCase.execute(any())
-        }returns  DataResult.Success(
-            listPetSizesDog
-        )
-        viewModelTest.state = viewModelTest.state.copy(specie = DOG)
-        viewModelTest.requestGetListSizes()
-        assertEquals(SUCCESS_MESSAGE, viewModelTest.message.value)
-    }
-    @Test
-    fun `should return pet size list for Cat`() = runBlocking{
-        coEvery { getListPetSizesUseCase.execute(any())
-        }returns  DataResult.Success(
-            listPetSizesCat
-        )
-        viewModelTest.state = viewModelTest.state.copy(specie = CAT)
-        viewModelTest.requestGetListSizes()
-        assertEquals(SUCCESS_MESSAGE, viewModelTest.message.value)
-    }
-    @Test
-    fun `get should return error message if list is error`() = runBlocking{
-
-        coEvery { getListPetSizesUseCase.execute(any()) } returns DataResult.Failure(
-            Throwable()
-        )
-        viewModelTest.state = viewModelTest.state.copy(specie = DOG)
-        viewModelTest.requestGetListSizes()
-        assertEquals(ERROR_MESSAGE, viewModelTest.message.value)
-    }
 
     @Test
-    fun `should return list of pet race for dog`() = runBlocking{
-        coEvery { getListPetRacesUseCase.execute(any())
-        }returns  DataResult.Success(
-            listDogRaces
-        )
-        viewModelTest.state = viewModelTest.state.copy(specie = DOG)
-        viewModelTest.requestGetListRaces()
-        assertEquals(SUCCESS_MESSAGE, viewModelTest.message.value)
-    }
-    @Test
-    fun `must return list of pet race for Cat`() = runBlocking{
-        coEvery { getListPetRacesUseCase.execute(any())
-        }returns  DataResult.Success(
-            listCatsRace
-        )
-        viewModelTest.state = viewModelTest.state.copy(specie = CAT)
-        viewModelTest.requestGetListRaces()
-        assertEquals(SUCCESS_MESSAGE, viewModelTest.message.value)
-    }
-    @Test
-    fun `get should return an error message if the pet breed list returns an error`() = runBlocking {
-        coEvery { getListPetRacesUseCase.execute(any()) } returns DataResult.Failure(
-            Throwable()
-        )
-        viewModelTest.state = viewModelTest.state.copy(specie = CAT)
-         viewModelTest.requestGetListRaces()
-        assertEquals(ERROR_MESSAGE, viewModelTest.message.value)
-    }
+    fun `should return pet size list for dog`() =
+        runBlocking {
+            coEvery {
+                getListPetSizesUseCase.execute(any())
+            } returns
+                DataResult.Success(
+                    listPetSizesDog,
+                )
+            viewModelTest.state = viewModelTest.state.copy(specie = DOG)
+            viewModelTest.requestGetListSizes()
+            assertEquals(SUCCESS_MESSAGE, viewModelTest.message.value)
+        }
 
+    @Test
+    fun `should return pet size list for Cat`() =
+        runBlocking {
+            coEvery {
+                getListPetSizesUseCase.execute(any())
+            } returns
+                DataResult.Success(
+                    listPetSizesCat,
+                )
+            viewModelTest.state = viewModelTest.state.copy(specie = CAT)
+            viewModelTest.requestGetListSizes()
+            assertEquals(SUCCESS_MESSAGE, viewModelTest.message.value)
+        }
+
+    @Test
+    fun `get should return error message if list is error`() =
+        runBlocking {
+            coEvery { getListPetSizesUseCase.execute(any()) } returns
+                DataResult.Failure(
+                    Throwable(),
+                )
+            viewModelTest.state = viewModelTest.state.copy(specie = DOG)
+            viewModelTest.requestGetListSizes()
+            assertEquals(ERROR_MESSAGE, viewModelTest.message.value)
+        }
+
+    @Test
+    fun `should return list of pet race for dog`() =
+        runBlocking {
+            coEvery {
+                getListPetRacesUseCase.execute(any())
+            } returns
+                DataResult.Success(
+                    listDogRaces,
+                )
+            viewModelTest.state = viewModelTest.state.copy(specie = DOG)
+            viewModelTest.requestGetListRaces()
+            assertEquals(SUCCESS_MESSAGE, viewModelTest.message.value)
+        }
+
+    @Test
+    fun `must return list of pet race for Cat`() =
+        runBlocking {
+            coEvery {
+                getListPetRacesUseCase.execute(any())
+            } returns
+                DataResult.Success(
+                    listCatsRace,
+                )
+            viewModelTest.state = viewModelTest.state.copy(specie = CAT)
+            viewModelTest.requestGetListRaces()
+            assertEquals(SUCCESS_MESSAGE, viewModelTest.message.value)
+        }
+
+    @Test
+    fun `get should return an error message if the pet breed list returns an error`() =
+        runBlocking {
+            coEvery { getListPetRacesUseCase.execute(any()) } returns
+                DataResult.Failure(
+                    Throwable(),
+                )
+            viewModelTest.state = viewModelTest.state.copy(specie = CAT)
+            viewModelTest.requestGetListRaces()
+            assertEquals(ERROR_MESSAGE, viewModelTest.message.value)
+        }
 }

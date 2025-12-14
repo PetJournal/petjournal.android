@@ -30,7 +30,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 import ir.kaaveh.sdpcompose.ssp
 
@@ -42,29 +41,31 @@ fun RoundedSquare(
     bottomLeftRadius: Dp,
     bottomRightRadius: Dp,
     image: Painter,
-    colorBackground : Color = Color.Transparent
+    colorBackground: Color = Color.Transparent,
 ) {
     Box(
-        modifier = Modifier
-            .size(size)
-            .background(
-                color = colorBackground,
-                shape = RoundedCornerShape(
-                    topStart = topLeftRadius,
-                    topEnd = topRightRadius,
-                    bottomStart = bottomLeftRadius,
-                    bottomEnd = bottomRightRadius
-                )
-            )
-    )
-    {
+        modifier =
+            Modifier
+                .size(size)
+                .background(
+                    color = colorBackground,
+                    shape =
+                        RoundedCornerShape(
+                            topStart = topLeftRadius,
+                            topEnd = topRightRadius,
+                            bottomStart = bottomLeftRadius,
+                            bottomEnd = bottomRightRadius,
+                        ),
+                ),
+    ) {
         Image(
             painter = image,
             contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize(0.70f)
-                .align(Alignment.Center)
-                .background(Color.Transparent),
+            modifier =
+                Modifier
+                    .fillMaxSize(0.70f)
+                    .align(Alignment.Center)
+                    .background(Color.Transparent),
         )
     }
 }
@@ -90,85 +91,87 @@ fun RoundedSquare(
     colorBackground: Color = MaterialTheme.colorScheme.onBackground,
     colorText: Color = MaterialTheme.colorScheme.onBackground,
     selectedColor: Color,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
-
     Box(
-        modifier = Modifier
-            .size(size)
-            .background(
-                color = colorBackground,
-                shape = RoundedCornerShape(
-                    topStart = topLeftRadius,
-                    topEnd = topRightRadius,
-                    bottomStart = bottomLeftRadius,
-                    bottomEnd = bottomRightRadius
+        modifier =
+            Modifier
+                .size(size)
+                .background(
+                    color = colorBackground,
+                    shape =
+                        RoundedCornerShape(
+                            topStart = topLeftRadius,
+                            topEnd = topRightRadius,
+                            bottomStart = bottomLeftRadius,
+                            bottomEnd = bottomRightRadius,
+                        ),
                 )
-            )
-            .drawBehind {
-                val stroke = Stroke(
-                    width = 1.5.dp.toPx(),
-                    pathEffect = PathEffect.dashPathEffect(
-                        intervals = floatArrayOf(8.dp.toPx(), 8.dp.toPx(), 0f)
+                .drawBehind {
+                    val stroke =
+                        Stroke(
+                            width = 1.5.dp.toPx(),
+                            pathEffect =
+                                PathEffect.dashPathEffect(
+                                    intervals = floatArrayOf(8.dp.toPx(), 8.dp.toPx(), 0f),
+                                ),
+                        )
+                    drawRoundRect(
+                        color = if (isSelected) Color.Transparent else Color.Black,
+                        style = stroke,
+                        cornerRadius = CornerRadius(30.dp.toPx()),
                     )
+                }
+                .border(
+                    2.dp,
+                    if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
+                    shape = RoundedCornerShape(30.dp),
                 )
-                drawRoundRect(
-                    color = if (isSelected) Color.Transparent else Color.Black,
-                    style = stroke,
-                    cornerRadius = CornerRadius(30.dp.toPx())
+                .clip(
+                    RoundedCornerShape(
+                        topStart = topLeftRadius,
+                        topEnd = topRightRadius,
+                        bottomStart = bottomLeftRadius,
+                        bottomEnd = bottomRightRadius,
+                    ),
                 )
-
-            }
-            .border(
-                2.dp,
-                if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
-                shape = RoundedCornerShape(30.dp)
-            )
-            .clip(
-                RoundedCornerShape(
-                    topStart = topLeftRadius,
-                    topEnd = topRightRadius,
-                    bottomStart = bottomLeftRadius,
-                    bottomEnd = bottomRightRadius
-                )
-            )
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() },
-                onClick = onClick
-            )
-    )
-    {
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() },
+                    onClick = onClick,
+                ),
+    ) {
         Column(
             modifier = modifier.padding(5.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-
             Row(
-                modifier = modifier
-                    .padding(10.dp),
-                verticalAlignment = Alignment.CenterVertically
+                modifier =
+                    modifier
+                        .padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-
                 Image(
                     painter = image,
                     contentDescription = stringResource(R.string.animal_gender_icon),
-                    modifier = Modifier
-                        .fillMaxSize(0.70f)
+                    modifier =
+                        Modifier
+                            .fillMaxSize(0.70f),
                 )
-
             }
             Row(
-                modifier = modifier
-                    .padding(top = 2.dp, bottom = 5.dp),
+                modifier =
+                    modifier
+                        .padding(top = 2.dp, bottom = 5.dp),
             ) {
                 Text(
                     text = text,
                     fontSize = 11.ssp,
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(),
                     color = colorText,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
             }
         }

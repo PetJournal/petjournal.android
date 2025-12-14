@@ -8,5 +8,5 @@ data class TaskType(
     val name: String,
     val color: Color,
     @DrawableRes val icon: Int? = null,
-    @DrawableRes val iconVector: Int? = null
+    @DrawableRes val iconVector: Int? = null,
 )

@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -49,7 +49,7 @@ fun ScaffoldCustom(
     showBottomBarNavigation: Boolean = false,
     navigationUp: NavController,
     bottomNavigationBar: @Composable () -> Unit = {},
-    contentToUse: @Composable (PaddingValues) -> Unit = {}
+    contentToUse: @Composable (PaddingValues) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -59,10 +59,11 @@ fun ScaffoldCustom(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     TopAppBar(
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = Color.Transparent,
-                            titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                        ),
+                        colors =
+                            TopAppBarDefaults.topAppBarColors(
+                                containerColor = Color.Transparent,
+                                titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                            ),
                         title = {
                             Text(
                                 text = titleTopBar,
@@ -71,7 +72,7 @@ fun ScaffoldCustom(
                                 fontFamily = FontFamily(RobotoRegular),
                                 fontWeight = FontWeight(400),
                                 color = Color(0xFF222222),
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Center,
                             )
                         },
                         navigationIcon = {
@@ -81,14 +82,17 @@ fun ScaffoldCustom(
                                 Image(
                                     painter = painterResource(id = R.drawable.navigate_before),
                                     contentDescription = stringResource(R.string.navigate_to_previous_screen),
-                                    contentScale = ContentScale.None
+                                    contentScale = ContentScale.None,
                                 )
                             }
                         },
                         actions = {
-                            if (showActions) actions()
-                            else Spacer(modifier = Modifier.size(ButtonDefaults.IconSize))
-                        }
+                            if (showActions) {
+                                actions()
+                            } else {
+                                Spacer(modifier = Modifier.size(ButtonDefaults.IconSize))
+                            }
+                        },
                     )
                 }
             }
@@ -99,9 +103,9 @@ fun ScaffoldCustom(
             }
         },
         content = { paddingValues ->
-                contentToUse(paddingValues)
+            contentToUse(paddingValues)
         },
-        modifier = modifier.shadow(4.dp)
+        modifier = modifier.shadow(4.dp),
     )
 }
 
@@ -116,6 +120,6 @@ fun ScaffoldCustomPreview() {
         showTopBar = true,
         titleTopBar = stringResource(R.string.edit_pet_data),
         showBottomBarNavigation = true,
-        bottomNavigationBar = { NavigationBar(nav) }
+        bottomNavigationBar = { NavigationBar(nav) },
     )
 }

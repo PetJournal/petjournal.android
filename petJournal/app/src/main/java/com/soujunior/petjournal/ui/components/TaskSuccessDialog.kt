@@ -40,96 +40,100 @@ import com.soujunior.petjournal.ui.theme.ColorCustom
 fun TaskSuccessDialog(
     onNewTaskClick: () -> Unit,
     onGoToHomeClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-
     Dialog(
         onDismissRequest = {},
-        properties = DialogProperties(dismissOnClickOutside = false)
+        properties = DialogProperties(dismissOnClickOutside = false),
     ) {
         Box(
-            modifier = modifier
-                .shadow(
-                    elevation = 3.dp,
-                    //todo: Corrigir ColorCustom.color_shadow_dialog,
-                    spotColor = ColorCustom.error_color,
-                    //todo: Corrigir ColorCustom.color_shadow_dialog,
-                    ambientColor = ColorCustom.error_color
-                )
-                //todo: Corrigir ColorCustom.color_border_dialog,
-                .border(2.dp, ColorCustom.error_color, RoundedCornerShape(16.dp))
-                .width(330.dp)
-                .height(338.dp)
-                .background(
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    shape = RoundedCornerShape(size = 16.dp)
-                )
-                .clip(RoundedCornerShape(16.dp))
-                .padding(24.dp)
+            modifier =
+                modifier
+                    .shadow(
+                        elevation = 3.dp,
+                        // todo: Corrigir ColorCustom.color_shadow_dialog,
+                        spotColor = ColorCustom.error_color,
+                        // todo: Corrigir ColorCustom.color_shadow_dialog,
+                        ambientColor = ColorCustom.error_color,
+                    )
+                    // todo: Corrigir ColorCustom.color_border_dialog,
+                    .border(2.dp, ColorCustom.error_color, RoundedCornerShape(16.dp))
+                    .width(330.dp)
+                    .height(338.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        shape = RoundedCornerShape(size = 16.dp),
+                    )
+                    .clip(RoundedCornerShape(16.dp))
+                    .padding(24.dp),
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically)
+                verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
             ) {
                 Text(
                     text = stringResource(R.string.label_task_added_successfully),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight(600),
                     color = MaterialTheme.colorScheme.scrim,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
 
                 Image(
                     painter = painterResource(id = R.drawable.success_animals),
                     contentDescription = null,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .width(71.dp)
-                        .height(57.50.dp)
+                    modifier =
+                        Modifier
+                            .padding(16.dp)
+                            .width(71.dp)
+                            .height(57.50.dp),
                 )
 
                 OutlinedButton(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp),
+                    modifier =
+                        modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 16.dp),
                     onClick = onNewTaskClick,
-                    //todo: Corrigir ColorCustom.color_background_button_dialog,
+                    // todo: Corrigir ColorCustom.color_background_button_dialog,
                     border = BorderStroke(1.dp, ColorCustom.error_color),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
                 ) {
                     Icon(
-                        modifier = modifier
-                            .width(24.dp)
-                            .height(24.dp),
+                        modifier =
+                            modifier
+                                .width(24.dp)
+                                .height(24.dp),
                         imageVector = Icons.Default.Add,
                         contentDescription = null,
-                        //todo: Corrigir ColorCustom.color_background_button_dialog,
-                        tint = ColorCustom.error_color
+                        // todo: Corrigir ColorCustom.color_background_button_dialog,
+                        tint = ColorCustom.error_color,
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = stringResource(R.string.label_new_task),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight(600),
-                        //todo: Corrigir ColorCustom.color_border_dialog,
-                        color = ColorCustom.error_color
+                        // todo: Corrigir ColorCustom.color_border_dialog,
+                        color = ColorCustom.error_color,
                     )
                 }
 
                 androidx.compose.material3.Button(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp, top = 6.dp),
+                    modifier =
+                        modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 16.dp, top = 6.dp),
                     onClick = onGoToHomeClick,
-                    //todo: Corrigir ColorCustom.color_border_dialog,
+                    // todo: Corrigir ColorCustom.color_border_dialog,
                     colors = ButtonDefaults.buttonColors(containerColor = ColorCustom.error_color),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
                 ) {
                     Text(
                         text = stringResource(R.string.label_go_to_home),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight(500),
-                        color = MaterialTheme.colorScheme.background
+                        color = MaterialTheme.colorScheme.background,
                     )
                 }
             }

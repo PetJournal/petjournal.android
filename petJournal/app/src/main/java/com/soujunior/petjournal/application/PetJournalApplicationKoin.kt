@@ -18,12 +18,11 @@ class PetJournalApplicationKoin : Application() {
 
     private fun setupKoin() {
         startKoin {
-            //androidLogger()
+            // androidLogger()
             androidLogger(Level.ERROR)
             androidContext(this@PetJournalApplicationKoin)
-            //todo: descomentar para implementar fora do ambiente de teste -> modules(mainModule)
+            // todo: descomentar para implementar fora do ambiente de teste -> modules(mainModule)
             modules(listOf(mockModule, mockViewmodel, mockUsercase, mockData))
         }
     }
-
 }

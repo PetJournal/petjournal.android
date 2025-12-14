@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.components.clock
 
-
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,7 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
@@ -52,7 +49,7 @@ import kotlin.math.abs
  * @param onTimeChanged Callback que é chamado com a hora e minuto válidos sempre que a seleção é confirmada.
  */
 @Composable
-fun WheelTimePicker(
+fun wheelTimePicker(
     modifier: Modifier = Modifier,
     itemHeight: Dp = 40.dp,
     visibleItemsCount: Int = 3,
@@ -61,7 +58,7 @@ fun WheelTimePicker(
     textStyle: TextStyle = MaterialTheme.typography.titleLarge,
     focusedColor: Color = Color.Black,
     unfocusedColor: Color = ColorCustom.color_unfocused_wheelTimePicker,
-    onTimeChanged: (hour: Int, minute: Int) -> Unit
+    onTimeChanged: (hour: Int, minute: Int) -> Unit,
 ) {
     require(visibleItemsCount % 2 != 0) { "visibleItemsCount must be an odd number." }
 
@@ -83,7 +80,7 @@ fun WheelTimePicker(
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         PickerColumn(
             modifier = Modifier.weight(1f),
@@ -96,22 +93,21 @@ fun WheelTimePicker(
             visibleItemsCount = visibleItemsCount,
             textStyle = textStyle,
             focusedColor = focusedColor,
-            unfocusedColor = unfocusedColor
+            unfocusedColor = unfocusedColor,
         )
 
         Box(
             modifier = Modifier.height(totalHeight),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = ":",
                 style = textStyle,
                 color = focusedColor,
                 fontSize = 32.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
         }
-
 
         PickerColumn(
             modifier = Modifier.weight(1f),
@@ -124,7 +120,7 @@ fun WheelTimePicker(
             visibleItemsCount = visibleItemsCount,
             textStyle = textStyle,
             focusedColor = focusedColor,
-            unfocusedColor = unfocusedColor
+            unfocusedColor = unfocusedColor,
         )
     }
 }
@@ -144,7 +140,7 @@ private fun PickerColumn(
     visibleItemsCount: Int,
     textStyle: TextStyle,
     focusedColor: Color,
-    unfocusedColor: Color
+    unfocusedColor: Color,
 ) {
     val halfVisibleItems = visibleItemsCount / 2
     val initialDataIndex = items.indexOf(initialItem).coerceAtLeast(0)
@@ -181,9 +177,10 @@ private fun PickerColumn(
 
                 val viewportCenter =
                     (layoutInfo.viewportStartOffset + layoutInfo.viewportEndOffset) / 2
-                val centralItem = layoutInfo.visibleItemsInfo.minByOrNull {
-                    abs((it.offset + it.size / 2) - viewportCenter)
-                } ?: return@collect
+                val centralItem =
+                    layoutInfo.visibleItemsInfo.minByOrNull {
+                        abs((it.offset + it.size / 2) - viewportCenter)
+                    } ?: return@collect
 
                 val itemDataIndex =
                     (centralItem.index - halfVisibleItems).coerceIn(0, items.size - 1)
@@ -197,38 +194,31 @@ private fun PickerColumn(
 
     Box(
         modifier = modifier.height(totalHeight),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         LazyColumn(
             state = listState,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.height(totalHeight)
+            modifier = Modifier.height(totalHeight),
         ) {
             items(halfVisibleItems) { Box(modifier = Modifier.height(itemHeight)) }
 
             items(items.size) { dataIndex ->
                 val lazyColumnIndex = dataIndex + halfVisibleItems
                 val isFocused = (lazyColumnIndex == centralLazyColumnIndex)
-                val scale by animateFloatAsState(
-                    targetValue = if (isFocused) 1.2f else 1.0f,
-                    label = "scale"
-                )
-                val alpha by animateFloatAsState(
-                    targetValue = if (isFocused) 1.0f else 0.5f,
-                    label = "alpha"
-                )
 
                 Box(
                     modifier = Modifier.height(itemHeight),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = items[dataIndex],
-                        style = textStyle.copy(
-                            color = if (isFocused) focusedColor else unfocusedColor,
-                            fontSize = 34.sp
-                        ),
-                        modifier = Modifier//.alpha(alpha)
+                        style =
+                            textStyle.copy(
+                                color = if (isFocused) focusedColor else unfocusedColor,
+                                fontSize = 34.sp,
+                            ),
+                        modifier = Modifier,
                     )
                 }
             }
@@ -238,7 +228,6 @@ private fun PickerColumn(
     }
 }
 
-
 /**
  * Preview para visualização no Android Studio.
  */
@@ -247,15 +236,16 @@ private fun PickerColumn(
 fun TimePickerPreview() {
     MaterialTheme {
         Box(
-            modifier = Modifier
-                .height(150.dp)
-                .width(100.dp),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .height(150.dp)
+                    .width(100.dp),
+            contentAlignment = Alignment.Center,
         ) {
-            WheelTimePicker(
+            wheelTimePicker(
                 onTimeChanged = { hour, minute ->
                     println("Hora selecionada: $hour:$minute")
-                }
+                },
             )
         }
     }

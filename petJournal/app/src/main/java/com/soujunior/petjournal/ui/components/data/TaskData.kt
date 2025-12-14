@@ -8,5 +8,5 @@ data class TaskData(
     val startAt: String,
     val endAt: String = "",
     val type: TaskType,
-    val pets: List<FakePetData> = emptyList()
+    val pets: List<FakePetData> = emptyList(),
 )

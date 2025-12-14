@@ -8,9 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.soujunior.petjournal.ui.screens_app.screens_pets.registerTaskScreen.components.ScreenRegisterTask
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,17 +16,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        //todo: ESTE É UMA SAIDA PALEATIVA PARA UM ERRO GRAVE QUE EU NÃO ENTENDI, saúde e paz para quem resolver.
+        // todo: ESTE É UMA SAIDA PALEATIVA PARA UM ERRO GRAVE QUE EU NÃO ENTENDI, saúde e paz para quem resolver.
         androidx.compose.foundation.ComposeFoundationFlags.isNonComposedClickableEnabled = false
         setContent {
-            //ChangeSystemBars()
-            PresentationManager()
+            // ChangeSystemBars()
+            presentationManager()
         }
     }
 }
 
 @Composable
-fun ChangeSystemBars() {
+fun changeSystemBars() {
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setStatusBarColor(Color.Transparent)
@@ -36,31 +34,31 @@ fun ChangeSystemBars() {
 }
 
 @Composable
-fun PresentationManager() {
+fun presentationManager() {
     PetJournalTheme(
         isIntro = true,
         content = {
             Presentation()
-        }
+        },
     )
 }
 
 @Composable
-fun AccountManager() {
+fun accountManager() {
     PetJournalTheme(
         isIntro = false,
         content = {
             NavHostAccountManager()
-        }
+        },
     )
 }
 
 @Composable
-fun MainContent() {
+fun mainContent() {
     PetJournalTheme(
         isIntro = false,
         content = {
             NavHostMainContent()
-        }
+        },
     )
 }

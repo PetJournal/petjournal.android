@@ -24,20 +24,21 @@ import com.soujunior.petjournal.ui.util.SelectedPeriodType
 @Composable
 fun PeriodSelector(
     selected: SelectedPeriodType,
-    onSelectionChanged: (SelectedPeriodType) -> Unit
+    onSelectionChanged: (SelectedPeriodType) -> Unit,
 ) {
     val items = listOf(SelectedPeriodType.Diária, SelectedPeriodType.Semanal, SelectedPeriodType.Mensal)
 
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
         items.forEach { item ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .clickable { onSelectionChanged(item) }
-                    .padding(horizontal = 8.dp)
+                modifier =
+                    Modifier
+                        .clickable { onSelectionChanged(item) }
+                        .padding(horizontal = 8.dp),
             ) {
                 Text(
                     text = item.name,
@@ -56,11 +57,12 @@ fun PeriodSelector(
 
 @Composable
 fun TriangleIndicator(
-    //TODO: colocar na tabela de cores.
+    // TODO: colocar na tabela de cores.
     color: Color = Color(0xFF8D4CD2),
-    modifier: Modifier = Modifier
-        .width(60.dp)
-        .height(2.dp)
+    modifier: Modifier =
+        Modifier
+            .width(60.dp)
+            .height(2.dp),
 ) {
     Canvas(modifier = modifier) {
         val width = size.width
@@ -68,18 +70,18 @@ fun TriangleIndicator(
 
         val inset = width * 0.1f
 
-        val path = Path().apply {
-            moveTo(inset, 0f)
-            lineTo(width - inset, 0f)
-            lineTo(width, height)
-            lineTo(0f, height)
-            close()
-        }
+        val path =
+            Path().apply {
+                moveTo(inset, 0f)
+                lineTo(width - inset, 0f)
+                lineTo(width, height)
+                lineTo(0f, height)
+                close()
+            }
 
         drawPath(path = path, color = color)
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

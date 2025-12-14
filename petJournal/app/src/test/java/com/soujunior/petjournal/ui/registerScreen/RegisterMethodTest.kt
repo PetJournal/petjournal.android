@@ -23,7 +23,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class RegisterMethodTest {
-
     @get:Rule
     private lateinit var viewModel: RegisterViewModelImpl
     private val signUpUseCase = mockk<SignUpUseCase>(relaxed = true)
@@ -41,17 +40,19 @@ class RegisterMethodTest {
     }
 
     @Test
-    fun `if success() is call, set the value on state userProfile`() = runTest {
-        val successMessage = User(
-            "123456",
-            "John",
-            "Doe",
-            "john.doe@example.com",
-            "11998018914"
-        )
-        viewModel.success(successMessage)
-        assertEquals(successMessage, viewModel.state.userProfile)
-    }
+    fun `if success() is call, set the value on state userProfile`() =
+        runTest {
+            val successMessage =
+                User(
+                    "123456",
+                    "John",
+                    "Doe",
+                    "john.doe@example.com",
+                    "11998018914",
+                )
+            viewModel.success(successMessage)
+            assertEquals(successMessage, viewModel.state.userProfile)
+        }
 
     @Test
     fun `if failed() is call, sets error message`() {
@@ -62,183 +63,206 @@ class RegisterMethodTest {
 
     @Test
     fun `When enable() button is called make sure all fields are filled and it returns true`() {
-        every { this@RegisterMethodTest.validation.validateName(any()) } returns ValidationResult(
-            success = true
-        )
-        every { this@RegisterMethodTest.validation.validateLastName(any()) } returns ValidationResult(
-            success = true
-        )
-        every { this@RegisterMethodTest.validation.validateEmail(any()) } returns ValidationResult(
-            success = true
-        )
-        every { this@RegisterMethodTest.validation.validatePhone(any()) } returns ValidationResult(
-            success = true
-        )
-        every { this@RegisterMethodTest.validation.validatePassword(any()) } returns ValidationResult(
-            success = true
-        )
+        every { this@RegisterMethodTest.validation.validateName(any()) } returns
+            ValidationResult(
+                success = true,
+            )
+        every { this@RegisterMethodTest.validation.validateLastName(any()) } returns
+            ValidationResult(
+                success = true,
+            )
+        every { this@RegisterMethodTest.validation.validateEmail(any()) } returns
+            ValidationResult(
+                success = true,
+            )
+        every { this@RegisterMethodTest.validation.validatePhone(any()) } returns
+            ValidationResult(
+                success = true,
+            )
+        every { this@RegisterMethodTest.validation.validatePassword(any()) } returns
+            ValidationResult(
+                success = true,
+            )
         every {
             this@RegisterMethodTest.validation.validateRepeatedPassword(
                 any(),
-                any()
+                any(),
             )
         } returns ValidationResult(success = true)
-        viewModel.state = viewModel.state.copy(
-            name = "John",
-            lastName = "Doe",
-            email = "john.doe@example.com",
-            phone = "123456789",
-            password = "password",
-            repeatedPassword = "password",
-            privacyPolicy = true
-        )
+        viewModel.state =
+            viewModel.state.copy(
+                name = "John",
+                lastName = "Doe",
+                email = "john.doe@example.com",
+                phone = "123456789",
+                password = "password",
+                repeatedPassword = "password",
+                privacyPolicy = true,
+            )
         val enableButton = viewModel.enableButton()
         assertk.assertThat(enableButton).isTrue()
     }
 
     @Test
     fun `When enableButton is called with empty name, it returns false`() {
-        every { this@RegisterMethodTest.validation.validateName(any()) } returns ValidationResult(
-            success = true
-        )
-        every { this@RegisterMethodTest.validation.validateLastName(any()) } returns ValidationResult(
-            success = true
-        )
-        every { this@RegisterMethodTest.validation.validateEmail(any()) } returns ValidationResult(
-            success = true
-        )
-        every { this@RegisterMethodTest.validation.validatePhone(any()) } returns ValidationResult(
-            success = true
-        )
-        every { this@RegisterMethodTest.validation.validatePassword(any()) } returns ValidationResult(
-            success = true
-        )
+        every { this@RegisterMethodTest.validation.validateName(any()) } returns
+            ValidationResult(
+                success = true,
+            )
+        every { this@RegisterMethodTest.validation.validateLastName(any()) } returns
+            ValidationResult(
+                success = true,
+            )
+        every { this@RegisterMethodTest.validation.validateEmail(any()) } returns
+            ValidationResult(
+                success = true,
+            )
+        every { this@RegisterMethodTest.validation.validatePhone(any()) } returns
+            ValidationResult(
+                success = true,
+            )
+        every { this@RegisterMethodTest.validation.validatePassword(any()) } returns
+            ValidationResult(
+                success = true,
+            )
         every {
             this@RegisterMethodTest.validation.validateRepeatedPassword(
                 any(),
-                any()
+                any(),
             )
         } returns ValidationResult(success = true)
-        viewModel.state = RegisterFormState(
-            name = "",
-            lastName = "Doe",
-            email = "john.doe@example.com",
-            phone = "123456789",
-            password = "password",
-            repeatedPassword = "password",
-            privacyPolicy = true
-        )
+        viewModel.state =
+            RegisterFormState(
+                name = "",
+                lastName = "Doe",
+                email = "john.doe@example.com",
+                phone = "123456789",
+                password = "password",
+                repeatedPassword = "password",
+                privacyPolicy = true,
+            )
         val enableButton = viewModel.enableButton()
         assertk.assertThat(enableButton).isFalse()
     }
 
     @Test
     fun `When enableButton is called with empty lastName, it returns false`() {
-        viewModel.state = RegisterFormState(
-            name = "John",
-            lastName = "",
-            email = "john.doe@example.com",
-            phone = "123456789",
-            password = "password",
-            repeatedPassword = "password",
-            privacyPolicy = true
-        )
+        viewModel.state =
+            RegisterFormState(
+                name = "John",
+                lastName = "",
+                email = "john.doe@example.com",
+                phone = "123456789",
+                password = "password",
+                repeatedPassword = "password",
+                privacyPolicy = true,
+            )
         val enableButton = viewModel.enableButton()
         assertk.assertThat(enableButton).isFalse()
     }
 
     @Test
     fun `When enableButton is called with empty email, it returns false`() {
-        viewModel.state = RegisterFormState(
-            name = "John",
-            lastName = "Doe",
-            email = "",
-            phone = "123456789",
-            password = "password",
-            repeatedPassword = "password",
-            privacyPolicy = true
-        )
+        viewModel.state =
+            RegisterFormState(
+                name = "John",
+                lastName = "Doe",
+                email = "",
+                phone = "123456789",
+                password = "password",
+                repeatedPassword = "password",
+                privacyPolicy = true,
+            )
         val enableButton = viewModel.enableButton()
         assertk.assertThat(enableButton).isFalse()
     }
 
     @Test
     fun `When enableButton is called with empty phone, it returns true`() {
-        every { this@RegisterMethodTest.validation.validateName(any()) } returns ValidationResult(
-            success = true
-        )
-        every { this@RegisterMethodTest.validation.validateLastName(any()) } returns ValidationResult(
-            success = true
-        )
-        every { this@RegisterMethodTest.validation.validateEmail(any()) } returns ValidationResult(
-            success = true
-        )
-        every { this@RegisterMethodTest.validation.validatePhone(any()) } returns ValidationResult(
-            success = true
-        )
-        every { this@RegisterMethodTest.validation.validatePassword(any()) } returns ValidationResult(
-            success = true
-        )
+        every { this@RegisterMethodTest.validation.validateName(any()) } returns
+            ValidationResult(
+                success = true,
+            )
+        every { this@RegisterMethodTest.validation.validateLastName(any()) } returns
+            ValidationResult(
+                success = true,
+            )
+        every { this@RegisterMethodTest.validation.validateEmail(any()) } returns
+            ValidationResult(
+                success = true,
+            )
+        every { this@RegisterMethodTest.validation.validatePhone(any()) } returns
+            ValidationResult(
+                success = true,
+            )
+        every { this@RegisterMethodTest.validation.validatePassword(any()) } returns
+            ValidationResult(
+                success = true,
+            )
         every {
             this@RegisterMethodTest.validation.validateRepeatedPassword(
                 any(),
-                any()
+                any(),
             )
         } returns ValidationResult(success = true)
-        viewModel.state = RegisterFormState(
-            name = "John",
-            lastName = "Doe",
-            email = "john.doe@example.com",
-            phone = "",
-            password = "password",
-            repeatedPassword = "password",
-            privacyPolicy = true
-        )
+        viewModel.state =
+            RegisterFormState(
+                name = "John",
+                lastName = "Doe",
+                email = "john.doe@example.com",
+                phone = "",
+                password = "password",
+                repeatedPassword = "password",
+                privacyPolicy = true,
+            )
         val enableButton = viewModel.enableButton()
         assertk.assertThat(enableButton).isTrue()
     }
 
     @Test
     fun `When enableButton is called with empty password, it returns false`() {
-        viewModel.state = RegisterFormState(
-            name = "John",
-            lastName = "Doe",
-            email = "john.doe@example.com",
-            phone = "123456789",
-            password = "",
-            repeatedPassword = "password",
-            privacyPolicy = true
-        )
+        viewModel.state =
+            RegisterFormState(
+                name = "John",
+                lastName = "Doe",
+                email = "john.doe@example.com",
+                phone = "123456789",
+                password = "",
+                repeatedPassword = "password",
+                privacyPolicy = true,
+            )
         val enableButton = viewModel.enableButton()
         assertk.assertThat(enableButton).isFalse()
     }
 
     @Test
     fun `When enableButton is called with empty repeatedPassword, it returns false`() {
-        viewModel.state = RegisterFormState(
-            name = "John",
-            lastName = "Doe",
-            email = "john.doe@example.com",
-            phone = "123456789",
-            password = "password",
-            repeatedPassword = "",
-            privacyPolicy = true
-        )
+        viewModel.state =
+            RegisterFormState(
+                name = "John",
+                lastName = "Doe",
+                email = "john.doe@example.com",
+                phone = "123456789",
+                password = "password",
+                repeatedPassword = "",
+                privacyPolicy = true,
+            )
         val enableButton = viewModel.enableButton()
         assertk.assertThat(enableButton).isFalse()
     }
 
     @Test
     fun `When enableButton is called with privacyPolicy set to false, it returns false`() {
-        viewModel.state = RegisterFormState(
-            name = "John",
-            lastName = "Doe",
-            email = "john.doe@example.com",
-            phone = "123456789",
-            password = "password",
-            repeatedPassword = "password",
-            privacyPolicy = false
-        )
+        viewModel.state =
+            RegisterFormState(
+                name = "John",
+                lastName = "Doe",
+                email = "john.doe@example.com",
+                phone = "123456789",
+                password = "password",
+                repeatedPassword = "password",
+                privacyPolicy = false,
+            )
         val enableButton = viewModel.enableButton()
         assertk.assertThat(enableButton).isFalse()
     }
@@ -311,7 +335,7 @@ class RegisterMethodTest {
         every {
             validation.validateRepeatedPassword(
                 newRepeatedPassword,
-                viewModel.state.password
+                viewModel.state.password,
             )
         } returns validationResult
 
@@ -373,7 +397,6 @@ class RegisterMethodTest {
         viewModel.onEvent(event)
         assertEquals(password, viewModel.state.password)
     }
-
 
     @Test
     fun `test onEvent ConfirmPasswordChanged`() {

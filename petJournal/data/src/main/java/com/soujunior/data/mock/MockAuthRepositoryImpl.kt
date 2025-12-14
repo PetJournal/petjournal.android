@@ -48,7 +48,7 @@ class MockAuthRepositoryImpl : AuthRepository  {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getSavedPassword(): String? {
+    override suspend fun getSavedPassword(): String {
         TODO("Not yet implemented")
     }
 

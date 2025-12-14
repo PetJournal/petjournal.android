@@ -14,33 +14,35 @@ import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.ui.components.AmPmSelector
 
 @Composable
-fun TimePickerWithPeriodSelector(
+fun timePickerWithPeriodSelector(
     onAmPmSelector: (String) -> Unit,
-    onTime: (Int, Int) -> Unit
+    onTime: (Int, Int) -> Unit,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         AmPmSelector(
             onPeriodSelected = { periodSelected ->
                 onAmPmSelector(periodSelected)
-            }
+            },
         )
         Box(
-            modifier = Modifier
-                .padding(start = 8.dp)
-                .height(150.dp)
-                .width(100.dp),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .padding(start = 8.dp)
+                    .height(150.dp)
+                    .width(100.dp),
+            contentAlignment = Alignment.Center,
         ) {
-            WheelTimePicker(
+            wheelTimePicker(
                 onTimeChanged = { hour, minute ->
                     onTime(hour, minute)
-                }
+                },
             )
         }
     }

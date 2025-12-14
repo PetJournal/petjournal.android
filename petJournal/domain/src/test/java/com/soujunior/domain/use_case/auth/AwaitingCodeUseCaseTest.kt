@@ -41,9 +41,7 @@ class AwaitingCodeUseCaseTest {
             authRepository.awaitingCode(any())
         } returns NetworkResult.Success(AccessTokenResponse("4a43-gkd4-asmb-rasb"))
 
-        val result = authRepository.awaitingCode(awaitingCodeModel)
-
-        when (result) {
+        when (val result = authRepository.awaitingCode(awaitingCodeModel)) {
             is NetworkResult.Success -> {
                 val accessToken = result.data.accessToken
                 assertThat(accessToken).isEqualTo("4a43-gkd4-asmb-rasb")
@@ -57,9 +55,7 @@ class AwaitingCodeUseCaseTest {
             authRepository.awaitingCode(any())
         } returns NetworkResult.Success(AccessTokenResponse("4a43-gkd4-asmb-rasb"))
 
-        val result = authRepository.awaitingCode(awaitingCodeModel)
-
-        when (result) {
+        when (val result = authRepository.awaitingCode(awaitingCodeModel)) {
             is NetworkResult.Success -> {
                 val accessToken = result.data.accessToken
                 assertThat(accessToken).isNotEqualTo("4a43-gkd4-asmb-ras")

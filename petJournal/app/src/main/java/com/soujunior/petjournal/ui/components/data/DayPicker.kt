@@ -33,9 +33,7 @@ import java.time.LocalDate
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DayPicker(
-    onDaySelected: (Int) -> Unit
-) {
+fun DayPicker(onDaySelected: (Int) -> Unit) {
     val currentDate = remember { LocalDate.now() }
     val totalDays = remember { currentDate.lengthOfMonth() }
 
@@ -54,22 +52,23 @@ fun DayPicker(
     }
 
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(text = "DIA", style = MaterialTheme.typography.bodySmall)
 
         Box(
-            modifier = Modifier
-                .height(120.dp)
-                .width(60.dp),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .height(120.dp)
+                    .width(60.dp),
+            contentAlignment = Alignment.Center,
         ) {
             LazyColumn(
                 state = listState,
                 flingBehavior = flingBehavior,
                 contentPadding = PaddingValues(vertical = 40.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier.fillMaxHeight(),
             ) {
                 itemsIndexed(days) { index, day ->
                     val isSelected = listState.firstVisibleItemIndex == index
@@ -78,7 +77,7 @@ fun DayPicker(
                         fontSize = if (isSelected) 26.sp else 20.sp,
                         color = if (isSelected) Color.Black else Color.LightGray,
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                        modifier = Modifier.padding(vertical = 4.dp)
+                        modifier = Modifier.padding(vertical = 4.dp),
                     )
                 }
             }
@@ -86,13 +85,12 @@ fun DayPicker(
     }
 }
 
-
 @Preview
 @Composable
-fun DayPickerPreview(){
+fun DayPickerPreview()  {
     var selectedDay by remember { mutableStateOf(LocalDate.now().dayOfMonth) }
 
     DayPicker(
-        onDaySelected = { selectedDay = it }
+        onDaySelected = { selectedDay = it },
     )
 }

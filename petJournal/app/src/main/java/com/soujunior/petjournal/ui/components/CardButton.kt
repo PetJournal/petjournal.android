@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -22,27 +21,29 @@ fun CardButton(
     image: Painter,
     cardColor: Color,
     submit: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Surface(
         color = cardColor,
         shape = RoundedCornerShape(8.dp),
-        modifier = modifier.clickable(
-            indication = null,
-            interactionSource = remember { MutableInteractionSource() },
-            onClick = submit
-        )
+        modifier =
+            modifier.clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() },
+                onClick = submit,
+            ),
     ) {
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             Image(
                 painter = image,
                 contentDescription = null,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(16.dp)
-                    .fillMaxSize(1f)
+                modifier =
+                    Modifier
+                        .align(Alignment.Center)
+                        .padding(16.dp)
+                        .fillMaxSize(1f),
             )
         }
     }

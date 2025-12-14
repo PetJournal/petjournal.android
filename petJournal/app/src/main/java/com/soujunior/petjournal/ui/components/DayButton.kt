@@ -1,4 +1,4 @@
- package com.soujunior.petjournal.ui.components
+package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,30 +28,34 @@ import androidx.compose.ui.unit.sp
 fun DayButton(
     label: String,
     selectedDay: MutableState<String?>,
-    onDaySelected: (String) -> Unit
+    onDaySelected: (String) -> Unit,
 ) {
     val isSelected = selectedDay.value == label
     val borderColor = Color(0xFFB78AF7)
     val backgroundColor = if (isSelected) Color(0xFFB78AF7) else Color.White
 
     Box(
-        modifier = Modifier
-            .then(
-                if (label == "Sab") Modifier
-                    .fillMaxWidth()
-                    .height(28.dp)
-                else Modifier
-                    .width(42.dp)
-                    .height(28.dp)
-            )
-            .clip(RoundedCornerShape(6.dp))
-            .background(backgroundColor)
-            .border(1.dp, borderColor, RoundedCornerShape(6.dp))
-            .clickable {
-                selectedDay.value = label
-                onDaySelected(label)
-            },
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .then(
+                    if (label == "Sab") {
+                        Modifier
+                            .fillMaxWidth()
+                            .height(28.dp)
+                    } else {
+                        Modifier
+                            .width(42.dp)
+                            .height(28.dp)
+                    },
+                )
+                .clip(RoundedCornerShape(6.dp))
+                .background(backgroundColor)
+                .border(1.dp, borderColor, RoundedCornerShape(6.dp))
+                .clickable {
+                    selectedDay.value = label
+                    onDaySelected(label)
+                },
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = label,
@@ -71,6 +75,6 @@ fun DayButtonPreview() {
     DayButton(
         label = "Seg",
         onDaySelected = {},
-        selectedDay = remember { mutableStateOf("Seg") }
+        selectedDay = remember { mutableStateOf("Seg") },
     )
 }

@@ -89,7 +89,7 @@ class ValidationRepositoryImpl : ValidationRepository {
 
     override fun validatePassword(password: String): ValidationResult {
         val listItens = countCharacters(password)
-        val listErrorMessage: MutableList<String>? = mutableListOf()
+        val listErrorMessage: MutableList<String> = mutableListOf()
 
         var count = 0
 

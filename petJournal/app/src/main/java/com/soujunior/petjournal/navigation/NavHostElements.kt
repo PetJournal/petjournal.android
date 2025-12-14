@@ -5,29 +5,29 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.soujunior.petjournal.ui.screens_app.screen_home.homeScreen.HomeScreen
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petBirthDateScreen.PetBirthScreen
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petNameAndGenderScreen.PetNameAndGenderScreen
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petRaceAndSizeScreen.PetRaceAndSizeScreen
-import com.soujunior.petjournal.ui.screens_app.screens_pets.speciesChoiceScreen.SpeciesChoiceScreen
-import com.soujunior.petjournal.ui.screens_app.screen_tutor.tutorScreen.TutorScreen
-import com.soujunior.petjournal.ui.screens_app.screens_apresentation.splashScreen.SplashScreen
-import com.soujunior.petjournal.ui.screens_app.account_manager.awaitingCodeScreen.AwaitingCodeScreen
-import com.soujunior.petjournal.ui.screens_app.account_manager.changePasswordScreen.ChangePasswordScreen
-import com.soujunior.petjournal.ui.screens_app.account_manager.forgotPasswordScreen.ForgotPasswordScreen
-import com.soujunior.petjournal.ui.screens_app.account_manager.loginScreen.LoginScreen
-import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.RegisterScreen
-import com.soujunior.petjournal.ui.screens_app.screens_pets.introRegisterPetScreen.IntroRegisterPetScreen
-import com.soujunior.petjournal.ui.screens_app.screens_pets.petListScreen.PetListScreen
-import com.soujunior.petjournal.ui.screens_app.screens_pets.registerPetScreen.RegisterPetScreen
+import com.soujunior.petjournal.ui.screensApp.accountmanager.awaitingCodeScreen.AwaitingCodeScreen
+import com.soujunior.petjournal.ui.screensApp.accountmanager.changePasswordScreen.ChangePasswordScreen
+import com.soujunior.petjournal.ui.screensApp.accountmanager.forgotPasswordScreen.ForgotPasswordScreen
+import com.soujunior.petjournal.ui.screensApp.accountmanager.loginScreen.LoginScreen
+import com.soujunior.petjournal.ui.screensApp.accountmanager.registerScreen.RegisterScreen
+import com.soujunior.petjournal.ui.screensApp.screenHome.homeScreen.HomeScreen
+import com.soujunior.petjournal.ui.screensApp.screenTutor.tutorScreen.TutorScreen
+import com.soujunior.petjournal.ui.screensApp.screensApresentation.splashScreen.SplashScreen
+import com.soujunior.petjournal.ui.screensApp.screensPets.introRegisterPetScreen.IntroRegisterPetScreen
+import com.soujunior.petjournal.ui.screensApp.screensPets.petBirthDateScreen.PetBirthScreen
+import com.soujunior.petjournal.ui.screensApp.screensPets.petListScreen.PetListScreen
+import com.soujunior.petjournal.ui.screensApp.screensPets.petNameAndGenderScreen.PetNameAndGenderScreen
+import com.soujunior.petjournal.ui.screensApp.screensPets.petRaceAndSizeScreen.PetRaceAndSizeScreen
+import com.soujunior.petjournal.ui.screensApp.screensPets.registerPetScreen.RegisterPetScreen
+import com.soujunior.petjournal.ui.screensApp.screensPets.speciesChoiceScreen.SpeciesChoiceScreen
 
 @Composable
 fun Presentation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "splash") {
         composable("splash") { SplashScreen(navController) }
-        composable("account_manager") { AccountManager() }
-        composable("mainContent") { (MainContent()) }
+        composable("account_manager") { accountManager() }
+        composable("mainContent") { (mainContent()) }
     }
 }
 
@@ -37,7 +37,7 @@ fun NavHostAccountManager() {
     NavHost(navController = navController, startDestination = "login") {
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
-        composable("mainContent") { (MainContent()) }
+        composable("mainContent") { (mainContent()) }
         composable("forgotPassword") { ForgotPasswordScreen(navController) }
         composable("changePassword") { ChangePasswordScreen(navController) }
         composable("awaitingCode/{arg}") { backStackEntry ->
@@ -52,7 +52,7 @@ fun NavHostMainContent() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
-        composable("account_manager") { AccountManager() }
+        composable("account_manager") { accountManager() }
         composable("tutorScreen") { TutorScreen(navController) }
         composable("pets/introRegisterPet") { IntroRegisterPetScreen(navController) }
         composable("pets/petListScreen") { PetListScreen(navController) }
@@ -62,21 +62,23 @@ fun NavHostMainContent() {
         composable("pets/nameAndGender/{arg}") { backStackEntry ->
             PetNameAndGenderScreen(
                 backStackEntry.arguments?.getString("arg"),
-                navController
+                navController,
             )
         }
         composable("pets/birth/{arg}") { backStackEntry ->
             PetBirthScreen(
                 backStackEntry.arguments?.getString(
-                    "arg"
-                ), navController
+                    "arg",
+                ),
+                navController,
             )
         }
         composable("pets/raceAndSize/{arg}") { backStackEntry ->
             PetRaceAndSizeScreen(
                 backStackEntry.arguments?.getString(
-                    "arg"
-                ), navController
+                    "arg",
+                ),
+                navController,
             )
         }
     }

@@ -58,7 +58,7 @@ fun AutoCompleteDropDown(
     dropdownItems: List<PetRaceItemModel>? = null,
     onEvent: (String) -> Unit,
     onDropdownItemSelected: (String) -> Unit = {},
-    onFocusChange: (Boolean) -> Unit = {}
+    onFocusChange: (Boolean) -> Unit = {},
 ) {
     val colorBorder = MaterialTheme.colorScheme.outline
     var expanded by remember {
@@ -72,9 +72,10 @@ fun AutoCompleteDropDown(
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
                 fontSize = 15.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, bottom = 5.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 10.dp, bottom = 5.dp),
             )
         }
 
@@ -82,61 +83,60 @@ fun AutoCompleteDropDown(
             Row {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
-
-                    ) {
+                ) {
                     TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(5.dp)
-                            .height(50.dp)
-                            .onFocusChanged {focusState ->
-                                if (focusState.isFocused){
-                                    onFocusChange(true)
-                                }else{
-                                    onFocusChange(false)
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(5.dp)
+                                .height(50.dp)
+                                .onFocusChanged { focusState ->
+                                    if (focusState.isFocused)
+                                        {
+                                            onFocusChange(true)
+                                        } else {
+                                        onFocusChange(false)
+                                    }
                                 }
-                            }
-                            .drawBehind {
-                                val stroke = Stroke(
-                                    width = 1.dp.toPx(),
-                                    pathEffect = PathEffect.dashPathEffect(
-                                        intervals = floatArrayOf(12.dp.toPx(), 12.dp.toPx(), 0f)
+                                .drawBehind {
+                                    val stroke =
+                                        Stroke(
+                                            width = 1.dp.toPx(),
+                                            pathEffect =
+                                                PathEffect.dashPathEffect(
+                                                    intervals = floatArrayOf(12.dp.toPx(), 12.dp.toPx(), 0f),
+                                                ),
+                                        )
+                                    drawRoundRect(
+                                        color = if (isError) Color.Transparent else colorBorder,
+                                        style = stroke,
+                                        cornerRadius = CornerRadius(10.dp.toPx()),
                                     )
+                                }
+                                .border(
+                                    2.dp,
+                                    if (isError) MaterialTheme.colorScheme.error else Color.Transparent,
+                                    shape = RoundedCornerShape(10.sdp),
                                 )
-                                drawRoundRect(
-                                    color = if (isError) Color.Transparent else colorBorder,
-                                    style = stroke,
-                                    cornerRadius = CornerRadius(10.dp.toPx())
-                                )
-
-                            }
-                            .border(
-                                2.dp,
-                                if (isError) MaterialTheme.colorScheme.error else Color.Transparent,
-                                shape = RoundedCornerShape(10.sdp)
-                            )
-                            .clip(RoundedCornerShape(10.sdp)),
-
-
+                                .clip(RoundedCornerShape(10.sdp)),
                         value = textValue,
                         onValueChange = {
                             onEvent(it)
                             expanded = true
                         },
-
-                        colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            cursorColor = MaterialTheme.colorScheme.primary
-                        ),
-
+                        colors =
+                            TextFieldDefaults.textFieldColors(
+                                backgroundColor = Color.Transparent,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                cursorColor = MaterialTheme.colorScheme.primary,
+                            ),
                         textStyle = MaterialTheme.typography.bodyMedium,
-
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done
-                        ),
+                        keyboardOptions =
+                            KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Done,
+                            ),
                         singleLine = true,
                         trailingIcon = {
                             IconButton(onClick = {
@@ -147,22 +147,18 @@ fun AutoCompleteDropDown(
                                     imageVector = Icons.Rounded.KeyboardArrowDown,
                                     contentDescription = "arrow",
                                     tint = MaterialTheme.colorScheme.outline,
-
-                                    )
+                                )
                             }
-
                         },
-
                         placeholder = {
                             Text(
                                 text = if (isError) "X" else placeholderText,
                                 color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.bodyMedium,
-                                fontSize = 15.sp
+                                fontSize = 15.sp,
                             )
                         },
                     )
-
                 }
             }
             Row {
@@ -175,35 +171,36 @@ fun AutoCompleteDropDown(
                         "*Campo Obrigatório.",
                         color = MaterialTheme.colorScheme.outline,
                         modifier = Modifier.padding(10.dp),
-                        fontSize = 15.sp
+                        fontSize = 15.sp,
                     )
                 }
             }
 
             AnimatedVisibility(visible = expanded) {
                 Card(
-                    modifier = Modifier
-                        .padding(horizontal = 5.dp)
-                        .heightIn(max = 180.dp),
+                    modifier =
+                        Modifier
+                            .padding(horizontal = 5.dp)
+                            .heightIn(max = 180.dp),
                     elevation = 15.dp,
                     shape = RoundedCornerShape(10.dp),
-                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
                 ) {
-
                     LazyColumn(
-                        modifier = Modifier
-                            .heightIn(max = 180.dp)
-                            .padding(5.dp)
+                        modifier =
+                            Modifier
+                                .heightIn(max = 180.dp)
+                                .padding(5.dp),
                     ) {
-
                         if (textValue.isNotEmpty()) {
                             dropdownItems?.filter {
                                 it.name.lowercase()
-                                    .contains(textValue.lowercase()) || it.name.lowercase()
-                                    .contains("Outro")
+                                    .contains(textValue.lowercase()) ||
+                                    it.name.lowercase()
+                                        .contains("Outro")
                             }?.let { itemList ->
                                 items(
-                                    itemList
+                                    itemList,
                                 ) { itemFilter ->
                                     CategoryItems(true, title = itemFilter.name) {
                                         expanded = false
@@ -215,7 +212,7 @@ fun AutoCompleteDropDown(
                         } else {
                             if (dropdownItems != null) {
                                 items(
-                                    dropdownItems
+                                    dropdownItems,
                                 ) { itemFilter ->
                                     CategoryItems(false, title = itemFilter.name) {
                                         expanded = false
@@ -225,39 +222,32 @@ fun AutoCompleteDropDown(
                                 }
                             }
                         }
-
                     }
-
                 }
             }
-
         }
-
     }
-
-
 }
 
 @Composable
 fun CategoryItems(
     styleSearch: Boolean?,
     title: String,
-    onSelect: (String) -> Unit
+    onSelect: (String) -> Unit,
 ) {
-
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                onSelect(title)
-            }
-            .padding(10.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clickable {
+                    onSelect(title)
+                }
+                .padding(10.dp),
     ) {
         Text(
             text = title,
             fontSize = 15.sp,
-            fontWeight = if (styleSearch == true) FontWeight.Bold else FontWeight.Normal
+            fontWeight = if (styleSearch == true) FontWeight.Bold else FontWeight.Normal,
         )
     }
-
 }

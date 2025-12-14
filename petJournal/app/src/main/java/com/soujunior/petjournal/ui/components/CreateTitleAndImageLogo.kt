@@ -45,36 +45,39 @@ fun CreateTitleAndImageLogo(
     styleTitle: TextStyle = MaterialTheme.typography.displayMedium,
     spaceBetweenbreadcrumbAndTitle: Dp = 0.sdp,
     spaceBetween: Dp = 0.sdp,
-    textAlign: TextAlign? = null
+    textAlign: TextAlign? = null,
 ) {
     val view = LocalView.current
     val cutoutInsets = WindowInsetsCompat.toWindowInsetsCompat(view.rootWindowInsets, view)
 
-    val topPadding = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        with(LocalDensity.current) {
-            (cutoutInsets.displayCutout?.safeInsetTop?.toDp() ?: 10.sdp) + 4.sdp
+    val topPadding =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            with(LocalDensity.current) {
+                (cutoutInsets.displayCutout?.safeInsetTop?.toDp() ?: 10.sdp) + 4.sdp
+            }
+        } else {
+            10.sdp
         }
-    } else {
-        10.sdp
-    }
     BoxWithConstraints(
-        modifier = Modifier
-            .fillMaxWidth()
-
+        modifier =
+            Modifier
+                .fillMaxWidth(),
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.background),
         ) {
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .shadow(
-                        elevation = 8.sdp,
-                        shape = RoundedCornerShape(bottomStart = 8.sdp, bottomEnd = 8.sdp),
-                        clip = false
-                    )
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .shadow(
+                            elevation = 8.sdp,
+                            shape = RoundedCornerShape(bottomStart = 8.sdp, bottomEnd = 8.sdp),
+                            clip = false,
+                        ),
             ) {
                 Row(
                     Modifier
@@ -91,9 +94,10 @@ fun CreateTitleAndImageLogo(
                 Spacer(modifier = Modifier.height(4.sdp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.sdp, end = 10.sdp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(start = 10.sdp, end = 10.sdp),
                 ) {
                     if (breadcrumbIndex != null) {
                         Breadcrumb(index = breadcrumbIndex)
@@ -104,9 +108,10 @@ fun CreateTitleAndImageLogo(
                 Spacer(modifier = Modifier.height(spaceBetweenbreadcrumbAndTitle))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.sdp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.sdp),
                 ) {
                     Text(
                         text = title,
@@ -115,7 +120,7 @@ fun CreateTitleAndImageLogo(
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = textAlign,
                         fontWeight = FontWeight(10),
-                        fontSize = 16.ssp
+                        fontSize = 16.ssp,
                     )
                 }
             }
@@ -123,9 +128,10 @@ fun CreateTitleAndImageLogo(
                 Spacer(modifier = Modifier.height(spaceBetween))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.sdp, end = 10.sdp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(start = 10.sdp, end = 10.sdp),
                 ) {
                     Text(
                         text = titleSecundary,
@@ -134,7 +140,7 @@ fun CreateTitleAndImageLogo(
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = textAlign,
                         fontWeight = FontWeight(10),
-                        fontSize = 16.ssp
+                        fontSize = 16.ssp,
                     )
                 }
             }
@@ -154,9 +160,10 @@ fun TesteImage() {
             spaceBetweenbreadcrumbAndTitle = 20.sdp,
             spaceBetween = 15.sdp,
             styleTitle = MaterialTheme.typography.displayLarge,
-            modifierImage = Modifier
-                .size(width = 200.dp, height = 200.dp)
-                .padding(top = 20.dp),
+            modifierImage =
+                Modifier
+                    .size(width = 200.dp, height = 200.dp)
+                    .padding(top = 20.dp),
         )
     }
 }

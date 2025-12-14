@@ -33,33 +33,35 @@ import ir.kaaveh.sdpcompose.ssp
  * 3 = Cadastro Pet > Raças > Porte > Nascimento
  * */
 @Composable
-fun Breadcrumb(index: Int){
+fun Breadcrumb(index: Int)  {
+    val screens =
+        listOf(
+            stringResource(R.string.pet_registration),
+            stringResource(R.string.pet_name_gender),
+            stringResource(R.string.placeholder_size),
+            stringResource(R.string.pet_birth),
+        )
 
-    val screens = listOf(
-        stringResource(R.string.pet_registration),
-        stringResource(R.string.pet_name_gender),
-        stringResource(R.string.placeholder_size),
-        stringResource(R.string.pet_birth)
-    )
+    val text: AnnotatedString =
+        if (index in screens.indices)
+            {
+                val concatenatedString = buildString(screens = screens, index = index)
+                concatenatedString
+            } else {
+            Log.e("Error", "INDEX OUT OF RANGE")
+            buildAnnotatedString { }
+        }
 
-    val text: AnnotatedString = if(index in screens.indices){
-        val concatenatedString = buildString(screens = screens, index = index)
-        concatenatedString
-    }else{
-        Log.e("Error", "INDEX OUT OF RANGE")
-        buildAnnotatedString {  }
-    }
-
-
-    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Column(
             horizontalAlignment = Alignment.Start,
-            modifier = Modifier.padding(2.sdp)
-        ){
+            modifier = Modifier.padding(2.sdp),
+        ) {
             Icon(
                 painter = painterResource(id = R.drawable.home),
                 contentDescription = "Home Icon",
-                tint = MaterialTheme.colorScheme.primary)
+                tint = MaterialTheme.colorScheme.primary,
+            )
         }
         Column(modifier = Modifier.padding(2.sdp)) {
             Text(
@@ -71,29 +73,40 @@ fun Breadcrumb(index: Int){
 }
 
 @Composable
-private fun buildString(screens: List<String>, index: Int): AnnotatedString{
-    val screenText = screens.subList(0, index+1)
+private fun buildString(
+    screens: List<String>,
+    index: Int,
+): AnnotatedString  {
+    val screenText = screens.subList(0, index + 1)
     return buildAnnotatedString {
         screenText.forEachIndexed { index, screen ->
-            val isLast = index == screenText.size-1
+            val isLast = index == screenText.size - 1
             withStyle(
-                style = SpanStyle(
-                    fontSize = 10.ssp,
-                    fontFamily = MaterialTheme.typography.headlineMedium.fontFamily,
-                    letterSpacing = MaterialTheme.typography.headlineMedium.letterSpacing,
-                    color =
-                if(isLast) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.onBackground)
-            ){
+                style =
+                    SpanStyle(
+                        fontSize = 10.ssp,
+                        fontFamily = MaterialTheme.typography.headlineMedium.fontFamily,
+                        letterSpacing = MaterialTheme.typography.headlineMedium.letterSpacing,
+                        color =
+                            if (isLast) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.onBackground
+                            },
+                    ),
+            ) {
                 append(screen)
             }
-            if(!isLast) {
-                withStyle(style = SpanStyle(
-                    fontSize = 10.ssp,
-                    fontFamily = MaterialTheme.typography.headlineMedium.fontFamily,
-                    letterSpacing = MaterialTheme.typography.headlineMedium.letterSpacing,
-                    color = MaterialTheme.colorScheme.onBackground
-                )) {
+            if (!isLast) {
+                withStyle(
+                    style =
+                        SpanStyle(
+                            fontSize = 10.ssp,
+                            fontFamily = MaterialTheme.typography.headlineMedium.fontFamily,
+                            letterSpacing = MaterialTheme.typography.headlineMedium.letterSpacing,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        ),
+                ) {
                     append(" > ")
                 }
             }
@@ -103,6 +116,6 @@ private fun buildString(screens: List<String>, index: Int): AnnotatedString{
 
 @Preview
 @Composable
-private fun PreviewScreenIndicator(){
+private fun PreviewScreenIndicator()  {
     Breadcrumb(index = 2)
 }

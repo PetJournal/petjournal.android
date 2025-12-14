@@ -29,30 +29,30 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 @Composable
-fun AmPmSelector(
-    onPeriodSelected: (String) -> Unit
-) {
+fun AmPmSelector(onPeriodSelected: (String) -> Unit) {
     val selected = remember { mutableStateOf<String?>(null) }
     val timePeriodMarkerAm = stringResource(R.string.am)
     val timePeriodMarkerPm = stringResource(R.string.pm)
     Column(
-        modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .border(1.dp, Color(0xFFB78AF7), RoundedCornerShape(8.dp))
-            .height(70.dp)
-            .width(31.dp)
+        modifier =
+            Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .border(1.dp, Color(0xFFB78AF7), RoundedCornerShape(8.dp))
+                .height(70.dp)
+                .width(31.dp),
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(35.dp)
-                .width(31.dp)
-                .background(if (selected.value == timePeriodMarkerAm) Color(0xFFB78AF7) else Color.White)
-                .clickable {
-                    selected.value = timePeriodMarkerAm
-                    onPeriodSelected(timePeriodMarkerAm)
-                },
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(35.dp)
+                    .width(31.dp)
+                    .background(if (selected.value == timePeriodMarkerAm) Color(0xFFB78AF7) else Color.White)
+                    .clickable {
+                        selected.value = timePeriodMarkerAm
+                        onPeriodSelected(timePeriodMarkerAm)
+                    },
+            contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = timePeriodMarkerAm,
@@ -60,36 +60,38 @@ fun AmPmSelector(
                 color = Color(0xFF2E2E2E),
                 fontWeight = FontWeight(400),
                 lineHeight = 16.sp,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
 
         Divider(
             color = Color(0xFFB78AF7),
             thickness = 1.dp,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
 
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(35.dp)
-                .width(31.dp)
-                .background(if (selected.value == timePeriodMarkerPm) Color(0xFFB78AF7) else Color.White)
-                .clickable {
-                    selected.value = timePeriodMarkerPm
-                    onPeriodSelected(timePeriodMarkerPm)
-                },
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(35.dp)
+                    .width(31.dp)
+                    .background(if (selected.value == timePeriodMarkerPm) Color(0xFFB78AF7) else Color.White)
+                    .clickable {
+                        selected.value = timePeriodMarkerPm
+                        onPeriodSelected(timePeriodMarkerPm)
+                    },
+            contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = timePeriodMarkerPm,
-                style = MaterialTheme.typography.labelLarge.copy(
-                    color = Color(0xFF2E2E2E),
-                    fontWeight = FontWeight(400),
-                    lineHeight = 16.sp,
-                    textAlign = TextAlign.Center
-                )
+                style =
+                    MaterialTheme.typography.labelLarge.copy(
+                        color = Color(0xFF2E2E2E),
+                        fontWeight = FontWeight(400),
+                        lineHeight = 16.sp,
+                        textAlign = TextAlign.Center,
+                    ),
             )
         }
     }
@@ -98,7 +100,7 @@ fun AmPmSelector(
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable
 fun AmPmSelectorPreview() {
-    PetJournalTheme{
+    PetJournalTheme {
         AmPmSelector(
             onPeriodSelected = {},
         )

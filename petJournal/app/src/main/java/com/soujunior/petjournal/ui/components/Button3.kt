@@ -34,37 +34,38 @@ fun Button3(
     modifier: Modifier = Modifier,
     text: String = "Button",
     textSize: TextUnit = 12.ssp,
-    contentPaddingValues : Dp = 12.sdp,
+    contentPaddingValues: Dp = 12.sdp,
     buttonColor: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
     textColor: Color = MaterialTheme.colorScheme.primary,
-    isLoading: Boolean = false
+    isLoading: Boolean = false,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
-        modifier = modifier
-            .padding(top = 20.sdp, bottom = 20.sdp)
-            .fillMaxWidth()
+        modifier =
+            modifier
+                .padding(top = 20.sdp, bottom = 20.sdp)
+                .fillMaxWidth(),
     ) {
         androidx.compose.material3.Button(
             onClick = { submit() },
             enabled = enableButton,
-            modifier = modifier
-                .width(120.sdp)
-                .shadow(
-                    elevation = 15.dp,
-                    spotColor = Color(0x40000000),
-                    ambientColor = Color(0x40000000)
-                )
-            ,
-            border = BorderStroke(
-                width = 1.sdp,
-                color = Color(0xFF959EA6)
-            ),
-
+            modifier =
+                modifier
+                    .width(120.sdp)
+                    .shadow(
+                        elevation = 15.dp,
+                        spotColor = Color(0x40000000),
+                        ambientColor = Color(0x40000000),
+                    ),
+            border =
+                BorderStroke(
+                    width = 1.sdp,
+                    color = Color(0xFF959EA6),
+                ),
             shape = RoundedCornerShape(size = 50.dp),
             colors = buttonColor,
-            contentPadding = PaddingValues(contentPaddingValues)
+            contentPadding = PaddingValues(contentPaddingValues),
         ) {
             if (!isLoading) {
                 Text(
@@ -72,12 +73,12 @@ fun Button3(
                     fontWeight = FontWeight.W500,
                     fontSize = textSize,
                     style = MaterialTheme.typography.headlineLarge,
-                    color = textColor
+                    color = textColor,
                 )
             } else {
                 CircularProgressIndicator(
                     modifier = Modifier.size(17.sdp),
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onPrimary,
                 )
             }
         }

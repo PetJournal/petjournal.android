@@ -13,37 +13,35 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun WeekDaySelector(
-    onDaySelected: (String) -> Unit
-) {
-    val days = listOf("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab")
+fun WeekDaySelector(onDaySelected: (String) -> Unit) {
+    listOf("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab")
     val selectedDay = remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             DayButton("Dom", selectedDay, onDaySelected)
             DayButton("Seg", selectedDay, onDaySelected)
         }
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             DayButton("Ter", selectedDay, onDaySelected)
             DayButton("Qua", selectedDay, onDaySelected)
         }
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             DayButton("Qui", selectedDay, onDaySelected)
             DayButton("Sex", selectedDay, onDaySelected)
         }
         Row(
             horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.width(90.dp)
+            modifier = Modifier.width(90.dp),
         ) {
             DayButton("Sab", selectedDay, onDaySelected)
         }

@@ -6,7 +6,9 @@ package com.soujunior.petjournal.ui.util
 fun isValidLenght(input: String): Boolean {
     return if (input.isNotBlank()) {
         input.length < 3 || input.length > 30 && input.isNotEmpty()
-    } else false
+    } else {
+        false
+    }
 }
 
 /**

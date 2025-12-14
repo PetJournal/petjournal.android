@@ -11,33 +11,35 @@ const val DATE_MASK = "DD/MM/AAAA"
 fun formatDate(text: AnnotatedString): TransformedText {
     val trimmed = if (text.text.length >= 9) text.text.substring(0 until 8) else text.text
 
-    val annotatedString = AnnotatedString.Builder().apply {
-        for (i in trimmed.indices) {
-            if (i == 2 || i == 4) {
-                append("/")
+    val annotatedString =
+        AnnotatedString.Builder().apply {
+            for (i in trimmed.indices) {
+                if (i == 2 || i == 4) {
+                    append("/")
+                }
+                append(trimmed[i])
             }
-            append(trimmed[i])
-        }
-        pushStyle(SpanStyle(color = Color.LightGray))
-        append(DATE_MASK.takeLast(maxOf(0, DATE_MASK.length - length)))
-    }.toAnnotatedString()
+            pushStyle(SpanStyle(color = Color.LightGray))
+            append(DATE_MASK.takeLast(maxOf(0, DATE_MASK.length - length)))
+        }.toAnnotatedString()
 
-    val dateOffsetTranslator = object : OffsetMapping {
-        override fun originalToTransformed(offset: Int): Int {
-            return when {
-                offset <= 2 -> offset
-                offset <= 4 -> offset + 1
-                else -> offset + 2
+    val dateOffsetTranslator =
+        object : OffsetMapping {
+            override fun originalToTransformed(offset: Int): Int {
+                return when {
+                    offset <= 2 -> offset
+                    offset <= 4 -> offset + 1
+                    else -> offset + 2
+                }
+            }
+
+            override fun transformedToOriginal(offset: Int): Int {
+                return when {
+                    offset <= 2 -> offset
+                    offset <= 4 -> offset - 1
+                    else -> offset - 2
+                }.coerceAtMost(text.length)
             }
         }
-
-        override fun transformedToOriginal(offset: Int): Int {
-            return when {
-                offset <= 2 -> offset
-                offset <= 4 -> offset - 1
-                else -> offset - 2
-            }.coerceAtMost(text.length)
-        }
-    }
     return TransformedText(annotatedString, dateOffsetTranslator)
 }

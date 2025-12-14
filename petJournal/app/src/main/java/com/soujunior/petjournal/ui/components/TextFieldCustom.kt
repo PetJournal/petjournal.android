@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -20,14 +19,14 @@ import com.soujunior.petjournal.ui.theme.ColorCustom
 
 @Composable
 fun TextFieldCustom(
-    title:String,
-    placeholder:String,
+    title: String,
+    placeholder: String,
     value: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Text(
             text = title,
@@ -45,18 +44,20 @@ fun TextFieldCustom(
                 Text(
                     text = placeholder,
                     color = ColorCustom.color_placeholder,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
                 )
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.onPrimary)
-                .height(100.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.onPrimary)
+                    .height(100.dp),
             shape = RoundedCornerShape(12.dp),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = ColorCustom.color_placeholder,
-                unfocusedBorderColor = ColorCustom.color_placeholder,
-            )
+            colors =
+                OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = ColorCustom.color_placeholder,
+                    unfocusedBorderColor = ColorCustom.color_placeholder,
+                ),
         )
     }
 }
@@ -68,6 +69,6 @@ fun DescriptionTextFieldPreview() {
         title = "Título",
         placeholder = "Descrição",
         value = "",
-        onValueChange = {}
+        onValueChange = {},
     )
 }

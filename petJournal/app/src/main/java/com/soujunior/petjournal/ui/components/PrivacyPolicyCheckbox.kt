@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.state.StatesRegister
+import com.soujunior.petjournal.ui.screensApp.accountmanager.registerScreen.state.StatesRegister
 
 @Composable
 fun PrivacyPolicyCheckbox(
@@ -39,59 +39,82 @@ fun PrivacyPolicyCheckbox(
     onEvent: (Boolean) -> Unit,
 ) {
     var showPrivacyPolicy by StatesRegister.showPrivacyPolicy.current
-    val annotatedText = buildAnnotatedString {
-        append(stringResource(R.string.eu_concordo_com_os))
-        withStyle(
-            style = SpanStyle(
-                color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.inverseSurface,
-                textDecoration = TextDecoration.Underline
-            )
-        ) {
-            append(stringResource(R.string.policy_and_privacy_terms))
+    val annotatedText =
+        buildAnnotatedString {
+            append(stringResource(R.string.eu_concordo_com_os))
+            withStyle(
+                style =
+                    SpanStyle(
+                        color =
+                            if (isSystemInDarkTheme()) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.inverseSurface
+                            },
+                        textDecoration = TextDecoration.Underline,
+                    ),
+            ) {
+                append(stringResource(R.string.policy_and_privacy_terms))
+            }
         }
-    }
     Column(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
-
             Column {
                 Box(
-                    modifier = Modifier
-                        .padding(end = 6.dp)
-                        .size(22.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(Color.White)
-                        .border(
-                            1.2.dp,
-                            if (valueChecked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
-                            RoundedCornerShape(8.dp)
-                        ),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .padding(end = 6.dp)
+                            .size(22.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(Color.White)
+                            .border(
+                                1.2.dp,
+                                if (valueChecked) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.outline
+                                },
+                                RoundedCornerShape(8.dp),
+                            ),
+                    contentAlignment = Alignment.Center,
                 ) {
                     androidx.compose.material3.Checkbox(
                         checked = valueChecked,
                         onCheckedChange = { onEvent(it) },
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = Color.Transparent,
-                            uncheckedColor = Color.Transparent,
-                            checkmarkColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.primary
-                        ),
-                        modifier = Modifier.size(10.dp)
+                        colors =
+                            CheckboxDefaults.colors(
+                                checkedColor = Color.Transparent,
+                                uncheckedColor = Color.Transparent,
+                                checkmarkColor =
+                                    if (isSystemInDarkTheme()) {
+                                        MaterialTheme.colorScheme.background
+                                    } else {
+                                        MaterialTheme.colorScheme.primary
+                                    },
+                            ),
+                        modifier = Modifier.size(10.dp),
                     )
                 }
             }
             Column {
                 Text(
                     text = annotatedText,
-                    modifier = Modifier.clickable(
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource() },
-                        onClick = { showPrivacyPolicy = true }
-                    ),
+                    modifier =
+                        Modifier.clickable(
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() },
+                            onClick = { showPrivacyPolicy = true },
+                        ),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified
+                    color =
+                        if (isSystemInDarkTheme()) {
+                            MaterialTheme.colorScheme.primary
+                        } else {
+                            Color.Unspecified
+                        },
                 )
             }
         }

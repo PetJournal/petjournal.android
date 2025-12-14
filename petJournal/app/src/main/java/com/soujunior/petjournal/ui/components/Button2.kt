@@ -30,13 +30,14 @@ fun Button2(
     text: String = "Button",
     buttonColor: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
     textColor: Color = MaterialTheme.colorScheme.onPrimary,
-    isLoading: Boolean = false
+    isLoading: Boolean = false,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
-        modifier = modifier
-            .fillMaxWidth()
+        modifier =
+            modifier
+                .fillMaxWidth(),
     ) {
         androidx.compose.material3.Button(
             onClick = { submit() },
@@ -45,8 +46,7 @@ fun Button2(
             border = border,
             shape = Shapes.medium,
             colors = buttonColor,
-            contentPadding = PaddingValues(12.sdp)
-
+            contentPadding = PaddingValues(12.sdp),
         ) {
             if (!isLoading) {
                 Text(
@@ -54,12 +54,12 @@ fun Button2(
                     fontWeight = FontWeight(900),
                     fontSize = 12.ssp,
                     style = MaterialTheme.typography.titleLarge,
-                    color = textColor
+                    color = textColor,
                 )
             } else {
                 CircularProgressIndicator(
                     modifier = Modifier.size(17.sdp),
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onPrimary,
                 )
             }
         }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -31,9 +30,7 @@ import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.util.TransactionType
 
 @Composable
-fun TransactionTypeSelector(
-    onSelectionChanged: (TransactionType?) -> Unit
-) {
+fun TransactionTypeSelector(onSelectionChanged: (TransactionType?) -> Unit) {
     var selectedType by remember { mutableStateOf<TransactionType?>(null) }
 
     val selectedColor = ColorCustom.color_background_month_disabled
@@ -42,12 +39,12 @@ fun TransactionTypeSelector(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
+        modifier = Modifier,
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
+            modifier = Modifier,
         ) {
             ToggleButton(
                 text = stringResource(R.string.label_recurrent),
@@ -59,7 +56,7 @@ fun TransactionTypeSelector(
                 },
                 selectedColor = selectedColor,
                 unselectedColor = unselectedColor,
-                borderColor = if (selectedType == TransactionType.Recurrent) selectedColor else borderColor
+                borderColor = if (selectedType == TransactionType.Recurrent) selectedColor else borderColor,
             )
 
             ToggleButton(
@@ -72,7 +69,7 @@ fun TransactionTypeSelector(
                 },
                 selectedColor = selectedColor,
                 unselectedColor = unselectedColor,
-                borderColor = if (selectedType == TransactionType.OneOff) selectedColor else borderColor
+                borderColor = if (selectedType == TransactionType.OneOff) selectedColor else borderColor,
             )
         }
 
@@ -91,19 +88,20 @@ fun ToggleButton(
     onClick: () -> Unit,
     selectedColor: Color,
     unselectedColor: Color,
-    borderColor: Color
+    borderColor: Color,
 ) {
     val backgroundColor = if (isSelected) selectedColor else unselectedColor
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .width(130.dp).height(50.dp)
-            .clip(RoundedCornerShape(50))
-            .border(1.dp, borderColor, RoundedCornerShape(50))
-            .background(backgroundColor)
-            .clickable { onClick() }
-            .padding(horizontal = 24.dp, vertical = 12.dp)
+        modifier =
+            Modifier
+                .width(130.dp).height(50.dp)
+                .clip(RoundedCornerShape(50))
+                .border(1.dp, borderColor, RoundedCornerShape(50))
+                .background(backgroundColor)
+                .clickable { onClick() }
+                .padding(horizontal = 24.dp, vertical = 12.dp),
     ) {
         Text(
             text = text,
@@ -117,7 +115,7 @@ fun ToggleButton(
 @Composable
 fun TransactionTypeSelectorPreview() {
     TransactionTypeSelector(
-        onSelectionChanged = {}
+        onSelectionChanged = {},
     )
 }
 
@@ -131,7 +129,7 @@ fun ToggleButtonPreview() {
             onClick = {},
             selectedColor = ColorCustom.color_background_month_disabled,
             unselectedColor = MaterialTheme.colorScheme.background,
-            borderColor = ColorCustom.color_border_button_transaction_type
+            borderColor = ColorCustom.color_border_button_transaction_type,
         )
 
         ToggleButton(
@@ -140,8 +138,7 @@ fun ToggleButtonPreview() {
             onClick = {},
             selectedColor = ColorCustom.color_background_month_disabled,
             unselectedColor = MaterialTheme.colorScheme.background,
-            borderColor = ColorCustom.color_border_button_transaction_type
+            borderColor = ColorCustom.color_border_button_transaction_type,
         )
     }
-
 }

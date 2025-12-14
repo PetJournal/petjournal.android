@@ -60,7 +60,7 @@ fun InputText(
     hasAMask: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    textTitleModifier: Modifier = Modifier
+    textTitleModifier: Modifier = Modifier,
 ) {
     var showPassword by remember { mutableStateOf(false) }
 
@@ -72,70 +72,79 @@ fun InputText(
                 color = MaterialTheme.colorScheme.scrim,
                 fontWeight = FontWeight(500),
                 style = MaterialTheme.typography.titleMedium,
-                modifier = textTitleModifier
-                    .fillMaxWidth()
+                modifier =
+                    textTitleModifier
+                        .fillMaxWidth(),
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
         Row {
             BasicTextField(
-                modifier = textInputModifier
-                    .shadow(
-                        elevation = 30.dp,
-                        spotColor = ColorCustom.shadow_color,
-                        ambientColor = ColorCustom.shadow_color
-                    )
-                    .height(50.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(size = 12.dp)
-                    )
-                    .padding(0.sdp)
-                    .fillMaxWidth()
-                    .testTag("inputField_test")
-                    .drawBehind {
-                        val stroke = Stroke(
-                            width = 2.dp.toPx(),
+                modifier =
+                    textInputModifier
+                        .shadow(
+                            elevation = 30.dp,
+                            spotColor = ColorCustom.shadow_color,
+                            ambientColor = ColorCustom.shadow_color,
                         )
-                        drawRoundRect(
-                            color = if (isError) ColorCustom.error_color else ColorGrid.edge_not_selected,
-                            style = stroke,
-                            cornerRadius = CornerRadius(12.dp.toPx())
+                        .height(50.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.surface,
+                            shape = RoundedCornerShape(size = 12.dp),
                         )
-
-                    }
-                    .clip(RoundedCornerShape(10.sdp)),
+                        .padding(0.sdp)
+                        .fillMaxWidth()
+                        .testTag("inputField_test")
+                        .drawBehind {
+                            val stroke =
+                                Stroke(
+                                    width = 2.dp.toPx(),
+                                )
+                            drawRoundRect(
+                                color = if (isError) ColorCustom.error_color else ColorGrid.edge_not_selected,
+                                style = stroke,
+                                cornerRadius = CornerRadius(12.dp.toPx()),
+                            )
+                        }
+                        .clip(RoundedCornerShape(10.sdp)),
                 value = textValue,
                 onValueChange = { text -> onEvent(text) },
                 singleLine = true,
-                textStyle = TextStyle(
-                    fontSize = 14.ssp,
-                    lineHeight = 21.ssp,
-                    fontWeight = FontWeight(300),
-                    color = if (isSystemInDarkTheme()) ColorCustom.shadow_color else MaterialTheme.colorScheme.onSurface
-                ),
+                textStyle =
+                    TextStyle(
+                        fontSize = 14.ssp,
+                        lineHeight = 21.ssp,
+                        fontWeight = FontWeight(300),
+                        color = if (isSystemInDarkTheme()) ColorCustom.shadow_color else MaterialTheme.colorScheme.onSurface,
+                    ),
                 maxLines = 1,
                 visualTransformation =
                     if (isPassword) {
-                        if (showPassword) VisualTransformation.None
-                        else PasswordVisualTransformation()
-                    } else visualTransformation,
+                        if (showPassword) {
+                            VisualTransformation.None
+                        } else {
+                            PasswordVisualTransformation()
+                        }
+                    } else {
+                        visualTransformation
+                    },
                 keyboardOptions = keyboardOptions,
                 decorationBox = { innerTextField ->
                     Row(
-                        modifier = Modifier
-                            .padding(horizontal = 14.sdp),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier =
+                            Modifier
+                                .padding(horizontal = 14.sdp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Box(
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
                         ) {
                             innerTextField()
                             if (textValue.isEmpty() && !hasAMask) {
                                 Text(
                                     text = placeholderText,
                                     color = ColorCustom.color_placeholder,
-                                    style = MaterialTheme.typography.bodyMedium
+                                    style = MaterialTheme.typography.bodyMedium,
                                 )
                             }
                         }
@@ -143,15 +152,19 @@ fun InputText(
                             val iconResource =
                                 if (showPassword) R.drawable.eye_visibility_on else R.drawable.eye_visibility_off
                             val contentDescription =
-                                if (showPassword) stringResource(R.string.hide_password) else stringResource(
-                                    R.string.show_password
-                                )
+                                if (showPassword) {
+                                    stringResource(R.string.hide_password)
+                                } else {
+                                    stringResource(
+                                        R.string.show_password,
+                                    )
+                                }
 
                             IconButton(onClick = { showPassword = !showPassword }) {
                                 Icon(
                                     painter = painterResource(id = iconResource),
                                     contentDescription = contentDescription,
-                                    tint = MaterialTheme.colorScheme.outline
+                                    tint = MaterialTheme.colorScheme.outline,
                                 )
                             }
                         } else if (isError) {
@@ -162,13 +175,12 @@ fun InputText(
                                 painter = painterResource(id = iconResource),
                                 contentDescription = contentDescription,
                                 tint = ColorCustom.error_color,
-                                modifier = Modifier.padding(10.sdp)
+                                modifier = Modifier.padding(10.sdp),
                             )
                         }
                     }
-                }
+                },
             )
-
         }
     }
     Row(
@@ -181,7 +193,7 @@ fun InputText(
         textError?.forEach {
             AlertText(
                 textMessage = it,
-                modifier = Modifier.padding(top = 6.sdp, bottom = 6.sdp, start = 10.sdp)
+                modifier = Modifier.padding(top = 6.sdp, bottom = 6.sdp, start = 10.sdp),
             )
         }
     }
@@ -190,5 +202,5 @@ fun InputText(
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable
 fun InputTextPreview() {
-    InputText(textValue = "", onEvent = {},)
+    InputText(textValue = "", onEvent = {})
 }

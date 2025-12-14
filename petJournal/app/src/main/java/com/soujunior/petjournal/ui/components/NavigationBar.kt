@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.components
 
-
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,20 +24,22 @@ import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun NavigationBar(navController: NavController) {
-    val darkTheme = isSystemInDarkTheme()
-    val items = listOf(
-        NavigationBarItems.Home,
-        NavigationBarItems.Schedule,
-        NavigationBarItems.Pets,
-        NavigationBarItems.Profile,
-    )
+    isSystemInDarkTheme()
+    val items =
+        listOf(
+            NavigationBarItems.Home,
+            NavigationBarItems.Schedule,
+            NavigationBarItems.Pets,
+            NavigationBarItems.Profile,
+        )
 
     BottomNavigation(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(60.dp)
-            .shadow(elevation = 20.dp, spotColor = Color(0x59000000), ambientColor = Color(0x59000000))
-            .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(60.dp)
+                .shadow(elevation = 20.dp, spotColor = Color(0x59000000), ambientColor = Color(0x59000000))
+                .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
         backgroundColor = Color(0xFFE8D3FF),
         contentColor = Color.Gray,
     ) {
@@ -50,14 +51,14 @@ fun NavigationBar(navController: NavController) {
                     Icon(
                         painter = painterResource(id = item.icons),
                         contentDescription = item.title,
-                        tint = if (currentRoute == item.route) Color(0xFF8B4CC5) else Color(0xFF5E5E5E)
+                        tint = if (currentRoute == item.route) Color(0xFF8B4CC5) else Color(0xFF5E5E5E),
                     )
                 },
                 label = {
                     Text(
                         text = item.title,
                         color = if (currentRoute == item.route) Color(0xFF8B4CC5) else Color(0xFF5E5E5E),
-                        fontWeight = if (currentRoute == item.route) FontWeight.Bold else FontWeight.Normal
+                        fontWeight = if (currentRoute == item.route) FontWeight.Bold else FontWeight.Normal,
                     )
                 },
                 selectedContentColor = Color(0xFF7F33CF),
@@ -78,7 +79,7 @@ fun NavigationBar(navController: NavController) {
                             restoreState = true
                         }
                     }
-                }
+                },
             )
         }
     }

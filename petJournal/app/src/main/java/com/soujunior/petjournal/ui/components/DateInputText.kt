@@ -55,9 +55,8 @@ fun DateInputText(
     isError: Boolean = false,
     textError: List<String>? = null,
     onEvent: (String) -> Unit,
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
-
     var inFocus by remember { mutableStateOf(false) }
 
     Column(modifier = modifier) {
@@ -68,80 +67,87 @@ fun DateInputText(
                 color = MaterialTheme.colorScheme.scrim,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight(500),
-                modifier = textTitleModifier
-                    .fillMaxWidth()
-                    .padding(end = 24.sdp)
+                modifier =
+                    textTitleModifier
+                        .fillMaxWidth()
+                        .padding(end = 24.sdp),
             )
         }
         Row {
             OutlinedTextField(
-                modifier = textInputModifier
-                    .shadow(
-                        elevation = 30.dp,
-                        spotColor = ColorCustom.shadow_color,
-                        ambientColor = ColorCustom.shadow_color
-                    )
-                    .onFocusChanged {
-                        inFocus = if (it.hasFocus)
-                            it.hasFocus
-                        else {
-                            it.hasFocus
+                modifier =
+                    textInputModifier
+                        .shadow(
+                            elevation = 30.dp,
+                            spotColor = ColorCustom.shadow_color,
+                            ambientColor = ColorCustom.shadow_color,
+                        )
+                        .onFocusChanged {
+                            inFocus =
+                                if (it.hasFocus) {
+                                    it.hasFocus
+                                } else {
+                                    it.hasFocus
+                                }
                         }
-                    }
-                    .height(50.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(size = 12.dp)
-                    )
-                    .fillMaxWidth()
-                    .testTag("dateInputField")
-                    .drawBehind {
-                        val stroke = Stroke(
-                            width = 2.dp.toPx(),
+                        .height(50.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.surface,
+                            shape = RoundedCornerShape(size = 12.dp),
                         )
-                        drawRoundRect(
-                            color = ColorGrid.edge_not_selected,
-                            style = stroke,
-                            cornerRadius = CornerRadius(12.dp.toPx())
-                        )
-
-                    }
-                    .clip(RoundedCornerShape(10.sdp)),
+                        .fillMaxWidth()
+                        .testTag("dateInputField")
+                        .drawBehind {
+                            val stroke =
+                                Stroke(
+                                    width = 2.dp.toPx(),
+                                )
+                            drawRoundRect(
+                                color = ColorGrid.edge_not_selected,
+                                style = stroke,
+                                cornerRadius = CornerRadius(12.dp.toPx()),
+                            )
+                        }
+                        .clip(RoundedCornerShape(10.sdp)),
                 value = textValue,
                 onValueChange = { newValue ->
                     if (newValue.length <= 8) {
                         onEvent(newValue)
                     }
                 },
-                textStyle = TextStyle(
-                    fontSize = 14.ssp,
-                    lineHeight = 21.ssp,
-                    fontWeight = FontWeight(300),
-                    color = if (isSystemInDarkTheme()) ColorCustom.text_style_color else MaterialTheme.colorScheme.onSurface
-                ),
+                textStyle =
+                    TextStyle(
+                        fontSize = 14.ssp,
+                        lineHeight = 21.ssp,
+                        fontWeight = FontWeight(300),
+                        color = if (isSystemInDarkTheme()) ColorCustom.text_style_color else MaterialTheme.colorScheme.onSurface,
+                    ),
                 placeholder = {
                     Text(
                         text = placeholderText,
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            lineHeight = 21.sp,
-                            fontWeight = FontWeight(300),
-                            color = MaterialTheme.colorScheme.scrim,
-                        ),
-                        modifier = modifier.padding(bottom = 0.sdp)
+                        style =
+                            TextStyle(
+                                fontSize = 14.sp,
+                                lineHeight = 21.sp,
+                                fontWeight = FontWeight(300),
+                                color = MaterialTheme.colorScheme.scrim,
+                            ),
+                        modifier = modifier.padding(bottom = 0.sdp),
                     )
                 },
                 maxLines = 1,
                 visualTransformation = visualTransformation,
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number
-                ),
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = MaterialTheme.colorScheme.primary
-                ),
+                keyboardOptions =
+                    KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number,
+                    ),
+                colors =
+                    TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        cursorColor = MaterialTheme.colorScheme.primary,
+                    ),
                 trailingIcon = {
                     if (isError) {
                         val iconResource = R.drawable.icone_erro
@@ -151,7 +157,7 @@ fun DateInputText(
                             painter = painterResource(id = iconResource),
                             contentDescription = contentDescription,
                             tint = Color.Unspecified,
-                            modifier = Modifier.padding(10.sdp)
+                            modifier = Modifier.padding(10.sdp),
                         )
                     } else if (textValue.length >= 7) {
                         val iconResource = R.drawable.icone_verificado_ok
@@ -161,10 +167,10 @@ fun DateInputText(
                             painter = painterResource(id = iconResource),
                             contentDescription = contentDescription,
                             tint = Color.Unspecified,
-                            modifier = Modifier.padding(10.sdp)
+                            modifier = Modifier.padding(10.sdp),
                         )
                     }
-                }
+                },
             )
         }
         Row {
