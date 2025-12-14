@@ -5,21 +5,21 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.soujunior.petjournal.ui.screensApp.accountmanager.awaitingCodeScreen.AwaitingCodeScreen
-import com.soujunior.petjournal.ui.screensApp.accountmanager.changePasswordScreen.ChangePasswordScreen
-import com.soujunior.petjournal.ui.screensApp.accountmanager.forgotPasswordScreen.ForgotPasswordScreen
-import com.soujunior.petjournal.ui.screensApp.accountmanager.loginScreen.LoginScreen
-import com.soujunior.petjournal.ui.screensApp.accountmanager.registerScreen.RegisterScreen
-import com.soujunior.petjournal.ui.screensApp.screenHome.homeScreen.HomeScreen
-import com.soujunior.petjournal.ui.screensApp.screenTutor.tutorScreen.TutorScreen
-import com.soujunior.petjournal.ui.screensApp.screensApresentation.splashScreen.SplashScreen
-import com.soujunior.petjournal.ui.screensApp.screensPets.introRegisterPetScreen.IntroRegisterPetScreen
-import com.soujunior.petjournal.ui.screensApp.screensPets.petBirthDateScreen.PetBirthScreen
-import com.soujunior.petjournal.ui.screensApp.screensPets.petListScreen.PetListScreen
-import com.soujunior.petjournal.ui.screensApp.screensPets.petNameAndGenderScreen.PetNameAndGenderScreen
-import com.soujunior.petjournal.ui.screensApp.screensPets.petRaceAndSizeScreen.PetRaceAndSizeScreen
-import com.soujunior.petjournal.ui.screensApp.screensPets.registerPetScreen.RegisterPetScreen
-import com.soujunior.petjournal.ui.screensApp.screensPets.speciesChoiceScreen.SpeciesChoiceScreen
+import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeScreen
+import com.soujunior.petjournal.ui.screensapp.accountmanager.changePasswordScreen.ChangePasswordScreen
+import com.soujunior.petjournal.ui.screensapp.accountmanager.forgotPasswordScreen.ForgotPasswordScreen
+import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginScreen
+import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.RegisterScreen
+import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.HomeScreen
+import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorScreen
+import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.PetBirthScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.PetListScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.PetNameAndGenderScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.PetRaceAndSizeScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.registerpetscreen.RegisterPetScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.SpeciesChoiceScreen
 
 @Composable
 fun Presentation() {

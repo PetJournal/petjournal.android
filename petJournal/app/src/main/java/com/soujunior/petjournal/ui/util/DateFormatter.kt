@@ -8,10 +8,9 @@ import java.time.Month
 import java.time.format.DateTimeFormatter
 
 class DateFormatter(private val context: Context) {
-
     private val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 
-    fun formatDaily(dateString: String): String  {
+    fun formatDaily(dateString: String): String {
         val localDateTime = LocalDateTime.parse(dateString, inputFormatter)
         val day = localDateTime.dayOfMonth.toString().padStart(2, '0')
 
@@ -38,7 +37,7 @@ class DateFormatter(private val context: Context) {
         }
     }
 
-    private fun getMonthName(month: Month): String  {
+    private fun getMonthName(month: Month): String {
         val stringResId = getMonthStringRes(month)
         return context.getString(stringResId)
     }

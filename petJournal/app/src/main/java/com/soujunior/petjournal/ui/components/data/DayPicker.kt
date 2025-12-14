@@ -87,7 +87,7 @@ fun DayPicker(onDaySelected: (Int) -> Unit) {
 
 @Preview
 @Composable
-fun DayPickerPreview()  {
+fun DayPickerPreview() {
     var selectedDay by remember { mutableStateOf(LocalDate.now().dayOfMonth) }
 
     DayPicker(

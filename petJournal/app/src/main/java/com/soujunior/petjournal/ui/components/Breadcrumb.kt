@@ -33,7 +33,7 @@ import ir.kaaveh.sdpcompose.ssp
  * 3 = Cadastro Pet > Raças > Porte > Nascimento
  * */
 @Composable
-fun Breadcrumb(index: Int)  {
+fun Breadcrumb(index: Int) {
     val screens =
         listOf(
             stringResource(R.string.pet_registration),
@@ -43,11 +43,10 @@ fun Breadcrumb(index: Int)  {
         )
 
     val text: AnnotatedString =
-        if (index in screens.indices)
-            {
-                val concatenatedString = buildString(screens = screens, index = index)
-                concatenatedString
-            } else {
+        if (index in screens.indices) {
+            val concatenatedString = buildString(screens = screens, index = index)
+            concatenatedString
+        } else {
             Log.e("Error", "INDEX OUT OF RANGE")
             buildAnnotatedString { }
         }
@@ -76,7 +75,7 @@ fun Breadcrumb(index: Int)  {
 private fun buildString(
     screens: List<String>,
     index: Int,
-): AnnotatedString  {
+): AnnotatedString {
     val screenText = screens.subList(0, index + 1)
     return buildAnnotatedString {
         screenText.forEachIndexed { index, screen ->
@@ -116,6 +115,6 @@ private fun buildString(
 
 @Preview
 @Composable
-private fun PreviewScreenIndicator()  {
+private fun PreviewScreenIndicator() {
     Breadcrumb(index = 2)
 }

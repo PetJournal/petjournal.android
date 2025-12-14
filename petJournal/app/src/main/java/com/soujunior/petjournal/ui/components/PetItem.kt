@@ -70,6 +70,6 @@ fun PetItem(
 
 @Preview
 @Composable
-private fun previewPetItem()  {
+private fun previewPetItem() {
     PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
 }

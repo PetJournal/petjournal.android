@@ -16,9 +16,9 @@ import com.soujunior.petjournal.setup.listDogRaces
 import com.soujunior.petjournal.setup.listPetSizesCat
 import com.soujunior.petjournal.setup.listPetSizesDog
 import com.soujunior.petjournal.setup.perInformation
-import com.soujunior.petjournal.ui.screensApp.screensPets.petRaceAndSizeScreen.RaceSizeFormEvent
-import com.soujunior.petjournal.ui.screensApp.screensPets.petRaceAndSizeScreen.RaceSizeFormState
-import com.soujunior.petjournal.ui.screensApp.screensPets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
+import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.RaceSizeFormEvent
+import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.RaceSizeFormState
+import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
 import com.soujunior.petjournal.ui.util.Constants.CAT
 import com.soujunior.petjournal.ui.util.Constants.DOG
 import com.soujunior.petjournal.ui.util.Constants.ERROR_MESSAGE

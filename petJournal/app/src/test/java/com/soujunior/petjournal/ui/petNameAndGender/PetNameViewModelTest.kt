@@ -8,9 +8,9 @@ import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.util.ValidationResult
-import com.soujunior.petjournal.ui.screensApp.screensPets.petNameAndGenderScreen.NameGenderFormEvent
-import com.soujunior.petjournal.ui.screensApp.screensPets.petNameAndGenderScreen.NameGenderFormState
-import com.soujunior.petjournal.ui.screensApp.screensPets.petNameAndGenderScreen.ViewModelNameGenderImpl
+import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.NameGenderFormEvent
+import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.NameGenderFormState
+import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.ViewModelNameGenderImpl
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -29,18 +29,18 @@ class PetNameViewModelTest {
     private val updatePetInformationUseCase = mockk<UpdatePetInformationUseCase>(relaxed = true)
 
     @Before
-    fun setup()  {
+    fun setup() {
         Dispatchers.setMain(Dispatchers.Unconfined)
         viewModelTest = ViewModelNameGenderImpl(validation, getPetInformationUseCase, updatePetInformationUseCase)
     }
 
     @After
-    fun tearDown()  {
+    fun tearDown() {
         viewModelTest.viewModelScope.cancel()
     }
 
     @Test
-    fun `enable button when all of the data are validated`()  {
+    fun `enable button when all of the data are validated`() {
         // usado para simular um comportamento a ser mockado
         every { this@PetNameViewModelTest.validation.inputPetName(any()) } returns
             ValidationResult(
@@ -62,7 +62,7 @@ class PetNameViewModelTest {
     }
 
     @Test
-    fun `cannot enable button with empty name`()  {
+    fun `cannot enable button with empty name`() {
         val newName = ""
         every {
             this@PetNameViewModelTest.validation.inputPetName(newName)
@@ -78,7 +78,7 @@ class PetNameViewModelTest {
     }
 
     @Test
-    fun `cannot enable button with empty gender`()  {
+    fun `cannot enable button with empty gender`() {
         val newGender = ""
         every {
             this@PetNameViewModelTest.validation.inputPetGender(newGender)
@@ -94,7 +94,7 @@ class PetNameViewModelTest {
     }
 
     @Test
-    fun `when change() is called with another name, should change the name`()  {
+    fun `when change() is called with another name, should change the name`() {
         val newName = "Stone Cold Steve Austin"
 
         every { this@PetNameViewModelTest.validation.inputPetName(newName) } returns
@@ -108,7 +108,7 @@ class PetNameViewModelTest {
     }
 
     @Test
-    fun `when change() is called with another gender, should change the gender`()  {
+    fun `when change() is called with another gender, should change the gender`() {
         val newGender = "F"
 
         every {
@@ -124,7 +124,7 @@ class PetNameViewModelTest {
     }
 
     @Test
-    fun `should not accept pet name with special char`()  {
+    fun `should not accept pet name with special char`() {
         val newName = "Bolin#@s"
 
         every {
@@ -140,7 +140,7 @@ class PetNameViewModelTest {
     }
 
     @Test
-    fun `should not accept empty pet name`()  {
+    fun `should not accept empty pet name`() {
         val newName = ""
 
         every {
@@ -156,7 +156,7 @@ class PetNameViewModelTest {
     }
 
     @Test
-    fun `should not accept pet name with less than 2 chars`()  {
+    fun `should not accept pet name with less than 2 chars`() {
         val newName = "A"
 
         every {
@@ -172,7 +172,7 @@ class PetNameViewModelTest {
     }
 
     @Test
-    fun `should not accept pet name with more than 30 chars`()  {
+    fun `should not accept pet name with more than 30 chars`() {
         val newName = "Shoryukenhadoukentatsumakisenpukyaku"
 
         every {
@@ -188,7 +188,7 @@ class PetNameViewModelTest {
     }
 
     @Test
-    fun `should accept pet name with number`()  {
+    fun `should accept pet name with number`() {
         val newName = "Sc0rp10n"
 
         every {
@@ -203,7 +203,7 @@ class PetNameViewModelTest {
     }
 
     @Test
-    fun `should not accept other than male or female genders`()  {
+    fun `should not accept other than male or female genders`() {
         val newGender = "X"
 
         every {
@@ -220,7 +220,7 @@ class PetNameViewModelTest {
     }
 
     @Test
-    fun `OnEvent should allow pet name changes`()  {
+    fun `OnEvent should allow pet name changes`() {
         val newName = "Blastoise"
         val event = NameGenderFormEvent.PetName(petName = newName)
         viewModelTest.onEvent(event)
@@ -229,7 +229,7 @@ class PetNameViewModelTest {
     }
 
     @Test
-    fun `OnEvent should allow pet gender changes`()  {
+    fun `OnEvent should allow pet gender changes`() {
         val newGender = "F"
         val event = NameGenderFormEvent.PetGender(petGender = newGender)
         viewModelTest.onEvent(event)

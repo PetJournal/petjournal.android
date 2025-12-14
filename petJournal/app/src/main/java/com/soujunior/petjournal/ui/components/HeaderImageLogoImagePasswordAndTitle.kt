@@ -142,28 +142,27 @@ fun HeaderImageLogoImagePasswordAndTitle(
                     fontWeight = FontWeight(100),
                 )
             }
-            if (!subText.isEmpty())
-                {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(10.sdp),
-                    ) {
-                        Text(
-                            text = subText,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color =
-                                if (isSystemInDarkTheme()) {
-                                    MaterialTheme.colorScheme.primary
-                                } else {
-                                    MaterialTheme.colorScheme.onBackground
-                                },
-                        )
-                    }
+            if (!subText.isEmpty()) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(10.sdp),
+                ) {
+                    Text(
+                        text = subText,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color =
+                            if (isSystemInDarkTheme()) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.onBackground
+                            },
+                    )
                 }
+            }
         }
     }
 }

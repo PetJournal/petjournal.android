@@ -5,12 +5,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.soujunior.petjournal.ui.screensApp.screenHome.homeScreen.HomeScreen
-import com.soujunior.petjournal.ui.screensApp.screenTutor.tutorScreen.TutorScreen
-import com.soujunior.petjournal.ui.screensApp.screensPets.introRegisterPetScreen.IntroRegisterPetScreen
-import com.soujunior.petjournal.ui.screensApp.screensPets.petNameAndGenderScreen.PetNameAndGenderScreen
-import com.soujunior.petjournal.ui.screensApp.screensPets.petRaceAndSizeScreen.PetRaceAndSizeScreen
-import com.soujunior.petjournal.ui.screensApp.screensPets.speciesChoiceScreen.SpeciesChoiceScreen
+import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.HomeScreen
+import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.PetNameAndGenderScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.PetRaceAndSizeScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.SpeciesChoiceScreen
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable

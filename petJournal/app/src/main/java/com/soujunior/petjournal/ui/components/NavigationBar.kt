@@ -10,6 +10,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -26,12 +27,17 @@ import androidx.navigation.compose.rememberNavController
 fun NavigationBar(navController: NavController) {
     isSystemInDarkTheme()
     val items =
-        listOf(
-            NavigationBarItems.Home,
-            NavigationBarItems.Schedule,
-            NavigationBarItems.Pets,
-            NavigationBarItems.Profile,
-        )
+        remember {
+            listOf(
+                NavigationBarItems.Home,
+                NavigationBarItems.Schedule,
+                NavigationBarItems.Pets,
+                NavigationBarItems.Profile,
+            )
+        }
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     BottomNavigation(
         modifier =
@@ -43,27 +49,30 @@ fun NavigationBar(navController: NavController) {
         backgroundColor = Color(0xFFE8D3FF),
         contentColor = Color.Gray,
     ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
+            val isSelected = currentRoute?.startsWith(item.group) == true
+            val iconColor = if (isSelected) Color(0xFF8B4CC5) else Color(0xFF5E5E5E)
+            val textColor = if (isSelected) Color(0xFF8B4CC5) else Color(0xFF5E5E5E)
+            val fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+
             BottomNavigationItem(
                 icon = {
                     Icon(
                         painter = painterResource(id = item.icons),
                         contentDescription = item.title,
-                        tint = if (currentRoute == item.route) Color(0xFF8B4CC5) else Color(0xFF5E5E5E),
+                        tint = iconColor,
                     )
                 },
                 label = {
                     Text(
                         text = item.title,
-                        color = if (currentRoute == item.route) Color(0xFF8B4CC5) else Color(0xFF5E5E5E),
-                        fontWeight = if (currentRoute == item.route) FontWeight.Bold else FontWeight.Normal,
+                        color = textColor,
+                        fontWeight = fontWeight,
                     )
                 },
                 selectedContentColor = Color(0xFF7F33CF),
                 unselectedContentColor = Color(0xFF5E5E5E),
-                selected = currentRoute?.startsWith(item.group) == true,
+                selected = isSelected,
                 onClick = {
                     val isSameGroup =
                         items.any { it.group == item.group && currentRoute?.startsWith(it.route) == true }

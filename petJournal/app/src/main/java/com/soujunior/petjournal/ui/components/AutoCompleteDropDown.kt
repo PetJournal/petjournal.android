@@ -91,10 +91,9 @@ fun AutoCompleteDropDown(
                                 .padding(5.dp)
                                 .height(50.dp)
                                 .onFocusChanged { focusState ->
-                                    if (focusState.isFocused)
-                                        {
-                                            onFocusChange(true)
-                                        } else {
+                                    if (focusState.isFocused) {
+                                        onFocusChange(true)
+                                    } else {
                                         onFocusChange(false)
                                     }
                                 }

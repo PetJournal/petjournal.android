@@ -7,7 +7,7 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.soujunior.petjournal.ui.screensApp.accountmanager.loginScreen.components.AccountConfirmationDialog
+import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.components.AccountConfirmationDialog
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -36,30 +36,30 @@ import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
-import com.soujunior.petjournal.ui.screensApp.accountmanager.awaitingCodeScreen.AwaitingCodeViewModel
-import com.soujunior.petjournal.ui.screensApp.accountmanager.awaitingCodeScreen.AwaitingCodeViewModelImpl
-import com.soujunior.petjournal.ui.screensApp.accountmanager.changePasswordScreen.ChangePasswordViewModel
-import com.soujunior.petjournal.ui.screensApp.accountmanager.changePasswordScreen.ChangePasswordViewModelImpl
-import com.soujunior.petjournal.ui.screensApp.accountmanager.forgotPasswordScreen.ForgotPasswordViewModel
-import com.soujunior.petjournal.ui.screensApp.accountmanager.forgotPasswordScreen.ForgotPasswordViewModelImpl
-import com.soujunior.petjournal.ui.screensApp.accountmanager.loginScreen.LoginViewModel
-import com.soujunior.petjournal.ui.screensApp.accountmanager.loginScreen.LoginViewModelImpl
-import com.soujunior.petjournal.ui.screensApp.accountmanager.registerScreen.RegisterViewModel
-import com.soujunior.petjournal.ui.screensApp.accountmanager.registerScreen.RegisterViewModelImpl
-import com.soujunior.petjournal.ui.screensApp.screenHome.homeScreen.HomeScreenViewModel
-import com.soujunior.petjournal.ui.screensApp.screenHome.homeScreen.HomeScreenViewModelImpl
-import com.soujunior.petjournal.ui.screensApp.screensApresentation.splashScreen.SplashViewModel
-import com.soujunior.petjournal.ui.screensApp.screensPets.introRegisterPetScreen.IntroRegisterPetViewModel
-import com.soujunior.petjournal.ui.screensApp.screensPets.petBirthDateScreen.BirthDateViewModel
-import com.soujunior.petjournal.ui.screensApp.screensPets.petBirthDateScreen.BirthDateViewModelImpl
-import com.soujunior.petjournal.ui.screensApp.screensPets.petListScreen.PetListViewModel
-import com.soujunior.petjournal.ui.screensApp.screensPets.petListScreen.PetListViewModelImpl
-import com.soujunior.petjournal.ui.screensApp.screensPets.petNameAndGenderScreen.ViewModelNameGender
-import com.soujunior.petjournal.ui.screensApp.screensPets.petNameAndGenderScreen.ViewModelNameGenderImpl
-import com.soujunior.petjournal.ui.screensApp.screensPets.petRaceAndSizeScreen.ViewModelRaceSize
-import com.soujunior.petjournal.ui.screensApp.screensPets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
-import com.soujunior.petjournal.ui.screensApp.screensPets.speciesChoiceScreen.ViewModelChoiceSpecies
-import com.soujunior.petjournal.ui.screensApp.screensPets.speciesChoiceScreen.ViewModelChoiceSpeciesImpl
+import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeViewModel
+import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.accountmanager.changePasswordScreen.ChangePasswordViewModel
+import com.soujunior.petjournal.ui.screensapp.accountmanager.changePasswordScreen.ChangePasswordViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.accountmanager.forgotPasswordScreen.ForgotPasswordViewModel
+import com.soujunior.petjournal.ui.screensapp.accountmanager.forgotPasswordScreen.ForgotPasswordViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginViewModel
+import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.RegisterViewModel
+import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.RegisterViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.HomeScreenViewModel
+import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.HomeScreenViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashViewModel
+import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModel
+import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.BirthDateViewModel
+import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.BirthDateViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.PetListViewModel
+import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.PetListViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.ViewModelNameGender
+import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.ViewModelNameGenderImpl
+import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.ViewModelRaceSize
+import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
+import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.ViewModelChoiceSpecies
+import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.ViewModelChoiceSpeciesImpl
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.android.ext.koin.androidContext
@@ -135,7 +135,7 @@ val mainModule =
         // ViewModels
         viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get()) }
         viewModel<IntroRegisterPetViewModel> {
-            com.soujunior.petjournal.ui.screensApp.screensPets.introRegisterPetScreen.IntroRegisterPetViewModelImpl(
+            com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModelImpl(
                 get(),
                 get(),
                 get(),

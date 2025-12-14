@@ -41,6 +41,6 @@ fun ImageLogo(
 
 @Preview
 @Composable
-fun teste()  {
+fun teste() {
     ImageLogo()
 }

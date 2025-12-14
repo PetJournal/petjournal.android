@@ -10,7 +10,7 @@ import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DashedInputText
-import com.soujunior.petjournal.ui.screensApp.screensPets.petNameAndGenderScreen.components.GenderSelector
+import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.components.GenderSelector
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,7 +21,7 @@ class NameGenderInstrumentedTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun textInput_should_return_error()  {
+    fun textInput_should_return_error() {
         val name = "a"
         val nameError = listOf("Adicione um nome entre 2 a 30 caracteres")
         composeTestRule.setContent {
@@ -36,7 +36,7 @@ class NameGenderInstrumentedTest {
     }
 
     @Test
-    fun textInput_should_accept_text()  {
+    fun textInput_should_accept_text() {
         val name = "B0linha"
 
         composeTestRule.setContent {
@@ -62,7 +62,7 @@ class NameGenderInstrumentedTest {
     }
 
     @Test
-    fun genderButtons_should_not_be_empty()  {
+    fun genderButtons_should_not_be_empty() {
         val error = listOf("*Campo Obrigatorio")
 
         composeTestRule.setContent {
@@ -76,7 +76,7 @@ class NameGenderInstrumentedTest {
     }
 
     @Test
-    fun nextButton_should_deactivate_when_inputText_and_GenderButtons_areEmpty()  {
+    fun nextButton_should_deactivate_when_inputText_and_GenderButtons_areEmpty() {
         val name = "a"
         val errorGender = listOf("*Campo Obrigatorio")
         val nameError = listOf("Adicione um nome entre 2 a 30 caracteres")
@@ -108,7 +108,7 @@ class NameGenderInstrumentedTest {
     }
 
     @Test
-    fun enable_nextButton_when_both_fields_are_not_empty()  {
+    fun enable_nextButton_when_both_fields_are_not_empty() {
         val name = "Bolinha"
 
         composeTestRule.setContent {
