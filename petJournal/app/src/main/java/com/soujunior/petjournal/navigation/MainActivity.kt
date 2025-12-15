@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        // todo: ESTE É UMA SAIDA PALEATIVA PARA UM ERRO GRAVE QUE EU NÃO ENTENDI, saúde e paz para quem resolver.
+        // todo: ESTA É UMA SAIDA PALEATIVA PARA UM ERRO GRAVE QUE EU NÃO ENTENDI, saúde e paz para quem resolver. (gus)
         androidx.compose.foundation.ComposeFoundationFlags.isNonComposedClickableEnabled = false
         setContent {
             // ChangeSystemBars()

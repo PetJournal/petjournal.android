@@ -42,6 +42,7 @@ fun ScaffoldCustom(
     isLoading: Boolean = false,
     shadowBelowTopBar: Dp = 4.dp,
     showTopBar: Boolean = false,
+    floatingActionButton: @Composable () -> Unit = {},
     titleTopBar: String = "",
     actions: @Composable RowScope.() -> Unit = {},
     showActions: Boolean = false,
@@ -102,6 +103,7 @@ fun ScaffoldCustom(
                 bottomNavigationBar()
             }
         },
+        floatingActionButton = floatingActionButton,
         content = { paddingValues ->
             contentToUse(paddingValues)
         },

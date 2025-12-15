@@ -19,6 +19,7 @@ import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.PetListS
 import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.PetNameAndGenderScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.PetRaceAndSizeScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.RegisterPetScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.registerTaskScreen.RegisterTaskScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.SpeciesChoiceScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.TaskListScreen
 
@@ -62,6 +63,7 @@ fun NavHostMainContent() {
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
 
         composable("schedule/taskListScreen") { TaskListScreen(navController) }
+        composable("schedule/registerTaskScreen") { RegisterTaskScreen(navController) }
 
         composable("pets/nameAndGender/{arg}") { backStackEntry ->
             PetNameAndGenderScreen(
