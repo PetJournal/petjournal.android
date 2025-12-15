@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.screensapp.screenspets.registerpetscreen
+package com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

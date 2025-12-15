@@ -81,7 +81,6 @@ fun Screen(navController: NavController) {
             }
         }
     }
-
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
     systemUiController.setNavigationBarColor(Color.Black)

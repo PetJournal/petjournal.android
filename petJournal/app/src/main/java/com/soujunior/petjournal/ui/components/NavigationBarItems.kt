@@ -18,7 +18,7 @@ sealed class NavigationBarItems(
 
     object Schedule : NavigationBarItems(
         title = "Agenda",
-        route = "scheduleScreen",
+        route = "schedule/taskListScreen",
         icons = R.drawable.ic_schedule,
         group = "schedule",
     )

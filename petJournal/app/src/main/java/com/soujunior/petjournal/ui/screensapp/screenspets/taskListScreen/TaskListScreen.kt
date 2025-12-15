@@ -1,10 +1,89 @@
 package com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.components.Screen
+import androidx.navigation.compose.rememberNavController
+import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.components.NavigationBar
+import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.components.data.TaskFakeData
+import com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.components.TabSelector
+import com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.components.TaskDateComponent
+import ir.kaaveh.sdpcompose.sdp
 
 @Composable
 fun TaskListScreen(navController: NavController) {
-    Screen(navController)
+    //    val viewModel : TaskListViewModel = getViewModel()
+    Column(modifier = Modifier) {
+        ScaffoldCustom(
+            modifier = Modifier,
+            navigationUp = navController,
+            showBottomBarNavigation = true,
+            titleTopBar = stringResource(R.string.next_tasks),
+            showTopBar = true,
+            bottomNavigationBar = { NavigationBar(navController) },
+            contentToUse = { paddingValues ->
+                LazyColumn(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(12.sdp),
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .fillMaxHeight()
+                            .padding(start = 16.sdp, end = 16.sdp),
+                    contentPadding = paddingValues,
+                    content = {
+                        item {
+                            TabSelector(
+                                selectedFilter = DateFilter.DAILY,
+                                onFilterSelected = {},
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth(),
+                            )
+                        }
+                        item {
+                            TaskDateComponent(
+                                date = "5 de Janeiro",
+                                tasks = TaskFakeData.sampleTasks.take(3),
+                                modifier = Modifier,
+                            )
+                        }
+                        item {
+                            TaskDateComponent(
+                                date = "3 de Fevereiro",
+                                tasks = TaskFakeData.sampleTasks.take(1),
+                                modifier = Modifier,
+                            )
+                        }
+                        item {
+                            TaskDateComponent(
+                                date = "30 de Setembro",
+                                tasks = TaskFakeData.sampleTasks.take(3),
+                                modifier = Modifier,
+                            )
+                        }
+                    },
+                )
+            },
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun ScreenPreview() {
+    val nav = rememberNavController()
+    TaskListScreen(nav)
 }
