@@ -19,10 +19,9 @@ class AwaitingCodeViewModelImpl(
     private val awaitingCodeUseCase: AwaitingCodeUseCase,
     private val forgotPasswordUseCase: ForgotPasswordUseCase,
 ) : AwaitingCodeViewModel() {
-    private val _state =
-        MutableStateFlow(AwaitingCodeFormState())
-    override val state: StateFlow<AwaitingCodeFormState> =
-        _state
+    private val _state = MutableStateFlow(AwaitingCodeFormState())
+
+    override val state: StateFlow<AwaitingCodeFormState> = _state
 
     private val _buttonIsEnable = MutableStateFlow(false)
     override val buttonIsEnable: StateFlow<Boolean> = _buttonIsEnable

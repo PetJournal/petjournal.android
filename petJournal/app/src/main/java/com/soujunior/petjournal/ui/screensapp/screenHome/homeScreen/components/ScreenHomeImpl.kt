@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -89,8 +88,6 @@ fun ScreenHomeImpl(navController: NavController) {
             modifier = Modifier,
             titleTopBar = stringResource(R.string.hello, name.value.capitalizeFirstLetter()),
             isLoading = taskState is TaskState.Loading,
-//            titleTopBarColor = MaterialTheme.colorScheme.scrim,
-//            titleTopBarAligh = Alignment.CenterStart,
             showActions = true,
             shadowBelowTopBar = 0.dp,
             showButtonToReturn = false,
@@ -151,26 +148,6 @@ fun ScreenHomeImpl(navController: NavController) {
                         Carousel(imageIds = carouselImages)
                     }
                     item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
-                    item {
-                        Row {
-                            Text(
-                                text = stringResource(R.string.services),
-                                modifier = Modifier.weight(0.8f),
-                                color = MaterialTheme.colorScheme.onSurface,
-                                style = MaterialTheme.typography.bodyLarge,
-                            )
-                            Text(
-                                text = stringResource(R.string.see_more),
-                                modifier = Modifier.clickable { },
-                                color = MaterialTheme.colorScheme.onSurface,
-                                style = MaterialTheme.typography.labelLarge,
-                            )
-                        }
-                    }
-                    item { Spacer(modifier = Modifier.padding(top = 10.dp)) }
-                    item {
-                        Menu(navController)
-                    }
                 }
             },
         )
