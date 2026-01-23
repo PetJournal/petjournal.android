@@ -21,8 +21,9 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.BrokenImage
-import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -45,7 +46,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -59,10 +59,12 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.GlideImage
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.components.TaskCard
+import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.FakeHomeViewModel
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.components.Carousel
-import com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.TaskListScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.components.TaskDateComponent
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
@@ -132,8 +134,8 @@ fun HomeScreen(navController: NavController) {
                             .size(50.dp)
                             .padding(end = 16.dp)
                             .clickable(
-                                indication = null,
                                 interactionSource = remember { MutableInteractionSource() },
+                                indication = rememberRipple(bounded = false),
                                 onClick = { showDropdownMenu.value = true },
                             ),
                 )
@@ -154,7 +156,7 @@ fun HomeScreen(navController: NavController) {
                             },
                             trailingIcon = {
                                 Icon(
-                                    imageVector = Icons.Default.Logout,
+                                    imageVector = Icons.AutoMirrored.Filled.Logout,
                                     contentDescription = stringResource(R.string.logout),
                                 )
                             },
@@ -166,31 +168,58 @@ fun HomeScreen(navController: NavController) {
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = {
                 LazyColumn(
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .padding(start = 16.dp, end = 16.dp),
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding =
+                        PaddingValues(
+                            top = it.calculateTopPadding(),
+                            bottom = it.calculateBottomPadding() + 16.dp,
+                            start = 16.dp,
+                            end = 16.dp,
+                        ),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Top,
-                    contentPadding = it,
                 ) {
                     item {
                         val carouselImages = viewModel.carouselImages
                         Carousel(imageIds = carouselImages)
                     }
-                    item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
 
+                    item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
                     item {
-                        Text(
-                            "Meus Pets",
-                            fontSize = 12.ssp,
-                            fontWeight = FontWeight.Bold,
-                        )
+                        Column {
+                            Text(
+                                text = "Meus Pets",
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontSize = 20.ssp,
+                                modifier = Modifier.padding(vertical = 8.sdp),
+                            )
+                        }
+                    }
+                    item {
                         PetList(pets = mockPets)
                     }
                     item {
-                        val nav = rememberNavController()
-                        TaskListScreen(nav)
+                        Column {
+                            Text(
+                                text = "Próximas tarefas:",
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontSize = 20.ssp,
+                                modifier = Modifier.padding(vertical = 8.sdp),
+                            )
+                        }
+                    }
+
+                    items(
+                        items = TaskFakeData.sampleTasks.take(3),
+                        key = { task -> task.id },
+                    ) { task ->
+                        TaskCard(
+                            taskData = task,
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 8.dp),
+                        )
                     }
                 }
             },
@@ -211,7 +240,7 @@ private fun HomeScreenPreview() {
 @Composable
 fun PetList(
     pets: List<PetResponse>,
-    onAddNewPet: () -> Unit = {},
+    onAddNewPet: () -> Unit = { },
 ) {
     if (pets.isEmpty()) {
         Column(
@@ -219,10 +248,16 @@ fun PetList(
             verticalArrangement = Arrangement.Center,
         ) {
             Surface(
-                modifier = Modifier.size(108.sdp),
+                modifier =
+                    Modifier
+                        .size(108.sdp)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = rememberRipple(bounded = true),
+                            onClick = onAddNewPet,
+                        ),
                 shape = RoundedCornerShape(16.sdp),
                 color = Color(0xFFD9D9D9),
-                onClick = onAddNewPet,
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -345,17 +380,33 @@ private fun PreviewPetList() {
 
 @Preview(showBackground = true, name = "Lista de Pets")
 @Composable
-private fun PreviewPetList2() {
-    val mockPets = emptyList<PetResponse>()
-    PetList(pets = mockPets)
-}
-
-@Preview(showBackground = true, name = "Lista de Pets")
-@Composable
 private fun PreviewPetList3() {
     val mockPets =
         listOf(
             PetResponse("Baleia", "url"),
         )
     PetList(pets = mockPets)
+}
+
+@Preview(showBackground = true, name = "Lista de Pets")
+@Composable
+private fun PreviewPetList2() {
+    val mockPets = emptyList<PetResponse>()
+    PetList(pets = mockPets)
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun Preview() {
+    Column {
+        Text(
+            text = "Próximas tarefas:",
+            style = MaterialTheme.typography.bodyMedium,
+            fontSize = 20.ssp,
+            modifier = Modifier.padding(bottom = 8.sdp),
+        )
+        TaskDateComponent(
+            tasks = TaskFakeData.sampleTasks.take(3),
+        )
+    }
 }

@@ -4,10 +4,12 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,8 +17,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,10 +49,13 @@ fun TaskCard(
     modifier: Modifier = Modifier,
     expandValue: Boolean = false,
 ) {
-    var expanded by remember { mutableStateOf(expandValue) }
+    var expanded by rememberSaveable(taskData.id) { mutableStateOf(expandValue) }
 
     Box(
-        modifier = modifier.clip(RectangleShape),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clip(RectangleShape),
     ) {
         Surface(
             shape = RoundedCornerShape(10.sdp),
@@ -62,146 +66,169 @@ fun TaskCard(
                     .padding(2.sdp)
                     .animateContentSize(),
         ) {
-            if (expanded) {
-                Icon(
-                    painter = painterResource(id = taskData.type.iconVector!!),
-                    contentDescription = "Ícone ${taskData.type.name}",
-                    tint = taskData.type.color.copy(alpha = .5f),
-                    modifier =
-                        Modifier
-                            .align(Alignment.BottomStart)
-                            .padding(start = 2.sdp, bottom = 42.sdp)
-                            .size(150.sdp)
-                            .offset(x = (-80).dp, y = (70).dp),
-                )
-            }
-            Column {
-                Row(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(2.sdp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Top,
-                ) {
-                    Column(
+            Box(modifier = Modifier.fillMaxWidth()) {
+                if (expanded && taskData.type.iconVector != null) {
+                    Icon(
+                        painter = painterResource(id = taskData.type.iconVector!!),
+                        contentDescription = "Ícone ${taskData.type.name}",
+                        tint = taskData.type.color.copy(alpha = .5f),
                         modifier =
                             Modifier
-                                .padding(horizontal = 8.sdp)
-                                .weight(0.4f),
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Text(
-                            text = taskData.title,
-                            modifier = Modifier.padding(bottom = 2.sdp),
-                            style = MaterialTheme.typography.titleMedium,
-                            fontSize = 15.ssp,
-                        )
-                        Text(
-                            text = taskData.startAt,
-                            style = MaterialTheme.typography.titleMedium,
-                            color = Color.Gray,
-                            fontSize = 10.ssp,
-                        )
+                                .align(Alignment.BottomStart)
+                                .padding(start = 2.sdp, bottom = 42.sdp)
+                                .size(150.sdp)
+                                .offset(x = (-80).dp, y = (70).dp),
+                    )
+                }
 
-                        if (expanded) {
-                            LazyVerticalGrid(
-                                modifier = Modifier.fillMaxWidth(),
-                                columns = GridCells.Fixed(3),
-                                horizontalArrangement = Arrangement.Start,
-                            ) {
-                                items(taskData.pets.size) { index ->
-                                    Box(modifier = Modifier.aspectRatio(1f)) {
-                                        PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
+                Column {
+                    Row(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(2.sdp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.Top,
+                    ) {
+                        Column(
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = 8.sdp)
+                                    .weight(0.4f),
+                            horizontalAlignment = Alignment.Start,
+                        ) {
+                            Text(
+                                text = taskData.title,
+                                modifier = Modifier.padding(bottom = 2.sdp),
+                                style = MaterialTheme.typography.titleMedium,
+                                fontSize = 15.ssp,
+                            )
+                            Text(
+                                text = taskData.startAt,
+                                style = MaterialTheme.typography.titleMedium,
+                                color = Color.Gray,
+                                fontSize = 10.ssp,
+                            )
+
+                            if (expanded) {
+                                Spacer(modifier = Modifier.height(8.sdp))
+
+                                val rows = taskData.pets.chunked(3)
+
+                                Column(modifier = Modifier.fillMaxWidth()) {
+                                    rows.forEach { rowPets ->
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.Start,
+                                        ) {
+                                            rowPets.forEach { pet ->
+                                                Box(
+                                                    modifier =
+                                                        Modifier
+                                                            .weight(1f)
+                                                            .aspectRatio(1f)
+                                                            .padding(2.dp),
+                                                ) {
+                                                    PetItem(
+                                                        modifier = Modifier,
+                                                        imageRes = "",
+                                                        name = "",
+                                                        onClick = {},
+                                                    )
+                                                }
+                                            }
+                                            val emptySlots = 3 - rowPets.size
+                                            repeat(emptySlots) {
+                                                Spacer(modifier = Modifier.weight(1f))
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    Column(
-                        modifier =
-                            Modifier
-                                .padding(horizontal = 8.sdp)
-                                .weight(0.6f),
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        val displayText =
-                            if (!expanded && taskData.descriptionResumed.length > 50) {
-                                taskData.descriptionResumed.take(50) + "..."
-                            } else {
-                                taskData.descriptionResumed
-                            }
-
-                        Text(
-                            text = displayText,
-                            style = MaterialTheme.typography.titleSmall,
+                        Column(
                             modifier =
                                 Modifier
-                                    .fillMaxWidth(1f)
-                                    .padding(start = 8.sdp),
-                        )
+                                    .padding(horizontal = 8.sdp)
+                                    .weight(0.6f),
+                            horizontalAlignment = Alignment.Start,
+                        ) {
+                            val displayText =
+                                if (!expanded && taskData.descriptionResumed.length > 50) {
+                                    taskData.descriptionResumed.take(50) + "..."
+                                } else {
+                                    taskData.descriptionResumed
+                                }
 
-                        if (expanded) {
                             Text(
-                                text = taskData.descriptionCompleted,
+                                text = displayText,
                                 style = MaterialTheme.typography.titleSmall,
                                 modifier =
                                     Modifier
                                         .fillMaxWidth(1f)
-                                        .padding(start = 8.sdp, top = 8.sdp),
+                                        .padding(start = 8.sdp),
                             )
+
+                            if (expanded) {
+                                Text(
+                                    text = taskData.descriptionCompleted,
+                                    style = MaterialTheme.typography.titleSmall,
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth(1f)
+                                            .padding(start = 8.sdp, top = 8.sdp),
+                                )
+                            }
                         }
                     }
-                }
 
-                if (expanded) {
-                    Column(
+                    if (expanded) {
+                        Column(
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 8.sdp, top = 16.sdp),
+                        ) {
+                            Button(
+                                onClick = {},
+                                modifier =
+                                    Modifier
+                                        .width(100.sdp)
+                                        .height(25.sdp)
+                                        .align(Alignment.CenterHorizontally),
+                                border = BorderStroke(1.sdp, Color(0xFF959EA6)),
+                                shape = RoundedCornerShape(50.sdp),
+                                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
+                            ) {
+                                Text(
+                                    text = "Editar Tarefa",
+                                    fontSize = 10.ssp,
+                                    color = taskData.type.color,
+                                )
+                            }
+                        }
+                    }
+
+                    Box(
                         modifier =
                             Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = 8.sdp, top = 16.sdp),
-                    ) {
-                        Button(
-                            onClick = {},
-                            modifier =
-                                Modifier
-                                    .width(100.sdp)
-                                    .height(25.sdp)
-                                    .align(Alignment.CenterHorizontally),
-                            border =
-                                BorderStroke(
-                                    1.sdp,
-                                    Color(0xFF959EA6),
+                                .height(20.sdp)
+                                .background(taskData.type.color)
+                                .clickable(
+                                    indication = null,
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    onClick = { expanded = !expanded },
                                 ),
-                            shape = RoundedCornerShape(50.sdp),
-                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
-                        ) {
-                            Text(
-                                text = "Editar Tarefa",
-                                fontSize = 10.ssp,
-                                color = taskData.type.color,
-                            )
-                        }
+                    ) {
+                        Text(
+                            text = if (expanded) "Ver Menos" else "Ver Mais",
+                            fontSize = 10.ssp,
+                            color = MaterialTheme.colorScheme.background,
+                            modifier = Modifier.align(Alignment.Center),
+                        )
                     }
-                }
-
-                Box(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .height(20.sdp)
-                            .background(taskData.type.color)
-                            .clickable { expanded = !expanded },
-                ) {
-                    Text(
-                        text = if (expanded) "Ver Menos" else "Ver Mais",
-                        fontSize = 10.ssp,
-                        color = MaterialTheme.colorScheme.background,
-                        modifier =
-                            Modifier
-                                .align(Alignment.Center),
-                    )
                 }
             }
         }

@@ -16,20 +16,23 @@ import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun TaskDateComponent(
-    date: String,
-    tasks: List<TaskData>,
     modifier: Modifier = Modifier,
+    date: String? = null,
+    tasks: List<TaskData>,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.sdp),
     ) {
-        Text(
-            text = date,
-            style = MaterialTheme.typography.titleLarge,
-            fontSize = 20.ssp,
-            modifier = Modifier.padding(bottom = 8.sdp),
-        )
+        if (date != null)
+            {
+                Text(
+                    text = date,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontSize = 20.ssp,
+                    modifier = Modifier.padding(bottom = 8.sdp),
+                )
+            }
 
         tasks.forEach { taskData ->
             TaskCard(
@@ -42,9 +45,17 @@ fun TaskDateComponent(
 
 @Preview
 @Composable
-private fun Preview() {
+private fun Preview_With_date() {
     TaskDateComponent(
         date = "5 de Janeiro",
+        tasks = TaskFakeData.sampleTasks.take(3),
+    )
+}
+
+@Preview
+@Composable
+private fun Preview_Without_date() {
+    TaskDateComponent(
         tasks = TaskFakeData.sampleTasks.take(3),
     )
 }
