@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
@@ -107,7 +110,7 @@ fun ScaffoldCustom(
         content = { paddingValues ->
             contentToUse(paddingValues)
         },
-        modifier = modifier.shadow(4.dp),
+        modifier = modifier.shadow(4.dp).windowInsetsPadding(WindowInsets.systemBars),
     )
 }
 

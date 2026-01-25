@@ -24,15 +24,14 @@ fun TaskDateComponent(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.sdp),
     ) {
-        if (date != null)
-            {
-                Text(
-                    text = date,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontSize = 20.ssp,
-                    modifier = Modifier.padding(bottom = 8.sdp),
-                )
-            }
+        if (date != null) {
+            Text(
+                text = date,
+                style = MaterialTheme.typography.titleLarge,
+                fontSize = 20.ssp,
+                modifier = Modifier.padding(bottom = 8.sdp),
+            )
+        }
 
         tasks.forEach { taskData ->
             TaskCard(

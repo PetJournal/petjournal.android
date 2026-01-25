@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,6 +47,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,6 +58,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.domain.model.response.PetResponse
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.GlideImage
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
@@ -80,160 +83,6 @@ private fun getHomeViewModelForPreview2(): HomeScreenViewModel {
         FakeHomeViewModel()
     } else {
         getViewModel()
-    }
-}
-
-@ExperimentalPagerApi
-@Composable
-fun HomeScreen(navController: NavController) {
-    val mockPets =
-        listOf(
-            PetResponse("Baleia", "link1"),
-            PetResponse("Rex", "link2"),
-            PetResponse("Um nome muito grande para testar o limite", "link3"),
-        )
-
-    val viewModel: HomeScreenViewModel = getHomeViewModelForPreview2()
-    val showDropdownMenu = remember { mutableStateOf(false) }
-    val taskState by viewModel.taskState.collectAsState()
-    val name = remember { mutableStateOf(viewModel.name.value.firstName) }
-    val context = LocalContext.current
-    LaunchedEffect(key1 = context) {
-        viewModel.validationEvents.collect { event ->
-            when (event) {
-                is ValidationEvent.Success -> {
-                    name.value = viewModel.name.value.firstName
-                }
-
-                is ValidationEvent.Failed -> {
-                    name.value = "falha ao obter nome"
-                }
-            }
-        }
-    }
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
-    systemUiController.setNavigationBarColor(Color.Black)
-    Column(modifier = Modifier.navigationBarsPadding()) {
-        ScaffoldCustom(
-            modifier = Modifier,
-            titleTopBar = stringResource(R.string.hello, name.value.capitalizeFirstLetter()),
-            isLoading = taskState is TaskState.Loading,
-            showActions = true,
-            shadowBelowTopBar = 0.dp,
-            showButtonToReturn = false,
-            navigationUp = navController,
-            showTopBar = true,
-            actions = {
-                Icon(
-                    painter = painterResource(id = R.drawable.menu),
-                    contentDescription = stringResource(R.string.menu_description),
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    modifier =
-                        Modifier
-                            .size(50.dp)
-                            .padding(end = 16.dp)
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = rememberRipple(bounded = false),
-                                onClick = { showDropdownMenu.value = true },
-                            ),
-                )
-                if (showDropdownMenu.value) {
-                    DropdownMenu(
-                        expanded = showDropdownMenu.value,
-                        onDismissRequest = { showDropdownMenu.value = false },
-                        modifier = Modifier.padding(end = 16.dp),
-                    ) {
-                        DropdownMenuItem(
-                            onClick = {
-                                showDropdownMenu.value = false
-                                viewModel.logout()
-                                navController.navigate("account_manager")
-                            },
-                            text = {
-                                Text(text = stringResource(R.string.logout), fontSize = 18.sp)
-                            },
-                            trailingIcon = {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.Logout,
-                                    contentDescription = stringResource(R.string.logout),
-                                )
-                            },
-                        )
-                    }
-                }
-            },
-            showBottomBarNavigation = true,
-            bottomNavigationBar = { NavigationBar(navController) },
-            contentToUse = {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding =
-                        PaddingValues(
-                            top = it.calculateTopPadding(),
-                            bottom = it.calculateBottomPadding() + 16.dp,
-                            start = 16.dp,
-                            end = 16.dp,
-                        ),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.Top,
-                ) {
-                    item {
-                        val carouselImages = viewModel.carouselImages
-                        Carousel(imageIds = carouselImages)
-                    }
-
-                    item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
-                    item {
-                        Column {
-                            Text(
-                                text = "Meus Pets",
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontSize = 20.ssp,
-                                modifier = Modifier.padding(vertical = 8.sdp),
-                            )
-                        }
-                    }
-                    item {
-                        PetList(pets = mockPets)
-                    }
-                    item {
-                        Column {
-                            Text(
-                                text = "Próximas tarefas:",
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontSize = 20.ssp,
-                                modifier = Modifier.padding(vertical = 8.sdp),
-                            )
-                        }
-                    }
-
-                    items(
-                        items = TaskFakeData.sampleTasks.take(3),
-                        key = { task -> task.id },
-                    ) { task ->
-                        TaskCard(
-                            taskData = task,
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = 8.dp),
-                        )
-                    }
-                }
-            },
-        )
-    }
-}
-
-@OptIn(ExperimentalPagerApi::class)
-@Preview(showBackground = true)
-@Composable
-private fun HomeScreenPreview() {
-    val nav = rememberNavController()
-    PetJournalTheme {
-        HomeScreen(nav)
     }
 }
 
@@ -363,6 +212,199 @@ fun PetList(
                 }
             }
         }
+    }
+}
+
+@ExperimentalPagerApi
+@Composable
+fun HomeScreen(navController: NavController) {
+    val mockPets =
+        listOf(
+            PetResponse("Baleia", "link1"),
+            PetResponse("Rex", "link2"),
+            PetResponse("Um nome muito grande para testar o limite", "link3"),
+        )
+
+    val viewModel: HomeScreenViewModel = getHomeViewModelForPreview2()
+    val showDropdownMenu = remember { mutableStateOf(false) }
+    val taskState by viewModel.taskState.collectAsState()
+    val name = remember { mutableStateOf(viewModel.name.value.firstName) }
+    val context = LocalContext.current
+    LaunchedEffect(key1 = context) {
+        viewModel.validationEvents.collect { event ->
+            when (event) {
+                is ValidationEvent.Success -> {
+                    name.value = viewModel.name.value.firstName
+                }
+
+                is ValidationEvent.Failed -> {
+                    name.value = "falha ao obter nome"
+                }
+            }
+        }
+    }
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
+    systemUiController.setNavigationBarColor(Color.Black)
+    Column(modifier = Modifier.navigationBarsPadding()) {
+        ScaffoldCustom(
+            modifier = Modifier,
+            titleTopBar = stringResource(R.string.hello, name.value.capitalizeFirstLetter()),
+            isLoading = taskState is TaskState.Loading,
+            showActions = true,
+            shadowBelowTopBar = 0.dp,
+            showButtonToReturn = false,
+            navigationUp = navController,
+            showTopBar = true,
+            actions = {
+                Icon(
+                    painter = painterResource(id = R.drawable.menu),
+                    contentDescription = stringResource(R.string.menu_description),
+                    tint = MaterialTheme.colorScheme.onSurface,
+                    modifier =
+                        Modifier
+                            .size(50.dp)
+                            .padding(end = 16.dp)
+                            .clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = rememberRipple(bounded = false),
+                                onClick = { showDropdownMenu.value = true },
+                            ),
+                )
+                if (showDropdownMenu.value) {
+                    DropdownMenu(
+                        expanded = showDropdownMenu.value,
+                        onDismissRequest = { showDropdownMenu.value = false },
+                        modifier = Modifier.padding(end = 16.dp),
+                    ) {
+                        DropdownMenuItem(
+                            onClick = {
+                                showDropdownMenu.value = false
+                                viewModel.logout()
+                                navController.navigate("account_manager")
+                            },
+                            text = {
+                                Text(text = stringResource(R.string.logout), fontSize = 18.sp)
+                            },
+                            trailingIcon = {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.Logout,
+                                    contentDescription = stringResource(R.string.logout),
+                                )
+                            },
+                        )
+                    }
+                }
+            },
+            showBottomBarNavigation = true,
+            bottomNavigationBar = { NavigationBar(navController) },
+            contentToUse = {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding =
+                        PaddingValues(
+                            top = it.calculateTopPadding(),
+                            bottom = it.calculateBottomPadding() + 16.dp,
+                            start = 16.dp,
+                            end = 16.dp,
+                        ),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Top,
+                ) {
+                    item {
+                        val carouselImages = viewModel.carouselImages
+                        Carousel(imageIds = carouselImages)
+                    }
+                    item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
+                    item {
+                        Column {
+                            Text(
+                                text = "Meus Pets",
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontSize = 20.ssp,
+                                modifier = Modifier.padding(vertical = 8.sdp),
+                            )
+                        }
+                    }
+                    item {
+                        PetList(pets = mockPets)
+                    }
+                    // todo: adicionar logica para mostrar tarefas
+                    if (true)
+                        {
+                            item {
+                                Row(
+                                    modifier = Modifier.padding(top = 16.sdp),
+                                ) {
+                                    Column(
+                                        modifier = Modifier.fillMaxWidth(0.5f),
+                                    ) {
+                                        Text(
+                                            text = "Você não tem nenhuma tarefa!",
+                                            fontSize = 14.ssp,
+                                            fontWeight = FontWeight.Bold,
+                                            modifier = Modifier.padding(end = 16.sdp, bottom = 4.sdp),
+                                        )
+                                        Text(
+                                            text = "Crie tarefas para organizar seu dia",
+                                            fontSize = 14.ssp,
+                                        )
+                                        Button2(
+                                            text = "Criar Tarefa",
+                                            submit = {},
+                                            enableButton = true,
+                                            modifier =
+                                                Modifier
+                                                    .padding(top = 8.dp)
+                                                    .fillMaxWidth(),
+                                        )
+                                    }
+                                    Column {
+                                        Image(
+                                            painter = painterResource(id = R.drawable.things_on_the_table),
+                                            contentDescription = "Descrição da imagem",
+                                            modifier = Modifier.size(180.dp),
+                                        )
+                                    }
+                                }
+                            }
+                        } else {
+                        item {
+                            Column {
+                                Text(
+                                    text = "Próximas tarefas:",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontSize = 20.ssp,
+                                    modifier = Modifier.padding(vertical = 8.sdp),
+                                )
+                            }
+                        }
+                        items(
+                            items = TaskFakeData.sampleTasks.take(3),
+                            key = { task -> task.id },
+                        ) { task ->
+                            TaskCard(
+                                taskData = task,
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 8.dp),
+                            )
+                        }
+                    }
+                }
+            },
+        )
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Preview(showBackground = true)
+@Composable
+private fun HomeScreenPreview() {
+    val nav = rememberNavController()
+    PetJournalTheme {
+        HomeScreen(nav)
     }
 }
 
