@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -59,7 +58,8 @@ fun HeaderImageLogoImagePasswordAndTitle(
         } else {
             10.dp
         }
-    BoxWithConstraints(
+
+    Box(
         modifier =
             Modifier
                 .fillMaxWidth()
@@ -142,7 +142,7 @@ fun HeaderImageLogoImagePasswordAndTitle(
                     fontWeight = FontWeight(100),
                 )
             }
-            if (!subText.isEmpty()) {
+            if (subText.isNotEmpty()) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
