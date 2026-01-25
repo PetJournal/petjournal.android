@@ -57,23 +57,3 @@ fun GlideImage(
         update = { /* O Glide gerencia o update internamente */ },
     )
 }
-
-// @Composable
-// fun GlideImage(
-//    modifier: Modifier = Modifier,
-//    context: Context,
-//    url: String,
-//    scaleType: ImageView.ScaleType = ImageView.ScaleType.FIT_CENTER,
-// ) {
-//    AndroidView(
-//        modifier = modifier,
-//        factory = { ctx ->
-//            ImageView(ctx).apply {
-//                post { this.scaleType = scaleType }
-//                Glide.with(context)
-//                    .load(url)
-//                    .into(this)
-//            }
-//        },
-//    )
-// }

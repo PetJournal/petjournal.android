@@ -24,6 +24,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.BrokenImage
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
@@ -41,6 +43,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -59,6 +63,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.domain.model.response.PetResponse
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
+import com.soujunior.petjournal.ui.components.CardButton
 import com.soujunior.petjournal.ui.components.GlideImage
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
@@ -401,9 +406,65 @@ fun HomeScreen(navController: NavController) {
                             )
                         }
                     }
+                    item {
+                        HorizontalButtonList(onItemClick = {})
+                    }
                 }
             },
         )
+    }
+}
+
+data class MenuOption(
+    val label: String,
+    val icon: ImageVector,
+    val color: Color,
+)
+
+@Composable
+fun HorizontalButtonList(onItemClick: (String) -> Unit) {
+    val menuItems =
+        listOf(
+            MenuOption(
+                label = "Todos",
+                icon = Icons.Default.Menu,
+                color = MaterialTheme.colorScheme.primary,
+            ),
+            MenuOption(
+                label = "Home",
+                icon = Icons.Default.Home,
+                color = MaterialTheme.colorScheme.primary,
+            ),
+        )
+
+    LazyRow(
+        contentPadding =
+            PaddingValues(
+                start = 0.dp,
+                end = 16.dp,
+                top = 0.dp,
+                bottom = 16.dp,
+            ),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        items(menuItems) { item ->
+            CardButton(
+                text = item.label,
+                imageColorFilter = ColorFilter.tint(Color.White),
+                textColor = Color.White,
+                shape = RoundedCornerShape(16.dp),
+                modifier =
+                    Modifier
+                        .size(99.dp)
+                        .padding(bottom = 5.dp),
+                image =
+                    rememberVectorPainter(
+                        Icons.Default.Home,
+                    ),
+                cardColor = MaterialTheme.colorScheme.secondary,
+                submit = {},
+            )
+        }
     }
 }
 
@@ -414,6 +475,14 @@ private fun HomeScreenPreview() {
     val nav = rememberNavController()
     PetJournalTheme {
         HomeScreen(nav)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HorizontalButtonListPreview() {
+    MaterialTheme {
+        HorizontalButtonList(onItemClick = {})
     }
 }
 
@@ -429,17 +498,7 @@ private fun PreviewPetList() {
     PetList(pets = mockPets)
 }
 
-@Preview(showBackground = true, name = "Lista de Pets")
-@Composable
-private fun PreviewPetList3() {
-    val mockPets =
-        listOf(
-            PetResponse("Baleia", "url"),
-        )
-    PetList(pets = mockPets)
-}
-
-@Preview(showBackground = true, name = "Lista de Pets")
+@Preview(showBackground = true, name = "Lista de Pets vazia")
 @Composable
 private fun PreviewPetList2() {
     val mockPets = emptyList<PetResponse>()
