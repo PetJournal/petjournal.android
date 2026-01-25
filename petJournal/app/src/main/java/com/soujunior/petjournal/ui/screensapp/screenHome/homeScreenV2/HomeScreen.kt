@@ -330,45 +330,44 @@ fun HomeScreen(navController: NavController) {
                         PetList(pets = mockPets)
                     }
                     // todo: adicionar logica para mostrar tarefas
-                    if (true)
-                        {
-                            item {
-                                Row(
-                                    modifier = Modifier.padding(top = 16.sdp),
+                    if (true) {
+                        item {
+                            Row(
+                                modifier = Modifier.padding(top = 16.sdp),
+                            ) {
+                                Column(
+                                    modifier = Modifier.fillMaxWidth(0.5f),
                                 ) {
-                                    Column(
-                                        modifier = Modifier.fillMaxWidth(0.5f),
-                                    ) {
-                                        Text(
-                                            text = "Você não tem nenhuma tarefa!",
-                                            fontSize = 14.ssp,
-                                            fontWeight = FontWeight.Bold,
-                                            modifier = Modifier.padding(end = 16.sdp, bottom = 4.sdp),
-                                        )
-                                        Text(
-                                            text = "Crie tarefas para organizar seu dia",
-                                            fontSize = 14.ssp,
-                                        )
-                                        Button2(
-                                            text = "Criar Tarefa",
-                                            submit = {},
-                                            enableButton = true,
-                                            modifier =
-                                                Modifier
-                                                    .padding(top = 8.dp)
-                                                    .fillMaxWidth(),
-                                        )
-                                    }
-                                    Column {
-                                        Image(
-                                            painter = painterResource(id = R.drawable.things_on_the_table),
-                                            contentDescription = "Descrição da imagem",
-                                            modifier = Modifier.size(180.dp),
-                                        )
-                                    }
+                                    Text(
+                                        text = "Você não tem nenhuma tarefa!",
+                                        fontSize = 14.ssp,
+                                        fontWeight = FontWeight.Bold,
+                                        modifier = Modifier.padding(end = 16.sdp, bottom = 4.sdp),
+                                    )
+                                    Text(
+                                        text = "Crie tarefas para organizar seu dia",
+                                        fontSize = 14.ssp,
+                                    )
+                                    Button2(
+                                        text = "Criar Tarefa",
+                                        submit = {},
+                                        enableButton = true,
+                                        modifier =
+                                            Modifier
+                                                .padding(top = 8.dp)
+                                                .fillMaxWidth(),
+                                    )
+                                }
+                                Column {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.things_on_the_table),
+                                        contentDescription = "Descrição da imagem",
+                                        modifier = Modifier.size(180.dp),
+                                    )
                                 }
                             }
-                        } else {
+                        }
+                    } else {
                         item {
                             Column {
                                 Text(
@@ -389,6 +388,16 @@ fun HomeScreen(navController: NavController) {
                                     Modifier
                                         .fillMaxWidth()
                                         .padding(bottom = 8.dp),
+                            )
+                        }
+                    }
+                    item {
+                        Column {
+                            Text(
+                                text = "Saiba mais:",
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontSize = 20.ssp,
+                                modifier = Modifier.padding(vertical = 8.sdp),
                             )
                         }
                     }
