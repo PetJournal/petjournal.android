@@ -8,8 +8,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.sharp.Apps
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -45,10 +44,7 @@ fun HorizontalButtonList(
                     Modifier
                         .size(99.dp)
                         .padding(bottom = 5.dp),
-                image =
-                    rememberVectorPainter(
-                        Icons.Default.Home,
-                    ),
+                image = rememberVectorPainter(image = item.icon),
                 cardColor = item.color,
                 submit = { onItemClick() },
             )
@@ -63,16 +59,19 @@ private fun HorizontalButtonListPreview() {
         listOf(
             MenuOption(
                 label = "Todos",
-                icon = Icons.Default.Menu,
+                icon = Icons.Sharp.Apps,
                 color = MaterialTheme.colorScheme.primary,
             ),
             MenuOption(
                 label = "Vacinas",
-                icon = Icons.Default.Home,
+                icon = Icons.Sharp.Apps,
                 color = MaterialTheme.colorScheme.primary,
             ),
         )
     MaterialTheme {
-        HorizontalButtonList(onItemClick = {}, menuItems = menuItems)
+        HorizontalButtonList(
+            onItemClick = {},
+            menuItems = menuItems,
+        )
     }
 }

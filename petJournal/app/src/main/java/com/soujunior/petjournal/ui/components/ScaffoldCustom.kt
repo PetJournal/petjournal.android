@@ -65,7 +65,7 @@ fun ScaffoldCustom(
                     TopAppBar(
                         colors =
                             TopAppBarDefaults.topAppBarColors(
-                                containerColor = Color.Transparent,
+                                containerColor = MaterialTheme.colorScheme.onPrimary,
                                 titleContentColor = MaterialTheme.colorScheme.onPrimary,
                             ),
                         title = {
@@ -80,15 +80,18 @@ fun ScaffoldCustom(
                             )
                         },
                         navigationIcon = {
-                            IconButton(onClick = {
-                                navigationUp.navigateUp()
-                            }) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.navigate_before),
-                                    contentDescription = stringResource(R.string.navigate_to_previous_screen),
-                                    contentScale = ContentScale.None,
-                                )
-                            }
+                            if (showButtonToReturn)
+                                {
+                                    IconButton(onClick = {
+                                        navigationUp.navigateUp()
+                                    }) {
+                                        Image(
+                                            painter = painterResource(id = R.drawable.navigate_before),
+                                            contentDescription = stringResource(R.string.navigate_to_previous_screen),
+                                            contentScale = ContentScale.None,
+                                        )
+                                    }
+                                }
                         },
                         actions = {
                             if (showActions) {
@@ -110,7 +113,10 @@ fun ScaffoldCustom(
         content = { paddingValues ->
             contentToUse(paddingValues)
         },
-        modifier = modifier.shadow(4.dp).windowInsetsPadding(WindowInsets.systemBars),
+        modifier =
+            modifier
+                .shadow(4.dp)
+                .windowInsetsPadding(WindowInsets.systemBars),
     )
 }
 

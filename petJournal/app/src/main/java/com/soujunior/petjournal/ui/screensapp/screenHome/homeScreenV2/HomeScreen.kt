@@ -174,21 +174,33 @@ private fun EmptyTaskSection() {
 fun HomeScreen(navController: NavController) {
     val viewModel: HomeScreenViewModel = getHomeViewModelForPreview2()
     // todo: corrigir para obter da api
-    val mockPets =
-        listOf(
-            PetResponse("Baleia", "link1"),
-            PetResponse("Rex", "link2"),
-            PetResponse("Um nome muito grande para testar o limite", "link3"),
-        )
+    //    val mockPets =
+    //        listOf(
+    //            PetResponse("Baleia", "link1"),
+    //            PetResponse("Rex", "link2"),
+    //            PetResponse("Um nome muito grande para testar o limite", "link3"),
+    //        )
+
+    val mockPets = emptyList<PetResponse>()
+
     // todo: corrigir para obter da api
     val menuItems =
         listOf(
-            MenuOption(stringResource(R.string.menu_option_all), Icons.Default.Menu, MaterialTheme.colorScheme.primary),
-            MenuOption(stringResource(R.string.menu_option_vaccines), Icons.Default.Home, MaterialTheme.colorScheme.primary),
+            MenuOption(
+                label = stringResource(R.string.menu_option_all),
+//                icon = Icons.Rounded.Apps,
+                icon = Icons.Sharp,
+                color = MaterialTheme.colorScheme.primary,
+            ),
+            MenuOption(
+                label = stringResource(R.string.menu_option_vaccines),
+                icon = Icons.Default.Home,
+                color = MaterialTheme.colorScheme.error,
+            ),
         )
     // todo: corrigir para obter da api
     val tasks = emptyList<TaskData>()
-//    val tasks : List<TaskData> = TaskFakeData.sampleTasks.subList(0, 3)
+    //    val tasks : List<TaskData> = TaskFakeData.sampleTasks.subList(0, 3)
 
     val taskState by viewModel.taskState.collectAsState()
     val name = remember { mutableStateOf(viewModel.name.value.firstName) }

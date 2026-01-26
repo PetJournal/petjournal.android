@@ -68,7 +68,7 @@ fun PetList(
                         Text(
                             text = "Ainda sem pet.",
                             textAlign = TextAlign.Center,
-                            fontSize = 15.ssp,
+                            fontSize = 18.ssp,
                             color = Color.Black.copy(alpha = 0.5f),
                             lineHeight = 14.ssp,
                         )
