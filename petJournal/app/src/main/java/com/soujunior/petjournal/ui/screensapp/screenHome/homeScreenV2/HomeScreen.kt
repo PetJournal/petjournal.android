@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -188,8 +189,7 @@ fun HomeScreen(navController: NavController) {
         listOf(
             MenuOption(
                 label = stringResource(R.string.menu_option_all),
-//                icon = Icons.Rounded.Apps,
-                icon = Icons.Sharp,
+                icon = Icons.Rounded.Apps,
                 color = MaterialTheme.colorScheme.primary,
             ),
             MenuOption(

@@ -80,18 +80,17 @@ fun ScaffoldCustom(
                             )
                         },
                         navigationIcon = {
-                            if (showButtonToReturn)
-                                {
-                                    IconButton(onClick = {
-                                        navigationUp.navigateUp()
-                                    }) {
-                                        Image(
-                                            painter = painterResource(id = R.drawable.navigate_before),
-                                            contentDescription = stringResource(R.string.navigate_to_previous_screen),
-                                            contentScale = ContentScale.None,
-                                        )
-                                    }
+                            if (showButtonToReturn) {
+                                IconButton(onClick = {
+                                    navigationUp.navigateUp()
+                                }) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.navigate_before),
+                                        contentDescription = stringResource(R.string.navigate_to_previous_screen),
+                                        contentScale = ContentScale.None,
+                                    )
                                 }
+                            }
                         },
                         actions = {
                             if (showActions) {
