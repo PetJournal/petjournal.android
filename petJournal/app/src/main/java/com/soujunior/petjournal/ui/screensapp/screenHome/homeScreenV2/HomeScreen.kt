@@ -1,9 +1,7 @@
 package com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2
 
 import android.annotation.SuppressLint
-import android.widget.ImageView
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -18,21 +16,16 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
-import androidx.compose.material.icons.filled.BrokenImage
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,16 +36,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -63,12 +51,14 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.domain.model.response.PetResponse
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
-import com.soujunior.petjournal.ui.components.CardButton
-import com.soujunior.petjournal.ui.components.GlideImage
 import com.soujunior.petjournal.ui.components.NavigationBar
+import com.soujunior.petjournal.ui.components.PetList
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.TaskCard
+import com.soujunior.petjournal.ui.components.data.TaskData
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
+import com.soujunior.petjournal.ui.components.horizontalButtonList.HorizontalButtonList
+import com.soujunior.petjournal.ui.components.horizontalButtonList.MenuOption
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.FakeHomeViewModel
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.HomeScreenViewModel
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.components.Carousel
@@ -92,130 +82,89 @@ private fun getHomeViewModelForPreview2(): HomeScreenViewModel {
 }
 
 @Composable
-fun PetList(
-    pets: List<PetResponse>,
-    onAddNewPet: () -> Unit = { },
-) {
-    if (pets.isEmpty()) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+private fun SectionHeader(title: String) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.bodyMedium,
+        fontSize = 20.ssp,
+        modifier = Modifier.padding(vertical = 8.sdp),
+    )
+}
+
+@Composable
+private fun HomeTopBarActions(onLogout: () -> Unit) {
+    val showDropdownMenu = remember { mutableStateOf(false) }
+
+    Box {
+        Icon(
+            painter = painterResource(id = R.drawable.menu),
+            contentDescription = stringResource(R.string.menu_description),
+            tint = MaterialTheme.colorScheme.onSurface,
+            modifier =
+                Modifier
+                    .size(50.dp)
+                    .padding(end = 16.dp)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(bounded = false),
+                        onClick = { showDropdownMenu.value = true },
+                    ),
+        )
+
+        DropdownMenu(
+            expanded = showDropdownMenu.value,
+            onDismissRequest = { showDropdownMenu.value = false },
+            modifier = Modifier.padding(end = 16.dp),
         ) {
-            Surface(
+            DropdownMenuItem(
+                onClick = {
+                    showDropdownMenu.value = false
+                    onLogout()
+                },
+                text = {
+                    Text(text = stringResource(R.string.logout), fontSize = 18.sp)
+                },
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Logout,
+                        contentDescription = stringResource(R.string.logout),
+                    )
+                },
+            )
+        }
+    }
+}
+
+@Composable
+private fun EmptyTaskSection() {
+    Row(modifier = Modifier.padding(top = 16.sdp)) {
+        Column(modifier = Modifier.fillMaxWidth(0.5f)) {
+            Text(
+                text = stringResource(R.string.no_tasks_title),
+                fontSize = 14.ssp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(end = 16.sdp, bottom = 4.sdp),
+            )
+            Text(
+                text = stringResource(R.string.no_tasks_subtitle),
+                fontSize = 14.ssp,
+            )
+            Button2(
+                text = stringResource(R.string.create_task_button),
+                submit = { /* Todo: Navegar para criar tarefa */ },
+                enableButton = true,
                 modifier =
                     Modifier
-                        .size(108.sdp)
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = rememberRipple(bounded = true),
-                            onClick = onAddNewPet,
-                        ),
-                shape = RoundedCornerShape(16.sdp),
-                color = Color(0xFFD9D9D9),
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "Ainda sem pet.",
-                            textAlign = TextAlign.Center,
-                            fontSize = 15.ssp,
-                            color = Color.Black.copy(alpha = 0.5f),
-                            lineHeight = 14.ssp,
-                        )
-                    }
-                }
-            }
+                        .padding(top = 8.dp)
+                        .fillMaxWidth(),
+            )
         }
-    } else {
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.sdp),
-            contentPadding = PaddingValues(horizontal = 0.sdp),
-        ) {
-            items(pets) { pet ->
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    val imageUrl = pet.petImage
-                    val isLoading = remember { mutableStateOf(false) }
-                    val hasError = remember { mutableStateOf(false) }
-
-                    LaunchedEffect(imageUrl) {
-                        isLoading.value = true
-                        hasError.value = false
-                    }
-
-                    Surface(
-                        modifier = Modifier.size(108.sdp),
-                        shape = RoundedCornerShape(16.sdp),
-                        color = Color(0xFFD9D9D9),
-                    ) {
-                        if (imageUrl.isNullOrEmpty()) {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Image(
-                                        painter = rememberVectorPainter(image = Icons.Default.BrokenImage),
-                                        contentDescription = "Pet ausente",
-                                        modifier = Modifier.size(40.sdp),
-                                        contentScale = ContentScale.Fit,
-                                        alpha = 0.6f,
-                                    )
-                                }
-                            }
-                        } else {
-                            Box(modifier = Modifier.fillMaxSize()) {
-                                GlideImage(
-                                    modifier = Modifier.fillMaxSize(),
-                                    context = LocalContext.current,
-                                    url = imageUrl,
-                                    scaleType = ImageView.ScaleType.CENTER_CROP,
-                                    onLoadingFinished = { success ->
-                                        isLoading.value = false
-                                        hasError.value = !success
-                                    },
-                                )
-
-                                if (isLoading.value) {
-                                    Box(
-                                        modifier =
-                                            Modifier
-                                                .fillMaxSize()
-                                                .background(Color(0xFFDED1D1)),
-                                        contentAlignment = Alignment.Center,
-                                    ) {
-                                        CircularProgressIndicator(
-                                            modifier = Modifier.size(24.sdp),
-                                            color = MaterialTheme.colorScheme.primary,
-                                            strokeWidth = 2.sdp,
-                                        )
-                                    }
-                                }
-
-                                if (hasError.value && !isLoading.value) {
-                                    Box(
-                                        modifier = Modifier.fillMaxSize(),
-                                        contentAlignment = Alignment.Center,
-                                    ) {
-                                        Image(
-                                            painter = rememberVectorPainter(image = Icons.Default.BrokenImage),
-                                            contentDescription = "Erro ao carregar imagem",
-                                            modifier = Modifier.size(48.sdp),
-                                            contentScale = ContentScale.Fit,
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        Column {
+            Image(
+                painter = painterResource(id = R.drawable.things_on_the_table),
+                contentDescription = null,
+                modifier = Modifier.size(180.dp),
+            )
         }
     }
 }
@@ -223,37 +172,45 @@ fun PetList(
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(navController: NavController) {
+    val viewModel: HomeScreenViewModel = getHomeViewModelForPreview2()
+    // todo: corrigir para obter da api
     val mockPets =
         listOf(
             PetResponse("Baleia", "link1"),
             PetResponse("Rex", "link2"),
             PetResponse("Um nome muito grande para testar o limite", "link3"),
         )
+    // todo: corrigir para obter da api
+    val menuItems =
+        listOf(
+            MenuOption(stringResource(R.string.menu_option_all), Icons.Default.Menu, MaterialTheme.colorScheme.primary),
+            MenuOption(stringResource(R.string.menu_option_vaccines), Icons.Default.Home, MaterialTheme.colorScheme.primary),
+        )
+    // todo: corrigir para obter da api
+    val tasks = emptyList<TaskData>()
+//    val tasks : List<TaskData> = TaskFakeData.sampleTasks.subList(0, 3)
 
-    val viewModel: HomeScreenViewModel = getHomeViewModelForPreview2()
-    val showDropdownMenu = remember { mutableStateOf(false) }
     val taskState by viewModel.taskState.collectAsState()
     val name = remember { mutableStateOf(viewModel.name.value.firstName) }
     val context = LocalContext.current
+    val systemUiController = rememberSystemUiController()
+
+    LaunchedEffect(Unit) {
+        systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
+        systemUiController.setNavigationBarColor(Color.Black)
+    }
+
     LaunchedEffect(key1 = context) {
         viewModel.validationEvents.collect { event ->
             when (event) {
-                is ValidationEvent.Success -> {
-                    name.value = viewModel.name.value.firstName
-                }
-
-                is ValidationEvent.Failed -> {
-                    name.value = "falha ao obter nome"
-                }
+                is ValidationEvent.Success -> name.value = viewModel.name.value.firstName
+                is ValidationEvent.Failed -> name.value = context.getString(R.string.error_fetching_name)
             }
         }
     }
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
-    systemUiController.setNavigationBarColor(Color.Black)
+
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
-            modifier = Modifier,
             titleTopBar = stringResource(R.string.hello, name.value.capitalizeFirstLetter()),
             isLoading = taskState is TaskState.Loading,
             showActions = true,
@@ -262,54 +219,23 @@ fun HomeScreen(navController: NavController) {
             navigationUp = navController,
             showTopBar = true,
             actions = {
-                Icon(
-                    painter = painterResource(id = R.drawable.menu),
-                    contentDescription = stringResource(R.string.menu_description),
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    modifier =
-                        Modifier
-                            .size(50.dp)
-                            .padding(end = 16.dp)
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = rememberRipple(bounded = false),
-                                onClick = { showDropdownMenu.value = true },
-                            ),
+                HomeTopBarActions(
+                    onLogout = {
+                        viewModel.logout()
+                        navController.navigate("account_manager")
+                    },
                 )
-                if (showDropdownMenu.value) {
-                    DropdownMenu(
-                        expanded = showDropdownMenu.value,
-                        onDismissRequest = { showDropdownMenu.value = false },
-                        modifier = Modifier.padding(end = 16.dp),
-                    ) {
-                        DropdownMenuItem(
-                            onClick = {
-                                showDropdownMenu.value = false
-                                viewModel.logout()
-                                navController.navigate("account_manager")
-                            },
-                            text = {
-                                Text(text = stringResource(R.string.logout), fontSize = 18.sp)
-                            },
-                            trailingIcon = {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.Logout,
-                                    contentDescription = stringResource(R.string.logout),
-                                )
-                            },
-                        )
-                    }
-                }
             },
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
-            contentToUse = {
+            contentToUse = { paddingValues ->
+
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding =
                         PaddingValues(
-                            top = it.calculateTopPadding(),
-                            bottom = it.calculateBottomPadding() + 16.dp,
+                            top = paddingValues.calculateTopPadding(),
+                            bottom = paddingValues.calculateBottomPadding() + 16.dp,
                             start = 16.dp,
                             end = 16.dp,
                         ),
@@ -317,78 +243,23 @@ fun HomeScreen(navController: NavController) {
                     verticalArrangement = Arrangement.Top,
                 ) {
                     item {
-                        val carouselImages = viewModel.carouselImages
-                        Carousel(imageIds = carouselImages)
+                        Carousel(imageIds = viewModel.carouselImages)
                     }
+
                     item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
+
                     item {
-                        Column {
-                            Text(
-                                text = "Meus Pets",
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontSize = 20.ssp,
-                                modifier = Modifier.padding(vertical = 8.sdp),
-                            )
-                        }
-                    }
-                    item {
+                        SectionHeader(title = stringResource(R.string.section_my_pets))
                         PetList(pets = mockPets)
                     }
-                    // todo: adicionar logica para mostrar tarefas
-                    if (true) {
-                        item {
-                            Row(
-                                modifier = Modifier.padding(top = 16.sdp),
-                            ) {
-                                Column(
-                                    modifier = Modifier.fillMaxWidth(0.5f),
-                                ) {
-                                    Text(
-                                        text = "Você não tem nenhuma tarefa!",
-                                        fontSize = 14.ssp,
-                                        fontWeight = FontWeight.Bold,
-                                        modifier = Modifier.padding(end = 16.sdp, bottom = 4.sdp),
-                                    )
-                                    Text(
-                                        text = "Crie tarefas para organizar seu dia",
-                                        fontSize = 14.ssp,
-                                    )
-                                    Button2(
-                                        text = "Criar Tarefa",
-                                        submit = {},
-                                        enableButton = true,
-                                        modifier =
-                                            Modifier
-                                                .padding(top = 8.dp)
-                                                .fillMaxWidth(),
-                                    )
-                                }
-                                Column {
-                                    Image(
-                                        painter = painterResource(id = R.drawable.things_on_the_table),
-                                        contentDescription = "Descrição da imagem",
-                                        modifier = Modifier.size(180.dp),
-                                    )
-                                }
-                            }
-                        }
+
+                    if (tasks.isNullOrEmpty()) {
+                        item { EmptyTaskSection() }
                     } else {
-                        item {
-                            Column {
-                                Text(
-                                    text = "Próximas tarefas:",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontSize = 20.ssp,
-                                    modifier = Modifier.padding(vertical = 8.sdp),
-                                )
-                            }
-                        }
-                        items(
-                            items = TaskFakeData.sampleTasks.take(3),
-                            key = { task -> task.id },
-                        ) { task ->
+                        item { SectionHeader(title = stringResource(R.string.section_next_tasks)) }
+                        items(items = tasks, key = { it.id }) { task ->
                             TaskCard(
-                                taskData = task,
+                                taskData = TaskFakeData.sampleTasks[0],
                                 modifier =
                                     Modifier
                                         .fillMaxWidth()
@@ -396,75 +267,14 @@ fun HomeScreen(navController: NavController) {
                             )
                         }
                     }
+
                     item {
-                        Column {
-                            Text(
-                                text = "Saiba mais:",
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontSize = 20.ssp,
-                                modifier = Modifier.padding(vertical = 8.sdp),
-                            )
-                        }
-                    }
-                    item {
-                        HorizontalButtonList(onItemClick = {})
+                        SectionHeader(title = stringResource(R.string.section_learn_more))
+                        HorizontalButtonList(onItemClick = {}, menuItems = menuItems)
                     }
                 }
             },
         )
-    }
-}
-
-data class MenuOption(
-    val label: String,
-    val icon: ImageVector,
-    val color: Color,
-)
-
-@Composable
-fun HorizontalButtonList(onItemClick: (String) -> Unit) {
-    val menuItems =
-        listOf(
-            MenuOption(
-                label = "Todos",
-                icon = Icons.Default.Menu,
-                color = MaterialTheme.colorScheme.primary,
-            ),
-            MenuOption(
-                label = "Home",
-                icon = Icons.Default.Home,
-                color = MaterialTheme.colorScheme.primary,
-            ),
-        )
-
-    LazyRow(
-        contentPadding =
-            PaddingValues(
-                start = 0.dp,
-                end = 16.dp,
-                top = 0.dp,
-                bottom = 16.dp,
-            ),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        items(menuItems) { item ->
-            CardButton(
-                text = item.label,
-                imageColorFilter = ColorFilter.tint(Color.White),
-                textColor = Color.White,
-                shape = RoundedCornerShape(16.dp),
-                modifier =
-                    Modifier
-                        .size(99.dp)
-                        .padding(bottom = 5.dp),
-                image =
-                    rememberVectorPainter(
-                        Icons.Default.Home,
-                    ),
-                cardColor = MaterialTheme.colorScheme.secondary,
-                submit = {},
-            )
-        }
     }
 }
 
@@ -481,8 +291,21 @@ private fun HomeScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 fun HorizontalButtonListPreview() {
+    val menuItems =
+        listOf(
+            MenuOption(
+                label = "Todos",
+                icon = Icons.Default.Menu,
+                color = MaterialTheme.colorScheme.primary,
+            ),
+            MenuOption(
+                label = "Vacinas",
+                icon = Icons.Default.Home,
+                color = MaterialTheme.colorScheme.primary,
+            ),
+        )
     MaterialTheme {
-        HorizontalButtonList(onItemClick = {})
+        HorizontalButtonList(onItemClick = {}, menuItems = menuItems)
     }
 }
 

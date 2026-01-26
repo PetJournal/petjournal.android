@@ -184,4 +184,13 @@
     <string name="out">Out</string>
     <string name="nov">Nov</string>
     <string name="dez">Dez</string>
+    <string name="section_my_pets">Meus Pets</string>
+    <string name="section_next_tasks">Próximas tarefas:</string>
+    <string name="section_learn_more">Saiba mais:</string>
+    <string name="no_tasks_title">Você não tem nenhuma tarefa!</string>
+    <string name="no_tasks_subtitle">Crie tarefas para organizar seu dia</string>
+    <string name="create_task_button">Criar Tarefa</string>
+    <string name="menu_option_all">Todos</string>
+    <string name="menu_option_vaccines">Vacinas</string>
+    <string name="error_fetching_name">falha ao obter nome</string>
 </resources>
