@@ -10,7 +10,7 @@ import com.soujunior.petjournal.ui.screensapp.accountmanager.changePasswordScree
 import com.soujunior.petjournal.ui.screensapp.accountmanager.forgotPasswordScreen.ForgotPasswordScreen
 import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.RegisterScreen
-import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.HomeScreen
+import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreen
 import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorScreen
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetScreen

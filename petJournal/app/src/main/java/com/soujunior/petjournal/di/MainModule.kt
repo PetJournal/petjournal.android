@@ -46,8 +46,8 @@ import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginVi
 import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.RegisterViewModel
 import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.RegisterViewModelImpl
-import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.HomeScreenViewModel
-import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.HomeScreenViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreenViewModel
+import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashViewModel
 import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModel
 import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.BirthDateViewModel

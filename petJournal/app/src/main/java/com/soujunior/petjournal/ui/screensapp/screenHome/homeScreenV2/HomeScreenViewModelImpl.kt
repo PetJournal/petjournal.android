@@ -43,7 +43,7 @@ class HomeScreenViewModelImpl(
     }
 
     override fun failed(exception: Throwable?) {
-        updateMessage(exception?.message.toString() ?: "Erro desconhecido!")
+        updateMessage(exception?.message.toString())
         viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }
 

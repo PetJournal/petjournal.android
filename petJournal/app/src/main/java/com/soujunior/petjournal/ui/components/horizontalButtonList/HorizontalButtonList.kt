@@ -22,7 +22,7 @@ import com.soujunior.petjournal.ui.components.CardButton
 @Composable
 fun HorizontalButtonList(
     onItemClick: () -> Unit,
-    menuItems: List<MenuOption>,
+    menuItems: List<TagOption>,
 ) {
     LazyRow(
         contentPadding =
@@ -57,12 +57,14 @@ fun HorizontalButtonList(
 private fun HorizontalButtonListPreview() {
     val menuItems =
         listOf(
-            MenuOption(
+            TagOption(
+                id = "2",
                 label = "Todos",
                 icon = Icons.Sharp.Apps,
                 color = MaterialTheme.colorScheme.primary,
             ),
-            MenuOption(
+            TagOption(
+                id = "2",
                 label = "Vacinas",
                 icon = Icons.Sharp.Apps,
                 color = MaterialTheme.colorScheme.primary,

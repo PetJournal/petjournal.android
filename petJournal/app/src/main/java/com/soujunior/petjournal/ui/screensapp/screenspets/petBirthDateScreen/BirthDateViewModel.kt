@@ -23,7 +23,7 @@ class FakeBirthDateViewModel : BirthDateViewModel() {
 
     override val taskState = MutableStateFlow<TaskState>(TaskState.Idle)
 
-    override fun failed(exception: Throwable?) { /* No-op */ }
+    override fun failed(exception: Throwable?) { }
 
     override fun onEvent(event: BirthDateFormEvent) {}
 

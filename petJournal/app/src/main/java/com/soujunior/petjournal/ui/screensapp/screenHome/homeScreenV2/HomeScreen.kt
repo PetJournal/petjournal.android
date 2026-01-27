@@ -21,7 +21,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -59,9 +58,7 @@ import com.soujunior.petjournal.ui.components.TaskCard
 import com.soujunior.petjournal.ui.components.data.TaskData
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.components.horizontalButtonList.HorizontalButtonList
-import com.soujunior.petjournal.ui.components.horizontalButtonList.MenuOption
-import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.FakeHomeViewModel
-import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.HomeScreenViewModel
+import com.soujunior.petjournal.ui.components.horizontalButtonList.TagOption
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.components.Carousel
 import com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.components.TaskDateComponent
 import com.soujunior.petjournal.ui.states.TaskState
@@ -72,9 +69,112 @@ import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 import org.koin.androidx.compose.getViewModel
 
+@ExperimentalPagerApi
+@Composable
+fun HomeScreen(navController: NavController) {
+    val viewModel: HomeScreenViewModel = getCorrectViewModel()
+    viewModel.getData()
+
+    val mockPets = emptyList<PetResponse>()
+
+    // todo: corrigir para obter da api
+    val menuItems = viewModel.state.menuItems
+
+    // todo: corrigir para obter da api
+    // val tasks = emptyList<TaskData>()
+    val tasks: List<TaskData> = viewModel.state.listTaskData
+
+    val taskState by viewModel.taskState.collectAsState()
+    val name = remember { mutableStateOf(viewModel.name.value.firstName) }
+
+    val context = LocalContext.current
+    val systemUiController = rememberSystemUiController()
+
+    LaunchedEffect(Unit) {
+        systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
+        systemUiController.setNavigationBarColor(Color.Black)
+    }
+
+    LaunchedEffect(key1 = context) {
+        viewModel.validationEvents.collect { event ->
+            when (event) {
+                is ValidationEvent.Success -> name.value = viewModel.name.value.firstName
+                is ValidationEvent.Failed -> name.value = context.getString(R.string.error_fetching_name)
+            }
+        }
+    }
+
+    Column(modifier = Modifier.navigationBarsPadding()) {
+        ScaffoldCustom(
+            titleTopBar = stringResource(R.string.hello, name.value.capitalizeFirstLetter()),
+            isLoading = taskState is TaskState.Loading,
+            showActions = true,
+            shadowBelowTopBar = 0.dp,
+            showButtonToReturn = false,
+            navigationUp = navController,
+            showTopBar = true,
+            actions = {
+                HomeTopBarActions(
+                    onLogout = {
+                        viewModel.logout()
+                        navController.navigate("account_manager")
+                    },
+                )
+            },
+            showBottomBarNavigation = true,
+            bottomNavigationBar = { NavigationBar(navController) },
+            contentToUse = { paddingValues ->
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding =
+                        PaddingValues(
+                            top = paddingValues.calculateTopPadding(),
+                            bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                            start = 16.dp,
+                            end = 16.dp,
+                        ),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Top,
+                ) {
+                    item {
+                        Carousel(imageIds = viewModel.carouselImages)
+                    }
+
+                    item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
+
+                    item {
+                        SectionHeader(title = stringResource(R.string.section_my_pets))
+                        PetList(pets = mockPets)
+                    }
+
+                    if (tasks.isNullOrEmpty()) {
+                        item { EmptyTaskSection() }
+                    } else {
+                        item { SectionHeader(title = stringResource(R.string.section_next_tasks)) }
+                        items(items = tasks, key = { it.id }) { task ->
+                            TaskCard(
+                                taskData = TaskFakeData.sampleTasks[0],
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 8.dp),
+                            )
+                        }
+                    }
+
+                    item {
+                        SectionHeader(title = stringResource(R.string.section_learn_more))
+                        HorizontalButtonList(onItemClick = {}, menuItems = menuItems)
+                    }
+                }
+            },
+        )
+    }
+}
+
 @SuppressLint("ViewModelConstructorInComposable")
 @Composable
-private fun getHomeViewModelForPreview2(): HomeScreenViewModel {
+private fun getCorrectViewModel(): HomeScreenViewModel {
     return if (LocalInspectionMode.current) {
         FakeHomeViewModel()
     } else {
@@ -170,126 +270,6 @@ private fun EmptyTaskSection() {
     }
 }
 
-@ExperimentalPagerApi
-@Composable
-fun HomeScreen(navController: NavController) {
-    val viewModel: HomeScreenViewModel = getHomeViewModelForPreview2()
-    // todo: corrigir para obter da api
-    //    val mockPets =
-    //        listOf(
-    //            PetResponse("Baleia", "link1"),
-    //            PetResponse("Rex", "link2"),
-    //            PetResponse("Um nome muito grande para testar o limite", "link3"),
-    //        )
-
-    val mockPets = emptyList<PetResponse>()
-
-    // todo: corrigir para obter da api
-    val menuItems =
-        listOf(
-            MenuOption(
-                label = stringResource(R.string.menu_option_all),
-                icon = Icons.Rounded.Apps,
-                color = MaterialTheme.colorScheme.primary,
-            ),
-            MenuOption(
-                label = stringResource(R.string.menu_option_vaccines),
-                icon = Icons.Default.Home,
-                color = MaterialTheme.colorScheme.error,
-            ),
-        )
-    // todo: corrigir para obter da api
-    val tasks = emptyList<TaskData>()
-    //    val tasks : List<TaskData> = TaskFakeData.sampleTasks.subList(0, 3)
-
-    val taskState by viewModel.taskState.collectAsState()
-    val name = remember { mutableStateOf(viewModel.name.value.firstName) }
-    val context = LocalContext.current
-    val systemUiController = rememberSystemUiController()
-
-    LaunchedEffect(Unit) {
-        systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
-        systemUiController.setNavigationBarColor(Color.Black)
-    }
-
-    LaunchedEffect(key1 = context) {
-        viewModel.validationEvents.collect { event ->
-            when (event) {
-                is ValidationEvent.Success -> name.value = viewModel.name.value.firstName
-                is ValidationEvent.Failed -> name.value = context.getString(R.string.error_fetching_name)
-            }
-        }
-    }
-
-    Column(modifier = Modifier.navigationBarsPadding()) {
-        ScaffoldCustom(
-            titleTopBar = stringResource(R.string.hello, name.value.capitalizeFirstLetter()),
-            isLoading = taskState is TaskState.Loading,
-            showActions = true,
-            shadowBelowTopBar = 0.dp,
-            showButtonToReturn = false,
-            navigationUp = navController,
-            showTopBar = true,
-            actions = {
-                HomeTopBarActions(
-                    onLogout = {
-                        viewModel.logout()
-                        navController.navigate("account_manager")
-                    },
-                )
-            },
-            showBottomBarNavigation = true,
-            bottomNavigationBar = { NavigationBar(navController) },
-            contentToUse = { paddingValues ->
-
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding =
-                        PaddingValues(
-                            top = paddingValues.calculateTopPadding(),
-                            bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                            start = 16.dp,
-                            end = 16.dp,
-                        ),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.Top,
-                ) {
-                    item {
-                        Carousel(imageIds = viewModel.carouselImages)
-                    }
-
-                    item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
-
-                    item {
-                        SectionHeader(title = stringResource(R.string.section_my_pets))
-                        PetList(pets = mockPets)
-                    }
-
-                    if (tasks.isNullOrEmpty()) {
-                        item { EmptyTaskSection() }
-                    } else {
-                        item { SectionHeader(title = stringResource(R.string.section_next_tasks)) }
-                        items(items = tasks, key = { it.id }) { task ->
-                            TaskCard(
-                                taskData = TaskFakeData.sampleTasks[0],
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(bottom = 8.dp),
-                            )
-                        }
-                    }
-
-                    item {
-                        SectionHeader(title = stringResource(R.string.section_learn_more))
-                        HorizontalButtonList(onItemClick = {}, menuItems = menuItems)
-                    }
-                }
-            },
-        )
-    }
-}
-
 @OptIn(ExperimentalPagerApi::class)
 @Preview(showBackground = true)
 @Composable
@@ -305,15 +285,17 @@ private fun HomeScreenPreview() {
 fun HorizontalButtonListPreview() {
     val menuItems =
         listOf(
-            MenuOption(
+            TagOption(
+                id = "1",
                 label = "Todos",
                 icon = Icons.Default.Menu,
-                color = MaterialTheme.colorScheme.primary,
+                color = Color.Blue,
             ),
-            MenuOption(
+            TagOption(
+                id = "1",
                 label = "Vacinas",
                 icon = Icons.Default.Home,
-                color = MaterialTheme.colorScheme.primary,
+                color = Color.Cyan,
             ),
         )
     MaterialTheme {
