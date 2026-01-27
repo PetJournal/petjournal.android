@@ -18,8 +18,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,8 +41,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -89,7 +89,10 @@ fun PBBottomSheet(
                                     .width(32.dp)
                                     .height(4.dp)
                                     .background(
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
+                                        color =
+                                            MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                                alpha = 0.4f,
+                                            ),
                                         shape = RoundedCornerShape(2.dp),
                                     ),
                         )
@@ -173,26 +176,33 @@ fun PBSheetContent(onAction: (String) -> Unit) {
                     },
                 ),
     ) {
-        Text(
-            text = "Categorias",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
-        )
+        Box(
+            modifier =
+                Modifier
+                    .fillMaxWidth(),
+            contentAlignment = Alignment.Center,
+        ) {
+            Column(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .background(Color.Gray),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = "Categorias",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontSize = 20.sp,
+                    textAlign = TextAlign.Center,
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp, vertical = 12.dp),
+                )
 
-        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-        PBSheetItem(
-            icon = Icons.Filled.Share,
-            label = "Compartilhar comprovante",
-            onClick = { onAction("share") },
-        )
-
-        PBSheetItem(
-            icon = Icons.Filled.Delete,
-            label = "Excluir transação",
-            isDestructive = true,
-            onClick = { onAction("delete") },
-        )
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            }
+        }
     }
 }
 
@@ -219,16 +229,8 @@ private fun PBSheetItem(
     }
 }
 
-@Preview(showBackground = true, name = "1. Interactive Mode")
-@Composable
-private fun PreviewPBLibrary() {
-    MaterialTheme {
-        SimpleBottomSheetScreen()
-    }
-}
-
 @Preview(
-    name = "2. Edit Mode - Sheet Aberto",
+    name = "1. Edit Mode - Sheet Aberto",
     showBackground = true,
     device = "spec:width=411dp,height=891dp",
 )
@@ -257,5 +259,13 @@ private fun PreviewSheetOpenEditing() {
                 PBSheetContent(onAction = {})
             }
         }
+    }
+}
+
+@Preview(showBackground = true, name = "2. Interactive Mode")
+@Composable
+private fun PreviewPBLibrary() {
+    MaterialTheme {
+        SimpleBottomSheetScreen()
     }
 }
