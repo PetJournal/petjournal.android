@@ -45,7 +45,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,8 +54,6 @@ fun PBBottomSheet(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val isPreview = LocalInspectionMode.current
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val scope = rememberCoroutineScope()
 
     if (isVisible) {
         if (isPreview) {
@@ -69,8 +66,7 @@ fun PBBottomSheet(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null,
                             onClick = onDismissRequest,
-                        )
-                        .padding(top = 48.dp),
+                        ),
                 contentAlignment = Alignment.BottomCenter,
             ) {
                 Surface(
@@ -82,7 +78,9 @@ fun PBBottomSheet(
                     color = MaterialTheme.colorScheme.surface,
                     tonalElevation = 6.dp,
                 ) {
-                    Column(modifier = Modifier.padding(bottom = 24.dp)) {
+                    Column(
+                        modifier = Modifier.padding(bottom = 0.dp),
+                    ) {
                         Box(
                             modifier =
                                 Modifier
@@ -100,6 +98,9 @@ fun PBBottomSheet(
                 }
             }
         } else {
+            val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+            val scope = rememberCoroutineScope()
+
             ModalBottomSheet(
                 onDismissRequest = onDismissRequest,
                 sheetState = sheetState,
@@ -107,11 +108,6 @@ fun PBBottomSheet(
                 containerColor = MaterialTheme.colorScheme.surface,
                 dragHandle = { BottomSheetDefaults.DragHandle() },
             ) {
-                val animatedDismiss = {
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        if (!sheetState.isVisible) onDismissRequest()
-                    }
-                }
                 content()
             }
         }
@@ -163,11 +159,19 @@ fun SimpleBottomSheetScreen() {
 
 @Composable
 fun PBSheetContent(onAction: (String) -> Unit) {
+    val isPreview = LocalInspectionMode.current
+
     Column(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .navigationBarsPadding(),
+                .then(
+                    if (isPreview) {
+                        Modifier.padding(bottom = 24.dp)
+                    } else {
+                        Modifier.navigationBarsPadding()
+                    },
+                ),
     ) {
         Text(
             text = "Categorias",
@@ -215,7 +219,7 @@ private fun PBSheetItem(
     }
 }
 
-@Preview(showBackground = true, name = "Interactive Preview Sucesso")
+@Preview(showBackground = true, name = "1. Interactive Mode")
 @Composable
 private fun PreviewPBLibrary() {
     MaterialTheme {
@@ -223,7 +227,11 @@ private fun PreviewPBLibrary() {
     }
 }
 
-@Preview(name = "Edit Mode - Sheet Aberto", showBackground = true)
+@Preview(
+    name = "2. Edit Mode - Sheet Aberto",
+    showBackground = true,
+    device = "spec:width=411dp,height=891dp",
+)
 @Composable
 private fun PreviewSheetOpenEditing() {
     MaterialTheme {
