@@ -17,14 +17,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
@@ -147,17 +150,19 @@ fun HomeScreen(navController: NavController) {
                         item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
 
                         item {
-                            SectionHeader(title = stringResource(R.string.section_my_pets))
+                            SectionHeader(title = stringResource(R.string.section_my_pets), showButton = true, onAddClick = {
+                                navController.navigate("pets/registerPet")
+                            })
                             PetList(pets = mockPets)
                         }
 
-                        if (tasks.isNullOrEmpty()) {
+                        if (tasks.isEmpty()) {
                             item { EmptyTaskSection() }
                         } else {
                             item { SectionHeader(title = stringResource(R.string.section_next_tasks)) }
                             items(items = tasks, key = { it.id }) { task ->
                                 TaskCard(
-                                    taskData = TaskFakeData.sampleTasks[0],
+                                    taskData = task,
                                     modifier =
                                         Modifier
                                             .fillMaxWidth()
@@ -170,10 +175,9 @@ fun HomeScreen(navController: NavController) {
                             SectionHeader(title = stringResource(R.string.section_learn_more))
                             HorizontalButtonList(
                                 onItemClick = {
-                                    if (it == allTagsId)
-                                        {
-                                            showSheet = true
-                                        } else {
+                                    if (it == allTagsId) {
+                                        showSheet = true
+                                    } else {
                                         // navega para a rota em questao
                                     }
                                 },
@@ -211,13 +215,46 @@ private fun getCorrectViewModel(): HomeScreenViewModel {
 }
 
 @Composable
-private fun SectionHeader(title: String) {
-    Text(
-        text = title,
-        style = MaterialTheme.typography.bodyMedium,
-        fontSize = 20.ssp,
-        modifier = Modifier.padding(vertical = 8.sdp),
-    )
+private fun SectionHeader(
+    title: String,
+    showButton: Boolean = false,
+    onAddClick: () -> Unit = {},
+) {
+    Row(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.sdp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.bodyMedium,
+            fontSize = 20.ssp,
+        )
+
+        if (showButton)
+            {
+                Surface(
+                    modifier =
+                        Modifier
+                            .size(24.sdp)
+                            .clickable(onClick = onAddClick),
+                    shape = CircleShape,
+                    color = Color(0xFF8D4CD2),
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = stringResource(R.string.addpet),
+                            tint = Color.White,
+                            modifier = Modifier.size(16.sdp),
+                        )
+                    }
+                }
+            }
+    }
 }
 
 @Composable

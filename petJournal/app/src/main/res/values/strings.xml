@@ -194,4 +194,5 @@
     <string name="menu_option_vaccines">Vacinas</string>
     <string name="error_fetching_name">falha ao obter nome</string>
     <string name="category">Categorias</string>
+    <string name="addpet">Adiciona petr</string>
 </resources>
