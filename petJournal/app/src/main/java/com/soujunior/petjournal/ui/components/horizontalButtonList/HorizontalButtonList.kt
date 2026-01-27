@@ -127,12 +127,6 @@ private fun GridButtonListPreview() {
             TagOption(id = "4", label = "Consulta", icon = Icons.Sharp.Pets, color = MaterialTheme.colorScheme.error),
             TagOption(id = "5", label = "Exames", icon = Icons.Sharp.Apps, color = MaterialTheme.colorScheme.primary),
             TagOption(id = "6", label = "Hotel", icon = Icons.Sharp.Pets, color = MaterialTheme.colorScheme.secondary),
-            TagOption(id = "6", label = "Hotel", icon = Icons.Sharp.Pets, color = MaterialTheme.colorScheme.secondary),
-            TagOption(id = "6", label = "Hotel", icon = Icons.Sharp.Pets, color = MaterialTheme.colorScheme.secondary),
-            TagOption(id = "6", label = "Hotel", icon = Icons.Sharp.Pets, color = MaterialTheme.colorScheme.secondary),
-            TagOption(id = "6", label = "Hotel", icon = Icons.Sharp.Pets, color = MaterialTheme.colorScheme.secondary),
-            TagOption(id = "6", label = "Hotel", icon = Icons.Sharp.Pets, color = MaterialTheme.colorScheme.secondary),
-            TagOption(id = "6", label = "Hotel", icon = Icons.Sharp.Pets, color = MaterialTheme.colorScheme.secondary),
         )
 
     MaterialTheme {

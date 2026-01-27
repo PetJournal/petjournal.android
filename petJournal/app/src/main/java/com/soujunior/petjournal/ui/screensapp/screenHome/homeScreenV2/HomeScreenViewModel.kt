@@ -1,8 +1,11 @@
 package com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Healing
 import androidx.compose.material.icons.filled.LocalHospital
-import androidx.compose.material.icons.filled.Pets
+import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Spa
 import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.runtime.getValue
@@ -15,6 +18,20 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.components.horizontalButtonList.TagOption
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.util.Constantes.allTagsId
+import com.soujunior.petjournal.ui.util.Constantes.allTagsLabel
+import com.soujunior.petjournal.ui.util.Constantes.consultanceTagId
+import com.soujunior.petjournal.ui.util.Constantes.consultanceTagLabel
+import com.soujunior.petjournal.ui.util.Constantes.foodTagId
+import com.soujunior.petjournal.ui.util.Constantes.foodTagLabel
+import com.soujunior.petjournal.ui.util.Constantes.gooutTagId
+import com.soujunior.petjournal.ui.util.Constantes.gooutTagLabel
+import com.soujunior.petjournal.ui.util.Constantes.medicationTagId
+import com.soujunior.petjournal.ui.util.Constantes.medicationTagLabel
+import com.soujunior.petjournal.ui.util.Constantes.showerTagId
+import com.soujunior.petjournal.ui.util.Constantes.showerTagLabel
+import com.soujunior.petjournal.ui.util.Constantes.vacineTagId
+import com.soujunior.petjournal.ui.util.Constantes.vacineTagLabel
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -39,28 +56,46 @@ class FakeHomeViewModel : HomeScreenViewModel() {
                 menuItems =
                     listOf(
                         TagOption(
-                            id = "all_tags_option",
-                            label = "Todos",
+                            id = allTagsId,
+                            label = allTagsLabel,
                             icon = Icons.Rounded.Apps,
                             color = Color(0xFF6200EE),
                         ),
                         TagOption(
-                            id = "tag_vaccine",
-                            label = "Vacinas",
+                            id = vacineTagId,
+                            label = vacineTagLabel,
                             icon = Icons.Default.LocalHospital,
                             color = Color(0xFFFF5252),
                         ),
                         TagOption(
-                            id = "tag_hygiene",
-                            label = "Higiene",
-                            icon = Icons.Default.Pets,
+                            id = medicationTagId,
+                            label = medicationTagLabel,
+                            icon = Icons.Default.Healing,
                             color = Color(0xFF2196F3),
                         ),
                         TagOption(
-                            id = "tag_medication",
-                            label = "Remédios",
+                            id = consultanceTagId,
+                            label = consultanceTagLabel,
+                            icon = Icons.Default.DateRange,
+                            color = Color(0xFF009688),
+                        ),
+                        TagOption(
+                            id = foodTagId,
+                            label = foodTagLabel,
+                            icon = Icons.Default.Restaurant,
+                            color = Color(0xFFFFC107),
+                        ),
+                        TagOption(
+                            id = showerTagId,
+                            label = showerTagLabel,
                             icon = Icons.Default.Spa,
-                            color = Color(0xFF4CAF50),
+                            color = Color(0xFF66BB6A),
+                        ),
+                        TagOption(
+                            id = gooutTagId,
+                            label = gooutTagLabel,
+                            icon = Icons.AutoMirrored.Filled.DirectionsWalk,
+                            color = Color(0xFF00BCD4),
                         ),
                     ),
                 listTaskData = TaskFakeData.sampleTasks.subList(0, 3),
