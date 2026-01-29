@@ -55,7 +55,7 @@ fun NavHostMainContent() {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
         composable("account_manager") { accountManager() }
-        composable("tutorScreen") { TutorScreen(navController) }
+        composable("profile/tutorScreen") { TutorScreen(navController) }
 
         composable("pets/introRegisterPet") { IntroRegisterPetScreen(navController) }
         composable("pets/petListScreen") { PetListScreen(navController) }

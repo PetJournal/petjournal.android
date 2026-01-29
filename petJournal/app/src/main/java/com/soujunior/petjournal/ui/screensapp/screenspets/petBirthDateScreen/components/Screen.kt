@@ -1,8 +1,6 @@
 package com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.components
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,12 +21,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -40,6 +34,7 @@ import com.soujunior.petjournal.ui.components.DateInputText
 import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.components.TrailBack
 import com.soujunior.petjournal.ui.components.mask.formatDate
 import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.BirthDateFormEvent
 import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.BirthDateViewModel
@@ -84,17 +79,7 @@ fun Screen(
                 if (taskState is TaskState.Loading) {
                     IndeterminateCircularIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                 } else {
-                    Image(
-                        painter = painterResource(R.drawable.rastro_back),
-                        contentDescription = null,
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .background(MaterialTheme.colorScheme.background)
-                                .offset(y = 80.sdp)
-                                .align(AbsoluteAlignment.Left)
-                                .graphicsLayer(alpha = 0.5f),
-                    )
+                    TrailBack()
                     Column(
                         modifier =
                             Modifier

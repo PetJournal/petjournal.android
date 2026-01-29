@@ -32,7 +32,7 @@ sealed class NavigationBarItems(
 
     object Profile : NavigationBarItems(
         title = "Perfil",
-        route = "profileScreen",
+        route = "profile/tutorScreen",
         icons = R.drawable.ic_profile,
         group = "profile",
     )

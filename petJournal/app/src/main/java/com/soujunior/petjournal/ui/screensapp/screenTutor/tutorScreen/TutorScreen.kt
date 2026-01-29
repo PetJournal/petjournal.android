@@ -2,18 +2,25 @@ package com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.soujunior.petjournal.ui.components.ActionItem
 import com.soujunior.petjournal.ui.components.NavigationBar
+import com.soujunior.petjournal.ui.components.TrailBack
+import com.soujunior.petjournal.ui.components.UserProfileHeader
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -25,13 +32,50 @@ fun TutorScreen(navController: NavController) {
                 .navigationBarsPadding(),
         bottomBar = { NavigationBar(navController) },
         content = {
-            Column(
+            TrailBack()
+            LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
+                contentPadding = it,
+                verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(text = "Tela do Tutor Temporaria", fontSize = 50.sp)
+                item {
+                    UserProfileHeader(
+                        name = "Carla Westervelt",
+                        email = "yourname@gmail.com",
+                        imageUrl = null,
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+                    ActionItem(
+                        title = "Alterar senha",
+                        onClick = {},
+                    )
+                    ActionItem(
+                        title = "Notificações",
+                        onClick = {},
+                    )
+                    ActionItem(
+                        title = "Política de Privacidade",
+                        onClick = {},
+                    )
+                    ActionItem(
+                        title = "Quem somos",
+                        onClick = {},
+                    )
+                    ActionItem(
+                        title = "Excluir conta",
+                        onClick = {},
+                    )
+                }
             }
         },
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TutorScreenPreview() {
+    PetJournalTheme {
+        TutorScreen(navController = rememberNavController())
+    }
 }

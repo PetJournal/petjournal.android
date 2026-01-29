@@ -234,26 +234,25 @@ private fun SectionHeader(
             fontSize = 20.ssp,
         )
 
-        if (showButton)
-            {
-                Surface(
-                    modifier =
-                        Modifier
-                            .size(24.sdp)
-                            .clickable(onClick = onAddClick),
-                    shape = CircleShape,
-                    color = Color(0xFF8D4CD2),
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = stringResource(R.string.addpet),
-                            tint = Color.White,
-                            modifier = Modifier.size(16.sdp),
-                        )
-                    }
+        if (showButton) {
+            Surface(
+                modifier =
+                    Modifier
+                        .size(24.sdp)
+                        .clickable(onClick = onAddClick),
+                shape = CircleShape,
+                color = Color(0xFF8D4CD2),
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = stringResource(R.string.addpet),
+                        tint = Color.White,
+                        modifier = Modifier.size(16.sdp),
+                    )
                 }
             }
+        }
     }
 }
 
