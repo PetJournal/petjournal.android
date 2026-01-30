@@ -131,6 +131,7 @@ fun RegisterTaskScreen(navController: NavController) {
         navigationUp = navController,
         bottomNavigationBar = { NavigationBar(navController) },
         showTopBar = true,
+        showButtonToReturn = true,
         titleTopBar = stringResource(R.string.label_new_task),
         showBottomBarNavigation = true,
         contentToUse = { paddingValues ->

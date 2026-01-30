@@ -53,6 +53,7 @@ fun RegisterPetScreen(navController: NavController) {
                     .fillMaxSize(),
             navigationUp = navController,
             showTopBar = true,
+            showButtonToReturn = true,
             titleTopBar = stringResource(R.string.edit_pet_data),
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
