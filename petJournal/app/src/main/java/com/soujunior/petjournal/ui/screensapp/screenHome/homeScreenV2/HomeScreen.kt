@@ -157,7 +157,11 @@ fun HomeScreen(navController: NavController) {
                         }
 
                         if (tasks.isEmpty()) {
-                            item { EmptyTaskSection() }
+                            item {
+                                EmptyTaskSection(onClick = {
+                                    navController.navigate("schedule/registerTaskScreen")
+                                })
+                            }
                         } else {
                             item { SectionHeader(title = stringResource(R.string.section_next_tasks)) }
                             items(items = tasks, key = { it.id }) { task ->
@@ -301,7 +305,7 @@ private fun HomeTopBarActions(onLogout: () -> Unit) {
 }
 
 @Composable
-private fun EmptyTaskSection() {
+private fun EmptyTaskSection(onClick: () -> Unit = {}) {
     Row(modifier = Modifier.padding(top = 16.sdp)) {
         Column(modifier = Modifier.fillMaxWidth(0.5f)) {
             Text(
@@ -316,7 +320,7 @@ private fun EmptyTaskSection() {
             )
             Button2(
                 text = stringResource(R.string.create_task_button),
-                submit = { },
+                submit = onClick,
                 enableButton = true,
                 modifier =
                     Modifier
