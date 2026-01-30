@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen
+package com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen
 
 import com.soujunior.petjournal.ui.components.data.TaskData
 

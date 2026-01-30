@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.components
+package com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen
+package com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen
 
 import androidx.lifecycle.ViewModel
 import com.soujunior.domain.model.response.GuardianNameResponse

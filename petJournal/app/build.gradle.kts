@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-//    id("kotlin-kapt")
     id("com.google.devtools.ksp")
     id("com.diffplug.spotless") version "6.25.0"
 }
@@ -22,7 +21,6 @@ spotless {
 
 tasks.register("installLocalGitHook") {
     doLast {
-        // 1. RASTREADOR: Começa na pasta do projeto e sobe até achar a pasta .git
         var currentDir: File? = rootProject.rootDir
         var gitDir: File? = null
 
@@ -35,26 +33,21 @@ tasks.register("installLocalGitHook") {
             currentDir = currentDir.parentFile
         }
 
-        // Se rodou tudo e não achou
         if (gitDir == null) {
             println("❌ ERRO: Não encontrei a pasta .git em nenhum lugar acima de: ${rootProject.rootDir}")
             return@doLast
         }
 
         val hooksDir = File(gitDir, "hooks")
-        if (!hooksDir.exists()) hooksDir.mkdirs() // Cria a pasta hooks se não existir
+        if (!hooksDir.exists()) hooksDir.mkdirs()
 
-        // 2. CONFIGURAÇÃO DO CAMINHO
-        // Se o .git está numa pasta acima, precisamos saber o nome da pasta do projeto para o comando 'cd'
         val isNested = gitDir.parentFile != rootProject.rootDir
-        // Pega o nome da pasta onde está o gradlew (ex: petJournal)
         val projectFolderName = rootProject.rootDir.name
         val cdCommand = if (isNested) "cd $projectFolderName || exit 1" else ""
 
         println("📍 .git encontrado em: ${gitDir.parent}")
         if (isNested) println("📂 Projeto está dentro da subpasta: $projectFolderName")
 
-        // 3. CRIAÇÃO DO ARQUIVO
         val preCommitFile = File(hooksDir, "pre-commit")
 
         val scriptContent =
@@ -76,16 +69,12 @@ tasks.register("installLocalGitHook") {
             fi
             """.trimIndent()
 
-        // Grava o arquivo
         preCommitFile.writeText(scriptContent)
         preCommitFile.setExecutable(true)
         println("✅ Git Hook instalado com sucesso em: ${preCommitFile.absolutePath}")
     }
 }
 
-// afterEvaluate {
-//    tasks.getByPath("prepareKotlinBuildScriptModel").dependsOn("installLocalGitHook")
-// }
 tasks.getByPath("preBuild").dependsOn("installLocalGitHook")
 
 android {

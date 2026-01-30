@@ -195,4 +195,6 @@
     <string name="error_fetching_name">falha ao obter nome</string>
     <string name="category">Categorias</string>
     <string name="addpet">Adiciona petr</string>
+    <string name="my_pets">Meus Pets</string>
+    <string name="notifications_title">Notificações</string>
 </resources>

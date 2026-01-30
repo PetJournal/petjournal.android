@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.screensapp.screenspets.registerTaskScreen
+package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +25,7 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.GroupSelectableButton
 import com.soujunior.petjournal.ui.components.InputText
+import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.PetFilterList
 import com.soujunior.petjournal.ui.components.Pets
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
@@ -124,12 +125,12 @@ fun RegisterTaskScreen(navController: NavController) {
 
     ScaffoldCustom(
         modifier =
-            Modifier.navigationBarsPadding()
+            Modifier
+                .navigationBarsPadding()
                 .fillMaxSize(),
         navigationUp = navController,
+        bottomNavigationBar = { NavigationBar(navController) },
         showTopBar = true,
-        // todo: o valor desse Title bar precisa ser passado por parametro,
-        // assim ele se comportara tanto como "Nova tarefa" quanto "Editar tarefa".
         titleTopBar = stringResource(R.string.label_new_task),
         showBottomBarNavigation = true,
         contentToUse = { paddingValues ->
@@ -237,13 +238,6 @@ fun RegisterTaskScreen(navController: NavController) {
     )
 }
 
-@Preview(showBackground = true, showSystemUi = true, device = "id:pixel_4_xl")
-@Composable
-fun ScreenRegisterTaskPreview() {
-    val nav = rememberNavController()
-    RegisterTaskScreen(nav)
-}
-
 private val listOfTasks =
     listOf(
         SelectableButtonInfo(
@@ -271,6 +265,13 @@ private val listOfTasks =
             ColorCustom.color_selectable_button_6,
         ),
     )
+
+@Preview(showBackground = true, showSystemUi = true, device = "id:pixel_4_xl")
+@Composable
+fun ScreenRegisterTaskPreview() {
+    val nav = rememberNavController()
+    RegisterTaskScreen(nav)
+}
 
 @Preview(showBackground = true)
 @Composable

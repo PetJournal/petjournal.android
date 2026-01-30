@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen
+package com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen
 
 sealed class TaskListEvent {
     object AddTaskButton : TaskListEvent()

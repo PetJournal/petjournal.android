@@ -66,7 +66,7 @@ import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.components.horizontalButtonList.HorizontalButtonList
 import com.soujunior.petjournal.ui.components.horizontalButtonList.TagOption
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.components.Carousel
-import com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.components.TaskDateComponent
+import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TaskDateComponent
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.Constantes.allTagsId

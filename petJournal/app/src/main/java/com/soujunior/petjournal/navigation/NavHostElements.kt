@@ -11,6 +11,10 @@ import com.soujunior.petjournal.ui.screensapp.accountmanager.forgotPasswordScree
 import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginScreen
 import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.RegisterScreen
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreen
+import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.RegisterTaskScreen
+import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskListScreen
+import com.soujunior.petjournal.ui.screensapp.screenTutor.config.notifyScreen.NotificationsScreen
+import com.soujunior.petjournal.ui.screensapp.screenTutor.privacyPolicy.PrivacyPolicyScreen
 import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorScreen
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetScreen
@@ -19,9 +23,7 @@ import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.PetListS
 import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.PetNameAndGenderScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.PetRaceAndSizeScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.RegisterPetScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.registerTaskScreen.RegisterTaskScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.SpeciesChoiceScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.TaskListScreen
 
 @Composable
 fun Presentation() {
@@ -56,6 +58,8 @@ fun NavHostMainContent() {
         composable("home") { HomeScreen(navController) }
         composable("account_manager") { accountManager() }
         composable("profile/tutorScreen") { TutorScreen(navController) }
+        composable("profile/notificationScreen") { NotificationsScreen(navController) }
+        composable("profile/privacyPolicyScreen") { PrivacyPolicyScreen(navController) }
 
         composable("pets/introRegisterPet") { IntroRegisterPetScreen(navController) }
         composable("pets/petListScreen") { PetListScreen(navController) }

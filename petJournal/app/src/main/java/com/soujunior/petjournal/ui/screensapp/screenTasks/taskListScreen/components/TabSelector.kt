@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.components
+package com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.DateFilter
+import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.DateFilter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

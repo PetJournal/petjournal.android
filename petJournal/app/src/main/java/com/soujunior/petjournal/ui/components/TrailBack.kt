@@ -13,7 +13,7 @@ import com.soujunior.petjournal.R
 import ir.kaaveh.sdpcompose.sdp
 
 @Composable
-fun TrailBack()  {
+fun TrailBack() {
     Image(
         painter = painterResource(R.drawable.rastro_back),
         contentDescription = null,

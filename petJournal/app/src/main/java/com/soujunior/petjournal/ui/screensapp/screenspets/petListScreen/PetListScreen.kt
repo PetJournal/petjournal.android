@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -27,7 +25,6 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -40,6 +37,7 @@ import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.PetItem
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.components.TrailBack
 import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.components.PetItemMore
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
@@ -89,8 +87,8 @@ fun PetListScreen(navController: NavController) {
     ) {
         ScaffoldCustom(
             modifier = Modifier,
-            titleTopBar = stringResource(id = R.string.pet_registration),
-            showButtonToReturn = true,
+            titleTopBar = stringResource(R.string.my_pets),
+            showButtonToReturn = false,
             navigationUp = navController,
             showTopBar = true,
             showBottomBarNavigation = true,
@@ -99,20 +97,12 @@ fun PetListScreen(navController: NavController) {
                 if (taskState is TaskState.Loading) {
                     IndeterminateCircularIndicator(modifier = Modifier.align(CenterHorizontally))
                 } else {
-                    Image(
-                        painter = painterResource(R.drawable.rastro),
-                        contentDescription = null,
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .background(MaterialTheme.colorScheme.background)
-                                .offset(y = 30.sdp),
-                    )
-
+                    TrailBack()
                     Column(
                         modifier =
                             Modifier
                                 .fillMaxSize()
+                                .background(MaterialTheme.colorScheme.onPrimary)
                                 .statusBarsPadding(),
                         horizontalAlignment = CenterHorizontally,
                     ) {

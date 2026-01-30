@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen
+package com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,8 +26,8 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
-import com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.components.TabSelector
-import com.soujunior.petjournal.ui.screensapp.screenspets.taskListScreen.components.TaskDateComponent
+import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TabSelector
+import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TaskDateComponent
 import ir.kaaveh.sdpcompose.sdp
 
 @Composable
