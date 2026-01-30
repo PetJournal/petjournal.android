@@ -197,6 +197,10 @@ fun processColor(
     color: Color,
 ) {
     Row(modifier = Modifier.background(color)) {
-        Text(text = name, Modifier.background(color.copy(alpha = 0.4f)))
+        Text(
+            text = name,
+            Modifier.background(color),
+            color = color.copy(red = 1f),
+        )
     }
 }

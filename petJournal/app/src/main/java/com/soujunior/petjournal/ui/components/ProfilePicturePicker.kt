@@ -35,6 +35,7 @@ fun ProfilePicturePicker(
     imageUrl: String? = null,
     onEditClick: () -> Unit = {},
     size: Dp = 100.dp,
+    showEditIcon: Boolean = true,
 ) {
     var isError by remember(imageUrl) { mutableStateOf(imageUrl == null) }
 
@@ -71,21 +72,23 @@ fun ProfilePicturePicker(
             )
         }
 
-        IconButton(
-            onClick = onEditClick,
-            modifier =
-                Modifier
-                    .align(Alignment.BottomEnd)
-                    .offset(x = (size / 10), y = (size / 10))
-                    .size(size / 3f)
-                    .background(Color.White, CircleShape),
-        ) {
-            Icon(
-                imageVector = Icons.Default.PhotoCamera,
-                contentDescription = null,
-                tint = Color.Black,
-                modifier = Modifier.size(size / 6f),
-            )
+        if (showEditIcon) {
+            IconButton(
+                onClick = onEditClick,
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomEnd)
+                        .offset(x = (size / 10), y = (size / 10))
+                        .size(size / 3f)
+                        .background(Color.White, CircleShape),
+            ) {
+                Icon(
+                    imageVector = Icons.Default.PhotoCamera,
+                    contentDescription = null,
+                    tint = Color.Black,
+                    modifier = Modifier.size(size / 6f),
+                )
+            }
         }
     }
 }
@@ -96,6 +99,16 @@ fun ProfilePicturePickerPreview() {
     MaterialTheme {
         Surface(modifier = Modifier.padding(24.dp)) {
             ProfilePicturePicker(imageUrl = null)
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProfilePicturePickerPreviewNoEdit() {
+    MaterialTheme {
+        Surface(modifier = Modifier.padding(24.dp)) {
+            ProfilePicturePicker(imageUrl = null, showEditIcon = false)
         }
     }
 }

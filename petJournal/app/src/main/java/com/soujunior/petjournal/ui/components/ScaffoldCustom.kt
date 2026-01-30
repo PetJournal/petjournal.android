@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -44,6 +45,7 @@ fun ScaffoldCustom(
     titleTopBar: String = "",
     actions: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit = {},
     showActions: Boolean = false,
+    floatingActionButtonPosition: FabPosition = FabPosition.End,
     showButtonToReturn: Boolean = false,
     showBottomBarNavigation: Boolean = false,
     navigationUp: NavController,
@@ -55,6 +57,7 @@ fun ScaffoldCustom(
         modifier = modifier.shadow(shadowBelowTopBar),
         containerColor = containerColor,
         contentWindowInsets = WindowInsets.navigationBars,
+        floatingActionButtonPosition = floatingActionButtonPosition,
         topBar = {
             if (showTopBar) {
                 TopAppBar(
