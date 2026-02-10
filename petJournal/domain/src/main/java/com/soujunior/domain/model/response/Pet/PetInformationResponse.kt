@@ -1,4 +1,4 @@
-package com.soujunior.domain.model.response
+package com.soujunior.domain.model.response.Pet
 
 data class PetInformationResponse(
     val specieName: String? = null,
@@ -8,4 +8,5 @@ data class PetInformationResponse(
     val size: String? = null,
     val castrated: Boolean? = null,
     val dateOfBirth: String? = null,
+    val image: String = ""
 )

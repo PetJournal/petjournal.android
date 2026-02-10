@@ -6,7 +6,7 @@ import com.petjournal.database.database.entity.PetSize
 import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
-import com.soujunior.domain.model.response.PetInformationResponse
+import com.soujunior.domain.model.response.Pet.PetInformationResponse
 
 object Converter {
     fun PetInformation.toModel(): PetInformationModel {

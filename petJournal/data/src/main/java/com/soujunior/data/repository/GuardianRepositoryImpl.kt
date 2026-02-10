@@ -10,6 +10,7 @@ import com.soujunior.domain.model.PetInformationModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.model.response.Pet.PetResponse
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianLocalDataSource
 import com.soujunior.domain.repository.GuardianRepository
@@ -125,10 +126,10 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun createPetInformationApi(petInformationModel: PetInformationModel): NetworkResult<Unit> {
+    override suspend fun createPetInformationApi(petInformationModel: PetInformationModel): NetworkResult<PetResponse> {
         val token = "Bearer " + jwtManager.getToken()
         val pet = petInformationModel.toResponse()
-        return guardianApi.savePetInformation(token, pet)
+        return guardianApi.createPet(token, pet)
     }
 
 }

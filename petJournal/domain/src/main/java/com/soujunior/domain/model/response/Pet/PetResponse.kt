@@ -1,10 +1,12 @@
-package com.soujunior.domain.model.response
+package com.soujunior.domain.model.response.Pet
 
+import com.soujunior.domain.model.response.UserInfoResponse
 import java.time.LocalDate
 
 data class PetResponse(
     val id: String? = null,
     val guardianId: String? = null,
+    val guardian: UserInfoResponse? = null,
     val specie: Specie? = null,
     val specieAlias: String? = null,
     val petName: String? = null,
@@ -17,21 +19,7 @@ data class PetResponse(
     val dateOfBirth: LocalDate? = null
 )
 
-data class Specie(
-    val id: String? = null,
-    val name: String? = null
-)
-
-data class Breed(
-    val id: String? = null,
-    val name: String? = null
-)
-
-data class Size(
-    val id: String? = null,
-    val name: String? = null
-)
-
+//todo: remover essa lista quando nao estiver mais sendo usada
 val petList = listOf(
     PetResponse(
         petName = "Felicia Vascaina",

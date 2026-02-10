@@ -46,8 +46,8 @@ import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginVi
 import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.RegisterViewModel
 import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.RegisterViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.FakeHomeViewModel
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreenViewModel
-import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashViewModel
 import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModel
 import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.BirthDateViewModel
@@ -133,7 +133,11 @@ val mainModule =
 //        viewModel { (handle: SavedStateHandle) -> CleanerTaskViewModel(savedStateHandle = handle) }
 
         // ViewModels
-        viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get()) }
+        // todo: HomeScreenViewModel precisa ser implementado devidamente
+        // ele estava sendo usado no modo fake no MockMudulo
+        viewModel<HomeScreenViewModel> { FakeHomeViewModel() }
+        // viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get()) }
+
         viewModel<IntroRegisterPetViewModel> {
             com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModelImpl(
                 get(),

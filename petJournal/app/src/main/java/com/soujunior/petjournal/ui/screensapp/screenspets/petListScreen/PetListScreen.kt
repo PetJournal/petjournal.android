@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.soujunior.domain.model.response.petList
+import com.soujunior.domain.model.response.Pet.petList
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar

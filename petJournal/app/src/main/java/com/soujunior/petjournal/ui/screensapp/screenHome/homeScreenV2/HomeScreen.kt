@@ -52,7 +52,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.soujunior.domain.model.response.PetResponse
+import com.soujunior.domain.model.response.Pet.PetResponse
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.NavigationBar
