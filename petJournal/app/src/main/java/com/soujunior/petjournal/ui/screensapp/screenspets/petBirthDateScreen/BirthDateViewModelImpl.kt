@@ -158,7 +158,7 @@ class BirthDateViewModelImpl(
         }
     }
 
-    override fun successPetUpdate(unit: Unit) {
+    override fun successPetUpdate(pet: Unit) {
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Success)
         }

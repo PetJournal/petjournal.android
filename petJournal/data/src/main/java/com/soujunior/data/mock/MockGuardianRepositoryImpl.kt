@@ -4,6 +4,7 @@ import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.model.response.Pet.PetResponse
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.DataResult
@@ -35,7 +36,7 @@ class MockGuardianRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun createPet(petModel: PetModel): NetworkResult<Unit> {
+    override suspend fun createPet(petModel: PetModel): NetworkResult<PetResponse> {
         TODO("Not yet implemented")
     }
 }

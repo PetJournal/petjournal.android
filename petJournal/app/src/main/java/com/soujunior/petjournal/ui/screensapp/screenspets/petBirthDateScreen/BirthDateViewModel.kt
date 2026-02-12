@@ -41,7 +41,7 @@ class FakeBirthDateViewModel : BirthDateViewModel() {
 
     override fun createPetInformation() {}
 
-    override fun successPetUpdate(unit: Unit) {}
+    override fun successPetUpdate(pet: Unit) {}
 }
 
 abstract class BirthDateViewModel : ViewModel() {
@@ -72,5 +72,5 @@ abstract class BirthDateViewModel : ViewModel() {
 
     abstract fun createPetInformation()
 
-    abstract fun successPetUpdate(unit: Unit)
+    abstract fun successPetUpdate(pet: Unit)
 }
