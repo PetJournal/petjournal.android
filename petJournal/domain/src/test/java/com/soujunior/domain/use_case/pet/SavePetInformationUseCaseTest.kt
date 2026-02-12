@@ -21,7 +21,7 @@ class SavePetInformationUseCaseTest {
 
     @Test
     fun `failure save pet information`() = runBlocking {
-        coEvery { repository.savePetInformation(petInformation) } returns DataResult.Failure(
+        coEvery { repository.savePet(petInformation) } returns DataResult.Failure(
             Throwable()
         )
         val savePetInformation = SavePetInformationUseCase(repository = repository)
@@ -33,7 +33,7 @@ class SavePetInformationUseCaseTest {
 
     @Test
     fun `successful in save pet Information`() = runBlocking {
-        coEvery { repository.savePetInformation(petInformation) } returns DataResult.Success(1)
+        coEvery { repository.savePet(petInformation) } returns DataResult.Success(1)
         val savePetInformationUseCase = SavePetInformationUseCase(repository = repository)
 
         val result = savePetInformationUseCase.execute(petInformation)

@@ -9,7 +9,7 @@ class GetPetInformationUseCase(private val repository: GuardianRepository) :
     BaseUseCase<Long, PetInformationModel>() {
     override suspend fun doWork(value: Long): DataResult<PetInformationModel> {
         return try {
-            val result = repository.getPetInformation(value)
+            val result = repository.getPet(value)
             DataResult.Success(result.success.data)
         } catch (e: Exception) {
             DataResult.Failure(e)

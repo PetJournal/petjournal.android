@@ -9,7 +9,7 @@ class UpdatePetInformationUseCase(private val repository: GuardianRepository) :
     BaseUseCase<PetInformationModel, Unit>() {
     override suspend fun doWork(value: PetInformationModel): DataResult<Unit> {
         return try {
-            val result = repository.updatePetInformation(value)
+            val result = repository.updatePet(value)
             DataResult.Success(result.success.data)
         } catch (e: Throwable) {
             DataResult.Failure(e)

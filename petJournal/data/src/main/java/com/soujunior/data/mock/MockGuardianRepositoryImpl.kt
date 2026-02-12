@@ -18,15 +18,15 @@ class MockGuardianRepositoryImpl(
 ): GuardianRepository {
     override suspend fun getGuardianName(): NetworkResult<GuardianNameResponse> = NetworkResult.Success (GuardianNameResponse("Petjornaleiro", "Jr"))
 
-    override suspend fun savePetInformation(petInformationModel: PetInformationModel): DataResult<Long> {
+    override suspend fun savePet(petInformationModel: PetInformationModel): DataResult<Long> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPetInformation(idPetInformation: Long): DataResult<PetInformationModel> {
+    override suspend fun getPet(idPetInformation: Long): DataResult<PetInformationModel> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updatePetInformation(petInformationModel: PetInformationModel): DataResult<Unit> {
+    override suspend fun updatePet(petInformationModel: PetInformationModel): DataResult<Unit> {
         TODO("Not yet implemented")
     }
 
@@ -38,7 +38,7 @@ class MockGuardianRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun createPetInformationApi(petInformationModel: PetInformationModel): NetworkResult<Unit> {
+    override suspend fun createPet(petInformationModel: PetInformationModel): NetworkResult<Unit> {
         TODO("Not yet implemented")
     }
 }

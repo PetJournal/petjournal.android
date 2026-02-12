@@ -10,7 +10,7 @@ class CreatePetInformationApiUseCase(private val repository: GuardianRepository)
     BaseUseCase<PetInformationModel, Unit>() {
     override suspend fun doWork(value: PetInformationModel): DataResult<Unit> {
         return try {
-            return when (val response = repository.createPetInformationApi(value)) {
+            return when (val response = repository.createPet(value)) {
                 is NetworkResult.Success -> { DataResult.Success(response.data) }
                 is NetworkResult.Error -> DataResult.Failure(Throwable(message = "${response.code} -> ${response.body?.error}"))
                 is NetworkResult.Exception -> DataResult.Failure(response.e)

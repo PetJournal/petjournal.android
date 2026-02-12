@@ -21,7 +21,7 @@ class CreatePetInformationApiUseCaseTest {
 
     @Test
     fun `failure create pet information`() = runBlocking {
-        coEvery { repository.createPetInformationApi(petInformation) } returns NetworkResult.Exception(
+        coEvery { repository.createPet(petInformation) } returns NetworkResult.Exception(
             Throwable()
         )
         val createPetInformation = CreatePetInformationApiUseCase(repository = repository)
@@ -33,7 +33,7 @@ class CreatePetInformationApiUseCaseTest {
 
     @Test
     fun `successful in create pet Information`() = runBlocking {
-        coEvery { repository.createPetInformationApi(petInformation) } returns NetworkResult.Success(data = Unit)
+        coEvery { repository.createPet(petInformation) } returns NetworkResult.Success(data = Unit)
         val createPetInformationUseCase = CreatePetInformationApiUseCase(repository = repository)
 
         val result = createPetInformationUseCase.execute(petInformation)

@@ -21,7 +21,7 @@ class UpdatePetInformationUseCaseTest {
 
     @Test
     fun `failure update pet information`() = runBlocking {
-        coEvery { repository.updatePetInformation(petInformation) } returns DataResult.Failure(
+        coEvery { repository.updatePet(petInformation) } returns DataResult.Failure(
             Throwable()
         )
         val updatePetInformationUseCase = UpdatePetInformationUseCase(repository = repository)
@@ -34,7 +34,7 @@ class UpdatePetInformationUseCaseTest {
     @Test
     fun `successful in update pet Information`() = runBlocking {
 
-        coEvery { repository.updatePetInformation(petInformation) } returns DataResult.Success(data = Unit)
+        coEvery { repository.updatePet(petInformation) } returns DataResult.Success(data = Unit)
         val updatePetInformationUseCase = UpdatePetInformationUseCase(repository = repository)
 
         val result = updatePetInformationUseCase.execute(petInformation)

@@ -47,7 +47,8 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun savePetInformation(petInformationModel: PetInformationModel): DataResult<Long> {
+
+    override suspend fun savePet(petInformationModel: PetInformationModel): DataResult<Long> {
         val guardianId = 1
         val petInformation = petInformationModel.copy(
             species = petInformationModel.species,
@@ -60,7 +61,7 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun getPetInformation(idPetInformation: Long): DataResult<PetInformationModel> {
+    override suspend fun getPet(idPetInformation: Long): DataResult<PetInformationModel> {
         return try {
             DataResult.Success(guardianLocalDataSourceImpl.getPetInformation(idPetInformation).success.data)
         } catch (e: Throwable) {
@@ -68,13 +69,15 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun updatePetInformation(petInformationModel: PetInformationModel): DataResult<Unit> {
+    override suspend fun updatePet(petInformationModel: PetInformationModel): DataResult<Unit> {
         return try {
             DataResult.Success(guardianLocalDataSourceImpl.updatePetInformation(petInformationModel).success.data)
         } catch (e: Throwable) {
             DataResult.Failure(e)
         }
     }
+
+
 
     override suspend fun getListPetSizes(petSpecie: String): NetworkResult<List<PetSizeItemModel>> {
         val localListPetSizes =
@@ -126,7 +129,7 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun createPetInformationApi(petInformationModel: PetInformationModel): NetworkResult<PetResponse> {
+    override suspend fun createPet(petInformationModel: PetInformationModel): NetworkResult<PetResponse> {
         val token = "Bearer " + jwtManager.getToken()
         val pet = petInformationModel.toResponse()
         return guardianApi.createPet(token, pet)

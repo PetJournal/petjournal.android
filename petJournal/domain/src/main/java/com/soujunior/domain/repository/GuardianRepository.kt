@@ -10,10 +10,10 @@ import com.soujunior.domain.use_case.base.DataResult
 
 interface GuardianRepository {
     suspend fun getGuardianName(): NetworkResult<GuardianNameResponse>
-    suspend fun savePetInformation(petInformationModel: PetInformationModel): DataResult<Long>
-    suspend fun getPetInformation(idPetInformation: Long): DataResult<PetInformationModel>
-    suspend fun updatePetInformation(petInformationModel: PetInformationModel) : DataResult<Unit>
+    suspend fun savePet(petInformationModel: PetInformationModel): DataResult<Long>
+    suspend fun getPet(idPetInformation: Long): DataResult<PetInformationModel>
+    suspend fun updatePet(petInformationModel: PetInformationModel) : DataResult<Unit>
+    suspend fun createPet(petInformationModel: PetInformationModel): NetworkResult<PetResponse>
     suspend fun getListPetSizes(petSpecie: String): NetworkResult<List<PetSizeItemModel>>
     suspend fun getListPetRaces(petSpecie: String): NetworkResult<List<PetRaceItemModel>>
-    suspend fun createPetInformationApi(petInformationModel: PetInformationModel): NetworkResult<PetResponse>
 }
