@@ -3,14 +3,14 @@ package com.petjournal.database.converter
 import com.petjournal.database.database.entity.PetInformation
 import com.petjournal.database.database.entity.PetRace
 import com.petjournal.database.database.entity.PetSize
-import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.Pet.PetInformationResponse
 
 object Converter {
-    fun PetInformation.toModel(): PetInformationModel {
-        return PetInformationModel(
+    fun PetInformation.toModel(): PetModel {
+        return PetModel(
             id = this.id,
             species = this.species,
             name = this.name,
@@ -23,7 +23,7 @@ object Converter {
         )
     }
 
-    fun PetInformationModel.toEntity(): PetInformation {
+    fun PetModel.toEntity(): PetInformation {
         return PetInformation(
             id = this.id,
             guardianId = this.guardianId ?: 0,
@@ -36,7 +36,7 @@ object Converter {
             castration = this.castrated
         )
     }
-    fun PetInformationModel.toResponse(): PetInformationResponse {
+    fun PetModel.toResponse(): PetInformationResponse {
         return PetInformationResponse(
             specieName = if (this.species == "Cat" ) "Gato" else if ( this.species == "Dog") "Cachorro" else this.species,
             petName = this.name,

@@ -1,13 +1,10 @@
 package com.soujunior.data.mock
 
-import android.content.Context
-import com.soujunior.data.remote.GuardianService
-import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.GuardianLocalDataSource
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.DataResult
 
@@ -18,15 +15,15 @@ class MockGuardianRepositoryImpl(
 ): GuardianRepository {
     override suspend fun getGuardianName(): NetworkResult<GuardianNameResponse> = NetworkResult.Success (GuardianNameResponse("Petjornaleiro", "Jr"))
 
-    override suspend fun savePet(petInformationModel: PetInformationModel): DataResult<Long> {
+    override suspend fun savePet(petModel: PetModel): DataResult<Long> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPet(idPetInformation: Long): DataResult<PetInformationModel> {
+    override suspend fun getPet(idPet: Long): DataResult<PetModel> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updatePet(petInformationModel: PetInformationModel): DataResult<Unit> {
+    override suspend fun updatePet(petModel: PetModel): DataResult<Unit> {
         TODO("Not yet implemented")
     }
 
@@ -38,7 +35,7 @@ class MockGuardianRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun createPet(petInformationModel: PetInformationModel): NetworkResult<Unit> {
+    override suspend fun createPet(petModel: PetModel): NetworkResult<Unit> {
         TODO("Not yet implemented")
     }
 }

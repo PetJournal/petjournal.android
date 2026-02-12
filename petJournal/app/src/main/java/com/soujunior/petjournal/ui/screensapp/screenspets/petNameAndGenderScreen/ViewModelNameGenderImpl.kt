@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.repository.ValidationRepository
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
@@ -117,7 +117,7 @@ class ViewModelNameGenderImpl(
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val petInformation =
-                PetInformationModel(
+                PetModel(
                     id = state.idPetInformation ?: 0L,
                     species = state.specie,
                     name = state.name,

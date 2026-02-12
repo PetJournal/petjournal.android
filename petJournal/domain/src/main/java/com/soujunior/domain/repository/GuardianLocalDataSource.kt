@@ -1,6 +1,6 @@
 package com.soujunior.domain.repository
 
-import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
@@ -10,9 +10,9 @@ interface GuardianLocalDataSource {
     suspend fun getGuardianName(): String?
     suspend fun deleteDatabase()
     suspend fun saveGuardianName(response: GuardianNameResponse)
-    suspend fun savePetInformation(petInformationModel: PetInformationModel) : DataResult<Long>
-    suspend fun getPetInformation(id: Long) : DataResult<PetInformationModel>
-    suspend fun updatePetInformation(petInformationModel: PetInformationModel) : DataResult<Unit>
+    suspend fun savePetInformation(petModel: PetModel) : DataResult<Long>
+    suspend fun getPetInformation(id: Long) : DataResult<PetModel>
+    suspend fun updatePetInformation(petModel: PetModel) : DataResult<Unit>
     suspend fun getListPetSizes(tag: String): DataResult<List<PetSizeItemModel>>?
     suspend fun saveListPetSizes(tag: String, listPetSize: List<PetSizeItemModel>): DataResult<String>
     suspend fun getListPetRaces(tag: String): DataResult<List<PetRaceItemModel>>?

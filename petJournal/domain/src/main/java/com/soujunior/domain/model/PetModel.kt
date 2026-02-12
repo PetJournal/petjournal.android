@@ -1,8 +1,6 @@
 package com.soujunior.domain.model
 
-import java.time.LocalDate
-
-data class PetInformationModel(
+data class PetModel(
     val id: Long,
     val species: String? = null,
     val name: String? = null,

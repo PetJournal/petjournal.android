@@ -9,7 +9,7 @@ import com.petjournal.database.database.entity.GuardianProfile
 import com.petjournal.database.database.entity.PetRace
 import com.petjournal.database.database.entity.PetSize
 import com.petjournal.database.database.entity.PetInformation
-import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.PetModel
 
 @Dao
 interface GuardianProfileDao {
@@ -26,7 +26,7 @@ interface GuardianProfileDao {
     suspend fun insertPetInformation(petInformation: PetInformation): Long
 
     @Query("SELECT * FROM pet_information WHERE id = :id")
-    suspend fun getPetInformation(id: Long): PetInformationModel
+    suspend fun getPetInformation(id: Long): PetModel
 
     @Update
     fun updatePetInformation(petInformation: PetInformation)

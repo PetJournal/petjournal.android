@@ -6,7 +6,7 @@ import android.util.Log
 import com.petjournal.database.converter.Converter.toResponse
 import com.soujunior.data.remote.GuardianService
 import com.soujunior.data.util.manager.JwtManager
-import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
@@ -48,10 +48,10 @@ class GuardianRepositoryImpl(
     }
 
 
-    override suspend fun savePet(petInformationModel: PetInformationModel): DataResult<Long> {
+    override suspend fun savePet(petModel: PetModel): DataResult<Long> {
         val guardianId = 1
-        val petInformation = petInformationModel.copy(
-            species = petInformationModel.species,
+        val petInformation = petModel.copy(
+            species = petModel.species,
             guardianId = guardianId
         )
         return try {
@@ -61,17 +61,17 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun getPet(idPetInformation: Long): DataResult<PetInformationModel> {
+    override suspend fun getPet(idPet: Long): DataResult<PetModel> {
         return try {
-            DataResult.Success(guardianLocalDataSourceImpl.getPetInformation(idPetInformation).success.data)
+            DataResult.Success(guardianLocalDataSourceImpl.getPetInformation(idPet).success.data)
         } catch (e: Throwable) {
             DataResult.Failure(e)
         }
     }
 
-    override suspend fun updatePet(petInformationModel: PetInformationModel): DataResult<Unit> {
+    override suspend fun updatePet(petModel: PetModel): DataResult<Unit> {
         return try {
-            DataResult.Success(guardianLocalDataSourceImpl.updatePetInformation(petInformationModel).success.data)
+            DataResult.Success(guardianLocalDataSourceImpl.updatePetInformation(petModel).success.data)
         } catch (e: Throwable) {
             DataResult.Failure(e)
         }
@@ -129,9 +129,9 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun createPet(petInformationModel: PetInformationModel): NetworkResult<PetResponse> {
+    override suspend fun createPet(petModel: PetModel): NetworkResult<PetResponse> {
         val token = "Bearer " + jwtManager.getToken()
-        val pet = petInformationModel.toResponse()
+        val pet = petModel.toResponse()
         return guardianApi.createPet(token, pet)
     }
 

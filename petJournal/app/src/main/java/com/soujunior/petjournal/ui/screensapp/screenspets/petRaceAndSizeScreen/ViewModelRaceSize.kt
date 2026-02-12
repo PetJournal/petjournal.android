@@ -1,7 +1,7 @@
 package com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen
 
 import androidx.lifecycle.ViewModel
-import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.petjournal.ui.states.TaskState
@@ -21,7 +21,7 @@ class FakeRaceAndSizeViewModel : ViewModelRaceSize() {
     override val message = MutableStateFlow("Mensagem de Teste")
     override val validationEvents = emptyFlow<ValidationEvent>()
 
-    override fun success(petInformationModel: PetInformationModel) {}
+    override fun success(petModel: PetModel) {}
 
     override fun successGetPetSizes(listPetSizes: List<PetSizeItemModel>) {}
 
@@ -69,7 +69,7 @@ abstract class ViewModelRaceSize : ViewModel() {
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 
-    abstract fun success(petInformationModel: PetInformationModel)
+    abstract fun success(petModel: PetModel)
 
     abstract fun successGetPetSizes(listPetSizes: List<PetSizeItemModel>)
 

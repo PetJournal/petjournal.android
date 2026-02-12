@@ -1,7 +1,6 @@
 package com.soujunior.domain.model.taskModel
 
 import androidx.annotation.DrawableRes
-import com.soujunior.domain.model.PetInformationModel
 
 
 // TODO: Não editar isso enquanto o backend não fornecer um modelo para as tasks.

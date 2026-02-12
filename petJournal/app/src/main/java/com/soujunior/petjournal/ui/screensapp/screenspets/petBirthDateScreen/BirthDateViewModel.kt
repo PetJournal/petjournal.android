@@ -1,7 +1,7 @@
 package com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen
 
 import androidx.lifecycle.ViewModel
-import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.PetModel
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -19,7 +19,7 @@ class FakeBirthDateViewModel : BirthDateViewModel() {
     override val message = MutableStateFlow("Mensagem de Teste")
     override val validationEvents = emptyFlow<ValidationEvent>()
 
-    override fun success(petInformationModel: PetInformationModel) {}
+    override fun success(petModel: PetModel) {}
 
     override val taskState = MutableStateFlow<TaskState>(TaskState.Idle)
 
@@ -52,7 +52,7 @@ abstract class BirthDateViewModel : ViewModel() {
     open val validationEvents: Flow<ValidationEvent>
         get() = validationEventChannel.receiveAsFlow()
 
-    abstract fun success(petInformationModel: PetInformationModel)
+    abstract fun success(petModel: PetModel)
 
     abstract fun failed(exception: Throwable?)
 

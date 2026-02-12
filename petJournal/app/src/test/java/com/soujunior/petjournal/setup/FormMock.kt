@@ -1,6 +1,6 @@
 package com.soujunior.petjournal.setup
 
-import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.domain.model.request.LoginModel
@@ -37,7 +37,7 @@ val sendCode =
     )
 
 val perInformation =
-    PetInformationModel(
+    PetModel(
         id = 1,
         species = "Dog",
         name = "Bolinha",

@@ -1,6 +1,6 @@
 package com.soujunior.data.mock
 
-import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
@@ -20,15 +20,15 @@ class MockGuardianLocalDataSource: GuardianLocalDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun savePetInformation(petInformationModel: PetInformationModel): DataResult<Long> {
+    override suspend fun savePetInformation(petModel: PetModel): DataResult<Long> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPetInformation(id: Long): DataResult<PetInformationModel> {
+    override suspend fun getPetInformation(id: Long): DataResult<PetModel> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updatePetInformation(petInformationModel: PetInformationModel): DataResult<Unit> {
+    override suspend fun updatePetInformation(petModel: PetModel): DataResult<Unit> {
         TODO("Not yet implemented")
     }
 

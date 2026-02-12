@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.repository.ValidationRepository
@@ -48,13 +48,13 @@ class ViewModelRaceSizeImpl(
         _taskState.value = TaskState.Loading
     }
 
-    override fun success(petInformationModel: PetInformationModel) {
+    override fun success(petModel: PetModel) {
         state =
             state.copy(
-                specie = petInformationModel.species ?: "",
-                idPetInformation = petInformationModel.id,
-                name = petInformationModel.name ?: "",
-                gender = petInformationModel.gender ?: "",
+                specie = petModel.species ?: "",
+                idPetInformation = petModel.id,
+                name = petModel.name ?: "",
+                gender = petModel.gender ?: "",
             )
         viewModelScope.launch {
             launch { requestGetListRaces() }
@@ -198,7 +198,7 @@ class ViewModelRaceSizeImpl(
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val petInformation =
-                PetInformationModel(
+                PetModel(
                     id = state.idPetInformation ?: 0L,
                     species = state.specie,
                     name = state.name,
