@@ -11,7 +11,11 @@ import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.Pet.PetResponse
+import com.soujunior.domain.network.ErrorBody
 import com.soujunior.domain.network.NetworkResult
+import com.soujunior.domain.network.onError
+import com.soujunior.domain.network.onException
+import com.soujunior.domain.network.onSuccess
 import com.soujunior.domain.repository.GuardianLocalDataSource
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.DataResult
@@ -24,6 +28,16 @@ class GuardianRepositoryImpl(
 ) : GuardianRepository {
 
     private val jwtManager: JwtManager = JwtManager.getInstance(context)
+
+    internal fun getToken(): String? {
+        return try {
+            jwtManager.getToken()
+        } catch (e: Exception) {
+            Log.e("AuthRepositoryImpl-getToken", e.message.toString())
+            null
+        }
+    }
+
     override suspend fun getGuardianName(): NetworkResult<GuardianNameResponse> {
         val localName = guardianLocalDataSourceImpl.getGuardianName()
         return if (localName != null) {
@@ -47,7 +61,6 @@ class GuardianRepositoryImpl(
         }
     }
 
-
     override suspend fun savePet(petModel: PetModel): DataResult<Long> {
         val guardianId = 1
         val petInformation = petModel.copy(
@@ -60,6 +73,36 @@ class GuardianRepositoryImpl(
             DataResult.Failure(e)
         }
     }
+
+    override suspend fun getListPet(): NetworkResult<List<PetResponse>> {
+        val apiResponse = guardianApi.getPetList(getToken())
+        var result: NetworkResult<List<PetModel>> = NetworkResult.Error(0, null)
+
+        apiResponse
+            .onSuccess { data ->
+                result = NetworkResult.Success(data)
+            }
+            .onError { code, body ->
+                result = NetworkResult.Error(code, body)
+            }
+            .onException { throwable ->
+                result = NetworkResult.Exception(throwable)
+            }
+        return result
+    }
+
+//    override suspend fun getListPet(): NetworkResult<List<PetModel>> {
+//            //todo: falta salvar localmente
+//            guardianApi.getPetList(getToken()).onSuccess {
+//                NetworkResult.Success(NetworkResult.Success(it))
+//            }.onError { code, body ->
+//                NetworkResult.Error(0, ErrorBody(""))
+//            }.onException {
+//                NetworkResult.Exception()
+//            }
+//
+//        return TODO("Provide the return value")
+//    }
 
     override suspend fun getPet(idPet: Long): DataResult<PetModel> {
         return try {
@@ -76,8 +119,6 @@ class GuardianRepositoryImpl(
             DataResult.Failure(e)
         }
     }
-
-
 
     override suspend fun getListPetSizes(petSpecie: String): NetworkResult<List<PetSizeItemModel>> {
         val localListPetSizes =

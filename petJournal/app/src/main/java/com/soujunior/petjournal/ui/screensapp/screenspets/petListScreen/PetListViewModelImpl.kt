@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.soujunior.domain.use_case.pet.GetListPetUseCase
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -11,7 +12,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class PetListViewModelImpl : PetListViewModel() {
+class PetListViewModelImpl(
+    private val getPetListUseCase: GetListPetUseCase,
+) : PetListViewModel() {
     override val message: StateFlow<String> get() = TODO("Not yet implemented")
     override val validationEventChannel = Channel<ValidationEvent>()
     override val validationEvents: Flow<ValidationEvent>
@@ -22,6 +25,10 @@ class PetListViewModelImpl : PetListViewModel() {
 
     init {
         _taskState.value = TaskState.Idle
+        getPetList()
+    }
+
+    private fun getPetList()  {
     }
 
     override fun success() {

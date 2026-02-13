@@ -16,11 +16,9 @@ class FakePetListViewModel : PetListViewModel() {
     override val validationEvents = emptyFlow<ValidationEvent>()
     override val taskState = MutableStateFlow<TaskState>(TaskState.Idle)
 
-    override fun success() {
-    }
+    override fun success() {}
 
-    override fun failed(exception: Throwable?) {
-    }
+    override fun failed(exception: Throwable?) {}
 }
 
 abstract class PetListViewModel : ViewModel() {

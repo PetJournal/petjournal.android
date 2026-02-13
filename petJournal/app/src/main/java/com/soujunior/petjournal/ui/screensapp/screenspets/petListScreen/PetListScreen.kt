@@ -4,14 +4,10 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -93,7 +89,7 @@ fun PetListScreen(navController: NavController) {
             showTopBar = true,
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
-            contentToUse = {
+            contentToUse = { paddingValues ->
                 if (taskState is TaskState.Loading) {
                     IndeterminateCircularIndicator(modifier = Modifier.align(CenterHorizontally))
                 } else {
@@ -103,12 +99,12 @@ fun PetListScreen(navController: NavController) {
                             Modifier
                                 .fillMaxSize()
                                 .background(MaterialTheme.colorScheme.onPrimary)
-                                .statusBarsPadding(),
+                                .padding(paddingValues),
                         horizontalAlignment = CenterHorizontally,
                     ) {
-                        Spacer(modifier = Modifier.height(123.sdp))
                         Text(
                             text = stringResource(R.string.which_pet_do_you_want_to_see),
+                            modifier = Modifier.padding(top = 20.sdp, bottom = 20.sdp),
                             style =
                                 TextStyle(
                                     fontSize = MaterialTheme.typography.headlineMedium.fontSize,
@@ -120,10 +116,8 @@ fun PetListScreen(navController: NavController) {
                         LazyVerticalGrid(
                             modifier =
                                 Modifier
-                                    .padding(horizontal = 32.sdp)
                                     .fillMaxWidth(),
                             columns = GridCells.Fixed(2),
-                            contentPadding = PaddingValues(top = 33.sdp, bottom = 16.sdp),
                             horizontalArrangement = Arrangement.Center,
                         ) {
                             items(petList) { pet ->
