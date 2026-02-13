@@ -1,47 +1,48 @@
 plugins {
-    id("com.android.library") // Plugin para módulo Android Library
-    id("org.jetbrains.kotlin.android") // Plugin para suporte ao Kotlin
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "com.soujunior.domain" // Definindo o namespace
-    compileSdk = 34 // Definindo a versão da SDK de compilação
+    namespace = "com.soujunior.domain"
+    compileSdk = 34
 
     defaultConfig {
-        minSdk = 27 // Definindo a versão mínima da SDK
+        minSdk = 27
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner" // Configurando o testInstrumentationRunner
-        consumerProguardFiles("consumer-rules.pro") // Adicionando arquivos de regras Proguard
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false // Desativando a minificação no build release
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
-            ) // Adicionando arquivos Proguard
+            )
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8 // Configurando a compatibilidade do código fonte
-        targetCompatibility = JavaVersion.VERSION_1_8 // Configurando a compatibilidade do código alvo
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8" // Definindo a versão do JVM target
+        jvmTarget = "1.8"
     }
 }
 
 dependencies {
     implementation("androidx.annotation:annotation-jvm:1.9.1")
-    val dependencies = rootProject.ext["dependencies"] as Map<String, String> // Obtendo as dependências do arquivo ext
-    implementation(dependencies["coroutineCore"]!!) // Implementação da dependência coroutineCore
-    implementation(dependencies["coroutineAndroid"]!!) // Implementação da dependência coroutineAndroid
-    implementation(dependencies["moshiKotlin"]!!) // Implementação da dependência moshiKotlin
-    implementation(dependencies["retrofit2ConverterMoshi"]!!) // Implementação da dependência retrofit2ConverterMoshi
+    val dependencies = rootProject.ext["dependencies"] as Map<String, String>
+    implementation(dependencies["coroutineCore"]!!)
+    implementation(dependencies["coroutineAndroid"]!!)
+    implementation(dependencies["moshiKotlin"]!!)
+    implementation(dependencies["retrofit2ConverterMoshi"]!!)
+    implementation("com.google.code.gson:gson:2.10.1")
 
-    testImplementation(rootProject.ext["testJunit"] as String) // Implementação da dependência de teste JUnit
-    testImplementation(rootProject.ext["testMockk"] as String) // Implementação da dependência de teste MockK
-    testImplementation(rootProject.ext["testAssertk"] as String) // Implementação da dependência de teste AssertK
-    testImplementation(rootProject.ext["testKotlinxCoroutines"] as String) // Implementação da dependência de teste para coroutines
+    testImplementation(rootProject.ext["testJunit"] as String)
+    testImplementation(rootProject.ext["testMockk"] as String)
+    testImplementation(rootProject.ext["testAssertk"] as String)
+    testImplementation(rootProject.ext["testKotlinxCoroutines"] as String)
 }

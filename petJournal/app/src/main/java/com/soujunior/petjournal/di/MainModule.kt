@@ -32,6 +32,7 @@ import com.soujunior.domain.use_case.guardian.SetPetRegistrationWentLive
 import com.soujunior.domain.use_case.pet.CreatePetInformationApiUseCase
 import com.soujunior.domain.use_case.pet.GetListPetRacesUseCase
 import com.soujunior.domain.use_case.pet.GetListPetSizesUseCase
+import com.soujunior.domain.use_case.pet.GetListPetUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
@@ -110,6 +111,7 @@ val mainModule =
         factory { GetListPetSizesUseCase(get()) }
         factory { GetListPetRacesUseCase(get()) }
         factory { CreatePetInformationApiUseCase(get()) }
+        factory { GetListPetUseCase(get()) }
 
         single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
         single<GuardianService> { get<Retrofit>().create(GuardianService::class.java) }
@@ -152,7 +154,7 @@ val mainModule =
         viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
         viewModel { SplashViewModel(get()) }
         viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get(), get()) }
-        viewModel<PetListViewModel> { PetListViewModelImpl() }
+        viewModel<PetListViewModel> { PetListViewModelImpl(get()) }
 
         // viewModel<ViewModelNameGender> { (handle: SavedStateHandle) -> ViewModelNameGenderImpl(get(), get(), get(), handle) }
         viewModel<ViewModelNameGender> { // (handle: SavedStateHandle) ->

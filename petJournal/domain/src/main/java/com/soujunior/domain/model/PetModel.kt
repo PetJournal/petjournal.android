@@ -9,5 +9,6 @@ data class PetModel(
     val petRace: String? = null,
     val petAge: String? = null,
     val guardianId: Int? = null,
-    val castrated: Boolean? = null
+    val castrated: Boolean? = null,
+    val image: String? = null
 )

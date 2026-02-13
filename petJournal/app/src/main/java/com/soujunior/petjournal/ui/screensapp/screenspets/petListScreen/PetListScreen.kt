@@ -1,6 +1,8 @@
 package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,7 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.soujunior.domain.model.response.Pet.petList
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
@@ -57,6 +58,7 @@ fun PetListScreen(navController: NavController) {
     val viewModel: PetListViewModel = getPetListViewModelForPreview()
     val context = LocalContext.current
     val taskState by viewModel.taskState.collectAsState()
+    val state = viewModel.state.collectAsState()
 
     if (!LocalInspectionMode.current) {
         LaunchedEffect(key1 = context) {
@@ -120,10 +122,17 @@ fun PetListScreen(navController: NavController) {
                             columns = GridCells.Fixed(2),
                             horizontalArrangement = Arrangement.Center,
                         ) {
-                            items(petList) { pet ->
+                            items(state.value.listPets) { pet ->
+                                Log.e(TAG, "Success2: $pet")
+
                                 PetItem(
-                                    imageRes = pet.petImage ?: "",
-                                    name = pet.petName ?: "",
+                                    // imageRes = pet.image ?: "",
+                                    imageRes =
+                                        "https://img.freepik.com/free-vector/" +
+                                            "construction-web-template-flat-style_" +
+                                            "23-2147774304.jpg?semt=ais_hybrid&w=740&q=80"
+                                            ?: "sem link",
+                                    name = pet.name ?: "sem nome",
                                     onClick = {},
                                 )
                             }

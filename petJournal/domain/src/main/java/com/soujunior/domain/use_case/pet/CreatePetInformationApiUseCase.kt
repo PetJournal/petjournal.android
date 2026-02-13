@@ -1,7 +1,6 @@
 package com.soujunior.domain.use_case.pet
 
 import com.soujunior.domain.model.PetModel
-import com.soujunior.domain.model.response.Pet.PetResponse
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.BaseUseCase

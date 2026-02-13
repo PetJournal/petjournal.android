@@ -201,4 +201,5 @@
     <string name="privacy_policy">Política de Privacidade</string>
     <string name="notifications">Notificações</string>
     <string name="change_password">Alterar senha</string>
+    <string name="empty_list">Nenhum item na lista</string>
 </resources>

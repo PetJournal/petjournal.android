@@ -1,6 +1,7 @@
 package com.soujunior.data.mock
 
 import com.soujunior.domain.model.PetModel
+import com.soujunior.domain.model.PetResponseNew
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
@@ -9,14 +10,14 @@ import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.DataResult
 
-class MockGuardianRepositoryImpl(
-    //private val guardianApi: MockGuardianService,
-    //private val guardianLocalDataSourceImpl: GuardianLocalDataSource,
-    //context: Context
-): GuardianRepository {
+class MockGuardianRepositoryImpl(): GuardianRepository {
     override suspend fun getGuardianName(): NetworkResult<GuardianNameResponse> = NetworkResult.Success (GuardianNameResponse("Petjornaleiro", "Jr"))
 
     override suspend fun savePet(petModel: PetModel): DataResult<Long> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getListPet(): NetworkResult<List<PetResponseNew>> {
         TODO("Not yet implemented")
     }
 

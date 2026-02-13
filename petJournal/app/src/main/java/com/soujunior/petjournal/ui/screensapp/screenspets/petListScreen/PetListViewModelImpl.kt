@@ -10,29 +10,38 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class PetListViewModelImpl(
     private val getPetListUseCase: GetListPetUseCase,
 ) : PetListViewModel() {
-    override val message: StateFlow<String> get() = TODO("Not yet implemented")
+    private val _state = MutableStateFlow(State())
+    override val state: StateFlow<State> = _state.asStateFlow()
+
     override val validationEventChannel = Channel<ValidationEvent>()
-    override val validationEvents: Flow<ValidationEvent>
-        get() = super.validationEvents
+    override val validationEvents: Flow<ValidationEvent> get() = super.validationEvents
 
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
 
     init {
-        _taskState.value = TaskState.Idle
         getPetList()
     }
 
-    private fun getPetList()  {
-    }
-
-    override fun success() {
-        viewModelScope.launch { validationEventChannel.send(ValidationEvent.Success) }
+    private fun getPetList() {
+        _taskState.value = TaskState.Loading
+        viewModelScope.launch {
+            val result = getPetListUseCase.execute(Unit)
+            result.handleResult({
+                Log.e(TAG, "Success: $it")
+                _state.update { currentState ->
+                    currentState.copy(listPets = it)
+                }
+                _taskState.value = TaskState.Idle
+            }, ::failed)
+        }
     }
 
     override fun failed(exception: Throwable?) {
