@@ -7,12 +7,11 @@ import com.petjournal.database.converter.Converter.toResponse
 import com.soujunior.data.remote.GuardianService
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.domain.model.PetModel
-import com.soujunior.domain.model.PetResponseNew
+import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.Pet.PetResponse
-import com.soujunior.domain.network.ErrorBody
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.network.onError
 import com.soujunior.domain.network.onException
@@ -75,10 +74,10 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun getListPet(): NetworkResult<List<PetResponseNew>> {
+    override suspend fun getListPet(): NetworkResult<List<PetDetailsDTO>> {
         getToken()?.let { token ->
             val apiResponse =  guardianApi.getPetList(token)
-            var result: NetworkResult<List<PetResponseNew>> = NetworkResult.Error(0, null)
+            var result: NetworkResult<List<PetDetailsDTO>> = NetworkResult.Error(0, null)
 
             apiResponse
                 .onSuccess { data ->

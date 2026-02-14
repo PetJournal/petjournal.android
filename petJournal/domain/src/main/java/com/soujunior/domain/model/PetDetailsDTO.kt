@@ -6,7 +6,7 @@ import java.time.Period
 import java.time.ZonedDateTime
 
 
-data class PetResponseNew(
+data class PetDetailsDTO(
     @SerializedName("id")
     val id: String? = null,
 
@@ -14,7 +14,7 @@ data class PetResponseNew(
     val guardianId: String? = null,
 
     @SerializedName("specie")
-    val specie: SpecieResponseNew? = null,
+    val specie: SpecieDTO? = null,
 
     @SerializedName("specieAlias")
     val specieAlias: String? = null,
@@ -29,10 +29,10 @@ data class PetResponseNew(
     val breedAlias: String? = null,
 
     @SerializedName("breed")
-    val breed: BreedResponseNew? = null,
+    val breed: BreedDTO? = null,
 
     @SerializedName("size")
-    val size: SizeResponseNew? = null,
+    val size: SizeDTO? = null,
 
     @SerializedName("castrated")
     val castrated: Boolean? = null,
@@ -44,28 +44,28 @@ data class PetResponseNew(
     val image: String? = null
 )
 
-data class SpecieResponseNew(
+data class SpecieDTO(
     @SerializedName("id")
     val id: String? = null,
     @SerializedName("name")
     val name: String? = null
 )
 
-data class BreedResponseNew(
+data class BreedDTO(
     @SerializedName("id")
     val id: String? = null,
     @SerializedName("name")
     val name: String? = null
 )
 
-data class SizeResponseNew(
+data class SizeDTO(
     @SerializedName("id")
     val id: String? = null,
     @SerializedName("name")
     val name: String? = null
 )
 
-fun PetResponseNew.toPetModel(): PetModel {
+fun PetDetailsDTO.toPetModel(): PetModel {
     return PetModel(
         id = this.id?.toLongOrNull() ?: 0L,
         species = this.specieAlias ?: this.specie?.name,
@@ -78,6 +78,7 @@ fun PetResponseNew.toPetModel(): PetModel {
         castrated = this.castrated
     )
 }
+
 
 private fun parseAndCalculateAge(dateString: String): String {
     return try {
@@ -93,10 +94,10 @@ private fun parseAndCalculateAge(dateString: String): String {
             else -> "Menos de 1 mês"
         }
     } catch (e: Exception) {
-        "Data inválida"
+        e.message.toString()
     }
 }
 
-fun List<PetResponseNew>.toDomain(): List<PetModel> {
+fun List<PetDetailsDTO>.toDomain(): List<PetModel> {
     return this.map { it.toPetModel() }
 }

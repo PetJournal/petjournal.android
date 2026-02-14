@@ -1,7 +1,7 @@
 package com.soujunior.data.mock
 
 import com.soujunior.domain.model.PetModel
-import com.soujunior.domain.model.PetResponseNew
+import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
@@ -17,7 +17,7 @@ class MockGuardianRepositoryImpl(): GuardianRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getListPet(): NetworkResult<List<PetResponseNew>> {
+    override suspend fun getListPet(): NetworkResult<List<PetDetailsDTO>> {
         TODO("Not yet implemented")
     }
 
