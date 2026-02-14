@@ -1,5 +1,6 @@
 package com.soujunior.data.mock
 
+import com.soujunior.domain.model.PetCreateDTO
 import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
@@ -21,6 +22,10 @@ class MockGuardianRepositoryImpl(): GuardianRepository {
         TODO("Not yet implemented")
     }
 
+    override suspend fun createPet(pet: PetCreateDTO): NetworkResult<PetDetailsDTO> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getPet(idPet: Long): DataResult<PetModel> {
         TODO("Not yet implemented")
     }
@@ -34,10 +39,6 @@ class MockGuardianRepositoryImpl(): GuardianRepository {
     }
 
     override suspend fun getListPetRaces(petSpecie: String): NetworkResult<List<PetRaceItemModel>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun createPet(petModel: PetModel): NetworkResult<PetResponse> {
         TODO("Not yet implemented")
     }
 }

@@ -29,7 +29,7 @@ import com.soujunior.domain.use_case.auth.SignUpUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.guardian.GetPetRegistrationWentLive
 import com.soujunior.domain.use_case.guardian.SetPetRegistrationWentLive
-import com.soujunior.domain.use_case.pet.CreatePetInformationApiUseCase
+import com.soujunior.domain.use_case.pet.CreatePetUseCase
 import com.soujunior.domain.use_case.pet.GetListPetRacesUseCase
 import com.soujunior.domain.use_case.pet.GetListPetSizesUseCase
 import com.soujunior.domain.use_case.pet.GetListPetUseCase
@@ -110,7 +110,7 @@ val mainModule =
         factory { SavedStateHandle() }
         factory { GetListPetSizesUseCase(get()) }
         factory { GetListPetRacesUseCase(get()) }
-        factory { CreatePetInformationApiUseCase(get()) }
+        factory { CreatePetUseCase(get()) }
         factory { GetListPetUseCase(get()) }
 
         single<AuthService> { get<Retrofit>().create(AuthService::class.java) }

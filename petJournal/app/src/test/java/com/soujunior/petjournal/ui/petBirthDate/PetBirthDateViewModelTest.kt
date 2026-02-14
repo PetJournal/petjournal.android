@@ -5,7 +5,7 @@ import assertk.assertThat
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
 import com.soujunior.domain.use_case.base.DataResult
-import com.soujunior.domain.use_case.pet.CreatePetInformationApiUseCase
+import com.soujunior.domain.use_case.pet.CreatePetUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
@@ -32,7 +32,7 @@ class PetBirthDateViewModelTest {
     private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
     private val getPetInformationUseCase = mockk<GetPetInformationUseCase>(relaxed = true)
     private val updatePetInformationUseCase = mockk<UpdatePetInformationUseCase>(relaxed = true)
-    private val createPetInformationApiUseCase = mockk<CreatePetInformationApiUseCase>(relaxed = true)
+    private val createPetUseCase = mockk<CreatePetUseCase>(relaxed = true)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
@@ -43,7 +43,7 @@ class PetBirthDateViewModelTest {
                 validation,
                 getPetInformationUseCase,
                 updatePetInformationUseCase,
-                createPetInformationApiUseCase,
+                createPetUseCase,
             )
     }
 
@@ -324,7 +324,7 @@ class PetBirthDateViewModelTest {
 
     @Test
     fun `createPetInformation should call the use case to create pet information in the api`() {
-        coEvery { createPetInformationApiUseCase.execute(any()) } returns
+        coEvery { createPetUseCase.execute(any()) } returns
             DataResult.Success(
                 Unit,
             )

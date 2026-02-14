@@ -1,5 +1,6 @@
 package com.soujunior.data.remote
 
+import com.soujunior.domain.model.PetCreateDTO
 import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
@@ -34,8 +35,8 @@ interface GuardianService {
     @POST("api/pet")
     suspend fun createPet(
         @Header("Authorization") token: String,
-        @Body petInformationResponse: PetInformationResponse
-    ): NetworkResult<PetResponse>
+        @Body pet: PetCreateDTO
+    ): NetworkResult<PetDetailsDTO>
 
     @GET("api/pet")
     suspend fun getPetList(

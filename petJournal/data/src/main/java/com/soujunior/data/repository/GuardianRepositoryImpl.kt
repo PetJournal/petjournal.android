@@ -3,15 +3,14 @@ package com.soujunior.data.repository
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
-import com.petjournal.database.converter.Converter.toResponse
 import com.soujunior.data.remote.GuardianService
 import com.soujunior.data.util.manager.JwtManager
+import com.soujunior.domain.model.PetCreateDTO
 import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
-import com.soujunior.domain.model.response.Pet.PetResponse
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.network.onError
 import com.soujunior.domain.network.onException
@@ -161,10 +160,24 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun createPet(petModel: PetModel): NetworkResult<PetResponse> {
-        val token = "Bearer " + jwtManager.getToken()
-        val pet = petModel.toResponse()
-        return guardianApi.createPet(token, pet)
-    }
+    override suspend fun createPet(pet: PetCreateDTO): NetworkResult<PetDetailsDTO> {
+        getToken()?.let { token ->
+            val apiResponse =  guardianApi.createPet(token, pet)
+            var result: NetworkResult<PetDetailsDTO> = NetworkResult.Error(0, null)
 
+            apiResponse
+                .onSuccess { data ->
+                    result = NetworkResult.Success(data)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
 }

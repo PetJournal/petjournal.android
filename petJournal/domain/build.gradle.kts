@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation("androidx.annotation:annotation-jvm:1.9.1")
+    implementation("androidx.core:core-i18n:1.0.0")
     val dependencies = rootProject.ext["dependencies"] as Map<String, String>
     implementation(dependencies["coroutineCore"]!!)
     implementation(dependencies["coroutineAndroid"]!!)

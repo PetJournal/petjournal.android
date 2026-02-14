@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.use_case.pet.CreatePetInformationApiUseCase
+import com.soujunior.domain.use_case.pet.CreatePetUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.petjournal.ui.states.TaskState
@@ -25,7 +25,7 @@ class BirthDateViewModelImpl(
     val validation: ValidationRepository,
     private val getPetInformationUseCase: GetPetInformationUseCase,
     private val updatePetInformationUseCase: UpdatePetInformationUseCase,
-    private val createPetInformationApiUseCase: CreatePetInformationApiUseCase,
+    private val createPetUseCase: CreatePetUseCase,
 ) : BirthDateViewModel() {
     override var state by mutableStateOf(BirthDateFormState())
     override val validationEventChannel get() = Channel<ValidationEvent>()
@@ -152,7 +152,7 @@ class BirthDateViewModelImpl(
                     guardianId = 1,
                     castrated = state.castration,
                 )
-            val result = createPetInformationApiUseCase.execute(petInformation)
+            val result = createPetUseCase.execute(petInformation)
             result.handleResult(::successPetUpdate, ::failed)
             _taskState.value = TaskState.Idle
         }
