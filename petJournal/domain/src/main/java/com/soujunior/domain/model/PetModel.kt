@@ -61,18 +61,6 @@ fun PetModel.toDTO(): PetCreateDTO {
     )
 }
 
-/*fun PetModel.toDTO(): PetCreateDTO{
-    return PetCreateDTO(
-        specieName = this.species,
-        petName = this.name,
-        gender = this.gender,
-        size = this.size,
-        castrated = this.castrated,
-        image = this.image,
-        dateOfBirth = this.dateOfBirth,
-    )
-}*/
-
 fun List<PetDetailsDTO>.toPetModelList(): List<PetModel> {
     return this.map { it.toPetModel() }
 }
@@ -80,23 +68,15 @@ fun List<PetDetailsDTO>.toPetModelList(): List<PetModel> {
 fun PetDetailsDTO.toPetModel(): PetModel {
     return PetModel(
         id = this.id?.toLongOrNull() ?: this.id?.hashCode()?.toLong() ?: 0L,
-
         species = this.specie?.name ?: this.specieAlias,
-
         name = this.petName,
         gender = this.gender,
-
         size = this.size?.name,
-
         castrated = this.castrated,
         image = this.image,
-
         dateOfBirth = this.dateOfBirth,
-
         guardianId = this.guardianId?.toIntOrNull() ?: 0,
-
         petRace = this.breed?.name ?: this.breedAlias,
-
         petAge = this.dateOfBirth?.let { calculateAge(it) }
     )
 }
