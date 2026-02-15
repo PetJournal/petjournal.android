@@ -59,6 +59,8 @@ import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.ViewModelNameGenderImpl
 import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.ViewModelRaceSize
 import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
+import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.PetRegisterViewModel
+import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.PetRegisterViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.ViewModelChoiceSpecies
 import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.ViewModelChoiceSpeciesImpl
 import com.squareup.moshi.Moshi
@@ -112,6 +114,7 @@ val mainModule =
         factory { GetListPetRacesUseCase(get()) }
         factory { CreatePetUseCase(get()) }
         factory { GetListPetUseCase(get()) }
+        factory { CreatePetUseCase(get()) }
 
         single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
         single<GuardianService> { get<Retrofit>().create(GuardianService::class.java) }
@@ -155,6 +158,7 @@ val mainModule =
         viewModel { SplashViewModel(get()) }
         viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get(), get()) }
         viewModel<PetListViewModel> { PetListViewModelImpl(get()) }
+        viewModel<PetRegisterViewModel> { PetRegisterViewModelImpl(get()) }
 
         // viewModel<ViewModelNameGender> { (handle: SavedStateHandle) -> ViewModelNameGenderImpl(get(), get(), get(), handle) }
         viewModel<ViewModelNameGender> { // (handle: SavedStateHandle) ->
