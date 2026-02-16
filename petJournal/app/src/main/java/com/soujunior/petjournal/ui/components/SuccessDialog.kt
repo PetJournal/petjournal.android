@@ -11,10 +11,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,7 +26,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,13 +36,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.theme.ColorCustom
 
 @Composable
-fun TaskSuccessDialog(
-    onNewTaskClick: () -> Unit,
-    onGoToHomeClick: () -> Unit,
+fun SuccessDialog(
     modifier: Modifier = Modifier,
+    title: String = stringResource(R.string.label_task_added_successfully),
+    textTopButton: String = stringResource(R.string.label_new_task),
+    textBottomButton: String = stringResource(R.string.label_go_to_home),
+    subText: String? = null,
+    onButtonTopClick: (() -> Unit)? = null,
+    onButtonBottomClick: (() -> Unit)? = null,
 ) {
     Dialog(
         onDismissRequest = {},
@@ -51,28 +56,28 @@ fun TaskSuccessDialog(
                 modifier
                     .shadow(
                         elevation = 3.dp,
-                        // todo: Corrigir ColorCustom.color_shadow_dialog,
-                        spotColor = ColorCustom.error_color,
-                        // todo: Corrigir ColorCustom.color_shadow_dialog,
-                        ambientColor = ColorCustom.error_color,
+                        shape = RoundedCornerShape(16.dp),
                     )
-                    // todo: Corrigir ColorCustom.color_border_dialog,
-                    .border(2.dp, ColorCustom.error_color, RoundedCornerShape(16.dp))
+                    .border(
+                        2.dp,
+                        MaterialTheme.colorScheme.primary,
+                        RoundedCornerShape(16.dp),
+                    )
                     .width(330.dp)
-                    .height(338.dp)
+                    .wrapContentHeight()
                     .background(
                         color = MaterialTheme.colorScheme.onPrimary,
-                        shape = RoundedCornerShape(size = 16.dp),
+                        shape = RoundedCornerShape(16.dp),
                     )
-                    .clip(RoundedCornerShape(16.dp))
                     .padding(24.dp),
+            contentAlignment = Alignment.Center,
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
+                verticalArrangement = Arrangement.Center,
             ) {
                 Text(
-                    text = stringResource(R.string.label_task_added_successfully),
+                    text = title,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight(600),
                     color = MaterialTheme.colorScheme.scrim,
@@ -84,57 +89,62 @@ fun TaskSuccessDialog(
                     contentDescription = null,
                     modifier =
                         Modifier
-                            .padding(16.dp)
-                            .width(71.dp)
-                            .height(57.50.dp),
+                            .padding(vertical = 24.dp)
+                            .size(width = 80.dp, height = 65.dp),
                 )
 
-                OutlinedButton(
-                    modifier =
-                        modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, end = 16.dp),
-                    onClick = onNewTaskClick,
-                    // todo: Corrigir ColorCustom.color_background_button_dialog,
-                    border = BorderStroke(1.dp, ColorCustom.error_color),
-                    shape = RoundedCornerShape(12.dp),
-                ) {
-                    Icon(
-                        modifier =
-                            modifier
-                                .width(24.dp)
-                                .height(24.dp),
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null,
-                        // todo: Corrigir ColorCustom.color_background_button_dialog,
-                        tint = ColorCustom.error_color,
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(R.string.label_new_task),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight(600),
-                        // todo: Corrigir ColorCustom.color_border_dialog,
-                        color = ColorCustom.error_color,
-                    )
-                }
+                if (onButtonTopClick != null || onButtonBottomClick != null) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        onButtonTopClick?.let {
+                            OutlinedButton(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = it,
+                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+                                shape = RoundedCornerShape(12.dp),
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    text = textTopButton,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.primary,
+                                )
+                            }
+                        }
 
-                androidx.compose.material3.Button(
-                    modifier =
-                        modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, end = 16.dp, top = 6.dp),
-                    onClick = onGoToHomeClick,
-                    // todo: Corrigir ColorCustom.color_border_dialog,
-                    colors = ButtonDefaults.buttonColors(containerColor = ColorCustom.error_color),
-                    shape = RoundedCornerShape(12.dp),
-                ) {
-                    Text(
-                        text = stringResource(R.string.label_go_to_home),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight(500),
-                        color = MaterialTheme.colorScheme.background,
-                    )
+                        onButtonBottomClick?.let {
+                            Button(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = it,
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                                shape = RoundedCornerShape(12.dp),
+                            ) {
+                                Text(
+                                    text = textBottomButton,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.background,
+                                )
+                            }
+                        }
+
+                        subText?.let {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.outline,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.padding(top = 8.dp),
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -143,6 +153,33 @@ fun TaskSuccessDialog(
 
 @Preview
 @Composable
-fun TaskSuccessDialogPreview() {
-    TaskSuccessDialog(onNewTaskClick = {}, onGoToHomeClick = {})
+fun SuccessDialogWithoutButtonsPreview() {
+    SuccessDialog()
+}
+
+@Preview
+@Composable
+fun SuccessDialogWithoutTopButtonPreview() {
+    SuccessDialog(onButtonBottomClick = {})
+}
+
+@Preview
+@Composable
+fun SuccessDialogSubPreview() {
+    SuccessDialog(
+        onButtonBottomClick = {},
+        subText = "Subtitulo",
+    )
+}
+
+@Preview
+@Composable
+fun SuccessDialogWithoutBottomButtonPreview() {
+    SuccessDialog(onButtonTopClick = {})
+}
+
+@Preview
+@Composable
+fun SuccessDialogPreview() {
+    SuccessDialog(onButtonBottomClick = {}, onButtonTopClick = {})
 }

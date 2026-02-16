@@ -8,18 +8,32 @@ import kotlinx.coroutines.flow.StateFlow
 
 data class StateUI(
     val pet: PetModel? = null,
+    val showDialogSuccess: Boolean = false,
+    val showDialogError: Boolean = false,
+    val messageError: String? = null,
+    val petName: String? = null,
+    val petBreed: String? = null,
+    val listBreed: List<String> = emptyList(),
 )
 
+sealed class CreatePetEvent {
+    data class OnInputName(val name: String) : CreatePetEvent()
+
+    data class OnInputBreed(val breed: String) : CreatePetEvent()
+}
+
 class FakePetRegisterViewModel() : PetRegisterViewModel() {
-    override val stateUi: StateFlow<StateUI>
-        get() {
-            TODO()
-        }
+    override val stateUi: StateFlow<StateUI> get() {
+        TODO()
+    }
     override val taskState = MutableStateFlow<TaskState>(TaskState.Idle)
+
+    override fun onEvent(event: CreatePetEvent) {}
 }
 
 abstract class PetRegisterViewModel : ViewModel() {
     abstract val stateUi: StateFlow<StateUI>
-
     abstract val taskState: StateFlow<TaskState>
+
+    abstract fun onEvent(event: CreatePetEvent)
 }

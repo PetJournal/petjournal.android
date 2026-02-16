@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.AbsoluteAlignment
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
@@ -46,6 +46,7 @@ import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.components.SuccessDialog
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import ir.kaaveh.sdpcompose.sdp
@@ -64,9 +65,8 @@ fun getPetRegisterViewModelForPreview(): PetRegisterViewModel {
 @Composable
 fun RegisterPetScreen(navController: NavController) {
     val viewModel: PetRegisterViewModel = getPetRegisterViewModelForPreview()
-//    val context = LocalContext.current
     val taskState by viewModel.taskState.collectAsState()
-//    val state = viewModel.state.collectAsState()
+    val state = viewModel.stateUi.collectAsStateWithLifecycle()
 
     Column(modifier = Modifier) {
         ScaffoldCustom(
@@ -94,7 +94,7 @@ fun RegisterPetScreen(navController: NavController) {
                                 .align(AbsoluteAlignment.Left),
                     )
                     LazyColumn(
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                        horizontalAlignment = CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(12.sdp),
                         modifier =
                             Modifier
@@ -114,8 +114,10 @@ fun RegisterPetScreen(navController: NavController) {
                                     textInputModifier = Modifier.testTag("inputField_test"),
                                     placeholderText = stringResource(R.string.placeholder_name_pet),
                                     titleText = stringResource(R.string.pet_name),
-                                    textValue = "",
-                                    onEvent = { },
+                                    textValue = state.value.petName ?: "",
+                                    onEvent = {
+                                        viewModel.onEvent(CreatePetEvent.OnInputName(it))
+                                    },
                                 )
                             }
                             item {
@@ -124,8 +126,11 @@ fun RegisterPetScreen(navController: NavController) {
                                     textTitleModifier = Modifier.padding(bottom = 4.sdp),
                                     placeholderText = stringResource(R.string.placeholder_breed),
                                     titleText = stringResource(R.string.breed),
-                                    textValue = "",
-                                    onEvent = { },
+                                    textValue = state.value.petBreed ?: "",
+//                                    dropdownItems = state.value.listBreed,
+                                    onEvent = {
+                                        viewModel.onEvent(CreatePetEvent.OnInputBreed(it))
+                                    },
                                 )
                             }
                             item {
@@ -237,6 +242,21 @@ fun RegisterPetScreen(navController: NavController) {
                             }
                         },
                     )
+                    if (state.value.showDialogSuccess) {
+                        SuccessDialog(
+                            title = stringResource(R.string.companion_added_successfully),
+                            onButtonBottomClick = {},
+                            onButtonTopClick = {},
+                        )
+                    }
+                    if (state.value.showDialogError) {
+                        SuccessDialog(
+                            title = stringResource(R.string.error_occurred_while_adding_the_companion),
+                            textBottomButton = stringResource(R.string.return_button_text),
+                            onButtonBottomClick = {},
+                            subText = state.value.messageError,
+                        )
+                    }
                 }
             },
         )

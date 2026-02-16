@@ -112,7 +112,6 @@ val mainModule =
         factory { SavedStateHandle() }
         factory { GetListPetSizesUseCase(get()) }
         factory { GetListPetRacesUseCase(get()) }
-        factory { CreatePetUseCase(get()) }
         factory { GetListPetUseCase(get()) }
         factory { CreatePetUseCase(get()) }
 

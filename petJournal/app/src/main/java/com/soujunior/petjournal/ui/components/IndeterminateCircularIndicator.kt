@@ -22,7 +22,7 @@ fun IndeterminateCircularIndicator(modifier: Modifier = Modifier) {
             modifier =
                 modifier
                     .size(64.dp),
-            color = MaterialTheme.colorScheme.secondary,
+            color = MaterialTheme.colorScheme.onPrimary,
             backgroundColor = MaterialTheme.colorScheme.primary,
         )
     }
