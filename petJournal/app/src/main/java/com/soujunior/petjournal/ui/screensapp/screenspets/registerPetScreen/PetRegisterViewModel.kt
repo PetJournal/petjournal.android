@@ -2,6 +2,8 @@ package com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen
 
 import androidx.lifecycle.ViewModel
 import com.soujunior.domain.model.PetModel
+import com.soujunior.domain.model.response.pet.BreedModel
+import com.soujunior.domain.model.response.pet.SizeModel
 import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +15,10 @@ data class StateUI(
     val messageError: String? = null,
     val petName: String? = null,
     val petBreed: String? = null,
-    val listBreed: List<String> = emptyList(),
+    val petSize: String? = null,
+    val listBreed: List<BreedModel> = emptyList(),
+    val listSize: List<SizeModel> = emptyList(),
+    val listAnimalType: List<String> = emptyList(),
 )
 
 sealed class CreatePetEvent {

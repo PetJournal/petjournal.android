@@ -82,6 +82,7 @@ fun RegisterPetScreen(navController: NavController) {
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = {
                 if (taskState is TaskState.Loading) {
+//                if (false) {
                     IndeterminateCircularIndicator(modifier = Modifier.align(CenterHorizontally))
                 } else {
                     Image(

@@ -6,7 +6,6 @@ import com.petjournal.database.database.entity.PetSize
 import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
-import com.soujunior.domain.model.response.pet.PetInformationResponse
 
 object Converter {
     fun PetInformation.toModel(): PetModel {
@@ -36,17 +35,17 @@ object Converter {
             castration = this.castrated
         )
     }
-    fun PetModel.toResponse(): PetInformationResponse {
-        return PetInformationResponse(
-            specieName = if (this.species == "Cat" ) "Gato" else if ( this.species == "Dog") "Cachorro" else this.species,
-            petName = this.name,
-            gender = this.gender,
-            breedName = this.petRace,
-            size = this.size,
-            castrated = this.castrated,
-            dateOfBirth = this.petAge
-        )
-    }
+//    fun PetModel.toResponse(): PetInformationResponse {
+//        return PetInformationResponse(
+//            specieName = if (this.species == "Cat" ) "Gato" else if ( this.species == "Dog") "Cachorro" else this.species,
+//            petName = this.name,
+//            gender = this.gender,
+//            breedName = this.petRace,
+//            size = this.size,
+//            castrated = this.castrated,
+//            dateOfBirth = this.petAge
+//        )
+//    }
 
 
     fun List<PetSize>.toListPetSizeItemModel(): List<PetSizeItemModel> {

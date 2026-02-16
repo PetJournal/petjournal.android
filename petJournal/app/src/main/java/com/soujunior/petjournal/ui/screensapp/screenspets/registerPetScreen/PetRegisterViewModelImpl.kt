@@ -61,4 +61,44 @@ class PetRegisterViewModelImpl(
             }
         }
     }
+
+    private fun getListSize(animal: String) {
+        viewModelScope.launch {
+            _stateUi.value.pet?.let { pet ->
+                val result = getListSizeUseCase.execute(animal)
+                result.handleResult(
+                    {
+                        _stateUi.value = _stateUi.value.copy(listSize = it)
+                    },
+                    {
+                        _stateUi.value =
+                            _stateUi.value.copy(
+                                showDialogError = true,
+                                messageError = it?.message.toString(),
+                            )
+                    },
+                )
+            }
+        }
+    }
+
+    private fun getListBreed(animal: String) {
+        viewModelScope.launch {
+            _stateUi.value.pet?.let { pet ->
+                val result = getListBreedUseCase.execute(animal)
+                result.handleResult(
+                    {
+                        _stateUi.value = _stateUi.value.copy(listBreed = it)
+                    },
+                    {
+                        _stateUi.value =
+                            _stateUi.value.copy(
+                                showDialogError = true,
+                                messageError = it?.message.toString(),
+                            )
+                    },
+                )
+            }
+        }
+    }
 }
