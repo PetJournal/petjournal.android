@@ -52,10 +52,9 @@ data class SpecieDTO(
 )
 
 data class BreedDTO(
-    @SerializedName("id")
-    val id: String? = null,
-    @SerializedName("name")
-    val name: String? = null
+    @SerializedName("id") val id: String? = null,
+    @SerializedName("specieId") val specieId: String? = null,
+    @SerializedName("name") val name: String? = null
 )
 
 data class SizeDTO(

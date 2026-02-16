@@ -20,6 +20,8 @@ sealed class CreatePetEvent {
     data class OnInputName(val name: String) : CreatePetEvent()
 
     data class OnInputBreed(val breed: String) : CreatePetEvent()
+
+    object OnSubmit : CreatePetEvent()
 }
 
 class FakePetRegisterViewModel() : PetRegisterViewModel() {

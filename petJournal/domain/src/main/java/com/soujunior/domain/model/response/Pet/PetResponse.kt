@@ -18,19 +18,3 @@ data class PetResponse(
     val petImage: String? = null,
     val dateOfBirth: LocalDate? = null
 )
-
-//todo: remover essa lista quando nao estiver mais sendo usada
-val petList = listOf(
-    PetResponse(
-        petName = "Felicia Vascaina",
-        petImage = "https://cdn.pixabay.com/photo/2023/08/18/15/02/dog-8198719_1280.jpg"
-    ),
-    PetResponse(
-        petName = "Jujuba",
-        petImage = "https://cdn.pixabay.com/photo/2023/08/18/15/02/dog-8198719_1280.jpg"
-    ),
-    PetResponse(
-        petName = "Nutella",
-        petImage = "https://cdn.pixabay.com/photo/2023/08/18/15/02/dog-8198719_1280.jpg"
-    ),
-    )

@@ -1,5 +1,6 @@
 package com.soujunior.data.remote
 
+import com.soujunior.domain.model.BreedDTO
 import com.soujunior.domain.model.PetCreateDTO
 import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
@@ -61,4 +62,13 @@ interface GuardianService {
         @Path("id") id: String,
         @Body petInformationResponse: PetInformationResponse
     ): NetworkResult<Unit>
+
+    /**
+     * animal can be "cat" or "dog"
+     * **/
+    @PUT("api/breeds/{animal}")
+    suspend fun getListBreeds(
+        @Header("Authorization") token: String,
+        @Path("animal") animal: String,
+    ): NetworkResult<List<BreedDTO>>
 }

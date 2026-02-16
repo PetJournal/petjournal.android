@@ -28,6 +28,9 @@ class PetRegisterViewModelImpl(
             is CreatePetEvent.OnInputBreed -> {
                 _stateUi.value = _stateUi.value.copy(petBreed = event.breed)
             }
+            is CreatePetEvent.OnSubmit -> {
+                createPet()
+            }
         }
     }
 
