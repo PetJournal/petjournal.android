@@ -1,4 +1,4 @@
-package com.soujunior.domain.model.response.Pet
+package com.soujunior.domain.model.response.pet
 
 data class Specie(
     val id: String? = null,

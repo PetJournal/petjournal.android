@@ -1,8 +1,10 @@
 package com.soujunior.domain.repository
 
+import com.soujunior.domain.model.BreedDTO
 import com.soujunior.domain.model.PetCreateDTO
 import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.PetDetailsDTO
+import com.soujunior.domain.model.SizeDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
@@ -13,6 +15,8 @@ interface GuardianRepository {
     suspend fun getGuardianName(): NetworkResult<GuardianNameResponse>
     suspend fun savePet(petModel: PetModel): DataResult<Long>
 
+    suspend fun getListSize(animal: String): NetworkResult<List<SizeDTO>>
+    suspend fun getListBreed(animal: String): NetworkResult<List<BreedDTO>>
     suspend fun getListPet(): NetworkResult<List<PetDetailsDTO>>
     suspend fun createPet(pet: PetCreateDTO): NetworkResult<PetDetailsDTO>
 

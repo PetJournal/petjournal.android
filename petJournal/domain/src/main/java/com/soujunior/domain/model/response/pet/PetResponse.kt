@@ -1,4 +1,4 @@
-package com.soujunior.domain.model.response.Pet
+package com.soujunior.domain.model.response.pet
 
 import com.soujunior.domain.model.response.UserInfoResponse
 import java.time.LocalDate
@@ -12,8 +12,8 @@ data class PetResponse(
     val petName: String? = null,
     val gender: Char? = null,
     val breedAlias: String? = null,
-    val breed: Breed? = null,
-    val size: Size? = null,
+    val breedModel: BreedModel? = null,
+    val sizeModel: SizeModel? = null,
     val castrated: Boolean? = null,
     val petImage: String? = null,
     val dateOfBirth: LocalDate? = null

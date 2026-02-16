@@ -5,9 +5,11 @@ import android.content.Context
 import android.util.Log
 import com.soujunior.data.remote.GuardianService
 import com.soujunior.data.util.manager.JwtManager
+import com.soujunior.domain.model.BreedDTO
 import com.soujunior.domain.model.PetCreateDTO
 import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.PetDetailsDTO
+import com.soujunior.domain.model.SizeDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
@@ -70,6 +72,48 @@ class GuardianRepositoryImpl(
             DataResult.Success(guardianLocalDataSourceImpl.savePetInformation(petInformation).success.data)
         } catch (e: Throwable) {
             DataResult.Failure(e)
+        }
+    }
+
+    override suspend fun getListSize(animal: String): NetworkResult<List<SizeDTO>> {
+        getToken()?.let { token ->
+            val apiResponse =  guardianApi.getListSize(token, animal)
+            var result: NetworkResult<List<SizeDTO>> = NetworkResult.Error(0, null)
+
+            apiResponse
+                .onSuccess { data ->
+                    result = NetworkResult.Success(data)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
+
+    override suspend fun getListBreed(animal: String): NetworkResult<List<BreedDTO>> {
+        getToken()?.let { token ->
+            val apiResponse =  guardianApi.getListBreeds(token, animal)
+            var result: NetworkResult<List<BreedDTO>> = NetworkResult.Error(0, null)
+
+            apiResponse
+                .onSuccess { data ->
+                    result = NetworkResult.Success(data)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
         }
     }
 

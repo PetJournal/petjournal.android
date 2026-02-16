@@ -2,6 +2,8 @@ package com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen
 
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.use_case.pet.CreatePetUseCase
+import com.soujunior.domain.use_case.pet.GetListBreedUseCase
+import com.soujunior.domain.use_case.pet.GetListSizeUseCase
 import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -10,6 +12,8 @@ import kotlinx.coroutines.launch
 
 class PetRegisterViewModelImpl(
     private val createPetUseCase: CreatePetUseCase,
+    private val getListBreedUseCase: GetListBreedUseCase,
+    private val getListSizeUseCase: GetListSizeUseCase,
 ) : PetRegisterViewModel() {
     private val _stateUi = MutableStateFlow(StateUI())
     override val stateUi: StateFlow<StateUI>

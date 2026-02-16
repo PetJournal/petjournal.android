@@ -3,11 +3,12 @@ package com.soujunior.data.remote
 import com.soujunior.domain.model.BreedDTO
 import com.soujunior.domain.model.PetCreateDTO
 import com.soujunior.domain.model.PetDetailsDTO
+import com.soujunior.domain.model.SizeDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
-import com.soujunior.domain.model.response.Pet.PetInformationResponse
-import com.soujunior.domain.model.response.Pet.PetResponse
+import com.soujunior.domain.model.response.pet.PetInformationResponse
+import com.soujunior.domain.model.response.pet.PetResponse
 import com.soujunior.domain.network.NetworkResult
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -66,9 +67,18 @@ interface GuardianService {
     /**
      * animal can be "cat" or "dog"
      * **/
-    @PUT("api/breeds/{animal}")
+    @GET("api/breeds/{animal}")
     suspend fun getListBreeds(
         @Header("Authorization") token: String,
         @Path("animal") animal: String,
     ): NetworkResult<List<BreedDTO>>
+
+    /**
+     * animal can be "cat" or "dog"
+     * **/
+    @GET("api/sizes/{animal}")
+    suspend fun getListSize(
+        @Header("Authorization") token: String,
+        @Path("animal") animal: String,
+    ): NetworkResult<List<SizeDTO>>
 }
