@@ -11,6 +11,7 @@ import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.DataResult
+import java.io.File
 
 class MockGuardianRepositoryImpl(): GuardianRepository {
     override suspend fun getGuardianName(): NetworkResult<GuardianNameResponse> = NetworkResult.Success (GuardianNameResponse("Petjornaleiro", "Jr"))
@@ -31,7 +32,10 @@ class MockGuardianRepositoryImpl(): GuardianRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun createPet(pet: PetCreateDTO): NetworkResult<PetDetailsDTO> {
+    override suspend fun createPet(
+        pet: PetCreateDTO,
+        imageFile: File?
+    ): NetworkResult<PetDetailsDTO> {
         TODO("Not yet implemented")
     }
 

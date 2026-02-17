@@ -128,8 +128,6 @@ dependencies {
     implementation(project(":database"))
     implementation(project(":data"))
     implementation("androidx.compose.runtime:runtime-android:1.9.5")
-    implementation("com.google.firebase:firebase-storage-ktx:22.0.1")
-
     val composeUiVersion = "1.4.2"
 
     implementation("androidx.core:core-ktx:1.7.0")
