@@ -12,19 +12,56 @@ data class StateUI(
     val pet: PetModel? = null,
     val showDialogSuccess: Boolean = false,
     val showDialogError: Boolean = false,
+    val isLoadingBreeds: Boolean = false,
+    val isLoadingSizes: Boolean = false,
     val messageError: String? = null,
     val petName: String? = null,
-    val petBreed: String? = null,
+    val selectedAnimalType: String? = null,
+    val petRace: String? = null,
     val petSize: String? = null,
-    val listBreed: List<BreedModel> = emptyList(),
+    val petBirthday: String? = null,
+    val petSex: String? = null,
+    val petCastrated: Boolean? = null,
+    val listRaceOnly: List<String> = emptyList(),
+    val listRace: List<BreedModel> = emptyList(),
+    val listSizeOnly: List<String> = emptyList(),
     val listSize: List<SizeModel> = emptyList(),
-    val listAnimalType: List<String> = emptyList(),
-)
+    val listAnimalTypes: List<String> = listOf("cachorro", "gato"),
+) {
+    // todo: abstrair os nomes dos animais para um enum ou constante
+    fun convert(input: String): String {
+        return when (input) {
+            "gato" -> "cat"
+            "cachorro" -> "dog"
+            else -> ""
+        }
+    }
+}
+
+@JvmName("sizeModelListToString")
+fun List<SizeModel>.toList(): List<String> {
+    return this.map { it.name.toString() }
+}
+
+@JvmName("breedModellListToString")
+fun List<BreedModel>.toList(): List<String> {
+    return this.map { it.name.toString() }
+}
 
 sealed class CreatePetEvent {
     data class OnInputName(val name: String) : CreatePetEvent()
 
-    data class OnInputBreed(val breed: String) : CreatePetEvent()
+    data class OnTypeSelected(val type: String) : CreatePetEvent()
+
+    data class OnInputRace(val breed: String) : CreatePetEvent()
+
+    data class OnInputSize(val size: String) : CreatePetEvent()
+
+    data class OnInputBirthday(val birthday: String) : CreatePetEvent()
+
+    data class OnInputSex(val sex: String) : CreatePetEvent()
+
+    data class OnInputCastrated(val isCastrated: Boolean) : CreatePetEvent()
 
     object OnSubmit : CreatePetEvent()
 }

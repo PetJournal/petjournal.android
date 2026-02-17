@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -17,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.ui.theme.Shapes
@@ -26,6 +24,8 @@ import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun DualActionButton(
+    isLeftSelected: Boolean = false,
+    isRightSelected: Boolean = false,
     rightButtonSubmit: () -> Unit,
     leftButtonSubmit: () -> Unit,
     titleText: String = "Title",
@@ -34,12 +34,14 @@ fun DualActionButton(
     buttonModifier: Modifier = Modifier,
     leftButtonText: String = "Button",
     rightButtonText: String = "Button",
-    leftButtonColor: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-    rightButtonColor: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
-    leftButtonTextColor: Color = MaterialTheme.colorScheme.onPrimary,
-    rightButtonTextColor: Color = MaterialTheme.colorScheme.primary,
     isLoading: Boolean = false,
 ) {
+    val activeContainerColor = MaterialTheme.colorScheme.primary
+    val inactiveContainerColor = MaterialTheme.colorScheme.surface
+
+    val activeContentColor = MaterialTheme.colorScheme.onPrimary
+    val inactiveContentColor = MaterialTheme.colorScheme.primary
+
     Column(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -47,16 +49,23 @@ fun DualActionButton(
             modifier = buttonModifier.fillMaxWidth(),
         ) {
             androidx.compose.material3.Button(
-                onClick = { rightButtonSubmit() },
+                onClick = { leftButtonSubmit() },
                 enabled = enableButton,
-                modifier = modifier.width(115.sdp).height(32.sdp),
+                modifier =
+                    modifier
+                        .width(115.sdp)
+                        .height(32.sdp),
                 border =
                     BorderStroke(
                         width = 1.sdp,
                         color = MaterialTheme.colorScheme.primary,
                     ),
                 shape = Shapes.medium,
-                colors = leftButtonColor,
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = if (isLeftSelected) activeContainerColor else inactiveContainerColor,
+                        contentColor = if (isLeftSelected) activeContentColor else inactiveContentColor,
+                    ),
                 contentPadding = PaddingValues(2.sdp),
             ) {
                 if (!isLoading) {
@@ -65,26 +74,34 @@ fun DualActionButton(
                         fontWeight = FontWeight.W900,
                         fontSize = 12.ssp,
                         style = MaterialTheme.typography.titleLarge,
-                        color = leftButtonTextColor,
+                        color = if (isLeftSelected) activeContentColor else inactiveContentColor,
                     )
                 } else {
                     CircularProgressIndicator(
                         modifier = Modifier.size(17.sdp),
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = if (isLeftSelected) activeContentColor else inactiveContentColor,
                     )
                 }
             }
+
             androidx.compose.material3.Button(
-                onClick = { leftButtonSubmit() },
+                onClick = { rightButtonSubmit() },
                 enabled = enableButton,
-                modifier = modifier.width(115.sdp).height(32.sdp),
+                modifier =
+                    modifier
+                        .width(115.sdp)
+                        .height(32.sdp),
                 border =
                     BorderStroke(
                         width = 1.sdp,
                         color = MaterialTheme.colorScheme.primary,
                     ),
                 shape = Shapes.medium,
-                colors = rightButtonColor,
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = if (isRightSelected) activeContainerColor else inactiveContainerColor,
+                        contentColor = if (isRightSelected) activeContentColor else inactiveContentColor,
+                    ),
                 contentPadding = PaddingValues(2.sdp),
             ) {
                 if (!isLoading) {
@@ -93,12 +110,12 @@ fun DualActionButton(
                         fontWeight = FontWeight.W900,
                         fontSize = 12.ssp,
                         style = MaterialTheme.typography.titleLarge,
-                        color = rightButtonTextColor,
+                        color = if (isRightSelected) activeContentColor else inactiveContentColor,
                     )
                 } else {
                     CircularProgressIndicator(
                         modifier = Modifier.size(17.sdp),
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = if (isRightSelected) activeContentColor else inactiveContentColor,
                     )
                 }
             }

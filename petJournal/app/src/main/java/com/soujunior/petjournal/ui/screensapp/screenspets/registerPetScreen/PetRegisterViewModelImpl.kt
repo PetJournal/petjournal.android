@@ -24,13 +24,41 @@ class PetRegisterViewModelImpl(
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
 
+    init {
+        _taskState.value = TaskState.Idle
+    }
+
     override fun onEvent(event: CreatePetEvent) {
         when (event) {
             is CreatePetEvent.OnInputName -> {
                 _stateUi.value = _stateUi.value.copy(petName = event.name)
             }
-            is CreatePetEvent.OnInputBreed -> {
-                _stateUi.value = _stateUi.value.copy(petBreed = event.breed)
+            is CreatePetEvent.OnTypeSelected -> {
+                _stateUi.value =
+                    _stateUi.value.copy(
+                        selectedAnimalType = event.type,
+                        petRace = null,
+                        petSize = null,
+                        listRace = emptyList(),
+                        listSize = emptyList(),
+                    )
+                fetchRace(_stateUi.value.convert(event.type))
+                fetchSizes(_stateUi.value.convert(event.type))
+            }
+            is CreatePetEvent.OnInputRace -> {
+                _stateUi.value = _stateUi.value.copy(petRace = event.breed)
+            }
+            is CreatePetEvent.OnInputSize -> {
+                _stateUi.value = _stateUi.value.copy(petSize = event.size)
+            }
+            is CreatePetEvent.OnInputBirthday -> {
+                _stateUi.value = _stateUi.value.copy(petBirthday = event.birthday)
+            }
+            is CreatePetEvent.OnInputSex -> {
+                _stateUi.value = _stateUi.value.copy(petSex = event.sex)
+            }
+            is CreatePetEvent.OnInputCastrated -> {
+                _stateUi.value = _stateUi.value.copy(petCastrated = event.isCastrated)
             }
             is CreatePetEvent.OnSubmit -> {
                 createPet()
@@ -38,8 +66,53 @@ class PetRegisterViewModelImpl(
         }
     }
 
-    init {
-        _taskState.value = TaskState.Idle
+    private fun fetchSizes(animalType: String) {
+        viewModelScope.launch {
+            _stateUi.value = _stateUi.value.copy(isLoadingSizes = true)
+            val result = getListSizeUseCase.execute(animalType)
+
+            result.handleResult(
+                { sizeList ->
+                    _stateUi.value =
+                        _stateUi.value.copy(
+                            isLoadingSizes = false,
+                            listSizeOnly = sizeList.toList(),
+                        )
+                },
+                { error ->
+                    _stateUi.value =
+                        _stateUi.value.copy(
+                            isLoadingSizes = false,
+                            showDialogError = true,
+                            messageError = error?.message ?: "Erro desconhecido ao carregar tamanhos.",
+                        )
+                },
+            )
+        }
+    }
+
+    private fun fetchRace(animalType: String) {
+        viewModelScope.launch {
+            _stateUi.value = _stateUi.value.copy(isLoadingBreeds = true)
+            val result = getListBreedUseCase.execute(animalType)
+            result.handleResult(
+                { breeds ->
+                    _stateUi.value =
+                        _stateUi.value.copy(
+                            isLoadingBreeds = false,
+                            listRaceOnly = breeds.toList(),
+                        )
+                },
+                { error ->
+                    _stateUi.value =
+                        _stateUi.value.copy(
+                            isLoadingSizes = false,
+                            showDialogError = true,
+                            messageError = error?.message ?: "Erro desconhecido ao carregar tamanhos.",
+                        )
+                },
+            )
+        }
     }
 
     private fun createPet() {
@@ -47,50 +120,13 @@ class PetRegisterViewModelImpl(
         viewModelScope.launch {
             _stateUi.value.pet?.let { pet ->
                 val result = createPetUseCase.execute(pet)
-                result.handleResult({
-                    _taskState.value = TaskState.Idle
-                    _stateUi.value = _stateUi.value.copy(showDialogSuccess = true)
-                }, {
-                    _taskState.value = TaskState.Idle
-                    _stateUi.value =
-                        _stateUi.value.copy(
-                            showDialogError = true,
-                            messageError = it?.message.toString(),
-                        )
-                })
-            }
-        }
-    }
-
-    private fun getListSize(animal: String) {
-        viewModelScope.launch {
-            _stateUi.value.pet?.let { pet ->
-                val result = getListSizeUseCase.execute(animal)
                 result.handleResult(
                     {
-                        _stateUi.value = _stateUi.value.copy(listSize = it)
+                        _taskState.value = TaskState.Idle
+                        _stateUi.value = _stateUi.value.copy(showDialogSuccess = true)
                     },
                     {
-                        _stateUi.value =
-                            _stateUi.value.copy(
-                                showDialogError = true,
-                                messageError = it?.message.toString(),
-                            )
-                    },
-                )
-            }
-        }
-    }
-
-    private fun getListBreed(animal: String) {
-        viewModelScope.launch {
-            _stateUi.value.pet?.let { pet ->
-                val result = getListBreedUseCase.execute(animal)
-                result.handleResult(
-                    {
-                        _stateUi.value = _stateUi.value.copy(listBreed = it)
-                    },
-                    {
+                        _taskState.value = TaskState.Idle
                         _stateUi.value =
                             _stateUi.value.copy(
                                 showDialogError = true,
