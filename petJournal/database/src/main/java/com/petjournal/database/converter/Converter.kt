@@ -12,7 +12,7 @@ object Converter {
         return PetModel(
             id = this.id,
             species = this.species,
-            name = this.name,
+            petName = this.name,
             gender = this.gender,
             size = this.size,
             petRace = this.petRace,
@@ -27,7 +27,7 @@ object Converter {
             id = this.id,
             guardianId = this.guardianId ?: 0,
             species = this.species,
-            name = this.name,
+            name = this.petName,
             gender = this.gender,
             size = this.size,
             petRace = this.petRace,

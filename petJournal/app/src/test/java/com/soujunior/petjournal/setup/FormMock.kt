@@ -40,7 +40,7 @@ val perInformation =
     PetModel(
         id = 1,
         species = "Dog",
-        name = "Bolinha",
+        petName = "Bolinha",
         gender = "M",
         size = "Pequeno",
         petRace = "Akita",

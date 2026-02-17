@@ -21,6 +21,10 @@ import com.soujunior.domain.repository.GuardianLocalDataSource
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.DataResult
 import kotlinx.coroutines.coroutineScope
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 
 class GuardianRepositoryImpl(
     private val guardianApi: GuardianService,
@@ -204,9 +208,51 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun createPet(pet: PetCreateDTO): NetworkResult<PetDetailsDTO> {
-        getToken()?.let { token ->
-            val apiResponse =  guardianApi.createPet(token, pet)
+    private fun String?.toTextRequestBody(): RequestBody {
+        val mediaType = MediaType.parse("text/plain")
+        val content = this ?: ""
+        return RequestBody.create(mediaType, content)
+    }
+
+    private fun Boolean?.toTextRequestBody(): RequestBody {
+        val mediaType = MediaType.parse("text/plain")
+        val content = (this ?: false).toString()
+        return RequestBody.create(mediaType, content)
+    }
+
+    override suspend fun createPet(pet: PetCreateDTO, imageFile: File?): NetworkResult<PetDetailsDTO> {
+        val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
+
+        return try {
+            val imagePart: MultipartBody.Part = if (imageFile != null && imageFile.exists()) {
+                val mediaType = MediaType.parse("image/*")
+                val requestFile = RequestBody.create(mediaType, imageFile)
+
+                MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
+            } else {
+                throw IllegalArgumentException("Imagem é obrigatória")
+            }
+
+            val specieNamePart = pet.specieName.toTextRequestBody()
+            val petNamePart = pet.petName.toTextRequestBody()
+            val genderPart = pet.gender.toTextRequestBody()
+            val breedNamePart = pet.breedName.toTextRequestBody()
+            val sizePart = pet.size.toTextRequestBody()
+            val castratedPart = pet.castrated.toTextRequestBody()
+            val dateOfBirthPart = pet.dateOfBirth.toTextRequestBody()
+
+            val apiResponse = guardianApi.createPet(
+                token = token,
+                image = imagePart,
+                specieName = specieNamePart,
+                petName = petNamePart,
+                gender = genderPart,
+                breedName = breedNamePart,
+                size = sizePart,
+                castrated = castratedPart,
+                dateOfBirth = dateOfBirthPart
+            )
+
             var result: NetworkResult<PetDetailsDTO> = NetworkResult.Error(0, null)
 
             apiResponse
@@ -219,9 +265,10 @@ class GuardianRepositoryImpl(
                 .onException { throwable ->
                     result = NetworkResult.Exception(throwable)
                 }
-            return result
-        }.run {
-            return NetworkResult.Exception(Throwable("Token não encontrado"))
+
+            result
+        } catch (e: Exception) {
+            NetworkResult.Exception(e)
         }
     }
 }

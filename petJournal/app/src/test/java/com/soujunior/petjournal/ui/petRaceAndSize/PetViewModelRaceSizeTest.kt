@@ -382,7 +382,7 @@ class PetViewModelRaceSizeTest {
         // TODO: corrigir esse caso de teste
 //        perInformation.idLocal?.let { viewModelTest.getPetInformation(it) }
 
-        assertEquals(perInformation.name, viewModelTest.state.name)
+        assertEquals(perInformation.petName, viewModelTest.state.name)
         assertEquals(perInformation.gender, viewModelTest.state.gender)
         assertEquals(perInformation.id, viewModelTest.state.idPetInformation)
         assertEquals(perInformation.species, viewModelTest.state.specie)

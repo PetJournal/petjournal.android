@@ -10,12 +10,15 @@ import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.pet.PetInformationResponse
 import com.soujunior.domain.model.response.pet.PetResponse
 import com.soujunior.domain.network.NetworkResult
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 interface GuardianService {
@@ -37,7 +40,14 @@ interface GuardianService {
     @POST("api/pet")
     suspend fun createPet(
         @Header("Authorization") token: String,
-        @Body pet: PetCreateDTO
+        @Part image: MultipartBody.Part,
+        @Part("specieName") specieName: RequestBody,
+        @Part("petName") petName: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("breedName") breedName: RequestBody,
+        @Part("size") size: RequestBody,
+        @Part("castrated") castrated: RequestBody,
+        @Part("dateOfBirth") dateOfBirth: RequestBody
     ): NetworkResult<PetDetailsDTO>
 
     @GET("api/pet")

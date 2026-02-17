@@ -15,12 +15,13 @@ data class StateUI(
     val isLoadingBreeds: Boolean = false,
     val isLoadingSizes: Boolean = false,
     val messageError: String? = null,
+    val petImage: String? = null,
     val petName: String? = null,
     val selectedAnimalType: String? = null,
     val petRace: String? = null,
     val petSize: String? = null,
     val petBirthday: String? = null,
-    val petSex: String? = null,
+    val petGender: String? = null,
     val petCastrated: Boolean? = null,
     val listRaceOnly: List<String> = emptyList(),
     val listRace: List<BreedModel> = emptyList(),
@@ -36,6 +37,20 @@ data class StateUI(
             else -> ""
         }
     }
+
+    fun buildPetModel(): PetModel {
+        return PetModel(
+            petName = this.petName,
+            species = this.selectedAnimalType,
+            gender = this.petGender,
+            petRace = this.petRace,
+            size = this.petSize,
+            weight = null,
+            dateOfBirth = this.petBirthday,
+            castrated = this.petCastrated,
+            image = "",
+        )
+    }
 }
 
 @JvmName("sizeModelListToString")
@@ -49,6 +64,8 @@ fun List<BreedModel>.toList(): List<String> {
 }
 
 sealed class CreatePetEvent {
+    data class OnInputImage(val image: String) : CreatePetEvent()
+
     data class OnInputName(val name: String) : CreatePetEvent()
 
     data class OnTypeSelected(val type: String) : CreatePetEvent()

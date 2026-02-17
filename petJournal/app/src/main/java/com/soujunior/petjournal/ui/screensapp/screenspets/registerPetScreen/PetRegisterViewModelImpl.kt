@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen
 
 import androidx.lifecycle.viewModelScope
+import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.use_case.pet.CreatePetUseCase
 import com.soujunior.domain.use_case.pet.GetListBreedUseCase
 import com.soujunior.domain.use_case.pet.GetListSizeUseCase
@@ -33,6 +34,9 @@ class PetRegisterViewModelImpl(
             is CreatePetEvent.OnInputName -> {
                 _stateUi.value = _stateUi.value.copy(petName = event.name)
             }
+            is CreatePetEvent.OnInputImage -> {
+                _stateUi.value = _stateUi.value.copy(petName = event.image)
+            }
             is CreatePetEvent.OnTypeSelected -> {
                 _stateUi.value =
                     _stateUi.value.copy(
@@ -55,13 +59,13 @@ class PetRegisterViewModelImpl(
                 _stateUi.value = _stateUi.value.copy(petBirthday = event.birthday)
             }
             is CreatePetEvent.OnInputSex -> {
-                _stateUi.value = _stateUi.value.copy(petSex = event.sex)
+                _stateUi.value = _stateUi.value.copy(petGender = event.sex)
             }
             is CreatePetEvent.OnInputCastrated -> {
                 _stateUi.value = _stateUi.value.copy(petCastrated = event.isCastrated)
             }
             is CreatePetEvent.OnSubmit -> {
-                createPet()
+                createPet(stateUi.value.buildPetModel())
             }
         }
     }
@@ -115,26 +119,24 @@ class PetRegisterViewModelImpl(
         }
     }
 
-    private fun createPet() {
+    private fun createPet(pet: PetModel) {
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
-            _stateUi.value.pet?.let { pet ->
-                val result = createPetUseCase.execute(pet)
-                result.handleResult(
-                    {
-                        _taskState.value = TaskState.Idle
-                        _stateUi.value = _stateUi.value.copy(showDialogSuccess = true)
-                    },
-                    {
-                        _taskState.value = TaskState.Idle
-                        _stateUi.value =
-                            _stateUi.value.copy(
-                                showDialogError = true,
-                                messageError = it?.message.toString(),
-                            )
-                    },
-                )
-            }
+            val result = createPetUseCase.execute(pet)
+            result.handleResult(
+                {
+                    _taskState.value = TaskState.Idle
+                    _stateUi.value = _stateUi.value.copy(showDialogSuccess = true)
+                },
+                {
+                    _taskState.value = TaskState.Idle
+                    _stateUi.value =
+                        _stateUi.value.copy(
+                            showDialogError = true,
+                            messageError = it?.message.toString(),
+                        )
+                },
+            )
         }
     }
 }

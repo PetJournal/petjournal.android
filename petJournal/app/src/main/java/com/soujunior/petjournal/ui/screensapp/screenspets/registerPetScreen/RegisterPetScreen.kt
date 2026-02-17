@@ -234,8 +234,8 @@ fun RegisterPetScreen(navController: NavController) {
                                         )
                                     }
                                     DualActionButton(
-                                        isLeftSelected = state.value.petSex == "M",
-                                        isRightSelected = state.value.petSex == "F",
+                                        isLeftSelected = state.value.petGender == "M",
+                                        isRightSelected = state.value.petGender == "F",
                                         leftButtonText = stringResource(R.string.male),
                                         rightButtonText = stringResource(R.string.female),
                                         leftButtonSubmit = {

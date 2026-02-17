@@ -40,7 +40,7 @@ class BirthDateViewModelImpl(
             state.copy(
                 idPetInformation = petModel.id,
                 specie = petModel.species ?: "",
-                name = petModel.name ?: "",
+                name = petModel.petName ?: "",
                 gender = petModel.gender ?: "",
                 size = petModel.size ?: "",
                 race = petModel.petRace ?: "",
@@ -124,7 +124,7 @@ class BirthDateViewModelImpl(
                 PetModel(
                     id = state.idPetInformation ?: 0L,
                     species = state.specie,
-                    name = state.name,
+                    petName = state.name,
                     gender = state.gender,
                     size = state.size,
                     petRace = state.race,
@@ -144,7 +144,7 @@ class BirthDateViewModelImpl(
                 PetModel(
                     id = state.idPetInformation ?: 0L,
                     species = state.specie,
-                    name = state.name,
+                    petName = state.name,
                     gender = state.gender,
                     size = state.size,
                     petRace = state.race,

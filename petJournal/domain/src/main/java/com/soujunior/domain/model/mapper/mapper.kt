@@ -28,7 +28,7 @@ fun PetDetailsDTO.toPetModel(): PetModel {
     return PetModel(
         id = this.id?.toLongOrNull() ?: 0L,
         species = this.specieAlias ?: this.specie?.name,
-        name = this.petName,
+        petName = this.petName,
         gender = this.gender,
         size = this.size?.name,
         petRace = this.breedAlias ?: this.breed?.name,

@@ -6,8 +6,8 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 data class PetModel(
-    val id: Long,
-    val name: String? = null,
+    val id: Long = 0,
+    val petName: String? = null,
     val species: String? = null,
     val petRace: String? = null,
     val size: String? = null,
@@ -34,7 +34,7 @@ data class PetFormRequest(
 fun PetModel.toFormRequest(): PetFormRequest {
     return PetFormRequest(
         specieName = this.species ?: "",
-        petName = this.name ?: "",
+        petName = this.petName ?: "",
         breedName = this.petRace ?: "",
 
         size = this.size ?: "",
@@ -50,13 +50,12 @@ fun PetModel.toFormRequest(): PetFormRequest {
 fun PetModel.toDTO(): PetCreateDTO {
     return PetCreateDTO(
         specieName = this.species ?: "",
-        petName = this.name ?: "",
+        petName = this.petName ?: "",
         gender = if (this.gender?.equals("M", ignoreCase = true) == true) "M" else "F",
         breedName = this.petRace ?: "",
         size = this.size ?: "",
         castrated = this.castrated ?: false,
         dateOfBirth = formatDateToBackend(this.dateOfBirth),
-
         image = this.image
     )
 }
@@ -69,7 +68,7 @@ fun PetDetailsDTO.toPetModel(): PetModel {
     return PetModel(
         id = this.id?.toLongOrNull() ?: this.id?.hashCode()?.toLong() ?: 0L,
         species = this.specie?.name ?: this.specieAlias,
-        name = this.petName,
+        petName = this.petName,
         gender = this.gender,
         size = this.size?.name,
         castrated = this.castrated,

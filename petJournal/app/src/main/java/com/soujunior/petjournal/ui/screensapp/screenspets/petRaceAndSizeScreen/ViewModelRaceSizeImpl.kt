@@ -53,7 +53,7 @@ class ViewModelRaceSizeImpl(
             state.copy(
                 specie = petModel.species ?: "",
                 idPetInformation = petModel.id,
-                name = petModel.name ?: "",
+                name = petModel.petName ?: "",
                 gender = petModel.gender ?: "",
             )
         viewModelScope.launch {
@@ -201,7 +201,7 @@ class ViewModelRaceSizeImpl(
                 PetModel(
                     id = state.idPetInformation ?: 0L,
                     species = state.specie,
-                    name = state.name,
+                    petName = state.name,
                     gender = state.gender,
                     size = state.size,
                     petRace = petRace,

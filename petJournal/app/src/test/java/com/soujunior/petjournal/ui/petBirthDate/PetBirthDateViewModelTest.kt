@@ -283,7 +283,7 @@ class PetBirthDateViewModelTest {
             )
         viewModelTest.getPetInformation(perInformation.id)
 
-        assertEquals(perInformation.name, viewModelTest.state.name)
+        assertEquals(perInformation.petName, viewModelTest.state.name)
         assertEquals(perInformation.gender, viewModelTest.state.gender)
         assertEquals(perInformation.id, viewModelTest.state.idPetInformation)
         assertEquals(perInformation.species, viewModelTest.state.specie)

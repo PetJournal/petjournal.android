@@ -132,7 +132,7 @@ fun PetListScreen(navController: NavController) {
                                             "construction-web-template-flat-style_" +
                                             "23-2147774304.jpg?semt=ais_hybrid&w=740&q=80"
                                             ?: "sem link",
-                                    name = pet.name ?: "sem nome",
+                                    name = pet.petName ?: "sem nome",
                                     onClick = {},
                                 )
                             }

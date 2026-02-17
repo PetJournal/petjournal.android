@@ -120,7 +120,7 @@ class ViewModelNameGenderImpl(
                 PetModel(
                     id = state.idPetInformation ?: 0L,
                     species = state.specie,
-                    name = state.name,
+                    petName = state.name,
                     gender = state.gender,
                     guardianId = 1,
                 )
