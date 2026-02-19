@@ -49,7 +49,7 @@ fun PetModel.toFormRequest(): PetFormRequest {
 
 fun PetModel.toDTO(): PetCreateDTO {
     return PetCreateDTO(
-        specieName = this.species ?: "",
+        specieName = this.species?.lowercase()?.replaceFirstChar { it.uppercase() } ?: "",
         petName = this.petName ?: "",
         gender = if (this.gender?.equals("M", ignoreCase = true) == true) "M" else "F",
         breedName = this.petRace ?: "",
@@ -58,6 +58,20 @@ fun PetModel.toDTO(): PetCreateDTO {
         dateOfBirth = formatDateToBackend(this.dateOfBirth),
         image = this.image
     )
+}
+
+fun formatDateToBackend(dateOfBirth: String?): String {
+    if (dateOfBirth.isNullOrBlank() || dateOfBirth.length < 8) return ""
+
+    return try {
+        val day = dateOfBirth.substring(0, 2)
+        val month = dateOfBirth.substring(2, 4)
+        val year = dateOfBirth.substring(4, 8)
+
+        "${year}-${month}-${day}T00:00:00Z"
+    } catch (e: Exception) {
+        ""
+    }
 }
 
 fun List<PetDetailsDTO>.toPetModelList(): List<PetModel> {
@@ -97,23 +111,5 @@ private fun calculateAge(dateString: String): String {
         }
     } catch (e: Exception) {
         e.message.toString()
-    }
-}
-
-fun formatDateToBackend(dateString: String?): String {
-    if (dateString.isNullOrBlank()) return ""
-
-    return try {
-        if (dateString.contains("T")) {
-            ZonedDateTime.parse(dateString).toLocalDate().toString()
-        } else if (dateString.contains("/")) {
-            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-            LocalDate.parse(dateString, formatter).toString()
-        } else {
-            dateString
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-        dateString ?: ""
     }
 }

@@ -85,7 +85,6 @@ import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
-import com.soujunior.petjournal.ui.components.SuccessDialog
 import com.soujunior.petjournal.ui.components.mask.formatDate
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.ColorCustom
@@ -150,7 +149,12 @@ fun RegisterPetScreen(navController: NavController) {
                         contentPadding = PaddingValues(horizontal = 24.sdp),
                         content = {
                             item {
-                                ImagePet()
+                                ImagePet(
+                                    imagePath = state.value.petImage,
+                                    onImageChanged = { newPath ->
+                                        viewModel.onEvent(CreatePetEvent.OnInputImage(newPath))
+                                    },
+                                )
                             }
                             item {
                                 InputText(
@@ -289,21 +293,21 @@ fun RegisterPetScreen(navController: NavController) {
                             }
                         },
                     )
-                    if (state.value.showDialogSuccess) {
-                        SuccessDialog(
-                            title = stringResource(R.string.companion_added_successfully),
-                            onButtonBottomClick = {},
-                            onButtonTopClick = {},
-                        )
-                    }
-                    if (state.value.showDialogError) {
-                        SuccessDialog(
-                            title = stringResource(R.string.error_occurred_while_adding_the_companion),
-                            textBottomButton = stringResource(R.string.return_button_text),
-                            onButtonBottomClick = {},
-                            subText = state.value.messageError,
-                        )
-                    }
+//                    if (state.value.showDialogSuccess) {
+//                        SuccessDialog(
+//                            title = stringResource(R.string.companion_added_successfully),
+//                            onButtonBottomClick = {},
+//                            onButtonTopClick = {},
+//                        )
+//                    }
+//                    if (state.value.showDialogError) {
+//                        SuccessDialog(
+//                            title = stringResource(R.string.error_occurred_while_adding_the_companion),
+//                            textBottomButton = stringResource(R.string.return_button_text),
+//                            onButtonBottomClick = {},
+//                            subText = state.value.messageError,
+//                        )
+//                    }
                 }
             },
         )
@@ -378,9 +382,6 @@ fun DateInputTextPreview() {
             placeholderText = stringResource(R.string.placeholder_text_DD_MM_YYYY),
             textValue = "",
             onEvent = { },
-            // visualTransformation = { date ->
-            //     formatDate(date)
-            // }
         )
     }
 }

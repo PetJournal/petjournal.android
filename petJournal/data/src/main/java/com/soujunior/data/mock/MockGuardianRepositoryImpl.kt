@@ -34,7 +34,7 @@ class MockGuardianRepositoryImpl(): GuardianRepository {
 
     override suspend fun createPet(
         pet: PetCreateDTO,
-        imageFile: File?
+        imageUri: String?
     ): NetworkResult<PetDetailsDTO> {
         TODO("Not yet implemented")
     }

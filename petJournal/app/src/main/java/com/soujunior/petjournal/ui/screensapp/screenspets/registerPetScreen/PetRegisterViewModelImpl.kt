@@ -35,7 +35,7 @@ class PetRegisterViewModelImpl(
                 _stateUi.value = _stateUi.value.copy(petName = event.name)
             }
             is CreatePetEvent.OnInputImage -> {
-                _stateUi.value = _stateUi.value.copy(petName = event.image)
+                _stateUi.value = _stateUi.value.copy(petImage = event.image)
             }
             is CreatePetEvent.OnTypeSelected -> {
                 _stateUi.value =

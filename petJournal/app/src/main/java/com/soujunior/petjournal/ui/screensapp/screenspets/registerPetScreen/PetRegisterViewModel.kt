@@ -48,7 +48,7 @@ data class StateUI(
             weight = null,
             dateOfBirth = this.petBirthday,
             castrated = this.petCastrated,
-            image = "",
+            image = this.petImage,
         )
     }
 }

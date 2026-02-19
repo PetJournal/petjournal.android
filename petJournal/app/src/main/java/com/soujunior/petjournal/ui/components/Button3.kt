@@ -1,10 +1,10 @@
 package com.soujunior.petjournal.ui.components
 
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -25,12 +25,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -38,6 +41,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
+import kotlinx.coroutines.launch
 
 @Composable
 fun Button3(
@@ -54,34 +58,48 @@ fun Button3(
     shape: Shape = RoundedCornerShape(size = 50.dp),
     icon: @Composable (() -> Unit)? = null,
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.95f else 1f,
-        animationSpec = tween(durationMillis = 100),
-        label = "clickScale",
-    )
+    val coroutineScope = rememberCoroutineScope()
+    val scale = remember { Animatable(1f) }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier =
-            modifier
+            Modifier
                 .padding(top = 20.sdp, bottom = 20.sdp)
                 .fillMaxWidth(),
     ) {
         androidx.compose.material3.Button(
             onClick = { submit() },
             enabled = enableButton,
-            interactionSource = interactionSource,
             modifier =
                 modifier
-                    .scale(scale)
+                    .graphicsLayer {
+                        scaleX = scale.value
+                        scaleY = scale.value
+                    }
+                    .pointerInput(enableButton) {
+                        if (enableButton) {
+                            awaitPointerEventScope {
+                                while (true) {
+                                    awaitFirstDown(requireUnconsumed = false)
+                                    coroutineScope.launch {
+                                        scale.animateTo(0.90f, animationSpec = tween(100))
+                                    }
+                                    waitForUpOrCancellation()
+                                    coroutineScope.launch {
+                                        scale.animateTo(1f, animationSpec = tween(100))
+                                    }
+                                }
+                            }
+                        }
+                    }
                     .width(120.sdp)
                     .shadow(
                         elevation = 15.dp,
                         spotColor = MaterialTheme.colorScheme.onBackground,
                         ambientColor = MaterialTheme.colorScheme.onBackground,
+                        shape = shape,
                     ),
             border =
                 BorderStroke(

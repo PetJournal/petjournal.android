@@ -19,7 +19,7 @@ interface GuardianRepository {
     suspend fun getListSize(animal: String): NetworkResult<List<SizeDTO>>
     suspend fun getListBreed(animal: String): NetworkResult<List<BreedDTO>>
     suspend fun getListPet(): NetworkResult<List<PetDetailsDTO>>
-    suspend fun createPet(pet: PetCreateDTO, imageFile: File?): NetworkResult<PetDetailsDTO>
+    suspend fun createPet(pet: PetCreateDTO, imageUri: String?): NetworkResult<PetDetailsDTO>
 
     suspend fun getPet(idPet: Long): DataResult<PetModel>
     suspend fun updatePet(petModel: PetModel) : DataResult<Unit>

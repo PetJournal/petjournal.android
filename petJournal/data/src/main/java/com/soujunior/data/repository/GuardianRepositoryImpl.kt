@@ -2,6 +2,7 @@ package com.soujunior.data.repository
 
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import com.soujunior.data.remote.GuardianService
 import com.soujunior.data.util.manager.JwtManager
@@ -25,11 +26,12 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.io.FileOutputStream
 
 class GuardianRepositoryImpl(
     private val guardianApi: GuardianService,
     private val guardianLocalDataSourceImpl: GuardianLocalDataSource,
-    context: Context
+    private val context: Context
 ) : GuardianRepository {
 
     private val jwtManager: JwtManager = JwtManager.getInstance(context)
@@ -220,15 +222,16 @@ class GuardianRepositoryImpl(
         return RequestBody.create(mediaType, content)
     }
 
-    override suspend fun createPet(pet: PetCreateDTO, imageFile: File?): NetworkResult<PetDetailsDTO> {
+    override suspend fun createPet(pet: PetCreateDTO, imageUri: String?): NetworkResult<PetDetailsDTO> {
         val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
 
         return try {
-            val imagePart: MultipartBody.Part = if (imageFile != null && imageFile.exists()) {
-                val mediaType = MediaType.parse("image/*")
-                val requestFile = RequestBody.create(mediaType, imageFile)
+            val imageFile = imageUri?.let { getFileFromUri(context = context, Uri.parse(it)) }
 
-                MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
+            val imagePart: okhttp3.MultipartBody.Part = if (imageFile != null && imageFile.exists()) {
+                val mediaType = okhttp3.MediaType.parse("image/*")
+                val requestFile = okhttp3.RequestBody.create(mediaType, imageFile)
+                okhttp3.MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
             } else {
                 throw IllegalArgumentException("Imagem é obrigatória")
             }
@@ -238,7 +241,7 @@ class GuardianRepositoryImpl(
             val genderPart = pet.gender.toTextRequestBody()
             val breedNamePart = pet.breedName.toTextRequestBody()
             val sizePart = pet.size.toTextRequestBody()
-            val castratedPart = pet.castrated.toTextRequestBody()
+            val castratedPart = pet.castrated.toString().toTextRequestBody()
             val dateOfBirthPart = pet.dateOfBirth.toTextRequestBody()
 
             val apiResponse = guardianApi.createPet(
@@ -269,6 +272,24 @@ class GuardianRepositoryImpl(
             result
         } catch (e: Exception) {
             NetworkResult.Exception(e)
+        }
+    }
+
+    private fun getFileFromUri(context: Context, uri: Uri): File? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri) ?: return null
+            val tempFile = File(context.cacheDir, "temp_pet_image_${System.currentTimeMillis()}.jpg")
+            val outputStream = FileOutputStream(tempFile)
+
+            inputStream.copyTo(outputStream)
+
+            inputStream.close()
+            outputStream.close()
+
+            tempFile
+        } catch (e: Exception) {
+            Log.e("GuardianRepository", "Falha ao converter URI para File", e)
+            null
         }
     }
 }

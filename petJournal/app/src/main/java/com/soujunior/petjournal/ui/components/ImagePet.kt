@@ -7,6 +7,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,7 +19,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -28,6 +28,7 @@ import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -43,6 +44,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import com.soujunior.petjournal.R
@@ -62,7 +64,6 @@ fun ImagePet(
     var showSelectionDialog by remember { mutableStateOf(false) }
     var tempPhotoUri by remember { mutableStateOf<Uri?>(null) }
 
-    // --- LAUNCHERS (Câmera e Galeria) ---
     val galleryLauncher =
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.GetContent(),
@@ -79,7 +80,6 @@ fun ImagePet(
             }
         }
 
-    // Função para criar arquivo temporário
     fun createImageUri(): Uri {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -87,31 +87,52 @@ fun ImagePet(
         return FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
     }
 
-    // --- DIALOG DE SELEÇÃO ---
     if (showSelectionDialog) {
         AlertDialog(
             onDismissRequest = { showSelectionDialog = false },
-            title = { Text("Selecionar Imagem") },
+            title = {
+                Text(
+                    text = "Selecionar Imagem",
+                    style = MaterialTheme.typography.labelMedium,
+                )
+            },
             text = {
                 Column {
                     ListItem(
                         headlineContent = { Text("Tirar Foto") },
                         leadingContent = { Icon(Icons.Default.CameraAlt, null) },
                         modifier =
-                            Modifier.clickable {
-                                showSelectionDialog = false
-                                tempPhotoUri = createImageUri()
-                                cameraLauncher.launch(tempPhotoUri)
-                            },
+                            Modifier
+                                .clip(RoundedCornerShape(12.dp))
+                                .clickable {
+                                    showSelectionDialog = false
+                                    tempPhotoUri = createImageUri()
+                                    cameraLauncher.launch(tempPhotoUri)
+                                },
+                        colors =
+                            ListItemDefaults.colors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                leadingIconColor = MaterialTheme.colorScheme.onPrimary,
+                                headlineColor = MaterialTheme.colorScheme.onPrimary,
+                            ),
                     )
+                    Spacer(modifier = Modifier.height(8.dp))
                     ListItem(
                         headlineContent = { Text("Galeria") },
                         leadingContent = { Icon(Icons.Default.PhotoLibrary, null) },
                         modifier =
-                            Modifier.clickable {
-                                showSelectionDialog = false
-                                galleryLauncher.launch("image/*")
-                            },
+                            Modifier
+                                .clip(RoundedCornerShape(12.dp))
+                                .clickable {
+                                    showSelectionDialog = false
+                                    galleryLauncher.launch("image/*")
+                                },
+                        colors =
+                            ListItemDefaults.colors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                leadingIconColor = MaterialTheme.colorScheme.onPrimary,
+                                headlineColor = MaterialTheme.colorScheme.onPrimary,
+                            ),
                     )
                 }
             },
@@ -121,7 +142,6 @@ fun ImagePet(
         )
     }
 
-    // --- UI PRINCIPAL ---
     Row(
         modifier =
             modifier
@@ -133,21 +153,24 @@ fun ImagePet(
             modifier = Modifier.weight(2f),
             horizontalAlignment = Alignment.End,
         ) {
+            val shape = RoundedCornerShape(16.dp)
+            val imageSize = 150.dp
+
             Box(
+                contentAlignment = Alignment.Center,
                 modifier =
                     Modifier
-                        .width(150.dp)
-                        .height(153.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(
-                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                            shape = RoundedCornerShape(16.dp),
+                        .size(imageSize)
+                        .border(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
+                            shape = shape,
                         )
+                        .clip(shape)
+                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
                         .clickable { showSelectionDialog = true },
-                contentAlignment = Alignment.Center,
             ) {
                 if (!imagePath.isNullOrEmpty()) {
-                    // 1. USO DO SEU COMPONENTE PERSONALIZADO
                     GlideImage(
                         context = context,
                         url = imagePath,
@@ -155,7 +178,6 @@ fun ImagePet(
                         modifier = Modifier.fillMaxSize(),
                     )
                 } else {
-                    // 2. PLACEHOLDER (Sem Imagem)
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center,
@@ -175,7 +197,6 @@ fun ImagePet(
                     }
                 }
 
-                // Ícone de Editar (Lápis) - Visível apenas se tiver imagem
                 if (!imagePath.isNullOrEmpty()) {
                     Box(
                         modifier =
@@ -199,7 +220,6 @@ fun ImagePet(
             }
         }
 
-        // Botão de Deletar (Lixeira)
         Column(
             modifier = Modifier.weight(1f),
             horizontalAlignment = Alignment.End,
@@ -211,7 +231,6 @@ fun ImagePet(
                             .clip(CircleShape)
                             .padding(end = 24.sdp)
                             .clickable { onImageChanged("") },
-                    // Limpa a imagem
                 ) {
                     Image(
                         modifier = Modifier.size(24.dp),
@@ -222,5 +241,33 @@ fun ImagePet(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ImagePetDialogPreview() {
+    MaterialTheme {
+        AlertDialog(
+            onDismissRequest = { },
+            title = { Text("Selecionar Imagem") },
+            text = {
+                Column {
+                    ListItem(
+                        headlineContent = { Text("Tirar Foto") },
+                        leadingContent = { Icon(Icons.Default.CameraAlt, null) },
+                        modifier = Modifier.clickable { },
+                    )
+                    ListItem(
+                        headlineContent = { Text("Galeria") },
+                        leadingContent = { Icon(Icons.Default.PhotoLibrary, null) },
+                        modifier = Modifier.clickable { },
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { }) { Text("Cancelar") }
+            },
+        )
     }
 }

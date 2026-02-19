@@ -23,37 +23,37 @@ fun GlideImage(
     AndroidView(
         modifier = modifier,
         factory = { ctx ->
-            ImageView(ctx).apply {
-                this.scaleType = scaleType
-                Glide.with(context)
-                    .load(url)
-                    .listener(
-                        object : RequestListener<Drawable> {
-                            override fun onLoadFailed(
-                                e: GlideException?,
-                                model: Any?,
-                                target: Target<Drawable>?,
-                                isFirstResource: Boolean,
-                            ): Boolean {
-                                onLoadingFinished(false)
-                                return false
-                            }
-
-                            override fun onResourceReady(
-                                resource: Drawable?,
-                                model: Any?,
-                                target: Target<Drawable>?,
-                                dataSource: DataSource?,
-                                isFirstResource: Boolean,
-                            ): Boolean {
-                                onLoadingFinished(true)
-                                return false
-                            }
-                        },
-                    )
-                    .into(this)
-            }
+            ImageView(ctx)
         },
-        update = { /* O Glide gerencia o update internamente */ },
+        update = { imageView ->
+            imageView.scaleType = scaleType
+            Glide.with(context)
+                .load(url)
+                .listener(
+                    object : RequestListener<Drawable> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            isFirstResource: Boolean,
+                        ): Boolean {
+                            onLoadingFinished(false)
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean,
+                        ): Boolean {
+                            onLoadingFinished(true)
+                            return false
+                        }
+                    },
+                )
+                .into(imageView)
+        },
     )
 }
