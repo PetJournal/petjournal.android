@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.components.horizontalButtonList
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,12 +19,14 @@ import androidx.compose.material.icons.sharp.Pets
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.ui.components.CardButton
+import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.shimmerEffect
 
 @Composable
 fun GridButtonList(
@@ -61,6 +64,7 @@ fun GridButtonList(
 fun HorizontalButtonList(
     onItemClick: (String) -> Unit,
     menuItems: List<TagOption>,
+    isLoading: Boolean,
 ) {
     LazyRow(
         contentPadding =
@@ -72,20 +76,33 @@ fun HorizontalButtonList(
             ),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(menuItems) { item ->
-            CardButton(
-                text = item.label,
-                imageColorFilter = ColorFilter.tint(Color.White),
-                textColor = Color.White,
-                shape = RoundedCornerShape(16.dp),
-                modifier =
-                    Modifier
-                        .size(99.dp)
-                        .padding(bottom = 5.dp),
-                image = rememberVectorPainter(image = item.icon),
-                cardColor = item.color,
-                submit = { onItemClick(item.id) },
-            )
+        if (isLoading) {
+            items(4) {
+                Box(
+                    modifier =
+                        Modifier
+                            .size(99.dp)
+                            .padding(bottom = 5.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .shimmerEffect(),
+                )
+            }
+        } else {
+            items(menuItems) { item ->
+                CardButton(
+                    text = item.label,
+                    imageColorFilter = ColorFilter.tint(Color.White),
+                    textColor = Color.White,
+                    shape = RoundedCornerShape(16.dp),
+                    modifier =
+                        Modifier
+                            .size(99.dp)
+                            .padding(bottom = 5.dp),
+                    image = rememberVectorPainter(image = item.icon),
+                    cardColor = item.color,
+                    submit = { onItemClick(item.id) },
+                )
+            }
         }
     }
 }
@@ -112,6 +129,7 @@ private fun HorizontalButtonListPreview() {
         HorizontalButtonList(
             onItemClick = {},
             menuItems = menuItems,
+            isLoading = false,
         )
     }
 }

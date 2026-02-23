@@ -1,41 +1,46 @@
 package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.PetItem
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.TrailBack
 import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.components.PetItemMore
+import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.shimmerEffect
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
@@ -93,16 +98,64 @@ fun PetListScreen(navController: NavController) {
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = { paddingValues ->
                 if (taskState is TaskState.Loading) {
-                    IndeterminateCircularIndicator(modifier = Modifier.align(CenterHorizontally))
-                } else {
-                    TrailBack()
                     Column(
                         modifier =
                             Modifier
                                 .fillMaxSize()
                                 .background(MaterialTheme.colorScheme.onPrimary)
                                 .padding(paddingValues),
-                        horizontalAlignment = CenterHorizontally,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Box(
+                            modifier =
+                                Modifier
+                                    .padding(top = 20.sdp, bottom = 20.sdp)
+                                    .size(width = 200.sdp, height = 24.sdp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .shimmerEffect(),
+                        )
+
+                        LazyVerticalGrid(
+                            modifier = Modifier.fillMaxWidth(),
+                            columns = GridCells.Fixed(2),
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
+                            items(6) {
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center,
+                                ) {
+                                    Box(
+                                        modifier =
+                                            Modifier
+                                                .size(108.sdp)
+                                                .clip(RoundedCornerShape(16.sdp))
+                                                .shimmerEffect(),
+                                    )
+                                    Box(
+                                        modifier =
+                                            Modifier
+                                                .padding(top = 8.sdp)
+                                                .size(width = 80.sdp, height = 16.sdp)
+                                                .clip(RoundedCornerShape(4.dp))
+                                                .shimmerEffect(),
+                                    )
+                                    Spacer(Modifier.padding(bottom = 24.sdp))
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    TrailBack()
+
+                    Column(
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .background(MaterialTheme.colorScheme.onPrimary)
+                                .padding(paddingValues),
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
                             text = stringResource(R.string.which_pet_do_you_want_to_see),
@@ -114,24 +167,18 @@ fun PetListScreen(navController: NavController) {
                                 ),
                             fontSize = 20.ssp,
                         )
-
                         LazyVerticalGrid(
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             columns = GridCells.Fixed(2),
                             horizontalArrangement = Arrangement.Center,
                         ) {
                             items(state.value.listPets) { pet ->
-                                Log.e(TAG, "Success2: $pet")
-
                                 PetItem(
-                                    // imageRes = pet.image ?: "",
                                     imageRes =
                                         "https://img.freepik.com/free-vector/" +
-                                            "construction-web-template-flat-style_" +
-                                            "23-2147774304.jpg?semt=ais_hybrid&w=740&q=80"
-                                            ?: "sem link",
+                                            "construction-web-template-flat-" +
+                                            "style_23-2147774304.jpg?" +
+                                            "semt=ais_hybrid&w=740&q=80",
                                     name = pet.petName ?: "sem nome",
                                     onClick = {},
                                 )

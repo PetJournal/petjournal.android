@@ -30,6 +30,7 @@
     <string name="services">Serviços</string>
     <string name="see_more">Ver mais</string>
     <string name="logout">Logout</string>
+    <string name="wellcome">Seja Bem-vindo!</string>
     <string name="leaving">Saindo</string>
     <string name="welcome_message">Sabemos o quanto o seu pet é especial, e estamos muito animados em recebê-los, venha se juntar a nossa comunidade de amantes de Pets, para melhor aproveitar a nossa plataforma.</string>
     <string name="menu_description">Menu</string>
@@ -110,7 +111,7 @@
     <string name="user_not_found">401 -> Not found: User not found</string>
     <string name="Unauthorized">401 -> Unauthorized</string>
     <string name="something_went_wrong_try_again_later">Algo deu errado...Tente de novo mais tarde!</string>
-    <string name="placeholder_name_pet">Felicia Vasconcelos</string>
+    <string name="placeholder_name_pet">Paola Bracho</string>
     <string name="edit_pet_data">Editar dados do Pet</string>
     <string name="description_edit_icon">Edit Icon</string>
     <string name="description_pet_icon">Pet Icon</string>
@@ -206,4 +207,5 @@
     <string name="error_occurred_while_adding_the_companion">Ocorreu um erro ao adicionar o companheiro</string>
     <string name="return_button_text">Voltar</string>
     <string name="eg_cachorro">eg: cachorro</string>
+    <string name="reload">Recarregar</string>
 </resources>

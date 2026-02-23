@@ -32,13 +32,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuItemColors
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -300,6 +301,7 @@ fun RegisterPetScreen(navController: NavController) {
 //                            onButtonTopClick = {},
 //                        )
 //                    }
+
 //                    if (state.value.showDialogError) {
 //                        SuccessDialog(
 //                            title = stringResource(R.string.error_occurred_while_adding_the_companion),
@@ -637,13 +639,25 @@ private fun DropDown(
                     ) {
                         dropdownItems?.forEach { item ->
                             DropdownMenuItem(
+                                text = {
+                                    Text(text = item)
+                                },
                                 onClick = {
                                     isDropdownExpanded = false
                                     onEvent(item)
                                 },
-                            ) {
-                                Text(text = item)
-                            }
+                                enabled = true,
+                                colors =
+                                    MenuItemColors(
+                                        textColor = MaterialTheme.colorScheme.onSurface,
+                                        leadingIconColor = MaterialTheme.colorScheme.onSurface,
+                                        trailingIconColor = MaterialTheme.colorScheme.onSurface,
+                                        disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                                        disabledLeadingIconColor = MaterialTheme.colorScheme.onSurface,
+                                        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurface,
+                                    ),
+                                contentPadding = PaddingValues(horizontal = 10.sdp),
+                            )
                         }
                     }
                 }

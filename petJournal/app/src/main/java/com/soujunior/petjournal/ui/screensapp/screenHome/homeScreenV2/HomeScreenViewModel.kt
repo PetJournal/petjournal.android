@@ -8,9 +8,6 @@ import androidx.compose.material.icons.filled.LocalHospital
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Spa
 import androidx.compose.material.icons.rounded.Apps
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.soujunior.domain.model.response.GuardianNameResponse
@@ -41,18 +38,18 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 class FakeHomeViewModel : HomeScreenViewModel() {
-    override var state by mutableStateOf(HomeState())
+    override val state = MutableStateFlow(HomeState())
 
     override val validationEventChannel = Channel<ValidationEvent>()
     override val message = MutableStateFlow("Mensagem de Teste")
 
     override fun success(name: GuardianNameResponse) {}
 
-    override fun getData() {
-        state =
-            state.copy(
-                name = "Jorge Garcia",
-                getNameError = false,
+    override fun getGuardianName() {
+        state.value =
+            state.value.copy(
+                nameUser = "Jorge Garcia",
+                hasErrorOnNameUser = false,
                 menuItems =
                     listOf(
                         TagOption(
@@ -102,11 +99,13 @@ class FakeHomeViewModel : HomeScreenViewModel() {
             )
     }
 
+    override fun onEvent(event: HomeEvent) {
+        TODO("Not yet implemented")
+    }
+
     override fun logout() {}
 
     override val validationEvents = emptyFlow<ValidationEvent>()
-    override val name: StateFlow<GuardianNameResponse> =
-        MutableStateFlow(GuardianNameResponse("Jorge", ""))
 
     override val taskState = MutableStateFlow<TaskState>(TaskState.Idle)
 
@@ -114,19 +113,22 @@ class FakeHomeViewModel : HomeScreenViewModel() {
     }
 }
 
+sealed class HomeEvent {
+    object ReloadListPet : HomeEvent()
+}
+
 abstract class HomeScreenViewModel : ViewModel() {
     abstract val taskState: StateFlow<TaskState>
-    abstract var state: HomeState
+    abstract val state: StateFlow<HomeState>
     abstract val validationEventChannel: Channel<ValidationEvent>
-    open val validationEvents: Flow<ValidationEvent>
-        get() = validationEventChannel.receiveAsFlow()
-
-    abstract val name: StateFlow<GuardianNameResponse>
+    open val validationEvents: Flow<ValidationEvent> get() = validationEventChannel.receiveAsFlow()
     abstract val message: StateFlow<String>
 
     abstract fun success(name: GuardianNameResponse)
 
-    abstract fun getData()
+    abstract fun getGuardianName()
+
+    abstract fun onEvent(event: HomeEvent)
 
     abstract fun logout()
 

@@ -228,10 +228,10 @@ class GuardianRepositoryImpl(
         return try {
             val imageFile = imageUri?.let { getFileFromUri(context = context, Uri.parse(it)) }
 
-            val imagePart: okhttp3.MultipartBody.Part = if (imageFile != null && imageFile.exists()) {
-                val mediaType = okhttp3.MediaType.parse("image/*")
-                val requestFile = okhttp3.RequestBody.create(mediaType, imageFile)
-                okhttp3.MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
+            val imagePart: MultipartBody.Part = if (imageFile != null && imageFile.exists()) {
+                val mediaType = MediaType.parse("image/*")
+                val requestFile = RequestBody.create(mediaType, imageFile)
+                MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
             } else {
                 throw IllegalArgumentException("Imagem é obrigatória")
             }
@@ -246,7 +246,7 @@ class GuardianRepositoryImpl(
 
             val apiResponse = guardianApi.createPet(
                 token = token,
-                image = imagePart,
+//                image = imagePart,
                 specieName = specieNamePart,
                 petName = petNamePart,
                 gender = genderPart,

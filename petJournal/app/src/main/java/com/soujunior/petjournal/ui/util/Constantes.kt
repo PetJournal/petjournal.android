@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.util
 object Constantes {
     val allTagsId = "all_tags_option"
     val allTagsLabel = "Todos"
+
     val vacineTagId = "tag_vaccine_option"
     val vacineTagLabel = "Vacinas"
 

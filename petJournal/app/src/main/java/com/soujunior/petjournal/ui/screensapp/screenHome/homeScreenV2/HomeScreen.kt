@@ -1,6 +1,8 @@
 package com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -32,7 +34,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,7 +41,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -48,11 +48,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.soujunior.domain.model.response.pet.PetResponse
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.NavigationBar
@@ -67,11 +67,7 @@ import com.soujunior.petjournal.ui.components.horizontalButtonList.HorizontalBut
 import com.soujunior.petjournal.ui.components.horizontalButtonList.TagOption
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.components.Carousel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TaskDateComponent
-import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
-import com.soujunior.petjournal.ui.util.Constantes.allTagsId
-import com.soujunior.petjournal.ui.util.ValidationEvent
-import com.soujunior.petjournal.ui.util.capitalizeFirstLetter
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 import org.koin.androidx.compose.getViewModel
@@ -81,17 +77,11 @@ import org.koin.androidx.compose.getViewModel
 fun HomeScreen(navController: NavController) {
     var showSheet by remember { mutableStateOf(false) }
     val viewModel: HomeScreenViewModel = getCorrectViewModel()
-    viewModel.getData()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val menuItems = state.listTag
 
-    val mockPets = emptyList<PetResponse>()
-
-    val menuItems = viewModel.state.menuItems
     val tasks = emptyList<TaskData>()
 
-    val taskState by viewModel.taskState.collectAsState()
-    val name = remember { mutableStateOf(viewModel.name.value.firstName) }
-
-    val context = LocalContext.current
     val systemUiController = rememberSystemUiController()
 
     LaunchedEffect(Unit) {
@@ -99,21 +89,15 @@ fun HomeScreen(navController: NavController) {
         systemUiController.setNavigationBarColor(Color.Black)
     }
 
-    LaunchedEffect(key1 = context) {
-        viewModel.validationEvents.collect { event ->
-            when (event) {
-                is ValidationEvent.Success -> name.value = viewModel.name.value.firstName
-                is ValidationEvent.Failed ->
-                    name.value =
-                        context.getString(R.string.error_fetching_name)
-            }
-        }
-    }
-
     Column(modifier = Modifier.navigationBarsPadding()) {
         ScaffoldCustom(
-            titleTopBar = stringResource(R.string.hello, name.value.capitalizeFirstLetter()),
-            isLoading = taskState is TaskState.Loading,
+            titleTopBar =
+                if (state.hasErrorOnNameUser) {
+                    stringResource(R.string.wellcome)
+                } else {
+                    stringResource(R.string.hello, state.nameUser.replaceFirstChar { it.uppercaseChar() })
+                },
+            isLoading = state.isLoadingUserName,
             showActions = true,
             shadowBelowTopBar = 0.dp,
             showButtonToReturn = false,
@@ -143,17 +127,27 @@ fun HomeScreen(navController: NavController) {
                         horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.Top,
                     ) {
-                        item {
-                            Carousel(imageIds = viewModel.carouselImages)
-                        }
+                        item { Carousel(imageIds = viewModel.carouselImages) }
 
                         item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
 
                         item {
-                            SectionHeader(title = stringResource(R.string.section_my_pets), showButton = true, onAddClick = {
-                                navController.navigate("pets/registerPet")
-                            })
-                            PetList(pets = mockPets)
+                            if (!state.isLoadingListPet)
+                                {
+                                    SectionHeader(
+                                        title = stringResource(R.string.section_my_pets),
+                                        showButton = true,
+                                        onAddClick = {
+                                            navController.navigate("pets/registerPet")
+                                        },
+                                    )
+                                }
+                            PetList(
+                                pets = state.listPets,
+                                showReloadButton = state.hasErrorOnListPets,
+                                isLoading = state.isLoadingListPet,
+                                onReload = { viewModel.onEvent(HomeEvent.ReloadListPet) },
+                            )
                         }
 
                         if (tasks.isEmpty()) {
@@ -176,16 +170,40 @@ fun HomeScreen(navController: NavController) {
                         }
 
                         item {
-                            SectionHeader(title = stringResource(R.string.section_learn_more))
+                            if (!state.isLoadingListTag) {
+                                SectionHeader(
+                                    title =
+                                        stringResource(R.string.section_learn_more),
+                                )
+                            }
                             HorizontalButtonList(
                                 onItemClick = {
-                                    if (it == allTagsId) {
-                                        showSheet = true
-                                    } else {
-                                        // navega para a rota em questao
+                                    when (it) {
+                                        "all_tags_option" -> {
+                                            showSheet = true
+                                        }
+                                        "tag_vaccine_option" -> {
+                                            Log.e(TAG, "Click")
+                                        }
+                                        "tag_consulta_option" -> {
+                                            Log.e(TAG, "Click")
+                                        }
+                                        "tag_food_option" -> {
+                                            Log.e(TAG, "Click")
+                                        }
+                                        "tag_medication_option" -> {
+                                            Log.e(TAG, "Click")
+                                        }
+                                        "tag_shower_option" -> {
+                                            Log.e(TAG, "Click")
+                                        }
+                                        "tag_goout_option" -> {
+                                            Log.e(TAG, "Click")
+                                        }
                                     }
                                 },
                                 menuItems = menuItems,
+                                isLoading = state.isLoadingListTag,
                             )
                         }
                     }
@@ -195,7 +213,7 @@ fun HomeScreen(navController: NavController) {
                         onDismiss = { showSheet = false },
                     ) {
                         CategoryMenu(
-                            menuItems = menuItems.subList(1, viewModel.state.menuItems.size),
+                            menuItems = state.menuItems,
                             onSelect = { itemSelecionado ->
                                 println("Usuário escolheu: $itemSelecionado")
                                 showSheet = false
@@ -367,27 +385,8 @@ fun HorizontalButtonListPreview() {
             ),
         )
     MaterialTheme {
-        HorizontalButtonList(onItemClick = {}, menuItems = menuItems)
+        HorizontalButtonList(onItemClick = {}, menuItems = menuItems, isLoading = true)
     }
-}
-
-@Preview(showBackground = true, name = "Lista de Pets")
-@Composable
-private fun PreviewPetList() {
-    val mockPets =
-        listOf(
-            PetResponse("Baleia", "url"),
-            PetResponse("Rex", "url"),
-            PetResponse("Nome Muito Longo de Pet", "url"),
-        )
-    PetList(pets = mockPets)
-}
-
-@Preview(showBackground = true, name = "Lista de Pets vazia")
-@Composable
-private fun PreviewPetList2() {
-    val mockPets = emptyList<PetResponse>()
-    PetList(pets = mockPets)
 }
 
 @Preview(showBackground = true)

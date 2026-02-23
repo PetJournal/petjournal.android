@@ -35,7 +35,6 @@ class PetListViewModelImpl(
         viewModelScope.launch {
             val result = getPetListUseCase.execute(Unit)
             result.handleResult({
-                Log.e(TAG, "Success: $it")
                 _state.update { currentState ->
                     currentState.copy(listPets = it)
                 }

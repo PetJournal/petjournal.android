@@ -1,5 +1,8 @@
 package com.soujunior.petjournal.ui.util
 
+import android.util.Log
+import okhttp3.Interceptor
+
 /**
  * isValidLength = will return True if the String field is not Blank, the length of the String
  * is not less than 3 or greater than 30, and if the String field is not empty */
@@ -50,3 +53,20 @@ fun countCharacters(str: String): List<Int> {
     }
     return listOf(digitosMaiusculos, digitosMinusculos, simbolos, numeros)
 }
+
+val timeoutObserverInterceptor =
+    Interceptor { chain ->
+        val request = chain.request()
+        val startTime = System.currentTimeMillis()
+
+        Log.d("NetworkObserver", "➡️ Enviando requisição para: ${request.url()}")
+
+        val response = chain.proceed(request)
+
+        val endTime = System.currentTimeMillis()
+        val duration = endTime - startTime
+
+        Log.d("NetworkObserver", "✅ Resposta de: ${request.url()} recebida em ${duration}ms")
+
+        response
+    }

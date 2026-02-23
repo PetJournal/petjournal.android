@@ -38,11 +38,24 @@ interface GuardianService {
         @Path("petSpecie") petSpecie: String
     ): NetworkResult<List<PetRaceItemModel>>
 
-    @Multipart
     @POST("api/pet")
     suspend fun createPet(
         @Header("Authorization") token: String,
-        @Part image: MultipartBody.Part,
+        @Body image: String = "",
+        @Body specieName: RequestBody,
+        @Body petName: RequestBody,
+        @Body gender: RequestBody,
+        @Body breedName: RequestBody,
+        @Body size: RequestBody,
+        @Body castrated: RequestBody,
+        @Body dateOfBirth: RequestBody
+    ): NetworkResult<PetDetailsDTO>
+
+/** @Multipart
+    @POST("api/pet")
+    suspend fun createPet(
+        @Header("Authorization") token: String,
+        @Part("image") image: MultipartBody.Part,
         @Part("specieName") specieName: RequestBody,
         @Part("petName") petName: RequestBody,
         @Part("gender") gender: RequestBody,
@@ -50,7 +63,7 @@ interface GuardianService {
         @Part("size") size: RequestBody,
         @Part("castrated") castrated: RequestBody,
         @Part("dateOfBirth") dateOfBirth: RequestBody
-    ): NetworkResult<PetDetailsDTO>
+    ): NetworkResult<PetDetailsDTO>*/
 
     @GET("api/pet")
     suspend fun getPetList(

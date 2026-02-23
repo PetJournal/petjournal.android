@@ -18,6 +18,7 @@ class CreatePetUseCase(private val repository: GuardianRepository) :
                 pet = value.toDTO(),
                 imageUri = value.image
             )
+
             when (response) {
                 is NetworkResult.Success -> { DataResult.Success(Unit) }
                 is NetworkResult.Error -> {

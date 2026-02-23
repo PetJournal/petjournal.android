@@ -49,8 +49,8 @@ import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginVi
 import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.RegisterViewModel
 import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.RegisterViewModelImpl
-import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.FakeHomeViewModel
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreenViewModel
+import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashViewModel
 import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModel
 import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.BirthDateViewModel
@@ -65,13 +65,16 @@ import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.PetR
 import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.PetRegisterViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.ViewModelChoiceSpecies
 import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.ViewModelChoiceSpeciesImpl
+import com.soujunior.petjournal.ui.util.timeoutObserverInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 
 val mainModule =
     module {
@@ -122,17 +125,25 @@ val mainModule =
         single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
         single<GuardianService> { get<Retrofit>().create(GuardianService::class.java) }
 
-        // Moshi Converter
         single {
             Moshi.Builder()
                 .add(KotlinJsonAdapterFactory())
                 .build()
         }
 
-        // Retrofit Service
+        single {
+            OkHttpClient.Builder()
+                .addInterceptor(timeoutObserverInterceptor)
+                .connectTimeout(45, TimeUnit.SECONDS)
+                .readTimeout(45, TimeUnit.SECONDS)
+                .writeTimeout(45, TimeUnit.SECONDS)
+                .build()
+        }
+
         single {
             Retrofit.Builder()
                 .baseUrl("https://petjournal-api-pm3z.onrender.com/")
+                .client(get())
                 .addConverterFactory(MoshiConverterFactory.create(get()))
                 .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
                 .build()
@@ -140,11 +151,7 @@ val mainModule =
 
 //        viewModel { (handle: SavedStateHandle) -> CleanerTaskViewModel(savedStateHandle = handle) }
 
-        // ViewModels
-        // todo: HomeScreenViewModel precisa ser implementado devidamente
-        // ele estava sendo usado no modo fake no MockMudulo
-        viewModel<HomeScreenViewModel> { FakeHomeViewModel() }
-        // viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get()) }
+        viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get(), get()) }
 
         viewModel<IntroRegisterPetViewModel> {
             com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModelImpl(
