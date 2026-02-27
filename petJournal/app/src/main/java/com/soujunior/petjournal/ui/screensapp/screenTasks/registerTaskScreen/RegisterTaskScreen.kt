@@ -183,8 +183,8 @@ fun RegisterTaskScreen(navController: NavController) {
                     item {
                         PetFilterList(
                             listPet,
-                            onSelectedPet = {
-                            },
+                            isLoading = true,
+                            onSelectedPet = {},
                         )
                     }
                     item {
