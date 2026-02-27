@@ -159,6 +159,7 @@ fun RegisterTaskScreen(navController: NavController) {
                     }
                     item {
                         InputText(
+                            isLoading = true,
                             modifier = Modifier.testTag("inputFieldTag"),
                             placeholderText = stringResource(R.string.enter_task_name_here),
                             titleText = stringResource(R.string.task_name),

@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -41,6 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.shimmerEffect
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.theme.ColorGrid
 import ir.kaaveh.sdpcompose.sdp
@@ -55,6 +57,7 @@ fun InputText(
     textValue: String,
     isPassword: Boolean = false,
     isError: Boolean = false,
+    isLoading: Boolean = false,
     textError: List<String>? = null,
     onEvent: (String) -> Unit,
     hasAMask: Boolean = false,
@@ -69,12 +72,21 @@ fun InputText(
             Text(
                 text = titleText,
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.scrim,
+                color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.scrim,
                 fontWeight = FontWeight(500),
                 style = MaterialTheme.typography.titleMedium,
                 modifier =
                     textTitleModifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .then(
+                            if (isLoading) {
+                                Modifier
+                                    .clip(RoundedCornerShape(4.dp))
+                                    .shimmerEffect()
+                            } else {
+                                Modifier
+                            },
+                        ),
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -82,40 +94,56 @@ fun InputText(
             BasicTextField(
                 modifier =
                     textInputModifier
-                        .shadow(
-                            elevation = 30.dp,
-                            spotColor = ColorCustom.shadow_color,
-                            ambientColor = ColorCustom.shadow_color,
-                        )
-                        .height(50.dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.surface,
-                            shape = RoundedCornerShape(size = 12.dp),
-                        )
-                        .padding(0.sdp)
-                        .fillMaxWidth()
-                        .testTag("inputField_test")
-                        .drawBehind {
-                            val stroke =
-                                Stroke(
-                                    width = 2.dp.toPx(),
-                                )
-                            drawRoundRect(
-                                color = if (isError) ColorCustom.error_color else ColorGrid.edge_not_selected,
-                                style = stroke,
-                                cornerRadius = CornerRadius(12.dp.toPx()),
-                            )
-                        }
-                        .clip(RoundedCornerShape(10.sdp)),
+                        .then(
+                            if (isLoading) {
+                                Modifier
+                                    .height(50.dp)
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .shimmerEffect()
+                            } else {
+                                Modifier
+                                    .shadow(
+                                        elevation = 30.dp,
+                                        spotColor = ColorCustom.shadow_color,
+                                        ambientColor = ColorCustom.shadow_color,
+                                    )
+                                    .height(50.dp)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.surface,
+                                        shape = RoundedCornerShape(size = 12.dp),
+                                    )
+                                    .padding(0.sdp)
+                                    .fillMaxWidth()
+                                    .testTag("inputField_test")
+                                    .drawBehind {
+                                        val stroke = Stroke(width = 2.dp.toPx())
+                                        drawRoundRect(
+                                            color = if (isError) ColorCustom.error_color else ColorGrid.edge_not_selected,
+                                            style = stroke,
+                                            cornerRadius = CornerRadius(12.dp.toPx()),
+                                        )
+                                    }
+                                    .clip(RoundedCornerShape(10.sdp))
+                            },
+                        ),
                 value = textValue,
                 onValueChange = { text -> onEvent(text) },
+                enabled = !isLoading,
                 singleLine = true,
                 textStyle =
                     TextStyle(
                         fontSize = 14.ssp,
                         lineHeight = 21.ssp,
                         fontWeight = FontWeight(300),
-                        color = if (isSystemInDarkTheme()) ColorCustom.shadow_color else MaterialTheme.colorScheme.onSurface,
+                        color =
+                            if (isLoading) {
+                                Color.Transparent
+                            } else if (isSystemInDarkTheme()) {
+                                ColorCustom.shadow_color
+                            } else {
+                                MaterialTheme.colorScheme.onSurface
+                            },
                     ),
                 maxLines = 1,
                 visualTransformation =
@@ -131,9 +159,7 @@ fun InputText(
                 keyboardOptions = keyboardOptions,
                 decorationBox = { innerTextField ->
                     Row(
-                        modifier =
-                            Modifier
-                                .padding(horizontal = 14.sdp),
+                        modifier = Modifier.padding(horizontal = 14.sdp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Box(
@@ -143,58 +169,60 @@ fun InputText(
                             if (textValue.isEmpty() && !hasAMask) {
                                 Text(
                                     text = placeholderText,
-                                    color = ColorCustom.color_placeholder,
+                                    color = if (isLoading) Color.Transparent else ColorCustom.color_placeholder,
                                     style = MaterialTheme.typography.bodyMedium,
                                 )
                             }
                         }
-                        if (isPassword) {
-                            val iconResource =
-                                if (showPassword) R.drawable.eye_visibility_on else R.drawable.eye_visibility_off
-                            val contentDescription =
-                                if (showPassword) {
-                                    stringResource(R.string.hide_password)
-                                } else {
-                                    stringResource(
-                                        R.string.show_password,
+                        if (!isLoading) {
+                            if (isPassword) {
+                                val iconResource =
+                                    if (showPassword) R.drawable.eye_visibility_on else R.drawable.eye_visibility_off
+                                val contentDescription =
+                                    if (showPassword) {
+                                        stringResource(R.string.hide_password)
+                                    } else {
+                                        stringResource(R.string.show_password)
+                                    }
+
+                                IconButton(onClick = { showPassword = !showPassword }) {
+                                    Icon(
+                                        painter = painterResource(id = iconResource),
+                                        contentDescription = contentDescription,
+                                        tint = MaterialTheme.colorScheme.outline,
                                     )
                                 }
+                            } else if (isError) {
+                                val iconResource = R.drawable.icone_erro
+                                val contentDescription = stringResource(R.string.description_error)
 
-                            IconButton(onClick = { showPassword = !showPassword }) {
                                 Icon(
                                     painter = painterResource(id = iconResource),
                                     contentDescription = contentDescription,
-                                    tint = MaterialTheme.colorScheme.outline,
+                                    tint = ColorCustom.error_color,
+                                    modifier = Modifier.padding(10.sdp),
                                 )
                             }
-                        } else if (isError) {
-                            val iconResource = R.drawable.icone_erro
-                            val contentDescription = stringResource(R.string.description_error)
-
-                            Icon(
-                                painter = painterResource(id = iconResource),
-                                contentDescription = contentDescription,
-                                tint = ColorCustom.error_color,
-                                modifier = Modifier.padding(10.sdp),
-                            )
                         }
                     }
                 },
             )
         }
     }
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start,
-    ) {
-        textError?.forEach {
-            AlertText(
-                textMessage = it,
-                modifier = Modifier.padding(top = 6.sdp, bottom = 6.sdp, start = 10.sdp),
-            )
+    if (!isLoading) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start,
+        ) {
+            textError?.forEach {
+                AlertText(
+                    textMessage = it,
+                    modifier = Modifier.padding(top = 6.sdp, bottom = 6.sdp, start = 10.sdp),
+                )
+            }
         }
     }
 }
