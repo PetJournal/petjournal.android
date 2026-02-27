@@ -132,16 +132,15 @@ fun HomeScreen(navController: NavController) {
                         item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
 
                         item {
-                            if (!state.isLoadingListPet)
-                                {
-                                    SectionHeader(
-                                        title = stringResource(R.string.section_my_pets),
-                                        showButton = true,
-                                        onAddClick = {
-                                            navController.navigate("pets/registerPet")
-                                        },
-                                    )
-                                }
+                            if (!state.isLoadingListPet) {
+                                SectionHeader(
+                                    title = stringResource(R.string.section_my_pets),
+                                    showButton = true,
+                                    onAddClick = {
+                                        navController.navigate("pets/registerPet")
+                                    },
+                                )
+                            }
                             PetList(
                                 pets = state.listPets,
                                 showReloadButton = state.hasErrorOnListPets,

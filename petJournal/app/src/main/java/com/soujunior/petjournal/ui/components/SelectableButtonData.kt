@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -29,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.shimmerEffect
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.util.adaptiveWidthForTitle
 
@@ -37,6 +40,7 @@ fun SelectableButton(
     titleButton: String,
     colorButton: Color,
     isSelected: Boolean,
+    isLoading: Boolean = false,
     modifierSelectableButton: Modifier = Modifier,
     onSelectionChanged: (String, Boolean) -> Unit,
 ) {
@@ -45,7 +49,11 @@ fun SelectableButton(
             modifierSelectableButton
                 .height(40.dp)
                 .then(
-                    if (isSelected) {
+                    if (isLoading) {
+                        Modifier
+                            .clip(RoundedCornerShape(size = 16.dp))
+                            .shimmerEffect()
+                    } else if (isSelected) {
                         Modifier.shadow(
                             elevation = 10.dp,
                             spotColor = ColorCustom.shadow_color_selectable_button,
@@ -55,17 +63,34 @@ fun SelectableButton(
                         Modifier
                     },
                 ),
+        enabled = !isLoading,
         onClick = {
             onSelectionChanged(titleButton, !isSelected)
         },
         colors =
             ButtonDefaults.buttonColors(
-                containerColor = if (isSelected) colorButton else MaterialTheme.colorScheme.onPrimary,
-                contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else colorButton,
+                containerColor =
+                    if (isLoading) {
+                        Color.Transparent
+                    } else if (isSelected) {
+                        colorButton
+                    } else {
+                        MaterialTheme.colorScheme.onPrimary
+                    },
+                contentColor =
+                    if (isLoading) {
+                        Color.Transparent
+                    } else if (isSelected) {
+                        MaterialTheme.colorScheme.onPrimary
+                    } else {
+                        colorButton
+                    },
+                disabledContainerColor = if (isLoading) Color.Transparent else Color.Unspecified,
+                disabledContentColor = if (isLoading) Color.Transparent else Color.Unspecified,
             ),
         shape = RoundedCornerShape(size = 16.dp),
         border =
-            if (!isSelected) {
+            if (!isSelected && !isLoading) {
                 BorderStroke(
                     1.dp,
                     ColorCustom.border_color_selectable_button,
@@ -73,6 +98,7 @@ fun SelectableButton(
             } else {
                 null
             },
+        contentPadding = PaddingValues(0.dp),
     ) {
         Text(
             text = titleButton,
@@ -81,7 +107,14 @@ fun SelectableButton(
                     fontSize = 12.sp,
                     fontFamily = FontFamily(Font(R.font.roboto_medium)),
                     fontWeight = FontWeight(500),
-                    color = if (isSelected) MaterialTheme.colorScheme.onPrimary else colorButton,
+                    color =
+                        if (isLoading) {
+                            Color.Transparent
+                        } else if (isSelected) {
+                            MaterialTheme.colorScheme.onPrimary
+                        } else {
+                            colorButton
+                        },
                     textAlign = TextAlign.Center,
                 ),
         )
@@ -92,11 +125,22 @@ fun SelectableButton(
 @Composable
 fun GroupSelectableButton(
     listOfTasks: List<SelectableButtonInfo>,
+    isLoading: Boolean = false,
     onSelection: (String) -> Unit = {},
     modifier: Modifier = Modifier,
     maxItemsInEachRow: Int = Int.MAX_VALUE,
 ) {
-    val selectionState = remember { mutableStateListOf(*Array(listOfTasks.size) { false }) }
+    val displayTasks =
+        if (isLoading && listOfTasks.isEmpty()) {
+            List(6) { SelectableButtonInfo("", Color.Transparent) }
+        } else {
+            listOfTasks
+        }
+
+    val selectionState =
+        remember(displayTasks.size) {
+            mutableStateListOf(*Array(displayTasks.size) { false })
+        }
 
     Column(
         modifier = modifier,
@@ -105,22 +149,33 @@ fun GroupSelectableButton(
         Text(
             text = stringResource(R.string.label_select_main_category),
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.scrim,
+            color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.scrim,
             fontWeight = FontWeight(500),
             lineHeight = 24.sp,
+            modifier =
+                if (isLoading) {
+                    Modifier
+                        .clip(RoundedCornerShape(4.dp))
+                        .shimmerEffect()
+                } else {
+                    Modifier
+                },
         )
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(15.dp),
-            maxItemsInEachRow = maxItemsInEachRow,
+            maxItemsInEachRow = if (isLoading) 3 else maxItemsInEachRow,
         ) {
-            listOfTasks.forEachIndexed { index, buttonInfo ->
+            displayTasks.forEachIndexed { index, buttonInfo ->
                 SelectableButton(
                     titleButton = buttonInfo.title,
                     colorButton = buttonInfo.color,
-                    isSelected = selectionState[index],
+                    isSelected = if (index < selectionState.size) selectionState[index] else false,
+                    isLoading = isLoading,
                     onSelectionChanged = { title, selected ->
-                        selectionState[index] = selected
+                        if (index < selectionState.size) {
+                            selectionState[index] = selected
+                        }
                         if (selected) {
                             onSelection(title)
                         } else {
@@ -128,9 +183,15 @@ fun GroupSelectableButton(
                         }
                     },
                     modifierSelectableButton =
-                        Modifier
-                            .adaptiveWidthForTitle(buttonInfo.title)
-                            .padding(bottom = 15.dp),
+                        if (isLoading) {
+                            Modifier
+                                .weight(1f)
+                                .padding(bottom = 15.dp)
+                        } else {
+                            Modifier
+                                .adaptiveWidthForTitle(buttonInfo.title)
+                                .padding(bottom = 15.dp)
+                        },
                 )
             }
         }

@@ -152,7 +152,10 @@ fun RegisterTaskScreen(navController: NavController) {
                 contentPadding = PaddingValues(horizontal = 14.sdp),
                 content = {
                     item {
-                        GroupSelectableButton(listOfTasks)
+                        GroupSelectableButton(
+                            listOfTasks,
+                            isLoading = true,
+                        )
                     }
                     item {
                         InputText(
