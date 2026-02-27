@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,11 +26,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.shimmerEffect
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.util.TransactionType
 
 @Composable
-fun TransactionTypeSelector(onSelectionChanged: (TransactionType?) -> Unit) {
+fun TransactionTypeSelector(
+    isLoading: Boolean = false,
+    onSelectionChanged: (TransactionType?) -> Unit,
+) {
     var selectedType by remember { mutableStateOf<TransactionType?>(null) }
 
     val selectedColor = ColorCustom.color_background_month_disabled
@@ -44,11 +48,13 @@ fun TransactionTypeSelector(onSelectionChanged: (TransactionType?) -> Unit) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier,
+            modifier = Modifier.fillMaxWidth(),
         ) {
             ToggleButton(
                 text = stringResource(R.string.label_recurrent),
                 isSelected = selectedType == TransactionType.Recurrent,
+                isLoading = isLoading,
+                modifier = Modifier.weight(1f),
                 onClick = {
                     val newType = TransactionType.Recurrent
                     selectedType = newType
@@ -62,6 +68,8 @@ fun TransactionTypeSelector(onSelectionChanged: (TransactionType?) -> Unit) {
             ToggleButton(
                 text = stringResource(R.string.label_one_off),
                 isSelected = selectedType == TransactionType.OneOff,
+                isLoading = isLoading,
+                modifier = Modifier.weight(1f),
                 onClick = {
                     val newType = TransactionType.OneOff
                     selectedType = newType
@@ -89,27 +97,122 @@ fun ToggleButton(
     selectedColor: Color,
     unselectedColor: Color,
     borderColor: Color,
+    modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
 ) {
     val backgroundColor = if (isSelected) selectedColor else unselectedColor
 
     Box(
         contentAlignment = Alignment.Center,
         modifier =
-            Modifier
-                .width(130.dp).height(50.dp)
-                .clip(RoundedCornerShape(50))
-                .border(1.dp, borderColor, RoundedCornerShape(50))
-                .background(backgroundColor)
-                .clickable { onClick() }
+            modifier
+                .then(
+                    if (isLoading) {
+                        Modifier
+                            .height(50.dp)
+                            .clip(RoundedCornerShape(50))
+                            .shimmerEffect()
+                    } else {
+                        Modifier
+                            .height(50.dp)
+                            .clip(RoundedCornerShape(50))
+                            .border(1.dp, borderColor, RoundedCornerShape(50))
+                            .background(backgroundColor)
+                            .clickable { onClick() }
+                    },
+                )
                 .padding(horizontal = 24.dp, vertical = 12.dp),
     ) {
         Text(
             text = text,
-            color = ColorCustom.color_text_button_transaction_type,
+            color = if (isLoading) Color.Transparent else ColorCustom.color_text_button_transaction_type,
             style = MaterialTheme.typography.titleMedium,
         )
     }
 }
+
+//
+// @Composable
+// fun TransactionTypeSelector(onSelectionChanged: (TransactionType?) -> Unit) {
+//    var selectedType by remember { mutableStateOf<TransactionType?>(null) }
+//
+//    val selectedColor = ColorCustom.color_background_month_disabled
+//    val unselectedColor = MaterialTheme.colorScheme.background
+//    val borderColor = ColorCustom.color_border_button_transaction_type
+//
+//    Column(
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        modifier = Modifier,
+//    ) {
+//        Row(
+//            horizontalArrangement = Arrangement.spacedBy(16.dp),
+//            verticalAlignment = Alignment.CenterVertically,
+//            modifier = Modifier,
+//        ) {
+//            ToggleButton(
+//                text = stringResource(R.string.label_recurrent),
+//                isSelected = selectedType == TransactionType.Recurrent,
+//                onClick = {
+//                    val newType = TransactionType.Recurrent
+//                    selectedType = newType
+//                    onSelectionChanged(newType)
+//                },
+//                selectedColor = selectedColor,
+//                unselectedColor = unselectedColor,
+//                borderColor = if (selectedType == TransactionType.Recurrent) selectedColor else borderColor,
+//            )
+//
+//            ToggleButton(
+//                text = stringResource(R.string.label_one_off),
+//                isSelected = selectedType == TransactionType.OneOff,
+//                onClick = {
+//                    val newType = TransactionType.OneOff
+//                    selectedType = newType
+//                    onSelectionChanged(newType)
+//                },
+//                selectedColor = selectedColor,
+//                unselectedColor = unselectedColor,
+//                borderColor = if (selectedType == TransactionType.OneOff) selectedColor else borderColor,
+//            )
+//        }
+//
+//        if (selectedType == TransactionType.Recurrent) {
+//            onSelectionChanged(selectedType)
+//        } else {
+//            onSelectionChanged(selectedType)
+//        }
+//    }
+// }
+//
+// @Composable
+// fun ToggleButton(
+//    text: String,
+//    isSelected: Boolean,
+//    onClick: () -> Unit,
+//    selectedColor: Color,
+//    unselectedColor: Color,
+//    borderColor: Color,
+// ) {
+//    val backgroundColor = if (isSelected) selectedColor else unselectedColor
+//
+//    Box(
+//        contentAlignment = Alignment.Center,
+//        modifier =
+//            Modifier
+//                .width(130.dp).height(50.dp)
+//                .clip(RoundedCornerShape(50))
+//                .border(1.dp, borderColor, RoundedCornerShape(50))
+//                .background(backgroundColor)
+//                .clickable { onClick() }
+//                .padding(horizontal = 24.dp, vertical = 12.dp),
+//    ) {
+//        Text(
+//            text = text,
+//            color = ColorCustom.color_text_button_transaction_type,
+//            style = MaterialTheme.typography.titleMedium,
+//        )
+//    }
+// }
 
 @Preview(showBackground = true)
 @Composable

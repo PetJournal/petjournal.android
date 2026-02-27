@@ -190,6 +190,7 @@ fun RegisterTaskScreen(navController: NavController) {
                     item {
                         Column {
                             TransactionTypeSelector(
+                                isLoading = true,
                                 onSelectionChanged = { type ->
                                     selectedType = type
                                 },
@@ -227,6 +228,7 @@ fun RegisterTaskScreen(navController: NavController) {
                     }
                     item {
                         TextFieldCustom(
+                            isLoading = true,
                             title = stringResource(R.string.label_observation),
                             placeholder = stringResource(R.string.enter_your_observation_here),
                             value = ob.value,
@@ -235,8 +237,17 @@ fun RegisterTaskScreen(navController: NavController) {
                             },
                         )
                     }
+//                    todo: esconder botao quando estiver em estado de loading == true
                     item {
-                        Button3(submit = { /*TODO*/ }, enableButton = true, text = stringResource(R.string.label_save_task))
+                        val isLoading = true
+                        if (!isLoading)
+                            {
+                                Button3(
+                                    submit = { /*TODO*/ },
+                                    enableButton = true,
+                                    text = stringResource(R.string.label_save_task),
+                                )
+                            }
                     }
                 },
             )

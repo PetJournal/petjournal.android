@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -147,9 +148,14 @@ fun PetFilterItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier =
             Modifier
-                .padding(start = 8.dp, end = 8.dp)
                 .then(
-                    if (isLoading) Modifier else Modifier.clickable { onSelect(name) },
+                    if (isLoading) {
+                        Modifier
+                    } else {
+                        Modifier
+                            .padding(start = 0.dp, end = 16.dp)
+                            .clickable { onSelect(name) }
+                    },
                 )
                 .testTag("PetItem_$name"),
     ) {
@@ -208,16 +214,15 @@ fun PetFilterList(
                 },
         )
 
-        LazyRow(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 10.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            userScrollEnabled = !isLoading,
-        ) {
-            if (isLoading) {
-                items(6) {
+        if (isLoading) {
+            Row(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                repeat(5) {
                     PetFilterItem(
                         name = "        ",
                         isSelected = false,
@@ -225,7 +230,15 @@ fun PetFilterList(
                         onSelect = {},
                     )
                 }
-            } else {
+            }
+        } else {
+            LazyRow(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
                 item {
                     PetFilterItem(
                         name = stringResource(R.string.label_all_pets),
@@ -267,183 +280,6 @@ fun PetFilterList(
         }
     }
 }
-
-/*@Composable
-fun PetIcon(
-    imageRes: Painter? = null,
-    isSelected: Boolean = false,
-    modifier: Modifier = Modifier,
-) {
-    val backgroundColor = if (isSelected) ColorCustom.color_background_pet_icon else Color.White
-
-    Box(
-        modifier =
-            modifier
-                .shadow(
-                    elevation = 13.1762.dp,
-                    spotColor = ColorCustom.color_spot_pet_icon,
-                    ambientColor = ColorCustom.color_spot_pet_icon,
-                )
-                .padding(1.dp)
-                .size(55.dp)
-                .background(
-                    color = backgroundColor,
-                    shape = RoundedCornerShape(8.dp),
-                )
-                .border(
-                    width = 1.dp,
-                    color = ColorCustom.color_border_pet_icon,
-                    shape = RoundedCornerShape(8.dp),
-                ),
-        contentAlignment = Alignment.Center,
-    ) {
-        when {
-            imageRes is VectorPainter -> {
-                Icon(
-                    painter = imageRes,
-                    contentDescription = null,
-                    tint = if (isSelected) Color.White else ColorCustom.color_background_pet_icon,
-                    modifier =
-                        Modifier
-                            .size(32.dp)
-                            .offset(y = 4.dp)
-                            .testTag("SelectedIcon"),
-                )
-            }
-
-            imageRes != null -> {
-                Image(
-                    painter = imageRes,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .clip(RoundedCornerShape(8.dp)),
-                )
-
-                if (isSelected) {
-                    val defaultPainter = painterResource(id = R.drawable.icon_pet_selected)
-                    Icon(
-                        painter = defaultPainter,
-                        contentDescription = null,
-                        tint = ColorCustom.color_background_pet_icon,
-                        modifier = Modifier.size(32.dp),
-                    )
-                }
-            }
-
-            else -> {
-                if (isSelected) {
-                    val defaultPainter = painterResource(id = R.drawable.icon_pet_selected)
-                    Icon(
-                        painter = defaultPainter,
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(32.dp),
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun PetFilterItem(
-    name: String,
-    isSelected: Boolean,
-    imageRes: Painter? = null,
-    onSelect: (String) -> Unit,
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier =
-            Modifier
-                .padding(start = 8.dp, end = 8.dp)
-                .clickable { onSelect(name) }
-                .testTag("PetItem_$name"),
-    ) {
-        PetIcon(
-            imageRes = if (name == "Todos") painterResource(id = R.drawable.icon_pet_selected) else imageRes,
-            isSelected = isSelected,
-        )
-        Text(
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight(500),
-            color = ColorCustom.color_title_pet_icon,
-            textAlign = TextAlign.Center,
-            text = name,
-            maxLines = 1,
-        )
-    }
-}
-
-data class Pets(
-    val id: Int = 0,
-    val imageRes: Painter? = null,
-    val name: String? = null,
-)
-
-@Composable
-fun PetFilterList(
-    listPet: List<Pets> = listOf(),
-    onSelectedPet: (String) -> Unit = {},
-) {
-    var selectedPets by remember { mutableStateOf(listOf<String>()) }
-
-    Column(modifier = Modifier) {
-        Text(
-            text = stringResource(R.string.which_pets_need_this_task),
-            color = MaterialTheme.colorScheme.scrim,
-            fontWeight = FontWeight(500),
-            style = MaterialTheme.typography.titleMedium,
-        )
-
-        LazyRow(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, start = 10.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            item {
-                PetFilterItem(
-                    name = stringResource(R.string.label_all_pets),
-                    isSelected = selectedPets.contains(stringResource(R.string.label_all_pets)),
-                    imageRes = null,
-                    onSelect = { name ->
-                        selectedPets =
-                            if (selectedPets.contains(name)) {
-                                selectedPets - name
-                            } else {
-                                selectedPets + name
-                            }
-                        onSelectedPet(if (selectedPets.contains(name)) name else "")
-                    },
-                )
-            }
-            items(
-                items = listPet,
-                key = { it.id },
-            ) { item ->
-                PetFilterItem(
-                    name = item.name!!,
-                    isSelected = selectedPets.contains(item.name),
-                    imageRes = item.imageRes,
-                    onSelect = { name ->
-                        selectedPets =
-                            if (selectedPets.contains(name)) {
-                                selectedPets - name
-                            } else {
-                                selectedPets + name
-                            }
-                        onSelectedPet(if (selectedPets.contains(name)) name else "")
-                    },
-                )
-            }
-        }
-    }
-}*/
 
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable
