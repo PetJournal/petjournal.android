@@ -171,6 +171,7 @@ fun RegisterTaskScreen(navController: NavController) {
                     }
                     item {
                         TextFieldCustom(
+                            isLoading = true,
                             title = stringResource(R.string.label_description),
                             placeholder = stringResource(R.string.enter_the_task_description_here),
                             value = desc.value,

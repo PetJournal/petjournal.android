@@ -12,9 +12,13 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.shimmerEffect
 import com.soujunior.petjournal.ui.theme.ColorCustom
 
 @Composable
@@ -23,6 +27,7 @@ fun TextFieldCustom(
     placeholder: String,
     value: String,
     onValueChange: (String) -> Unit,
+    isLoading: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -30,9 +35,17 @@ fun TextFieldCustom(
     ) {
         Text(
             text = title,
-            color = MaterialTheme.colorScheme.scrim,
+            color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.scrim,
             fontWeight = FontWeight(500),
             style = MaterialTheme.typography.titleMedium,
+            modifier =
+                if (isLoading) {
+                    Modifier
+                        .clip(RoundedCornerShape(4.dp))
+                        .shimmerEffect()
+                } else {
+                    Modifier
+                },
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -40,23 +53,40 @@ fun TextFieldCustom(
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
+            enabled = !isLoading,
+            textStyle =
+                TextStyle(
+                    color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.onSurface,
+                ),
             placeholder = {
                 Text(
                     text = placeholder,
-                    color = ColorCustom.color_placeholder,
+                    color = if (isLoading) Color.Transparent else ColorCustom.color_placeholder,
                     style = MaterialTheme.typography.bodyMedium,
                 )
             },
             modifier =
                 Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.onPrimary)
-                    .height(100.dp),
+                    .then(
+                        if (isLoading) {
+                            Modifier
+                                .fillMaxWidth()
+                                .height(100.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .shimmerEffect()
+                        } else {
+                            Modifier
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.onPrimary)
+                                .height(100.dp)
+                        },
+                    ),
             shape = RoundedCornerShape(12.dp),
             colors =
                 OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = ColorCustom.color_placeholder,
                     unfocusedBorderColor = ColorCustom.color_placeholder,
+                    disabledBorderColor = if (isLoading) Color.Transparent else ColorCustom.color_placeholder,
                 ),
         )
     }
