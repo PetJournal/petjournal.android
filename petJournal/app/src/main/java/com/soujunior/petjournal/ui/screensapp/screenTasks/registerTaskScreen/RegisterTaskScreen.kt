@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,13 +35,24 @@ import com.soujunior.petjournal.ui.components.TextFieldCustom
 import com.soujunior.petjournal.ui.components.TransactionTypeSelector
 import com.soujunior.petjournal.ui.components.task.OneOffTask
 import com.soujunior.petjournal.ui.components.task.RecurringTask
+import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.FakeRegisterTaskViewModel
+import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModel
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.TransactionType
 import ir.kaaveh.sdpcompose.sdp
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun RegisterTaskScreen(navController: NavController) {
+fun RegisterTaskScreen(
+    navController: NavController,
+    viewModel: RegisterTaskViewModel =
+        if (LocalInspectionMode.current) {
+            FakeRegisterTaskViewModel()
+        } else {
+            getViewModel()
+        },
+) {
     val listOfTasks =
         listOf(
             SelectableButtonInfo(
@@ -240,14 +252,13 @@ fun RegisterTaskScreen(navController: NavController) {
 //                    todo: esconder botao quando estiver em estado de loading == true
                     item {
                         val isLoading = true
-                        if (!isLoading)
-                            {
-                                Button3(
-                                    submit = { /*TODO*/ },
-                                    enableButton = true,
-                                    text = stringResource(R.string.label_save_task),
-                                )
-                            }
+                        if (!isLoading) {
+                            Button3(
+                                submit = { /*TODO*/ },
+                                enableButton = true,
+                                text = stringResource(R.string.label_save_task),
+                            )
+                        }
                     }
                 },
             )
