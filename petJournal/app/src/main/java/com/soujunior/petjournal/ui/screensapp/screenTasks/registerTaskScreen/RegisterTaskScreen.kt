@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
@@ -53,6 +54,8 @@ fun RegisterTaskScreen(
             getViewModel()
         },
 ) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
     val listOfTasks =
         listOf(
             SelectableButtonInfo(
@@ -165,8 +168,11 @@ fun RegisterTaskScreen(
                 content = {
                     item {
                         GroupSelectableButton(
-                            listOfTasks,
-                            isLoading = true,
+                            listOfTags = state.listTag,
+//                            listOfTags = listOfTasks,
+                            isLoading = state.isLoadingListTag,
+                            showButton = true,
+//                            isLoading = true
                         )
                     }
                     item {

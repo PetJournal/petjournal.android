@@ -174,12 +174,8 @@ fun PetListScreen(navController: NavController) {
                         ) {
                             items(state.value.listPets) { pet ->
                                 PetItem(
-                                    imageRes =
-                                        "https://img.freepik.com/free-vector/" +
-                                            "construction-web-template-flat-" +
-                                            "style_23-2147774304.jpg?" +
-                                            "semt=ais_hybrid&w=740&q=80",
-                                    name = pet.petName ?: "sem nome",
+                                    imageRes = pet.image ?: "",
+                                    name = pet.petName ?: "Sem nome",
                                     onClick = {},
                                 )
                             }

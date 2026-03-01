@@ -332,7 +332,7 @@ class GuardianRepositoryImpl(
 
             val apiResponse = guardianApi.createPet(
                 token = token,
-//                image = imagePart,
+                image = imagePart,
                 specieName = specieNamePart,
                 petName = petNamePart,
                 gender = genderPart,

@@ -52,7 +52,7 @@ class ScreenRegisterTaskTest {
     fun groupSelectableButton_displaysTitleCorrectly() {
         composeTestRule.setContent {
             GroupSelectableButton(
-                listOfTasks = sampleListOfTasks,
+                listOfTags = sampleListOfTasks,
                 onSelection = {},
             )
         }
@@ -65,7 +65,7 @@ class ScreenRegisterTaskTest {
     fun groupSelectableButton_displaysAllButtons() {
         composeTestRule.setContent {
             GroupSelectableButton(
-                listOfTasks = sampleListOfTasks,
+                listOfTags = sampleListOfTasks,
                 onSelection = {},
             )
         }
@@ -79,7 +79,7 @@ class ScreenRegisterTaskTest {
     fun groupSelectableButton_selectsAndDeselectsButtonCorrectly() {
         composeTestRule.setContent {
             GroupSelectableButton(
-                listOfTasks = sampleListOfTasks,
+                listOfTags = sampleListOfTasks,
                 onSelection = {},
             )
         }
@@ -95,7 +95,7 @@ class ScreenRegisterTaskTest {
     fun groupSelectableButton_selectsOnlyOneButtonAtATime_ifLogicImpliesThat() {
         composeTestRule.setContent {
             GroupSelectableButton(
-                listOfTasks = sampleListOfTasks,
+                listOfTags = sampleListOfTasks,
                 onSelection = {},
             )
         }
