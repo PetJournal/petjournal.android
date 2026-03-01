@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
-import com.soujunior.petjournal.ui.components.horizontalButtonList.TagOption
+import com.soujunior.petjournal.ui.model.TagOption
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.Constantes.allTagsId
 import com.soujunior.petjournal.ui.util.Constantes.allTagsLabel

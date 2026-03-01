@@ -10,8 +10,8 @@ import androidx.compose.material.icons.filled.Spa
 import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.ui.graphics.Color
 import com.soujunior.domain.model.PetModel
-import com.soujunior.domain.model.response.tag.TagOption
 import com.soujunior.petjournal.ui.components.data.TaskData
+import com.soujunior.petjournal.ui.model.TagOption
 import com.soujunior.petjournal.ui.util.Constantes.allTagsId
 import com.soujunior.petjournal.ui.util.Constantes.allTagsLabel
 import com.soujunior.petjournal.ui.util.Constantes.consultanceTagId

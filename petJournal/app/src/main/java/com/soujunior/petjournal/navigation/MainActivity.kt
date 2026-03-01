@@ -20,11 +20,11 @@ class MainActivity : ComponentActivity() {
         val isEdgeToEdgeEnabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
         WindowCompat.setDecorFitsSystemWindows(window, !isEdgeToEdgeEnabled)
 
-        androidx.compose.foundation.ComposeFoundationFlags.isNonComposedClickableEnabled = false
+//        androidx.compose.foundation.ComposeFoundationFlags.isNonComposedClickableEnabled = false
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         // todo: ESTA É UMA SAIDA PALEATIVA PARA UM ERRO GRAVE QUE EU NÃO ENTENDI, saúde e paz para quem resolver. (gus)
-        androidx.compose.foundation.ComposeFoundationFlags.isNonComposedClickableEnabled = false
+//        androidx.compose.foundation.ComposeFoundationFlags.isNonComposedClickableEnabled = false
         setContent {
             ConfigureSystemBars(isEdgeToEdgeEnabled)
             presentationManager()

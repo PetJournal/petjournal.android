@@ -53,7 +53,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.soujunior.domain.model.response.tag.TagOption
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.NavigationBar
@@ -65,6 +64,7 @@ import com.soujunior.petjournal.ui.components.bottomSheet.MenuBottomSheet
 import com.soujunior.petjournal.ui.components.data.TaskData
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.components.horizontalButtonList.HorizontalButtonList
+import com.soujunior.petjournal.ui.model.TagOption
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.components.Carousel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TaskDateComponent
 import com.soujunior.petjournal.ui.theme.PetJournalTheme

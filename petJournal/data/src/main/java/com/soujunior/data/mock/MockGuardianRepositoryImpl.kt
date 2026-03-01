@@ -8,6 +8,8 @@ import com.soujunior.domain.model.SizeDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.model.response.tag.TagDTO
+import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.DataResult
@@ -25,6 +27,22 @@ class MockGuardianRepositoryImpl(): GuardianRepository {
     }
 
     override suspend fun getListBreed(animal: String): NetworkResult<List<BreedDTO>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getListTag(): NetworkResult<List<TagDTO>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun createTag(tag: TagDTO): NetworkResult<TagDTO> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateTag(tag: TagDTO): NetworkResult<UpdatePetByIdDTO> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteTag(id: String): NetworkResult<Unit> {
         TODO("Not yet implemented")
     }
 

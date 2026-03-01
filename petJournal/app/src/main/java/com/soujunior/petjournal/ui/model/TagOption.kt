@@ -1,4 +1,4 @@
-package com.soujunior.domain.model.response.tag
+package com.soujunior.petjournal.ui.model
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector

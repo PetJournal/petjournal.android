@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.horizontalButtonList.GridButtonList
-import com.soujunior.petjournal.ui.components.horizontalButtonList.TagOption
+import com.soujunior.petjournal.ui.model.TagOption
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

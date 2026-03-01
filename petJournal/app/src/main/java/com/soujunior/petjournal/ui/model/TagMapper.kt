@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.components.horizontalButtonList
+package com.soujunior.petjournal.ui.model
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocalHospital
@@ -6,7 +6,6 @@ import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.soujunior.domain.model.response.tag.TagOption
 import com.soujunior.petjournal.ui.components.bottomSheet.TaskRemoteEntity
 
 object TagMapper {
@@ -40,7 +39,7 @@ object TagMapper {
         return try {
             Color(android.graphics.Color.parseColor(hexColor))
         } catch (e: Exception) {
-            Color.Gray
+            Color.Companion.Gray
         }
     }
 

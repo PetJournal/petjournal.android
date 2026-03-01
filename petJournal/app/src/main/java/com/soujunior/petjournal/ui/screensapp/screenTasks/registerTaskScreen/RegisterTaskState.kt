@@ -2,7 +2,7 @@ package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
 
 import com.soujunior.domain.model.PetModel
 import com.soujunior.petjournal.ui.components.data.TaskData
-import com.soujunior.petjournal.ui.components.horizontalButtonList.TagOption
+import com.soujunior.petjournal.ui.model.TagOption
 
 data class RegisterTaskState(
     val nameUser: String = "",
