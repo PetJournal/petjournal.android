@@ -169,10 +169,8 @@ fun RegisterTaskScreen(
                     item {
                         GroupSelectableButton(
                             listOfTags = state.listTag,
-//                            listOfTags = listOfTasks,
                             isLoading = state.isLoadingListTag,
-                            showButton = true,
-//                            isLoading = true
+                            showButton = !state.isLoadingListTag,
                         )
                     }
                     item {

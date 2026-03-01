@@ -40,8 +40,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.shimmerEffect
 import com.soujunior.petjournal.ui.theme.ColorCustom
+import com.soujunior.petjournal.ui.util.shimmerEffect
 
 @Composable
 fun PetIcon(

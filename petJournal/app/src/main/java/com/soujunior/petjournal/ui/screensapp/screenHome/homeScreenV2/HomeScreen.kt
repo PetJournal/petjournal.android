@@ -40,6 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
@@ -254,11 +255,11 @@ private fun SectionHeader(
             style = MaterialTheme.typography.bodyMedium,
             fontSize = 20.ssp,
         )
-
         if (showButton) {
             Surface(
                 modifier =
                     Modifier
+                        .clip(CircleShape)
                         .size(24.sdp)
                         .clickable(onClick = onAddClick),
                 shape = CircleShape,
@@ -296,7 +297,6 @@ private fun HomeTopBarActions(onLogout: () -> Unit) {
                         onClick = { showDropdownMenu.value = true },
                     ),
         )
-
         DropdownMenu(
             expanded = showDropdownMenu.value,
             onDismissRequest = { showDropdownMenu.value = false },

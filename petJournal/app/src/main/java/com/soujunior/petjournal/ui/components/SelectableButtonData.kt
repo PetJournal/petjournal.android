@@ -41,9 +41,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.shimmerEffect
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.util.adaptiveWidthForTitle
+import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
 
 @Composable
@@ -184,6 +184,7 @@ fun GroupSelectableButton(
                 Surface(
                     modifier =
                         Modifier
+                            .clip(CircleShape)
                             .size(24.sdp)
                             .clickable(onClick = onAddClick),
                     shape = CircleShape,

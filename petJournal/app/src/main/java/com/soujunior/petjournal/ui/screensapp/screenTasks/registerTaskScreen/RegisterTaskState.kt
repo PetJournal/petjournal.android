@@ -29,7 +29,7 @@ data class RegisterTaskState(
         return this.map { it.uiModel() }
     }
 
-    fun convert(tags: List<TagModel>): List<SelectableButtonInfo>  {
+    fun convert(tags: List<TagModel>): List<SelectableButtonInfo> {
         return tags.toUiModel()
     }
 }

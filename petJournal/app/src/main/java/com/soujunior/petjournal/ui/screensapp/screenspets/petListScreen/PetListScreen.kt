@@ -40,10 +40,10 @@ import com.soujunior.petjournal.ui.components.PetItem
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.TrailBack
 import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.components.PetItemMore
-import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.shimmerEffect
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
+import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 import org.koin.androidx.compose.getViewModel
@@ -104,7 +104,7 @@ fun PetListScreen(navController: NavController) {
                                 .fillMaxSize()
                                 .background(MaterialTheme.colorScheme.onPrimary)
                                 .padding(paddingValues),
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                        horizontalAlignment = CenterHorizontally,
                     ) {
                         Box(
                             modifier =

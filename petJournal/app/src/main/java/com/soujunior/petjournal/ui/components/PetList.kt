@@ -1,21 +1,18 @@
 package com.soujunior.petjournal.ui.components
 
 import android.widget.ImageView
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -36,8 +33,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -45,8 +41,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.soujunior.domain.model.PetModel
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 
@@ -194,44 +192,44 @@ fun PetList(
 
 @Composable
 fun PetListShimmer() {
-    val shimmerColors =
-        listOf(
-            Color.LightGray.copy(alpha = 0.6f),
-            Color.LightGray.copy(alpha = 0.2f),
-            Color.LightGray.copy(alpha = 0.6f),
-        )
-
-    val transition = rememberInfiniteTransition(label = "shimmer")
-    val translateAnim by transition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1000f,
-        animationSpec =
-            infiniteRepeatable(
-                animation = tween(durationMillis = 1000, easing = LinearOutSlowInEasing),
-                repeatMode = RepeatMode.Restart,
-            ),
-        label = "shimmerTranslate",
-    )
-
-    val brush =
-        Brush.linearGradient(
-            colors = shimmerColors,
-            start = Offset.Zero,
-            end = Offset(x = translateAnim, y = translateAnim),
-        )
-
-    LazyRow(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.sdp),
-        contentPadding = PaddingValues(horizontal = 0.sdp),
-        userScrollEnabled = false,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
     ) {
-        items(1) {
+        Row(modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
             Box(
                 modifier =
                     Modifier
+                        .clip(RoundedCornerShape(16.sdp))
+                        .weight(1f)
+                        .height(30.sdp)
+                        .shimmerEffect(),
+            )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.sdp),
+        ) {
+            Box(
+                modifier =
+                    Modifier
+                        .clip(RoundedCornerShape(16.sdp))
                         .size(108.sdp)
-                        .background(brush, shape = RoundedCornerShape(16.sdp)),
+                        .shimmerEffect(),
+            )
+            Box(
+                modifier =
+                    Modifier
+                        .clip(RoundedCornerShape(16.sdp))
+                        .size(108.sdp)
+                        .shimmerEffect(),
+            )
+            Box(
+                modifier =
+                    Modifier
+                        .clip(RoundedCornerShape(16.sdp))
+                        .size(108.sdp)
+                        .shimmerEffect(),
             )
         }
     }
