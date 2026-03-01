@@ -6,14 +6,8 @@ import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.soujunior.domain.model.response.tag.TagOption
 import com.soujunior.petjournal.ui.components.bottomSheet.TaskRemoteEntity
-
-data class TagOption(
-    val id: String,
-    val label: String,
-    val icon: ImageVector,
-    val color: Color,
-)
 
 object TagMapper {
     private val defaultOption =

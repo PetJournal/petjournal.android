@@ -15,11 +15,11 @@ class RegisterTaskViewModelImpl : RegisterTaskViewModel() {
         getData()
     }
 
-    private fun getData()  {
+    private fun getData() {
 //        todo: getTags
     }
 
-    private fun getTags()  {
+    private fun getTags() {
     }
 
     override val validationEventChannel = Channel<ValidationEvent>()

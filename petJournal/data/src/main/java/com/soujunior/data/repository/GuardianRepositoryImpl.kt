@@ -11,9 +11,11 @@ import com.soujunior.domain.model.PetCreateDTO
 import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.domain.model.SizeDTO
+import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.network.onError
 import com.soujunior.domain.network.onException
@@ -106,6 +108,90 @@ class GuardianRepositoryImpl(
         getToken()?.let { token ->
             val apiResponse =  guardianApi.getListBreeds(token, animal)
             var result: NetworkResult<List<BreedDTO>> = NetworkResult.Error(0, null)
+
+            apiResponse
+                .onSuccess { data ->
+                    result = NetworkResult.Success(data)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
+
+    override suspend fun getListTag(): NetworkResult<List<TagDTO>> {
+        getToken()?.let { token ->
+            val apiResponse =  guardianApi.getListTag(token)
+            var result: NetworkResult<List<TagDTO>> = NetworkResult.Error(0, null)
+
+            apiResponse
+                .onSuccess { data ->
+                    result = NetworkResult.Success(data)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
+
+    override suspend fun createTag(tag: TagDTO): NetworkResult<TagDTO> {
+        getToken()?.let { token ->
+            val apiResponse =  guardianApi.createTag(token, tag)
+            var result: NetworkResult<TagDTO> = NetworkResult.Error(0, null)
+
+            apiResponse
+                .onSuccess { data ->
+                    result = NetworkResult.Success(data)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
+
+    override suspend fun updateTag(tag: TagDTO): NetworkResult<UpdatePetByIdDTO> {
+        getToken()?.let { token ->
+            val apiResponse =  guardianApi.updateTag(token, tag.id!!, tag)
+            var result: NetworkResult<UpdatePetByIdDTO> = NetworkResult.Error(0, null)
+
+            apiResponse
+                .onSuccess { data ->
+                    result = NetworkResult.Success(data)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
+
+    override suspend fun deleteTag(id: String): NetworkResult<Unit> {
+        getToken()?.let { token ->
+            val apiResponse =  guardianApi.deleteTag(token, id)
+            var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
 
             apiResponse
                 .onSuccess { data ->

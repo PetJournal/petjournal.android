@@ -4,11 +4,13 @@ import com.soujunior.domain.model.BreedDTO
 import com.soujunior.domain.model.PetCreateDTO
 import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.domain.model.SizeDTO
+import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.pet.PetInformationResponse
 import com.soujunior.domain.model.response.pet.PetResponse
+import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
 import com.soujunior.domain.network.NetworkResult
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -106,4 +108,29 @@ interface GuardianService {
         @Header("Authorization") token: String,
         @Path("animal") animal: String,
     ): NetworkResult<List<SizeDTO>>
+
+    @GET("api/tag")
+    suspend fun getListTag(
+        @Header("Authorization") token: String
+    ): NetworkResult<List<TagDTO>>
+
+    @POST("api/tag")
+    suspend fun createTag(
+        @Header("Authorization") token: String,
+        @Body tagDTO: TagDTO
+    ): NetworkResult<TagDTO>
+
+    @PUT("api/tag/{id}")
+    suspend fun updateTag(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+        @Body tagDTO: TagDTO
+    ): NetworkResult<UpdatePetByIdDTO>
+
+    @DELETE("api/tag/{id}")
+    suspend fun deleteTag(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): NetworkResult<Unit>
 }
+
