@@ -20,8 +20,14 @@ data class RegisterTaskState(
 ) {
     private fun TagModel.uiModel(): SelectableButtonInfo {
         return SelectableButtonInfo(
+            id = this.id,
             title = this.name ?: "",
-            color = Color(android.graphics.Color.parseColor(this.color)),
+            color =
+                try {
+                    Color(android.graphics.Color.parseColor(this.color))
+                } catch (e: Exception) {
+                    Color.Black
+                },
         )
     }
 

@@ -56,34 +56,6 @@ fun RegisterTaskScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    val listOfTasks =
-        listOf(
-            SelectableButtonInfo(
-                stringResource(R.string.label_selectable_button_vaccines),
-                ColorCustom.color_selectable_button_1,
-            ),
-            SelectableButtonInfo(
-                stringResource(R.string.label_selectable_button_consultations),
-                ColorCustom.color_selectable_button_2,
-            ),
-            SelectableButtonInfo(
-                stringResource(R.string.label_selectable_button_medicine),
-                ColorCustom.color_selectable_button_3,
-            ),
-            SelectableButtonInfo(
-                stringResource(R.string.label_selectable_button_bath),
-                ColorCustom.color_selectable_button_4,
-            ),
-            SelectableButtonInfo(
-                stringResource(R.string.label_selectable_button_food),
-                ColorCustom.color_selectable_button_5,
-            ),
-            SelectableButtonInfo(
-                stringResource(R.string.label_selectable_button_pet_walk),
-                ColorCustom.color_selectable_button_6,
-            ),
-        )
-
     val listPet =
         listOf(
             Pets(
@@ -273,26 +245,32 @@ fun RegisterTaskScreen(
 private val listOfTasks =
     listOf(
         SelectableButtonInfo(
+            "1",
             "Vacinas",
             ColorCustom.color_selectable_button_1,
         ),
         SelectableButtonInfo(
+            "2",
             "Consultas",
             ColorCustom.color_selectable_button_2,
         ),
         SelectableButtonInfo(
+            "3",
             "Remédios",
             ColorCustom.color_selectable_button_3,
         ),
         SelectableButtonInfo(
+            "4",
             "Banho",
             ColorCustom.color_selectable_button_4,
         ),
         SelectableButtonInfo(
+            "5",
             "Comida",
             ColorCustom.color_selectable_button_5,
         ),
         SelectableButtonInfo(
+            "6",
             "Passeio",
             ColorCustom.color_selectable_button_6,
         ),
@@ -310,6 +288,7 @@ fun ScreenRegisterTaskPreview() {
 fun GroupSelectableButtonPreview() {
     PetJournalTheme {
         GroupSelectableButton(
+            modifier = Modifier,
             listOfTasks,
             onSelection = {
             },
