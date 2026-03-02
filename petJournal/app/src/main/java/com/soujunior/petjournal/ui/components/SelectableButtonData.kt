@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -23,9 +22,9 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -56,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.model.TagAction
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.util.adaptiveWidthForTitle
 import com.soujunior.petjournal.ui.util.shimmerEffect
@@ -71,9 +71,7 @@ data class SelectableButtonInfo(
 fun ManageTagsDialog(
     tags: List<SelectableButtonInfo>,
     onDismiss: () -> Unit,
-    onCreateTag: (String, Color) -> Unit,
-    onEditTag: (String, String, Color) -> Unit,
-    onDeleteTag: (String) -> Unit,
+    onAction: (TagAction) -> Unit,
 ) {
     var isFormScreen by remember { mutableStateOf(false) }
     var editingTag by remember { mutableStateOf<SelectableButtonInfo?>(null) }
@@ -91,7 +89,7 @@ fun ManageTagsDialog(
                         .fillMaxWidth(),
             ) {
                 Text(
-                    text = "Gerenciar Tags",
+                    text = stringResource(R.string.manager_tags),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(bottom = 16.dp),
@@ -103,9 +101,9 @@ fun ManageTagsDialog(
                         onSave = { name, color ->
                             val id = editingTag?.id
                             if (id != null) {
-                                onEditTag(id, name, color)
+                                onAction(TagAction.Update(id, name, color))
                             } else {
-                                onCreateTag(name, color)
+                                onAction(TagAction.Create(name, color))
                             }
                             isFormScreen = false
                             editingTag = null
@@ -123,7 +121,7 @@ fun ManageTagsDialog(
                             isFormScreen = true
                         },
                         onDelete = { tag ->
-                            tag.id?.let { onDeleteTag(it) }
+                            tag.id?.let { onAction(TagAction.Delete(it)) }
                         },
                     )
                     Spacer(modifier = Modifier.height(16.dp))
@@ -228,7 +226,11 @@ fun TagForm(
                             .clickable { selectedColor = color }
                             .then(
                                 if (selectedColor == color) {
-                                    Modifier.border(2.dp, MaterialTheme.colorScheme.onSurface, CircleShape)
+                                    Modifier.border(
+                                        2.dp,
+                                        MaterialTheme.colorScheme.onSurface,
+                                        CircleShape,
+                                    )
                                 } else {
                                     Modifier
                                 },
@@ -260,7 +262,6 @@ fun TagForm(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun GroupSelectableButton(
     modifier: Modifier = Modifier,
@@ -269,10 +270,8 @@ fun GroupSelectableButton(
     showButton: Boolean = false,
     onAddClick: () -> Unit = {},
     onSelection: (String) -> Unit = {},
+    onAction: (TagAction) -> Unit = {},
     maxItemsInEachRow: Int = Int.MAX_VALUE,
-    onCreateTag: (String, Color) -> Unit = { _, _ -> },
-    onEditTag: (String, String, Color) -> Unit = { _, _, _ -> },
-    onDeleteTag: (String) -> Unit = {},
 ) {
     val displayTasks =
         if (isLoading && listOfTags.isEmpty()) {
@@ -292,9 +291,7 @@ fun GroupSelectableButton(
         ManageTagsDialog(
             tags = listOfTags,
             onDismiss = { showManageTagsDialog = false },
-            onCreateTag = onCreateTag,
-            onEditTag = onEditTag,
-            onDeleteTag = onDeleteTag,
+            onAction = onAction,
         )
     }
 
@@ -322,7 +319,6 @@ fun GroupSelectableButton(
                         Modifier
                     },
             )
-
             if (showButton) {
                 Surface(
                     modifier =
@@ -334,11 +330,11 @@ fun GroupSelectableButton(
                                 showManageTagsDialog = true
                             },
                     shape = CircleShape,
-                    color = Color(0xFF8D4CD2),
+                    color = MaterialTheme.colorScheme.primary,
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         Icon(
-                            imageVector = Icons.Default.Add,
+                            imageVector = Icons.Default.MoreVert,
                             contentDescription = stringResource(R.string.addpet),
                             tint = Color.White,
                             modifier = Modifier.size(16.sdp),
@@ -380,32 +376,6 @@ fun GroupSelectableButton(
                                 .padding(bottom = 15.dp)
                         },
                 )
-                /*SelectableButton(
-                    titleButton = buttonInfo.title,
-                    colorButton = buttonInfo.color,
-                    isSelected = if (index < selectionState.size) selectionState[index] else false,
-                    isLoading = isLoading,
-                    onSelectionChanged = { title, selected ->
-                        if (index < selectionState.size) {
-                            selectionState[index] = selected
-                        }
-                        if (selected) {
-                            onSelection(title)
-                        } else {
-                            onSelection("")
-                        }
-                    },
-                    modifier =
-                        if (isLoading) {
-                            Modifier
-                                .weight(1f)
-                                .padding(bottom = 15.dp)
-                        } else {
-                            Modifier
-                                .adaptiveWidthForTitle(buttonInfo.title)
-                                .padding(bottom = 15.dp)
-                        },
-                )*/
             }
         }
     }
@@ -496,241 +466,3 @@ fun SelectableButton(
         )
     }
 }
-
-/*@Composable
-fun SelectableButton(
-    modifier: Modifier = Modifier,
-    titleButton: String,
-    colorButton: Color,
-    isSelected: Boolean,
-    isLoading: Boolean = false,
-    onSelectionChanged: (String, Boolean) -> Unit,
-) {
-    Button(
-        modifier =
-            modifier
-                .height(40.dp)
-                .then(
-                    if (isLoading) {
-                        Modifier
-                            .clip(RoundedCornerShape(size = 16.dp))
-                            .shimmerEffect()
-                    } else if (isSelected) {
-                        Modifier.shadow(
-                            elevation = 10.dp,
-                            spotColor = ColorCustom.shadow_color_selectable_button,
-                            ambientColor = ColorCustom.shadow_color_selectable_button,
-                        )
-                    } else {
-                        Modifier
-                    },
-                ),
-        enabled = !isLoading,
-        onClick = {
-            onSelectionChanged(titleButton, !isSelected)
-        },
-        colors =
-            ButtonDefaults.buttonColors(
-                containerColor =
-                    if (isLoading) {
-                        Color.Transparent
-                    } else if (isSelected) {
-                        colorButton
-                    } else {
-                        MaterialTheme.colorScheme.onPrimary
-                    },
-                contentColor =
-                    if (isLoading) {
-                        Color.Transparent
-                    } else if (isSelected) {
-                        MaterialTheme.colorScheme.onPrimary
-                    } else {
-                        colorButton
-                    },
-                disabledContainerColor = if (isLoading) Color.Transparent else Color.Unspecified,
-                disabledContentColor = if (isLoading) Color.Transparent else Color.Unspecified,
-            ),
-        shape = RoundedCornerShape(size = 16.dp),
-        border =
-            if (!isSelected && !isLoading) {
-                BorderStroke(
-                    1.dp,
-                    ColorCustom.border_color_selectable_button,
-                )
-            } else {
-                null
-            },
-        contentPadding = PaddingValues(0.dp),
-    ) {
-        Text(
-            text = titleButton,
-            style =
-                TextStyle(
-                    fontSize = 12.sp,
-                    fontFamily = FontFamily(Font(R.font.roboto_medium)),
-                    fontWeight = FontWeight(500),
-                    color =
-                        if (isLoading) {
-                            Color.Transparent
-                        } else if (isSelected) {
-                            MaterialTheme.colorScheme.onPrimary
-                        } else {
-                            colorButton
-                        },
-                    textAlign = TextAlign.Center,
-                ),
-        )
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun GroupSelectableButton(
-    modifier: Modifier = Modifier,
-    listOfTags: List<SelectableButtonInfo>,
-    isLoading: Boolean = false,
-    showButton: Boolean = false,
-    onAddClick: () -> Unit = {},
-    onSelection: (String) -> Unit = {},
-    maxItemsInEachRow: Int = Int.MAX_VALUE,
-) {
-    val displayTasks =
-        if (isLoading && listOfTags.isEmpty()) {
-            List(6) { SelectableButtonInfo("", Color.Transparent) }
-        } else {
-            listOfTags
-        }
-
-    val selectionState =
-        remember(displayTasks.size) {
-            mutableStateListOf(*Array(displayTasks.size) { false })
-        }
-
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = stringResource(R.string.label_select_main_category),
-                style = MaterialTheme.typography.titleMedium,
-                color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.scrim,
-                fontWeight = FontWeight(500),
-                lineHeight = 24.sp,
-                modifier =
-                    if (isLoading) {
-                        Modifier
-                            .clip(RoundedCornerShape(4.dp))
-                            .shimmerEffect()
-                    } else {
-                        Modifier
-                    },
-            )
-
-            if (showButton) {
-                Surface(
-                    modifier =
-                        Modifier
-                            .clip(CircleShape)
-                            .size(24.sdp)
-                            .clickable(onClick = onAddClick),
-                    shape = CircleShape,
-                    color = Color(0xFF8D4CD2),
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = stringResource(R.string.addpet),
-                            tint = Color.White,
-                            modifier = Modifier.size(16.sdp),
-                        )
-                    }
-                }
-            }
-        }
-
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(15.dp),
-            maxItemsInEachRow = if (isLoading) 3 else maxItemsInEachRow,
-        ) {
-            displayTasks.forEachIndexed { index, buttonInfo ->
-                SelectableButton(
-                    titleButton = buttonInfo.title,
-                    colorButton = buttonInfo.color,
-                    isSelected = if (index < selectionState.size) selectionState[index] else false,
-                    isLoading = isLoading,
-                    onSelectionChanged = { title, selected ->
-                        if (index < selectionState.size) {
-                            selectionState[index] = selected
-                        }
-                        if (selected) {
-                            onSelection(title)
-                        } else {
-                            onSelection("")
-                        }
-                    },
-                    modifier =
-                        if (isLoading) {
-                            Modifier
-                                .weight(1f)
-                                .padding(bottom = 15.dp)
-                        } else {
-                            Modifier
-                                .adaptiveWidthForTitle(buttonInfo.title)
-                                .padding(bottom = 15.dp)
-                        },
-                )
-            }
-        }
-    }
-}
-
-data class SelectableButtonInfo(
-    val id: String? = null,
-    val title: String,
-    val color: Color,
-)
-
-@Preview()
-@Composable
-fun CustomSelectableButtonWithoutDevicePreview() {
-    val listOfTasks =
-        listOf(
-            SelectableButtonInfo(
-                "1",
-                stringResource(R.string.label_selectable_button_vaccines),
-                ColorCustom.color_selectable_button_1,
-            ),
-            SelectableButtonInfo(
-                "1",
-                stringResource(R.string.label_selectable_button_consultations),
-                ColorCustom.color_selectable_button_2,
-            ),
-            SelectableButtonInfo(
-                "1",
-                stringResource(R.string.label_selectable_button_medicine),
-                ColorCustom.color_selectable_button_3,
-            ),
-            SelectableButtonInfo(
-                "1",
-                stringResource(R.string.label_selectable_button_bath),
-                ColorCustom.color_selectable_button_4,
-            ),
-            SelectableButtonInfo(
-                "1",
-                stringResource(R.string.label_selectable_button_food),
-                ColorCustom.color_selectable_button_5,
-            ),
-            SelectableButtonInfo(
-                "1",
-                stringResource(R.string.label_selectable_button_pet_walk),
-                ColorCustom.color_selectable_button_6,
-            ),
-        )
-    GroupSelectableButton(listOfTags = listOfTasks, showButton = true)
-}*/

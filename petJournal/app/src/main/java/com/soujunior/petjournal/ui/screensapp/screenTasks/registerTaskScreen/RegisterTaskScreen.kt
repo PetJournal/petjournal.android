@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -143,6 +145,9 @@ fun RegisterTaskScreen(
                             listOfTags = state.listTag,
                             isLoading = state.isLoadingListTag,
                             showButton = !state.isLoadingListTag,
+                            onAction = {
+                                Log.e(TAG, "RegisterTaskScreen: $it")
+                            },
                         )
                     }
                     item {

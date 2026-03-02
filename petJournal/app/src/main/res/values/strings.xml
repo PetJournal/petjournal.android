@@ -208,4 +208,5 @@
     <string name="return_button_text">Voltar</string>
     <string name="eg_cachorro">eg: cachorro</string>
     <string name="reload">Recarregar</string>
+    <string name="manager_tags">Gerenciar Tags</string>
 </resources>
