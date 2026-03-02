@@ -209,4 +209,6 @@
     <string name="eg_cachorro">eg: cachorro</string>
     <string name="reload">Recarregar</string>
     <string name="manager_tags">Gerenciar Tags</string>
+    <string name="tag_name">Nome da Tag</string>
+    <string name="tags_colors">Cor da Tag</string>
 </resources>

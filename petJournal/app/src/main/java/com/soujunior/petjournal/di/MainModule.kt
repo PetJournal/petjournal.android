@@ -38,7 +38,10 @@ import com.soujunior.domain.use_case.pet.GetListSizeUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
+import com.soujunior.domain.use_case.task.CreateTagUseCase
+import com.soujunior.domain.use_case.task.DeleteTagUseCase
 import com.soujunior.domain.use_case.task.GetListTagUseCase
+import com.soujunior.domain.use_case.task.UpdateTagUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeViewModel
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeViewModelImpl
@@ -125,6 +128,9 @@ val mainModule =
         factory { GetListBreedUseCase(get()) }
         factory { GetListSizeUseCase(get()) }
         factory { GetListTagUseCase(get()) }
+        factory { CreateTagUseCase(get()) }
+        factory { UpdateTagUseCase(get()) }
+        factory { DeleteTagUseCase(get()) }
 
         single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
         single<GuardianService> { get<Retrofit>().create(GuardianService::class.java) }
@@ -186,5 +192,5 @@ val mainModule =
 
         viewModel<BirthDateViewModel> { BirthDateViewModelImpl(get(), get(), get(), get()) }
         viewModel<ViewModelRaceSize> { ViewModelRaceSizeImpl(get(), get(), get(), get(), get()) }
-        viewModel<RegisterTaskViewModel> { RegisterTaskViewModelImpl(get()) }
+        viewModel<RegisterTaskViewModel> { RegisterTaskViewModelImpl(get(), get(), get(), get()) }
     }

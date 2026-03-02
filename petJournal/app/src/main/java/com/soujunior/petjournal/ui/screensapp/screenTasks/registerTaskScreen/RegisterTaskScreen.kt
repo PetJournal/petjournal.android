@@ -17,12 +17,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
@@ -38,6 +40,7 @@ import com.soujunior.petjournal.ui.components.TextFieldCustom
 import com.soujunior.petjournal.ui.components.TransactionTypeSelector
 import com.soujunior.petjournal.ui.components.task.OneOffTask
 import com.soujunior.petjournal.ui.components.task.RecurringTask
+import com.soujunior.petjournal.ui.model.TagAction
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.FakeRegisterTaskViewModel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModel
 import com.soujunior.petjournal.ui.theme.ColorCustom
@@ -146,7 +149,53 @@ fun RegisterTaskScreen(
                             isLoading = state.isLoadingListTag,
                             showButton = !state.isLoadingListTag,
                             onAction = {
-                                Log.e(TAG, "RegisterTaskScreen: $it")
+                                when (it) {
+                                    is TagAction.Create -> {
+                                        viewModel.onEvent(
+                                            RegisterTaskEvent.OnCreateTag(
+                                                name = it.name,
+                                                color =
+                                                    it.color
+                                                        .toArgb()
+                                                        .toUInt()
+                                                        .toString(16)
+                                                        .uppercase(),
+                                            ),
+                                        )
+
+                                        Log.e(
+                                            TAG,
+                                            "1. Create: ${it.color
+                                                .toArgb()
+                                                .toUInt()
+                                                .toString(16)
+                                                .uppercase()
+                                            }",
+                                        )
+
+                                        Log.e(TAG, "2. Create: ${it.color}")
+                                    }
+                                    is TagAction.Delete -> {
+                                        viewModel.onEvent(
+                                            event = RegisterTaskEvent.OnDeleteTag(it.id),
+                                        )
+                                    }
+                                    is TagAction.Update -> {
+                                        viewModel.onEvent(
+                                            event =
+                                                RegisterTaskEvent.OnUpdateTag(
+                                                    id = it.id,
+                                                    name = it.name,
+                                                    color =
+                                                        it.color
+                                                            .toArgb()
+                                                            .toUInt()
+                                                            .toString(16)
+                                                            .uppercase(),
+                                                ),
+                                        )
+                                    }
+                                }
                             },
                         )
                     }

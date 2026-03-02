@@ -206,11 +206,11 @@ fun TagForm(
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Nome da Tag") },
+            label = { Text(stringResource(R.string.tag_name)) },
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text("Cor da Tag", style = MaterialTheme.typography.bodySmall)
+        Text(stringResource(R.string.tags_colors), style = MaterialTheme.typography.bodySmall)
         Spacer(modifier = Modifier.height(8.dp))
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
