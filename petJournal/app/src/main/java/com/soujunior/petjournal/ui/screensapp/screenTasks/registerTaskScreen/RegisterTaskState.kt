@@ -1,8 +1,6 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
 
-import androidx.compose.ui.graphics.Color
 import com.soujunior.domain.model.PetModel
-import com.soujunior.domain.model.response.tag.TagModel
 import com.soujunior.petjournal.ui.components.SelectableButtonInfo
 import com.soujunior.petjournal.ui.components.data.TaskData
 
@@ -16,26 +14,5 @@ data class RegisterTaskState(
     val listPets: List<PetModel> = emptyList(),
     val hasErrorOnListTag: Boolean = false,
     val isLoadingListTag: Boolean = false,
-    val listTag: List<SelectableButtonInfo> = emptyList(),
-) {
-    private fun TagModel.uiModel(): SelectableButtonInfo {
-        return SelectableButtonInfo(
-            id = this.id,
-            title = this.name ?: "",
-            color =
-                try {
-                    Color(android.graphics.Color.parseColor(this.color))
-                } catch (e: Exception) {
-                    Color.Black
-                },
-        )
-    }
-
-    private fun List<TagModel>.toUiModel(): List<SelectableButtonInfo> {
-        return this.map { it.uiModel() }
-    }
-
-    fun convert(tags: List<TagModel>): List<SelectableButtonInfo> {
-        return tags.toUiModel()
-    }
-}
+    val listTag: MutableList<SelectableButtonInfo> = emptyList<SelectableButtonInfo>().toMutableList(),
+)

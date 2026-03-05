@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,7 +37,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -57,7 +57,6 @@ import androidx.compose.ui.window.Dialog
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.model.TagAction
 import com.soujunior.petjournal.ui.theme.ColorCustom
-import com.soujunior.petjournal.ui.util.adaptiveWidthForTitle
 import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
 
@@ -263,6 +262,92 @@ fun TagForm(
 }
 
 @Composable
+fun SelectableButton(
+    modifier: Modifier = Modifier,
+    titleButton: String,
+    colorButton: Color,
+    isSelected: Boolean,
+    isLoading: Boolean = false,
+    onSelectionChanged: (String, Boolean) -> Unit,
+) {
+    Button(
+        modifier =
+            modifier
+                .height(40.dp)
+                .then(
+                    if (isLoading) {
+                        Modifier
+                            .clip(RoundedCornerShape(size = 16.dp))
+                            .shimmerEffect()
+                    } else if (isSelected) {
+                        Modifier.shadow(
+                            elevation = 10.dp,
+                            spotColor = ColorCustom.shadow_color_selectable_button,
+                            ambientColor = ColorCustom.shadow_color_selectable_button,
+                        )
+                    } else {
+                        Modifier
+                    },
+                ),
+        enabled = !isLoading,
+        onClick = {
+            onSelectionChanged(titleButton, !isSelected)
+        },
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor =
+                    if (isLoading) {
+                        Color.Transparent
+                    } else if (isSelected) {
+                        colorButton
+                    } else {
+                        MaterialTheme.colorScheme.onPrimary
+                    },
+                contentColor =
+                    if (isLoading) {
+                        Color.Transparent
+                    } else if (isSelected) {
+                        MaterialTheme.colorScheme.onPrimary
+                    } else {
+                        colorButton
+                    },
+                disabledContainerColor = if (isLoading) Color.Transparent else Color.Unspecified,
+                disabledContentColor = if (isLoading) Color.Transparent else Color.Unspecified,
+            ),
+        shape = RoundedCornerShape(size = 16.dp),
+        border =
+            if (!isSelected && !isLoading) {
+                BorderStroke(
+                    1.dp,
+                    ColorCustom.border_color_selectable_button,
+                )
+            } else {
+                null
+            },
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 2.dp),
+    ) {
+        Text(
+            text = titleButton,
+            style =
+                TextStyle(
+                    fontSize = 12.sp,
+                    fontFamily = FontFamily(Font(R.font.roboto_medium)),
+                    fontWeight = FontWeight(500),
+                    color =
+                        if (isLoading) {
+                            Color.Transparent
+                        } else if (isSelected) {
+                            MaterialTheme.colorScheme.onPrimary
+                        } else {
+                            colorButton
+                        },
+                    textAlign = TextAlign.Center,
+                ),
+        )
+    }
+}
+
+@Composable
 fun GroupSelectableButton(
     modifier: Modifier = Modifier,
     listOfTags: List<SelectableButtonInfo>,
@@ -280,10 +365,9 @@ fun GroupSelectableButton(
             listOfTags
         }
 
-    val selectionState =
-        remember(displayTasks.size) {
-            mutableStateListOf(*Array(displayTasks.size) { false })
-        }
+    var selectedIndex by remember(displayTasks.size) {
+        mutableStateOf<Int?>(null)
+    }
 
     var showManageTagsDialog by remember { mutableStateOf(false) }
 
@@ -353,15 +437,14 @@ fun GroupSelectableButton(
                 SelectableButton(
                     titleButton = buttonInfo.title,
                     colorButton = buttonInfo.color,
-                    isSelected = if (index < selectionState.size) selectionState[index] else false,
+                    isSelected = index == selectedIndex,
                     isLoading = isLoading,
                     onSelectionChanged = { title, selected ->
-                        if (index < selectionState.size) {
-                            selectionState[index] = selected
-                        }
                         if (selected) {
+                            selectedIndex = index
                             onSelection(title)
                         } else {
+                            selectedIndex = null
                             onSelection("")
                         }
                     },
@@ -372,97 +455,11 @@ fun GroupSelectableButton(
                                 .padding(bottom = 15.dp)
                         } else {
                             Modifier
-                                .adaptiveWidthForTitle(buttonInfo.title)
+                                .defaultMinSize(minWidth = 72.dp)
                                 .padding(bottom = 15.dp)
                         },
                 )
             }
         }
-    }
-}
-
-@Composable
-fun SelectableButton(
-    modifier: Modifier = Modifier,
-    titleButton: String,
-    colorButton: Color,
-    isSelected: Boolean,
-    isLoading: Boolean = false,
-    onSelectionChanged: (String, Boolean) -> Unit,
-) {
-    Button(
-        modifier =
-            modifier
-                .height(40.dp)
-                .then(
-                    if (isLoading) {
-                        Modifier
-                            .clip(RoundedCornerShape(size = 16.dp))
-                            .shimmerEffect()
-                    } else if (isSelected) {
-                        Modifier.shadow(
-                            elevation = 10.dp,
-                            spotColor = ColorCustom.shadow_color_selectable_button,
-                            ambientColor = ColorCustom.shadow_color_selectable_button,
-                        )
-                    } else {
-                        Modifier
-                    },
-                ),
-        enabled = !isLoading,
-        onClick = {
-            onSelectionChanged(titleButton, !isSelected)
-        },
-        colors =
-            ButtonDefaults.buttonColors(
-                containerColor =
-                    if (isLoading) {
-                        Color.Transparent
-                    } else if (isSelected) {
-                        colorButton
-                    } else {
-                        MaterialTheme.colorScheme.onPrimary
-                    },
-                contentColor =
-                    if (isLoading) {
-                        Color.Transparent
-                    } else if (isSelected) {
-                        MaterialTheme.colorScheme.onPrimary
-                    } else {
-                        colorButton
-                    },
-                disabledContainerColor = if (isLoading) Color.Transparent else Color.Unspecified,
-                disabledContentColor = if (isLoading) Color.Transparent else Color.Unspecified,
-            ),
-        shape = RoundedCornerShape(size = 16.dp),
-        border =
-            if (!isSelected && !isLoading) {
-                BorderStroke(
-                    1.dp,
-                    ColorCustom.border_color_selectable_button,
-                )
-            } else {
-                null
-            },
-        contentPadding = PaddingValues(0.dp),
-    ) {
-        Text(
-            text = titleButton,
-            style =
-                TextStyle(
-                    fontSize = 12.sp,
-                    fontFamily = FontFamily(Font(R.font.roboto_medium)),
-                    fontWeight = FontWeight(500),
-                    color =
-                        if (isLoading) {
-                            Color.Transparent
-                        } else if (isSelected) {
-                            MaterialTheme.colorScheme.onPrimary
-                        } else {
-                            colorButton
-                        },
-                    textAlign = TextAlign.Center,
-                ),
-        )
     }
 }

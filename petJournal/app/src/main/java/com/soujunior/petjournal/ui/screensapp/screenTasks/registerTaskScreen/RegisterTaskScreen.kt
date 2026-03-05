@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
@@ -162,18 +159,6 @@ fun RegisterTaskScreen(
                                                         .uppercase(),
                                             ),
                                         )
-
-                                        Log.e(
-                                            TAG,
-                                            "1. Create: ${it.color
-                                                .toArgb()
-                                                .toUInt()
-                                                .toString(16)
-                                                .uppercase()
-                                            }",
-                                        )
-
-                                        Log.e(TAG, "2. Create: ${it.color}")
                                     }
                                     is TagAction.Delete -> {
                                         viewModel.onEvent(

@@ -1,11 +1,14 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.tag.TagModel
 import com.soujunior.domain.use_case.task.CreateTagUseCase
 import com.soujunior.domain.use_case.task.DeleteTagUseCase
 import com.soujunior.domain.use_case.task.GetListTagUseCase
 import com.soujunior.domain.use_case.task.UpdateTagUseCase
+import com.soujunior.petjournal.ui.mapper.TagModelMapper.toListSelectableButtonInfo
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.RegisterTaskEvent
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.RegisterTaskState
 import com.soujunior.petjournal.ui.states.TaskState
@@ -54,9 +57,12 @@ class RegisterTaskViewModelImpl(
         _state.update { it.copy(isLoadingListTag = true) }
         viewModelScope.launch {
             val result = getListTagCase.execute(Unit)
-            result.handleResult({ value ->
+            result.handleResult({ list: List<TagModel> ->
                 _state.update {
-                    it.copy(isLoadingListTag = false, listTag = _state.value.convert(value))
+                    it.copy(
+                        isLoadingListTag = false,
+                        listTag = list.toListSelectableButtonInfo(),
+                    )
                 }
             }, {
                 _state.update { it.copy(isLoadingListTag = false, hasErrorOnListTag = true) }
@@ -71,8 +77,17 @@ class RegisterTaskViewModelImpl(
         _state.update { it.copy(isLoadingListTag = true) }
         viewModelScope.launch {
             val result = createTagCase.execute(TagModel(name = name, color = color))
-            result.handleResult({ value ->
-                _state.update { it.copy(isLoadingListTag = false) }
+            result.handleResult({ tagModel: TagModel ->
+                _state.update {
+                    it.copy(
+                        isLoadingListTag = false,
+                        listTag =
+                            (
+                                listOf(tagModel).toListSelectableButtonInfo() +
+                                    _state.value.listTag
+                            ).toMutableList(),
+                    )
+                }
             }, {
                 _state.update { it.copy(isLoadingListTag = false) }
             })
@@ -82,13 +97,16 @@ class RegisterTaskViewModelImpl(
     private fun updateTag(
         name: String,
         color: String,
-    )  {
+    ) {
+        Log.e(TAG, "UPDATE: $name, $color")
         _state.update { it.copy(isLoadingListTag = true) }
         viewModelScope.launch {
             val result = updateTagCase.execute(TagModel(name = name, color = color))
-            result.handleResult({ value ->
+            result.handleResult({
+                Log.e(TAG, "Sucesso em modificar componente")
                 _state.update { it.copy(isLoadingListTag = false) }
             }, {
+                Log.e(TAG, "Erro em modificar componente: $it")
                 _state.update { it.copy(isLoadingListTag = false) }
             })
         }
@@ -99,7 +117,12 @@ class RegisterTaskViewModelImpl(
         viewModelScope.launch {
             val result = deleteTagCase.execute(id)
             result.handleResult({ value ->
-                _state.update { it.copy(isLoadingListTag = false) }
+                _state.update {
+                    it.copy(
+                        isLoadingListTag = false,
+                        listTag = _state.value.listTag.removeIf { it.id == id }.let { _state.value.listTag },
+                    )
+                }
             }, {
                 _state.update { it.copy(isLoadingListTag = false) }
             })
