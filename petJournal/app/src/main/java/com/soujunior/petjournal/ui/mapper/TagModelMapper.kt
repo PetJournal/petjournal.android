@@ -5,6 +5,15 @@ import com.soujunior.domain.model.response.tag.TagModel
 import com.soujunior.petjournal.ui.components.SelectableButtonInfo
 
 object TagModelMapper {
+    fun String.toColor(): Int {
+        var cleanHex = this.removePrefix("#")
+
+        if (cleanHex.length == 6) {
+            cleanHex = "FF$cleanHex"
+        }
+        return cleanHex.toLong(16).toInt()
+    }
+
     fun TagModel.uiModel(): SelectableButtonInfo {
         var cleanHex = this.color?.removePrefix("#")
 

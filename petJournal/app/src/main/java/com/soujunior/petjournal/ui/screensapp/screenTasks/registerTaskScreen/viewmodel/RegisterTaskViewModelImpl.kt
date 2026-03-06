@@ -1,14 +1,15 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel
 
-import android.content.ContentValues.TAG
-import android.util.Log
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.tag.TagModel
 import com.soujunior.domain.use_case.task.CreateTagUseCase
 import com.soujunior.domain.use_case.task.DeleteTagUseCase
 import com.soujunior.domain.use_case.task.GetListTagUseCase
 import com.soujunior.domain.use_case.task.UpdateTagUseCase
+import com.soujunior.petjournal.ui.mapper.TagModelMapper.toColor
 import com.soujunior.petjournal.ui.mapper.TagModelMapper.toListSelectableButtonInfo
+import com.soujunior.petjournal.ui.mapper.TagModelMapper.uiModel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.RegisterTaskEvent
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.RegisterTaskState
 import com.soujunior.petjournal.ui.states.TaskState
@@ -44,7 +45,7 @@ class RegisterTaskViewModelImpl(
                 createTag(event.name, event.color)
             }
             is RegisterTaskEvent.OnUpdateTag -> {
-                updateTag(event.name, event.color)
+                updateTag(event.name, event.color, event.id)
             }
             is RegisterTaskEvent.OnDeleteTag -> {
                 deleteTag(event.id)
@@ -78,15 +79,9 @@ class RegisterTaskViewModelImpl(
         viewModelScope.launch {
             val result = createTagCase.execute(TagModel(name = name, color = color))
             result.handleResult({ tagModel: TagModel ->
+                _state.value.listTag.add(tagModel.uiModel())
                 _state.update {
-                    it.copy(
-                        isLoadingListTag = false,
-                        listTag =
-                            (
-                                listOf(tagModel).toListSelectableButtonInfo() +
-                                    _state.value.listTag
-                            ).toMutableList(),
-                    )
+                    it.copy(isLoadingListTag = false)
                 }
             }, {
                 _state.update { it.copy(isLoadingListTag = false) }
@@ -97,16 +92,31 @@ class RegisterTaskViewModelImpl(
     private fun updateTag(
         name: String,
         color: String,
+        id: String,
     ) {
-        Log.e(TAG, "UPDATE: $name, $color")
         _state.update { it.copy(isLoadingListTag = true) }
+        val item = _state.value.listTag.find { it.id == id }
+
         viewModelScope.launch {
-            val result = updateTagCase.execute(TagModel(name = name, color = color))
+            val result = updateTagCase.execute(Pair(id, TagModel(name = name, color = color)))
             result.handleResult({
-                Log.e(TAG, "Sucesso em modificar componente")
-                _state.update { it.copy(isLoadingListTag = false) }
+                item?.let {
+                    _state.value.listTag.map { it.id == id }
+                    _state.update {
+                        it.copy(
+                            isLoadingListTag = false,
+                            listTag =
+                                _state.value.listTag.map {
+                                    if (it.id == id) {
+                                        it.copy(title = name, color = Color(color.toColor()))
+                                    } else {
+                                        it
+                                    }
+                                }.toMutableList(),
+                        )
+                    }
+                }
             }, {
-                Log.e(TAG, "Erro em modificar componente: $it")
                 _state.update { it.copy(isLoadingListTag = false) }
             })
         }
@@ -117,12 +127,8 @@ class RegisterTaskViewModelImpl(
         viewModelScope.launch {
             val result = deleteTagCase.execute(id)
             result.handleResult({ value ->
-                _state.update {
-                    it.copy(
-                        isLoadingListTag = false,
-                        listTag = _state.value.listTag.removeIf { it.id == id }.let { _state.value.listTag },
-                    )
-                }
+                _state.value.listTag.removeIf { it.id == id }.let { _state.value.listTag }
+                _state.update { it.copy(isLoadingListTag = false) }
             }, {
                 _state.update { it.copy(isLoadingListTag = false) }
             })

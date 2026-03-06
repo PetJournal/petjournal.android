@@ -171,18 +171,14 @@ class GuardianRepositoryImpl(
         getToken()?.let { token ->
             val apiResponse =  guardianApi.updateTag(token, tag.id!!, tag)
             var result: NetworkResult<UpdatePetByIdDTO> = NetworkResult.Error(0, null)
-            Log.e(TAG, "updateTag: $tag")
             apiResponse
                 .onSuccess { data ->
-                    Log.e(TAG, "onSuccess: $data")
                     result = NetworkResult.Success(data)
                 }
                 .onError { code, body ->
-                    Log.e(TAG, "onError: $body, $code")
                     result = NetworkResult.Error(code, body)
                 }
                 .onException { throwable ->
-                    Log.e(TAG, "onException: $throwable")
                     result = NetworkResult.Exception(throwable)
                 }
             return result
