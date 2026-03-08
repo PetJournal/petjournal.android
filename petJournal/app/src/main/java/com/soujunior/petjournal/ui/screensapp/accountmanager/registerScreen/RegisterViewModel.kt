@@ -1,7 +1,7 @@
 package com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen
 
 import androidx.lifecycle.ViewModel
-import com.soujunior.domain.model.mapper.User
+import com.soujunior.domain.model.User
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel

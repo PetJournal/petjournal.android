@@ -3,7 +3,7 @@ package com.soujunior.petjournal.ui.registerScreen
 import androidx.lifecycle.viewModelScope
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
-import com.soujunior.domain.model.mapper.User
+import com.soujunior.domain.model.User
 import com.soujunior.domain.use_case.auth.SignUpUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.util.ValidationResult

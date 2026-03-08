@@ -1,6 +1,6 @@
 package com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen
 
-import com.soujunior.domain.model.mapper.User
+import com.soujunior.domain.model.User
 
 data class RegisterFormState(
     val name: String = "",

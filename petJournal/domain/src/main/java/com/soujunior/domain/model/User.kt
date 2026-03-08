@@ -1,4 +1,4 @@
-package com.soujunior.domain.model.mapper
+package com.soujunior.domain.model
 
 data class User (
     val id: String,

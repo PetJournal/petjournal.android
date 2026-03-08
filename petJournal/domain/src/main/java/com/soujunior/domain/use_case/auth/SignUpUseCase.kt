@@ -2,7 +2,7 @@ package com.soujunior.domain.use_case.auth
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import com.soujunior.domain.model.mapper.User
+import com.soujunior.domain.model.User
 import com.soujunior.domain.model.request.SignUpModel
 import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.domain.network.NetworkResult

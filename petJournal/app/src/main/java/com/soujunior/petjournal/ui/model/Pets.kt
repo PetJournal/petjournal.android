@@ -9,7 +9,7 @@ data class Pets(
     val name: String? = null,
 )
 
-fun PetModel.toPets(): Pets  {
+fun PetModel.toPets(): Pets {
     return Pets()
 }
 
