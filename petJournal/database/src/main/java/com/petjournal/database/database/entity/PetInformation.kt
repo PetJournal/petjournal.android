@@ -5,6 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+//todo: como o PetInformation, que deveria ter dados do pet, esta com parametro de guardianId?? Existe um PetInformation.toModel(): PetModel, verifique isso.
 @Entity(
     tableName = "pet_information",
     foreignKeys = [ForeignKey(

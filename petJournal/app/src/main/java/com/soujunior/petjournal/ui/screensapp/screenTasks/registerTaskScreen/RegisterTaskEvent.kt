@@ -8,4 +8,8 @@ sealed class RegisterTaskEvent {
     class OnCreateTag(val name: String, val color: String) : RegisterTaskEvent()
 
     class OnDeleteTag(val id: String) : RegisterTaskEvent()
+
+    class OnName(val name: String) : RegisterTaskEvent()
+
+    class OnDescription(val text: String) : RegisterTaskEvent()
 }

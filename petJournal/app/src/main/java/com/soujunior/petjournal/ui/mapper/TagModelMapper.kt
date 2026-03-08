@@ -2,7 +2,7 @@ package com.soujunior.petjournal.ui.mapper
 
 import androidx.compose.ui.graphics.Color
 import com.soujunior.domain.model.response.tag.TagModel
-import com.soujunior.petjournal.ui.components.SelectableButtonInfo
+import com.soujunior.petjournal.ui.model.SelectableButtonInfo
 
 object TagModelMapper {
     fun String.toColor(): Int {

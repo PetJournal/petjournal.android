@@ -55,16 +55,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.model.SelectableButtonInfo
 import com.soujunior.petjournal.ui.model.TagAction
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
-
-data class SelectableButtonInfo(
-    val id: String? = null,
-    val title: String,
-    val color: Color,
-)
 
 @Composable
 fun ManageTagsDialog(
@@ -403,7 +398,7 @@ fun GroupSelectableButton(
                         Modifier
                     },
             )
-            if (showButton) {
+            if (showButton == true && isLoading == false) {
                 Surface(
                     modifier =
                         Modifier

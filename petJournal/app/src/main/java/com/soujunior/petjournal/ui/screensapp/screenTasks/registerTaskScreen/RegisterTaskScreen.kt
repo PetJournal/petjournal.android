@@ -30,13 +30,13 @@ import com.soujunior.petjournal.ui.components.GroupSelectableButton
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.PetFilterList
-import com.soujunior.petjournal.ui.components.Pets
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
-import com.soujunior.petjournal.ui.components.SelectableButtonInfo
 import com.soujunior.petjournal.ui.components.TextFieldCustom
 import com.soujunior.petjournal.ui.components.TransactionTypeSelector
 import com.soujunior.petjournal.ui.components.task.OneOffTask
 import com.soujunior.petjournal.ui.components.task.RecurringTask
+import com.soujunior.petjournal.ui.model.Pets
+import com.soujunior.petjournal.ui.model.SelectableButtonInfo
 import com.soujunior.petjournal.ui.model.TagAction
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.FakeRegisterTaskViewModel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModel
@@ -58,57 +58,6 @@ fun RegisterTaskScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    val listPet =
-        listOf(
-            Pets(
-                id = 1,
-                imageRes = painterResource(R.drawable.image_jujuba),
-                name = "Jujuba",
-            ),
-            Pets(
-                id = 2,
-                imageRes = painterResource(R.drawable.image_alfredo),
-                name = "Alfredo",
-            ),
-            Pets(
-                id = 3,
-                imageRes = painterResource(R.drawable.image_alfredo),
-                name = "Alfredo",
-            ),
-            Pets(
-                id = 4,
-                imageRes = painterResource(R.drawable.image_alfredo),
-                name = "Alfredo",
-            ),
-            Pets(
-                id = 5,
-                imageRes = painterResource(R.drawable.image_alfredo),
-                name = "Alfredo",
-            ),
-            Pets(
-                id = 6,
-                imageRes = painterResource(R.drawable.image_alfredo),
-                name = "Alfredo",
-            ),
-            Pets(
-                id = 7,
-                imageRes = painterResource(R.drawable.image_alfredo),
-                name = "Alfredo",
-            ),
-            Pets(
-                id = 8,
-                imageRes = painterResource(R.drawable.image_alfredo),
-                name = "Alfredo",
-            ),
-            Pets(
-                id = 9,
-                imageRes = painterResource(R.drawable.image_alfredo),
-                name = "Alfredo",
-            ),
-        )
-
-    val nameTask = remember { mutableStateOf("") }
-    val desc = remember { mutableStateOf("") }
     val ob = remember { mutableStateOf("") }
     var selectedType by remember { mutableStateOf<TransactionType?>(null) }
 
@@ -143,7 +92,7 @@ fun RegisterTaskScreen(
                     item {
                         GroupSelectableButton(
                             listOfTags = state.listTag,
-                            isLoading = state.isLoadingListTag,
+                            isLoading = state.isLoadingListTag || state.isLoadingAll,
                             showButton = !state.isLoadingListTag,
                             onAction = {
                                 when (it) {
@@ -186,34 +135,38 @@ fun RegisterTaskScreen(
                     }
                     item {
                         InputText(
-                            isLoading = true,
+                            isLoading = state.isLoadingTaskName || state.isLoadingAll,
                             modifier = Modifier.testTag("inputFieldTag"),
                             placeholderText = stringResource(R.string.enter_task_name_here),
                             titleText = stringResource(R.string.task_name),
-                            textValue = nameTask.value,
-                            onEvent = { t ->
-                                nameTask.value = t
+                            textValue = state.taskName,
+                            onEvent = {
+                                viewModel.onEvent(
+                                    RegisterTaskEvent.OnName(it),
+                                )
                             },
                         )
                     }
                     item {
                         TextFieldCustom(
-                            isLoading = true,
+                            isLoading = state.isLoadingTaskDescription || state.isLoadingAll,
                             title = stringResource(R.string.label_description),
                             placeholder = stringResource(R.string.enter_the_task_description_here),
-                            value = desc.value,
-                            onValueChange = { d ->
-                                desc.value = d
+                            value = state.taskDescription,
+                            onValueChange = {
+                                viewModel.onEvent(
+                                    RegisterTaskEvent.OnDescription(it),
+                                )
                             },
                         )
                     }
-                    item {
-                        PetFilterList(
-                            listPet,
-                            isLoading = true,
-                            onSelectedPet = {},
-                        )
-                    }
+//                    item {
+//                        PetFilterList(
+//                            state.listPets,
+//                            isLoading = false,
+//                            onSelectedPet = {},
+//                        )
+//                    }
                     item {
                         Column {
                             TransactionTypeSelector(

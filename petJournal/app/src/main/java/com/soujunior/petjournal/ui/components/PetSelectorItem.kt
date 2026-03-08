@@ -40,15 +40,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.model.Pets
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.util.shimmerEffect
 
 @Composable
 fun PetIcon(
+    modifier: Modifier = Modifier,
     imageRes: Painter? = null,
     isSelected: Boolean = false,
     isLoading: Boolean = false,
-    modifier: Modifier = Modifier,
 ) {
     val backgroundColor = if (isSelected) ColorCustom.color_background_pet_icon else Color.White
 
@@ -183,12 +184,6 @@ fun PetFilterItem(
         )
     }
 }
-
-data class Pets(
-    val id: Int = 0,
-    val imageRes: Painter? = null,
-    val name: String? = null,
-)
 
 @Composable
 fun PetFilterList(

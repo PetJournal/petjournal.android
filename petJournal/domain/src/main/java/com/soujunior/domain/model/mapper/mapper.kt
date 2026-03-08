@@ -1,7 +1,5 @@
 package com.soujunior.domain.model.mapper
 
-import com.soujunior.domain.model.PetDetailsDTO
-import com.soujunior.domain.model.PetModel
 import java.time.LocalDate
 import java.time.Period
 import java.time.ZonedDateTime
@@ -22,18 +20,4 @@ private fun parseAndCalculateAge(dateString: String): String {
     } catch (e: Exception) {
         e.message.toString()
     }
-}
-
-fun PetDetailsDTO.toPetModel(): PetModel {
-    return PetModel(
-        id = this.id?.toLongOrNull() ?: 0L,
-        species = this.specieAlias ?: this.specie?.name,
-        petName = this.petName,
-        gender = this.gender,
-        size = this.size?.name,
-        petRace = this.breedAlias ?: this.breed?.name,
-        petAge = this.dateOfBirth?.let { parseAndCalculateAge(it) },
-        guardianId = this.guardianId?.toIntOrNull(),
-        castrated = this.castrated
-    )
 }

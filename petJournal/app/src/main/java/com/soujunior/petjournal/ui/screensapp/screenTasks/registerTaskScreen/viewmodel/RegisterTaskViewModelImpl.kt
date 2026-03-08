@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.vi
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.tag.TagModel
+import com.soujunior.domain.use_case.pet.GetListPetUseCase
 import com.soujunior.domain.use_case.task.CreateTagUseCase
 import com.soujunior.domain.use_case.task.DeleteTagUseCase
 import com.soujunior.domain.use_case.task.GetListTagUseCase
@@ -25,16 +26,19 @@ class RegisterTaskViewModelImpl(
     private val createTagCase: CreateTagUseCase,
     private val updateTagCase: UpdateTagUseCase,
     private val deleteTagCase: DeleteTagUseCase,
+    private val getPetListUseCase: GetListPetUseCase,
 ) : RegisterTaskViewModel() {
     private val _state = MutableStateFlow(RegisterTaskState())
     override val state: MutableStateFlow<RegisterTaskState> get() = _state
 
     init {
+        _state.update { it.copy(isLoadingAll = true) }
         getData()
     }
 
     private fun getData() {
         getTags()
+        getPets()
     }
 
     override val validationEventChannel = Channel<ValidationEvent>()
@@ -49,6 +53,12 @@ class RegisterTaskViewModelImpl(
             }
             is RegisterTaskEvent.OnDeleteTag -> {
                 deleteTag(event.id)
+            }
+            is RegisterTaskEvent.OnName -> {
+                _state.update { it.copy(taskName = event.name) }
+            }
+            is RegisterTaskEvent.OnDescription -> {
+                _state.update { it.copy(taskDescription = event.text) }
             }
             is RegisterTaskEvent.ReloadListPet -> {}
         }
@@ -131,6 +141,18 @@ class RegisterTaskViewModelImpl(
                 _state.update { it.copy(isLoadingListTag = false) }
             }, {
                 _state.update { it.copy(isLoadingListTag = false) }
+            })
+        }
+    }
+
+    private fun getPets() {
+        _state.value = _state.value.copy(isLoadingListPet = true)
+        viewModelScope.launch {
+            val result = getPetListUseCase.execute(Unit)
+            result.handleResult({
+                _state.value = _state.value.copy(listPets = it, isLoadingListPet = false)
+            }, {
+                _state.value = _state.value.copy(isLoadingListPet = false, hasErrorOnListPets = true)
             })
         }
     }
