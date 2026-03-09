@@ -6,12 +6,3 @@ data class TagModel(
     val name : String? = null,
     val color : String? = null,
 )
-
-fun TagModel.toDTO(): TagDTO {
-    return TagDTO(
-        id = this.id,
-        guardianId = this.guardianId,
-        name = this.name,
-        color = this.color,
-    )
-}

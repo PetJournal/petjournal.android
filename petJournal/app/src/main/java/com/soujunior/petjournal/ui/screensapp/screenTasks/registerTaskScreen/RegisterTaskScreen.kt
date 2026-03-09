@@ -35,7 +35,6 @@ import com.soujunior.petjournal.ui.components.TextFieldCustom
 import com.soujunior.petjournal.ui.components.TransactionTypeSelector
 import com.soujunior.petjournal.ui.components.task.OneOffTask
 import com.soujunior.petjournal.ui.components.task.RecurringTask
-import com.soujunior.petjournal.ui.model.Pets
 import com.soujunior.petjournal.ui.model.SelectableButtonInfo
 import com.soujunior.petjournal.ui.model.TagAction
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.FakeRegisterTaskViewModel
@@ -160,13 +159,16 @@ fun RegisterTaskScreen(
                             },
                         )
                     }
-//                    item {
-//                        PetFilterList(
-//                            state.listPets,
-//                            isLoading = false,
-//                            onSelectedPet = {},
-//                        )
-//                    }
+                    item {
+                        PetFilterList(
+                            listPet = state.listPets,
+                            selectedIds = state.selectedPet,
+                            isLoading = state.isLoadingListPet || state.isLoadingAll,
+                            onSelectionChanged = {
+                                viewModel.onEvent(RegisterTaskEvent.OnPetList(it))
+                            },
+                        )
+                    }
                     item {
                         Column {
                             TransactionTypeSelector(
@@ -217,12 +219,12 @@ fun RegisterTaskScreen(
                             },
                         )
                     }
-//                    todo: esconder botao quando estiver em estado de loading == true
                     item {
                         val isLoading = true
                         if (!isLoading) {
                             Button3(
-                                submit = { /*TODO*/ },
+                                submit = {
+                                },
                                 enableButton = true,
                                 text = stringResource(R.string.label_save_task),
                             )
@@ -316,36 +318,6 @@ fun TextFieldCustomDescriptionPreview() {
             value = desc.value,
             onValueChange = { d ->
                 desc.value = d
-            },
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PetFilterListPreview() {
-    val listPet =
-        listOf(
-            Pets(
-                id = 1,
-                imageRes = painterResource(R.drawable.image_jujuba),
-                name = "Jujuba",
-            ),
-            Pets(
-                id = 2,
-                imageRes = painterResource(R.drawable.image_alfredo),
-                name = "Alfredo",
-            ),
-            Pets(
-                id = 3,
-                imageRes = painterResource(R.drawable.image_alfredo),
-                name = "Alfredo",
-            ),
-        )
-    PetJournalTheme {
-        PetFilterList(
-            listPet,
-            onSelectedPet = {
             },
         )
     }

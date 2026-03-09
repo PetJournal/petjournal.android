@@ -142,16 +142,16 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation("com.github.Kaaveh:sdp-compose:1.1.0")
     // Room
-//    val roomVersion = "2.3.0"
-//    implementation("androidx.room:room-runtime:$roomVersion")
-//    kapt("androidx.room:room-compiler:$roomVersion")
-//    implementation("androidx.room:room-ktx:$roomVersion")
+    //    val roomVersion = "2.3.0"
+    //    implementation("androidx.room:room-runtime:$roomVersion")
+    //    kapt("androidx.room:room-compiler:$roomVersion")
+    //    implementation("androidx.room:room-ktx:$roomVersion")
 
     // Room
-//    val roomVersion = "2.3.0"
-//    implementation("androidx.room:room-runtime:$roomVersion")
-//    ksp("androidx.room:room-compiler:$roomVersion")
-//    implementation("androidx.room:room-ktx:$roomVersion")
+    //    val roomVersion = "2.3.0"
+    //    implementation("androidx.room:room-runtime:$roomVersion")
+    //    ksp("androidx.room:room-compiler:$roomVersion")
+    //    implementation("androidx.room:room-ktx:$roomVersion")
     // Room
     val roomVersion = "2.3.0"
     implementation("androidx.room:room-runtime:$roomVersion")
@@ -160,7 +160,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
 
     // BANNERSLIDER
-    implementation("io.coil-kt:coil-compose:1.4.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.13.0")
 
     // MATERIAL 2
@@ -179,7 +179,6 @@ dependencies {
     implementation("androidx.compose.ui:ui:$composeUiVersion")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeUiVersion")
     implementation("androidx.compose.ui:ui-util:$composeUiVersion")
-
     implementation("com.github.bumptech.glide:glide:4.12.0")
     ksp("com.github.bumptech.glide:ksp:4.14.2")
     // kapt("com.github.bumptech.glide:compiler:4.12.0")

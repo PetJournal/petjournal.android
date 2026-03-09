@@ -20,10 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,8 +33,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.model.Pets
 import com.soujunior.petjournal.ui.theme.ColorCustom
@@ -50,8 +46,10 @@ fun PetIcon(
     imageRes: Painter? = null,
     isSelected: Boolean = false,
     isLoading: Boolean = false,
+    onClick: () -> Unit = {},
 ) {
     val backgroundColor = if (isSelected) ColorCustom.color_background_pet_icon else Color.White
+    val shape = RoundedCornerShape(8.dp)
 
     Box(
         modifier =
@@ -60,7 +58,7 @@ fun PetIcon(
                     if (isLoading) {
                         Modifier
                             .size(55.dp)
-                            .clip(RoundedCornerShape(8.dp))
+                            .clip(shape)
                             .shimmerEffect()
                     } else {
                         Modifier
@@ -68,18 +66,14 @@ fun PetIcon(
                                 elevation = 13.1762.dp,
                                 spotColor = ColorCustom.color_spot_pet_icon,
                                 ambientColor = ColorCustom.color_spot_pet_icon,
+                                shape = shape,
                             )
-                            .padding(1.dp)
                             .size(55.dp)
-                            .background(
-                                color = backgroundColor,
-                                shape = RoundedCornerShape(8.dp),
-                            )
-                            .border(
-                                width = 1.dp,
-                                color = ColorCustom.color_border_pet_icon,
-                                shape = RoundedCornerShape(8.dp),
-                            )
+                            .clip(shape)
+                            .background(color = backgroundColor)
+                            .border(width = 1.dp, color = ColorCustom.color_border_pet_icon, shape = shape)
+                            .clickable { onClick() }
+                            .padding(1.dp)
                     },
                 ),
         contentAlignment = Alignment.Center,
@@ -91,41 +85,29 @@ fun PetIcon(
                         painter = imageRes,
                         contentDescription = null,
                         tint = if (isSelected) Color.White else ColorCustom.color_background_pet_icon,
-                        modifier =
-                            Modifier
-                                .size(32.dp)
-                                .offset(y = 4.dp)
-                                .testTag("SelectedIcon"),
+                        modifier = Modifier.size(32.dp).offset(y = 4.dp).testTag("SelectedIcon"),
                     )
                 }
-
                 imageRes != null -> {
                     Image(
                         painter = imageRes,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .clip(RoundedCornerShape(8.dp)),
+                        modifier = Modifier.fillMaxSize().clip(shape),
                     )
-
                     if (isSelected) {
-                        val defaultPainter = painterResource(id = R.drawable.icon_pet_selected)
                         Icon(
-                            painter = defaultPainter,
+                            painter = painterResource(id = R.drawable.icon_pet_selected),
                             contentDescription = null,
                             tint = ColorCustom.color_background_pet_icon,
                             modifier = Modifier.size(32.dp),
                         )
                     }
                 }
-
                 else -> {
                     if (isSelected) {
-                        val defaultPainter = painterResource(id = R.drawable.icon_pet_selected)
                         Icon(
-                            painter = defaultPainter,
+                            painter = painterResource(id = R.drawable.icon_pet_selected),
                             contentDescription = null,
                             tint = Color.White,
                             modifier = Modifier.size(32.dp),
@@ -149,38 +131,32 @@ fun PetFilterItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier =
             Modifier
-                .then(
-                    if (isLoading) {
-                        Modifier
-                    } else {
-                        Modifier
-                            .padding(start = 0.dp, end = 16.dp)
-                            .clickable { onSelect(name) }
-                    },
-                )
+                .padding(start = 0.dp, end = 16.dp)
                 .testTag("PetItem_$name"),
     ) {
         PetIcon(
-            imageRes = if (name == "Todos") painterResource(id = R.drawable.icon_pet_selected) else imageRes,
+            imageRes =
+                if (name == stringResource(R.string.label_all_pets)) {
+                    painterResource(id = R.drawable.icon_pet_selected)
+                } else {
+                    imageRes
+                },
             isSelected = isSelected,
             isLoading = isLoading,
+            onClick = { onSelect(name) },
         )
+
         Text(
+            text = name,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight(500),
             color = if (isLoading) Color.Transparent else ColorCustom.color_title_pet_icon,
             textAlign = TextAlign.Center,
-            text = name,
             maxLines = 1,
             modifier =
-                if (isLoading) {
-                    Modifier
-                        .padding(top = 4.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .shimmerEffect()
-                } else {
-                    Modifier
-                },
+                Modifier
+                    .padding(top = 4.dp)
+                    .then(if (isLoading) Modifier.clip(RoundedCornerShape(4.dp)).shimmerEffect() else Modifier),
         )
     }
 }
@@ -189,9 +165,11 @@ fun PetFilterItem(
 fun PetFilterList(
     listPet: List<Pets> = listOf(),
     isLoading: Boolean = false,
-    onSelectedPet: (String) -> Unit = {},
+    selectedIds: List<String> = listOf(),
+    onSelectionChanged: (List<String>) -> Unit = {},
 ) {
-    var selectedPets by remember { mutableStateOf(listOf<String>()) }
+    val labelAll = stringResource(R.string.label_all_pets)
+    val isAllSelected = selectedIds.isEmpty() || selectedIds.contains(labelAll)
 
     Column(modifier = Modifier) {
         Text(
@@ -199,122 +177,65 @@ fun PetFilterList(
             color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.scrim,
             fontWeight = FontWeight(500),
             style = MaterialTheme.typography.titleMedium,
-            modifier =
-                if (isLoading) {
-                    Modifier
-                        .clip(RoundedCornerShape(4.dp))
-                        .shimmerEffect()
-                } else {
-                    Modifier
-                },
+            modifier = if (isLoading) Modifier.clip(RoundedCornerShape(4.dp)).shimmerEffect() else Modifier,
         )
 
         if (isLoading) {
             Row(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 repeat(5) {
-                    PetFilterItem(
-                        name = "        ",
-                        isSelected = false,
-                        isLoading = true,
-                        onSelect = {},
-                    )
+                    PetFilterItem(name = "", isSelected = false, isLoading = true, onSelect = {})
                 }
             }
         } else {
             LazyRow(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 item {
                     PetFilterItem(
-                        name = stringResource(R.string.label_all_pets),
-                        isSelected = selectedPets.contains(stringResource(R.string.label_all_pets)),
+                        name = labelAll,
+                        isSelected = isAllSelected,
                         imageRes = null,
                         isLoading = false,
-                        onSelect = { name ->
-                            selectedPets =
-                                if (selectedPets.contains(name)) {
-                                    selectedPets - name
-                                } else {
-                                    selectedPets + name
-                                }
-                            onSelectedPet(if (selectedPets.contains(name)) name else "")
+                        onSelect = {
+                            onSelectionChanged(listOf("All"))
                         },
                     )
                 }
+
                 items(
                     items = listPet,
-                    key = { it.id },
-                ) { item ->
+                    key = { it.id ?: it.hashCode() },
+                ) { pet ->
+                    val petId = pet.id ?: ""
+                    val isThisPetSelected = !isAllSelected && selectedIds.contains(petId)
+
+                    val painter = rememberAsyncImagePainter(model = pet.imageRes)
+
                     PetFilterItem(
-                        name = item.name!!,
-                        isSelected = selectedPets.contains(item.name),
-                        imageRes = item.imageRes,
+                        name = pet.name ?: "",
+                        isSelected = isThisPetSelected,
+                        imageRes = painter,
                         isLoading = false,
-                        onSelect = { name ->
-                            selectedPets =
-                                if (selectedPets.contains(name)) {
-                                    selectedPets - name
+                        onSelect = {
+                            val newList = selectedIds.toMutableList()
+                            if (isAllSelected) {
+                                onSelectionChanged(listOf(petId))
+                            } else {
+                                if (isThisPetSelected) {
+                                    newList.remove(petId)
                                 } else {
-                                    selectedPets + name
+                                    newList.add(petId)
                                 }
-                            onSelectedPet(if (selectedPets.contains(name)) name else "")
+                                onSelectionChanged(newList)
+                            }
                         },
                     )
                 }
             }
         }
     }
-}
-
-@Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
-@Composable
-fun PetFilterListPreview() {
-    val listPet =
-        listOf(
-            Pets(
-                id = 1,
-                imageRes = painterResource(R.drawable.image_jujuba),
-                name = "Jujuba",
-            ),
-            Pets(
-                id = 2,
-                imageRes = painterResource(R.drawable.image_alfredo),
-                name = "Alfredo",
-            ),
-            Pets(
-                id = 1423,
-                imageRes = painterResource(R.drawable.image_jujuba),
-                name = "Jujuba",
-            ),
-            Pets(
-                id = 245,
-                imageRes = painterResource(R.drawable.image_alfredo),
-                name = "Alfredo",
-            ),
-            Pets(
-                id = 1455,
-                imageRes = painterResource(R.drawable.image_jujuba),
-                name = "Jujuba",
-            ),
-            Pets(
-                id = 6452,
-                imageRes = painterResource(R.drawable.image_alfredo),
-                name = "Alfredo",
-            ),
-        )
-
-    PetFilterList(
-        listPet,
-        onSelectedPet = {},
-    )
 }

@@ -8,16 +8,3 @@ data class TagDTO(
     @SerializedName("name") val name : String? = null,
     @SerializedName("color") val color : String? = null,
 )
-
-fun TagDTO.toDomain(): TagModel {
-    return TagModel(
-        id = this.id,
-        guardianId = this.guardianId,
-        name = this.name,
-        color = this.color,
-    )
-}
-
-fun List<TagDTO>.toDomain(): List<TagModel> {
-    return this.map { it.toDomain() }
-}

@@ -5,8 +5,8 @@ import assertk.assertThat
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
 import com.soujunior.domain.use_case.base.DataResult
-import com.soujunior.domain.use_case.pet.GetListPetRacesUseCase
-import com.soujunior.domain.use_case.pet.GetListPetSizesUseCase
+import com.soujunior.domain.use_case.information.GetListPetRacesUseCase
+import com.soujunior.domain.use_case.information.GetListPetSizesUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl

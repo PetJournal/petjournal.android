@@ -1,10 +1,6 @@
 package com.soujunior.domain.model
 
 import com.google.gson.annotations.SerializedName
-import java.time.LocalDate
-import java.time.Period
-import java.time.ZonedDateTime
-import java.time.format.DateTimeParseException
 
 data class PetDetailsDTO(
     @SerializedName("id")

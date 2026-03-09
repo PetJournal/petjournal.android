@@ -1,10 +1,24 @@
 package com.soujunior.petjournal.ui.mapper
 
 import androidx.compose.ui.graphics.Color
+import com.soujunior.domain.model.PetModelV2
 import com.soujunior.domain.model.response.tag.TagModel
+import com.soujunior.petjournal.ui.model.Pets
 import com.soujunior.petjournal.ui.model.SelectableButtonInfo
 
-object TagModelMapper {
+object Mapper {
+    fun PetModelV2.toPets(): Pets {
+        return Pets(
+            id = this.id,
+            imageRes = this.image,
+            name = this.petName,
+        )
+    }
+
+    fun List<PetModelV2>.toPetsList(): List<Pets> {
+        return this.map { it.toPets() }
+    }
+
     fun String.toColor(): Int {
         var cleanHex = this.removePrefix("#")
 

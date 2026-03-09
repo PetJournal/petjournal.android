@@ -8,8 +8,8 @@ import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.repository.ValidationRepository
-import com.soujunior.domain.use_case.pet.GetListPetRacesUseCase
-import com.soujunior.domain.use_case.pet.GetListPetSizesUseCase
+import com.soujunior.domain.use_case.information.GetListPetRacesUseCase
+import com.soujunior.domain.use_case.information.GetListPetSizesUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.petjournal.ui.states.TaskState

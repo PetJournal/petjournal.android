@@ -1,7 +1,7 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
 
-import com.soujunior.domain.model.PetModel
 import com.soujunior.petjournal.ui.components.data.TaskData
+import com.soujunior.petjournal.ui.model.Pets
 import com.soujunior.petjournal.ui.model.SelectableButtonInfo
 
 data class RegisterTaskState(
@@ -19,5 +19,6 @@ data class RegisterTaskState(
     val isLoadingTaskDescription: Boolean = false,
     val isLoadingListPet: Boolean = false,
     val hasErrorOnListPets: Boolean = false,
-    val listPets: List<PetModel> = emptyList(),
+    val listPets: List<Pets> = emptyList(),
+    val selectedPet: List<String> = emptyList(),
 )

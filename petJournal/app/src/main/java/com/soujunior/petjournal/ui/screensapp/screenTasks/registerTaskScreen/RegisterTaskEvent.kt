@@ -11,5 +11,7 @@ sealed class RegisterTaskEvent {
 
     class OnName(val name: String) : RegisterTaskEvent()
 
+    class OnPetList(val ids: List<String>) : RegisterTaskEvent()
+
     class OnDescription(val text: String) : RegisterTaskEvent()
 }

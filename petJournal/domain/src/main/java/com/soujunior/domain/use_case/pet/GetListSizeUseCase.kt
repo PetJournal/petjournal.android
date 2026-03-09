@@ -1,7 +1,7 @@
 package com.soujunior.domain.use_case.pet
 
+import com.soujunior.domain.mapper.Mapper.toDomain
 import com.soujunior.domain.model.response.pet.SizeModel
-import com.soujunior.domain.model.response.pet.toDomain
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.BaseUseCase

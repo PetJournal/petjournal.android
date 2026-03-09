@@ -7,6 +7,7 @@ import com.soujunior.domain.setup.CAT
 import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.setup.listPetRaces
 import com.soujunior.domain.setup.petInformation
+import com.soujunior.domain.use_case.information.GetListPetRacesUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

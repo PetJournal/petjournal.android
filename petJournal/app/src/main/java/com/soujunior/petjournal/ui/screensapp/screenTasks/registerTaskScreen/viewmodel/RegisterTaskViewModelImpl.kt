@@ -3,14 +3,15 @@ package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.vi
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.tag.TagModel
-import com.soujunior.domain.use_case.pet.GetListPetUseCase
+import com.soujunior.domain.use_case.pet.GetListPetUseCaseV2
 import com.soujunior.domain.use_case.task.CreateTagUseCase
 import com.soujunior.domain.use_case.task.DeleteTagUseCase
 import com.soujunior.domain.use_case.task.GetListTagUseCase
 import com.soujunior.domain.use_case.task.UpdateTagUseCase
-import com.soujunior.petjournal.ui.mapper.TagModelMapper.toColor
-import com.soujunior.petjournal.ui.mapper.TagModelMapper.toListSelectableButtonInfo
-import com.soujunior.petjournal.ui.mapper.TagModelMapper.uiModel
+import com.soujunior.petjournal.ui.mapper.Mapper.toColor
+import com.soujunior.petjournal.ui.mapper.Mapper.toListSelectableButtonInfo
+import com.soujunior.petjournal.ui.mapper.Mapper.toPetsList
+import com.soujunior.petjournal.ui.mapper.Mapper.uiModel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.RegisterTaskEvent
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.RegisterTaskState
 import com.soujunior.petjournal.ui.states.TaskState
@@ -26,7 +27,7 @@ class RegisterTaskViewModelImpl(
     private val createTagCase: CreateTagUseCase,
     private val updateTagCase: UpdateTagUseCase,
     private val deleteTagCase: DeleteTagUseCase,
-    private val getPetListUseCase: GetListPetUseCase,
+    private val getPetListUseCase: GetListPetUseCaseV2,
 ) : RegisterTaskViewModel() {
     private val _state = MutableStateFlow(RegisterTaskState())
     override val state: MutableStateFlow<RegisterTaskState> get() = _state
@@ -59,6 +60,22 @@ class RegisterTaskViewModelImpl(
             }
             is RegisterTaskEvent.OnDescription -> {
                 _state.update { it.copy(taskDescription = event.text) }
+            }
+            is RegisterTaskEvent.OnPetList -> {
+                _state.update { state ->
+                    if (event.ids.isEmpty()) {
+                        return@update state.copy(selectedPet = emptyList())
+                    }
+                    if (event.ids.firstOrNull() == "All") {
+                        state.copy(selectedPet = emptyList())
+                    } else {
+                        val current = state.selectedPet
+                        val toAdd = event.ids.filter { id -> !current.contains(id) }
+                        val toRemove = event.ids.filter { id -> current.contains(id) }
+                        val newList = (current + toAdd) - toRemove.toSet()
+                        state.copy(selectedPet = newList)
+                    }
+                }
             }
             is RegisterTaskEvent.ReloadListPet -> {}
         }
@@ -150,7 +167,7 @@ class RegisterTaskViewModelImpl(
         viewModelScope.launch {
             val result = getPetListUseCase.execute(Unit)
             result.handleResult({
-                _state.value = _state.value.copy(listPets = it, isLoadingListPet = false)
+                _state.value = _state.value.copy(listPets = it.toPetsList(), isLoadingListPet = false)
             }, {
                 _state.value = _state.value.copy(isLoadingListPet = false, hasErrorOnListPets = true)
             })

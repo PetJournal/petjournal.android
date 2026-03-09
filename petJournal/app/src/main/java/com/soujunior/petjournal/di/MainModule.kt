@@ -29,11 +29,12 @@ import com.soujunior.domain.use_case.auth.SignUpUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.guardian.GetPetRegistrationWentLive
 import com.soujunior.domain.use_case.guardian.SetPetRegistrationWentLive
+import com.soujunior.domain.use_case.information.GetListBreedUseCase
+import com.soujunior.domain.use_case.information.GetListPetRacesUseCase
+import com.soujunior.domain.use_case.information.GetListPetSizesUseCase
 import com.soujunior.domain.use_case.pet.CreatePetUseCase
-import com.soujunior.domain.use_case.pet.GetListBreedUseCase
-import com.soujunior.domain.use_case.pet.GetListPetRacesUseCase
-import com.soujunior.domain.use_case.pet.GetListPetSizesUseCase
-import com.soujunior.domain.use_case.pet.GetListPetUseCase
+import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
+import com.soujunior.domain.use_case.pet.GetListPetUseCaseV2
 import com.soujunior.domain.use_case.pet.GetListSizeUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
@@ -123,7 +124,8 @@ val mainModule =
         factory { SavedStateHandle() }
         factory { GetListPetSizesUseCase(get()) }
         factory { GetListPetRacesUseCase(get()) }
-        factory { GetListPetUseCase(get()) }
+        factory { GetListPetUseCaseV1(get()) }
+        factory { GetListPetUseCaseV2(get()) }
         factory { CreatePetUseCase(get()) }
         factory { GetListBreedUseCase(get()) }
         factory { GetListSizeUseCase(get()) }

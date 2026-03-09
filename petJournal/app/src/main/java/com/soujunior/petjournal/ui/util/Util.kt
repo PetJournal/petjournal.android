@@ -71,14 +71,14 @@ val timeoutObserverInterceptor =
         val request = chain.request()
         val startTime = System.currentTimeMillis()
 
-        Log.d("NetworkObserver", "➡️ Enviando requisição para: ${request.url()}")
+        Log.d("NetworkObserver", "➡️ Enviando requisição para: ${request.url}")
 
         val response = chain.proceed(request)
 
         val endTime = System.currentTimeMillis()
         val duration = endTime - startTime
 
-        Log.d("NetworkObserver", "✅ Resposta de: ${request.url()} recebida em ${duration}ms")
+        Log.d("NetworkObserver", "✅ Resposta de: ${request.url} recebida em ${duration}ms")
 
         response
     }

@@ -2,8 +2,8 @@ package com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen
 
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetModel
+import com.soujunior.domain.use_case.information.GetListBreedUseCase
 import com.soujunior.domain.use_case.pet.CreatePetUseCase
-import com.soujunior.domain.use_case.pet.GetListBreedUseCase
 import com.soujunior.domain.use_case.pet.GetListSizeUseCase
 import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.flow.MutableStateFlow
