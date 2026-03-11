@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.tag.TagModel
@@ -81,9 +79,17 @@ class RegisterTaskViewModelImpl(
             }
 
             is RegisterTaskEvent.OnChangeTransactionType -> {
-                Log.e(TAG, "click VM: ${event.type}")
-
                 _state.update { it.copy(selectedTransactionType = event.type) }
+            }
+
+            is RegisterTaskEvent.OnPeriodType -> {
+                _state.update { it.copy(periodType = event.value) }
+            }
+            is RegisterTaskEvent.OnAmPm -> {
+                _state.update { it.copy(amPmSelected = event.value) }
+            }
+            is RegisterTaskEvent.OnTimeChange -> {
+                _state.update { it.copy(timeSelected = event.value) }
             }
 
             is RegisterTaskEvent.ReloadListPet -> {}

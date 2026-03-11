@@ -14,10 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,9 +30,8 @@ import com.soujunior.petjournal.ui.util.shimmerEffect
 fun TransactionTypeSelector(
     isLoading: Boolean = false,
     onSelectionChanged: (TransactionType?) -> Unit,
+    transactionTypeSelected: TransactionType = TransactionType.Recurrent,
 ) {
-    var selectedType by remember { mutableStateOf<TransactionType?>(TransactionType.Recurrent) }
-
     val selectedColor = ColorCustom.color_background_month_disabled
     val unselectedColor = MaterialTheme.colorScheme.background
     val borderColor = ColorCustom.color_border_button_transaction_type
@@ -52,39 +47,35 @@ fun TransactionTypeSelector(
         ) {
             ToggleButton(
                 text = stringResource(R.string.label_recurrent),
-                isSelected = selectedType == TransactionType.Recurrent,
+                isSelected = transactionTypeSelected == TransactionType.Recurrent,
                 isLoading = isLoading,
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    val newType = TransactionType.Recurrent
-                    selectedType = newType
-                    onSelectionChanged(newType)
+                    onSelectionChanged(TransactionType.Recurrent)
                 },
                 selectedColor = selectedColor,
                 unselectedColor = unselectedColor,
-                borderColor = if (selectedType == TransactionType.Recurrent) selectedColor else borderColor,
+                borderColor = if (transactionTypeSelected == TransactionType.Recurrent) selectedColor else borderColor,
             )
 
             ToggleButton(
                 text = stringResource(R.string.label_one_off),
-                isSelected = selectedType == TransactionType.OneOff,
+                isSelected = transactionTypeSelected == TransactionType.OneOff,
                 isLoading = isLoading,
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    val newType = TransactionType.OneOff
-                    selectedType = newType
-                    onSelectionChanged(newType)
+                    onSelectionChanged(TransactionType.OneOff)
                 },
                 selectedColor = selectedColor,
                 unselectedColor = unselectedColor,
-                borderColor = if (selectedType == TransactionType.OneOff) selectedColor else borderColor,
+                borderColor = if (transactionTypeSelected == TransactionType.OneOff) selectedColor else borderColor,
             )
         }
 
-        if (selectedType == TransactionType.Recurrent) {
-            onSelectionChanged(selectedType)
+        if (transactionTypeSelected == TransactionType.Recurrent) {
+            onSelectionChanged(transactionTypeSelected)
         } else {
-            onSelectionChanged(selectedType)
+            onSelectionChanged(transactionTypeSelected)
         }
     }
 }

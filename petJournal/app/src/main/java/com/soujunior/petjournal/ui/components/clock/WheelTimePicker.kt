@@ -56,6 +56,7 @@ fun WheelTimePicker(
     visibleItemsCount: Int = 3,
     initialHour: Int = 0,
     initialMinute: Int = 0,
+    time: Pair<Int, Int>? = null,
     textStyle: TextStyle = MaterialTheme.typography.titleLarge,
     focusedColor: Color = Color.Black,
     unfocusedColor: Color = ColorCustom.color_unfocused_wheelTimePicker,
@@ -69,11 +70,14 @@ fun WheelTimePicker(
     var selectedHour by remember { mutableStateOf(initialHour) }
     var selectedMinute by remember { mutableStateOf(initialMinute) }
 
+    val effectiveHour = time?.first ?: selectedHour
+    val effectiveMinute = time?.second ?: selectedMinute
+
     val hourListState = rememberLazyListState()
     val minuteListState = rememberLazyListState()
 
-    LaunchedEffect(selectedHour, selectedMinute) {
-        onTimeChanged(selectedHour, selectedMinute)
+    LaunchedEffect(effectiveHour, effectiveMinute) {
+        onTimeChanged(effectiveHour, effectiveMinute)
     }
 
     val totalHeight = itemHeight * visibleItemsCount
@@ -87,14 +91,15 @@ fun WheelTimePicker(
             modifier = Modifier.weight(1f),
             items = hours,
             listState = hourListState,
-            initialItem = hours[initialHour],
-            onItemSelected = { selectedHour = it.toInt() },
+            initialItem = hours[effectiveHour],
+            onItemSelected = { if (time == null) selectedHour = it.toInt() },
             totalHeight = totalHeight,
             itemHeight = itemHeight,
             visibleItemsCount = visibleItemsCount,
             textStyle = textStyle,
             focusedColor = focusedColor,
             unfocusedColor = unfocusedColor,
+            effectiveValue = hours[effectiveHour],
         )
 
         Box(
@@ -114,14 +119,15 @@ fun WheelTimePicker(
             modifier = Modifier.weight(1f),
             items = minutes,
             listState = minuteListState,
-            initialItem = minutes[initialMinute],
-            onItemSelected = { selectedMinute = it.toInt() },
+            initialItem = minutes[effectiveMinute],
+            onItemSelected = { if (time == null) selectedMinute = it.toInt() },
             totalHeight = totalHeight,
             itemHeight = itemHeight,
             visibleItemsCount = visibleItemsCount,
             textStyle = textStyle,
             focusedColor = focusedColor,
             unfocusedColor = unfocusedColor,
+            effectiveValue = minutes[effectiveMinute],
         )
     }
 }
@@ -142,6 +148,7 @@ private fun PickerColumn(
     textStyle: TextStyle,
     focusedColor: Color,
     unfocusedColor: Color,
+    effectiveValue: String,
 ) {
     val halfVisibleItems = visibleItemsCount / 2
     val initialDataIndex = items.indexOf(initialItem).coerceAtLeast(0)
@@ -152,6 +159,13 @@ private fun PickerColumn(
         val offsetPx = with(density) { ((totalHeight - itemHeight) / 2).roundToPx() }
         listState.scrollToItem(initialLazyColumnIndex, offsetPx)
         onItemSelected(items[initialDataIndex])
+    }
+
+    LaunchedEffect(effectiveValue) {
+        val targetIndex = items.indexOf(effectiveValue).coerceAtLeast(0)
+        val targetLazyColumnIndex = targetIndex + halfVisibleItems
+        val offsetPx = with(density) { ((totalHeight - itemHeight) / 2).roundToPx() }
+        listState.animateScrollToItem(targetLazyColumnIndex, offsetPx)
     }
 
     val centralLazyColumnIndex by remember {

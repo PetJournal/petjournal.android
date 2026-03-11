@@ -15,7 +15,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun TimePickerWithPeriodSelector(
     onAmPmSelector: (String) -> Unit,
+    selectedAmPm: String? = null,
     onTime: (Int, Int) -> Unit,
+    time: Pair<Int, Int>? = null,
     is24HourFormat: Boolean = false,
 ) {
     Row(
@@ -26,14 +28,14 @@ fun TimePickerWithPeriodSelector(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if (!is24HourFormat)
-            {
-                AmPmSelector(
-                    onPeriodSelected = { periodSelected ->
-                        onAmPmSelector(periodSelected)
-                    },
-                )
-            }
+        if (!is24HourFormat) {
+            AmPmSelector(
+                onPeriodSelected = { periodSelected ->
+                    onAmPmSelector(periodSelected)
+                },
+                selected = selectedAmPm,
+            )
+        }
         Box(
             modifier =
                 Modifier
@@ -43,6 +45,7 @@ fun TimePickerWithPeriodSelector(
             contentAlignment = Alignment.Center,
         ) {
             WheelTimePicker(
+                time = time,
                 onTimeChanged = { hour, minute -> onTime(hour, minute) },
                 is24HourFormat = is24HourFormat,
             )

@@ -16,7 +16,8 @@ import com.soujunior.petjournal.ui.components.WeekDaySelector
 fun WeeklyTaskSelector(
     onWeekDaySelected: (String?) -> Unit,
     onAmPmSelector: (String?) -> Unit,
-    onTime: (Int?, Int?) -> Unit,
+    selectedAmPm: String? = null,
+    onTime: (Int, Int) -> Unit,
     is24HourFormat: Boolean = false,
 ) {
     Row(
@@ -32,9 +33,8 @@ fun WeeklyTaskSelector(
 
         if (!is24HourFormat) {
             AmPmSelector(
-                onPeriodSelected = { amPmSelector ->
-                    onAmPmSelector(amPmSelector)
-                },
+                onPeriodSelected = { amPmSelector -> onAmPmSelector(amPmSelector) },
+                selected = selectedAmPm,
             )
         }
         Box(

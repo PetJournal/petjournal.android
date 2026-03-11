@@ -175,13 +175,13 @@ fun RegisterTaskScreen(
                         Column {
                             TransactionTypeSelector(
                                 isLoading = !state.isLoadingAll,
+                                transactionTypeSelected = state.selectedTransactionType,
                                 onSelectionChanged = { type ->
-                                    viewModel.onEvent(
-                                        RegisterTaskEvent
-                                            .OnChangeTransactionType(
-                                                type,
-                                            ),
-                                    )
+                                    type?.let {
+                                        viewModel.onEvent(
+                                            RegisterTaskEvent.OnChangeTransactionType(type),
+                                        )
+                                    }
                                 },
                             )
 
@@ -190,11 +190,29 @@ fun RegisterTaskScreen(
                             when (state.selectedTransactionType) {
                                 TransactionType.Recurrent -> {
                                     RecurringTask(
-                                        setOf(),
+                                        onSelectedPeriod = {
+                                            viewModel.onEvent(
+                                                RegisterTaskEvent.OnPeriodType(it),
+                                            )
+                                        },
+                                        selectedPeriod = state.periodType,
                                         onAmPmSelector = {
+                                            it?.let {
+                                                viewModel.onEvent(
+                                                    RegisterTaskEvent.OnAmPm(it),
+                                                )
+                                            }
                                         },
+                                        selectedAmPm = state.amPmSelected,
                                         onTime = { hour, minute ->
+                                            viewModel.onEvent(
+                                                RegisterTaskEvent.OnTimeChange(
+                                                    Pair(hour, minute),
+                                                ),
+                                            )
                                         },
+                                        time = state.timeSelected,
+                                        activeMonths = setOf(),
                                         onWeekDaySelected = {
                                         },
                                         onDaySelected = {
@@ -204,16 +222,25 @@ fun RegisterTaskScreen(
 
                                 TransactionType.OneOff -> {
                                     OneOffTask(
-                                        onDateSelected = {
+                                        selectedAmPm = state.amPmSelected,
+                                        onTime = { hour, minute ->
+                                            viewModel.onEvent(
+                                                RegisterTaskEvent.OnTimeChange(
+                                                    Pair(hour, minute),
+                                                ),
+                                            )
                                         },
                                         onAmPmSelector = {
+                                            it?.let {
+                                                viewModel.onEvent(
+                                                    RegisterTaskEvent.OnAmPm(it),
+                                                )
+                                            }
                                         },
-                                        onTime = { hour, minute ->
+                                        onDateSelected = {
                                         },
                                     )
                                 }
-
-                                null -> {}
                             }
                         }
                     }

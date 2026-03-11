@@ -26,7 +26,7 @@ fun PeriodSelector(
     selected: SelectedPeriodType,
     onSelectionChanged: (SelectedPeriodType) -> Unit,
 ) {
-    val items = listOf(SelectedPeriodType.Diária, SelectedPeriodType.Semanal, SelectedPeriodType.Mensal)
+    val items = listOf(SelectedPeriodType.Daily, SelectedPeriodType.Weekly, SelectedPeriodType.Monthly)
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -86,7 +86,7 @@ fun TriangleIndicator(
 @Preview(showBackground = true)
 @Composable
 fun PeriodSelectorPreview() {
-    var selectedPeriod = SelectedPeriodType.Diária
+    var selectedPeriod = SelectedPeriodType.Daily
     PeriodSelector(selected = selectedPeriod) {
         selectedPeriod = it
     }

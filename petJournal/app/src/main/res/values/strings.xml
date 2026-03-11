@@ -211,4 +211,5 @@
     <string name="manager_tags">Gerenciar Tags</string>
     <string name="tag_name">Nome da Tag</string>
     <string name="tags_colors">Cor da Tag</string>
+    <string name="date">Data</string>
 </resources>

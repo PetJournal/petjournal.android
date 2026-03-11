@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
 
+import com.soujunior.petjournal.ui.util.SelectedPeriodType
 import com.soujunior.petjournal.ui.util.TransactionType
 
 sealed class RegisterTaskEvent {
@@ -17,5 +18,11 @@ sealed class RegisterTaskEvent {
 
     class OnDescription(val text: String) : RegisterTaskEvent()
 
-    class OnChangeTransactionType(val type: TransactionType?) : RegisterTaskEvent()
+    class OnChangeTransactionType(val type: TransactionType) : RegisterTaskEvent()
+
+    class OnPeriodType(val value: SelectedPeriodType) : RegisterTaskEvent()
+
+    class OnAmPm(val value: String) : RegisterTaskEvent()
+
+    class OnTimeChange(val value: Pair<Int, Int>) : RegisterTaskEvent()
 }

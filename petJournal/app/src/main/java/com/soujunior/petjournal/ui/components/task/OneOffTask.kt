@@ -8,7 +8,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.clock.TimePickerWithPeriodSelector
 import com.soujunior.petjournal.ui.components.data.CustomDatePicker
 
@@ -16,13 +18,14 @@ import com.soujunior.petjournal.ui.components.data.CustomDatePicker
 fun OneOffTask(
     onDateSelected: (Long?) -> Unit = {},
     onAmPmSelector: (String?) -> Unit = {},
+    selectedAmPm: String? = null,
     onTime: (Int, Int) -> Unit = { _, _ -> },
 ) {
     var selectedTimestamp by remember { mutableStateOf<Long?>(null) }
 
     Column(modifier = Modifier) {
         CustomDatePicker(
-            label = "Data",
+            label = stringResource(R.string.date),
             value = selectedTimestamp,
             onValueChange = {
                 selectedTimestamp = it
@@ -32,6 +35,7 @@ fun OneOffTask(
         )
 
         TimePickerWithPeriodSelector(
+            selectedAmPm = selectedAmPm,
             onAmPmSelector = { amPmSelector ->
                 onAmPmSelector(amPmSelector)
             },

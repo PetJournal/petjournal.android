@@ -1,10 +1,6 @@
 package com.soujunior.petjournal.ui.components.task
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.ui.components.PeriodSelector
 import com.soujunior.petjournal.ui.components.clock.MonthlyTaskSelector
@@ -16,24 +12,28 @@ import com.soujunior.petjournal.ui.util.SelectedPeriodType
 fun RecurringTask(
     activeMonths: Set<String> = setOf(),
     onAmPmSelector: (String?) -> Unit = {},
-    onTime: (Int?, Int?) -> Unit = { _, _ -> },
+    selectedAmPm: String? = null,
+    onTime: (Int, Int) -> Unit = { _, _ -> },
+    time: Pair<Int, Int>? = null,
     onWeekDaySelected: (String?) -> Unit = {},
     onDaySelected: (Int?) -> Unit = {},
     is24HourFormat: Boolean = false,
+    onSelectedPeriod: (SelectedPeriodType) -> Unit = {},
+    selectedPeriod: SelectedPeriodType = SelectedPeriodType.Daily,
 ) {
-    var selectedPeriod by remember { mutableStateOf(SelectedPeriodType.Diária) }
-
     PeriodSelector(
         selected = selectedPeriod,
-        onSelectionChanged = { selectedPeriod = it },
+        onSelectionChanged = onSelectedPeriod,
     )
 
     when (selectedPeriod) {
-        SelectedPeriodType.Diária -> {
+        SelectedPeriodType.Daily -> {
             TimePickerWithPeriodSelector(
+                time = time,
                 onAmPmSelector = { amPmSelector ->
                     onAmPmSelector(amPmSelector)
                 },
+                selectedAmPm = selectedAmPm,
                 onTime = { hour, minute ->
                     onTime(hour, minute)
                 },
@@ -41,20 +41,26 @@ fun RecurringTask(
             )
         }
 
-        SelectedPeriodType.Semanal -> {
+        SelectedPeriodType.Weekly -> {
             WeeklyTaskSelector(
                 onWeekDaySelected = onWeekDaySelected,
-                onAmPmSelector = onAmPmSelector,
+                onAmPmSelector = { amPmSelector ->
+                    onAmPmSelector(amPmSelector)
+                },
+                selectedAmPm = selectedAmPm,
                 onTime = onTime,
                 is24HourFormat = is24HourFormat,
             )
         }
 
-        SelectedPeriodType.Mensal -> {
+        SelectedPeriodType.Monthly -> {
             MonthlyTaskSelector(
                 activeMonths = activeMonths,
                 onDaySelected = onDaySelected,
-                onAmPmSelector = onAmPmSelector,
+                onAmPmSelector = { amPmSelector ->
+                    onAmPmSelector(amPmSelector)
+                },
+                selectedAmPm = selectedAmPm,
                 onTime = onTime,
                 is24HourFormat = is24HourFormat,
             )
