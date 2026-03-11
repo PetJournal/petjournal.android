@@ -29,9 +29,18 @@ import com.soujunior.petjournal.ui.theme.ColorCustom
 fun ActiveMonthsComponent(activeMonths: Set<String>) {
     val allMonths =
         listOf(
-            "Jan", "Fev", "Mar", "Abr", "Mai",
-            "Jun", "Jul", "Ago", "Set", "Out",
-            "Nov", "Dez",
+            stringResource(R.string.jan),
+            stringResource(R.string.fev),
+            stringResource(R.string.mar),
+            stringResource(R.string.abr),
+            stringResource(R.string.mai),
+            stringResource(R.string.jun),
+            stringResource(R.string.jul),
+            stringResource(R.string.ago),
+            stringResource(R.string.set),
+            stringResource(R.string.out),
+            stringResource(R.string.nov),
+            stringResource(R.string.dez),
         )
 
     Column(
@@ -75,7 +84,7 @@ fun ActiveMonthsComponent(activeMonths: Set<String>) {
                         if (isActive) {
                             MaterialTheme.colorScheme.onPrimary
                         } else {
-                            ColorCustom.error_color
+                            MaterialTheme.colorScheme.error
                         }
 
                     Box(
@@ -120,7 +129,7 @@ fun ActiveMonthsComponent(activeMonths: Set<String>) {
                     if (isActive) {
                         MaterialTheme.colorScheme.onPrimary
                     } else {
-                        ColorCustom.error_color
+                        MaterialTheme.colorScheme.error
                     }
 
                 Box(

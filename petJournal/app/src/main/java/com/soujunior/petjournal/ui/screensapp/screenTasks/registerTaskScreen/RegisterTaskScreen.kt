@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
@@ -21,6 +22,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -172,13 +174,20 @@ fun RegisterTaskScreen(
                     item {
                         Column {
                             TransactionTypeSelector(
-                                isLoading = true,
+                                isLoading = !state.isLoadingAll,
                                 onSelectionChanged = { type ->
-                                    selectedType = type
+                                    viewModel.onEvent(
+                                        RegisterTaskEvent
+                                            .OnChangeTransactionType(
+                                                type,
+                                            ),
+                                    )
                                 },
                             )
 
-                            when (selectedType) {
+                            Spacer(modifier = Modifier.padding(bottom = 16.dp))
+
+                            when (state.selectedTransactionType) {
                                 TransactionType.Recurrent -> {
                                     RecurringTask(
                                         setOf(),
@@ -234,6 +243,11 @@ fun RegisterTaskScreen(
             )
         },
     )
+}
+
+@Composable
+fun OnChangeTransactionType(x0: TransactionType?) {
+    TODO("Not yet implemented")
 }
 
 private val listOfTasks =

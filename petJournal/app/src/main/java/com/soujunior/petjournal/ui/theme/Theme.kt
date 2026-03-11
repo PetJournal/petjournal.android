@@ -158,49 +158,56 @@ fun PreviewColorTheme() {
 fun ColorSchemePreview(lightCor: ColorScheme) {
     Column {
         with(lightCor) {
-            processColor("primary", primary)
-            processColor("onPrimary", onPrimary)
-            processColor("primaryContainer", primaryContainer)
-            processColor("onPrimaryContainer", onPrimaryContainer)
-            processColor("inversePrimary", inversePrimary)
-            processColor("secondary", secondary)
-            processColor("onSecondary", onSecondary)
-            processColor("secondaryContainer", secondaryContainer)
-            processColor("onSecondaryContainer", onSecondaryContainer)
-            processColor("tertiary", tertiary)
-            processColor("onTertiary", onTertiary)
-            processColor("tertiaryContainer", tertiaryContainer)
-            processColor("onTertiaryContainer", onTertiaryContainer)
-            processColor("background", background)
-            processColor("onBackground", onBackground)
-            processColor("surface", surface)
-            processColor("onSurface", onSurface)
-            processColor("surfaceVariant", surfaceVariant)
-            processColor("onSurfaceVariant", onSurfaceVariant)
-            processColor("surfaceTint", surfaceTint)
-            processColor("inverseSurface", inverseSurface)
-            processColor("inverseOnSurface", inverseOnSurface)
-            processColor("error", error)
-            processColor("onError", onError)
-            processColor("errorContainer", errorContainer)
-            processColor("onErrorContainer", onErrorContainer)
-            processColor("outline", outline)
-            processColor("outlineVariant", outlineVariant)
-            processColor("scrim", scrim)
+            ProcessColor("primary", primary)
+            ProcessColor("onPrimary", onPrimary)
+            ProcessColor("primaryContainer", primaryContainer)
+            ProcessColor("onPrimaryContainer", onPrimaryContainer)
+            ProcessColor("inversePrimary", inversePrimary)
+            ProcessColor("secondary", secondary)
+            ProcessColor("onSecondary", onSecondary)
+            ProcessColor("secondaryContainer", secondaryContainer)
+            ProcessColor("onSecondaryContainer", onSecondaryContainer)
+            ProcessColor("tertiary", tertiary)
+            ProcessColor("onTertiary", onTertiary)
+            ProcessColor("tertiaryContainer", tertiaryContainer)
+            ProcessColor("onTertiaryContainer", onTertiaryContainer)
+            ProcessColor("background", background)
+            ProcessColor("onBackground", onBackground)
+            ProcessColor("surface", surface)
+            ProcessColor("onSurface", onSurface)
+            ProcessColor("surfaceVariant", surfaceVariant)
+            ProcessColor("onSurfaceVariant", onSurfaceVariant)
+            ProcessColor("surfaceTint", surfaceTint)
+            ProcessColor("inverseSurface", inverseSurface)
+            ProcessColor("inverseOnSurface", inverseOnSurface)
+            ProcessColor("error", error)
+            ProcessColor("onError", onError)
+            ProcessColor("errorContainer", errorContainer)
+            ProcessColor("onErrorContainer", onErrorContainer)
+            ProcessColor("outline", outline)
+            ProcessColor("outlineVariant", outlineVariant)
+            ProcessColor("scrim", scrim)
         }
     }
 }
 
 @Composable
-fun processColor(
+fun ProcessColor(
     name: String,
     color: Color,
 ) {
-    Row(modifier = Modifier.background(color)) {
+    Row {
+        Row(modifier = Modifier.background(color)) {
+            Text(
+                text = "----",
+                Modifier.background(color),
+                color = color.copy(red = 1f),
+            )
+        }
         Text(
             text = name,
             Modifier.background(color),
-            color = color.copy(red = 1f),
+            color = Color.Cyan,
         )
     }
 }

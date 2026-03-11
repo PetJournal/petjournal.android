@@ -35,7 +35,7 @@ fun TransactionTypeSelector(
     isLoading: Boolean = false,
     onSelectionChanged: (TransactionType?) -> Unit,
 ) {
-    var selectedType by remember { mutableStateOf<TransactionType?>(null) }
+    var selectedType by remember { mutableStateOf<TransactionType?>(TransactionType.Recurrent) }
 
     val selectedColor = ColorCustom.color_background_month_disabled
     val unselectedColor = MaterialTheme.colorScheme.background
@@ -125,94 +125,11 @@ fun ToggleButton(
     ) {
         Text(
             text = text,
-            color = if (isLoading) Color.Transparent else ColorCustom.color_text_button_transaction_type,
+            color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.titleMedium,
         )
     }
 }
-
-//
-// @Composable
-// fun TransactionTypeSelector(onSelectionChanged: (TransactionType?) -> Unit) {
-//    var selectedType by remember { mutableStateOf<TransactionType?>(null) }
-//
-//    val selectedColor = ColorCustom.color_background_month_disabled
-//    val unselectedColor = MaterialTheme.colorScheme.background
-//    val borderColor = ColorCustom.color_border_button_transaction_type
-//
-//    Column(
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        modifier = Modifier,
-//    ) {
-//        Row(
-//            horizontalArrangement = Arrangement.spacedBy(16.dp),
-//            verticalAlignment = Alignment.CenterVertically,
-//            modifier = Modifier,
-//        ) {
-//            ToggleButton(
-//                text = stringResource(R.string.label_recurrent),
-//                isSelected = selectedType == TransactionType.Recurrent,
-//                onClick = {
-//                    val newType = TransactionType.Recurrent
-//                    selectedType = newType
-//                    onSelectionChanged(newType)
-//                },
-//                selectedColor = selectedColor,
-//                unselectedColor = unselectedColor,
-//                borderColor = if (selectedType == TransactionType.Recurrent) selectedColor else borderColor,
-//            )
-//
-//            ToggleButton(
-//                text = stringResource(R.string.label_one_off),
-//                isSelected = selectedType == TransactionType.OneOff,
-//                onClick = {
-//                    val newType = TransactionType.OneOff
-//                    selectedType = newType
-//                    onSelectionChanged(newType)
-//                },
-//                selectedColor = selectedColor,
-//                unselectedColor = unselectedColor,
-//                borderColor = if (selectedType == TransactionType.OneOff) selectedColor else borderColor,
-//            )
-//        }
-//
-//        if (selectedType == TransactionType.Recurrent) {
-//            onSelectionChanged(selectedType)
-//        } else {
-//            onSelectionChanged(selectedType)
-//        }
-//    }
-// }
-//
-// @Composable
-// fun ToggleButton(
-//    text: String,
-//    isSelected: Boolean,
-//    onClick: () -> Unit,
-//    selectedColor: Color,
-//    unselectedColor: Color,
-//    borderColor: Color,
-// ) {
-//    val backgroundColor = if (isSelected) selectedColor else unselectedColor
-//
-//    Box(
-//        contentAlignment = Alignment.Center,
-//        modifier =
-//            Modifier
-//                .width(130.dp).height(50.dp)
-//                .clip(RoundedCornerShape(50))
-//                .border(1.dp, borderColor, RoundedCornerShape(50))
-//                .background(backgroundColor)
-//                .clickable { onClick() }
-//                .padding(horizontal = 24.dp, vertical = 12.dp),
-//    ) {
-//        Text(
-//            text = text,
-//            color = ColorCustom.color_text_button_transaction_type,
-//            style = MaterialTheme.typography.titleMedium,
-//        )
-//    }
-// }
 
 @Preview(showBackground = true)
 @Composable

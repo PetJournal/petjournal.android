@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
 
+import com.soujunior.petjournal.ui.util.TransactionType
+
 sealed class RegisterTaskEvent {
     object ReloadListPet : RegisterTaskEvent()
 
@@ -14,4 +16,6 @@ sealed class RegisterTaskEvent {
     class OnPetList(val ids: List<String>) : RegisterTaskEvent()
 
     class OnDescription(val text: String) : RegisterTaskEvent()
+
+    class OnChangeTransactionType(val type: TransactionType?) : RegisterTaskEvent()
 }

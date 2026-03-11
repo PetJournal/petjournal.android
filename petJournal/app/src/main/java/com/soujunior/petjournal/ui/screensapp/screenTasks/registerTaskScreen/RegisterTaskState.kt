@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
 import com.soujunior.petjournal.ui.components.data.TaskData
 import com.soujunior.petjournal.ui.model.Pets
 import com.soujunior.petjournal.ui.model.SelectableButtonInfo
+import com.soujunior.petjournal.ui.util.TransactionType
 
 data class RegisterTaskState(
     val nameUser: String = "",
@@ -21,4 +22,5 @@ data class RegisterTaskState(
     val hasErrorOnListPets: Boolean = false,
     val listPets: List<Pets> = emptyList(),
     val selectedPet: List<String> = emptyList(),
+    val selectedTransactionType: TransactionType? = TransactionType.Recurrent,
 )

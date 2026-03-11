@@ -49,8 +49,9 @@ import kotlin.math.abs
  * @param onTimeChanged Callback que é chamado com a hora e minuto válidos sempre que a seleção é confirmada.
  */
 @Composable
-fun wheelTimePicker(
+fun WheelTimePicker(
     modifier: Modifier = Modifier,
+    is24HourFormat: Boolean = false,
     itemHeight: Dp = 40.dp,
     visibleItemsCount: Int = 3,
     initialHour: Int = 0,
@@ -62,7 +63,7 @@ fun wheelTimePicker(
 ) {
     require(visibleItemsCount % 2 != 0) { "visibleItemsCount must be an odd number." }
 
-    val hours = remember { (0..23).map { it.toString().padStart(2, '0') } }
+    val hours = remember { (0..if (is24HourFormat) 23 else 12).map { it.toString().padStart(2, '0') } }
     val minutes = remember { (0..59).map { it.toString().padStart(2, '0') } }
 
     var selectedHour by remember { mutableStateOf(initialHour) }
@@ -242,7 +243,7 @@ fun TimePickerPreview() {
                     .width(100.dp),
             contentAlignment = Alignment.Center,
         ) {
-            wheelTimePicker(
+            WheelTimePicker(
                 onTimeChanged = { hour, minute ->
                     println("Hora selecionada: $hour:$minute")
                 },

@@ -9,7 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.soujunior.petjournal.ui.components.clock.timePickerWithPeriodSelector
+import com.soujunior.petjournal.ui.components.clock.TimePickerWithPeriodSelector
 import com.soujunior.petjournal.ui.components.data.CustomDatePicker
 
 @Composable
@@ -31,7 +31,7 @@ fun OneOffTask(
             modifier = Modifier.fillMaxWidth(),
         )
 
-        timePickerWithPeriodSelector(
+        TimePickerWithPeriodSelector(
             onAmPmSelector = { amPmSelector ->
                 onAmPmSelector(amPmSelector)
             },
