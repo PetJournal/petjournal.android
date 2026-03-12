@@ -31,4 +31,5 @@ data class RegisterTaskState(
     val dateSelected: Long? = null,
     val amPmSelected: String? = null,
     val timeSelected: Pair<Int, Int>? = null,
+    val selectedDaysOfWeek: List<String> = listOf(),
 )

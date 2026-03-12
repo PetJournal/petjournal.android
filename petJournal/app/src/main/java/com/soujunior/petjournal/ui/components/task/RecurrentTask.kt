@@ -15,7 +15,8 @@ fun RecurringTask(
     selectedAmPm: String? = null,
     onTime: (Int, Int) -> Unit = { _, _ -> },
     time: Pair<Int, Int>? = null,
-    onWeekDaySelected: (String?) -> Unit = {},
+    onWeekDaySelected: (String) -> Unit = {},
+    selectedDays: List<String>? = null,
     onDaySelected: (Int?) -> Unit = {},
     is24HourFormat: Boolean = false,
     onSelectedPeriod: (SelectedPeriodType) -> Unit = {},
@@ -43,7 +44,10 @@ fun RecurringTask(
 
         SelectedPeriodType.Weekly -> {
             WeeklyTaskSelector(
-                onWeekDaySelected = onWeekDaySelected,
+                onWeekDaySelected = {
+                    onWeekDaySelected(it)
+                },
+                selectedDays = selectedDays,
                 onAmPmSelector = { amPmSelector ->
                     onAmPmSelector(amPmSelector)
                 },

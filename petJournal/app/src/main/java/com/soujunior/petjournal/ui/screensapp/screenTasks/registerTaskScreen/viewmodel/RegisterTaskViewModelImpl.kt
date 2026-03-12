@@ -92,6 +92,15 @@ class RegisterTaskViewModelImpl(
             is RegisterTaskEvent.OnDateChanged -> {
                 _state.update { it.copy(dateSelected = event.value) }
             }
+            is RegisterTaskEvent.OnDayChanged -> {
+                val mList = state.value.selectedDaysOfWeek.toMutableList()
+                if (mList.contains(event.value)) {
+                    mList.remove(event.value)
+                } else {
+                    mList.add(event.value)
+                }
+                _state.update { it.copy(selectedDaysOfWeek = mList) }
+            }
             is RegisterTaskEvent.ReloadListPet -> {}
         }
     }

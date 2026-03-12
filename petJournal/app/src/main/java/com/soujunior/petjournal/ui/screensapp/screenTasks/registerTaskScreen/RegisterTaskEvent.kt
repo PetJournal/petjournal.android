@@ -27,4 +27,6 @@ sealed class RegisterTaskEvent {
     class OnTimeChange(val value: Pair<Int, Int>) : RegisterTaskEvent()
 
     class OnDateChanged(val value: Long?) : RegisterTaskEvent()
+
+    class OnDayChanged(val value: String) : RegisterTaskEvent()
 }

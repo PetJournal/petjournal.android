@@ -14,7 +14,8 @@ import com.soujunior.petjournal.ui.components.WeekDaySelector
 
 @Composable
 fun WeeklyTaskSelector(
-    onWeekDaySelected: (String?) -> Unit,
+    onWeekDaySelected: (String) -> Unit,
+    selectedDays: List<String>? = null,
     onAmPmSelector: (String?) -> Unit,
     selectedAmPm: String? = null,
     onTime: (Int, Int) -> Unit,
@@ -30,6 +31,7 @@ fun WeeklyTaskSelector(
             onDaySelected = { weekDaySelected ->
                 onWeekDaySelected(weekDaySelected)
             },
+            selectedDays = selectedDays,
         )
 
         if (!is24HourFormat) {

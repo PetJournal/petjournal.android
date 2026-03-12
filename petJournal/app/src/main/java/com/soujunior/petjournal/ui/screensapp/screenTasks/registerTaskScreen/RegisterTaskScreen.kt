@@ -214,7 +214,9 @@ fun RegisterTaskScreen(
                                         time = state.timeSelected,
                                         activeMonths = setOf(),
                                         onWeekDaySelected = {
+                                            viewModel.onEvent(RegisterTaskEvent.OnDayChanged(it))
                                         },
+                                        selectedDays = state.selectedDaysOfWeek,
                                         onDaySelected = {
                                         },
                                     )
