@@ -35,7 +35,6 @@ class RegisterTaskViewModelImpl(
     override val state: MutableStateFlow<RegisterTaskState> get() = _state
 
     init {
-        _state.update { it.copy(isLoadingAll = true) }
         getData()
     }
 

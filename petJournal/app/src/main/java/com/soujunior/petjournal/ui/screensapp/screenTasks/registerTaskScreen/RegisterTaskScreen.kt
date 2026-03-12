@@ -58,6 +58,7 @@ fun RegisterTaskScreen(
         },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val isLoadingAll = state.isLoadingListTag && state.isLoadingListPet
 
     ScaffoldCustom(
         modifier =
@@ -90,7 +91,7 @@ fun RegisterTaskScreen(
                     item {
                         GroupSelectableButton(
                             listOfTags = state.listTag,
-                            isLoading = state.isLoadingListTag || state.isLoadingAll,
+                            isLoading = isLoadingAll,
                             showButton = !state.isLoadingListTag,
                             onAction = {
                                 when (it) {
@@ -133,7 +134,7 @@ fun RegisterTaskScreen(
                     }
                     item {
                         InputText(
-                            isLoading = state.isLoadingTaskName || state.isLoadingAll,
+                            isLoading = isLoadingAll,
                             modifier = Modifier.testTag("inputFieldTag"),
                             placeholderText = stringResource(R.string.enter_task_name_here),
                             titleText = stringResource(R.string.task_name),
@@ -147,7 +148,7 @@ fun RegisterTaskScreen(
                     }
                     item {
                         TextFieldCustom(
-                            isLoading = state.isLoadingTaskDescription || state.isLoadingAll,
+                            isLoading = isLoadingAll,
                             title = stringResource(R.string.label_description),
                             placeholder = stringResource(R.string.enter_the_task_description_here),
                             value = state.taskDescription,
@@ -160,9 +161,9 @@ fun RegisterTaskScreen(
                     }
                     item {
                         PetFilterList(
+                            isLoading = isLoadingAll,
                             listPet = state.listPets,
                             selectedIds = state.selectedPet,
-                            isLoading = state.isLoadingListPet || state.isLoadingAll,
                             onSelectionChanged = {
                                 viewModel.onEvent(RegisterTaskEvent.OnPetList(it))
                             },
@@ -171,7 +172,7 @@ fun RegisterTaskScreen(
                     item {
                         Column {
                             TransactionTypeSelector(
-                                isLoading = state.isLoadingAll,
+                                isLoading = isLoadingAll,
                                 transactionTypeSelected = state.selectedTransactionType,
                                 onSelectionChanged = { type ->
                                     type?.let {
@@ -182,82 +183,81 @@ fun RegisterTaskScreen(
                                 },
                             )
 
-                            if (!state.isLoadingAll)
-                                {
-                                    Spacer(modifier = Modifier.padding(bottom = 16.dp))
+                            if (!isLoadingAll) {
+                                Spacer(modifier = Modifier.padding(bottom = 16.dp))
 
-                                    when (state.selectedTransactionType) {
-                                        TransactionType.Recurrent -> {
-                                            RecurringTask(
-                                                onSelectedPeriod = {
+                                when (state.selectedTransactionType) {
+                                    TransactionType.Recurrent -> {
+                                        RecurringTask(
+                                            onSelectedPeriod = {
+                                                viewModel.onEvent(
+                                                    RegisterTaskEvent.OnPeriodType(it),
+                                                )
+                                            },
+                                            selectedPeriod = state.periodType,
+                                            onAmPmSelector = {
+                                                it?.let {
                                                     viewModel.onEvent(
-                                                        RegisterTaskEvent.OnPeriodType(it),
+                                                        RegisterTaskEvent.OnAmPm(it),
                                                     )
-                                                },
-                                                selectedPeriod = state.periodType,
-                                                onAmPmSelector = {
-                                                    it?.let {
-                                                        viewModel.onEvent(
-                                                            RegisterTaskEvent.OnAmPm(it),
-                                                        )
-                                                    }
-                                                },
-                                                selectedAmPm = state.amPmSelected,
-                                                onTime = { hour, minute ->
-                                                    viewModel.onEvent(
-                                                        RegisterTaskEvent.OnTimeChange(
-                                                            Pair(hour, minute),
-                                                        ),
-                                                    )
-                                                },
-                                                time = state.timeSelected,
-                                                activeMonths = state.activeMonths,
-                                                onWeekDaySelected = {
-                                                    viewModel.onEvent(
-                                                        RegisterTaskEvent.OnDayOfWeekChanged(
-                                                            it,
-                                                        ),
-                                                    )
-                                                },
-                                                daySelected = state.daySelected,
-                                                selectedDaysOfWeek = state.selectedDaysOfWeek,
-                                                onDaySelected = {
-                                                    viewModel.onEvent(RegisterTaskEvent.OnDayChanged(it))
-                                                },
-                                            )
-                                        }
+                                                }
+                                            },
+                                            selectedAmPm = state.amPmSelected,
+                                            onTime = { hour, minute ->
+                                                viewModel.onEvent(
+                                                    RegisterTaskEvent.OnTimeChange(
+                                                        Pair(hour, minute),
+                                                    ),
+                                                )
+                                            },
+                                            time = state.timeSelected,
+                                            activeMonths = state.activeMonths,
+                                            onWeekDaySelected = {
+                                                viewModel.onEvent(
+                                                    RegisterTaskEvent.OnDayOfWeekChanged(
+                                                        it,
+                                                    ),
+                                                )
+                                            },
+                                            daySelected = state.daySelected,
+                                            selectedDaysOfWeek = state.selectedDaysOfWeek,
+                                            onDaySelected = {
+                                                viewModel.onEvent(RegisterTaskEvent.OnDayChanged(it))
+                                            },
+                                        )
+                                    }
 
-                                        TransactionType.OneOff -> {
-                                            OneOffTask(
-                                                onAmPmSelector = {
-                                                    it?.let {
-                                                        viewModel.onEvent(
-                                                            RegisterTaskEvent.OnAmPm(it),
-                                                        )
-                                                    }
-                                                },
-                                                selectedAmPm = state.amPmSelected,
-                                                onTime = { hour, minute ->
+                                    TransactionType.OneOff -> {
+                                        OneOffTask(
+                                            onAmPmSelector = {
+                                                it?.let {
                                                     viewModel.onEvent(
-                                                        RegisterTaskEvent.OnTimeChange(
-                                                            Pair(hour, minute),
-                                                        ),
+                                                        RegisterTaskEvent.OnAmPm(it),
                                                     )
-                                                },
-                                                time = state.timeSelected,
-                                                dateSelected = state.dateSelected,
-                                                onDateSelected = {
-                                                    viewModel.onEvent(RegisterTaskEvent.OnDateChanged(it))
-                                                },
-                                            )
-                                        }
+                                                }
+                                            },
+                                            selectedAmPm = state.amPmSelected,
+                                            onTime = { hour, minute ->
+                                                viewModel.onEvent(
+                                                    RegisterTaskEvent.OnTimeChange(
+                                                        Pair(hour, minute),
+                                                    ),
+                                                )
+                                            },
+                                            time = state.timeSelected,
+                                            dateSelected = state.dateSelected,
+                                            onDateSelected = {
+                                                viewModel.onEvent(RegisterTaskEvent.OnDateChanged(it))
+                                            },
+                                        )
                                     }
                                 }
+                            }
                         }
                     }
                     item {
                         TextFieldCustom(
-                            isLoading = false,
+                            isLoading = isLoadingAll,
                             title = stringResource(R.string.label_observation),
                             placeholder = stringResource(R.string.enter_your_observation_here),
                             value = state.observation,
@@ -267,8 +267,7 @@ fun RegisterTaskScreen(
                         )
                     }
                     item {
-                        val isLoading = true
-                        if (!isLoading) {
+                        if (!isLoadingAll) {
                             Button3(
                                 submit = {
                                 },
@@ -281,11 +280,6 @@ fun RegisterTaskScreen(
             )
         },
     )
-}
-
-@Composable
-fun OnChangeTransactionType(x0: TransactionType?) {
-    TODO("Not yet implemented")
 }
 
 private val listOfTasks =
