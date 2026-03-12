@@ -18,6 +18,7 @@ fun WeeklyTaskSelector(
     onAmPmSelector: (String?) -> Unit,
     selectedAmPm: String? = null,
     onTime: (Int, Int) -> Unit,
+    time: Pair<Int, Int>? = null,
     is24HourFormat: Boolean = false,
 ) {
     Row(
@@ -48,6 +49,7 @@ fun WeeklyTaskSelector(
                 onTimeChanged = { hour, minute ->
                     onTime(hour, minute)
                 },
+                time = time,
                 is24HourFormat = is24HourFormat,
             )
         }

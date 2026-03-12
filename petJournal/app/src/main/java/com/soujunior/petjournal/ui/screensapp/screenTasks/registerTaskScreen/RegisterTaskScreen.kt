@@ -222,6 +222,13 @@ fun RegisterTaskScreen(
 
                                 TransactionType.OneOff -> {
                                     OneOffTask(
+                                        onAmPmSelector = {
+                                            it?.let {
+                                                viewModel.onEvent(
+                                                    RegisterTaskEvent.OnAmPm(it),
+                                                )
+                                            }
+                                        },
                                         selectedAmPm = state.amPmSelected,
                                         onTime = { hour, minute ->
                                             viewModel.onEvent(
@@ -230,14 +237,10 @@ fun RegisterTaskScreen(
                                                 ),
                                             )
                                         },
-                                        onAmPmSelector = {
-                                            it?.let {
-                                                viewModel.onEvent(
-                                                    RegisterTaskEvent.OnAmPm(it),
-                                                )
-                                            }
-                                        },
+                                        time = state.timeSelected,
+                                        dateSelected = state.dateSelected,
                                         onDateSelected = {
+                                            viewModel.onEvent(RegisterTaskEvent.OnDateChanged(it))
                                         },
                                     )
                                 }

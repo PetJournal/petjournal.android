@@ -21,6 +21,7 @@ fun MonthlyTaskSelector(
     onAmPmSelector: (String?) -> Unit,
     selectedAmPm: String? = null,
     onTime: (Int, Int) -> Unit,
+    time: Pair<Int, Int>? = null,
     is24HourFormat: Boolean = false,
 ) {
     Column {
@@ -55,6 +56,7 @@ fun MonthlyTaskSelector(
                     onTimeChanged = { hour, minute ->
                         onTime(hour, minute)
                     },
+                    time = time,
                     is24HourFormat = is24HourFormat,
                 )
             }

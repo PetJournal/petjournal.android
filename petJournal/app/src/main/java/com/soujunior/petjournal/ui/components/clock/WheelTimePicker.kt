@@ -22,7 +22,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,19 +29,22 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.ui.theme.ColorCustom
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlin.math.abs
 
 /**
  * Componente de seletor de tempo com comportamento de "Seleção Fixa Centralizada".
- * (Versão com alinhamento e efeito "mola/roleta" corrigidos)
+ * (Versão com alinhamento, efeito "mola/roleta" e sincronização de par corrigidos)
  *
  * @param modifier Modificador para o layout. AGORA CONTROLA A LARGURA TOTAL.
+ * @param is24HourFormat Define se o formato de horas será de 24h ou 12h (Padrão: false).
  * @param itemHeight Altura de cada item na roda.
  * @param visibleItemsCount Quantidade de itens visíveis. Deve ser ímpar.
  * @param initialHour A hora inicial (Padrão: 0).
  * @param initialMinute O minuto inicial (Padrão: 0).
+ * @param time Par de hora e minuto para controle e inicialização via estado externo.
  * @param textStyle Estilo do texto para os números.
  * @param focusedColor Cor do item em foco (central).
  * @param unfocusedColor Cor dos itens fora de foco.
@@ -64,21 +66,14 @@ fun WheelTimePicker(
 ) {
     require(visibleItemsCount % 2 != 0) { "visibleItemsCount must be an odd number." }
 
-    val hours = remember { (0..if (is24HourFormat) 23 else 12).map { it.toString().padStart(2, '0') } }
+    val hours = remember(is24HourFormat) { (0..if (is24HourFormat) 23 else 12).map { it.toString().padStart(2, '0') } }
     val minutes = remember { (0..59).map { it.toString().padStart(2, '0') } }
 
-    var selectedHour by remember { mutableStateOf(initialHour) }
-    var selectedMinute by remember { mutableStateOf(initialMinute) }
-
-    val effectiveHour = time?.first ?: selectedHour
-    val effectiveMinute = time?.second ?: selectedMinute
+    var selectedHour by remember { mutableStateOf(time?.first ?: initialHour) }
+    var selectedMinute by remember { mutableStateOf(time?.second ?: initialMinute) }
 
     val hourListState = rememberLazyListState()
     val minuteListState = rememberLazyListState()
-
-    LaunchedEffect(effectiveHour, effectiveMinute) {
-        onTimeChanged(effectiveHour, effectiveMinute)
-    }
 
     val totalHeight = itemHeight * visibleItemsCount
 
@@ -91,15 +86,18 @@ fun WheelTimePicker(
             modifier = Modifier.weight(1f),
             items = hours,
             listState = hourListState,
-            initialItem = hours[effectiveHour],
-            onItemSelected = { if (time == null) selectedHour = it.toInt() },
+            initialItem = hours[selectedHour.coerceIn(0, hours.size - 1)],
+            onItemSelected = {
+                val value = it.toInt()
+                selectedHour = value
+                onTimeChanged(selectedHour, selectedMinute)
+            },
             totalHeight = totalHeight,
             itemHeight = itemHeight,
             visibleItemsCount = visibleItemsCount,
             textStyle = textStyle,
             focusedColor = focusedColor,
             unfocusedColor = unfocusedColor,
-            effectiveValue = hours[effectiveHour],
         )
 
         Box(
@@ -119,15 +117,18 @@ fun WheelTimePicker(
             modifier = Modifier.weight(1f),
             items = minutes,
             listState = minuteListState,
-            initialItem = minutes[effectiveMinute],
-            onItemSelected = { if (time == null) selectedMinute = it.toInt() },
+            initialItem = minutes[selectedMinute.coerceIn(0, minutes.size - 1)],
+            onItemSelected = {
+                val value = it.toInt()
+                selectedMinute = value
+                onTimeChanged(selectedHour, selectedMinute)
+            },
             totalHeight = totalHeight,
             itemHeight = itemHeight,
             visibleItemsCount = visibleItemsCount,
             textStyle = textStyle,
             focusedColor = focusedColor,
             unfocusedColor = unfocusedColor,
-            effectiveValue = minutes[effectiveMinute],
         )
     }
 }
@@ -148,24 +149,12 @@ private fun PickerColumn(
     textStyle: TextStyle,
     focusedColor: Color,
     unfocusedColor: Color,
-    effectiveValue: String,
 ) {
     val halfVisibleItems = visibleItemsCount / 2
-    val initialDataIndex = items.indexOf(initialItem).coerceAtLeast(0)
-    val density = LocalDensity.current
 
     LaunchedEffect(Unit) {
-        val initialLazyColumnIndex = initialDataIndex + halfVisibleItems
-        val offsetPx = with(density) { ((totalHeight - itemHeight) / 2).roundToPx() }
-        listState.scrollToItem(initialLazyColumnIndex, offsetPx)
-        onItemSelected(items[initialDataIndex])
-    }
-
-    LaunchedEffect(effectiveValue) {
-        val targetIndex = items.indexOf(effectiveValue).coerceAtLeast(0)
-        val targetLazyColumnIndex = targetIndex + halfVisibleItems
-        val offsetPx = with(density) { ((totalHeight - itemHeight) / 2).roundToPx() }
-        listState.animateScrollToItem(targetLazyColumnIndex, offsetPx)
+        val initialDataIndex = items.indexOf(initialItem).coerceAtLeast(0)
+        listState.scrollToItem(initialDataIndex)
     }
 
     val centralLazyColumnIndex by remember {
@@ -174,12 +163,20 @@ private fun PickerColumn(
             if (layoutInfo.visibleItemsInfo.isEmpty()) {
                 -1
             } else {
-                val viewportCenter =
-                    (layoutInfo.viewportStartOffset + layoutInfo.viewportEndOffset) / 2
-                layoutInfo.visibleItemsInfo.minByOrNull { abs((it.offset + it.size / 2) - viewportCenter) }?.index
-                    ?: -1
+                val viewportCenter = (layoutInfo.viewportStartOffset + layoutInfo.viewportEndOffset) / 2
+                layoutInfo.visibleItemsInfo.minByOrNull { abs((it.offset + it.size / 2) - viewportCenter) }?.index ?: -1
             }
         }
+    }
+
+    LaunchedEffect(listState) {
+        snapshotFlow { centralLazyColumnIndex }
+            .distinctUntilChanged()
+            .filter { it != -1 }
+            .collect { index ->
+                val itemDataIndex = (index - halfVisibleItems).coerceIn(0, items.size - 1)
+                onItemSelected(items[itemDataIndex])
+            }
     }
 
     LaunchedEffect(listState) {
@@ -190,20 +187,16 @@ private fun PickerColumn(
                 val layoutInfo = listState.layoutInfo
                 if (layoutInfo.visibleItemsInfo.isEmpty()) return@collect
 
-                val viewportCenter =
-                    (layoutInfo.viewportStartOffset + layoutInfo.viewportEndOffset) / 2
+                val viewportCenter = (layoutInfo.viewportStartOffset + layoutInfo.viewportEndOffset) / 2
                 val centralItem =
                     layoutInfo.visibleItemsInfo.minByOrNull {
                         abs((it.offset + it.size / 2) - viewportCenter)
                     } ?: return@collect
 
-                val itemDataIndex =
-                    (centralItem.index - halfVisibleItems).coerceIn(0, items.size - 1)
                 val delta = (centralItem.offset + centralItem.size / 2) - viewportCenter
-
-                listState.animateScrollBy(delta.toFloat())
-
-                onItemSelected(items[itemDataIndex])
+                if (delta != 0) {
+                    listState.animateScrollBy(delta.toFloat())
+                }
             }
     }
 
@@ -217,11 +210,9 @@ private fun PickerColumn(
             modifier = Modifier.height(totalHeight),
         ) {
             items(halfVisibleItems) { Box(modifier = Modifier.height(itemHeight)) }
-
             items(items.size) { dataIndex ->
                 val lazyColumnIndex = dataIndex + halfVisibleItems
                 val isFocused = (lazyColumnIndex == centralLazyColumnIndex)
-
                 Box(
                     modifier = Modifier.height(itemHeight),
                     contentAlignment = Alignment.Center,
@@ -233,11 +224,9 @@ private fun PickerColumn(
                                 color = if (isFocused) focusedColor else unfocusedColor,
                                 fontSize = 34.sp,
                             ),
-                        modifier = Modifier,
                     )
                 }
             }
-
             items(halfVisibleItems) { Box(modifier = Modifier.height(itemHeight)) }
         }
     }
@@ -251,17 +240,10 @@ private fun PickerColumn(
 fun TimePickerPreview() {
     MaterialTheme {
         Box(
-            modifier =
-                Modifier
-                    .height(150.dp)
-                    .width(100.dp),
+            modifier = Modifier.height(150.dp).width(150.dp),
             contentAlignment = Alignment.Center,
         ) {
-            WheelTimePicker(
-                onTimeChanged = { hour, minute ->
-                    println("Hora selecionada: $hour:$minute")
-                },
-            )
+            WheelTimePicker(onTimeChanged = { h, m -> println("$h:$m") })
         }
     }
 }

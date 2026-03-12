@@ -77,11 +77,9 @@ class RegisterTaskViewModelImpl(
                     }
                 }
             }
-
             is RegisterTaskEvent.OnChangeTransactionType -> {
                 _state.update { it.copy(selectedTransactionType = event.type) }
             }
-
             is RegisterTaskEvent.OnPeriodType -> {
                 _state.update { it.copy(periodType = event.value) }
             }
@@ -91,7 +89,9 @@ class RegisterTaskViewModelImpl(
             is RegisterTaskEvent.OnTimeChange -> {
                 _state.update { it.copy(timeSelected = event.value) }
             }
-
+            is RegisterTaskEvent.OnDateChanged -> {
+                _state.update { it.copy(dateSelected = event.value) }
+            }
             is RegisterTaskEvent.ReloadListPet -> {}
         }
     }

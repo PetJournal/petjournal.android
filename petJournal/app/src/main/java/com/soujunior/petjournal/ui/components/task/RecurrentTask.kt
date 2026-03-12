@@ -48,7 +48,10 @@ fun RecurringTask(
                     onAmPmSelector(amPmSelector)
                 },
                 selectedAmPm = selectedAmPm,
-                onTime = onTime,
+                onTime = { hour, minute ->
+                    onTime(hour, minute)
+                },
+                time = time,
                 is24HourFormat = is24HourFormat,
             )
         }
@@ -61,7 +64,10 @@ fun RecurringTask(
                     onAmPmSelector(amPmSelector)
                 },
                 selectedAmPm = selectedAmPm,
-                onTime = onTime,
+                onTime = { hour, minute ->
+                    onTime(hour, minute)
+                },
+                time = time,
                 is24HourFormat = is24HourFormat,
             )
         }
