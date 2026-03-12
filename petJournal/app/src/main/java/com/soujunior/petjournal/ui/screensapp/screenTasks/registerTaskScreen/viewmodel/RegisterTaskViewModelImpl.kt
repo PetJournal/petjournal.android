@@ -113,6 +113,11 @@ class RegisterTaskViewModelImpl(
                     }
                 }
             }
+            is RegisterTaskEvent.OnObservation -> {
+                _state.update {
+                    it.copy(observation = event.value)
+                }
+            }
             is RegisterTaskEvent.ReloadListPet -> {}
         }
     }
