@@ -125,7 +125,7 @@ fun PetFilterItem(
     isSelected: Boolean,
     imageRes: Painter? = null,
     isLoading: Boolean = false,
-    onSelect: (String) -> Unit,
+    onSelect: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -143,7 +143,7 @@ fun PetFilterItem(
                 },
             isSelected = isSelected,
             isLoading = isLoading,
-            onClick = { onSelect(name) },
+            onClick = { onSelect() },
         )
 
         Text(
@@ -169,7 +169,8 @@ fun PetFilterList(
     onSelectionChanged: (List<String>) -> Unit = {},
 ) {
     val labelAll = stringResource(R.string.label_all_pets)
-    val isAllSelected = selectedIds.isEmpty() || selectedIds.contains(labelAll)
+    val allPetIds = listPet.mapNotNull { it.id }
+    val isAllSelected = allPetIds.isNotEmpty() && selectedIds.containsAll(allPetIds)
 
     Column(modifier = Modifier) {
         Text(
@@ -201,7 +202,11 @@ fun PetFilterList(
                         imageRes = null,
                         isLoading = false,
                         onSelect = {
-                            onSelectionChanged(listOf("All"))
+                            if (isAllSelected) {
+                                onSelectionChanged(emptyList())
+                            } else {
+                                onSelectionChanged(allPetIds)
+                            }
                         },
                     )
                 }
@@ -211,8 +216,7 @@ fun PetFilterList(
                     key = { it.id ?: it.hashCode() },
                 ) { pet ->
                     val petId = pet.id ?: ""
-                    val isThisPetSelected = !isAllSelected && selectedIds.contains(petId)
-
+                    val isThisPetSelected = selectedIds.contains(petId)
                     val painter = rememberAsyncImagePainter(model = pet.imageRes)
 
                     PetFilterItem(
@@ -222,16 +226,12 @@ fun PetFilterList(
                         isLoading = false,
                         onSelect = {
                             val newList = selectedIds.toMutableList()
-                            if (isAllSelected) {
-                                onSelectionChanged(listOf(petId))
+                            if (isThisPetSelected) {
+                                newList.remove(petId)
                             } else {
-                                if (isThisPetSelected) {
-                                    newList.remove(petId)
-                                } else {
-                                    newList.add(petId)
-                                }
-                                onSelectionChanged(newList)
+                                newList.add(petId)
                             }
+                            onSelectionChanged(newList)
                         },
                     )
                 }

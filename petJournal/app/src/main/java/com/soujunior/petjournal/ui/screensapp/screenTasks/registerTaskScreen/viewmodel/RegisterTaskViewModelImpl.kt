@@ -64,18 +64,7 @@ class RegisterTaskViewModelImpl(
             }
             is RegisterTaskEvent.OnPetList -> {
                 _state.update { state ->
-                    if (event.ids.isEmpty()) {
-                        return@update state.copy(selectedPet = emptyList())
-                    }
-                    if (event.ids.firstOrNull() == "All") {
-                        state.copy(selectedPet = emptyList())
-                    } else {
-                        val current = state.selectedPet
-                        val toAdd = event.ids.filter { id -> !current.contains(id) }
-                        val toRemove = event.ids.filter { id -> current.contains(id) }
-                        val newList = (current + toAdd) - toRemove.toSet()
-                        state.copy(selectedPet = newList)
-                    }
+                    state.copy(selectedPet = event.ids)
                 }
             }
             is RegisterTaskEvent.OnChangeTransactionType -> {
