@@ -21,6 +21,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.YearMonth
 
 class RegisterTaskViewModelImpl(
     private val getListTagCase: GetListTagUseCase,
@@ -92,7 +94,7 @@ class RegisterTaskViewModelImpl(
             is RegisterTaskEvent.OnDateChanged -> {
                 _state.update { it.copy(dateSelected = event.value) }
             }
-            is RegisterTaskEvent.OnDayChanged -> {
+            is RegisterTaskEvent.OnDayOfWeekChanged -> {
                 val mList = state.value.selectedDaysOfWeek.toMutableList()
                 if (mList.contains(event.value)) {
                     mList.remove(event.value)
@@ -101,7 +103,27 @@ class RegisterTaskViewModelImpl(
                 }
                 _state.update { it.copy(selectedDaysOfWeek = mList) }
             }
+            is RegisterTaskEvent.OnDayChanged -> {
+                event.value?.let { value ->
+                    _state.update {
+                        it.copy(
+                            daySelected = value,
+                            activeMonths = getMonthsWithSpecificDay(value),
+                        )
+                    }
+                }
+            }
             is RegisterTaskEvent.ReloadListPet -> {}
+        }
+    }
+
+    private fun getMonthsWithSpecificDay(day: Int): List<Int> {
+        if (day !in 1..31) return emptyList()
+
+        val currentYear = LocalDate.now().year
+
+        return (1..12).filter { month ->
+            day <= YearMonth.of(currentYear, month).lengthOfMonth()
         }
     }
 

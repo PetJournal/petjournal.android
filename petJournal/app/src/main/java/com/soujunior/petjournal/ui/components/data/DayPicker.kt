@@ -16,11 +16,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,27 +28,41 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
+import kotlin.math.abs
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DayPicker(onDaySelected: (Int) -> Unit) {
+fun DayPicker(
+    initialDay: Int? = null,
+    onDaySelected: (Int) -> Unit,
+) {
     val currentDate = remember { LocalDate.now() }
     val totalDays = remember { currentDate.lengthOfMonth() }
-
     val days = remember { (1..totalDays).toList() }
 
-    val listState = rememberLazyListState(initialFirstVisibleItemIndex = currentDate.dayOfMonth - 1)
+    val startDay = initialDay ?: currentDate.dayOfMonth
+    val initialIndex = (startDay - 1).coerceIn(0, totalDays - 1)
 
+    val listState = rememberLazyListState(initialFirstVisibleItemIndex = initialIndex)
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
 
-    LaunchedEffect(listState) {
-        snapshotFlow { listState.firstVisibleItemIndex }
-            .distinctUntilChanged()
-            .collect { index ->
-                onDaySelected(days.getOrNull(index + 1) ?: days.last())
-            }
+    val selectedIndex by remember {
+        derivedStateOf {
+            val layoutInfo = listState.layoutInfo
+            if (layoutInfo.visibleItemsInfo.isEmpty()) return@derivedStateOf initialIndex
+
+            val viewportCenter = (layoutInfo.viewportStartOffset + layoutInfo.viewportEndOffset) / 2
+            layoutInfo.visibleItemsInfo.minByOrNull {
+                abs(it.offset + (it.size / 2) - viewportCenter)
+            }?.index ?: initialIndex
+        }
+    }
+
+    LaunchedEffect(selectedIndex) {
+        days.getOrNull(selectedIndex)?.let {
+            onDaySelected(it)
+        }
     }
 
     Column(
@@ -71,7 +85,7 @@ fun DayPicker(onDaySelected: (Int) -> Unit) {
                 modifier = Modifier.fillMaxHeight(),
             ) {
                 itemsIndexed(days) { index, day ->
-                    val isSelected = listState.firstVisibleItemIndex == index
+                    val isSelected = selectedIndex == index
                     Text(
                         text = day.toString(),
                         fontSize = if (isSelected) 26.sp else 20.sp,
@@ -91,6 +105,7 @@ fun DayPickerPreview() {
     var selectedDay by remember { mutableStateOf(LocalDate.now().dayOfMonth) }
 
     DayPicker(
+        initialDay = selectedDay,
         onDaySelected = { selectedDay = it },
     )
 }

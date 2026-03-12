@@ -27,7 +27,7 @@ data class RegisterTaskState(
     val periodType: SelectedPeriodType = SelectedPeriodType.Daily,
     val daySelected: Int? = null,
     val weekDaySelected: String? = null,
-    val activeMonths: Set<String> = setOf(),
+    val activeMonths: List<Int> = listOf(),
     val dateSelected: Long? = null,
     val amPmSelected: String? = null,
     val timeSelected: Pair<Int, Int>? = null,

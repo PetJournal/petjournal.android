@@ -16,8 +16,9 @@ import com.soujunior.petjournal.ui.components.data.DayPicker
 
 @Composable
 fun MonthlyTaskSelector(
-    activeMonths: Set<String>,
+    activeMonths: List<Int>,
     onDaySelected: (Int?) -> Unit,
+    daySelected: Int? = null,
     onAmPmSelector: (String?) -> Unit,
     selectedAmPm: String? = null,
     onTime: (Int, Int) -> Unit,
@@ -34,6 +35,7 @@ fun MonthlyTaskSelector(
                 onDaySelected = { daySelected ->
                     onDaySelected(daySelected)
                 },
+                initialDay = daySelected,
             )
 
             if (!is24HourFormat) {

@@ -26,7 +26,7 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.ColorCustom
 
 @Composable
-fun ActiveMonthsComponent(activeMonths: Set<String>) {
+fun ActiveMonthsComponent(activeMonths: List<Int>) {
     val allMonths =
         listOf(
             stringResource(R.string.jan),
@@ -70,8 +70,9 @@ fun ActiveMonthsComponent(activeMonths: Set<String>) {
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 for (j in 0 until 5) {
-                    val month = allMonths[i * 5 + j]
-                    val isActive = activeMonths.contains(month)
+                    val index = i * 5 + j
+                    val month = allMonths[index]
+                    val isActive = activeMonths.contains(index + 1)
 
                     val backgroundColor =
                         if (isActive) {
@@ -116,7 +117,7 @@ fun ActiveMonthsComponent(activeMonths: Set<String>) {
         ) {
             for (i in 10 until 12) {
                 val month = allMonths[i]
-                val isActive = activeMonths.contains(month)
+                val isActive = activeMonths.contains(i + 1)
 
                 val backgroundColor =
                     if (isActive) {
@@ -157,5 +158,5 @@ fun ActiveMonthsComponent(activeMonths: Set<String>) {
 @Preview
 @Composable
 fun ActiveMonthsComponentPreview() {
-    ActiveMonthsComponent(activeMonths = setOf("Jan", "Mar", "Mai"))
+    ActiveMonthsComponent(activeMonths = listOf(1, 3, 5))
 }

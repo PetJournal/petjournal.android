@@ -212,12 +212,14 @@ fun RegisterTaskScreen(
                                             )
                                         },
                                         time = state.timeSelected,
-                                        activeMonths = setOf(),
+                                        activeMonths = state.activeMonths,
                                         onWeekDaySelected = {
-                                            viewModel.onEvent(RegisterTaskEvent.OnDayChanged(it))
+                                            viewModel.onEvent(RegisterTaskEvent.OnDayOfWeekChanged(it))
                                         },
-                                        selectedDays = state.selectedDaysOfWeek,
+                                        daySelected = state.daySelected,
+                                        selectedDaysOfWeek = state.selectedDaysOfWeek,
                                         onDaySelected = {
+                                            viewModel.onEvent(RegisterTaskEvent.OnDayChanged(it))
                                         },
                                     )
                                 }
@@ -387,7 +389,7 @@ fun TransactionTypeSelectorPreview() {
 fun RecurringTaskPreview() {
     PetJournalTheme {
         RecurringTask(
-            setOf(),
+            listOf(),
             onAmPmSelector = {
             },
             onTime = { hour, minute ->

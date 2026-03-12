@@ -10,14 +10,15 @@ import com.soujunior.petjournal.ui.util.SelectedPeriodType
 
 @Composable
 fun RecurringTask(
-    activeMonths: Set<String> = setOf(),
+    activeMonths: List<Int> = listOf(),
     onAmPmSelector: (String?) -> Unit = {},
     selectedAmPm: String? = null,
     onTime: (Int, Int) -> Unit = { _, _ -> },
     time: Pair<Int, Int>? = null,
     onWeekDaySelected: (String) -> Unit = {},
-    selectedDays: List<String>? = null,
+    selectedDaysOfWeek: List<String>? = null,
     onDaySelected: (Int?) -> Unit = {},
+    daySelected: Int? = null,
     is24HourFormat: Boolean = false,
     onSelectedPeriod: (SelectedPeriodType) -> Unit = {},
     selectedPeriod: SelectedPeriodType = SelectedPeriodType.Daily,
@@ -44,17 +45,11 @@ fun RecurringTask(
 
         SelectedPeriodType.Weekly -> {
             WeeklyTaskSelector(
-                onWeekDaySelected = {
-                    onWeekDaySelected(it)
-                },
-                selectedDays = selectedDays,
-                onAmPmSelector = { amPmSelector ->
-                    onAmPmSelector(amPmSelector)
-                },
+                onWeekDaySelected = { onWeekDaySelected(it) },
+                selectedDays = selectedDaysOfWeek,
+                onAmPmSelector = { amPmSelector -> onAmPmSelector(amPmSelector) },
                 selectedAmPm = selectedAmPm,
-                onTime = { hour, minute ->
-                    onTime(hour, minute)
-                },
+                onTime = { hour, minute -> onTime(hour, minute) },
                 time = time,
                 is24HourFormat = is24HourFormat,
             )
@@ -63,14 +58,11 @@ fun RecurringTask(
         SelectedPeriodType.Monthly -> {
             MonthlyTaskSelector(
                 activeMonths = activeMonths,
-                onDaySelected = onDaySelected,
-                onAmPmSelector = { amPmSelector ->
-                    onAmPmSelector(amPmSelector)
-                },
+                onDaySelected = { onDaySelected(it) },
+                daySelected = daySelected,
+                onAmPmSelector = { amPmSelector -> onAmPmSelector(amPmSelector) },
                 selectedAmPm = selectedAmPm,
-                onTime = { hour, minute ->
-                    onTime(hour, minute)
-                },
+                onTime = { hour, minute -> onTime(hour, minute) },
                 time = time,
                 is24HourFormat = is24HourFormat,
             )
