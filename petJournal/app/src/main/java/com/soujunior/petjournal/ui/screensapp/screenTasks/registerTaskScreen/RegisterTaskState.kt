@@ -11,6 +11,7 @@ data class RegisterTaskState(
     val hasErrorOnListTag: Boolean = false,
     val isLoadingListTag: Boolean = false,
     val listTag: MutableList<SelectableButtonInfo> = emptyList<SelectableButtonInfo>().toMutableList(),
+    val selectedTag: String? = null,
     val taskName: String = "",
     val taskDescription: String = "",
     val isLoadingListPet: Boolean = false,

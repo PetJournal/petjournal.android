@@ -4,13 +4,15 @@ import com.soujunior.petjournal.ui.util.SelectedPeriodType
 import com.soujunior.petjournal.ui.util.TransactionType
 
 sealed class RegisterTaskEvent {
-    object ReloadListPet : RegisterTaskEvent()
+    object Submit : RegisterTaskEvent()
 
     class OnUpdateTag(val id: String, val name: String, val color: String) : RegisterTaskEvent()
 
     class OnCreateTag(val name: String, val color: String) : RegisterTaskEvent()
 
     class OnDeleteTag(val id: String) : RegisterTaskEvent()
+
+    class OnSelectTag(val id: String?) : RegisterTaskEvent()
 
     class OnName(val name: String) : RegisterTaskEvent()
 

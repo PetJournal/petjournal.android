@@ -92,7 +92,11 @@ fun RegisterTaskScreen(
                         GroupSelectableButton(
                             listOfTags = state.listTag,
                             isLoading = isLoadingAll,
+                            selectedTag = state.selectedTag,
                             showButton = !state.isLoadingListTag,
+                            onSelection = {
+                                viewModel.onEvent(RegisterTaskEvent.OnSelectTag(it))
+                            },
                             onAction = {
                                 when (it) {
                                     is TagAction.Create -> {
@@ -270,6 +274,7 @@ fun RegisterTaskScreen(
                         if (!isLoadingAll) {
                             Button3(
                                 submit = {
+                                    viewModel.onEvent(RegisterTaskEvent.Submit)
                                 },
                                 enableButton = true,
                                 text = stringResource(R.string.label_save_task),

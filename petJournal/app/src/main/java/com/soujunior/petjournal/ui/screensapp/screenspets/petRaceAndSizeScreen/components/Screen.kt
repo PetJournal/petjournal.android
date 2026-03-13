@@ -111,13 +111,7 @@ fun Screen(
                         horizontalAlignment = CenterHorizontally,
                         verticalArrangement = Arrangement.Top,
                     ) {
-                        Header(
-                            petName = viewModel.state.name,
-                            modifier =
-                                Modifier
-                                    .padding(start = 16.sdp, end = 16.sdp)
-                                    .align(Alignment.Start),
-                        )
+                        Header(petName = viewModel.state.name)
 
                         LazyColumn(
                             state = scrollState,

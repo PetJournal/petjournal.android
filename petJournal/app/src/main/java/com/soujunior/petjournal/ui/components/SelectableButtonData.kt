@@ -346,6 +346,7 @@ fun SelectableButton(
 fun GroupSelectableButton(
     modifier: Modifier = Modifier,
     listOfTags: List<SelectableButtonInfo>,
+    selectedTag: String? = null,
     isLoading: Boolean = false,
     showButton: Boolean = false,
     onAddClick: () -> Unit = {},
@@ -359,10 +360,6 @@ fun GroupSelectableButton(
         } else {
             listOfTags
         }
-
-    var selectedIndex by remember(displayTasks.size) {
-        mutableStateOf<Int?>(null)
-    }
 
     var showManageTagsDialog by remember { mutableStateOf(false) }
 
@@ -428,18 +425,17 @@ fun GroupSelectableButton(
             horizontalArrangement = Arrangement.spacedBy(15.dp),
             maxItemsInEachRow = if (isLoading) 3 else maxItemsInEachRow,
         ) {
-            displayTasks.forEachIndexed { index, buttonInfo ->
+            displayTasks.forEach { buttonInfo ->
                 SelectableButton(
                     titleButton = buttonInfo.title,
                     colorButton = buttonInfo.color,
-                    isSelected = index == selectedIndex,
+                    // A seleção agora é baseada na comparação com o parâmetro
+                    isSelected = buttonInfo.title == selectedTag,
                     isLoading = isLoading,
                     onSelectionChanged = { title, selected ->
                         if (selected) {
-                            selectedIndex = index
                             onSelection(title)
                         } else {
-                            selectedIndex = null
                             onSelection("")
                         }
                     },

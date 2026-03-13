@@ -15,14 +15,22 @@ import com.soujunior.petjournal.ui.mapper.Mapper.uiModel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.RegisterTaskEvent
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.RegisterTaskState
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.util.SelectedPeriodType
+import com.soujunior.petjournal.ui.util.TransactionType
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.YearMonth
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 class RegisterTaskViewModelImpl(
     private val getListTagCase: GetListTagUseCase,
@@ -33,6 +41,10 @@ class RegisterTaskViewModelImpl(
 ) : RegisterTaskViewModel() {
     private val _state = MutableStateFlow(RegisterTaskState())
     override val state: MutableStateFlow<RegisterTaskState> get() = _state
+
+    override val validationEvents = emptyFlow<ValidationEvent>()
+
+    override val taskState = MutableStateFlow<TaskState>(TaskState.Idle)
 
     init {
         getData()
@@ -55,6 +67,9 @@ class RegisterTaskViewModelImpl(
             }
             is RegisterTaskEvent.OnDeleteTag -> {
                 deleteTag(event.id)
+            }
+            is RegisterTaskEvent.OnSelectTag -> {
+                _state.update { it.copy(selectedTag = event.id) }
             }
             is RegisterTaskEvent.OnName -> {
                 _state.update { it.copy(taskName = event.name) }
@@ -106,7 +121,9 @@ class RegisterTaskViewModelImpl(
                     it.copy(observation = event.value)
                 }
             }
-            is RegisterTaskEvent.ReloadListPet -> {}
+            is RegisterTaskEvent.Submit -> {
+                submit()
+            }
         }
     }
 
@@ -213,7 +230,156 @@ class RegisterTaskViewModelImpl(
         }
     }
 
-    override val validationEvents = emptyFlow<ValidationEvent>()
+    private fun submit()  {
+        val payload = buildTaskPayload(_state.value)
 
-    override val taskState = MutableStateFlow<TaskState>(TaskState.Idle)
+        if (payload == null) return
+
+        viewModelScope.launch {
+            println("Payload gerado com sucesso: $payload")
+        }
+    }
+
+    fun formatStartAt(
+        dateMillis: Long?,
+        time: LocalTime?,
+        isRecurrent: Boolean,
+    ): String? {
+        if (time == null) return null
+
+        if (!isRecurrent && dateMillis == null) return null
+
+        val zoneId = ZoneId.systemDefault()
+
+        val localDate =
+            if (isRecurrent || dateMillis == null) {
+                LocalDate.now(zoneId)
+            } else {
+                Instant.ofEpochMilli(dateMillis).atZone(zoneId).toLocalDate()
+            }
+
+        val localDateTime = ZonedDateTime.of(localDate, time, zoneId)
+
+        val utcDateTime = localDateTime.withZoneSameInstant(ZoneOffset.UTC)
+
+        return DateTimeFormatter.ISO_INSTANT.format(utcDateTime)
+    }
+
+    /**
+     * Converte o tempo selecionado no formato 12h (AM/PM) para um objeto LocalTime em 24h.
+     * Retorna null se os parâmetros obrigatórios não estiverem presentes.
+     */
+    fun resolveTimeTo24h(
+        timeSelected: Pair<Int, Int>?,
+        amPmSelected: String?,
+    ): LocalTime? {
+        if (timeSelected == null || amPmSelected == null) return null
+
+        val (hour12, minute) = timeSelected
+        val isPm = amPmSelected.equals("PM", ignoreCase = true)
+
+        val hour24 =
+            when {
+                isPm && hour12 < 12 -> hour12 + 12
+                isPm && hour12 == 12 -> 12
+                !isPm && hour12 == 12 -> 0
+                else -> hour12
+            }
+
+        return LocalTime.of(hour24, minute)
+    }
+
+    fun buildTaskPayload(state: RegisterTaskState): TaskPayloadRequest? {
+        val tagId = state.selectedTag ?: return null
+        val title = state.taskName
+        val description = state.taskDescription
+        val note = state.observation
+        val pets = state.selectedPet
+
+        val resolvedTime =
+            resolveTimeTo24h(state.timeSelected, state.amPmSelected)
+                ?: return null
+
+        val isRecurrent = state.selectedTransactionType == TransactionType.Recurrent
+
+        val startAt =
+            formatStartAt(state.dateSelected, resolvedTime, isRecurrent)
+                ?: return null
+
+        var daily = false
+        var daysOfWeek = emptyList<Int>()
+        var daysOfMonth = emptyList<Int>()
+
+        when (state.selectedTransactionType) {
+            TransactionType.OneOff -> {
+                daily = false
+                daysOfWeek = emptyList()
+                daysOfMonth = emptyList()
+            }
+            TransactionType.Recurrent -> {
+                when (state.periodType) {
+                    SelectedPeriodType.Daily -> {
+                        daily = true
+                        daysOfWeek = emptyList()
+                        daysOfMonth = emptyList()
+                    }
+                    SelectedPeriodType.Weekly -> {
+                        daily = false
+                        daysOfWeek = convertDaysOfWeek(state.selectedDaysOfWeek)
+                        daysOfMonth = emptyList()
+                    }
+                    SelectedPeriodType.Monthly -> {
+                        daily = false
+                        daysOfWeek = emptyList()
+                        daysOfMonth = if (state.daySelected != null) listOf(state.daySelected) else emptyList()
+                    }
+                }
+            }
+        }
+
+        return TaskPayloadRequest(
+            tagId = tagId,
+            title = title,
+            description = description,
+            note = note,
+            startAt = startAt,
+            endAt = null,
+            daysOfWeek = daysOfWeek,
+            daysOfMonth = daysOfMonth,
+            daily = daily,
+            pets = pets,
+        )
+    }
+
+    fun convertDaysOfWeek(days: List<String>): List<Int> {
+        val dayMap =
+            mapOf(
+                "domingo" to 0,
+                "segunda" to 1,
+                "terça" to 2,
+                "quarta" to 3,
+                "quinta" to 4,
+                "sexta" to 5,
+                "sábado" to 6,
+                "terca" to 2,
+                "sabado" to 6,
+            )
+
+        return days.mapNotNull { day ->
+            dayMap[day.lowercase().trim()]
+        }.distinct().sorted()
+    }
 }
+
+data class TaskPayloadRequest(
+    val tagId: String,
+    val title: String,
+    val description: String,
+    val note: String,
+    val startAt: String,
+    val endAt: String?,
+    val daysOfWeek: List<Int>,
+    val daysOfMonth: List<Int>,
+    val daily: Boolean,
+    val pets: List<String>,
+)

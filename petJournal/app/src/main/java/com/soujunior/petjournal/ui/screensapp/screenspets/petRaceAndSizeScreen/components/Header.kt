@@ -13,10 +13,7 @@ import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import ir.kaaveh.sdpcompose.sdp
 
 @Composable
-fun Header(
-    modifier: Modifier = Modifier,
-    petName: String = "Bolinha",
-) {
+fun Header(petName: String = "Bolinha") {
     if (petName.isNotEmpty()) {
         CreateTitleAndImageLogo(
             spaceBetween = 15.sdp,
