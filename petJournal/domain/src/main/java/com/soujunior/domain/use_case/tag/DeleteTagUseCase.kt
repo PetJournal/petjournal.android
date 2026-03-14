@@ -1,4 +1,4 @@
-package com.soujunior.domain.use_case.task
+package com.soujunior.domain.use_case.tag
 
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository

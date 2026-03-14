@@ -124,7 +124,6 @@ interface GuardianService {
     @POST("api/scheduler")
     suspend fun scheduled(
         @Header("Authorization") token: String,
-        @Path("item") item: TaskDTO
+        @Body item: TaskDTO
     ): NetworkResult<Unit>
 }
-

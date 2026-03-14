@@ -5,10 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.request.TaskDTO
 import com.soujunior.domain.model.response.tag.TagModel
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV2
-import com.soujunior.domain.use_case.task.CreateTagUseCase
-import com.soujunior.domain.use_case.task.DeleteTagUseCase
-import com.soujunior.domain.use_case.task.GetListTagUseCase
-import com.soujunior.domain.use_case.task.UpdateTagUseCase
+import com.soujunior.domain.use_case.tag.CreateTagUseCase
+import com.soujunior.domain.use_case.tag.DeleteTagUseCase
+import com.soujunior.domain.use_case.tag.GetListTagUseCase
+import com.soujunior.domain.use_case.tag.UpdateTagUseCase
+import com.soujunior.domain.use_case.task.CreateTaskUseCase
 import com.soujunior.petjournal.ui.mapper.Mapper.toColor
 import com.soujunior.petjournal.ui.mapper.Mapper.toListSelectableButtonInfo
 import com.soujunior.petjournal.ui.mapper.Mapper.toPetsList
@@ -39,6 +40,7 @@ class RegisterTaskViewModelImpl(
     private val updateTagCase: UpdateTagUseCase,
     private val deleteTagCase: DeleteTagUseCase,
     private val getPetListUseCase: GetListPetUseCaseV2,
+    private val createTaskUseCase: CreateTaskUseCase,
 ) : RegisterTaskViewModel() {
     private val _state = MutableStateFlow(RegisterTaskState())
     override val state: MutableStateFlow<RegisterTaskState> get() = _state
@@ -234,10 +236,23 @@ class RegisterTaskViewModelImpl(
     private fun submit() {
         val payload = buildTaskPayload(_state.value)
 
-        if (payload == null) return
+        if (payload == null) {
+            return
+        }
 
         viewModelScope.launch {
             println("Payload gerado com sucesso: $payload")
+
+            val result = createTaskUseCase.execute(value = payload)
+
+            result.handleResult(
+                { response ->
+                    println("Tarefa criada com sucesso: $response")
+                },
+                { error ->
+                    println("Erro ao criar tarefa: $error")
+                },
+            )
         }
     }
 
@@ -266,10 +281,6 @@ class RegisterTaskViewModelImpl(
         return DateTimeFormatter.ISO_INSTANT.format(utcDateTime)
     }
 
-    /**
-     * Converte o tempo selecionado no formato 12h (AM/PM) para um objeto LocalTime em 24h.
-     * Retorna null se os parâmetros obrigatórios não estiverem presentes.
-     */
     fun resolveTimeTo24h(
         timeSelected: Pair<Int, Int>?,
         amPmSelected: String?,
@@ -337,14 +348,15 @@ class RegisterTaskViewModelImpl(
                 }
             }
         }
-
+        val nowUtc = ZonedDateTime.now(ZoneOffset.UTC)
+        val futureUtc = nowUtc.plusYears(10)
         return TaskDTO(
             tagId = tagId,
             title = title,
             description = description,
             note = note,
             startAt = startAt,
-            endAt = null,
+            endAt = futureUtc.format(DateTimeFormatter.ISO_INSTANT),
             daysOfWeek = daysOfWeek,
             daysOfMonth = daysOfMonth,
             daily = daily,

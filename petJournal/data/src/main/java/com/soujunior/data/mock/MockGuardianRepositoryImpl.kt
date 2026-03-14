@@ -7,6 +7,7 @@ import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.domain.model.SizeDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
+import com.soujunior.domain.model.request.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
@@ -70,6 +71,10 @@ class MockGuardianRepositoryImpl(): GuardianRepository {
     }
 
     override suspend fun getListPetRaces(petSpecie: String): NetworkResult<List<PetRaceItemModel>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun scheduled(item: TaskDTO): NetworkResult<Unit> {
         TODO("Not yet implemented")
     }
 }

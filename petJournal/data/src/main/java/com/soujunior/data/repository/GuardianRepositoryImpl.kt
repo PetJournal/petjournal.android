@@ -298,7 +298,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun scheduled(item: TaskDTO): NetworkResult<Unit> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.scheduled(token, item = item)
+            val apiResponse =  guardianApi.scheduled(token, item)
             var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
 
             apiResponse
