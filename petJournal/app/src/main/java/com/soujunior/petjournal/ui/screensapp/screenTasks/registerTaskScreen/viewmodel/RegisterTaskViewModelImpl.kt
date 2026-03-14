@@ -2,6 +2,7 @@ package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.vi
 
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
+import com.soujunior.domain.model.request.TaskDTO
 import com.soujunior.domain.model.response.tag.TagModel
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV2
 import com.soujunior.domain.use_case.task.CreateTagUseCase
@@ -230,7 +231,7 @@ class RegisterTaskViewModelImpl(
         }
     }
 
-    private fun submit()  {
+    private fun submit() {
         val payload = buildTaskPayload(_state.value)
 
         if (payload == null) return
@@ -289,7 +290,7 @@ class RegisterTaskViewModelImpl(
         return LocalTime.of(hour24, minute)
     }
 
-    fun buildTaskPayload(state: RegisterTaskState): TaskPayloadRequest? {
+    fun buildTaskPayload(state: RegisterTaskState): TaskDTO? {
         val tagId = state.selectedTag ?: return null
         val title = state.taskName
         val description = state.taskDescription
@@ -337,7 +338,7 @@ class RegisterTaskViewModelImpl(
             }
         }
 
-        return TaskPayloadRequest(
+        return TaskDTO(
             tagId = tagId,
             title = title,
             description = description,
@@ -370,16 +371,3 @@ class RegisterTaskViewModelImpl(
         }.distinct().sorted()
     }
 }
-
-data class TaskPayloadRequest(
-    val tagId: String,
-    val title: String,
-    val description: String,
-    val note: String,
-    val startAt: String,
-    val endAt: String?,
-    val daysOfWeek: List<Int>,
-    val daysOfMonth: List<Int>,
-    val daily: Boolean,
-    val pets: List<String>,
-)

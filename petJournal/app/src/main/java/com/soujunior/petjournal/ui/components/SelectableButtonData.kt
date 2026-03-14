@@ -350,7 +350,7 @@ fun GroupSelectableButton(
     isLoading: Boolean = false,
     showButton: Boolean = false,
     onAddClick: () -> Unit = {},
-    onSelection: (String) -> Unit = {},
+    onSelection: (String?) -> Unit = {},
     onAction: (TagAction) -> Unit = {},
     maxItemsInEachRow: Int = Int.MAX_VALUE,
 ) {
@@ -429,12 +429,11 @@ fun GroupSelectableButton(
                 SelectableButton(
                     titleButton = buttonInfo.title,
                     colorButton = buttonInfo.color,
-                    // A seleção agora é baseada na comparação com o parâmetro
-                    isSelected = buttonInfo.title == selectedTag,
+                    isSelected = buttonInfo.id == selectedTag,
                     isLoading = isLoading,
                     onSelectionChanged = { title, selected ->
                         if (selected) {
-                            onSelection(title)
+                            onSelection(buttonInfo.id)
                         } else {
                             onSelection("")
                         }

@@ -8,6 +8,7 @@ import com.soujunior.domain.model.SizeDTO
 import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
+import com.soujunior.domain.model.request.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.tag.TagModel
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
@@ -33,4 +34,6 @@ interface GuardianRepository {
     suspend fun updatePet(petModel: PetModel) : DataResult<Unit>
     suspend fun getListPetSizes(petSpecie: String): NetworkResult<List<PetSizeItemModel>>
     suspend fun getListPetRaces(petSpecie: String): NetworkResult<List<PetRaceItemModel>>
+
+    suspend fun scheduled(item: TaskDTO): NetworkResult<Unit>
 }

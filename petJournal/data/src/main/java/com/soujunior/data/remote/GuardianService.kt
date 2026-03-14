@@ -7,6 +7,7 @@ import com.soujunior.domain.model.SizeDTO
 import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
+import com.soujunior.domain.model.request.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.pet.PetInformationResponse
 import com.soujunior.domain.model.response.pet.PetResponse
@@ -118,6 +119,12 @@ interface GuardianService {
     suspend fun deleteTag(
         @Header("Authorization") token: String,
         @Path("id") id: String
+    ): NetworkResult<Unit>
+
+    @POST("api/scheduler")
+    suspend fun scheduled(
+        @Header("Authorization") token: String,
+        @Path("item") item: TaskDTO
     ): NetworkResult<Unit>
 }
 
