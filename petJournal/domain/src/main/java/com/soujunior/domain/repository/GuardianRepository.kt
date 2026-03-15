@@ -10,11 +10,10 @@ import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.request.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
-import com.soujunior.domain.model.response.tag.TagModel
+import com.soujunior.domain.model.response.pet.PetDTO
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.use_case.base.DataResult
-import java.io.File
 
 interface GuardianRepository {
     suspend fun getGuardianName(): NetworkResult<GuardianNameResponse>
@@ -31,7 +30,8 @@ interface GuardianRepository {
     suspend fun getListPet(): NetworkResult<List<PetDetailsDTO>>
     suspend fun createPet(pet: PetCreateDTO, imageUri: String?): NetworkResult<PetDetailsDTO>
     suspend fun getPet(idPet: Long): DataResult<PetModel>
-    suspend fun updatePet(petModel: PetModel) : DataResult<Unit>
+    suspend fun getPetById(id: String) : NetworkResult<PetDetailsDTO>
+    suspend fun updatePet(id: String, pet: PetCreateDTO, imageUri: String?) : NetworkResult<PetDetailsDTO>
     suspend fun getListPetSizes(petSpecie: String): NetworkResult<List<PetSizeItemModel>>
     suspend fun getListPetRaces(petSpecie: String): NetworkResult<List<PetRaceItemModel>>
 

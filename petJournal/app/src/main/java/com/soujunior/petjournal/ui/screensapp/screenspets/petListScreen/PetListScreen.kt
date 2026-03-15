@@ -155,7 +155,7 @@ fun PetListScreen(navController: NavController) {
                                 .fillMaxSize()
                                 .background(MaterialTheme.colorScheme.onPrimary)
                                 .padding(paddingValues),
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                        horizontalAlignment = CenterHorizontally,
                     ) {
                         Text(
                             text = stringResource(R.string.which_pet_do_you_want_to_see),
@@ -176,7 +176,9 @@ fun PetListScreen(navController: NavController) {
                                 PetItem(
                                     imageRes = pet.image ?: "",
                                     name = pet.petName ?: "Sem nome",
-                                    onClick = {},
+                                    onClick = {
+                                        navController.navigate("pets/registerPet/${pet.idPet}")
+                                    },
                                 )
                             }
                             item {

@@ -85,7 +85,7 @@ import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import java.util.Calendar
 import kotlin.collections.forEach
 
@@ -95,12 +95,16 @@ fun getPetRegisterViewModelForPreview(): PetRegisterViewModel {
     return if (LocalInspectionMode.current) {
         FakePetRegisterViewModel()
     } else {
-        getViewModel()
+        koinViewModel()
     }
 }
 
 @Composable
-fun RegisterPetScreen(navController: NavController) {
+fun RegisterPetScreen(
+    navController: NavController,
+    idPet: String? = null,
+    title: String = stringResource(R.string.add_new_pet),
+) {
     val viewModel: PetRegisterViewModel = getPetRegisterViewModelForPreview()
     val taskState by viewModel.taskState.collectAsState()
     val state = viewModel.stateUi.collectAsStateWithLifecycle()

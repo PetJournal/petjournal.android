@@ -25,6 +25,7 @@ object Converter {
     fun PetModel.toEntity(): PetInformation {
         return PetInformation(
             id = this.id,
+            idPet = this.idPet,
             guardianId = this.guardianId ?: 0,
             species = this.species,
             name = this.petName,
@@ -35,18 +36,6 @@ object Converter {
             castration = this.castrated
         )
     }
-//    fun PetModel.toResponse(): PetInformationResponse {
-//        return PetInformationResponse(
-//            specieName = if (this.species == "Cat" ) "Gato" else if ( this.species == "Dog") "Cachorro" else this.species,
-//            petName = this.name,
-//            gender = this.gender,
-//            breedName = this.petRace,
-//            size = this.size,
-//            castrated = this.castrated,
-//            dateOfBirth = this.petAge
-//        )
-//    }
-
 
     fun List<PetSize>.toListPetSizeItemModel(): List<PetSizeItemModel> {
         val listPetSizesItemModel: MutableList<PetSizeItemModel> = mutableListOf()

@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+@Deprecated("Este componente não esta mais em uso")
 class ViewModelRaceSizeImpl(
     val validation: ValidationRepository,
     private val getPetInformationUseCase: GetPetInformationUseCase,
@@ -208,7 +209,7 @@ class ViewModelRaceSizeImpl(
                     guardianId = 1,
                 )
 
-            val result = updatePetInformationUseCase.execute(petInformation)
+            val result = updatePetInformationUseCase.execute(Pair("", petInformation))
 
             result.handleResult(::successPetUpdate, ::failed)
             _taskState.value = TaskState.Idle

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 data class StateUI(
     val pet: PetModel? = null,
+    val idPetSelected: String? = null,
     val showDialogSuccess: Boolean = false,
     val showDialogError: Boolean = false,
     val isLoadingBreeds: Boolean = false,
@@ -31,11 +32,13 @@ data class StateUI(
 ) {
     // todo: abstrair os nomes dos animais para um enum ou constante
     fun convert(input: String): String {
-        return when (input) {
-            "gato" -> "cat"
-            "cachorro" -> "dog"
-            else -> ""
-        }
+        val animalMap =
+            mapOf(
+                "gato" to "cat",
+                "cachorro" to "dog",
+            )
+
+        return animalMap[input.lowercase()] ?: ""
     }
 
     fun buildPetModel(): PetModel {

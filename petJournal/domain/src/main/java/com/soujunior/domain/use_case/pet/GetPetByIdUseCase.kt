@@ -1,22 +1,18 @@
 package com.soujunior.domain.use_case.pet
 
-import com.soujunior.domain.mapper.Mapper.toDTO
-import com.soujunior.domain.model.PetModel
+import com.soujunior.domain.model.PetDetailsDTO
+import com.soujunior.domain.model.response.pet.PetDTO
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 
-class CreatePetUseCase(private val repository: GuardianRepository) : BaseUseCase<PetModel, Unit>() {
-    override suspend fun doWork(value: PetModel): DataResult<Unit> {
+class GetPetByIdUseCase( private val repository: GuardianRepository ) : BaseUseCase<String, PetDetailsDTO>() {
+    override suspend fun doWork(value: String): DataResult<PetDetailsDTO> {
         return try {
-            val response = repository.createPet(
-                pet = value.toDTO(),
-                imageUri = value.image
-            )
-
+            val response = repository.getPetById(value)
             when (response) {
-                is NetworkResult.Success -> { DataResult.Success(Unit) }
+                is NetworkResult.Success -> { DataResult.Success(response.data) }
                 is NetworkResult.Error -> {
                     DataResult.Failure(
                         Throwable(message = "${response.code} -> ${response.body?.error}")

@@ -133,8 +133,8 @@ dependencies {
 
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation("io.insert-koin:koin-core:3.1.2")
-    implementation("io.insert-koin:koin-android:3.1.2")
+    implementation("io.insert-koin:koin-core:3.4.1")
+    implementation("io.insert-koin:koin-android:3.4.1")
 //    implementation("io.insert-koin:koin-androidx-compose:3.1.2")
     implementation("io.insert-koin:koin-androidx-compose:3.4.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

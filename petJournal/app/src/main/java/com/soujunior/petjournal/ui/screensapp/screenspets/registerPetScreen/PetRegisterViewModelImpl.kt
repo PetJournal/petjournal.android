@@ -1,20 +1,32 @@
 package com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen
 
+import android.content.ContentValues.TAG
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.use_case.information.GetListBreedUseCase
 import com.soujunior.domain.use_case.pet.CreatePetUseCase
 import com.soujunior.domain.use_case.pet.GetListSizeUseCase
+import com.soujunior.domain.use_case.pet.GetPetByIdUseCase
+import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.petjournal.ui.states.TaskState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 class PetRegisterViewModelImpl(
+    private val savedStateHandle: SavedStateHandle,
     private val createPetUseCase: CreatePetUseCase,
+    private val updatePetUseCase: UpdatePetInformationUseCase,
     private val getListBreedUseCase: GetListBreedUseCase,
     private val getListSizeUseCase: GetListSizeUseCase,
+    private val getPetUseCase: GetPetByIdUseCase,
 ) : PetRegisterViewModel() {
     private val _stateUi = MutableStateFlow(StateUI())
     override val stateUi: StateFlow<StateUI>
@@ -22,11 +34,42 @@ class PetRegisterViewModelImpl(
             return _stateUi.asStateFlow()
         }
 
-    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
+    private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Loading)
     override val taskState: StateFlow<TaskState> = _taskState
 
     init {
-        _taskState.value = TaskState.Idle
+        val idPet: String? = savedStateHandle.get<String>("idPet")
+        if (idPet.isNullOrBlank()) {
+            _taskState.value = TaskState.Idle
+        } else {
+            getPetById(idPet)
+        }
+    }
+
+    private fun getPetById(idPet: String)  {
+        viewModelScope.launch {
+            val result = getPetUseCase.execute(idPet)
+            result.handleResult({ petDto ->
+                fetchRace(_stateUi.value.convert(petDto.specie?.name.toString()), preselected = petDto.breed?.name)
+                fetchSizes(_stateUi.value.convert(petDto.specie?.name.toString()), preselected = petDto.size?.name)
+
+                _stateUi.update {
+                    it.copy(
+                        idPetSelected = idPet,
+                        petName = petDto.petName,
+                        petImage = petDto.image,
+                        selectedAnimalType = petDto.specie?.name,
+                        petBirthday = formatIsoToCompactDate(petDto.dateOfBirth),
+                        petGender = petDto.gender.toString(),
+                        petCastrated = petDto.castrated,
+                    )
+                }
+
+                _taskState.value = TaskState.Idle
+            }, {
+                Log.e(TAG, "Error: $it")
+            })
+        }
     }
 
     override fun onEvent(event: CreatePetEvent) {
@@ -46,8 +89,8 @@ class PetRegisterViewModelImpl(
                         listRace = emptyList(),
                         listSize = emptyList(),
                     )
-                fetchRace(_stateUi.value.convert(event.type))
-                fetchSizes(_stateUi.value.convert(event.type))
+                fetchRace(_stateUi.value.convert(event.type), null)
+                fetchSizes(_stateUi.value.convert(event.type), null)
             }
             is CreatePetEvent.OnInputRace -> {
                 _stateUi.value = _stateUi.value.copy(petRace = event.breed)
@@ -65,12 +108,21 @@ class PetRegisterViewModelImpl(
                 _stateUi.value = _stateUi.value.copy(petCastrated = event.isCastrated)
             }
             is CreatePetEvent.OnSubmit -> {
-                createPet(stateUi.value.buildPetModel())
+                if (_stateUi.value.idPetSelected.isNullOrBlank()) {
+                    createPet(stateUi.value.buildPetModel())
+                } else {
+                    stateUi.value.idPetSelected?.let { value ->
+                        updatePet(id = value, stateUi.value.buildPetModel())
+                    }
+                }
             }
         }
     }
 
-    private fun fetchSizes(animalType: String) {
+    private fun fetchSizes(
+        animalType: String,
+        preselected: String?,
+    ) {
         viewModelScope.launch {
             _stateUi.value = _stateUi.value.copy(isLoadingSizes = true)
             val result = getListSizeUseCase.execute(animalType)
@@ -80,6 +132,7 @@ class PetRegisterViewModelImpl(
                     _stateUi.value =
                         _stateUi.value.copy(
                             isLoadingSizes = false,
+                            petSize = preselected,
                             listSizeOnly = sizeList.toList(),
                         )
                 },
@@ -95,7 +148,10 @@ class PetRegisterViewModelImpl(
         }
     }
 
-    private fun fetchRace(animalType: String) {
+    private fun fetchRace(
+        animalType: String,
+        preselected: String?,
+    ) {
         viewModelScope.launch {
             _stateUi.value = _stateUi.value.copy(isLoadingBreeds = true)
             val result = getListBreedUseCase.execute(animalType)
@@ -104,6 +160,7 @@ class PetRegisterViewModelImpl(
                     _stateUi.value =
                         _stateUi.value.copy(
                             isLoadingBreeds = false,
+                            petRace = preselected,
                             listRaceOnly = breeds.toList(),
                         )
                 },
@@ -137,6 +194,49 @@ class PetRegisterViewModelImpl(
                         )
                 },
             )
+        }
+    }
+
+    private fun updatePet(
+        id: String,
+        pet: PetModel,
+    ) {
+        Log.e(TAG, "UpdatePet: $pet")
+        _taskState.value = TaskState.Loading
+        viewModelScope.launch {
+            val result = updatePetUseCase.execute(Pair(id, pet))
+            result.handleResult(
+                success = {
+                    _taskState.value = TaskState.Idle
+                    _stateUi.value = _stateUi.value.copy(showDialogSuccess = true)
+                },
+                error = {
+                    Log.e(TAG, "UpdatePet erro: $it")
+
+                    _taskState.value = TaskState.Idle
+                    _stateUi.value =
+                        _stateUi.value.copy(
+                            showDialogError = true,
+                            messageError = it?.message.toString(),
+                        )
+                },
+            )
+        }
+    }
+
+    fun formatIsoToCompactDate(isoDate: String?): String {
+        if (isoDate.isNullOrBlank()) return ""
+
+        return try {
+            val instant = Instant.parse(isoDate)
+
+            val dateUtc = instant.atZone(ZoneOffset.UTC).toLocalDate()
+
+            val formatter = DateTimeFormatter.ofPattern("ddMMyyyy")
+
+            dateUtc.format(formatter)
+        } catch (e: Exception) {
+            ""
         }
     }
 }

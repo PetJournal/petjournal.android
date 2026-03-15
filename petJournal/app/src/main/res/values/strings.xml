@@ -219,4 +219,5 @@
     <string name="thursday">Qui</string>
     <string name="friday">Sex</string>
     <string name="saturday">Sab</string>
+    <string name="add_new_pet">Adicionar novo pet</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.di
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
 import com.petjournal.database.database.db.AppDatabase
 import com.petjournal.database.repository.AppInfoDataBaseImpl
@@ -36,6 +35,7 @@ import com.soujunior.domain.use_case.pet.CreatePetUseCase
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV2
 import com.soujunior.domain.use_case.pet.GetListSizeUseCase
+import com.soujunior.domain.use_case.pet.GetPetByIdUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
@@ -122,12 +122,12 @@ val mainModule =
         factory { SavePetInformationUseCase(get()) }
         factory { GetPetInformationUseCase(get()) }
         factory { UpdatePetInformationUseCase(get()) }
-        factory { SavedStateHandle() }
         factory { GetListPetSizesUseCase(get()) }
         factory { GetListPetRacesUseCase(get()) }
         factory { GetListPetUseCaseV1(get()) }
         factory { GetListPetUseCaseV2(get()) }
         factory { CreatePetUseCase(get()) }
+        factory { GetPetByIdUseCase(get()) }
         factory { GetListBreedUseCase(get()) }
         factory { GetListSizeUseCase(get()) }
         factory { GetListTagUseCase(get()) }
@@ -163,8 +163,6 @@ val mainModule =
                 .build()
         }
 
-//        viewModel { (handle: SavedStateHandle) -> CleanerTaskViewModel(savedStateHandle = handle) }
-
         viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get(), get()) }
 
         viewModel<IntroRegisterPetViewModel> {
@@ -182,15 +180,23 @@ val mainModule =
         viewModel { SplashViewModel(get()) }
         viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get(), get()) }
         viewModel<PetListViewModel> { PetListViewModelImpl(get()) }
-        viewModel<PetRegisterViewModel> { PetRegisterViewModelImpl(get(), get(), get()) }
 
-        // viewModel<ViewModelNameGender> { (handle: SavedStateHandle) -> ViewModelNameGenderImpl(get(), get(), get(), handle) }
-        viewModel<ViewModelNameGender> { // (handle: SavedStateHandle) ->
+        viewModel<PetRegisterViewModel> {
+            PetRegisterViewModelImpl(
+                savedStateHandle = get(),
+                createPetUseCase = get(),
+                getListBreedUseCase = get(),
+                getListSizeUseCase = get(),
+                getPetUseCase = get(),
+                updatePetUseCase = get(),
+            )
+        }
+
+        viewModel<ViewModelNameGender> {
             ViewModelNameGenderImpl(
                 validation = get(),
                 getPetInformationUseCase = get(),
                 updatePetInformationUseCase = get(),
-                // savedStateHandle = get()
             )
         }
 

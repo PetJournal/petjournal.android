@@ -1,7 +1,6 @@
 package com.soujunior.data.remote
 
 import com.soujunior.domain.model.BreedDTO
-import com.soujunior.domain.model.PetCreateDTO
 import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.domain.model.SizeDTO
 import com.soujunior.domain.model.response.tag.TagDTO
@@ -10,7 +9,7 @@ import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.request.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.pet.PetInformationResponse
-import com.soujunior.domain.model.response.pet.PetResponse
+import com.soujunior.domain.model.response.pet.PetDTO
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
 import com.soujunior.domain.network.NetworkResult
 import okhttp3.MultipartBody
@@ -64,7 +63,7 @@ interface GuardianService {
     suspend fun getPetById(
         @Header("Authorization") token: String,
         @Path("id") id: String
-    ): NetworkResult<PetResponse>
+    ): NetworkResult<PetDetailsDTO>
 
     @DELETE("api/pet/{id}")
     suspend fun deletePetById(
@@ -72,12 +71,20 @@ interface GuardianService {
         @Path("id") id: String
     ): NetworkResult<Unit>
 
+    @Multipart
     @PUT("api/pet/{id}")
-    suspend fun updatePetById(
+    suspend fun updatePet(
         @Header("Authorization") token: String,
         @Path("id") id: String,
-        @Body petInformationResponse: PetInformationResponse
-    ): NetworkResult<Unit>
+        @Part image: MultipartBody.Part,
+        @Part("specieName") specieName: RequestBody,
+        @Part("petName") petName: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("breedName") breedName: RequestBody,
+        @Part("size") size: RequestBody,
+        @Part("castrated") castrated: RequestBody,
+        @Part("dateOfBirth") dateOfBirth: RequestBody
+    ): NetworkResult<PetDetailsDTO>
 
     /**
      * animal can be "cat" or "dog"

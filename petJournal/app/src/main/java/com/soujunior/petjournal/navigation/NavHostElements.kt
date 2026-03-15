@@ -1,10 +1,12 @@
 package com.soujunior.petjournal.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeScreen
 import com.soujunior.petjournal.ui.screensapp.accountmanager.changePasswordScreen.ChangePasswordScreen
 import com.soujunior.petjournal.ui.screensapp.accountmanager.forgotPasswordScreen.ForgotPasswordScreen
@@ -63,6 +65,14 @@ fun NavHostMainContent() {
 
         composable("pets/introRegisterPet") { IntroRegisterPetScreen(navController) }
         composable("pets/petListScreen") { PetListScreen(navController) }
+        composable("pets/registerPet/{idPet}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("idPet")
+            RegisterPetScreen(
+                navController,
+                idPet = id,
+                title = stringResource(R.string.edit_pet_data),
+            )
+        }
         composable("pets/registerPet") { RegisterPetScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
 

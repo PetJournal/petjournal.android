@@ -16,6 +16,7 @@ import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.request.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.model.response.pet.PetDTO
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.network.onError
@@ -238,13 +239,90 @@ class GuardianRepositoryImpl(
         }
     }
 
-    override suspend fun updatePet(petModel: PetModel): DataResult<Unit> {
-        return try {
-            DataResult.Success(guardianLocalDataSourceImpl.updatePetInformation(petModel).success.data)
-        } catch (e: Throwable) {
-            DataResult.Failure(e)
+    override suspend fun getPetById(id: String): NetworkResult<PetDetailsDTO> {
+        getToken()?.let { token ->
+            val apiResponse =  guardianApi.getPetById(token, id)
+            var result: NetworkResult<PetDetailsDTO> = NetworkResult.Error(0, null)
+            apiResponse
+                .onSuccess {
+                    Log.e(TAG, "RepositoryImpl: $it")
+                    result = NetworkResult.Success(it)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
         }
     }
+
+    override suspend fun updatePet(id: String, pet: PetCreateDTO, imageUri: String?): NetworkResult<PetDetailsDTO> {
+        val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
+
+        return try {
+            val isLocalUri = imageUri != null && !imageUri.startsWith("http", ignoreCase = true)
+
+            val imagePart: MultipartBody.Part = if (isLocalUri) {
+                val imageFile = getFileFromUri(context = context, Uri.parse(imageUri))
+
+                if (imageFile != null && imageFile.exists()) {
+                    val mediaType = MediaType.parse("image/*")
+                    val requestFile = RequestBody.create(mediaType, imageFile)
+                    MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
+                } else {
+                    throw IllegalArgumentException("Falha ao processar a nova imagem")
+                }
+            } else if (imageUri != null && imageUri.startsWith("http", ignoreCase = true)) {
+                val urlBody = RequestBody.create(MediaType.parse("text/plain"), imageUri)
+                MultipartBody.Part.createFormData("image", "", urlBody)
+            } else {
+                throw IllegalArgumentException("Imagem é obrigatória")
+            }
+
+            val specieNamePart = pet.specieName.toTextRequestBody()
+            val petNamePart = pet.petName.toTextRequestBody()
+            val genderPart = pet.gender.toTextRequestBody()
+            val breedNamePart = pet.breedName.toTextRequestBody()
+            val sizePart = pet.size.toTextRequestBody()
+            val castratedPart = pet.castrated.toString().toTextRequestBody()
+            val dateOfBirthPart = pet.dateOfBirth.toTextRequestBody()
+
+            val apiResponse = guardianApi.updatePet(
+                token = token,
+                image = imagePart,
+                specieName = specieNamePart,
+                petName = petNamePart,
+                gender = genderPart,
+                breedName = breedNamePart,
+                size = sizePart,
+                castrated = castratedPart,
+                dateOfBirth = dateOfBirthPart,
+                id = id
+            )
+
+            var result: NetworkResult<PetDetailsDTO> = NetworkResult.Error(0, null)
+
+            apiResponse
+                .onSuccess { data ->
+                    result = NetworkResult.Success(data)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+
+            result
+        } catch (e: Exception) {
+            NetworkResult.Exception(e)
+        }
+    }
+
 
     override suspend fun getListPetSizes(petSpecie: String): NetworkResult<List<PetSizeItemModel>> {
         val localListPetSizes =

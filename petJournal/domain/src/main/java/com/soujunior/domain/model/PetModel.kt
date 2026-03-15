@@ -2,6 +2,7 @@ package com.soujunior.domain.model
 
 data class PetModel(
     val id: Long = 0,
+    val idPet: String? = null,
     val petName: String? = null,
     val species: String? = null,
     val petRace: String? = null,

@@ -136,6 +136,7 @@ object Mapper {
     fun PetDetailsDTO.toPetModel(): PetModel {
         return PetModel(
             id = this.id?.toLongOrNull() ?: this.id?.hashCode()?.toLong() ?: 0L,
+            idPet = this.id,
             species = this.specie?.name ?: this.specieAlias,
             petName = this.petName,
             gender = this.gender,

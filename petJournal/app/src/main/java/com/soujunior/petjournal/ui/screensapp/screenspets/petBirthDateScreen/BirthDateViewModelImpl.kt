@@ -21,6 +21,7 @@ import java.time.LocalDate
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
+@Deprecated("Este componente não esta mais em uso")
 class BirthDateViewModelImpl(
     val validation: ValidationRepository,
     private val getPetInformationUseCase: GetPetInformationUseCase,
@@ -132,7 +133,7 @@ class BirthDateViewModelImpl(
                     guardianId = 1,
                 )
 
-            val result = updatePetInformationUseCase.execute(petInformation)
+            val result = updatePetInformationUseCase.execute(Pair("", petInformation))
             result.handleResult(::successPetUpdate, ::failed)
         }
     }
