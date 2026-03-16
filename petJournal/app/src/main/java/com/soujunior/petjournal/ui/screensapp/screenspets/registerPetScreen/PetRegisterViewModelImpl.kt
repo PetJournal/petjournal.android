@@ -108,17 +108,16 @@ class PetRegisterViewModelImpl(
                 _stateUi.value = _stateUi.value.copy(petCastrated = event.isCastrated)
             }
             is CreatePetEvent.OnSubmit -> {
-                if (validateRequiredFields())
-                    {
-                        Log.e(TAG, "validateRequiredFields dentro do if")
-                        if (_stateUi.value.idPetSelected.isNullOrBlank()) {
-                            createPet(stateUi.value.buildPetModel())
-                        } else {
-                            stateUi.value.idPetSelected?.let { value ->
-                                updatePet(id = value, stateUi.value.buildPetModel())
-                            }
+                if (validateRequiredFields()) {
+                    Log.e(TAG, "validateRequiredFields dentro do if")
+                    if (_stateUi.value.idPetSelected.isNullOrBlank()) {
+                        createPet(stateUi.value.buildPetModel())
+                    } else {
+                        stateUi.value.idPetSelected?.let { value ->
+                            updatePet(id = value, stateUi.value.buildPetModel())
                         }
                     }
+                }
             }
 
             is CreatePetEvent.OnCloseDialogError -> {
@@ -262,7 +261,7 @@ class PetRegisterViewModelImpl(
         }
     }
 
-    private fun cleanState()  {
+    private fun cleanState() {
         _stateUi.update {
             it.copy(
                 pet = null,

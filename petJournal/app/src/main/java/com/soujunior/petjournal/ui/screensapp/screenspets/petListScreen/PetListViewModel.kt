@@ -25,6 +25,10 @@ class FakePetListViewModel() : PetListViewModel() {
     override val taskState = MutableStateFlow<TaskState>(TaskState.Idle)
 
     override fun failed(exception: Throwable?) {}
+
+    override fun deletePetById(id: String) {
+        TODO("Not yet implemented")
+    }
 }
 
 abstract class PetListViewModel : ViewModel() {
@@ -37,4 +41,6 @@ abstract class PetListViewModel : ViewModel() {
     abstract val taskState: StateFlow<TaskState>
 
     abstract fun failed(exception: Throwable?)
+
+    abstract fun deletePetById(id: String)
 }

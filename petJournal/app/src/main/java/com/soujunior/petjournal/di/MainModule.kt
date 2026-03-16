@@ -32,6 +32,7 @@ import com.soujunior.domain.use_case.information.GetListBreedUseCase
 import com.soujunior.domain.use_case.information.GetListPetRacesUseCase
 import com.soujunior.domain.use_case.information.GetListPetSizesUseCase
 import com.soujunior.domain.use_case.pet.CreatePetUseCase
+import com.soujunior.domain.use_case.pet.DeletePetByIdUseCase
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV2
 import com.soujunior.domain.use_case.pet.GetListSizeUseCase
@@ -127,6 +128,7 @@ val mainModule =
         factory { GetListPetUseCaseV1(get()) }
         factory { GetListPetUseCaseV2(get()) }
         factory { CreatePetUseCase(get()) }
+        factory { DeletePetByIdUseCase(get()) }
         factory { GetPetByIdUseCase(get()) }
         factory { GetListBreedUseCase(get()) }
         factory { GetListSizeUseCase(get()) }
@@ -179,7 +181,7 @@ val mainModule =
         viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
         viewModel { SplashViewModel(get()) }
         viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get(), get()) }
-        viewModel<PetListViewModel> { PetListViewModelImpl(get()) }
+        viewModel<PetListViewModel> { PetListViewModelImpl(get(), get()) }
 
         viewModel<PetRegisterViewModel> {
             PetRegisterViewModelImpl(

@@ -67,6 +67,10 @@ class MockGuardianRepositoryImpl(): GuardianRepository {
         TODO("Not yet implemented")
     }
 
+    override suspend fun deletePetById(id: String): NetworkResult<Unit> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun updatePet(
         id: String,
         pet: PetCreateDTO,

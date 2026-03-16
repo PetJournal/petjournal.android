@@ -245,7 +245,26 @@ class GuardianRepositoryImpl(
             var result: NetworkResult<PetDetailsDTO> = NetworkResult.Error(0, null)
             apiResponse
                 .onSuccess {
-                    Log.e(TAG, "RepositoryImpl: $it")
+                    result = NetworkResult.Success(it)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
+
+    override suspend fun deletePetById(id: String): NetworkResult<Unit> {
+        getToken()?.let { token ->
+            val apiResponse =  guardianApi.deletePetById(token, id)
+            var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
+            apiResponse
+                .onSuccess {
                     result = NetworkResult.Success(it)
                 }
                 .onError { code, body ->

@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.soujunior.domain.use_case.pet.DeletePetByIdUseCase
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 
 class PetListViewModelImpl(
     private val getPetListUseCase: GetListPetUseCaseV1,
+    private val deletePetByIdUseCase: DeletePetByIdUseCase,
 ) : PetListViewModel() {
     private val _state = MutableStateFlow(State())
     override val state: StateFlow<State> = _state.asStateFlow()
@@ -47,6 +49,23 @@ class PetListViewModelImpl(
         exception?.message?.let { Log.e(TAG, it) }
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Failed)
+        }
+    }
+
+    override fun deletePetById(id: String) {
+        viewModelScope.launch {
+            val result = deletePetByIdUseCase.execute(id)
+            result.handleResult(
+                success = {
+                    _state.update {
+                        it.copy(
+                            listPets = it.listPets.filter { it.idPet != id },
+                        )
+                    }
+                },
+                error = {
+                },
+            )
         }
     }
 }

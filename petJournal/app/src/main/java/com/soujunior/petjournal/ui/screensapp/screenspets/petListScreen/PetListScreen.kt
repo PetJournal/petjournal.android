@@ -15,12 +15,17 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -64,6 +69,7 @@ fun PetListScreen(navController: NavController) {
     val context = LocalContext.current
     val taskState by viewModel.taskState.collectAsState()
     val state = viewModel.state.collectAsState()
+    var expandedMenuPetId by remember { mutableStateOf<String?>(null) }
 
     if (!LocalInspectionMode.current) {
         LaunchedEffect(key1 = context) {
@@ -73,7 +79,6 @@ fun PetListScreen(navController: NavController) {
                         navController.popBackStack()
                         navController.navigate("")
                     }
-
                     is ValidationEvent.Failed -> {}
                 }
             }
@@ -173,13 +178,32 @@ fun PetListScreen(navController: NavController) {
                             horizontalArrangement = Arrangement.Center,
                         ) {
                             items(state.value.listPets) { pet ->
-                                PetItem(
-                                    imageRes = pet.image ?: "",
-                                    name = pet.petName ?: "Sem nome",
-                                    onClick = {
-                                        navController.navigate("pets/registerPet/${pet.idPet}")
-                                    },
-                                )
+                                Box(contentAlignment = Alignment.Center) {
+                                    PetItem(
+                                        imageRes = pet.image ?: "",
+                                        name = pet.petName ?: "",
+                                        onClick = {
+                                            navController.navigate("pets/registerPet/${pet.idPet}")
+                                        },
+                                        onLongClick = {
+                                            expandedMenuPetId = pet.idPet
+                                        },
+                                    )
+                                    DropdownMenu(
+                                        expanded = expandedMenuPetId == pet.idPet,
+                                        onDismissRequest = { expandedMenuPetId = null },
+                                    ) {
+                                        DropdownMenuItem(
+                                            text = { Text("Apagar") },
+                                            onClick = {
+                                                expandedMenuPetId = null
+                                                pet.idPet?.let {
+                                                    viewModel.deletePetById(it)
+                                                }
+                                            },
+                                        )
+                                    }
+                                }
                             }
                             item {
                                 PetItemMore(
