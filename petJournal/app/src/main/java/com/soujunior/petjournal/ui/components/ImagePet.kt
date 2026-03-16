@@ -48,7 +48,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import com.soujunior.petjournal.R
-import ir.kaaveh.sdpcompose.sdp
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -149,9 +148,9 @@ fun ImagePet(
                 .background(Color.Transparent),
         horizontalArrangement = Arrangement.Center,
     ) {
-        Column(
+        Row(
             modifier = Modifier.weight(2f),
-            horizontalAlignment = Alignment.End,
+            horizontalArrangement = Arrangement.Center,
         ) {
             val shape = RoundedCornerShape(16.dp)
             val imageSize = 150.dp
@@ -220,27 +219,27 @@ fun ImagePet(
             }
         }
 
-        Column(
-            modifier = Modifier.weight(1f),
-            horizontalAlignment = Alignment.End,
-        ) {
-            if (!imagePath.isNullOrEmpty()) {
-                Box(
-                    modifier =
-                        Modifier
-                            .clip(CircleShape)
-                            .padding(end = 24.sdp)
-                            .clickable { onImageChanged("") },
-                ) {
-                    Image(
-                        modifier = Modifier.size(24.dp),
-                        painter = painterResource(id = R.drawable.ic_delete),
-                        contentDescription = "Deletar",
-                        contentScale = ContentScale.FillBounds,
-                    )
-                }
-            }
-        }
+//        Column(
+//            modifier = Modifier.weight(1f),
+//            horizontalAlignment = Alignment.End,
+//        ) {
+//            if (!imagePath.isNullOrEmpty()) {
+//                Box(
+//                    modifier =
+//                        Modifier
+//                            .clip(CircleShape)
+//                            .padding(end = 24.sdp)
+//                            .clickable { onImageChanged("") },
+//                ) {
+//                    Image(
+//                        modifier = Modifier.size(24.dp),
+//                        painter = painterResource(id = R.drawable.ic_delete),
+//                        contentDescription = "Deletar",
+//                        contentScale = ContentScale.FillBounds,
+//                    )
+//                }
+//            }
+//        }
     }
 }
 
@@ -269,5 +268,31 @@ fun ImagePetDialogPreview() {
                 TextButton(onClick = { }) { Text("Cancelar") }
             },
         )
+    }
+}
+
+@Preview(showBackground = true, name = "Estado: Sem Imagem")
+@Composable
+fun ImagePetEmptyPreview() {
+    MaterialTheme {
+        Box(modifier = Modifier.padding(16.dp)) {
+            ImagePet(
+                imagePath = null,
+                onImageChanged = {},
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "Estado: Com Imagem (Placeholder)")
+@Composable
+fun ImagePetFilledPreview() {
+    MaterialTheme {
+        Box(modifier = Modifier.padding(16.dp)) {
+            ImagePet(
+                imagePath = "https://picsum.photos/200",
+                onImageChanged = {},
+            )
+        }
     }
 }

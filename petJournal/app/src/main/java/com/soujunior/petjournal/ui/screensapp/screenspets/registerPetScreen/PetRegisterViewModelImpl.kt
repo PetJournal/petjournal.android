@@ -46,7 +46,7 @@ class PetRegisterViewModelImpl(
         }
     }
 
-    private fun getPetById(idPet: String)  {
+    private fun getPetById(idPet: String) {
         viewModelScope.launch {
             val result = getPetUseCase.execute(idPet)
             result.handleResult({ petDto ->
@@ -108,13 +108,24 @@ class PetRegisterViewModelImpl(
                 _stateUi.value = _stateUi.value.copy(petCastrated = event.isCastrated)
             }
             is CreatePetEvent.OnSubmit -> {
-                if (_stateUi.value.idPetSelected.isNullOrBlank()) {
-                    createPet(stateUi.value.buildPetModel())
-                } else {
-                    stateUi.value.idPetSelected?.let { value ->
-                        updatePet(id = value, stateUi.value.buildPetModel())
+                if (validateRequiredFields())
+                    {
+                        Log.e(TAG, "validateRequiredFields dentro do if")
+                        if (_stateUi.value.idPetSelected.isNullOrBlank()) {
+                            createPet(stateUi.value.buildPetModel())
+                        } else {
+                            stateUi.value.idPetSelected?.let { value ->
+                                updatePet(id = value, stateUi.value.buildPetModel())
+                            }
+                        }
                     }
-                }
+            }
+
+            is CreatePetEvent.OnCloseDialogError -> {
+                _stateUi.update { it.copy(showDialogError = false) }
+            }
+            is CreatePetEvent.OnCleanState -> {
+                cleanState()
             }
         }
     }
@@ -183,7 +194,10 @@ class PetRegisterViewModelImpl(
             result.handleResult(
                 {
                     _taskState.value = TaskState.Idle
-                    _stateUi.value = _stateUi.value.copy(showDialogSuccess = true)
+                    _stateUi.value =
+                        _stateUi.value.copy(
+                            showDialogSuccess = true,
+                        )
                 },
                 {
                     _taskState.value = TaskState.Idle
@@ -201,7 +215,6 @@ class PetRegisterViewModelImpl(
         id: String,
         pet: PetModel,
     ) {
-        Log.e(TAG, "UpdatePet: $pet")
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
             val result = updatePetUseCase.execute(Pair(id, pet))
@@ -211,8 +224,6 @@ class PetRegisterViewModelImpl(
                     _stateUi.value = _stateUi.value.copy(showDialogSuccess = true)
                 },
                 error = {
-                    Log.e(TAG, "UpdatePet erro: $it")
-
                     _taskState.value = TaskState.Idle
                     _stateUi.value =
                         _stateUi.value.copy(
@@ -220,6 +231,52 @@ class PetRegisterViewModelImpl(
                             messageError = it?.message.toString(),
                         )
                 },
+            )
+        }
+    }
+
+    private fun validateRequiredFields(): Boolean {
+        val currentState = _stateUi.value
+        val errorMessage =
+            when {
+                currentState.petImage.isNullOrBlank() -> "O pet não pode ficar sem foto."
+                currentState.petName.isNullOrBlank() -> "O nome do pet não pode ficar em branco."
+                currentState.petSize.isNullOrBlank() -> "Por favor, selecione o tamanho do pet."
+                currentState.petRace.isNullOrBlank() -> "Por favor, selecione a raça do pet."
+                currentState.petBirthday.isNullOrBlank() -> "A data de nascimento é obrigatória."
+                currentState.petGender.isNullOrBlank() -> "Por favor, selecione o gênero do pet."
+                currentState.petCastrated == null -> "Por favor, informe se o pet é castrado."
+                else -> null
+            }
+
+        return if (errorMessage != null) {
+            _stateUi.update {
+                it.copy(
+                    showDialogError = true,
+                    messageError = errorMessage,
+                )
+            }
+            false
+        } else {
+            true
+        }
+    }
+
+    private fun cleanState()  {
+        _stateUi.update {
+            it.copy(
+                pet = null,
+                idPetSelected = null,
+                showDialogSuccess = false,
+                showDialogError = false,
+                isLoadingBreeds = false,
+                isLoadingSizes = false,
+                messageError = null,
+                petImage = null,
+                petName = null,
+                petBirthday = null,
+                petGender = null,
+                petCastrated = null,
             )
         }
     }

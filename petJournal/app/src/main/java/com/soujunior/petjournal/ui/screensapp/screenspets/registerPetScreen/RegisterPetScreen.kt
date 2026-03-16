@@ -77,6 +77,7 @@ import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.components.dialog.CardDialog
 import com.soujunior.petjournal.ui.components.mask.formatDate
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.ColorCustom
@@ -100,11 +101,7 @@ fun getPetRegisterViewModelForPreview(): PetRegisterViewModel {
 }
 
 @Composable
-fun RegisterPetScreen(
-    navController: NavController,
-    idPet: String? = null,
-    title: String = stringResource(R.string.add_new_pet),
-) {
+fun RegisterPetScreen(navController: NavController) {
     val viewModel: PetRegisterViewModel = getPetRegisterViewModelForPreview()
     val taskState by viewModel.taskState.collectAsState()
     val state = viewModel.stateUi.collectAsStateWithLifecycle()
@@ -118,7 +115,12 @@ fun RegisterPetScreen(
             navigationUp = navController,
             showTopBar = true,
             showButtonToReturn = true,
-            titleTopBar = stringResource(R.string.edit_pet_data),
+            titleTopBar =
+                if (!state.value.idPetSelected.isNullOrBlank()) {
+                    stringResource(R.string.edit_pet_data)
+                } else {
+                    stringResource(R.string.add_new_pet)
+                },
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = {
@@ -290,22 +292,34 @@ fun RegisterPetScreen(
                             }
                         },
                     )
-//                    if (state.value.showDialogSuccess) {
-//                        SuccessDialog(
-//                            title = stringResource(R.string.companion_added_successfully),
-//                            onButtonBottomClick = {},
-//                            onButtonTopClick = {},
-//                        )
-//                    }
+                    if (state.value.showDialogSuccess) {
+                        CardDialog(
+                            title =
+                                if (!state.value.idPetSelected.isNullOrBlank()) {
+                                    "Pet editado com sucesso!"
+                                } else {
+                                    stringResource(R.string.add_new_pet)
+                                },
+                            textTopButton = "Adicionar um novo pet",
+                            onButtonTopClick = {
+                                viewModel.onEvent(CreatePetEvent.OnCleanState)
+                            },
+                            onButtonBottomClick = {
+                                navController.navigate("home")
+                            },
+                        )
+                    }
 
-//                    if (state.value.showDialogError) {
-//                        SuccessDialog(
-//                            title = stringResource(R.string.error_occurred_while_adding_the_companion),
-//                            textBottomButton = stringResource(R.string.return_button_text),
-//                            onButtonBottomClick = {},
-//                            subText = state.value.messageError,
-//                        )
-//                    }
+                    if (state.value.showDialogError) {
+                        CardDialog(
+                            title = stringResource(R.string.error_occurred_while_adding_the_companion),
+                            textBottomButton = stringResource(R.string.return_button_text),
+                            onButtonBottomClick = {
+                                viewModel.onEvent(CreatePetEvent.OnCloseDialogError)
+                            },
+                            subText = state.value.messageError,
+                        )
+                    }
                 }
             },
         )

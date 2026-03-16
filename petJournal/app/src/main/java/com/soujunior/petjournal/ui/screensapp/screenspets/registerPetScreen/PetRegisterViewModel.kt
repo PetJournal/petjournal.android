@@ -83,7 +83,11 @@ sealed class CreatePetEvent {
 
     data class OnInputCastrated(val isCastrated: Boolean) : CreatePetEvent()
 
+    object OnCloseDialogError : CreatePetEvent()
+
     object OnSubmit : CreatePetEvent()
+
+    object OnCleanState : CreatePetEvent()
 }
 
 class FakePetRegisterViewModel() : PetRegisterViewModel() {

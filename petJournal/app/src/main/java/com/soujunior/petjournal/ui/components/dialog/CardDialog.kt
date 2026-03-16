@@ -37,7 +37,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.soujunior.petjournal.R
 
 @Composable
-fun SuccessDialog(
+fun CardDialog(
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.label_task_added_successfully),
     textTopButton: String = stringResource(R.string.label_new_task),
@@ -152,20 +152,20 @@ fun SuccessDialog(
 
 @Preview
 @Composable
-fun SuccessDialogWithoutButtonsPreview() {
-    SuccessDialog()
+fun CardDialogWithoutButtonsPreview() {
+    CardDialog()
 }
 
 @Preview
 @Composable
-fun SuccessDialogWithoutTopButtonPreview() {
-    SuccessDialog(onButtonBottomClick = {})
+fun CardDialogWithoutTopButtonPreview() {
+    CardDialog(onButtonBottomClick = {})
 }
 
 @Preview
 @Composable
-fun SuccessDialogSubPreview() {
-    SuccessDialog(
+fun CardDialogSubPreview() {
+    CardDialog(
         onButtonBottomClick = {},
         subText = "Subtitulo",
     )
@@ -173,12 +173,12 @@ fun SuccessDialogSubPreview() {
 
 @Preview
 @Composable
-fun SuccessDialogWithoutBottomButtonPreview() {
-    SuccessDialog(onButtonTopClick = {})
+fun CardDialogWithoutBottomButtonPreview() {
+    CardDialog(onButtonTopClick = {})
 }
 
 @Preview
 @Composable
-fun SuccessDialogPreview() {
-    SuccessDialog(onButtonBottomClick = {}, onButtonTopClick = {})
+fun CardDialogPreview() {
+    CardDialog(onButtonBottomClick = {}, onButtonTopClick = {})
 }
