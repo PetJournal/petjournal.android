@@ -7,11 +7,12 @@ import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.domain.model.SizeDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
-import com.soujunior.domain.model.request.TaskDTO
+import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.pet.PetDTO
 import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
+import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.DataResult
@@ -88,6 +89,18 @@ class MockGuardianRepositoryImpl(): GuardianRepository {
     }
 
     override suspend fun scheduled(item: TaskDTO): NetworkResult<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun listCurrentDateScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun listCurrentWeekScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun listCurrentMonthScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
         TODO("Not yet implemented")
     }
 }

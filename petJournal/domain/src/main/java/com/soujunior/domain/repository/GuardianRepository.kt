@@ -8,10 +8,10 @@ import com.soujunior.domain.model.SizeDTO
 import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
-import com.soujunior.domain.model.request.TaskDTO
+import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
-import com.soujunior.domain.model.response.pet.PetDTO
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
+import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.use_case.base.DataResult
 
@@ -37,4 +37,7 @@ interface GuardianRepository {
     suspend fun getListPetRaces(petSpecie: String): NetworkResult<List<PetRaceItemModel>>
 
     suspend fun scheduled(item: TaskDTO): NetworkResult<Unit>
+    suspend fun listCurrentDateScheduled(): NetworkResult<PaginatedScheduleResponseDTO>
+    suspend fun listCurrentWeekScheduled(): NetworkResult<PaginatedScheduleResponseDTO>
+    suspend fun listCurrentMonthScheduled(): NetworkResult<PaginatedScheduleResponseDTO>
 }

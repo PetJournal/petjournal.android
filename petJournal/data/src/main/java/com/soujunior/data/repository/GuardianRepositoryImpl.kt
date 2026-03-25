@@ -14,10 +14,10 @@ import com.soujunior.domain.model.SizeDTO
 import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
-import com.soujunior.domain.model.request.TaskDTO
+import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
-import com.soujunior.domain.model.response.pet.PetDTO
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
+import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.network.onError
 import com.soujunior.domain.network.onException
@@ -401,6 +401,69 @@ class GuardianRepositoryImpl(
             apiResponse
                 .onSuccess {
                     result = NetworkResult.Success(Unit)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
+
+    override suspend fun listCurrentDateScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
+        getToken()?.let { token ->
+            val apiResponse =  guardianApi.getTaskListCurrentDate(token)
+            var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
+
+            apiResponse
+                .onSuccess {
+                    result = NetworkResult.Success(it)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
+
+    override suspend fun listCurrentWeekScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
+        getToken()?.let { token ->
+            val apiResponse =  guardianApi.getTaskListCurrentWeek(token)
+            var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
+
+            apiResponse
+                .onSuccess {
+                    result = NetworkResult.Success(it)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
+
+    override suspend fun listCurrentMonthScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
+        getToken()?.let { token ->
+            val apiResponse =  guardianApi.getTaskListCurrentMonth(token)
+            var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
+
+            apiResponse
+                .onSuccess {
+                    result = NetworkResult.Success(it)
                 }
                 .onError { code, body ->
                     result = NetworkResult.Error(code, body)

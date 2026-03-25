@@ -45,6 +45,7 @@ import com.soujunior.domain.use_case.tag.DeleteTagUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.tag.UpdateTagUseCase
 import com.soujunior.domain.use_case.task.CreateTaskUseCase
+import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeViewModel
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeViewModelImpl
@@ -137,6 +138,7 @@ val mainModule =
         factory { UpdateTagUseCase(get()) }
         factory { DeleteTagUseCase(get()) }
         factory { CreateTaskUseCase(get()) }
+        factory { GetListCurrentWeekTaskUseCase(get()) }
 
         single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
         single<GuardianService> { get<Retrofit>().create(GuardianService::class.java) }
@@ -165,7 +167,7 @@ val mainModule =
                 .build()
         }
 
-        viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get(), get()) }
+        viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get(), get(), get()) }
 
         viewModel<IntroRegisterPetViewModel> {
             com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModelImpl(

@@ -1,6 +1,6 @@
 package com.soujunior.domain.use_case.task
 
-import com.soujunior.domain.model.request.TaskDTO
+import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.GuardianRepository
 import com.soujunior.domain.use_case.base.BaseUseCase

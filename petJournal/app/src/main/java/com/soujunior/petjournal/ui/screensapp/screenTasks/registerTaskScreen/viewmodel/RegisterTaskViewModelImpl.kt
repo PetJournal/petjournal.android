@@ -2,7 +2,7 @@ package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.vi
 
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
-import com.soujunior.domain.model.request.TaskDTO
+import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.tag.TagModel
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV2
 import com.soujunior.domain.use_case.tag.CreateTagUseCase
@@ -199,19 +199,18 @@ class RegisterTaskViewModelImpl(
             TransactionType.OneOff -> {
             }
         }
-        if (errorMessage.isNotEmpty())
-            {
-                errorMessage.map { error ->
-                    message = "$message $error \n"
-                }
-
-                state.update {
-                    it.copy(
-                        showDialogError = true,
-                        cardDialogMessage = message,
-                    )
-                }
+        if (errorMessage.isNotEmpty()) {
+            errorMessage.map { error ->
+                message = "$message $error \n"
             }
+
+            state.update {
+                it.copy(
+                    showDialogError = true,
+                    cardDialogMessage = message,
+                )
+            }
+        }
 
         return errorMessage.isEmpty()
     }

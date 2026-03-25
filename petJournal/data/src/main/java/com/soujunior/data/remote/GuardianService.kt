@@ -6,11 +6,12 @@ import com.soujunior.domain.model.SizeDTO
 import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
-import com.soujunior.domain.model.request.TaskDTO
+import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.pet.PetInformationResponse
 import com.soujunior.domain.model.response.pet.PetDTO
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
+import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
 import com.soujunior.domain.network.NetworkResult
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -133,4 +134,19 @@ interface GuardianService {
         @Header("Authorization") token: String,
         @Body item: TaskDTO
     ): NetworkResult<Unit>
+
+    @GET("api/tasks/current-date")
+    suspend fun getTaskListCurrentDate(
+        @Header("Authorization") token: String,
+    ): NetworkResult<PaginatedScheduleResponseDTO>
+
+    @GET("api/tasks/current-week")
+    suspend fun getTaskListCurrentWeek(
+        @Header("Authorization") token: String,
+    ): NetworkResult<PaginatedScheduleResponseDTO>
+
+    @GET("api/tasks/current-month")
+    suspend fun getTaskListCurrentMonth(
+        @Header("Authorization") token: String,
+    ): NetworkResult<PaginatedScheduleResponseDTO>
 }

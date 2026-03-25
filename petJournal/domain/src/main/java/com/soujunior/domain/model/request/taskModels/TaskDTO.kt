@@ -1,4 +1,4 @@
-package com.soujunior.domain.model.request
+package com.soujunior.domain.model.request.taskModels
 
 data class TaskDTO(
     val tagId: String? = null,

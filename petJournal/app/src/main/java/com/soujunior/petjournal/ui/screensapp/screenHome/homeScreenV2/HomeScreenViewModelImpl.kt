@@ -1,10 +1,13 @@
 package com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.use_case.auth.LogoutUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
+import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -16,6 +19,7 @@ import kotlinx.coroutines.launch
 class HomeScreenViewModelImpl(
     private val getGuardianNameUseCase: GetGuardianNameUseCase,
     private val getPetListUseCase: GetListPetUseCaseV1,
+    private val getListCurrentWeekTaskUseCase: GetListCurrentWeekTaskUseCase,
     private val logoutUseCase: LogoutUseCase,
 ) : HomeScreenViewModel() {
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
@@ -51,15 +55,20 @@ class HomeScreenViewModelImpl(
     }
 
     init {
-        getGuardianName()
-        getPetList()
+        viewModelScope.launch {
+            getGuardianName()
+            getPetList()
+            getTask()
+        }
     }
 
     override fun getGuardianName() {
         _state.value = _state.value.copy(isLoadingUserName = true)
         viewModelScope.launch {
             val result = getGuardianNameUseCase.execute(Unit)
-            result.handleResult(::success, {
+            result.handleResult({
+                success(it)
+            }, {
                 failed(it)
                 _state.value = _state.value.copy(hasErrorOnNameUser = false)
             })
@@ -81,6 +90,17 @@ class HomeScreenViewModelImpl(
                 _state.value = _state.value.copy(listPets = it, isLoadingListPet = false)
             }, {
                 _state.value = _state.value.copy(isLoadingListPet = false, hasErrorOnListPets = true)
+            })
+        }
+    }
+
+    private fun getTask()  {
+        viewModelScope.launch {
+            val result = getListCurrentWeekTaskUseCase.execute(Unit)
+            result.handleResult({
+                Log.e(TAG, "GetTask success: $it")
+            }, {
+                Log.e(TAG, "GetTask error: $it")
             })
         }
     }
