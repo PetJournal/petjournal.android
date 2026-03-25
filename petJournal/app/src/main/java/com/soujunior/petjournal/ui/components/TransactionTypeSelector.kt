@@ -31,6 +31,8 @@ fun TransactionTypeSelector(
     isLoading: Boolean = false,
     onSelectionChanged: (TransactionType?) -> Unit,
     transactionTypeSelected: TransactionType = TransactionType.Recurrent,
+    isLocked: Boolean = false,
+    onLockedClick: () -> Unit = {},
 ) {
     val selectedColor = ColorCustom.color_background_month_disabled
     val unselectedColor = MaterialTheme.colorScheme.background
@@ -49,6 +51,8 @@ fun TransactionTypeSelector(
                 text = stringResource(R.string.label_recurrent),
                 isSelected = transactionTypeSelected == TransactionType.Recurrent,
                 isLoading = isLoading,
+                isDisabled = isLocked,
+                onAction = onLockedClick,
                 modifier = Modifier.weight(1f),
                 onClick = {
                     onSelectionChanged(TransactionType.Recurrent)
@@ -62,6 +66,8 @@ fun TransactionTypeSelector(
                 text = stringResource(R.string.label_one_off),
                 isSelected = transactionTypeSelected == TransactionType.OneOff,
                 isLoading = isLoading,
+                isDisabled = true,
+                onAction = onLockedClick,
                 modifier = Modifier.weight(1f),
                 onClick = {
                     onSelectionChanged(TransactionType.OneOff)
@@ -70,12 +76,6 @@ fun TransactionTypeSelector(
                 unselectedColor = unselectedColor,
                 borderColor = if (transactionTypeSelected == TransactionType.OneOff) selectedColor else borderColor,
             )
-        }
-
-        if (transactionTypeSelected == TransactionType.Recurrent) {
-            onSelectionChanged(transactionTypeSelected)
-        } else {
-            onSelectionChanged(transactionTypeSelected)
         }
     }
 }
@@ -90,6 +90,8 @@ fun ToggleButton(
     borderColor: Color,
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
+    isDisabled: Boolean = false,
+    onAction: () -> Unit = {},
 ) {
     val backgroundColor = if (isSelected) selectedColor else unselectedColor
 
@@ -97,26 +99,30 @@ fun ToggleButton(
         contentAlignment = Alignment.Center,
         modifier =
             modifier
+                .height(50.dp)
+                .clip(RoundedCornerShape(50))
                 .then(
                     if (isLoading) {
-                        Modifier
-                            .height(50.dp)
-                            .clip(RoundedCornerShape(50))
-                            .shimmerEffect()
+                        Modifier.shimmerEffect()
                     } else {
                         Modifier
-                            .height(50.dp)
-                            .clip(RoundedCornerShape(50))
                             .border(1.dp, borderColor, RoundedCornerShape(50))
                             .background(backgroundColor)
-                            .clickable { onClick() }
+                            .clickable {
+                                if (isDisabled) {
+                                    onAction() // Executa a ação de bloqueio
+                                } else {
+                                    onClick() // Executa a seleção normal
+                                }
+                            }
                     },
                 )
                 .padding(horizontal = 24.dp, vertical = 12.dp),
     ) {
         Text(
             text = text,
-            color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.primary,
+            // Opcional: Adicionar uma opacidade menor se estiver desabilitado para feedback visual
+            color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.primary.copy(alpha = if (isDisabled) 0.5f else 1f),
             style = MaterialTheme.typography.titleMedium,
         )
     }

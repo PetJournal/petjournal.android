@@ -4,6 +4,10 @@ import com.soujunior.petjournal.ui.util.SelectedPeriodType
 import com.soujunior.petjournal.ui.util.TransactionType
 
 sealed class RegisterTaskEvent {
+    object OnCardDialogError : RegisterTaskEvent()
+
+    object OnCardDialogAddNewTask : RegisterTaskEvent()
+
     object Submit : RegisterTaskEvent()
 
     class OnUpdateTag(val id: String, val name: String, val color: String) : RegisterTaskEvent()

@@ -63,7 +63,7 @@ fun DayButton(
             style = MaterialTheme.typography.labelLarge,
             lineHeight = 20.sp,
             fontWeight = FontWeight(500),
-            color = MaterialTheme.colorScheme.onBackground,
+            color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
             letterSpacing = 0.1.sp,
         )
@@ -75,6 +75,16 @@ fun DayButton(
 fun DayButtonPreview() {
     DayButton(
         label = "Seg",
+        onDaySelected = {},
+        selectedDays = listOf("Seg"),
+    )
+}
+
+@Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
+@Composable
+fun DayButtonNotSelectedPreview() {
+    DayButton(
+        label = "Dom",
         onDaySelected = {},
         selectedDays = listOf("Seg"),
     )

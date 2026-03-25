@@ -2,13 +2,16 @@ package com.soujunior.petjournal.ui.components.clock
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.ui.components.WeekDaySelector
 
@@ -47,13 +50,36 @@ fun WeeklyTaskSelector(
                     .width(100.dp),
             contentAlignment = Alignment.Center,
         ) {
-            WheelTimePicker(
-                onTimeChanged = { hour, minute ->
-                    onTime(hour, minute)
-                },
-                time = time,
-                is24HourFormat = is24HourFormat,
-            )
+            Column {
+                WheelTimePicker(
+                    onTimeChanged = { hour, minute ->
+                        onTime(hour, minute)
+                    },
+                    time = time,
+                    is24HourFormat = is24HourFormat,
+                )
+            }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun WeeklyTaskSelectorPreview() {
+    Column(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+    ) {
+        WeeklyTaskSelector(
+            onWeekDaySelected = {},
+            selectedDays = listOf("Seg", "Qua", "Sex"),
+            onAmPmSelector = {},
+            selectedAmPm = "AM",
+            onTime = { _, _ -> },
+            time = Pair(10, 30),
+            is24HourFormat = false,
+        )
     }
 }

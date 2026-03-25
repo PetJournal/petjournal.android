@@ -21,7 +21,7 @@ fun RecurringTask(
     daySelected: Int? = null,
     is24HourFormat: Boolean = false,
     onSelectedPeriod: (SelectedPeriodType) -> Unit = {},
-    selectedPeriod: SelectedPeriodType = SelectedPeriodType.Daily,
+    selectedPeriod: SelectedPeriodType = SelectedPeriodType.Weekly,
 ) {
     PeriodSelector(
         selected = selectedPeriod,

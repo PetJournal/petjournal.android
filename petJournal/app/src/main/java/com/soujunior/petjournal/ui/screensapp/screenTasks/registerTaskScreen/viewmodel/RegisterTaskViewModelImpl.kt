@@ -107,6 +107,7 @@ class RegisterTaskViewModelImpl(
                 } else {
                     mList.add(event.value)
                 }
+
                 _state.update { it.copy(selectedDaysOfWeek = mList) }
             }
             is RegisterTaskEvent.OnDayChanged -> {
@@ -125,9 +126,94 @@ class RegisterTaskViewModelImpl(
                 }
             }
             is RegisterTaskEvent.Submit -> {
-                submit()
+                if (isFormComplete()) submit()
+            }
+
+            is RegisterTaskEvent.OnCardDialogError -> {
+                _state.update {
+                    it.copy(showDialogError = false)
+                }
+            }
+
+            is RegisterTaskEvent.OnCardDialogAddNewTask -> {
+                _state.update {
+                    it.copy(
+                        showDialogSuccess = false,
+                        selectedTag = null,
+                        taskName = "",
+                        taskDescription = "",
+                        observation = "",
+                        selectedPet = emptyList(),
+                        selectedDaysOfWeek = emptyList(),
+                    )
+                }
             }
         }
+    }
+
+    override fun isFormComplete(): Boolean {
+        val errorMessage: MutableList<String> = mutableListOf()
+        var message = ""
+// todo: titulo nao pode haver numeros
+
+        val tagId = state.value.selectedTag
+        if (tagId == null) errorMessage.add("- Selecione uma tag")
+        val title = state.value.taskName
+        if (title.isBlank()) errorMessage.add("- Insira um titulo")
+
+        if (hasNumberAndSymbolInTheMiddle(title)) {
+            if (title.isBlank()) {
+                errorMessage.add("- O título não pode ter números ou simbolos no meio")
+            }
+        }
+
+        val description = state.value.taskDescription
+        if (description.isBlank()) errorMessage.add("- Insira uma descrição")
+        val note = state.value.observation
+        if (note.isBlank()) errorMessage.add("- Insira uma observação")
+        val pets = state.value.selectedPet
+        if (pets.isEmpty()) errorMessage.add("- Selecione pelo menos um pet")
+
+        val transactionType = state.value.selectedTransactionType
+        val hour = state.value.timeSelected
+        val ampm = state.value.amPmSelected
+        val daysOfWeek = state.value.selectedDaysOfWeek
+
+        val date = state.value.dateSelected
+
+        when (transactionType) {
+            TransactionType.Recurrent -> {
+                when (state.value.periodType) {
+                    SelectedPeriodType.Weekly -> {
+                        // adicionar a validacao aqui, usando os campos Hour, ampm, daysofweek.
+                        if (hour == null) errorMessage.add("- Selecione uma hora")
+                        if (ampm == null) errorMessage.add("- Selecione um AM/PM")
+                        if (daysOfWeek.isEmpty()) errorMessage.add("- Selecione pelo menos um dia da semana")
+                    }
+                    SelectedPeriodType.Daily -> {
+                    }
+                    SelectedPeriodType.Monthly -> {
+                    }
+                }
+            }
+            TransactionType.OneOff -> {
+            }
+        }
+        if (errorMessage.isNotEmpty())
+            {
+                errorMessage.map { error ->
+                    message = "$message $error \n"
+                }
+
+                state.update {
+                    it.copy(
+                        showDialogError = true,
+                        cardDialogMessage = message,
+                    )
+                }
+            }
+
+        return errorMessage.isEmpty()
     }
 
     private fun getMonthsWithSpecificDay(day: Int): List<Int> {
@@ -248,9 +334,20 @@ class RegisterTaskViewModelImpl(
             result.handleResult(
                 { response ->
                     println("Tarefa criada com sucesso: $response")
+                    state.update {
+                        it.copy(
+                            showDialogSuccess = true,
+                            cardDialogMessage = "Tarefa criada com sucesso!",
+                        )
+                    }
                 },
                 { error ->
-                    println("Erro ao criar tarefa: $error")
+                    state.update {
+                        it.copy(
+                            showDialogError = true,
+                            cardDialogMessage = error?.message.toString(),
+                        )
+                    }
                 },
             )
         }
@@ -314,14 +411,11 @@ class RegisterTaskViewModelImpl(
 
         val isRecurrent = state.selectedTransactionType == TransactionType.Recurrent
 
-        val startAt =
-            formatStartAt(state.dateSelected, resolvedTime, isRecurrent)
-                ?: return null
+        val startAt = formatStartAt(state.dateSelected, resolvedTime, isRecurrent) ?: return null
 
+        var daysOfWeek = convertDaysOfWeek(state.selectedDaysOfWeek)
         var daily = false
-        var daysOfWeek = emptyList<Int>()
         var daysOfMonth = emptyList<Int>()
-
         when (state.selectedTransactionType) {
             TransactionType.OneOff -> {
                 daily = false
@@ -349,7 +443,8 @@ class RegisterTaskViewModelImpl(
             }
         }
         val nowUtc = ZonedDateTime.now(ZoneOffset.UTC)
-        val futureUtc = nowUtc.plusYears(10)
+        val futureUtc = nowUtc.plusYears(2)
+
         return TaskDTO(
             tagId = tagId,
             title = title,
@@ -358,8 +453,6 @@ class RegisterTaskViewModelImpl(
             startAt = startAt,
             endAt = futureUtc.format(DateTimeFormatter.ISO_INSTANT),
             daysOfWeek = daysOfWeek,
-            daysOfMonth = daysOfMonth,
-            daily = daily,
             pets = pets,
         )
     }
@@ -367,19 +460,31 @@ class RegisterTaskViewModelImpl(
     fun convertDaysOfWeek(days: List<String>): List<Int> {
         val dayMap =
             mapOf(
-                "domingo" to 0,
-                "segunda" to 1,
-                "terça" to 2,
-                "quarta" to 3,
-                "quinta" to 4,
-                "sexta" to 5,
-                "sábado" to 6,
-                "terca" to 2,
-                "sabado" to 6,
+                "dom" to 0,
+                "seg" to 1,
+                "ter" to 2,
+                "qua" to 3,
+                "qui" to 4,
+                "sex" to 5,
+                "sab" to 6,
+                "ter" to 2,
+                "sab" to 6,
             )
+        val value =
+            days.mapNotNull { day ->
+                dayMap[day.lowercase().trim()]
+            }.distinct().sorted()
+        return value
+    }
 
-        return days.mapNotNull { day ->
-            dayMap[day.lowercase().trim()]
-        }.distinct().sorted()
+    fun hasNumberAndSymbolInTheMiddle(text: String): Boolean {
+        if (text.length < 3) return false
+
+        val middleText = text.substring(1, text.lastIndex)
+
+        val hasNumber = middleText.any { it.isDigit() }
+        val hasSymbol = middleText.any { !it.isLetterOrDigit() && !it.isWhitespace() }
+
+        return hasNumber && hasSymbol
     }
 }

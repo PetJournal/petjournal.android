@@ -19,6 +19,8 @@ abstract class RegisterTaskViewModel : ViewModel() {
     open val validationEvents: Flow<ValidationEvent> get() = validationEventChannel.receiveAsFlow()
 
     abstract fun onEvent(event: RegisterTaskEvent)
+
+    abstract fun isFormComplete(): Boolean
 }
 
 class FakeRegisterTaskViewModel : RegisterTaskViewModel() {
@@ -27,6 +29,10 @@ class FakeRegisterTaskViewModel : RegisterTaskViewModel() {
     override val validationEventChannel = Channel<ValidationEvent>()
 
     override fun onEvent(event: RegisterTaskEvent) {
+        TODO("Not yet implemented")
+    }
+
+    override fun isFormComplete(): Boolean {
         TODO("Not yet implemented")
     }
 

@@ -35,6 +35,7 @@ import com.soujunior.petjournal.ui.components.PetFilterList
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.TextFieldCustom
 import com.soujunior.petjournal.ui.components.TransactionTypeSelector
+import com.soujunior.petjournal.ui.components.dialog.CardDialog
 import com.soujunior.petjournal.ui.components.task.OneOffTask
 import com.soujunior.petjournal.ui.components.task.RecurringTask
 import com.soujunior.petjournal.ui.model.SelectableButtonInfo
@@ -283,6 +284,30 @@ fun RegisterTaskScreen(
                     }
                 },
             )
+            if (state.showDialogSuccess) {
+                CardDialog(
+                    title = "Sucesso ao criar tarefa",
+                    textBottomButton = "Voltar",
+                    textTopButton = "Criar outra tarefa",
+                    onButtonTopClick = {
+                        viewModel.onEvent(RegisterTaskEvent.OnCardDialogAddNewTask)
+                    },
+                    onButtonBottomClick = {
+                        navController.navigateUp()
+                    },
+                )
+            }
+
+            if (state.showDialogError) {
+                CardDialog(
+                    title = "Ocorreu um erro ao criar tarefa",
+                    textBottomButton = stringResource(R.string.return_button_text),
+                    onButtonBottomClick = {
+                        viewModel.onEvent(RegisterTaskEvent.OnCardDialogError)
+                    },
+                    subText = state.cardDialogMessage,
+                )
+            }
         },
     )
 }

@@ -7,6 +7,9 @@ import com.soujunior.petjournal.ui.util.SelectedPeriodType
 import com.soujunior.petjournal.ui.util.TransactionType
 
 data class RegisterTaskState(
+    val cardDialogMessage: String = "",
+    val showDialogError: Boolean = false,
+    val showDialogSuccess: Boolean = false,
     val listTaskData: List<TaskData> = emptyList(),
     val hasErrorOnListTag: Boolean = false,
     val isLoadingListTag: Boolean = false,
@@ -19,7 +22,7 @@ data class RegisterTaskState(
     val listPets: List<Pets> = emptyList(),
     val selectedPet: List<String> = emptyList(),
     val selectedTransactionType: TransactionType = TransactionType.Recurrent,
-    val periodType: SelectedPeriodType = SelectedPeriodType.Daily,
+    val periodType: SelectedPeriodType = SelectedPeriodType.Weekly,
     val daySelected: Int? = null,
     val weekDaySelected: String? = null,
     val activeMonths: List<Int> = listOf(),

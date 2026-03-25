@@ -26,7 +26,8 @@ fun PeriodSelector(
     selected: SelectedPeriodType,
     onSelectionChanged: (SelectedPeriodType) -> Unit,
 ) {
-    val items = listOf(SelectedPeriodType.Daily, SelectedPeriodType.Weekly, SelectedPeriodType.Monthly)
+//    val items = listOf(SelectedPeriodType.Daily, SelectedPeriodType.Weekly, SelectedPeriodType.Monthly)
+    val items = listOf(SelectedPeriodType.Weekly)
 
     Row(
         modifier = Modifier.fillMaxWidth(),

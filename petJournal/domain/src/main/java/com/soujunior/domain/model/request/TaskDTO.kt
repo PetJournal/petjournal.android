@@ -8,7 +8,5 @@ data class TaskDTO(
     val startAt: String? = null,
     val endAt: String? = null,
     val daysOfWeek: List<Int>? = null,
-    val daysOfMonth: List<Int>? = null,
-    val daily: Boolean? = null,
     val pets: List<String>? = null
 )
