@@ -4,16 +4,19 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseModel
 import com.soujunior.domain.use_case.auth.LogoutUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
 import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
+import com.soujunior.petjournal.ui.model.toListOfTaskData
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeScreenViewModelImpl(
@@ -69,7 +72,10 @@ class HomeScreenViewModelImpl(
             result.handleResult({
                 success(it)
             }, {
+                Log.e(TAG, "getGuardianName error: $it")
+
                 failed(it)
+
                 _state.value = _state.value.copy(hasErrorOnNameUser = false)
             })
             _state.value = _state.value.copy(isLoadingUserName = false)
@@ -94,11 +100,20 @@ class HomeScreenViewModelImpl(
         }
     }
 
-    private fun getTask()  {
+    private fun getTask() {
         viewModelScope.launch {
             val result = getListCurrentWeekTaskUseCase.execute(Unit)
-            result.handleResult({
-                Log.e(TAG, "GetTask success: $it")
+            result.handleResult({ value: PaginatedScheduleResponseModel ->
+                Log.e(TAG, "GetTask success: $value")
+
+                _state.update {
+                    it.copy(
+                        listScheduled = value,
+                        listTaskData = value.toListOfTaskData(),
+                    )
+                }
+
+                Log.e(TAG, "GetTask success: ${state.value.listTaskData}")
             }, {
                 Log.e(TAG, "GetTask error: $it")
             })

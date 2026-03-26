@@ -11,6 +11,12 @@ import com.soujunior.domain.model.response.pet.BreedModel
 import com.soujunior.domain.model.response.pet.SizeModel
 import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.response.tag.TagModel
+import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
+import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseModel
+import com.soujunior.domain.model.taskModel.ScheduleDataDTO
+import com.soujunior.domain.model.taskModel.ScheduleDataModel
+import com.soujunior.domain.model.taskModel.SchedulerDTO
+import com.soujunior.domain.model.taskModel.SchedulerModel
 import java.time.LocalDate
 import java.time.Period
 import java.time.ZonedDateTime
@@ -169,4 +175,47 @@ object Mapper {
             petAge = this.dateOfBirth?.let { calculateAge(it) }
         )
     }
+    @JvmName("SchedulerDTOtoDomain")
+    fun SchedulerDTO.toDomain(): SchedulerModel {
+        return SchedulerModel(
+            id = id,
+            tagId = tagId,
+            guardianId = guardianId,
+            title = title,
+            description = description,
+            note = note,
+            startAt = startAt,
+            endAt = endAt,
+            daysOfWeek = daysOfWeek,
+            daysOfMonth = daysOfMonth,
+            daily = daily,
+            tag = tag.toDomain(),
+            pets = pets.toPetModelListV2()
+        )
+    }
+
+    @JvmName("ScheduleDataDTOtoDomain")
+    fun ScheduleDataDTO.toDomain(): ScheduleDataModel {
+        return ScheduleDataModel(
+            id = id,
+            schedulerId = schedulerId,
+            start = start,
+            end = end,
+            scheduler = scheduler.toDomain()
+        )
+    }
+
+    fun List<ScheduleDataDTO>.toListDomain(): List<ScheduleDataModel> = map { it.toDomain() }
+
+
+    @JvmName("PaginatedScheduleResponseDTOtoDomain")
+    fun PaginatedScheduleResponseDTO.toDomain(): PaginatedScheduleResponseModel{
+        return PaginatedScheduleResponseModel(
+            data = data.toListDomain(),
+            page = page,
+            limit = limit,
+            count = count
+        )
+    }
+
 }

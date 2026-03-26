@@ -38,8 +38,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.soujunior.petjournal.ui.components.data.TaskData
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
+import com.soujunior.petjournal.ui.model.TaskData
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 

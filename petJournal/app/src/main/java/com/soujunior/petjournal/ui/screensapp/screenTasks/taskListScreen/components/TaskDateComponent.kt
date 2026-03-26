@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.ui.components.TaskCard
-import com.soujunior.petjournal.ui.components.data.TaskData
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
+import com.soujunior.petjournal.ui.model.TaskData
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 

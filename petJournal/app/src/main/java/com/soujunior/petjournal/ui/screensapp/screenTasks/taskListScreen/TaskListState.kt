@@ -1,6 +1,6 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen
 
-import com.soujunior.petjournal.ui.components.data.TaskData
+import com.soujunior.petjournal.ui.model.TaskData
 
 data class TaskListState(
     val tasks: List<TaskData> = emptyList(),

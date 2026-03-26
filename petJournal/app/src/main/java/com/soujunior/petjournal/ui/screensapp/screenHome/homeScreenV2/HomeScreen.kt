@@ -62,10 +62,10 @@ import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.TaskCard
 import com.soujunior.petjournal.ui.components.bottomSheet.CategoryMenu
 import com.soujunior.petjournal.ui.components.bottomSheet.MenuBottomSheet
-import com.soujunior.petjournal.ui.components.data.TaskData
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.components.horizontalButtonList.HorizontalButtonList
 import com.soujunior.petjournal.ui.model.TagOption
+import com.soujunior.petjournal.ui.model.TaskData
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.components.Carousel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TaskDateComponent
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
@@ -80,8 +80,6 @@ fun HomeScreen(navController: NavController) {
     val viewModel: HomeScreenViewModel = getCorrectViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
     val menuItems = state.listTag
-
-    val tasks = emptyList<TaskData>()
 
     val systemUiController = rememberSystemUiController()
 
@@ -149,16 +147,16 @@ fun HomeScreen(navController: NavController) {
                                 onReload = { viewModel.onEvent(HomeEvent.ReloadListPet) },
                             )
                         }
-
-                        if (tasks.isEmpty()) {
+                        if (state.listTaskData.isNullOrEmpty()) {
                             item {
                                 EmptyTaskSection(onClick = {
                                     navController.navigate("schedule/registerTaskScreen")
                                 })
                             }
-                        } else {
+                        }
+                        state.listTaskData?.let { taskDataList: List<TaskData> ->
                             item { SectionHeader(title = stringResource(R.string.section_next_tasks)) }
-                            items(items = tasks, key = { it.id }) { task ->
+                            items(items = taskDataList, key = { it.id }) { task ->
                                 TaskCard(
                                     taskData = task,
                                     modifier =

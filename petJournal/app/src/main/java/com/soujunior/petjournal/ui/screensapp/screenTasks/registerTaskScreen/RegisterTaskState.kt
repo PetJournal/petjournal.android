@@ -1,8 +1,8 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
 
-import com.soujunior.petjournal.ui.components.data.TaskData
 import com.soujunior.petjournal.ui.model.Pets
 import com.soujunior.petjournal.ui.model.SelectableButtonInfo
+import com.soujunior.petjournal.ui.model.TaskData
 import com.soujunior.petjournal.ui.util.SelectedPeriodType
 import com.soujunior.petjournal.ui.util.TransactionType
 
