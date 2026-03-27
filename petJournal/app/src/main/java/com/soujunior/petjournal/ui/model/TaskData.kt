@@ -1,5 +1,8 @@
 package com.soujunior.petjournal.ui.model
 
+import android.content.ContentValues.TAG
+import android.util.Log
+import androidx.compose.ui.graphics.BlendMode.Companion.Color
 import androidx.compose.ui.graphics.Color
 import com.soujunior.domain.model.PetModelV2
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseModel
@@ -19,18 +22,26 @@ data class TaskData(
 
 fun List<ScheduleDataModel>.toTaskData(): List<TaskData> {
     return this.map {
+        Log.e(TAG, "it.scheduler.tag.color: ${it.scheduler.tag.color}")
         TaskData(
             id = it.id ?: "",
             title = it.scheduler.title ?: "",
             descriptionResumed = it.scheduler.description ?: "",
             descriptionCompleted = it.scheduler.note ?: "",
             startAt = it.start ?: "",
-            endAt = it.end ?: "",
+            endAt = "--------",
             type =
                 TaskType(
                     id = it.scheduler.tagId ?: "",
                     name = it.scheduler.tag.name ?: "",
-                    color = it.scheduler.tag.color.toSafeColor(),
+                    color =
+                        try {
+                            val colorString = it.scheduler.tag.color?.removePrefix("#") ?: "000000"
+                            val formattedColor = if (colorString.length == 6) "FF$colorString" else colorString
+                            Color(formattedColor.toLong(16))
+                        } catch (e: Exception) {
+                            Color(0xFF000000)
+                        },
                     iconVector = null,
                 ),
             pets = it.scheduler.pets,
@@ -40,21 +51,4 @@ fun List<ScheduleDataModel>.toTaskData(): List<TaskData> {
 
 fun PaginatedScheduleResponseModel.toListOfTaskData(): List<TaskData> {
     return this.data.toTaskData()
-}
-
-fun String?.toSafeColor(): Color {
-    if (this.isNullOrBlank() || !this.startsWith("#")) {
-        return Color.Black
-    }
-    return try {
-        var hexString = this.removePrefix("#")
-
-        if (hexString.length == 6) {
-            hexString = "FF$hexString"
-        }
-
-        Color(hexString.toLong(16))
-    } catch (e: Exception) {
-        Color.Black
-    }
 }

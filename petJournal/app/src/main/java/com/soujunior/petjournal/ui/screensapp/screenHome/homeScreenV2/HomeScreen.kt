@@ -60,6 +60,7 @@ import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.PetList
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.TaskCard
+import com.soujunior.petjournal.ui.components.TaskListItemShimmer
 import com.soujunior.petjournal.ui.components.bottomSheet.CategoryMenu
 import com.soujunior.petjournal.ui.components.bottomSheet.MenuBottomSheet
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
@@ -147,23 +148,38 @@ fun HomeScreen(navController: NavController) {
                                 onReload = { viewModel.onEvent(HomeEvent.ReloadListPet) },
                             )
                         }
-                        if (state.listTaskData.isNullOrEmpty()) {
-                            item {
-                                EmptyTaskSection(onClick = {
-                                    navController.navigate("schedule/registerTaskScreen")
-                                })
+                        if (state.isLoadingListTask)
+                            {
+                                item {
+                                    TaskListItemShimmer()
+                                }
+                            } else {
+                            if (state.listTaskData.isNullOrEmpty()) {
+                                item {
+                                    EmptyTaskSection(onClick = {
+                                        navController.navigate("schedule/registerTaskScreen")
+                                    })
+                                }
                             }
-                        }
-                        state.listTaskData?.let { taskDataList: List<TaskData> ->
-                            item { SectionHeader(title = stringResource(R.string.section_next_tasks)) }
-                            items(items = taskDataList, key = { it.id }) { task ->
-                                TaskCard(
-                                    taskData = task,
-                                    modifier =
-                                        Modifier
-                                            .fillMaxWidth()
-                                            .padding(bottom = 8.dp),
-                                )
+                            state.listTaskData?.let { taskDataList: List<TaskData> ->
+                                item {
+                                    SectionHeader(
+                                        title = stringResource(R.string.section_next_tasks),
+                                        showButton = true,
+                                        onAddClick = {
+                                            navController.navigate("schedule/registerTaskScreen")
+                                        },
+                                    )
+                                }
+                                items(items = taskDataList, key = { it.id }) { task ->
+                                    TaskCard(
+                                        taskData = task,
+                                        modifier =
+                                            Modifier
+                                                .fillMaxWidth()
+                                                .padding(bottom = 8.dp),
+                                    )
+                                }
                             }
                         }
 

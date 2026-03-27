@@ -101,21 +101,21 @@ class HomeScreenViewModelImpl(
     }
 
     private fun getTask() {
+        _state.value = _state.value.copy(isLoadingListTask = true)
         viewModelScope.launch {
             val result = getListCurrentWeekTaskUseCase.execute(Unit)
             result.handleResult({ value: PaginatedScheduleResponseModel ->
                 Log.e(TAG, "GetTask success: $value")
-
                 _state.update {
                     it.copy(
                         listScheduled = value,
                         listTaskData = value.toListOfTaskData(),
+                        isLoadingListTask = false,
                     )
                 }
-
-                Log.e(TAG, "GetTask success: ${state.value.listTaskData}")
             }, {
                 Log.e(TAG, "GetTask error: $it")
+                _state.value = _state.value.copy(isLoadingListTask = false)
             })
         }
     }

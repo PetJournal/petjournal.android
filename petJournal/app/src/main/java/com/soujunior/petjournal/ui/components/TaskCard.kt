@@ -40,8 +40,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.model.TaskData
+import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
+
+@Composable
+fun TaskListItemShimmer() {
+    Column(
+        modifier =
+            Modifier
+                .fillMaxWidth().padding(top = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        repeat(2) {
+            Box(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(60.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .shimmerEffect(),
+            )
+        }
+    }
+}
 
 @Composable
 fun TaskCard(
@@ -71,7 +93,7 @@ fun TaskCard(
                     Icon(
                         painter = painterResource(id = taskData.type.iconVector!!),
                         contentDescription = "Ícone ${taskData.type.name}",
-                        tint = taskData.type.color.copy(alpha = .5f),
+                        tint = taskData.type.color?.copy(alpha = .5f) ?: Color.Gray,
                         modifier =
                             Modifier
                                 .align(Alignment.BottomStart)
@@ -205,7 +227,7 @@ fun TaskCard(
                                 Text(
                                     text = "Editar Tarefa",
                                     fontSize = 10.ssp,
-                                    color = taskData.type.color,
+                                    color = taskData.type.color ?: Color.Red,
                                 )
                             }
                         }
@@ -216,7 +238,7 @@ fun TaskCard(
                             Modifier
                                 .fillMaxWidth()
                                 .height(20.sdp)
-                                .background(taskData.type.color)
+                                .background(taskData.type.color ?: Color.Red)
                                 .clickable(
                                     indication = null,
                                     interactionSource = remember { MutableInteractionSource() },

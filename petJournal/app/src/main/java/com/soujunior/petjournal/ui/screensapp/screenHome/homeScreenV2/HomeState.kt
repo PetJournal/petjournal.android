@@ -30,6 +30,7 @@ import com.soujunior.petjournal.ui.util.Constantes.vacineTagLabel
 
 data class HomeState(
     val nameUser: String = "",
+    val isLoadingListTask: Boolean = false,
     val isLoadingUserName: Boolean = false,
     val hasErrorOnNameUser: Boolean = false,
     val listTaskData: List<TaskData>? = null,

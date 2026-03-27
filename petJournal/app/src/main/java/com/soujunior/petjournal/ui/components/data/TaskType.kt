@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.Color
 data class TaskType(
     val id: String,
     val name: String,
-    val color: Color,
+    val color: Color = Color.Black,
     @DrawableRes val icon: Int? = null,
     @DrawableRes val iconVector: Int? = null,
 )
