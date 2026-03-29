@@ -2,20 +2,15 @@ package com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Apps
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
-import com.soujunior.domain.model.response.tag.TagModel
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseModel
 import com.soujunior.domain.use_case.auth.LogoutUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
-import com.soujunior.petjournal.ui.model.TagOption
-import com.soujunior.petjournal.ui.model.toListOfTaskData
+import com.soujunior.petjournal.ui.mapper.Mapper
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -116,11 +111,13 @@ class HomeScreenViewModelImpl(
             result.handleResult({ value: PaginatedScheduleResponseModel ->
                 Log.e(TAG, "GetTask success: $value")
                 _state.update {
-                    it.copy(
-                        listScheduled = value,
-                        listTaskData = value.toListOfTaskData(),
-                        isLoadingListTask = false,
-                    )
+                    with(Mapper) {
+                        it.copy(
+                            listScheduled = value,
+                            listTaskData = value.toListOfTaskData(),
+                            isLoadingListTask = false,
+                        )
+                    }
                 }
             }, {
                 Log.e(TAG, "GetTask error: $it")
@@ -135,10 +132,12 @@ class HomeScreenViewModelImpl(
             val result = getListTagUseCase.execute(Unit)
             result.handleResult({ tags ->
                 _state.value =
-                    _state.value.copy(
-                        listTag = tags.map { it.toTagOption() },
-                        isLoadingListTag = false,
-                    )
+                    with(Mapper) {
+                        _state.value.copy(
+                            listTag = tags.map { it.toTagOption() },
+                            isLoadingListTag = false,
+                        )
+                    }
             }, {
                 Log.e(TAG, "GetTags error: $it")
                 _state.value =
@@ -155,19 +154,4 @@ class HomeScreenViewModelImpl(
             logoutUseCase.doWork()
         }
     }
-}
-
-private fun TagModel.toTagOption(): TagOption {
-    val parsedColor =
-        try {
-            Color(android.graphics.Color.parseColor(this.color ?: "#808080"))
-        } catch (e: Exception) {
-            Color.Gray
-        }
-    return TagOption(
-        id = this.id.orEmpty(),
-        label = this.name.orEmpty(),
-        icon = Icons.Default.Apps,
-        color = parsedColor,
-    )
 }

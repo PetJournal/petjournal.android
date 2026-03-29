@@ -24,10 +24,13 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.context.stopKoin
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class) // Android framework methods dependecy -> required for android.graphics.Color.parseColor
+@Config(sdk = [33])
 class HomeScreenViewModelImplTest {
     private val getGuardianNameUseCase: GetGuardianNameUseCase = mockk()
     private val getPetListUseCase: GetListPetUseCaseV1 = mockk()
@@ -50,6 +53,7 @@ class HomeScreenViewModelImplTest {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+        stopKoin()
     }
 
     private fun createViewModel() =

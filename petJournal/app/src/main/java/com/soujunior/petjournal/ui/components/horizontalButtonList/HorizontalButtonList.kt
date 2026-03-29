@@ -82,21 +82,22 @@ fun HorizontalButtonList(
                 Box(
                     modifier =
                         Modifier
+                            .clip(RoundedCornerShape(16.dp))
                             .size(99.dp)
                             .padding(bottom = 5.dp)
-                            .clip(RoundedCornerShape(16.dp))
                             .shimmerEffect(),
                 )
             }
         } else {
             items(menuItems) { item ->
                 CardButton(
+                    shape = RoundedCornerShape(16.dp),
                     text = item.label,
                     imageColorFilter = ColorFilter.tint(Color.White),
                     textColor = Color.White,
-                    shape = RoundedCornerShape(16.dp),
                     modifier =
                         Modifier
+                            .clip(RoundedCornerShape(16.dp))
                             .size(99.dp)
                             .padding(bottom = 5.dp),
                     image = rememberVectorPainter(image = item.icon),

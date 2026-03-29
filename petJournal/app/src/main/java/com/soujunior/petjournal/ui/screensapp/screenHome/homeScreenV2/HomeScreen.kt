@@ -226,7 +226,7 @@ fun TagSection(
     onTagClick: (String) -> Unit,
 ) {
     if (isLoadingListTag || listTag.isNotEmpty() || hasErrorOnListTag) {
-        Column {
+        Column(modifier = if (isLoadingListTag) Modifier.padding(top = 16.dp) else Modifier) {
             if (!isLoadingListTag) {
                 SectionHeader(
                     title = stringResource(R.string.section_learn_more),
@@ -235,7 +235,10 @@ fun TagSection(
             if (hasErrorOnListTag) {
                 androidx.compose.material3.Button(
                     onClick = onReload,
-                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
                 ) {
                     Icon(
                         imageVector = Icons.Default.Refresh,

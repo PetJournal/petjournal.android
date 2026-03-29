@@ -1,10 +1,17 @@
 package com.soujunior.petjournal.ui.mapper
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.ui.graphics.Color
 import com.soujunior.domain.model.PetModelV2
 import com.soujunior.domain.model.response.tag.TagModel
+import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseModel
+import com.soujunior.domain.model.taskModel.ScheduleDataModel
+import com.soujunior.petjournal.ui.components.data.TaskType
 import com.soujunior.petjournal.ui.model.Pets
 import com.soujunior.petjournal.ui.model.SelectableButtonInfo
+import com.soujunior.petjournal.ui.model.TagOption
+import com.soujunior.petjournal.ui.model.TaskData
 
 object Mapper {
     fun PetModelV2.toPets(): Pets {
@@ -55,5 +62,52 @@ object Mapper {
 
     fun List<TagModel>.toListSelectableButtonInfo(): MutableList<SelectableButtonInfo> {
         return this.toUiModelList()
+    }
+
+    fun String?.toComposeColor(fallback: Color = Color.Gray): Color {
+        return try {
+            val validStr = this ?: return fallback
+            var cleanHex = validStr.removePrefix("#")
+            if (cleanHex.length == 6) {
+                cleanHex = "FF$cleanHex"
+            }
+            Color(cleanHex.toLong(16))
+        } catch (e: Exception) {
+            fallback
+        }
+    }
+
+    fun TagModel.toTagOption(): TagOption {
+        return TagOption(
+            id = this.id.orEmpty(),
+            label = this.name.orEmpty(),
+            icon = Icons.Default.Apps,
+            color = this.color.toComposeColor(Color.Gray),
+        )
+    }
+
+    fun List<ScheduleDataModel>.toTaskData(): List<TaskData> {
+        return this.map {
+            TaskData(
+                id = it.id ?: "",
+                title = it.scheduler.title ?: "",
+                descriptionResumed = it.scheduler.description ?: "",
+                descriptionCompleted = it.scheduler.note ?: "",
+                startAt = it.start ?: "",
+                endAt = "--------",
+                type =
+                    TaskType(
+                        id = it.scheduler.tagId ?: "",
+                        name = it.scheduler.tag.name ?: "",
+                        color = it.scheduler.tag.color.toComposeColor(Color(0xFF000000)),
+                        iconVector = null,
+                    ),
+                pets = it.scheduler.pets,
+            )
+        }
+    }
+
+    fun PaginatedScheduleResponseModel.toListOfTaskData(): List<TaskData> {
+        return this.data.toTaskData()
     }
 }
