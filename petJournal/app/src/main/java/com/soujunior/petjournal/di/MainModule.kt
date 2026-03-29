@@ -61,6 +61,8 @@ import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreen
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskListViewModel
+import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskListViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashViewModel
 import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModel
 import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.BirthDateViewModel
@@ -209,4 +211,5 @@ val mainModule =
         viewModel<BirthDateViewModel> { BirthDateViewModelImpl(get(), get(), get(), get()) }
         viewModel<ViewModelRaceSize> { ViewModelRaceSizeImpl(get(), get(), get(), get(), get()) }
         viewModel<RegisterTaskViewModel> { RegisterTaskViewModelImpl(get(), get(), get(), get(), get(), get()) }
+        viewModel<TaskListViewModel> { TaskListViewModelImpl() }
     }

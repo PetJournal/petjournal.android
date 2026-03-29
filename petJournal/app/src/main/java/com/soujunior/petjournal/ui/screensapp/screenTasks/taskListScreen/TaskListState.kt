@@ -6,6 +6,7 @@ data class TaskListState(
     val tasks: List<TaskData> = emptyList(),
     val selectedDateFilter: DateFilter = DateFilter.DAILY,
     val error: String? = null,
+    val isLoading: Boolean = false,
 )
 
 enum class DateFilter {

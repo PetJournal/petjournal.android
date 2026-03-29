@@ -24,21 +24,35 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.components.TaskListItemShimmer
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TabSelector
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TaskDateComponent
 import ir.kaaveh.sdpcompose.sdp
+import org.koin.androidx.compose.getViewModel
+
+@Composable
+private fun getCorrectViewModel(): TaskListViewModel {
+    return if (LocalInspectionMode.current) {
+        FakeTaskListViewModel()
+    } else {
+        getViewModel()
+    }
+}
 
 @Composable
 fun TaskListScreen(navController: NavController) {
-    //    val viewModel : TaskListViewModel = getViewModel()
+    val viewModel: TaskListViewModel = getCorrectViewModel()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     var selectedFilter by remember { mutableStateOf(DateFilter.DAILY) }
 
     Column(modifier = Modifier) {
@@ -87,11 +101,22 @@ fun TaskListScreen(navController: NavController) {
                         },
                         modifier = Modifier.fillMaxWidth(),
                     )
-                    Crossfade(targetState = selectedFilter, label = "TabTransition") { filter ->
-                        when (filter) {
-                            DateFilter.DAILY -> DailyTasksContent()
-                            DateFilter.WEEKLY -> WeeklyTasksContent()
-                            DateFilter.MONTHLY -> MonthlyTasksContent()
+
+                    if (state.isLoading) {
+                        LazyColumn(
+                            modifier = Modifier.padding(start = 16.sdp, end = 16.sdp, top = 16.sdp),
+                        ) {
+                            items(3) {
+                                TaskListItemShimmer()
+                            }
+                        }
+                    } else {
+                        Crossfade(targetState = selectedFilter, label = "TabTransition") { filter ->
+                            when (filter) {
+                                DateFilter.DAILY -> DailyTasksContent()
+                                DateFilter.WEEKLY -> WeeklyTasksContent()
+                                DateFilter.MONTHLY -> MonthlyTasksContent()
+                            }
                         }
                     }
                 }
