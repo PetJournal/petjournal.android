@@ -12,6 +12,7 @@ buildscript {
         classpath("com.android.tools.build:gradle:$agp_version")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.21")
         classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.9.21-1.0.16")
+        classpath("io.github.takahirom.roborazzi:roborazzi-gradle-plugin:1.7.0-alpha-1")
     }
 }
 

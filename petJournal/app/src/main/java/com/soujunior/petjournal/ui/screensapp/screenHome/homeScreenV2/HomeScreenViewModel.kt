@@ -115,6 +115,8 @@ class FakeHomeViewModel : HomeScreenViewModel() {
 
 sealed class HomeEvent {
     object ReloadListPet : HomeEvent()
+
+    object ReloadListTag : HomeEvent()
 }
 
 abstract class HomeScreenViewModel : ViewModel() {

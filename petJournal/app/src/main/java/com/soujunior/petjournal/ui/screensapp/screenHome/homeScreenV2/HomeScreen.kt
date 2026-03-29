@@ -25,6 +25,7 @@ import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -148,12 +149,11 @@ fun HomeScreen(navController: NavController) {
                                 onReload = { viewModel.onEvent(HomeEvent.ReloadListPet) },
                             )
                         }
-                        if (state.isLoadingListTask)
-                            {
-                                item {
-                                    TaskListItemShimmer()
-                                }
-                            } else {
+                        if (state.isLoadingListTask) {
+                            item {
+                                TaskListItemShimmer()
+                            }
+                        } else {
                             if (state.listTaskData.isNullOrEmpty()) {
                                 item {
                                     EmptyTaskSection(onClick = {
@@ -184,40 +184,17 @@ fun HomeScreen(navController: NavController) {
                         }
 
                         item {
-                            if (!state.isLoadingListTag) {
-                                SectionHeader(
-                                    title =
-                                        stringResource(R.string.section_learn_more),
-                                )
-                            }
-                            HorizontalButtonList(
-                                onItemClick = {
-                                    when (it) {
-                                        "all_tags_option" -> {
-                                            showSheet = true
-                                        }
-                                        "tag_vaccine_option" -> {
-                                            Log.e(TAG, "Click")
-                                        }
-                                        "tag_consulta_option" -> {
-                                            Log.e(TAG, "Click")
-                                        }
-                                        "tag_food_option" -> {
-                                            Log.e(TAG, "Click")
-                                        }
-                                        "tag_medication_option" -> {
-                                            Log.e(TAG, "Click")
-                                        }
-                                        "tag_shower_option" -> {
-                                            Log.e(TAG, "Click")
-                                        }
-                                        "tag_goout_option" -> {
-                                            Log.e(TAG, "Click")
-                                        }
+                            TagSection(
+                                isLoadingListTag = state.isLoadingListTag,
+                                listTag = state.listTag,
+                                hasErrorOnListTag = state.hasErrorOnListTag,
+                                onReload = { viewModel.onEvent(HomeEvent.ReloadListTag) },
+                                onTagClick = { tagId ->
+                                    when (tagId) {
+                                        "all_tags_option" -> showSheet = true
+                                        else -> Log.e(TAG, "Tag clicada: $tagId")
                                     }
                                 },
-                                menuItems = menuItems,
-                                isLoading = state.isLoadingListTag,
                             )
                         }
                     }
@@ -237,6 +214,45 @@ fun HomeScreen(navController: NavController) {
                 }
             },
         )
+    }
+}
+
+@Composable
+fun TagSection(
+    isLoadingListTag: Boolean,
+    listTag: List<TagOption>,
+    hasErrorOnListTag: Boolean,
+    onReload: () -> Unit,
+    onTagClick: (String) -> Unit,
+) {
+    if (isLoadingListTag || listTag.isNotEmpty() || hasErrorOnListTag) {
+        Column {
+            if (!isLoadingListTag) {
+                SectionHeader(
+                    title = stringResource(R.string.section_learn_more),
+                )
+            }
+            if (hasErrorOnListTag) {
+                androidx.compose.material3.Button(
+                    onClick = onReload,
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp),
+                    )
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Text(text = stringResource(R.string.reload), fontSize = 12.sp)
+                }
+            } else {
+                HorizontalButtonList(
+                    onItemClick = onTagClick,
+                    menuItems = listTag,
+                    isLoading = isLoadingListTag,
+                )
+            }
+        }
     }
 }
 

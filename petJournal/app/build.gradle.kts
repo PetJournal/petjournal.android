@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("com.diffplug.spotless") version "6.25.0"
+    id("io.github.takahirom.roborazzi")
 }
 
 spotless {
@@ -92,6 +93,10 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+    }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
     }
 
     buildTypes {
@@ -202,4 +207,15 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+
+    // UI Tests na JVM (Robolectric + Screenshot Testing Roborazzi)
+    testImplementation("org.robolectric:robolectric:4.10.3")
+    testImplementation("androidx.compose.ui:ui-test-junit4:$composeUiVersion")
+    testImplementation("io.github.takahirom.roborazzi:roborazzi:1.7.0-alpha-1")
+    testImplementation("io.github.takahirom.roborazzi:roborazzi-compose:1.7.0-alpha-1")
+    testImplementation("io.github.takahirom.roborazzi:roborazzi-junit-rule:1.7.0-alpha-1")
+}
+
+roborazzi {
+    outputDir.set(file("src/test/snapshots/images"))
 }

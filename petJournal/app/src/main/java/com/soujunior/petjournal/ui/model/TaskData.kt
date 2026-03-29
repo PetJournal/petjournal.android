@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.model
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.ui.graphics.BlendMode.Companion.Color
 import androidx.compose.ui.graphics.Color
 import com.soujunior.domain.model.PetModelV2
@@ -22,7 +20,6 @@ data class TaskData(
 
 fun List<ScheduleDataModel>.toTaskData(): List<TaskData> {
     return this.map {
-        Log.e(TAG, "it.scheduler.tag.color: ${it.scheduler.tag.color}")
         TaskData(
             id = it.id ?: "",
             title = it.scheduler.title ?: "",

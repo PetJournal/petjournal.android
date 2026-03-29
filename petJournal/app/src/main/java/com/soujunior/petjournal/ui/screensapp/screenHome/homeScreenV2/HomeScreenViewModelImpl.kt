@@ -2,13 +2,19 @@ package com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apps
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.model.response.tag.TagModel
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseModel
 import com.soujunior.domain.use_case.auth.LogoutUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
+import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
+import com.soujunior.petjournal.ui.model.TagOption
 import com.soujunior.petjournal.ui.model.toListOfTaskData
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
@@ -24,6 +30,7 @@ class HomeScreenViewModelImpl(
     private val getPetListUseCase: GetListPetUseCaseV1,
     private val getListCurrentWeekTaskUseCase: GetListCurrentWeekTaskUseCase,
     private val logoutUseCase: LogoutUseCase,
+    private val getListTagUseCase: GetListTagUseCase,
 ) : HomeScreenViewModel() {
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
@@ -62,6 +69,7 @@ class HomeScreenViewModelImpl(
             getGuardianName()
             getPetList()
             getTask()
+            getTags()
         }
     }
 
@@ -85,6 +93,7 @@ class HomeScreenViewModelImpl(
     override fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.ReloadListPet -> getPetList()
+            is HomeEvent.ReloadListTag -> getTags()
         }
     }
 
@@ -120,9 +129,45 @@ class HomeScreenViewModelImpl(
         }
     }
 
+    private fun getTags() {
+        _state.value = _state.value.copy(isLoadingListTag = true, hasErrorOnListTag = false)
+        viewModelScope.launch {
+            val result = getListTagUseCase.execute(Unit)
+            result.handleResult({ tags ->
+                _state.value =
+                    _state.value.copy(
+                        listTag = tags.map { it.toTagOption() },
+                        isLoadingListTag = false,
+                    )
+            }, {
+                Log.e(TAG, "GetTags error: $it")
+                _state.value =
+                    _state.value.copy(
+                        isLoadingListTag = false,
+                        hasErrorOnListTag = true,
+                    )
+            })
+        }
+    }
+
     override fun logout() {
         viewModelScope.launch {
             logoutUseCase.doWork()
         }
     }
+}
+
+private fun TagModel.toTagOption(): TagOption {
+    val parsedColor =
+        try {
+            Color(android.graphics.Color.parseColor(this.color ?: "#808080"))
+        } catch (e: Exception) {
+            Color.Gray
+        }
+    return TagOption(
+        id = this.id.orEmpty(),
+        label = this.name.orEmpty(),
+        icon = Icons.Default.Apps,
+        color = parsedColor,
+    )
 }

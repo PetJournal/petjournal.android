@@ -169,7 +169,7 @@ val mainModule =
                 .build()
         }
 
-        viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get(), get(), get()) }
+        viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get(), get(), get(), get()) }
 
         viewModel<IntroRegisterPetViewModel> {
             com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModelImpl(
