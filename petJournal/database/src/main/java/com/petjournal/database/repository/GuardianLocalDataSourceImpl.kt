@@ -42,6 +42,23 @@ class GuardianLocalDataSourceImpl(
 
     }
 
+    override suspend fun saveGuardianContact(email: String, phone: String) {
+        if (getGuardianName() == null) {
+            guardianDao.insertProfile(
+                GuardianProfile(
+                    id = 1,
+                    email = email,
+                    phone = phone
+                )
+            )
+            appInfoDao.insertInformation(ApplicationInformation(1, false))
+        } else {
+            deleteDatabase()
+            saveGuardianContact(email, phone)
+        }
+
+    }
+
     override suspend fun savePetInformation(petModel: PetModel): DataResult<Long> {
         return try {
             DataResult.Success(

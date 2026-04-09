@@ -13,7 +13,7 @@ import com.soujunior.domain.model.PetModel
 
 @Dao
 interface GuardianProfileDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE) //Caso o usuario já exista, será substituido
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProfile(profile: GuardianProfile): Long
 
     @Query("SELECT * FROM guardian_profile WHERE id = :id")
