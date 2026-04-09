@@ -51,18 +51,6 @@ val Typography =
                 fontSize = 5.sp,
                 letterSpacing = 0.15.sp,
             ),
-        titleLarge =
-            TextStyle(
-                fontFamily = FontFamily(RobotoRegular),
-                fontSize = 16.sp,
-                letterSpacing = 0.15.sp,
-            ),
-        titleMedium =
-            TextStyle(
-                fontFamily = FontFamily(RobotoMedium),
-                fontSize = 14.sp,
-                letterSpacing = 0.1.sp,
-            ),
         bodyLarge =
             TextStyle(
                 fontFamily = FontFamily(RobotoRegular),
@@ -77,9 +65,21 @@ val Typography =
             ),
         titleSmall =
             TextStyle(
-                fontFamily = FontFamily(RobotoBold),
-                fontSize = 18.sp,
+                fontFamily = FontFamily(RobotoRegular),
+                fontSize = 12.sp,
                 letterSpacing = 1.25.sp,
+            ),
+        titleMedium =
+            TextStyle(
+                fontFamily = FontFamily(RobotoRegular),
+                fontSize = 14.sp,
+                letterSpacing = 0.1.sp,
+            ),
+        titleLarge =
+            TextStyle(
+                fontFamily = FontFamily(RobotoRegular),
+                fontSize = 16.sp,
+                letterSpacing = 0.15.sp,
             ),
         labelLarge =
             TextStyle(

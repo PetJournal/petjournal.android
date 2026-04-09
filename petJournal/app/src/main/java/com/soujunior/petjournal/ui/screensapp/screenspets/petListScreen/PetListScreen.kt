@@ -15,6 +15,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
@@ -63,6 +65,7 @@ fun getPetListViewModelForPreview(): PetListViewModel {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PetListScreen(navController: NavController) {
     val viewModel: PetListViewModel = getPetListViewModelForPreview()
@@ -70,6 +73,13 @@ fun PetListScreen(navController: NavController) {
     val taskState by viewModel.taskState.collectAsState()
     val state = viewModel.state.collectAsState()
     var expandedMenuPetId by remember { mutableStateOf<String?>(null) }
+
+    val isRefreshing = taskState is TaskState.Loading
+    val pullRefreshState =
+        rememberPullRefreshState(
+            refreshing = isRefreshing,
+            onRefresh = { viewModel.reload() },
+        )
 
     if (!LocalInspectionMode.current) {
         LaunchedEffect(key1 = context) {

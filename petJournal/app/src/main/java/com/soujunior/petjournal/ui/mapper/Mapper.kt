@@ -86,6 +86,21 @@ object Mapper {
         )
     }
 
+    fun String?.toFormattedDate(): String {
+        if (this.isNullOrBlank()) return ""
+        return try {
+            val inputFormat = java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", java.util.Locale.getDefault())
+            inputFormat.timeZone = java.util.TimeZone.getTimeZone("UTC")
+            val date = inputFormat.parse(this)
+
+            val outputFormat = java.text.SimpleDateFormat("dd 'de' MMMM 'às' HH:mm'h'", java.util.Locale("pt", "BR"))
+            outputFormat.timeZone = java.util.TimeZone.getDefault()
+            date?.let { outputFormat.format(it) } ?: this
+        } catch (e: Exception) {
+            this
+        }
+    }
+
     fun List<ScheduleDataModel>.toTaskData(): List<TaskData> {
         return this.map {
             TaskData(
@@ -93,7 +108,7 @@ object Mapper {
                 title = it.scheduler.title ?: "",
                 descriptionResumed = it.scheduler.description ?: "",
                 descriptionCompleted = it.scheduler.note ?: "",
-                startAt = it.start ?: "",
+                startAt = it.start.toFormattedDate(),
                 endAt = "--------",
                 type =
                     TaskType(

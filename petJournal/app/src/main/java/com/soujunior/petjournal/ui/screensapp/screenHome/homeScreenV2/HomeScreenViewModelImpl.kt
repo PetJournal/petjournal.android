@@ -89,6 +89,12 @@ class HomeScreenViewModelImpl(
         when (event) {
             is HomeEvent.ReloadListPet -> getPetList()
             is HomeEvent.ReloadListTag -> getTags()
+            is HomeEvent.ReloadAll -> {
+                getGuardianName()
+                getPetList()
+                getTask()
+                getTags()
+            }
         }
     }
 

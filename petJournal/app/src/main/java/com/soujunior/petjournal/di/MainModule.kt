@@ -45,6 +45,8 @@ import com.soujunior.domain.use_case.tag.DeleteTagUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.tag.UpdateTagUseCase
 import com.soujunior.domain.use_case.task.CreateTaskUseCase
+import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
+import com.soujunior.domain.use_case.task.GetListCurrentMonthTaskUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeViewModel
@@ -63,6 +65,8 @@ import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.vie
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskListViewModel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskListViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorViewModel
+import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashViewModel
 import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModel
 import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.BirthDateViewModel
@@ -142,7 +146,9 @@ val mainModule =
         factory { UpdateTagUseCase(get()) }
         factory { DeleteTagUseCase(get()) }
         factory { CreateTaskUseCase(get()) }
+        factory { GetListCurrentDateTaskUseCase(get()) }
         factory { GetListCurrentWeekTaskUseCase(get()) }
+        factory { GetListCurrentMonthTaskUseCase(get()) }
 
         single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
         single<GuardianService> { get<Retrofit>().create(GuardianService::class.java) }
@@ -211,5 +217,6 @@ val mainModule =
         viewModel<BirthDateViewModel> { BirthDateViewModelImpl(get(), get(), get(), get()) }
         viewModel<ViewModelRaceSize> { ViewModelRaceSizeImpl(get(), get(), get(), get(), get()) }
         viewModel<RegisterTaskViewModel> { RegisterTaskViewModelImpl(get(), get(), get(), get(), get(), get()) }
-        viewModel<TaskListViewModel> { TaskListViewModelImpl() }
+        viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get()) }
+        viewModel<TutorViewModel> { TutorViewModelImpl(get()) }
     }

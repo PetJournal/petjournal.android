@@ -29,6 +29,8 @@ class FakePetListViewModel() : PetListViewModel() {
     override fun deletePetById(id: String) {
         TODO("Not yet implemented")
     }
+
+    override fun reload() {}
 }
 
 abstract class PetListViewModel : ViewModel() {
@@ -43,4 +45,6 @@ abstract class PetListViewModel : ViewModel() {
     abstract fun failed(exception: Throwable?)
 
     abstract fun deletePetById(id: String)
+
+    abstract fun reload()
 }

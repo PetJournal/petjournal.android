@@ -14,18 +14,24 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -71,17 +77,25 @@ import com.soujunior.petjournal.ui.model.TaskData
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.components.Carousel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TaskDateComponent
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
+import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalMaterialApi::class)
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(navController: NavController) {
     var showSheet by remember { mutableStateOf(false) }
     val viewModel: HomeScreenViewModel = getCorrectViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val menuItems = state.listTag
+
+    val isRefreshing = state.isLoadingUserName || state.isLoadingListPet || state.isLoadingListTask || state.isLoadingListTag
+    val pullRefreshState =
+        rememberPullRefreshState(
+            refreshing = isRefreshing,
+            onRefresh = { viewModel.onEvent(HomeEvent.ReloadAll) },
+        )
 
     val systemUiController = rememberSystemUiController()
 
@@ -115,7 +129,7 @@ fun HomeScreen(navController: NavController) {
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = { paddingValues ->
-                Box(modifier = Modifier.fillMaxSize()) {
+                Box(modifier = Modifier.fillMaxSize().pullRefresh(pullRefreshState)) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding =
@@ -128,7 +142,20 @@ fun HomeScreen(navController: NavController) {
                         horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.Top,
                     ) {
-                        item { Carousel(imageIds = viewModel.carouselImages) }
+                        if (state.isLoadingUserName || state.isLoadingListPet) {
+                            item {
+                                Box(
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .height(180.dp)
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .shimmerEffect(),
+                                )
+                            }
+                        } else {
+                            item { Carousel(imageIds = viewModel.carouselImages) }
+                        }
 
                         item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
 
@@ -198,6 +225,12 @@ fun HomeScreen(navController: NavController) {
                             )
                         }
                     }
+
+                    PullRefreshIndicator(
+                        refreshing = isRefreshing,
+                        state = pullRefreshState,
+                        modifier = Modifier.align(Alignment.TopCenter),
+                    )
 
                     MenuBottomSheet(
                         isVisible = showSheet,

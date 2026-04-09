@@ -36,20 +36,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.model.TaskData
 import com.soujunior.petjournal.ui.util.shimmerEffect
+import com.soujunior.petjournal.ui.util.toCardFormat
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun TaskListItemShimmer() {
     Column(
         modifier =
             Modifier
-                .fillMaxWidth().padding(top = 16.dp),
+                .fillMaxWidth()
+                .padding(top = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         repeat(2) {
@@ -120,16 +124,22 @@ fun TaskCard(
                             horizontalAlignment = Alignment.Start,
                         ) {
                             Text(
-                                text = taskData.title,
+                                text =
+                                    if (!expanded && taskData.title.length > 12) {
+                                        taskData.title.take(12).uppercase()
+                                    } else {
+                                        taskData.title.uppercase()
+                                    },
                                 modifier = Modifier.padding(bottom = 2.sdp),
-                                style = MaterialTheme.typography.titleMedium,
-                                fontSize = 15.ssp,
+                                style =
+                                    MaterialTheme.typography.titleMedium.copy(
+                                        fontWeight = FontWeight.Bold,
+                                    ),
                             )
                             Text(
-                                text = taskData.startAt,
-                                style = MaterialTheme.typography.titleMedium,
+                                text = taskData.startAt.toCardFormat(),
+                                style = MaterialTheme.typography.titleSmall,
                                 color = Color.Gray,
-                                fontSize = 10.ssp,
                             )
 
                             if (expanded) {
@@ -186,7 +196,7 @@ fun TaskCard(
 
                             Text(
                                 text = displayText,
-                                style = MaterialTheme.typography.titleSmall,
+                                style = MaterialTheme.typography.titleMedium,
                                 modifier =
                                     Modifier
                                         .fillMaxWidth(1f)
@@ -196,7 +206,7 @@ fun TaskCard(
                             if (expanded) {
                                 Text(
                                     text = taskData.descriptionCompleted,
-                                    style = MaterialTheme.typography.titleSmall,
+                                    style = MaterialTheme.typography.titleMedium,
                                     modifier =
                                         Modifier
                                             .fillMaxWidth(1f)
@@ -225,8 +235,8 @@ fun TaskCard(
                                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
                             ) {
                                 Text(
-                                    text = "Editar Tarefa",
-                                    fontSize = 10.ssp,
+                                    text = stringResource(R.string.edit_task),
+                                    style = MaterialTheme.typography.titleSmall,
                                     color = taskData.type.color ?: Color.Red,
                                 )
                             }
@@ -246,8 +256,15 @@ fun TaskCard(
                                 ),
                     ) {
                         Text(
-                            text = if (expanded) "Ver Menos" else "Ver Mais",
-                            fontSize = 10.ssp,
+                            text =
+                                if (expanded) {
+                                    stringResource(R.string.show_minus)
+                                } else {
+                                    stringResource(
+                                        R.string.show_more,
+                                    )
+                                },
+                            style = MaterialTheme.typography.titleSmall,
                             color = MaterialTheme.colorScheme.background,
                             modifier = Modifier.align(Alignment.Center),
                         )

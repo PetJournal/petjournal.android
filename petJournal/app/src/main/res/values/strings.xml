@@ -220,4 +220,7 @@
     <string name="friday">Sex</string>
     <string name="saturday">Sab</string>
     <string name="add_new_pet">Adicionar novo pet</string>
+    <string name="show_minus">Ver Menos</string>
+    <string name="show_more">Ver Mais</string>
+    <string name="edit_task">Editar Tarefa</string>
 </resources>

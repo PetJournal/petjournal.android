@@ -12,11 +12,14 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
@@ -27,10 +30,23 @@ import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.TrailBack
 import com.soujunior.petjournal.ui.components.UserProfileHeader
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
+import org.koin.androidx.compose.getViewModel
+
+@Composable
+fun getTutorViewModelForPreview(): TutorViewModel {
+    return if (LocalInspectionMode.current) {
+        FakeTutorViewModel()
+    } else {
+        getViewModel<TutorViewModel>()
+    }
+}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun TutorScreen(navController: NavController) {
+    val viewModel: TutorViewModel = getTutorViewModelForPreview()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
     ScaffoldCustom(
         modifier =
             Modifier
@@ -58,7 +74,10 @@ fun TutorScreen(navController: NavController) {
                     item {
                         Spacer(modifier = Modifier.padding(top = 16.dp))
                         UserProfileHeader(
-                            name = "Carla Westervelt",
+                            name =
+                                state.nameUser.replaceFirstChar {
+                                    it.uppercase()
+                                },
                             email = "yourname@gmail.com",
                             imageUrl = null,
                         )

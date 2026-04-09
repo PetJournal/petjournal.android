@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,9 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,9 +30,11 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.TaskListItemShimmer
-import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TabSelector
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TaskDateComponent
+import com.soujunior.petjournal.ui.util.toDailyGroupFormat
+import com.soujunior.petjournal.ui.util.toMonthlyGroupFormat
+import com.soujunior.petjournal.ui.util.toWeeklyGroupFormat
 import ir.kaaveh.sdpcompose.sdp
 import org.koin.androidx.compose.getViewModel
 
@@ -53,7 +51,6 @@ private fun getCorrectViewModel(): TaskListViewModel {
 fun TaskListScreen(navController: NavController) {
     val viewModel: TaskListViewModel = getCorrectViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
-    var selectedFilter by remember { mutableStateOf(DateFilter.DAILY) }
 
     Column(modifier = Modifier) {
         ScaffoldCustom(
@@ -95,9 +92,9 @@ fun TaskListScreen(navController: NavController) {
                             .padding(paddingValues),
                 ) {
                     TabSelector(
-                        selectedFilter = selectedFilter,
+                        selectedFilter = state.selectedDateFilter,
                         onFilterSelected = { newFilter ->
-                            selectedFilter = newFilter
+                            viewModel.onEvent(TaskListEvent.OnDateFilterChange(newFilter))
                         },
                         modifier = Modifier.fillMaxWidth(),
                     )
@@ -111,83 +108,31 @@ fun TaskListScreen(navController: NavController) {
                             }
                         }
                     } else {
-                        Crossfade(targetState = selectedFilter, label = "TabTransition") { filter ->
-                            when (filter) {
-                                DateFilter.DAILY -> DailyTasksContent()
-                                DateFilter.WEEKLY -> WeeklyTasksContent()
-                                DateFilter.MONTHLY -> MonthlyTasksContent()
+                        val groupedTasks =
+                            state.tasks.groupBy { task ->
+                                when (state.selectedDateFilter) {
+                                    DateFilter.DAILY -> task.startAt.toDailyGroupFormat()
+                                    DateFilter.WEEKLY -> task.startAt.toWeeklyGroupFormat()
+                                    DateFilter.MONTHLY -> task.startAt.toMonthlyGroupFormat()
+                                }
+                            }
+                        LazyColumn(
+                            modifier = Modifier.padding(start = 16.sdp, end = 16.sdp, top = 16.sdp),
+                        ) {
+                            groupedTasks.forEach { (dateStr, groupTasks) ->
+                                item {
+                                    TaskDateComponent(
+                                        date = dateStr,
+                                        tasks = groupTasks,
+                                        modifier = Modifier.padding(bottom = 16.sdp),
+                                    )
+                                }
                             }
                         }
                     }
                 }
             },
         )
-    }
-}
-
-@Composable
-fun DailyTasksContent() {
-    LazyColumn(
-        modifier = Modifier.padding(start = 16.sdp, end = 16.sdp, top = 16.sdp),
-    ) {
-        item {
-            TaskDateComponent(
-                date = "5 de Janeiro",
-                tasks = TaskFakeData.sampleTasks.take(3),
-                modifier = Modifier,
-            )
-        }
-        item {
-            TaskDateComponent(
-                date = "3 de Fevereiro",
-                tasks = TaskFakeData.sampleTasks.take(1),
-                modifier = Modifier,
-            )
-        }
-    }
-}
-
-@Composable
-fun WeeklyTasksContent() {
-    LazyColumn(
-        modifier = Modifier.padding(start = 16.sdp, end = 16.sdp, top = 16.sdp),
-    ) {
-        item {
-            TaskDateComponent(
-                date = "5 de Janeiro",
-                tasks = TaskFakeData.sampleTasks.take(3),
-                modifier = Modifier,
-            )
-        }
-        item {
-            TaskDateComponent(
-                date = "30 de Setembro",
-                tasks = TaskFakeData.sampleTasks.take(3),
-                modifier = Modifier,
-            )
-        }
-    }
-}
-
-@Composable
-fun MonthlyTasksContent() {
-    LazyColumn(
-        modifier = Modifier.padding(start = 16.sdp, end = 16.sdp, top = 16.sdp),
-    ) {
-        item {
-            TaskDateComponent(
-                date = "3 de Fevereiro",
-                tasks = TaskFakeData.sampleTasks.take(1),
-                modifier = Modifier,
-            )
-        }
-        item {
-            TaskDateComponent(
-                date = "30 de Setembro",
-                tasks = TaskFakeData.sampleTasks.take(3),
-                modifier = Modifier,
-            )
-        }
     }
 }
 

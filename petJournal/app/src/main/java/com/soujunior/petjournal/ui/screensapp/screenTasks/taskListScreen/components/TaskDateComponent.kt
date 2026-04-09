@@ -28,7 +28,7 @@ fun TaskDateComponent(
             Text(
                 text = date,
                 style = MaterialTheme.typography.titleLarge,
-                fontSize = 20.ssp,
+                fontSize = 18.ssp,
                 modifier = Modifier.padding(bottom = 8.sdp),
             )
         }

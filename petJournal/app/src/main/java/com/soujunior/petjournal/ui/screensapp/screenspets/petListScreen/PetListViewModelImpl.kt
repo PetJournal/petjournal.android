@@ -45,6 +45,10 @@ class PetListViewModelImpl(
         }
     }
 
+    override fun reload() {
+        getPetList()
+    }
+
     override fun failed(exception: Throwable?) {
         exception?.message?.let { Log.e(TAG, it) }
         viewModelScope.launch {

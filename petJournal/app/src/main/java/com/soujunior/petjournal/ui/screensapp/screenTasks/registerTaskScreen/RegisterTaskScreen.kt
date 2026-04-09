@@ -144,9 +144,9 @@ fun RegisterTaskScreen(
                             placeholderText = stringResource(R.string.enter_task_name_here),
                             titleText = stringResource(R.string.task_name),
                             textValue = state.taskName,
-                            onEvent = {
+                            onEvent = { input ->
                                 viewModel.onEvent(
-                                    RegisterTaskEvent.OnName(it),
+                                    RegisterTaskEvent.OnName(input.take(30)),
                                 )
                             },
                         )

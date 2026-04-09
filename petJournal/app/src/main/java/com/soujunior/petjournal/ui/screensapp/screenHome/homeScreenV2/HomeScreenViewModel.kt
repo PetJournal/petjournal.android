@@ -117,6 +117,8 @@ sealed class HomeEvent {
     object ReloadListPet : HomeEvent()
 
     object ReloadListTag : HomeEvent()
+
+    object ReloadAll : HomeEvent()
 }
 
 abstract class HomeScreenViewModel : ViewModel() {
