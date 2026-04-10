@@ -11,6 +11,7 @@ import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.model.request.ChangePasswordModel
 import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.domain.model.request.LoginModel
+import com.soujunior.domain.model.request.LoginPreferenceModel
 import com.soujunior.domain.model.request.SignUpModel
 import com.soujunior.domain.model.response.AccessTokenResponse
 import com.soujunior.domain.model.response.MessageResponse
@@ -56,13 +57,22 @@ class AuthRepositoryImpl(
         return authApi.waitingCode(awaitingCodeModel)
     }
 
-    override suspend fun savePassword(password: String) {
-
-        prefs.edit().putString("password", password).apply()
+    override suspend fun saveLoginPreference(model: LoginPreferenceModel) {
+        prefs.edit().apply {
+            putString("email", model.email)
+            putString("password", model.password)
+            putBoolean("isRemember", model.isRemember)
+        }.apply()
     }
 
-    override suspend fun getSavedPassword(): String? {
-        return prefs.getString("password", null)
+    override suspend fun getLoginPreference(): LoginPreferenceModel? {
+        val email = prefs.getString("email", null)
+        val password = prefs.getString("password", null)
+        val isRemember = prefs.getBoolean("isRemember", false)
+
+        return if (email != null && password != null) {
+            LoginPreferenceModel(email, password, isRemember)
+        } else null
     }
 
     override suspend fun logout() {
@@ -76,7 +86,6 @@ class AuthRepositoryImpl(
                 jwtManager.setToken(token)
                 true
             } catch (e: Exception) {
-                Log.e(TAG, "AuthRepositoryImpl-saveToken: ${e.message}", e)
                 false
             }
         }
@@ -86,7 +95,6 @@ class AuthRepositoryImpl(
         return try {
             jwtManager.getToken()
         } catch (e: Exception) {
-            Log.e("AuthRepositoryImpl-getToken", e.message.toString())
             null
         }
     }
@@ -96,7 +104,6 @@ class AuthRepositoryImpl(
             jwtManager.deleteToken()
             true
         } catch (e: Exception) {
-            Log.e("AuthRepositoryImpl-deleteToken", e.message.toString())
             false
         }
     }

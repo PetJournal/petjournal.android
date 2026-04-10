@@ -25,7 +25,6 @@ class NetworkResultCall<T : Any>(
                     } else {
                         val code = response.code()
                         val errorBodyStr = response.errorBody()?.string()
-                        Log.e(TAG, "Erro enqueue: $errorBodyStr")
 
                         val errorMessage = try {
                             val json = JSONObject(errorBodyStr ?: "")
@@ -37,7 +36,6 @@ class NetworkResultCall<T : Any>(
                         NetworkResult.Error(code, ErrorBody(errorMessage))
                     }
                 } catch (e: Exception) {
-                    Log.e(TAG, "Exception NetworkResultCall: $e")
                     networkResult = NetworkResult.Exception(e)
                 }
 

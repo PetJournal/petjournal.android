@@ -50,7 +50,9 @@ class PetListViewModelImpl(
     }
 
     override fun failed(exception: Throwable?) {
-        exception?.message?.let { Log.e(TAG, it) }
+        exception?.message?.let {
+
+        }
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Failed)
         }

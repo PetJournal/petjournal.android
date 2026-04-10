@@ -20,10 +20,10 @@ import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
 import com.soujunior.domain.use_case.auth.ChangePasswordUseCase
 import com.soujunior.domain.use_case.auth.CheckLoginStatusUseCase
 import com.soujunior.domain.use_case.auth.ForgotPasswordUseCase
-import com.soujunior.domain.use_case.auth.GetSavedPasswordUseCase
+import com.soujunior.domain.use_case.auth.GetLoginPreferenceUseCase
 import com.soujunior.domain.use_case.auth.LoginUseCase
 import com.soujunior.domain.use_case.auth.LogoutUseCase
-import com.soujunior.domain.use_case.auth.SavePasswordUseCase
+import com.soujunior.domain.use_case.auth.SaveLoginPreferenceUseCase
 import com.soujunior.domain.use_case.auth.SignUpUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.guardian.GetPetRegistrationWentLive
@@ -122,8 +122,8 @@ val mainModule =
         factory { AwaitingCodeUseCase(get()) }
         factory { ChangePasswordUseCase(get()) }
         factory { CheckLoginStatusUseCase(get()) }
-        factory { GetSavedPasswordUseCase(get()) }
-        factory { SavePasswordUseCase(get()) }
+        factory { GetLoginPreferenceUseCase(get()) }
+        factory { SaveLoginPreferenceUseCase(get()) }
         factory { GetGuardianNameUseCase(get()) }
         factory { LogoutUseCase(get()) }
         factory { AppInfoDataBaseImpl(get()) }

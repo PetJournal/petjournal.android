@@ -47,7 +47,6 @@ fun Breadcrumb(index: Int) {
             val concatenatedString = buildString(screens = screens, index = index)
             concatenatedString
         } else {
-            Log.e("Error", "INDEX OUT OF RANGE")
             buildAnnotatedString { }
         }
 

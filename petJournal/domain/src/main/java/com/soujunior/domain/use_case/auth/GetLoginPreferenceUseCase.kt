@@ -1,17 +1,18 @@
 package com.soujunior.domain.use_case.auth
 
+import com.soujunior.domain.model.request.LoginPreferenceModel
 import com.soujunior.domain.repository.api.AuthRepository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 
-class SavePasswordUseCase(
+class GetLoginPreferenceUseCase(
     private val authRepository: AuthRepository
-) : BaseUseCase<String, Unit>() {
+) : BaseUseCase<Unit, LoginPreferenceModel?>() {
 
-    override suspend fun doWork(password: String): DataResult<Unit> {
+    override suspend fun doWork(value: Unit): DataResult<LoginPreferenceModel?> {
         return try {
-            authRepository.savePassword(password)
-            DataResult.Success(Unit)
+            val result = authRepository.getLoginPreference()
+            DataResult.Success(result)
         } catch (e: Exception) {
             DataResult.Failure(e)
         }

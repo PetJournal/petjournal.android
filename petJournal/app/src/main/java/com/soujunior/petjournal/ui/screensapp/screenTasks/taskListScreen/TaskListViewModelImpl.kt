@@ -64,7 +64,6 @@ class TaskListViewModelImpl(
                 }
 
             result.handleResult({ value: PaginatedScheduleResponseModel ->
-                Log.e(TAG, "GetTask success: $value")
                 _state.update {
                     with(Mapper) {
                         it.copy(
@@ -74,7 +73,6 @@ class TaskListViewModelImpl(
                     }
                 }
             }, {
-                Log.e(TAG, "GetTask error: $it")
                 _state.update { state -> state.copy(isLoading = false, error = it?.message) }
             })
         }

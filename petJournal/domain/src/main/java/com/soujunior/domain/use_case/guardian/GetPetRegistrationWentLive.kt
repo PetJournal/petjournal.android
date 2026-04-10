@@ -10,7 +10,6 @@ class GetPetRegistrationWentLive(private val db: AppInfoDatabase) : BaseUseCase<
     override suspend fun doWork(value: Unit): DataResult<Boolean> {
         return try {
             val result = db.getIsPetRegistrationWentLive()
-            Log.e(TAG, "Get: $result")
             DataResult.Success(data = result)
         } catch (e: Throwable) {
             DataResult.Failure(e)

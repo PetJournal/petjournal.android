@@ -5,10 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.request.LoginModel
+import com.soujunior.domain.model.request.LoginPreferenceModel
 import com.soujunior.domain.repository.validation.ValidationRepository
-import com.soujunior.domain.use_case.auth.GetSavedPasswordUseCase
+import com.soujunior.domain.use_case.auth.GetLoginPreferenceUseCase
 import com.soujunior.domain.use_case.auth.LoginUseCase
-import com.soujunior.domain.use_case.auth.SavePasswordUseCase
+import com.soujunior.domain.use_case.auth.SaveLoginPreferenceUseCase
 import com.soujunior.domain.use_case.util.ValidationResult
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
@@ -21,8 +22,8 @@ import kotlinx.coroutines.launch
 class LoginViewModelImpl(
     private val loginUseCase: LoginUseCase,
     private val validation: ValidationRepository,
-    private val savePasswordUseCase: SavePasswordUseCase,
-    private val getSavedPasswordUseCase: GetSavedPasswordUseCase,
+    private val saveLoginPreferenceUseCase: SaveLoginPreferenceUseCase,
+    private val getLoginPreferenceUseCase: GetLoginPreferenceUseCase,
 ) : LoginViewModel() {
     override var state by mutableStateOf(LoginFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
@@ -36,10 +37,18 @@ class LoginViewModelImpl(
 
     init {
         viewModelScope.launch {
-            val password = getSavedPasswordUseCase()
-            if (password != null) {
-                state = state.copy(password = password)
-            }
+            val result = getLoginPreferenceUseCase.execute(Unit)
+            result.handleResult({ preference ->
+                if (preference != null) {
+                    state = state.copy(
+                        email = preference.email,
+                        password = preference.password,
+                        rememberPassword = preference.isRemember
+                    )
+                }
+            }, {
+                // Erro ao carregar as preferências
+            })
         }
     }
 
@@ -57,9 +66,23 @@ class LoginViewModelImpl(
     }
 
     override fun passwordRemember() {
-        if (state.rememberPassword) {
-            viewModelScope.launch {
-                savePasswordUseCase.execute(state.password)
+        viewModelScope.launch {
+            if (state.rememberPassword) {
+                saveLoginPreferenceUseCase.execute(
+                    LoginPreferenceModel(
+                        email = state.email,
+                        password = state.password,
+                        isRemember = true
+                    )
+                )
+            } else {
+                saveLoginPreferenceUseCase.execute(
+                    LoginPreferenceModel(
+                        email = "",
+                        password = "",
+                        isRemember = false
+                    )
+                )
             }
         }
     }

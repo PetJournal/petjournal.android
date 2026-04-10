@@ -67,7 +67,6 @@ class PetRegisterViewModelImpl(
 
                 _taskState.value = TaskState.Idle
             }, {
-                Log.e(TAG, "Error: $it")
             })
         }
     }
@@ -109,7 +108,6 @@ class PetRegisterViewModelImpl(
             }
             is CreatePetEvent.OnSubmit -> {
                 if (validateRequiredFields()) {
-                    Log.e(TAG, "validateRequiredFields dentro do if")
                     if (_stateUi.value.idPetSelected.isNullOrBlank()) {
                         createPet(stateUi.value.buildPetModel())
                     } else {

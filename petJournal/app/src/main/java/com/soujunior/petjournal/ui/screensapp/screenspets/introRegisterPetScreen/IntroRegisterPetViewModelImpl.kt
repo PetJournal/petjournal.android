@@ -63,7 +63,6 @@ class IntroRegisterPetViewModelImpl(
                 val result = getWasViewed.execute(Unit)
                 result.handleResult(::verification, ::failed)
             } catch (e: Exception) {
-                Log.e(TAG, "Erro: $e")
             }
         }
     }
@@ -80,7 +79,9 @@ class IntroRegisterPetViewModelImpl(
             val result = getName.execute(Unit)
             result.handleResult(
                 { name -> run { _name.value = name.firstName } },
-                { error -> run { Log.e(TAG, "Error ->>: $error") } },
+                { error -> run {
+                }
+                },
             )
             _taskState.value = TaskState.Idle
         }

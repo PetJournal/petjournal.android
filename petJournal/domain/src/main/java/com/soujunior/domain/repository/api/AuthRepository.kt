@@ -6,6 +6,7 @@ import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.model.request.ChangePasswordModel
 import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.domain.model.request.LoginModel
+import com.soujunior.domain.model.request.LoginPreferenceModel
 import com.soujunior.domain.model.request.SignUpModel
 import com.soujunior.domain.model.response.AccessTokenResponse
 import com.soujunior.domain.network.NetworkResult
@@ -25,7 +26,7 @@ interface AuthRepository {
     suspend fun deleteToken(): Boolean
 
     suspend fun getToken(): String?
-    suspend fun savePassword(password: String)
-    suspend fun getSavedPassword(): String?
+    suspend fun saveLoginPreference(model: LoginPreferenceModel)
+    suspend fun getLoginPreference(): LoginPreferenceModel?
     suspend fun logout()
 }

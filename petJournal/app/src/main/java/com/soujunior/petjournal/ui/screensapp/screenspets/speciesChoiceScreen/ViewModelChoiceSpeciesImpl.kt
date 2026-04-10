@@ -68,7 +68,6 @@ class ViewModelChoiceSpeciesImpl(
     }
 
     private fun generic() {
-        Log.e(TAG, "Clicado!")
     }
 
     override fun onEvent(event: PetFormEvent) {

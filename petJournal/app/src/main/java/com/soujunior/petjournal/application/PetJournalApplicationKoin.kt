@@ -15,11 +15,8 @@ class PetJournalApplicationKoin : Application() {
 
     private fun setupKoin() {
         startKoin {
-            // androidLogger()
             androidLogger(Level.ERROR)
             androidContext(this@PetJournalApplicationKoin)
-            // todo: descomentar para implementar no ambiente de teste -> modules(mainModule)
-//            modules(listOf(mockModule, mockViewmodel, mockUsercase, mockData))
             modules(mainModule)
         }
     }

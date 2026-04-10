@@ -28,7 +28,6 @@ class SignUpUseCase(
                 DataResult.Failure(Throwable(message = "${this.code} -> ${this.body?.error}"))
             }
             is NetworkResult.Exception -> {
-                //Log.e(TAG, "Exception: "+this.toString())
                 DataResult.Failure(this.e)
             }
         }

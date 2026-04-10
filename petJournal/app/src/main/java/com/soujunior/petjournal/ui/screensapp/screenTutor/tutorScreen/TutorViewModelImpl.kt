@@ -34,7 +34,6 @@ class TutorViewModelImpl(
     }
 
     override fun failed(exception: Throwable?) {
-        Log.e(TAG, "failed: ${exception?.message}")
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Failed)
         }
@@ -47,7 +46,6 @@ class TutorViewModelImpl(
             result.handleResult({
                 success(it)
             }, {
-                Log.e(TAG, "getGuardianName error: $it")
                 failed(it)
                 _state.value = _state.value.copy(hasErrorOnNameUser = true)
             })

@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseModel
@@ -75,7 +73,6 @@ class HomeScreenViewModelImpl(
             result.handleResult({
                 success(it)
             }, {
-                Log.e(TAG, "getGuardianName error: $it")
 
                 failed(it)
 
@@ -115,7 +112,6 @@ class HomeScreenViewModelImpl(
         viewModelScope.launch {
             val result = getListCurrentWeekTaskUseCase.execute(Unit)
             result.handleResult({ value: PaginatedScheduleResponseModel ->
-                Log.e(TAG, "GetTask success: $value")
                 _state.update {
                     with(Mapper) {
                         it.copy(
@@ -126,7 +122,6 @@ class HomeScreenViewModelImpl(
                     }
                 }
             }, {
-                Log.e(TAG, "GetTask error: $it")
                 _state.value = _state.value.copy(isLoadingListTask = false)
             })
         }
@@ -145,7 +140,6 @@ class HomeScreenViewModelImpl(
                         )
                     }
             }, {
-                Log.e(TAG, "GetTags error: $it")
                 _state.value =
                     _state.value.copy(
                         isLoadingListTag = false,

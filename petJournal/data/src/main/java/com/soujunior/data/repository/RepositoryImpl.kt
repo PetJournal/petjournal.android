@@ -44,7 +44,6 @@ class RepositoryImpl(
         return try {
             jwtManager.getToken()
         } catch (e: Exception) {
-            Log.e("AuthRepositoryImpl-getToken", e.message.toString())
             null
         }
     }
@@ -61,7 +60,6 @@ class RepositoryImpl(
                         try {
                             guardianLocalDataSourceImpl.saveGuardianName(apiResult.data)
                         } catch (e: Exception) {
-                            Log.e(TAG, "Exeption: " + e.message)
                         }
                     }
                     NetworkResult.Success(GuardianNameResponse(apiResult.data.firstName, ""))
@@ -356,7 +354,6 @@ class RepositoryImpl(
                         try {
                             guardianLocalDataSourceImpl.saveListPetSizes(petSpecie, apiResult.data)
                         } catch (e: Exception) {
-                            Log.e(TAG, "Exeption: " + e.message)
                         }
                     }
 
@@ -381,7 +378,6 @@ class RepositoryImpl(
                         try {
                             guardianLocalDataSourceImpl.saveListPetRaces(petSpecie, apiResult.data)
                         } catch (e: Exception) {
-                            Log.e(TAG, "Exeption: " + e.message)
                         }
                     }
 
@@ -555,7 +551,6 @@ class RepositoryImpl(
 
             tempFile
         } catch (e: Exception) {
-            Log.e("GuardianRepository", "Falha ao converter URI para File", e)
             null
         }
     }
