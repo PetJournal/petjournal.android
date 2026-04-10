@@ -40,11 +40,12 @@ class LoginViewModelImpl(
             val result = getLoginPreferenceUseCase.execute(Unit)
             result.handleResult({ preference ->
                 if (preference != null) {
-                    state = state.copy(
-                        email = preference.email,
-                        password = preference.password,
-                        rememberPassword = preference.isRemember
-                    )
+                    state =
+                        state.copy(
+                            email = preference.email,
+                            password = preference.password,
+                            rememberPassword = preference.isRemember,
+                        )
                 }
             }, {
                 // Erro ao carregar as preferências
@@ -72,16 +73,16 @@ class LoginViewModelImpl(
                     LoginPreferenceModel(
                         email = state.email,
                         password = state.password,
-                        isRemember = true
-                    )
+                        isRemember = true,
+                    ),
                 )
             } else {
                 saveLoginPreferenceUseCase.execute(
                     LoginPreferenceModel(
                         email = "",
                         password = "",
-                        isRemember = false
-                    )
+                        isRemember = false,
+                    ),
                 )
             }
         }

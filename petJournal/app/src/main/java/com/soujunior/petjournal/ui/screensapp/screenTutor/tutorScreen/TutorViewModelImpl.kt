@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.use_case.auth.LogoutUseCase

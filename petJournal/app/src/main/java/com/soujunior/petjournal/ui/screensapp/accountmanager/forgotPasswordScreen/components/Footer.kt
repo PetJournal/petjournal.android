@@ -37,7 +37,9 @@ fun Footer(
         modifier = Modifier.padding(bottom = 40.sdp),
     ) {
         Row(
-            Modifier.padding(20.sdp),
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.sdp, vertical = 20.sdp),
         ) {
             Button3(
                 submit = { navController.popBackStack() },

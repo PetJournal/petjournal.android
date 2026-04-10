@@ -123,7 +123,6 @@ fun TutorScreenPreview() {
 fun LogoutButtonPreview() {
     MaterialTheme {
         LogoutButton(onLogoutClick = {
-
         })
     }
 }

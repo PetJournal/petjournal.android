@@ -73,7 +73,6 @@ class HomeScreenViewModelImpl(
             result.handleResult({
                 success(it)
             }, {
-
                 failed(it)
 
                 _state.value = _state.value.copy(hasErrorOnNameUser = false)

@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseModel

@@ -79,8 +79,9 @@ class IntroRegisterPetViewModelImpl(
             val result = getName.execute(Unit)
             result.handleResult(
                 { name -> run { _name.value = name.firstName } },
-                { error -> run {
-                }
+                { error ->
+                    run {
+                    }
                 },
             )
             _taskState.value = TaskState.Idle

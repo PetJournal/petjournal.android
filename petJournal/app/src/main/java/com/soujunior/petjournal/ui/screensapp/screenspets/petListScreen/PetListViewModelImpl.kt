@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.use_case.pet.DeletePetByIdUseCase
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
@@ -51,7 +49,6 @@ class PetListViewModelImpl(
 
     override fun failed(exception: Throwable?) {
         exception?.message?.let {
-
         }
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Failed)

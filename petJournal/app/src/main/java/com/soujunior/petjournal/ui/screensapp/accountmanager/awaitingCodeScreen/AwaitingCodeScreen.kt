@@ -18,10 +18,11 @@ fun AwaitingCodeScreen(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = context) {
-        if (arg != null) {
-            //  viewModel.onEvent(AwaitingCodeFormEvent.EmailChanged(arg))
+        if (!arg.isNullOrBlank()) {
+            viewModel.onEvent(AwaitingCodeFormEvent.EmailChanged(arg))
         } else {
-            //  navController.navigateUp()
+            Toast.makeText(context, "Email inválido", Toast.LENGTH_SHORT).show()
+            navController.navigateUp()
         }
         viewModel.validationEvents.collect { event ->
             when (event) {

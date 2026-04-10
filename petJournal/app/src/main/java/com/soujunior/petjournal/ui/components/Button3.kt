@@ -61,78 +61,69 @@ fun Button3(
     val coroutineScope = rememberCoroutineScope()
     val scale = remember { Animatable(1f) }
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
+    androidx.compose.material3.Button(
+        onClick = { submit() },
+        enabled = enableButton,
         modifier =
-            Modifier
-                .padding(top = 20.sdp, bottom = 20.sdp)
-                .fillMaxWidth(),
-    ) {
-        androidx.compose.material3.Button(
-            onClick = { submit() },
-            enabled = enableButton,
-            modifier =
-                modifier
-                    .graphicsLayer {
-                        scaleX = scale.value
-                        scaleY = scale.value
-                    }
-                    .pointerInput(enableButton) {
-                        if (enableButton) {
-                            awaitPointerEventScope {
-                                while (true) {
-                                    awaitFirstDown(requireUnconsumed = false)
-                                    coroutineScope.launch {
-                                        scale.animateTo(0.90f, animationSpec = tween(100))
-                                    }
-                                    waitForUpOrCancellation()
-                                    coroutineScope.launch {
-                                        scale.animateTo(1f, animationSpec = tween(100))
-                                    }
+            modifier
+                .graphicsLayer {
+                    scaleX = scale.value
+                    scaleY = scale.value
+                }
+                .pointerInput(enableButton) {
+                    if (enableButton) {
+                        awaitPointerEventScope {
+                            while (true) {
+                                awaitFirstDown(requireUnconsumed = false)
+                                coroutineScope.launch {
+                                    scale.animateTo(0.90f, animationSpec = tween(100))
+                                }
+                                waitForUpOrCancellation()
+                                coroutineScope.launch {
+                                    scale.animateTo(1f, animationSpec = tween(100))
                                 }
                             }
                         }
                     }
-                    .width(120.sdp)
-                    .shadow(
-                        elevation = 15.dp,
-                        spotColor = MaterialTheme.colorScheme.onBackground,
-                        ambientColor = MaterialTheme.colorScheme.onBackground,
-                        shape = shape,
-                    ),
-            border =
-                BorderStroke(
-                    width = 1.sdp,
-                    color = borderColor,
-                ),
-            shape = shape,
-            colors = buttonColor,
-            contentPadding = PaddingValues(contentPaddingValues),
-        ) {
-            if (!isLoading) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    if (icon != null) {
-                        icon()
-                        Spacer(modifier = Modifier.width(8.sdp))
-                    }
-                    Text(
-                        text = text,
-                        fontWeight = FontWeight.W500,
-                        fontSize = textSize,
-                        style = MaterialTheme.typography.headlineLarge,
-                        color = textColor,
-                    )
                 }
-            } else {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(17.sdp),
-                    color = MaterialTheme.colorScheme.onPrimary,
+                .width(120.sdp)
+                .shadow(
+                    elevation = 15.dp,
+                    spotColor = MaterialTheme.colorScheme.onBackground,
+                    ambientColor = MaterialTheme.colorScheme.onBackground,
+                    shape = shape,
+                ),
+        border =
+            BorderStroke(
+                width = 1.sdp,
+                color = borderColor,
+            ),
+        shape = shape,
+        colors = buttonColor,
+        contentPadding = PaddingValues(contentPaddingValues),
+    ) {
+        if (!isLoading) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                if (icon != null) {
+                    icon()
+                    Spacer(modifier = Modifier.width(8.sdp))
+                }
+                Text(
+                    text = text,
+                    fontWeight = FontWeight.W500,
+                    fontSize = textSize,
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = textColor,
                 )
             }
+        } else {
+            CircularProgressIndicator(
+                modifier = Modifier.size(17.sdp),
+                color = MaterialTheme.colorScheme.onPrimary,
+            )
         }
     }
 }
@@ -162,6 +153,7 @@ fun LogoutButton(
         },
         modifier =
             modifier
+                .padding(vertical = 20.sdp)
                 .width(250.sdp),
     )
 }
@@ -177,5 +169,5 @@ fun LogoutButtonPreview() {
 @Preview(showBackground = true)
 @Composable
 fun Button3OriginalBehaviorPreview() {
-    Button3(submit = { }, enableButton = true, text = "Salvar")
+    Button3(submit = { }, enableButton = true, text = "Salvar", modifier = Modifier.padding(vertical = 20.sdp).fillMaxWidth())
 }

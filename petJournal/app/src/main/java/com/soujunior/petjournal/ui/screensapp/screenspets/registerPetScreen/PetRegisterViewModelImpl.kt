@@ -1,7 +1,5 @@
 package com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetModel
