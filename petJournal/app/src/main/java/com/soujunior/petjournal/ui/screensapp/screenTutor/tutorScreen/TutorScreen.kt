@@ -84,20 +84,22 @@ fun TutorScreen(navController: NavController) {
                         HorizontalDivider(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
                         ActionItem(
                             title = stringResource(R.string.change_password),
-                            onClick = {},
+                            onClick = {
+                                navController.navigate("forgotPassword")
+                            },
                         )
-                        ActionItem(
-                            title = stringResource(R.string.notifications),
-                            onClick = { navController.navigate("profile/notificationScreen") },
-                        )
+//                        ActionItem(
+//                            title = stringResource(R.string.notifications),
+//                            onClick = { navController.navigate("profile/notificationScreen") },
+//                        )
                         ActionItem(
                             title = stringResource(R.string.privacy_policy),
                             onClick = { navController.navigate("profile/privacyPolicyScreen") },
                         )
-                        ActionItem(
-                            title = stringResource(R.string.delete_account),
-                            onClick = {},
-                        )
+//                        ActionItem(
+//                            title = stringResource(R.string.delete_account),
+//                            onClick = {},
+//                        )
                     }
                 }
             }
@@ -117,6 +119,8 @@ fun TutorScreenPreview() {
 @Composable
 fun LogoutButtonPreview() {
     MaterialTheme {
-        LogoutButton(onLogoutClick = {})
+        LogoutButton(onLogoutClick = {
+
+        })
     }
 }

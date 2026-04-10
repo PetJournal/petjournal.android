@@ -60,6 +60,7 @@ fun NavHostMainContent() {
         composable("profile/tutorScreen") { TutorScreen(navController) }
         composable("profile/notificationScreen") { NotificationsScreen(navController) }
         composable("profile/privacyPolicyScreen") { PrivacyPolicyScreen(navController) }
+        composable("forgotPassword") { ForgotPasswordScreen(navController) }
 
         composable("pets/introRegisterPet") { IntroRegisterPetScreen(navController) }
         composable("pets/petListScreen") { PetListScreen(navController) }
