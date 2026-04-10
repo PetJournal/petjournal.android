@@ -1,4 +1,4 @@
-package com.soujunior.domain.repository
+package com.soujunior.domain.repository.validation
 
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel

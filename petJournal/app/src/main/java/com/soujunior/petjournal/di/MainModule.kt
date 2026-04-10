@@ -3,19 +3,19 @@ package com.soujunior.petjournal.di
 import androidx.room.Room
 import com.petjournal.database.database.db.AppDatabase
 import com.petjournal.database.repository.AppInfoDataBaseImpl
-import com.petjournal.database.repository.GuardianLocalDataSourceImpl
+import com.petjournal.database.repository.LocalDataSourceImpl
 import com.soujunior.data.remote.AuthService
-import com.soujunior.data.remote.GuardianService
+import com.soujunior.data.remote.RemoteDataSource
 import com.soujunior.data.remote.adapters.internal.NetworkResultCallAdapterFactory
 import com.soujunior.data.repository.AppInfoDataImpl
 import com.soujunior.data.repository.AuthRepositoryImpl
-import com.soujunior.data.repository.GuardianRepositoryImpl
-import com.soujunior.domain.repository.AppInfoDataBase
-import com.soujunior.domain.repository.AppInfoDataBaseRepository
-import com.soujunior.domain.repository.AuthRepository
-import com.soujunior.domain.repository.GuardianLocalDataSource
-import com.soujunior.domain.repository.GuardianRepository
-import com.soujunior.domain.repository.ValidationRepository
+import com.soujunior.data.repository.RepositoryImpl
+import com.soujunior.domain.repository.api.AuthRepository
+import com.soujunior.domain.repository.api.Repository
+import com.soujunior.domain.repository.appinfo.AppInfoDatabase
+import com.soujunior.domain.repository.appinfo.AppInfoDatabaseRepository
+import com.soujunior.domain.repository.database.LocalDataSource
+import com.soujunior.domain.repository.validation.ValidationRepository
 import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
 import com.soujunior.domain.use_case.auth.ChangePasswordUseCase
 import com.soujunior.domain.use_case.auth.CheckLoginStatusUseCase
@@ -98,10 +98,10 @@ val mainModule =
         // Repositories
         single<ValidationRepository> { ValidationRepositoryImpl() }
         single<AuthRepository> { AuthRepositoryImpl(get(), get(), get()) }
-        single<GuardianRepository> { GuardianRepositoryImpl(get(), get(), get()) }
-        single<AppInfoDataBaseRepository> { AppInfoDataImpl(get()) }
-        single<GuardianLocalDataSource> { GuardianLocalDataSourceImpl(get(), get()) }
-        single<AppInfoDataBase> { AppInfoDataBaseImpl(get()) }
+        single<Repository> { RepositoryImpl(get(), get(), get()) }
+        single<AppInfoDatabaseRepository> { AppInfoDataImpl(get()) }
+        single<LocalDataSource> { LocalDataSourceImpl(get(), get()) }
+        single<AppInfoDatabase> { AppInfoDataBaseImpl(get()) }
 
         single {
             Room.databaseBuilder(
@@ -151,7 +151,7 @@ val mainModule =
         factory { GetListCurrentMonthTaskUseCase(get()) }
 
         single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
-        single<GuardianService> { get<Retrofit>().create(GuardianService::class.java) }
+        single<RemoteDataSource> { get<Retrofit>().create(RemoteDataSource::class.java) }
 
         single {
             Moshi.Builder()

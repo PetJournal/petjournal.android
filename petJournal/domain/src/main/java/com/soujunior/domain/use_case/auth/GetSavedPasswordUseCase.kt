@@ -1,6 +1,6 @@
 package com.soujunior.domain.use_case.auth
 
-import com.soujunior.domain.repository.AuthRepository
+import com.soujunior.domain.repository.api.AuthRepository
 
 class GetSavedPasswordUseCase(
     private val authRepository: AuthRepository

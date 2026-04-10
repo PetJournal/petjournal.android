@@ -1,10 +1,8 @@
 package com.soujunior.domain.use_case.auth
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import com.soujunior.domain.model.request.LoginModel
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.AuthRepository
+import com.soujunior.domain.repository.api.AuthRepository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 

@@ -6,7 +6,7 @@ import com.soujunior.domain.model.User
 import com.soujunior.domain.model.request.SignUpModel
 import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.AuthRepository
+import com.soujunior.domain.repository.api.AuthRepository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
-import com.soujunior.domain.repository.ValidationRepository
+import com.soujunior.domain.repository.validation.ValidationRepository
 import com.soujunior.domain.use_case.information.GetListPetRacesUseCase
 import com.soujunior.domain.use_case.information.GetListPetSizesUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase

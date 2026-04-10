@@ -2,7 +2,7 @@ package com.soujunior.domain.use_case.pet
 
 import assertk.assertions.isEqualTo
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.setup.CAT
 import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.setup.listPetRaces
@@ -20,7 +20,7 @@ class GetListPetRacesUseCaseTest{
     @get:Rule
     var coroutineTesteRule = MainCoroutineRule()
 
-    private val repository = mockk<GuardianRepository>(relaxed = true)
+    private val repository = mockk<Repository>(relaxed = true)
 
     @Test
     fun `failure get list pet races`() = runBlocking {

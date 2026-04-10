@@ -2,11 +2,11 @@ package com.soujunior.domain.use_case.information
 
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 
-class GetListPetRacesUseCase(private val repository: GuardianRepository): BaseUseCase<String, List<PetRaceItemModel>>() {
+class GetListPetRacesUseCase(private val repository: Repository): BaseUseCase<String, List<PetRaceItemModel>>() {
     override suspend fun doWork(value: String): DataResult<List<PetRaceItemModel>> {
         return when (val response = repository.getListPetRaces(value)) {
             is NetworkResult.Success -> { DataResult.Success(response.data) }

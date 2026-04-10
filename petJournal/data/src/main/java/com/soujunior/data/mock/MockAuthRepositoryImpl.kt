@@ -11,7 +11,7 @@ import com.soujunior.domain.model.response.AccessTokenResponse
 import com.soujunior.domain.model.response.MessageResponse
 import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.AuthRepository
+import com.soujunior.domain.repository.api.AuthRepository
 
 class MockAuthRepositoryImpl : AuthRepository  {
     override suspend fun signUp(signUpModel: SignUpModel): NetworkResult<UserInfoResponse> {

@@ -1,4 +1,4 @@
-package com.soujunior.domain.repository
+package com.soujunior.domain.repository.api
 
 import com.soujunior.domain.model.BreedDTO
 import com.soujunior.domain.model.PetCreateDTO
@@ -15,7 +15,7 @@ import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.use_case.base.DataResult
 
-interface GuardianRepository {
+interface Repository {
     suspend fun getGuardianName(): NetworkResult<GuardianNameResponse>
 
     suspend fun getListSize(animal: String): NetworkResult<List<SizeDTO>>

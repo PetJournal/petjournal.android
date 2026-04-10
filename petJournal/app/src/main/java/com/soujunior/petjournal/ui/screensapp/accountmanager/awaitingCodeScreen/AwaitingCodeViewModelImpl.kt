@@ -3,7 +3,7 @@ package com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.model.request.ForgotPasswordModel
-import com.soujunior.domain.repository.ValidationRepository
+import com.soujunior.domain.repository.validation.ValidationRepository
 import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
 import com.soujunior.domain.use_case.auth.ForgotPasswordUseCase
 import com.soujunior.petjournal.ui.states.TaskState

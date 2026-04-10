@@ -4,7 +4,7 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import com.soujunior.data.remote.GuardianService
+import com.soujunior.data.remote.RemoteDataSource
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.domain.model.BreedDTO
 import com.soujunior.domain.model.PetCreateDTO
@@ -22,8 +22,8 @@ import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.network.onError
 import com.soujunior.domain.network.onException
 import com.soujunior.domain.network.onSuccess
-import com.soujunior.domain.repository.GuardianLocalDataSource
-import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.repository.database.LocalDataSource
+import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.use_case.base.DataResult
 import kotlinx.coroutines.coroutineScope
 import okhttp3.MediaType
@@ -32,11 +32,11 @@ import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
 
-class GuardianRepositoryImpl(
-    private val guardianApi: GuardianService,
-    private val guardianLocalDataSourceImpl: GuardianLocalDataSource,
+class RepositoryImpl(
+    private val remoteDataSource: RemoteDataSource,
+    private val guardianLocalDataSourceImpl: LocalDataSource,
     private val context: Context
-) : GuardianRepository {
+) : Repository {
 
     private val jwtManager: JwtManager = JwtManager.getInstance(context)
 
@@ -55,7 +55,7 @@ class GuardianRepositoryImpl(
             NetworkResult.Success(GuardianNameResponse(localName, ""))
         } else {
             val token = "Bearer " + jwtManager.getToken()
-            when (val apiResult = guardianApi.getGuardianName(token)) {
+            when (val apiResult = remoteDataSource.getGuardianName(token)) {
                 is NetworkResult.Success -> {
                     coroutineScope {
                         try {
@@ -87,7 +87,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun getListSize(animal: String): NetworkResult<List<SizeDTO>> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.getListSize(token, animal)
+            val apiResponse =  remoteDataSource.getListSize(token, animal)
             var result: NetworkResult<List<SizeDTO>> = NetworkResult.Error(0, null)
 
             apiResponse
@@ -108,7 +108,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun getListBreed(animal: String): NetworkResult<List<BreedDTO>> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.getListBreeds(token, animal)
+            val apiResponse =  remoteDataSource.getListBreeds(token, animal)
             var result: NetworkResult<List<BreedDTO>> = NetworkResult.Error(0, null)
 
             apiResponse
@@ -129,7 +129,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun getListTag(): NetworkResult<List<TagDTO>> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.getListTag(token)
+            val apiResponse =  remoteDataSource.getListTag(token)
             var result: NetworkResult<List<TagDTO>> = NetworkResult.Error(0, null)
 
             apiResponse
@@ -150,7 +150,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun createTag(tag: TagDTO): NetworkResult<TagDTO> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.createTag(token, tag)
+            val apiResponse =  remoteDataSource.createTag(token, tag)
             var result: NetworkResult<TagDTO> = NetworkResult.Error(0, null)
 
             apiResponse
@@ -171,7 +171,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun updateTag(tag: TagDTO): NetworkResult<UpdatePetByIdDTO> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.updateTag(token, tag.id!!, tag)
+            val apiResponse =  remoteDataSource.updateTag(token, tag.id!!, tag)
             var result: NetworkResult<UpdatePetByIdDTO> = NetworkResult.Error(0, null)
             apiResponse
                 .onSuccess { data ->
@@ -191,7 +191,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun deleteTag(id: String): NetworkResult<Unit> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.deleteTag(token, id)
+            val apiResponse =  remoteDataSource.deleteTag(token, id)
             var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
 
             apiResponse
@@ -212,7 +212,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun getListPet(): NetworkResult<List<PetDetailsDTO>> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.getPetList(token)
+            val apiResponse =  remoteDataSource.getPetList(token)
             var result: NetworkResult<List<PetDetailsDTO>> = NetworkResult.Error(0, null)
 
             apiResponse
@@ -241,7 +241,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun getPetById(id: String): NetworkResult<PetDetailsDTO> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.getPetById(token, id)
+            val apiResponse =  remoteDataSource.getPetById(token, id)
             var result: NetworkResult<PetDetailsDTO> = NetworkResult.Error(0, null)
             apiResponse
                 .onSuccess {
@@ -261,7 +261,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun deletePetById(id: String): NetworkResult<Unit> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.deletePetById(token, id)
+            val apiResponse =  remoteDataSource.deletePetById(token, id)
             var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
             apiResponse
                 .onSuccess {
@@ -310,7 +310,7 @@ class GuardianRepositoryImpl(
             val castratedPart = pet.castrated.toString().toTextRequestBody()
             val dateOfBirthPart = pet.dateOfBirth.toTextRequestBody()
 
-            val apiResponse = guardianApi.updatePet(
+            val apiResponse = remoteDataSource.updatePet(
                 token = token,
                 image = imagePart,
                 specieName = specieNamePart,
@@ -350,7 +350,7 @@ class GuardianRepositoryImpl(
             NetworkResult.Success(localListPetSizes)
         } else {
             val token = "Bearer " + jwtManager.getToken()
-            when (val apiResult = guardianApi.getListPetSizes(token, petSpecie)) {
+            when (val apiResult = remoteDataSource.getListPetSizes(token, petSpecie)) {
                 is NetworkResult.Success -> {
                     coroutineScope {
                         try {
@@ -375,7 +375,7 @@ class GuardianRepositoryImpl(
             NetworkResult.Success(localListPetRaces)
         } else {
             val token = "Bearer " + jwtManager.getToken()
-            when (val apiResult = guardianApi.getListPetRaces(token, petSpecie)) {
+            when (val apiResult = remoteDataSource.getListPetRaces(token, petSpecie)) {
                 is NetworkResult.Success -> {
                     coroutineScope {
                         try {
@@ -395,7 +395,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun scheduled(item: TaskDTO): NetworkResult<Unit> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.scheduled(token, item)
+            val apiResponse =  remoteDataSource.scheduled(token, item)
             var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
 
             apiResponse
@@ -416,7 +416,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun listCurrentDateScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.getTaskListCurrentDate(token)
+            val apiResponse =  remoteDataSource.getTaskListCurrentDate(token)
             var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
 
             apiResponse
@@ -437,7 +437,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun listCurrentWeekScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.getTaskListCurrentWeek(token)
+            val apiResponse =  remoteDataSource.getTaskListCurrentWeek(token)
             var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
 
             apiResponse
@@ -458,7 +458,7 @@ class GuardianRepositoryImpl(
 
     override suspend fun listCurrentMonthScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
         getToken()?.let { token ->
-            val apiResponse =  guardianApi.getTaskListCurrentMonth(token)
+            val apiResponse =  remoteDataSource.getTaskListCurrentMonth(token)
             var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
 
             apiResponse
@@ -511,7 +511,7 @@ class GuardianRepositoryImpl(
             val castratedPart = pet.castrated.toString().toTextRequestBody()
             val dateOfBirthPart = pet.dateOfBirth.toTextRequestBody()
 
-            val apiResponse = guardianApi.createPet(
+            val apiResponse = remoteDataSource.createPet(
                 token = token,
                 image = imagePart,
                 specieName = specieNamePart,

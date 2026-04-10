@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.response.GuardianNameResponse
-import com.soujunior.domain.repository.ValidationRepository
+import com.soujunior.domain.repository.validation.ValidationRepository
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationResult

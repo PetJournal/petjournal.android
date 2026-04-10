@@ -4,15 +4,19 @@ import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
-import com.soujunior.domain.repository.GuardianLocalDataSource
+import com.soujunior.domain.repository.database.LocalDataSource
 import com.soujunior.domain.use_case.base.DataResult
 
-class MockGuardianLocalDataSource: GuardianLocalDataSource {
+class MockGuardianLocalDataSource: LocalDataSource {
     override suspend fun getGuardianName(): String {
         TODO("Not yet implemented")
     }
 
     override suspend fun deleteDatabase() {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun saveGuardianContact(email: String, phone: String) {
         TODO("Not yet implemented")
     }
 

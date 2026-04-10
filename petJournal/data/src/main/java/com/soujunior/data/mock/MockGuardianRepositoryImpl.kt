@@ -9,16 +9,14 @@ import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
-import com.soujunior.domain.model.response.pet.PetDTO
 import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.use_case.base.DataResult
-import java.io.File
 
-class MockGuardianRepositoryImpl(): GuardianRepository {
+class MockGuardianRepositoryImpl(): Repository {
     override suspend fun getGuardianName(): NetworkResult<GuardianNameResponse> = NetworkResult.Success (GuardianNameResponse("Petjornaleiro", "Jr"))
 
     override suspend fun savePet(petModel: PetModel): DataResult<Long> {

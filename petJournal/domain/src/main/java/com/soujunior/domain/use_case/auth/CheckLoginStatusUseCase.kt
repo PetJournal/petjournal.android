@@ -1,6 +1,6 @@
 package com.soujunior.domain.use_case.auth
 
-import com.soujunior.domain.repository.AuthRepository
+import com.soujunior.domain.repository.api.AuthRepository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 

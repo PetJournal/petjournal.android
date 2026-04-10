@@ -1,13 +1,12 @@
 package com.soujunior.domain.use_case.pet
 
 import com.soujunior.domain.model.PetDetailsDTO
-import com.soujunior.domain.model.response.pet.PetDTO
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 
-class GetPetByIdUseCase( private val repository: GuardianRepository ) : BaseUseCase<String, PetDetailsDTO>() {
+class GetPetByIdUseCase( private val repository: Repository ) : BaseUseCase<String, PetDetailsDTO>() {
     override suspend fun doWork(value: String): DataResult<PetDetailsDTO> {
         return try {
             val response = repository.getPetById(value)

@@ -6,9 +6,8 @@ import assertk.assertions.isNotEqualTo
 import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.model.response.AccessTokenResponse
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.AuthRepository
+import com.soujunior.domain.repository.api.AuthRepository
 import com.soujunior.domain.setup.MainCoroutineRule
-import com.soujunior.domain.use_case.base.DataResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.fail

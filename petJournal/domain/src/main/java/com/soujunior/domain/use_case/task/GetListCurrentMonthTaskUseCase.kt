@@ -3,11 +3,11 @@ package com.soujunior.domain.use_case.task
 import com.soujunior.domain.mapper.Mapper.toDomain
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseModel
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 
-class GetListCurrentMonthTaskUseCase(private val repository: GuardianRepository):
+class GetListCurrentMonthTaskUseCase(private val repository: Repository):
     BaseUseCase<Unit, PaginatedScheduleResponseModel>() {
     override suspend fun doWork(value: Unit): DataResult<PaginatedScheduleResponseModel> {
         return when (val response = repository.listCurrentMonthScheduled()) {

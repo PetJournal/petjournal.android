@@ -1,4 +1,4 @@
-package com.soujunior.domain.repository
+package com.soujunior.domain.repository.api
 
 import com.soujunior.domain.model.response.MessageResponse
 import com.soujunior.domain.model.response.UserInfoResponse
@@ -28,5 +28,4 @@ interface AuthRepository {
     suspend fun savePassword(password: String)
     suspend fun getSavedPassword(): String?
     suspend fun logout()
-
 }

@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.request.LoginModel
-import com.soujunior.domain.repository.ValidationRepository
+import com.soujunior.domain.repository.validation.ValidationRepository
 import com.soujunior.domain.use_case.auth.GetSavedPasswordUseCase
 import com.soujunior.domain.use_case.auth.LoginUseCase
 import com.soujunior.domain.use_case.auth.SavePasswordUseCase

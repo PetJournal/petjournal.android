@@ -13,13 +13,13 @@ import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
-import com.soujunior.domain.repository.GuardianLocalDataSource
+import com.soujunior.domain.repository.database.LocalDataSource
 import com.soujunior.domain.use_case.base.DataResult
 
-class GuardianLocalDataSourceImpl(
+class LocalDataSourceImpl(
     private val guardianDao: GuardianProfileDao,
     private val appInfoDao: ApplicationInformationDao,
-) : GuardianLocalDataSource {
+) : LocalDataSource {
 
     override suspend fun getGuardianName(): String? {
         return guardianDao.getProfile(1)?.firstName

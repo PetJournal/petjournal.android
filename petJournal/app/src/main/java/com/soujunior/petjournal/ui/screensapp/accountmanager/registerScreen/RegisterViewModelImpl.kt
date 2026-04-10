@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.User
 import com.soujunior.domain.model.request.SignUpModel
-import com.soujunior.domain.repository.ValidationRepository
+import com.soujunior.domain.repository.validation.ValidationRepository
 import com.soujunior.domain.use_case.auth.SignUpUseCase
 import com.soujunior.domain.use_case.util.ValidationResult
 import com.soujunior.petjournal.ui.states.TaskState

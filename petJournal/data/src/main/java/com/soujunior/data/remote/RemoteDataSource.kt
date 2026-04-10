@@ -8,8 +8,6 @@ import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
-import com.soujunior.domain.model.response.pet.PetInformationResponse
-import com.soujunior.domain.model.response.pet.PetDTO
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
 import com.soujunior.domain.network.NetworkResult
@@ -25,7 +23,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 
-interface GuardianService {
+interface RemoteDataSource {
     @GET("api/guardian/name")
     suspend fun getGuardianName(@Header("Authorization") token: String): NetworkResult<GuardianNameResponse>
 

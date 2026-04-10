@@ -2,11 +2,11 @@ package com.soujunior.domain.use_case.guardian
 
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 
-class GetGuardianNameUseCase(private val repository: GuardianRepository) :
+class GetGuardianNameUseCase(private val repository: Repository) :
     BaseUseCase<Unit, GuardianNameResponse>() {
     override suspend fun doWork(value: Unit): DataResult<GuardianNameResponse> {
         return when (val response = repository.getGuardianName()) {

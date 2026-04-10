@@ -16,14 +16,14 @@ import com.soujunior.domain.model.response.AccessTokenResponse
 import com.soujunior.domain.model.response.MessageResponse
 import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.AuthRepository
-import com.soujunior.domain.repository.GuardianLocalDataSource
+import com.soujunior.domain.repository.api.AuthRepository
+import com.soujunior.domain.repository.database.LocalDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class AuthRepositoryImpl(
     private val authApi: AuthService,
-    private val guardianLocalDataSourceImpl: GuardianLocalDataSource,
+    private val guardianLocalDataSourceImpl: LocalDataSource,
     context: Context
 ) : AuthRepository {
 

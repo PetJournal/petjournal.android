@@ -1,7 +1,7 @@
 package com.soujunior.domain.use_case.pet
 
 import assertk.assertions.isEqualTo
-import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.setup.petInformation
 import com.soujunior.domain.use_case.base.DataResult
@@ -17,7 +17,7 @@ class GetPetInformationUseCaseTest{
     @get:Rule
     var coroutineTesteRule = MainCoroutineRule()
 
-    private val repository = mockk<GuardianRepository>(relaxed = true)
+    private val repository = mockk<Repository>(relaxed = true)
 
     @Test
     fun `failure get pet information`() = runBlocking {

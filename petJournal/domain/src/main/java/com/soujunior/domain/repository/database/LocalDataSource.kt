@@ -1,4 +1,4 @@
-package com.soujunior.domain.repository
+package com.soujunior.domain.repository.database
 
 import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
@@ -6,7 +6,7 @@ import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.use_case.base.DataResult
 
-interface GuardianLocalDataSource {
+interface LocalDataSource {
     suspend fun getGuardianName(): String?
     suspend fun deleteDatabase()
     suspend fun saveGuardianContact(email: String, phone: String)
@@ -18,5 +18,4 @@ interface GuardianLocalDataSource {
     suspend fun saveListPetSizes(tag: String, listPetSize: List<PetSizeItemModel>): DataResult<String>
     suspend fun getListPetRaces(tag: String): DataResult<List<PetRaceItemModel>>?
     suspend fun saveListPetRaces(tag: String, listPetRace: List<PetRaceItemModel>): DataResult<String>
-
 }

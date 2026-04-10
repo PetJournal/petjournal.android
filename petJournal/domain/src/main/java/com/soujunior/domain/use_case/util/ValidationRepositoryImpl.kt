@@ -2,7 +2,7 @@ package com.soujunior.domain.use_case.util
 
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
-import com.soujunior.domain.repository.ValidationRepository
+import com.soujunior.domain.repository.validation.ValidationRepository
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale

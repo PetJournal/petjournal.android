@@ -3,11 +3,11 @@ package com.soujunior.domain.use_case.information
 import com.soujunior.domain.mapper.Mapper.toDomain
 import com.soujunior.domain.model.response.pet.BreedModel
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 
-class GetListBreedUseCase(private val repository: GuardianRepository): BaseUseCase<String, List<BreedModel>>() {
+class GetListBreedUseCase(private val repository: Repository): BaseUseCase<String, List<BreedModel>>() {
     override suspend fun doWork(value: String): DataResult<List<BreedModel>> {
         return when (val response = repository.getListBreed(value)) {
             is NetworkResult.Success -> { DataResult.Success(response.data.toDomain()) }
