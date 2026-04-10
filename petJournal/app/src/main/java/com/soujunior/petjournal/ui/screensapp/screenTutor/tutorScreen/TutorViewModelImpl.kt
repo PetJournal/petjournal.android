@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.use_case.auth.LogoutUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class TutorViewModelImpl(
     private val getGuardianNameUseCase: GetGuardianNameUseCase,
+    private val logoutUseCase: LogoutUseCase,
 ) : TutorViewModel() {
     private val _state = MutableStateFlow(TutorState())
     override val state: StateFlow<TutorState> get() = _state.asStateFlow()
@@ -50,6 +52,12 @@ class TutorViewModelImpl(
                 _state.value = _state.value.copy(hasErrorOnNameUser = true)
             })
             _state.value = _state.value.copy(isLoadingUserName = false)
+        }
+    }
+
+    override fun logout() {
+        viewModelScope.launch {
+            logoutUseCase.doWork()
         }
     }
 }

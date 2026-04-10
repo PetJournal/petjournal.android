@@ -118,14 +118,6 @@ fun HomeScreen(navController: NavController) {
             showButtonToReturn = false,
             navigationUp = navController,
             showTopBar = true,
-            actions = {
-                HomeTopBarActions(
-                    onLogout = {
-                        viewModel.logout()
-                        navController.navigate("account_manager")
-                    },
-                )
-            },
             showBottomBarNavigation = true,
             bottomNavigationBar = { NavigationBar(navController) },
             contentToUse = { paddingValues ->

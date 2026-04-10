@@ -20,6 +20,8 @@ class FakeTutorViewModel : TutorViewModel() {
     override fun getGuardianName() {}
 
     override fun failed(exception: Throwable?) {}
+
+    override fun logout() {}
 }
 
 abstract class TutorViewModel : ViewModel() {
@@ -32,4 +34,6 @@ abstract class TutorViewModel : ViewModel() {
     abstract fun getGuardianName()
 
     abstract fun failed(exception: Throwable?)
+
+    abstract fun logout()
 }

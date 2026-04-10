@@ -58,7 +58,10 @@ fun TutorScreen(navController: NavController) {
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
             LogoutButton(
-                onLogoutClick = {},
+                onLogoutClick = {
+                    viewModel.logout()
+                    navController.navigate("account_manager")
+                },
                 modifier = Modifier.padding(bottom = 10.dp),
             )
         },

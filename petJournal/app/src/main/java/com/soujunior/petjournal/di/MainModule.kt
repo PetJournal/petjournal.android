@@ -218,5 +218,5 @@ val mainModule =
         viewModel<ViewModelRaceSize> { ViewModelRaceSizeImpl(get(), get(), get(), get(), get()) }
         viewModel<RegisterTaskViewModel> { RegisterTaskViewModelImpl(get(), get(), get(), get(), get(), get()) }
         viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get()) }
-        viewModel<TutorViewModel> { TutorViewModelImpl(get()) }
+        viewModel<TutorViewModel> { TutorViewModelImpl(get(), get()) }
     }
