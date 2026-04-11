@@ -8,7 +8,11 @@ import com.soujunior.domain.repository.database.LocalDataSource
 import com.soujunior.domain.use_case.base.DataResult
 
 class MockGuardianLocalDataSource: LocalDataSource {
-    override suspend fun getGuardianName(): String {
+    override suspend fun getGuardianName(): String? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getGuardianEmail(): String? {
         TODO("Not yet implemented")
     }
 

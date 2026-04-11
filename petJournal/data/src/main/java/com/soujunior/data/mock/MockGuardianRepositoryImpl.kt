@@ -19,6 +19,12 @@ import com.soujunior.domain.use_case.base.DataResult
 class MockGuardianRepositoryImpl(): Repository {
     override suspend fun getGuardianName(): NetworkResult<GuardianNameResponse> = NetworkResult.Success (GuardianNameResponse("Petjornaleiro", "Jr"))
 
+    override suspend fun getGuardianEmail(): String? {
+        return "mock@email.com"
+    }
+
+    override suspend fun saveGuardianContact(email: String, phone: String) {
+    }
     override suspend fun savePet(petModel: PetModel): DataResult<Long> {
         TODO("Not yet implemented")
     }

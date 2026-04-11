@@ -25,8 +25,13 @@ class LocalDataSourceImpl(
         return guardianDao.getProfile(1)?.firstName
     }
 
+    override suspend fun getGuardianEmail(): String? {
+        return guardianDao.getProfile(1)?.email
+    }
+
     override suspend fun saveGuardianName(response: GuardianNameResponse) {
-        if (getGuardianName() == null) {
+        val existing = guardianDao.getProfile(1)
+        if (existing == null) {
             guardianDao.insertProfile(
                 GuardianProfile(
                     id = 1,
@@ -36,14 +41,18 @@ class LocalDataSourceImpl(
             )
             appInfoDao.insertInformation(ApplicationInformation(1, false))
         } else {
-            deleteDatabase()
-            saveGuardianName(response)
+            guardianDao.insertProfile(
+                existing.copy(
+                    firstName = response.firstName,
+                    lastName = response.lastName
+                )
+            )
         }
-
     }
 
     override suspend fun saveGuardianContact(email: String, phone: String) {
-        if (getGuardianName() == null) {
+        val existing = guardianDao.getProfile(1)
+        if (existing == null) {
             guardianDao.insertProfile(
                 GuardianProfile(
                     id = 1,
@@ -53,10 +62,13 @@ class LocalDataSourceImpl(
             )
             appInfoDao.insertInformation(ApplicationInformation(1, false))
         } else {
-            deleteDatabase()
-            saveGuardianContact(email, phone)
+            guardianDao.insertProfile(
+                existing.copy(
+                    email = email,
+                    phone = phone
+                )
+            )
         }
-
     }
 
     override suspend fun savePetInformation(petModel: PetModel): DataResult<Long> {

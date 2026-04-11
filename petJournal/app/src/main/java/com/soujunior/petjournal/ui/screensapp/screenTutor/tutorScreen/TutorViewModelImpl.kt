@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.use_case.auth.LogoutUseCase
+import com.soujunior.domain.use_case.guardian.GetGuardianEmailUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 class TutorViewModelImpl(
     private val getGuardianNameUseCase: GetGuardianNameUseCase,
     private val logoutUseCase: LogoutUseCase,
+    private val getGuardianEmailUseCase: GetGuardianEmailUseCase,
 ) : TutorViewModel() {
     private val _state = MutableStateFlow(TutorState())
     override val state: StateFlow<TutorState> get() = _state.asStateFlow()
@@ -22,6 +24,20 @@ class TutorViewModelImpl(
 
     init {
         getGuardianName()
+        getLoginPreference()
+    }
+
+    private fun getLoginPreference() {
+        viewModelScope.launch {
+            val result = getGuardianEmailUseCase.execute(Unit)
+            result.handleResult({ email ->
+                if (!email.isNullOrBlank()) {
+                    _state.value = _state.value.copy(email = email)
+                }
+            }, {
+                // Falha silenciosa: mantém email "" ou não exibe nada
+            })
+        }
     }
 
     override fun success(name: GuardianNameResponse) {

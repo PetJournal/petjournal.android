@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
@@ -37,7 +38,7 @@ fun NavigationBar(navController: NavController) {
         }
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+    val currentDestination = navBackStackEntry?.destination
 
     BottomNavigation(
         modifier =
@@ -50,7 +51,12 @@ fun NavigationBar(navController: NavController) {
         contentColor = Color.Gray,
     ) {
         items.forEach { item ->
-            val isSelected = currentRoute?.startsWith(item.group) == true
+            val isSelected =
+                currentDestination?.hierarchy?.any {
+                    it.route == item.route || it.route?.startsWith(
+                        item.group,
+                    ) == true
+                } == true
             val iconColor = if (isSelected) Color(0xFF8B4CC5) else Color(0xFF5E5E5E)
             val textColor = if (isSelected) Color(0xFF8B4CC5) else Color(0xFF5E5E5E)
             val fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
@@ -74,10 +80,9 @@ fun NavigationBar(navController: NavController) {
                 unselectedContentColor = Color(0xFF5E5E5E),
                 selected = isSelected,
                 onClick = {
-                    val isSameGroup =
-                        items.any { it.group == item.group && currentRoute?.startsWith(it.route) == true }
-
-                    if (!isSameGroup) {
+                    if (isSelected) {
+                        navController.popBackStack(item.route, inclusive = false)
+                    } else {
                         navController.navigate(item.route) {
                             navController.graph.startDestinationRoute?.let { route ->
                                 popUpTo(route) {

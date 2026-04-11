@@ -17,6 +17,8 @@ import com.soujunior.domain.use_case.base.DataResult
 
 interface Repository {
     suspend fun getGuardianName(): NetworkResult<GuardianNameResponse>
+    suspend fun getGuardianEmail(): String?
+    suspend fun saveGuardianContact(email: String, phone: String)
 
     suspend fun getListSize(animal: String): NetworkResult<List<SizeDTO>>
     suspend fun getListBreed(animal: String): NetworkResult<List<BreedDTO>>

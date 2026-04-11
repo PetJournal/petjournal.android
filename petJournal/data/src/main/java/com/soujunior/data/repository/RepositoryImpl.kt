@@ -70,6 +70,14 @@ class RepositoryImpl(
         }
     }
 
+    override suspend fun getGuardianEmail(): String? {
+        return guardianLocalDataSourceImpl.getGuardianEmail()
+    }
+
+    override suspend fun saveGuardianContact(email: String, phone: String) {
+        guardianLocalDataSourceImpl.saveGuardianContact(email, phone)
+    }
+
     override suspend fun savePet(petModel: PetModel): DataResult<Long> {
         val guardianId = 1
         val petInformation = petModel.copy(

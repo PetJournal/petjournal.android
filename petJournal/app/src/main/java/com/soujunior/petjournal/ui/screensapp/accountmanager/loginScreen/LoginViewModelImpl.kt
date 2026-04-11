@@ -10,6 +10,7 @@ import com.soujunior.domain.repository.validation.ValidationRepository
 import com.soujunior.domain.use_case.auth.GetLoginPreferenceUseCase
 import com.soujunior.domain.use_case.auth.LoginUseCase
 import com.soujunior.domain.use_case.auth.SaveLoginPreferenceUseCase
+import com.soujunior.domain.use_case.guardian.SaveGuardianContactUseCase
 import com.soujunior.domain.use_case.util.ValidationResult
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
@@ -24,6 +25,7 @@ class LoginViewModelImpl(
     private val validation: ValidationRepository,
     private val saveLoginPreferenceUseCase: SaveLoginPreferenceUseCase,
     private val getLoginPreferenceUseCase: GetLoginPreferenceUseCase,
+    private val saveGuardianContactUseCase: SaveGuardianContactUseCase,
 ) : LoginViewModel() {
     override var state by mutableStateOf(LoginFormState())
     override val validationEventChannel = Channel<ValidationEvent>()
@@ -62,6 +64,7 @@ class LoginViewModelImpl(
         setMessage.value = resulMessage
         viewModelScope.launch {
             passwordRemember()
+            saveGuardianContactUseCase.execute(state.email)
             validationEventChannel.send(ValidationEvent.Success)
         }
     }

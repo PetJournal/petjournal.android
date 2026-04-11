@@ -25,8 +25,10 @@ import com.soujunior.domain.use_case.auth.LoginUseCase
 import com.soujunior.domain.use_case.auth.LogoutUseCase
 import com.soujunior.domain.use_case.auth.SaveLoginPreferenceUseCase
 import com.soujunior.domain.use_case.auth.SignUpUseCase
+import com.soujunior.domain.use_case.guardian.GetGuardianEmailUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.guardian.GetPetRegistrationWentLive
+import com.soujunior.domain.use_case.guardian.SaveGuardianContactUseCase
 import com.soujunior.domain.use_case.guardian.SetPetRegistrationWentLive
 import com.soujunior.domain.use_case.information.GetListBreedUseCase
 import com.soujunior.domain.use_case.information.GetListPetRacesUseCase
@@ -124,6 +126,8 @@ val mainModule =
         factory { CheckLoginStatusUseCase(get()) }
         factory { GetLoginPreferenceUseCase(get()) }
         factory { SaveLoginPreferenceUseCase(get()) }
+        factory { SaveGuardianContactUseCase(get()) }
+        factory { GetGuardianEmailUseCase(get()) }
         factory { GetGuardianNameUseCase(get()) }
         factory { LogoutUseCase(get()) }
         factory { AppInfoDataBaseImpl(get()) }
@@ -186,7 +190,7 @@ val mainModule =
                 get(),
             )
         }
-        viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get()) }
+        viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get(), get()) }
         viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get()) }
         viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get(), get()) }
         viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModelImpl(get(), get()) }
@@ -218,5 +222,5 @@ val mainModule =
         viewModel<ViewModelRaceSize> { ViewModelRaceSizeImpl(get(), get(), get(), get(), get()) }
         viewModel<RegisterTaskViewModel> { RegisterTaskViewModelImpl(get(), get(), get(), get(), get(), get()) }
         viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get()) }
-        viewModel<TutorViewModel> { TutorViewModelImpl(get(), get()) }
+        viewModel<TutorViewModel> { TutorViewModelImpl(get(), get(), get()) }
     }

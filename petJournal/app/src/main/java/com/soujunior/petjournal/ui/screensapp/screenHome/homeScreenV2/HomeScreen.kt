@@ -157,7 +157,7 @@ fun HomeScreen(navController: NavController) {
                                     title = stringResource(R.string.section_my_pets),
                                     showButton = true,
                                     onAddClick = {
-                                        navController.navigate("pets/registerPet")
+                                        navController.navigate("home/registerPet")
                                     },
                                 )
                             }
@@ -176,7 +176,7 @@ fun HomeScreen(navController: NavController) {
                             if (state.listTaskData.isNullOrEmpty()) {
                                 item {
                                     EmptyTaskSection(onClick = {
-                                        navController.navigate("schedule/registerTaskScreen")
+                                        navController.navigate("home/registerTaskScreen")
                                     })
                                 }
                             }
@@ -186,7 +186,7 @@ fun HomeScreen(navController: NavController) {
                                         title = stringResource(R.string.section_next_tasks),
                                         showButton = true,
                                         onAddClick = {
-                                            navController.navigate("schedule/registerTaskScreen")
+                                            navController.navigate("home/registerTaskScreen")
                                         },
                                     )
                                 }

@@ -8,6 +8,7 @@ import com.soujunior.domain.use_case.base.DataResult
 
 interface LocalDataSource {
     suspend fun getGuardianName(): String?
+    suspend fun getGuardianEmail(): String?
     suspend fun deleteDatabase()
     suspend fun saveGuardianContact(email: String, phone: String)
     suspend fun saveGuardianName(response: GuardianNameResponse)

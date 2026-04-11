@@ -76,11 +76,13 @@ fun NavHostMainContent() {
                 navController,
             )
         }
+        composable("home/registerPet") { RegisterPetScreen(navController) }
         composable("pets/registerPet") { RegisterPetScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
 
         composable("schedule/taskListScreen") { TaskListScreen(navController) }
         composable("schedule/registerTaskScreen") { RegisterTaskScreen(navController) }
+        composable("home/registerTaskScreen") { RegisterTaskScreen(navController) }
 
         composable("pets/nameAndGender/{arg}") { backStackEntry ->
             PetNameAndGenderScreen(

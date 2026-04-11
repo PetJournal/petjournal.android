@@ -32,6 +32,7 @@ import com.soujunior.petjournal.ui.components.UserProfileHeader
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import org.koin.androidx.compose.getViewModel
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Composable
 fun getTutorViewModelForPreview(): TutorViewModel {
     return if (LocalInspectionMode.current) {
@@ -81,7 +82,7 @@ fun TutorScreen(navController: NavController) {
                                 state.nameUser.replaceFirstChar {
                                     it.uppercase()
                                 },
-                            email = "yourname@gmail.com",
+                            email = state.email,
                             imageUrl = null,
                         )
                         HorizontalDivider(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
