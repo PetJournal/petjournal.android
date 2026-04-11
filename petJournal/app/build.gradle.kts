@@ -214,6 +214,7 @@ dependencies {
     testImplementation("io.github.takahirom.roborazzi:roborazzi:1.7.0-alpha-1")
     testImplementation("io.github.takahirom.roborazzi:roborazzi-compose:1.7.0-alpha-1")
     testImplementation("io.github.takahirom.roborazzi:roborazzi-junit-rule:1.7.0-alpha-1")
+    testImplementation("androidx.navigation:navigation-testing:2.6.0-beta01")
 }
 
 roborazzi {

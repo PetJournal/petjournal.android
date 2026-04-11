@@ -19,7 +19,7 @@ fun ChangePasswordScreen(navController: NavController) {
             when (event) {
                 is ValidationEvent.Success -> {
                     Toast.makeText(context, R.string.success, Toast.LENGTH_LONG).show()
-                    navController.navigate("mainContent")
+                    navController.popBackStack("forgotPassword", inclusive = true)
                 }
 
                 is ValidationEvent.Failed -> {
@@ -28,5 +28,6 @@ fun ChangePasswordScreen(navController: NavController) {
             }
         }
     }
+
     Screen(viewModel, navController)
 }

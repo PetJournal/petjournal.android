@@ -42,6 +42,7 @@ fun NavHostAccountManager() {
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
         composable("mainContent") { (mainContent()) }
+
         composable("forgotPassword") { ForgotPasswordScreen(navController) }
         composable("changePassword") { ChangePasswordScreen(navController) }
         composable("awaitingCode/{arg}") { backStackEntry ->
@@ -56,7 +57,7 @@ fun NavHostMainContent() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
-        composable("mainContent") { HomeScreen(navController) }
+
         composable("account_manager") { accountManager() }
         composable("profile/tutorScreen") { TutorScreen(navController) }
         composable("profile/notificationScreen") { NotificationsScreen(navController) }
