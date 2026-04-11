@@ -56,11 +56,16 @@ fun NavHostMainContent() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
+        composable("mainContent") { HomeScreen(navController) }
         composable("account_manager") { accountManager() }
         composable("profile/tutorScreen") { TutorScreen(navController) }
         composable("profile/notificationScreen") { NotificationsScreen(navController) }
         composable("profile/privacyPolicyScreen") { PrivacyPolicyScreen(navController) }
         composable("forgotPassword") { ForgotPasswordScreen(navController) }
+        composable("awaitingCode/{arg}") { backStackEntry ->
+            AwaitingCodeScreen(backStackEntry.arguments?.getString("arg"), navController)
+        }
+        composable("changePassword") { ChangePasswordScreen(navController) }
 
         composable("pets/introRegisterPet") { IntroRegisterPetScreen(navController) }
         composable("pets/petListScreen") { PetListScreen(navController) }
