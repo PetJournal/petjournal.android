@@ -29,8 +29,6 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -40,9 +38,7 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.AlertText
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeFormEvent
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeViewModel
-import com.soujunior.petjournal.ui.theme.RobotoRegular
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun OTPTextField(
@@ -59,12 +55,6 @@ fun OTPTextField(
             throw IllegalArgumentException("O valor do texto OTP não deve ter mais de $otpCount caracteres")
         }
     }
-    val resendCodeStyle =
-        TextStyle(
-            fontFamily = FontFamily(RobotoRegular),
-            fontSize = 11.ssp,
-            textDecoration = TextDecoration.Underline,
-        )
 
     BasicTextField(
         modifier = modifier,
@@ -100,7 +90,7 @@ fun OTPTextField(
     ) {
         Text(
             text = stringResource(R.string.txt_resend_code),
-            style = resendCodeStyle,
+            style = MaterialTheme.typography.labelLarge.copy(textDecoration = TextDecoration.Underline),
             color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.inverseSurface,
             modifier =
                 Modifier.clickable {
@@ -176,7 +166,7 @@ private fun TextFieldSingleView(
                 .clip(RoundedCornerShape(10.sdp))
                 .padding(10.sdp),
         text = char,
-        style = MaterialTheme.typography.titleMedium,
+        style = MaterialTheme.typography.displaySmall,
         color = Color.Black,
         textAlign = TextAlign.Center,
     )

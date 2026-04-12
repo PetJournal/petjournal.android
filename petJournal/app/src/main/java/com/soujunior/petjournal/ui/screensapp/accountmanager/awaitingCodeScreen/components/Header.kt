@@ -15,6 +15,6 @@ fun Header() {
         spaceBetween = 10.sdp,
         subText = stringResource(R.string.txt_enter_the_6_digit_verification_code_sent_to_your_email_in_the_field_below),
         textAlign = TextAlign.Center,
-        styleTitle = MaterialTheme.typography.bodyMedium,
+        styleTitle = MaterialTheme.typography.headlineLarge,
     )
 }

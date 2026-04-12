@@ -13,7 +13,7 @@ fun AlertText(
 ) {
     if (textMessage != null) {
         Text(
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.labelSmall,
             text = textMessage,
             modifier = modifier,
             color = MaterialTheme.colorScheme.error,
