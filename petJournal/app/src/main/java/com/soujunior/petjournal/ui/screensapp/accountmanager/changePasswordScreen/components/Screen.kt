@@ -58,7 +58,7 @@ fun Screen(
             HeaderImageLogoImagePasswordAndTitle(
                 title = stringResource(R.string.now_create_a_new_password),
                 spaceBetween = 10.sdp,
-                styleTitle = MaterialTheme.typography.bodyMedium,
+                styleTitle = MaterialTheme.typography.headlineLarge,
             )
             LazyColumn(
                 modifier =

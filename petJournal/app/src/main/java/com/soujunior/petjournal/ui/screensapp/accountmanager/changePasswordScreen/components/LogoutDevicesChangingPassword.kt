@@ -89,7 +89,7 @@ fun LogoutDevicesChangingPassword(
                             interactionSource = remember { MutableInteractionSource() },
                             onClick = { showPrivacyPolicy = true },
                         ),
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyMedium,
                     color =
                         if (isSystemInDarkTheme()) {
                             MaterialTheme.colorScheme.primary
