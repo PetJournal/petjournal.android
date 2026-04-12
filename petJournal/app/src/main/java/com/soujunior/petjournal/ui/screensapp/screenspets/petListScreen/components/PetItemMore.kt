@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.soujunior.petjournal.R
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun PetItemMore(
@@ -54,7 +53,7 @@ fun PetItemMore(
         Text(
             modifier = Modifier.padding(top = 2.sdp),
             text = stringResource(R.string.buttom_add),
-            fontSize = 16.ssp,
+            style = MaterialTheme.typography.titleMedium,
         )
     }
 }

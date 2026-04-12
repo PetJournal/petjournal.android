@@ -44,7 +44,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.domain.model.request.PetRaceItemModel
 import ir.kaaveh.sdpcompose.sdp
 
@@ -72,7 +71,6 @@ fun AutoCompleteDropDown(
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
-                fontSize = 15.sp,
                 modifier =
                     Modifier
                         .fillMaxWidth()
@@ -157,7 +155,6 @@ fun AutoCompleteDropDown(
                                 text = if (isError) "X" else placeholderText,
                                 color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.bodyMedium,
-                                fontSize = 15.sp,
                             )
                         },
                     )
@@ -173,7 +170,7 @@ fun AutoCompleteDropDown(
                         "*Campo Obrigatório.",
                         color = MaterialTheme.colorScheme.outline,
                         modifier = Modifier.padding(10.dp),
-                        fontSize = 15.sp,
+                        style = MaterialTheme.typography.bodySmall,
                     )
                 }
             }
@@ -248,7 +245,7 @@ fun CategoryItems(
     ) {
         Text(
             text = title,
-            fontSize = 15.sp,
+            style = MaterialTheme.typography.bodyLarge,
             fontWeight = if (styleSearch == true) FontWeight.Bold else FontWeight.Normal,
         )
     }

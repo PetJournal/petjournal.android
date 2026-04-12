@@ -33,7 +33,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -46,7 +45,6 @@ import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.theme.ColorGrid
 import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun InputText(
@@ -132,9 +130,7 @@ fun InputText(
                 enabled = !isLoading,
                 singleLine = true,
                 textStyle =
-                    TextStyle(
-                        fontSize = 14.ssp,
-                        lineHeight = 21.ssp,
+                    MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight(300),
                         color =
                             if (isLoading) {

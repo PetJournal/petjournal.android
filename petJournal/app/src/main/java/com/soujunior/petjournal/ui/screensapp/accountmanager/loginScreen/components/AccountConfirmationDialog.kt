@@ -17,7 +17,6 @@ import androidx.compose.ui.window.Dialog
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun AccountConfirmationDialog(onDismiss: () -> Unit) {
@@ -36,31 +35,27 @@ fun AccountConfirmationDialog(onDismiss: () -> Unit) {
             ) {
                 Text(
                     text = stringResource(R.string.title_dialog_Email_Confirmation),
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontSize = 16.ssp,
+                    style = MaterialTheme.typography.titleMedium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(bottom = 8.sdp),
                 )
 
                 Text(
                     text = stringResource(R.string.txt_your_petJournal_account_is_almost_ready_to_activate_it_please_confirm_your_email),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 10.ssp,
+                    style = MaterialTheme.typography.labelSmall,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(bottom = 16.sdp),
                 )
 
                 Text(
                     text = stringResource(R.string.txt_If_you_have_not_registered_with_petJournal_recently_please_ignore_this_email),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 10.ssp,
+                    style = MaterialTheme.typography.labelSmall,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(bottom = 16.sdp),
                 )
                 Text(
                     text = stringResource(R.string.txt_petJournal_team),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 10.ssp,
+                    style = MaterialTheme.typography.labelSmall,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(bottom = 16.sdp),
                 )
@@ -69,7 +64,11 @@ fun AccountConfirmationDialog(onDismiss: () -> Unit) {
                     onClick = { onDismiss() },
                     modifier = Modifier.align(Alignment.End),
                 ) {
-                    Text(text = stringResource(R.string.txt_btn_understood), fontSize = 10.ssp, color = MaterialTheme.colorScheme.primary)
+                    Text(
+                        text = stringResource(R.string.txt_btn_understood),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
                 }
             }
         }

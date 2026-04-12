@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,7 +20,6 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun Header(
@@ -44,9 +42,7 @@ fun Header(
         val text =
             buildAnnotatedString {
                 val textStyle =
-                    MaterialTheme.typography.bodyMedium.toSpanStyle().copy(
-                        fontSize = 12.ssp,
-                    )
+                    MaterialTheme.typography.labelMedium.toSpanStyle()
 
                 withStyle(style = textStyle) {
                     append(stringResource(id = R.string.adoption_info_message, petName, petGender))
@@ -56,11 +52,9 @@ fun Header(
         Text(
             modifier = Modifier.padding(horizontal = 16.sdp),
             text = text,
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.labelMedium,
             textAlign = TextAlign.Start,
             color = if (isSystemInDarkTheme()) Color.White else ColorCustom.gray_200,
-            fontSize = 12.ssp,
-            fontWeight = FontWeight(400),
         )
     }
 }

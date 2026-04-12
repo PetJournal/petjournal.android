@@ -30,7 +30,6 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
@@ -44,7 +43,6 @@ import com.soujunior.petjournal.ui.util.Constants.RACE_OTHER
 import com.soujunior.petjournal.ui.util.Constants.REPTILE
 import com.soujunior.petjournal.ui.util.Constants.RODENT
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun GridVectors(
@@ -117,8 +115,7 @@ fun GridVectors(
                     text = stringResource(R.string.dog),
                     color =
                         MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 13.ssp,
+                    style = MaterialTheme.typography.titleSmall,
                 )
             }
         }
@@ -175,8 +172,7 @@ fun GridVectors(
                     text = stringResource(R.string.bird),
                     color =
                         MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 13.ssp,
+                    style = MaterialTheme.typography.titleSmall,
                 )
             }
         }
@@ -233,8 +229,7 @@ fun GridVectors(
                     text = stringResource(R.string.cat),
                     color =
                         MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 13.ssp,
+                    style = MaterialTheme.typography.titleSmall,
                 )
             }
         }
@@ -299,8 +294,7 @@ fun GridVectors(
                     text = stringResource(R.string.fish),
                     color =
                         MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 13.ssp,
+                    style = MaterialTheme.typography.titleSmall,
                 )
             }
         }
@@ -356,8 +350,7 @@ fun GridVectors(
                     text = stringResource(R.string.reptile),
                     color =
                         MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 13.ssp,
+                    style = MaterialTheme.typography.titleSmall,
                 )
             }
         }
@@ -413,8 +406,7 @@ fun GridVectors(
                     text = stringResource(R.string.rodent),
                     color =
                         MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 13.ssp,
+                    style = MaterialTheme.typography.titleSmall,
                 )
             }
         }
@@ -495,8 +487,7 @@ fun GridVectors(
                     text = stringResource(R.string.others),
                     color =
                         MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 13.ssp,
+                    style = MaterialTheme.typography.titleSmall,
                 )
             }
         }

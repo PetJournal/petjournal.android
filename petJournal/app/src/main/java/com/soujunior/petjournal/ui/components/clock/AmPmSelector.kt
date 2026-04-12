@@ -22,7 +22,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 import java.util.Calendar
 
@@ -88,7 +87,6 @@ fun AmPmSelector(
                         MaterialTheme.colorScheme.primary
                     },
                 fontWeight = FontWeight(400),
-                lineHeight = 16.sp,
                 textAlign = TextAlign.Center,
             )
         }
@@ -130,7 +128,6 @@ fun AmPmSelector(
                 style =
                     MaterialTheme.typography.labelLarge.copy(
                         fontWeight = FontWeight(400),
-                        lineHeight = 16.sp,
                         textAlign = TextAlign.Center,
                     ),
             )

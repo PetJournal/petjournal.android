@@ -22,7 +22,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun Checkbox(
@@ -74,8 +73,7 @@ fun Checkbox(
 
             Text(
                 text = text,
-                fontSize = 11.ssp,
-                style = styleText,
+                style = styleText.merge(MaterialTheme.typography.labelSmall),
                 color = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.Unspecified,
             )
         }

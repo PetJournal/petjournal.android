@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import java.time.LocalDate
 import kotlin.math.abs
 
@@ -88,7 +87,7 @@ fun DayPicker(
                     val isSelected = selectedIndex == index
                     Text(
                         text = day.toString(),
-                        fontSize = if (isSelected) 26.sp else 20.sp,
+                        style = if (isSelected) MaterialTheme.typography.displayLarge else MaterialTheme.typography.titleLarge,
                         color = if (isSelected) Color.Black else Color.LightGray,
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                         modifier = Modifier.padding(vertical = 4.dp),

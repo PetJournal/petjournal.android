@@ -46,13 +46,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.model.SelectableButtonInfo
@@ -324,8 +322,7 @@ fun SelectableButton(
         Text(
             text = titleButton,
             style =
-                TextStyle(
-                    fontSize = 12.sp,
+                MaterialTheme.typography.labelMedium.copy(
                     fontFamily = FontFamily(Font(R.font.roboto_medium)),
                     fontWeight = FontWeight(500),
                     color =
@@ -385,7 +382,6 @@ fun GroupSelectableButton(
                 style = MaterialTheme.typography.titleMedium,
                 color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.scrim,
                 fontWeight = FontWeight(500),
-                lineHeight = 24.sp,
                 modifier =
                     if (isLoading) {
                         Modifier

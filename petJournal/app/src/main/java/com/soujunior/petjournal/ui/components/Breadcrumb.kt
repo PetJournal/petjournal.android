@@ -19,7 +19,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.R
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 /**
  * Este metodo é responsável por exibir um pequeno "roadmap" de qual tela o usuário se encontra
@@ -81,7 +80,7 @@ private fun buildString(
             withStyle(
                 style =
                     SpanStyle(
-                        fontSize = 10.ssp,
+                        fontSize = MaterialTheme.typography.labelSmall.fontSize,
                         fontFamily = MaterialTheme.typography.headlineMedium.fontFamily,
                         letterSpacing = MaterialTheme.typography.headlineMedium.letterSpacing,
                         color =
@@ -98,7 +97,7 @@ private fun buildString(
                 withStyle(
                     style =
                         SpanStyle(
-                            fontSize = 10.ssp,
+                            fontSize = MaterialTheme.typography.labelSmall.fontSize,
                             fontFamily = MaterialTheme.typography.headlineMedium.fontFamily,
                             letterSpacing = MaterialTheme.typography.headlineMedium.letterSpacing,
                             color = MaterialTheme.colorScheme.onBackground,

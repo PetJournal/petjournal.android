@@ -31,30 +31,6 @@ fun Header(species: String = "Gato") {
             styleTitle = MaterialTheme.typography.headlineLarge,
         )
     }
-    /* Spacer(modifier = Modifier.padding(12.dp))
-
-     val text = buildAnnotatedString {
-         withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)){
-             append(stringResource(id = R.string.wow))
-         }
-         append("\n")
-         append("\n")
-         withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)){
-             append(stringResource(id = R.string.register_message, species))
-         }
-     }
-     Breadcrumb(index = 0)
-     Text(
-         modifier = modifier,
-         text = text,
-         style = MaterialTheme.typography.headlineMedium,
-         textAlign = TextAlign.Start,
-         color = MaterialTheme.colorScheme.primary,
-         fontSize = 20.sp,
-         fontWeight = FontWeight.Bold
-         )
-
-     Spacer(modifier = Modifier.padding(bottom = 20.dp))*/
 }
 
 @Preview(showBackground = true)

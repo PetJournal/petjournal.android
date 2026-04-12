@@ -19,14 +19,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.AlertText
 import com.soujunior.petjournal.ui.components.RoundedSquare
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun GenderSelector(
@@ -45,10 +43,8 @@ fun GenderSelector(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.pet_gender),
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.titleSmall,
                     textAlign = TextAlign.Center,
-                    fontSize = 14.ssp,
-                    fontWeight = FontWeight.W400,
                 )
                 Spacer(
                     modifier =
@@ -122,7 +118,7 @@ private fun GenderButtons(
             Text(
                 text = stringResource(id = R.string.required_field),
                 modifier = Modifier.padding(start = 2.sdp, top = 10.sdp),
-                fontSize = 12.ssp,
+                style = MaterialTheme.typography.labelSmall,
                 textAlign = TextAlign.Start,
             )
         }

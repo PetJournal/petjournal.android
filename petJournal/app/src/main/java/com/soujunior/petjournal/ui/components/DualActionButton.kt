@@ -20,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.ui.theme.Shapes
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun DualActionButton(
@@ -72,8 +71,7 @@ fun DualActionButton(
                     Text(
                         text = leftButtonText,
                         fontWeight = FontWeight.W900,
-                        fontSize = 12.ssp,
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.labelMedium,
                         color = if (isLeftSelected) activeContentColor else inactiveContentColor,
                     )
                 } else {
@@ -108,8 +106,7 @@ fun DualActionButton(
                     Text(
                         text = rightButtonText,
                         fontWeight = FontWeight.W900,
-                        fontSize = 12.ssp,
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.labelMedium,
                         color = if (isRightSelected) activeContentColor else inactiveContentColor,
                     )
                 } else {

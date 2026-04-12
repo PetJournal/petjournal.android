@@ -26,7 +26,6 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.AlertText
 import com.soujunior.petjournal.ui.components.RoundedSquare
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun CastrationSelector(
@@ -47,8 +46,7 @@ fun CastrationSelector(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.pet_castration, textNamePet),
-                    fontSize = 17.ssp,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center,
                 )
@@ -143,7 +141,7 @@ private fun CastrationButtons(
             Text(
                 text = stringResource(id = R.string.required_field),
                 modifier = Modifier.padding(start = 2.sdp, top = 10.sdp),
-                fontSize = 12.ssp,
+                style = MaterialTheme.typography.labelSmall,
                 color = if (isSystemInDarkTheme()) Color.White else MaterialTheme.colorScheme.outline,
                 textAlign = TextAlign.Start,
             )

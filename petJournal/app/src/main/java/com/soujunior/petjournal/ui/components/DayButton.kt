@@ -18,7 +18,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun DayButton(
@@ -61,11 +60,9 @@ fun DayButton(
         Text(
             text = label,
             style = MaterialTheme.typography.labelLarge,
-            lineHeight = 20.sp,
             fontWeight = FontWeight(500),
             color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
-            letterSpacing = 0.1.sp,
         )
     }
 }

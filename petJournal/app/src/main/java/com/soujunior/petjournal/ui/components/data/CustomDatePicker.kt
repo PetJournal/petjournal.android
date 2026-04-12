@@ -22,7 +22,6 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -44,7 +43,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.R
 import java.time.Instant
 import java.time.ZoneId
@@ -58,7 +56,7 @@ fun CustomDatePicker(
     onValueChange: (Long?) -> Unit,
     modifier: Modifier = Modifier,
     roundedCornerShape: RoundedCornerShape = RoundedCornerShape(10.dp),
-    textStyle: TextStyle = LocalTextStyle.current.copy(fontSize = 16.sp, fontWeight = FontWeight.Normal),
+    textStyle: TextStyle = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Normal),
     colors: TextFieldColors =
         OutlinedTextFieldDefaults.colors(
             disabledTextColor = Color.DarkGray,
@@ -185,9 +183,8 @@ fun CustomDatePickerPreview() {
                 .background(Color.LightGray.copy(alpha = 0.2f))
 
         val boldTextStyle =
-            TextStyle(
+            MaterialTheme.typography.headlineLarge.copy(
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp,
             )
 
         val redBorderColors =

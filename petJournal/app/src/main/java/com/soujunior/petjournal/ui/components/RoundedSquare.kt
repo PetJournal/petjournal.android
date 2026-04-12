@@ -42,7 +42,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun RoundedSquare(
@@ -177,7 +176,7 @@ fun RoundedSquare(
             ) {
                 Text(
                     text = text,
-                    fontSize = 11.ssp,
+                    style = MaterialTheme.typography.labelSmall,
                     modifier =
                         Modifier
                             .fillMaxWidth(),

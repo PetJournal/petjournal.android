@@ -29,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -53,7 +52,6 @@ import com.soujunior.petjournal.ui.util.Constants.FISH
 import com.soujunior.petjournal.ui.util.Constants.REPTILE
 import com.soujunior.petjournal.ui.util.Constants.RODENT
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -131,10 +129,8 @@ fun Screen(
                                             Modifier
                                                 .fillMaxWidth(),
                                         text = stringResource(id = R.string.pet_name),
-                                        style = MaterialTheme.typography.bodySmall,
+                                        style = MaterialTheme.typography.titleSmall,
                                         textAlign = TextAlign.Center,
-                                        fontSize = 14.ssp,
-                                        fontWeight = FontWeight.W400,
                                     )
                                 }
                                 item {

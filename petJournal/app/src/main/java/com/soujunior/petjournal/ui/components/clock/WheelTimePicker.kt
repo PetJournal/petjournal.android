@@ -27,7 +27,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
@@ -106,9 +105,11 @@ fun WheelTimePicker(
         ) {
             Text(
                 text = ":",
-                style = textStyle,
+                style =
+                    textStyle.copy(
+                        fontSize = MaterialTheme.typography.displayLarge.fontSize,
+                    ),
                 color = focusedColor,
-                fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
             )
         }
@@ -222,7 +223,7 @@ private fun PickerColumn(
                         style =
                             textStyle.copy(
                                 color = if (isFocused) focusedColor else unfocusedColor,
-                                fontSize = 34.sp,
+                                fontSize = MaterialTheme.typography.displayLarge.fontSize,
                             ),
                     )
                 }

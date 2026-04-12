@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun LoadingText(
@@ -34,7 +33,7 @@ fun LoadingText(
         Text(
             text = titleTopBar,
             color = titleTopBarColor,
-            fontSize = 22.sp,
+            style = MaterialTheme.typography.headlineSmall,
             modifier = modifierText,
         )
     }

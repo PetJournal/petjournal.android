@@ -14,7 +14,6 @@ import com.soujunior.petjournal.ui.components.CreateTitleAndImageLogo
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.util.capitalizeFirstLetter
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun Header(name: String?) {
@@ -27,9 +26,8 @@ fun Header(name: String?) {
         Spacer(modifier = Modifier.padding(10.sdp))
         Text(
             text = stringResource(id = R.string.welcome_message),
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.labelMedium,
             textAlign = TextAlign.Start,
-            fontSize = 12.ssp,
             color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else ColorCustom.dark_texts_variant,
             modifier = Modifier.padding(start = 16.sdp, end = 16.sdp),
         )
@@ -41,8 +39,7 @@ fun Header(name: String?) {
         )
         Text(
             text = stringResource(id = R.string.welcome_message),
-            style = MaterialTheme.typography.titleLarge,
-            fontSize = 12.ssp,
+            style = MaterialTheme.typography.labelMedium,
             textAlign = TextAlign.Start,
             color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else ColorCustom.dark_texts_variant,
             modifier = Modifier.padding(start = 16.sdp, end = 16.sdp),

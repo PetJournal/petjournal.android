@@ -32,7 +32,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun CreateTitleAndImageLogo(
@@ -115,12 +114,11 @@ fun CreateTitleAndImageLogo(
                 ) {
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = modifierTextTitle,
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = textAlign,
-                        fontWeight = FontWeight(10),
-                        fontSize = 16.ssp,
+                        fontWeight = FontWeight(500),
                     )
                 }
             }
@@ -139,8 +137,7 @@ fun CreateTitleAndImageLogo(
                         modifier = modifierTextTitle,
                         color = MaterialTheme.colorScheme.primary,
                         textAlign = textAlign,
-                        fontWeight = FontWeight(10),
-                        fontSize = 16.ssp,
+                        fontWeight = FontWeight(500),
                     )
                 }
             }
