@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 /**h1	displayLarge
 h2	displayMedium
@@ -127,8 +126,6 @@ fun PetJournalTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val systemUiController = rememberSystemUiController()
-
     val colors =
         when {
             isDynamic && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -139,8 +136,7 @@ fun PetJournalTheme(
             darkTheme -> if (!isIntro) DarkCor else schemeIntro
             else -> if (!isIntro) lightCor else schemeIntro
         }
-    systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
-    systemUiController.setNavigationBarColor(Color.Black)
+
     MaterialTheme(
         colorScheme = colors,
         typography = Typography,

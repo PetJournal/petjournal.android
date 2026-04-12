@@ -56,10 +56,7 @@ fun TaskListScreen(navController: NavController) {
 
     Column(modifier = Modifier) {
         ScaffoldCustom(
-            modifier =
-                Modifier
-                    .navigationBarsPadding()
-                    .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             navigationUp = navController,
             floatingActionButton = {
                 Surface(
@@ -85,7 +82,12 @@ fun TaskListScreen(navController: NavController) {
             showBottomBarNavigation = true,
             titleTopBar = stringResource(R.string.next_tasks),
             showTopBar = true,
-            bottomNavigationBar = { NavigationBar(navController) },
+            bottomNavigationBar = {
+                NavigationBar(
+                    navController = navController,
+                    modifier = Modifier.navigationBarsPadding(),
+                )
+            },
             contentToUse = { paddingValues ->
                 Column(
                     modifier =

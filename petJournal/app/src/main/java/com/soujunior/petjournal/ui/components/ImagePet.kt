@@ -105,8 +105,9 @@ fun ImagePet(
                                 .clip(RoundedCornerShape(12.dp))
                                 .clickable {
                                     showSelectionDialog = false
-                                    tempPhotoUri = createImageUri()
-                                    cameraLauncher.launch(tempPhotoUri)
+                                    val uri = createImageUri()
+                                    tempPhotoUri = uri
+                                    cameraLauncher.launch(uri)
                                 },
                         colors =
                             ListItemDefaults.colors(

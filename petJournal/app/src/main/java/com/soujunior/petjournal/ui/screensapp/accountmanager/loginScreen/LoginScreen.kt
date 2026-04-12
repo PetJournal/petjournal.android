@@ -21,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
@@ -30,7 +29,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.components.AccountConfirmationDialog
@@ -104,13 +102,13 @@ fun LoginScreen(navController: NavController) {
         }
     }
 
-    val systemUiController = rememberSystemUiController()
+    /*val systemUiController = rememberSystemUiController()
 
     systemUiController.setSystemBarsColor(
         color = Color.Transparent,
         darkIcons = true,
     )
-    systemUiController.setNavigationBarColor(Color.Black)
+    systemUiController.setNavigationBarColor(Color.Black)*/
     Box(
         modifier =
             Modifier

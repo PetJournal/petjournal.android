@@ -49,12 +49,14 @@ fun TutorScreen(navController: NavController) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     ScaffoldCustom(
-        modifier =
-            Modifier
-                .navigationBarsPadding()
-                .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         navigationUp = navController,
-        bottomNavigationBar = { NavigationBar(navController) },
+        bottomNavigationBar = {
+            NavigationBar(
+                navController = navController,
+                modifier = Modifier.navigationBarsPadding(),
+            )
+        },
         showBottomBarNavigation = true,
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {

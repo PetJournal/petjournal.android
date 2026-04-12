@@ -12,10 +12,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -67,7 +69,7 @@ fun ScaffoldCustom(
     Scaffold(
         modifier = modifier.shadow(shadowBelowTopBar),
         containerColor = containerColor,
-        contentWindowInsets = WindowInsets.navigationBars,
+        contentWindowInsets = WindowInsets.systemBars.only(WindowInsetsSides.Horizontal),
         floatingActionButtonPosition = floatingActionButtonPosition,
         topBar = {
             if (showTopBar) {

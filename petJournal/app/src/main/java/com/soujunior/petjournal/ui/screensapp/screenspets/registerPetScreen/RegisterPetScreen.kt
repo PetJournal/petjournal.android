@@ -104,10 +104,7 @@ fun RegisterPetScreen(navController: NavController) {
 
     Column(modifier = Modifier) {
         ScaffoldCustom(
-            modifier =
-                Modifier
-                    .navigationBarsPadding()
-                    .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             navigationUp = navController,
             showTopBar = true,
             showButtonToReturn = true,
@@ -118,8 +115,13 @@ fun RegisterPetScreen(navController: NavController) {
                     stringResource(R.string.add_new_pet)
                 },
             showBottomBarNavigation = true,
-            bottomNavigationBar = { NavigationBar(navController) },
-            contentToUse = {
+            bottomNavigationBar = {
+                NavigationBar(
+                    navController = navController,
+                    modifier = Modifier.navigationBarsPadding(),
+                )
+            },
+            contentToUse = { paddingValues ->
                 if (taskState is TaskState.Loading) {
                     IndeterminateCircularIndicator(modifier = Modifier.align(CenterHorizontally))
                 } else {
@@ -129,7 +131,7 @@ fun RegisterPetScreen(navController: NavController) {
                         modifier =
                             Modifier
                                 .fillMaxSize()
-                                .offset(y = 300.sdp)
+                                .offset(y = 400.sdp)
                                 .align(AbsoluteAlignment.Left),
                     )
                     LazyColumn(
@@ -139,7 +141,7 @@ fun RegisterPetScreen(navController: NavController) {
                             Modifier
                                 .fillMaxSize()
                                 .fillMaxHeight()
-                                .padding(it)
+                                .padding(paddingValues)
                                 .background(Color.Transparent),
                         contentPadding = PaddingValues(horizontal = 24.sdp),
                         content = {

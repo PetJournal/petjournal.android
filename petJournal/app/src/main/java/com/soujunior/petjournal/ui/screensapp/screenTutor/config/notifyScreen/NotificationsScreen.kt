@@ -22,14 +22,16 @@ import com.soujunior.petjournal.ui.theme.PetJournalTheme
 @Composable
 fun NotificationsScreen(navController: NavController) {
     ScaffoldCustom(
-        modifier =
-            Modifier
-                .navigationBarsPadding()
-                .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         navigationUp = navController,
         showTopBar = true,
         titleTopBar = stringResource(R.string.notifications_title),
-        bottomNavigationBar = { NavigationBar(navController) },
+        bottomNavigationBar = {
+            NavigationBar(
+                navController = navController,
+                modifier = Modifier.navigationBarsPadding(),
+            )
+        },
         showButtonToReturn = true,
         showBottomBarNavigation = true,
         contentToUse = {

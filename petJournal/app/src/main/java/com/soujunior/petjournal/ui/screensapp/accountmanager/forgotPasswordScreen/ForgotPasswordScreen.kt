@@ -2,16 +2,20 @@ package com.soujunior.petjournal.ui.screensapp.accountmanager.forgotPasswordScre
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,9 +51,15 @@ fun ForgotPasswordScreen(navController: NavController) {
     }
 
     val systemUiController = rememberSystemUiController()
+    val darkIcons = !isSystemInDarkTheme()
 
-    systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
-    systemUiController.setNavigationBarColor(Color.Black)
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = darkIcons,
+        )
+    }
+
     Box(
         modifier =
             Modifier
@@ -59,7 +69,8 @@ fun ForgotPasswordScreen(navController: NavController) {
         Column(
             modifier =
                 Modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .statusBarsPadding(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
         ) {
@@ -73,7 +84,8 @@ fun ForgotPasswordScreen(navController: NavController) {
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(start = 20.sdp, end = 20.sdp, top = 40.sdp),
+                        .padding(start = 20.sdp, end = 20.sdp, top = 40.sdp)
+                        .navigationBarsPadding(),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Center,
             ) {

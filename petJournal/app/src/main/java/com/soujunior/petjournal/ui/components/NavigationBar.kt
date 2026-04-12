@@ -1,6 +1,5 @@
 package com.soujunior.petjournal.ui.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,8 +24,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun NavigationBar(navController: NavController) {
-    isSystemInDarkTheme()
+fun NavigationBar(
+    navController: NavController,
+    modifier: Modifier = Modifier,
+) {
     val items =
         remember {
             listOf(
@@ -42,7 +43,7 @@ fun NavigationBar(navController: NavController) {
 
     BottomNavigation(
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
                 .height(60.dp)
                 .shadow(elevation = 20.dp, spotColor = Color(0x59000000), ambientColor = Color(0x59000000))
