@@ -32,7 +32,6 @@ import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginFo
 import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginViewModel
 import com.soujunior.petjournal.ui.states.TaskState
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun Footer(
@@ -64,8 +63,7 @@ fun Footer(
         ) {
             Text(
                 text = annotatedText,
-                style = MaterialTheme.typography.bodyLarge,
-                fontSize = 12.ssp,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier =
                     Modifier
                         .clickable(

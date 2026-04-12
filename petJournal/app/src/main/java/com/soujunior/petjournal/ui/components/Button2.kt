@@ -11,11 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.ui.theme.Shapes
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun Button2(
@@ -40,9 +38,7 @@ fun Button2(
         if (!isLoading) {
             Text(
                 text = text,
-                fontWeight = FontWeight(900),
-                fontSize = 12.ssp,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.labelLarge,
                 color = textColor,
             )
         } else {

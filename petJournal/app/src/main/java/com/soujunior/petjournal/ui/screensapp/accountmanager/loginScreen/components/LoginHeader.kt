@@ -13,7 +13,7 @@ fun LoginHeader() {
     CreateTitleAndImageLogo(
         spaceBetween = 40.sdp,
         titleSecundary = stringResource(id = R.string.access_account),
-        styleTitle = MaterialTheme.typography.displayMedium,
+        styleTitle = MaterialTheme.typography.headlineLarge,
     )
 }
 

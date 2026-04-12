@@ -32,7 +32,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
@@ -111,9 +110,7 @@ fun Button3(
                 }
                 Text(
                     text = text,
-                    fontWeight = FontWeight.W500,
-                    fontSize = textSize,
-                    style = MaterialTheme.typography.headlineLarge,
+                    style = MaterialTheme.typography.labelLarge,
                     color = textColor,
                 )
             }

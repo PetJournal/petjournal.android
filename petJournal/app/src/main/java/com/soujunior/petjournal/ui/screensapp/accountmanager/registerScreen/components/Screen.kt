@@ -91,7 +91,7 @@ fun Screen(
                         ) {
                             Text(
                                 text = "Inscreva-se:",
-                                style = MaterialTheme.typography.displayMedium,
+                                style = MaterialTheme.typography.headlineLarge,
                                 color = MaterialTheme.colorScheme.primary,
                             )
                         }

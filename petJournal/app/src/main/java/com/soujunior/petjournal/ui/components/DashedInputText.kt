@@ -65,7 +65,7 @@ fun DashedInputText(
                 text = titleText,
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.labelLarge,
+                style = MaterialTheme.typography.labelMedium,
                 modifier =
                     Modifier
                         .fillMaxWidth()
@@ -106,7 +106,7 @@ fun DashedInputText(
                 onValueChange = { text -> onEvent(text) },
                 singleLine = true,
                 textStyle =
-                    MaterialTheme.typography.titleMedium.copy(
+                    MaterialTheme.typography.bodyLarge.copy(
                         color = if (isSystemInDarkTheme()) Color.Black else MaterialTheme.colorScheme.onSurface,
                     ),
                 maxLines = 1,
@@ -132,11 +132,8 @@ fun DashedInputText(
                                 Text(
                                     modifier = Modifier,
                                     text = placeholderText,
-// todo:                                    style = MaterialTheme.typography.labelLarge,
-                                    style = MaterialTheme.typography.titleMedium,
+                                    style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.outline,
-// todo:                                    A fonte é definida pelo Style, nao faz sentido colocar isso diretamente no código
-//                                    fontSize = 14.ssp
                                 )
                             }
                             it()
@@ -151,8 +148,6 @@ fun DashedInputText(
                                 } else {
                                     stringResource(R.string.show_psswd)
                                 }
-// todo:                            Strings Devem ser colocadas no arquivo de strings!
-//                                        "cultar senha" else "Mostrar senha"
 
                             IconButton(onClick = { showPassword = !showPassword }) {
                                 Icon(
@@ -164,8 +159,6 @@ fun DashedInputText(
                         } else if (isError) {
                             val iconResource = R.drawable.icone_erro
                             val contentDescription = stringResource(R.string.error)
-// todo:                          Strings Devem ser colocadas no arquivo de strings!
-//                          val contentDescription = "Erro"
 
                             Icon(
                                 painter = painterResource(id = iconResource),
@@ -179,14 +172,10 @@ fun DashedInputText(
             )
         }
     }
-// todo:    Esse componente precisa ser um Column
-//    Row(
     Column(
         Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background),
-//        verticalAlignment = Alignment.CenterVertically,
-//        horizontalArrangement = Arrangement.Start,
     ) {
         if (textError != null) {
             textError.forEach {
@@ -202,14 +191,10 @@ fun DashedInputText(
             }
         } else {
             Text(
-//                Strings Devem ser colocadas no arquivo de strings!
-//                "*Campo Obrigatório.",
                 stringResource(R.string.required_field),
                 color = MaterialTheme.colorScheme.outline,
-                style = MaterialTheme.typography.labelLarge,
+                style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(10.sdp),
-//                Fontes sao definidas pelo Typography!
-//                fontSize = 11.ssp
             )
         }
     }

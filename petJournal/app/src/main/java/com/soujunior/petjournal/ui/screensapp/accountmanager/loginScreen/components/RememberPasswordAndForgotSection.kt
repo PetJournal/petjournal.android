@@ -23,7 +23,6 @@ import com.soujunior.petjournal.ui.components.Checkbox
 import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginViewModel
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun RememberPasswordAndForgotSection(
@@ -58,11 +57,10 @@ fun RememberPasswordAndForgotSection(
                 Text(
                     text = stringResource(id = R.string.forgot_password_label),
                     style =
-                        MaterialTheme.typography.bodyMedium.copy(
+                        MaterialTheme.typography.labelLarge.copy(
                             textDecoration = TextDecoration.Underline,
                         ),
                     textAlign = TextAlign.End,
-                    fontSize = 11.ssp,
                     modifier =
                         Modifier
                             .clickable(
