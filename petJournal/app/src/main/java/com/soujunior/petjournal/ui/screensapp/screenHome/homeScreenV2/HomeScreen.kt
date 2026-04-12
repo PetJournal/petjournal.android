@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -107,6 +108,7 @@ fun HomeScreen(navController: NavController) {
                 stringResource(R.string.hello, state.nameUser.replaceFirstChar { it.uppercaseChar() })
             },
         isLoading = state.isLoadingUserName,
+        modifier = Modifier.navigationBarsPadding().statusBarsPadding(),
         showActions = true,
         shadowBelowTopBar = 0.dp,
         showButtonToReturn = false,

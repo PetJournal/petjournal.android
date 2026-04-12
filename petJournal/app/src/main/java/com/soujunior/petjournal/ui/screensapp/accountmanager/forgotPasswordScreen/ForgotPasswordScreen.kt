@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.screensapp.accountmanager.forgotPasswordScreen
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -20,20 +21,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.HeaderImageLogoImagePasswordAndTitle
 import com.soujunior.petjournal.ui.screensapp.accountmanager.forgotPasswordScreen.components.Footer
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import ir.kaaveh.sdpcompose.sdp
 import org.koin.androidx.compose.getViewModel
 
+@SuppressLint("ViewModelConstructorInComposable")
+@Composable
+fun getForgotPasswordViewModelForPreview(): ForgotPasswordViewModel {
+    return if (LocalInspectionMode.current) {
+        FakeForgotPasswordViewModel()
+    } else {
+        getViewModel()
+    }
+}
+
 @Composable
 fun ForgotPasswordScreen(navController: NavController) {
-    val viewModel: ForgotPasswordViewModel = getViewModel()
+    val viewModel: ForgotPasswordViewModel = getForgotPasswordViewModelForPreview()
     val context = LocalContext.current
 
     LaunchedEffect(key1 = context) {
@@ -108,5 +123,14 @@ fun ForgotPasswordScreen(navController: NavController) {
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ForgotPasswordScreenPreview() {
+    val navController = rememberNavController()
+    PetJournalTheme {
+        ForgotPasswordScreen(navController = navController)
     }
 }

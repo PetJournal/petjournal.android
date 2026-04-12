@@ -77,8 +77,7 @@ fun HeaderImageLogoImagePasswordAndTitle(
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.background)
-                        .padding(top = topPadding, bottom = 3.sdp),
+                        .background(MaterialTheme.colorScheme.background),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {

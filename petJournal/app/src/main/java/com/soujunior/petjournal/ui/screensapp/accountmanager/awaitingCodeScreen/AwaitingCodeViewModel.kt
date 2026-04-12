@@ -5,7 +5,9 @@ import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class AwaitingCodeViewModel : ViewModel() {
@@ -26,4 +28,23 @@ abstract class AwaitingCodeViewModel : ViewModel() {
     abstract fun onEvent(event: AwaitingCodeFormEvent)
 
     abstract fun enableButton(): Boolean
+}
+
+class FakeAwaitingCodeViewModel : AwaitingCodeViewModel() {
+    override val state = MutableStateFlow(AwaitingCodeFormState())
+    override val buttonIsEnable = MutableStateFlow(true)
+    override val validationEventChannel = Channel<ValidationEvent>()
+    override val validationEvents = emptyFlow<ValidationEvent>()
+    override val message = MutableStateFlow("")
+    override val taskState = MutableStateFlow<TaskState>(TaskState.Idle)
+
+    override fun postOtpVerification() {}
+
+    override fun failed(exception: Throwable?) {}
+
+    override fun success(resultPostAwaitingCode: String) {}
+
+    override fun onEvent(event: AwaitingCodeFormEvent) {}
+
+    override fun enableButton(): Boolean = true
 }

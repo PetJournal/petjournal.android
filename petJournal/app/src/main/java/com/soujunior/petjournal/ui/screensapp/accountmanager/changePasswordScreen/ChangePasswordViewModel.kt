@@ -5,7 +5,9 @@ import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class ChangePasswordViewModel : ViewModel() {
@@ -30,4 +32,24 @@ abstract class ChangePasswordViewModel : ViewModel() {
     abstract fun disconnectOtherDevices()
 
     abstract fun enableButton(): Boolean
+}
+
+class FakeChangePasswordViewModel : ChangePasswordViewModel() {
+    override var state: ChangePasswordFormState = ChangePasswordFormState()
+    override val validationEventChannel = Channel<ValidationEvent>()
+    override val message = MutableStateFlow("")
+    override val validationEvents = emptyFlow<ValidationEvent>()
+    override val taskState = MutableStateFlow<TaskState>(TaskState.Idle)
+
+    override fun success(result: String) {}
+
+    override fun failed(exception: Throwable?) {}
+
+    override fun submitNewPassword() {}
+
+    override fun onEvent(event: ChangePasswordFormEvent) {}
+
+    override fun disconnectOtherDevices() {}
+
+    override fun enableButton(): Boolean = true
 }

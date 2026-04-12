@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -33,11 +34,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.AlertText
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeFormEvent
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeViewModel
+import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.FakeAwaitingCodeViewModel
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import ir.kaaveh.sdpcompose.sdp
 
 @Composable
@@ -90,7 +94,7 @@ fun OTPTextField(
     ) {
         Text(
             text = stringResource(R.string.txt_resend_code),
-            style = MaterialTheme.typography.labelLarge.copy(textDecoration = TextDecoration.Underline),
+            style = MaterialTheme.typography.bodySmall.copy(textDecoration = TextDecoration.Underline),
             color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.inverseSurface,
             modifier =
                 Modifier.clickable {
@@ -100,6 +104,35 @@ fun OTPTextField(
     }
     textError?.forEach { AlertText(textMessage = it) }
     Spacer(modifier = Modifier.height(20.sdp))
+}
+
+@SuppressLint("ViewModelConstructorInComposable")
+@Preview(showBackground = true)
+@Composable
+fun OTPTextFieldPreview() {
+    PetJournalTheme {
+        OTPTextField(
+            textValue = "123456",
+            onEvent = {},
+            textError = null,
+            viewModel = FakeAwaitingCodeViewModel(),
+        )
+    }
+}
+
+@SuppressLint("ViewModelConstructorInComposable")
+@Preview(showBackground = true)
+@Composable
+fun OTPTextFieldErrorPreview() {
+    PetJournalTheme {
+        OTPTextField(
+            textValue = "123",
+            isError = true,
+            onEvent = {},
+            textError = listOf("Código inválido"),
+            viewModel = FakeAwaitingCodeViewModel(),
+        )
+    }
 }
 
 @Composable
@@ -166,7 +199,7 @@ private fun TextFieldSingleView(
                 .clip(RoundedCornerShape(10.sdp))
                 .padding(10.sdp),
         text = char,
-        style = MaterialTheme.typography.displaySmall,
+        style = MaterialTheme.typography.bodyLarge,
         color = Color.Black,
         textAlign = TextAlign.Center,
     )

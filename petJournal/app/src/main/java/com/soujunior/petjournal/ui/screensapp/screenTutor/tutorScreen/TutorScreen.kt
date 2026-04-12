@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.HorizontalDivider
@@ -49,12 +50,12 @@ fun TutorScreen(navController: NavController) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     ScaffoldCustom(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().navigationBarsPadding().statusBarsPadding(),
         navigationUp = navController,
         bottomNavigationBar = {
             NavigationBar(
                 navController = navController,
-                modifier = Modifier.navigationBarsPadding(),
+                modifier = Modifier.navigationBarsPadding().statusBarsPadding(),
             )
         },
         showBottomBarNavigation = true,
@@ -95,7 +96,7 @@ fun TutorScreen(navController: NavController) {
                             },
                         )
                         ActionItem(
-                            title = "Configurações",
+                            title = stringResource(R.string.config),
                             onClick = { navController.navigate("profile/notificationScreen") },
                         )
                         ActionItem(

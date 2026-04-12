@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -104,7 +105,7 @@ fun RegisterPetScreen(navController: NavController) {
 
     Column(modifier = Modifier) {
         ScaffoldCustom(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().navigationBarsPadding().statusBarsPadding(),
             navigationUp = navController,
             showTopBar = true,
             showButtonToReturn = true,
@@ -118,7 +119,7 @@ fun RegisterPetScreen(navController: NavController) {
             bottomNavigationBar = {
                 NavigationBar(
                     navController = navController,
-                    modifier = Modifier.navigationBarsPadding(),
+                    modifier = Modifier.navigationBarsPadding().statusBarsPadding(),
                 )
             },
             contentToUse = { paddingValues ->

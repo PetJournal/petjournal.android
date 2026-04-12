@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -101,13 +102,18 @@ fun PetListScreen(navController: NavController) {
         verticalArrangement = Arrangement.Center,
     ) {
         ScaffoldCustom(
-            modifier = Modifier,
+            modifier = Modifier.fillMaxSize().navigationBarsPadding().statusBarsPadding(),
             titleTopBar = stringResource(R.string.my_pets),
             showButtonToReturn = false,
             navigationUp = navController,
             showTopBar = true,
             showBottomBarNavigation = true,
-            bottomNavigationBar = { NavigationBar(navController) },
+            bottomNavigationBar = {
+                NavigationBar(
+                    navController = navController,
+                    modifier = Modifier.navigationBarsPadding().statusBarsPadding(),
+                )
+            },
             contentToUse = { paddingValues ->
                 if (taskState is TaskState.Loading) {
                     Column(
