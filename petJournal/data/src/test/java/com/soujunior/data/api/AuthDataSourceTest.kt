@@ -1,22 +1,20 @@
 package com.soujunior.data.api
 
-import com.soujunior.data.remote.AuthService
+import com.soujunior.data.remote.AuthDataSource
 import com.soujunior.domain.model.request.SignUpModel
-import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.domain.network.ErrorBody
 import com.soujunior.domain.network.NetworkResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class AuthServiceTest {
+class AuthDataSourceTest {
 
-    private val authService: AuthService = mockk()
+    private val authService: AuthDataSource = mockk()
 
     /*@Test
     fun `signUp SUCCESS test`() = runBlockingTest {

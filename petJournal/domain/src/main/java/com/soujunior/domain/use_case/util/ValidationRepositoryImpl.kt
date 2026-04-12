@@ -95,19 +95,19 @@ class ValidationRepositoryImpl : ValidationRepository {
 
         if (password.isNotBlank()) {
             if (listItens[0] < 2)
-                listErrorMessage?.add("Pelo menos duas letras Maiusculas (ex: F, G, ...)") else count++
+                listErrorMessage.add("Pelo menos duas letras Maiusculas (ex: F, G, ...)") else count++
 
             if (listItens[1] < 2)
-                listErrorMessage?.add("Pelo menos duas letras Minusculas (ex: f, g, ...)") else count++
+                listErrorMessage.add("Pelo menos duas letras Minusculas (ex: f, g, ...)") else count++
 
             if (listItens[2] < 2)
-                listErrorMessage?.add("Pelo menos dois Simbolos (ex: %, &, @...)") else count++
+                listErrorMessage.add("Pelo menos dois Simbolos (ex: %, &, @...)") else count++
 
             if (listItens[3] < 2)
-                listErrorMessage?.add("Pelo menos dois Numeros (ex: 2, 5, ...)") else count++
+                listErrorMessage.add("Pelo menos dois Numeros (ex: 2, 5, ...)") else count++
         } else {
             count++
-            listErrorMessage?.add("O campo não pode ficar em branco!")
+            listErrorMessage.add("O campo não pode ficar em branco!")
         }
 
         val hasError = count != 4

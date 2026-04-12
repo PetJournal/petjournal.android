@@ -88,7 +88,6 @@ import ir.kaaveh.sdpcompose.sdp
 import ir.kaaveh.sdpcompose.ssp
 import org.koin.androidx.compose.koinViewModel
 import java.util.Calendar
-import kotlin.collections.forEach
 
 @SuppressLint("ViewModelConstructorInComposable")
 @Composable

@@ -80,12 +80,12 @@ tasks.getByPath("preBuild").dependsOn("installLocalGitHook")
 
 android {
     namespace = "com.soujunior.petjournal"
-    compileSdk = 36
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.soujunior.petjournal"
         minSdk = 27
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 6
         versionName = "1.0.6"
 
@@ -117,6 +117,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.6"

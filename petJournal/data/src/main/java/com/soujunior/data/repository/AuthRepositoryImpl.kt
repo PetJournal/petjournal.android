@@ -1,11 +1,9 @@
 package com.soujunior.data.repository
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.preference.PreferenceManager
-import com.soujunior.data.remote.AuthService
+import com.soujunior.data.remote.AuthDataSource
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.domain.model.request.AwaitingCodeModel
 import com.soujunior.domain.model.request.ChangePasswordModel
@@ -23,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class AuthRepositoryImpl(
-    private val authApi: AuthService,
+    private val authApi: AuthDataSource,
     private val guardianLocalDataSourceImpl: LocalDataSource,
     context: Context
 ) : AuthRepository {

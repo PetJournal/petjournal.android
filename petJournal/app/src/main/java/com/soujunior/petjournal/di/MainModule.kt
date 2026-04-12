@@ -4,7 +4,7 @@ import androidx.room.Room
 import com.petjournal.database.database.db.AppDatabase
 import com.petjournal.database.repository.AppInfoDataBaseImpl
 import com.petjournal.database.repository.LocalDataSourceImpl
-import com.soujunior.data.remote.AuthService
+import com.soujunior.data.remote.AuthDataSource
 import com.soujunior.data.remote.RemoteDataSource
 import com.soujunior.data.remote.adapters.internal.NetworkResultCallAdapterFactory
 import com.soujunior.data.repository.AppInfoDataImpl
@@ -154,7 +154,7 @@ val mainModule =
         factory { GetListCurrentWeekTaskUseCase(get()) }
         factory { GetListCurrentMonthTaskUseCase(get()) }
 
-        single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
+        single<AuthDataSource> { get<Retrofit>().create(AuthDataSource::class.java) }
         single<RemoteDataSource> { get<Retrofit>().create(RemoteDataSource::class.java) }
 
         single {

@@ -92,10 +92,10 @@ fun TutorScreen(navController: NavController) {
                                 navController.navigate("forgotPassword")
                             },
                         )
-//                        ActionItem(
-//                            title = stringResource(R.string.notifications),
-//                            onClick = { navController.navigate("profile/notificationScreen") },
-//                        )
+                        ActionItem(
+                            title = "Configurações",
+                            onClick = { navController.navigate("profile/notificationScreen") },
+                        )
                         ActionItem(
                             title = stringResource(R.string.privacy_policy),
                             onClick = { navController.navigate("profile/privacyPolicyScreen") },

@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.soujunior.data"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 27
@@ -28,6 +28,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 

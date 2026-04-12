@@ -7,7 +7,6 @@ import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentMonthTaskUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
 import com.soujunior.petjournal.ui.mapper.Mapper
-import com.soujunior.petjournal.ui.mapper.Mapper.toListOfTaskData
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

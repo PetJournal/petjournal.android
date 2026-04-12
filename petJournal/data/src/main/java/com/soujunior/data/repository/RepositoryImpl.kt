@@ -1,9 +1,7 @@
 package com.soujunior.data.repository
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import com.soujunior.data.remote.RemoteDataSource
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.domain.model.BreedDTO
