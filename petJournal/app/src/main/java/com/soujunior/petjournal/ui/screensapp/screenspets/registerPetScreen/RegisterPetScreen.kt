@@ -57,14 +57,12 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -85,7 +83,6 @@ import com.soujunior.petjournal.ui.theme.ColorGrid
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 import org.koin.androidx.compose.koinViewModel
 import java.util.Calendar
 
@@ -571,12 +568,7 @@ private fun DropDown(
                                 .padding(start = 14.sdp)
                                 .align(Alignment.CenterStart),
                         text = if (isError) "X" else textValue.ifEmpty { placeholderText },
-                        style =
-                            TextStyle(
-                                fontSize = 14.sp,
-                                lineHeight = 21.sp,
-                                fontWeight = FontWeight(300),
-                            ),
+                        style = MaterialTheme.typography.bodyMedium,
                         color =
                             if (isError) {
                                 MaterialTheme.colorScheme.error
@@ -714,10 +706,7 @@ private fun DateInputText(
                     modifier = Modifier.fillMaxSize(),
                     shape = RoundedCornerShape(12.dp),
                     textStyle =
-                        TextStyle(
-                            fontSize = 14.ssp,
-                            lineHeight = 21.ssp,
-                            fontWeight = FontWeight(300),
+                        MaterialTheme.typography.bodyMedium.copy(
                             color = if (isSystemInDarkTheme()) ColorCustom.text_style_color else MaterialTheme.colorScheme.onSurface,
                         ),
                     placeholder = {

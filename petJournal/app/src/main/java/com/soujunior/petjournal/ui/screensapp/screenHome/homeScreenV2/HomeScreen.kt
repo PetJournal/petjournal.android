@@ -52,10 +52,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -79,7 +77,6 @@ import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.compone
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -271,7 +268,10 @@ fun TagSection(
                         modifier = Modifier.size(16.dp),
                     )
                     Spacer(modifier = Modifier.size(8.dp))
-                    Text(text = stringResource(R.string.reload), fontSize = 12.sp)
+                    Text(
+                        text = stringResource(R.string.reload),
+                        style = MaterialTheme.typography.labelMedium,
+                    )
                 }
             } else {
                 HorizontalButtonList(
@@ -310,8 +310,7 @@ private fun SectionHeader(
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.bodyMedium,
-            fontSize = 20.ssp,
+            style = MaterialTheme.typography.titleLarge,
         )
         if (showButton) {
             Surface(
@@ -366,7 +365,10 @@ private fun HomeTopBarActions(onLogout: () -> Unit) {
                     onLogout()
                 },
                 text = {
-                    Text(text = stringResource(R.string.logout), fontSize = 18.sp)
+                    Text(
+                        text = stringResource(R.string.logout),
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
                 },
                 trailingIcon = {
                     Icon(
@@ -385,13 +387,12 @@ private fun EmptyTaskSection(onClick: () -> Unit = {}) {
         Column(modifier = Modifier.fillMaxWidth(0.5f)) {
             Text(
                 text = stringResource(R.string.no_tasks_title),
-                fontSize = 14.ssp,
-                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(end = 16.sdp, bottom = 4.sdp),
             )
             Text(
                 text = stringResource(R.string.no_tasks_subtitle),
-                fontSize = 14.ssp,
+                style = MaterialTheme.typography.bodyMedium,
             )
             Button2(
                 text = stringResource(R.string.create_task_button),
@@ -452,8 +453,7 @@ private fun Preview() {
     Column {
         Text(
             text = "Próximas tarefas:",
-            style = MaterialTheme.typography.bodyMedium,
-            fontSize = 20.ssp,
+            style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(bottom = 8.sdp),
         )
         TaskDateComponent(

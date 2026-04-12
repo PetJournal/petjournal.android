@@ -35,8 +35,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -52,7 +50,6 @@ import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 import org.koin.androidx.compose.getViewModel
 
 @SuppressLint("ViewModelConstructorInComposable")
@@ -175,12 +172,7 @@ fun PetListScreen(navController: NavController) {
                         Text(
                             text = stringResource(R.string.which_pet_do_you_want_to_see),
                             modifier = Modifier.padding(top = 20.sdp, bottom = 20.sdp),
-                            style =
-                                TextStyle(
-                                    fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                                    fontWeight = FontWeight.SemiBold,
-                                ),
-                            fontSize = 20.ssp,
+                            style = MaterialTheme.typography.titleLarge,
                         )
                         LazyVerticalGrid(
                             modifier = Modifier.fillMaxWidth(),

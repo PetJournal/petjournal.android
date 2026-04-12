@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ import com.soujunior.petjournal.ui.util.toWeeklyGroupFormat
 import ir.kaaveh.sdpcompose.sdp
 import org.koin.androidx.compose.getViewModel
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Composable
 private fun getCorrectViewModel(): TaskListViewModel {
     return if (LocalInspectionMode.current) {

@@ -37,7 +37,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
@@ -131,10 +130,7 @@ fun TaskCard(
                                         taskData.title.uppercase()
                                     },
                                 modifier = Modifier.padding(bottom = 2.sdp),
-                                style =
-                                    MaterialTheme.typography.titleMedium.copy(
-                                        fontWeight = FontWeight.Bold,
-                                    ),
+                                style = MaterialTheme.typography.titleMedium,
                             )
                             Text(
                                 text = taskData.startAt.toCardFormat(),
@@ -196,7 +192,7 @@ fun TaskCard(
 
                             Text(
                                 text = displayText,
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.bodyMedium,
                                 modifier =
                                     Modifier
                                         .fillMaxWidth(1f)
@@ -206,7 +202,7 @@ fun TaskCard(
                             if (expanded) {
                                 Text(
                                     text = taskData.descriptionCompleted,
-                                    style = MaterialTheme.typography.titleMedium,
+                                    style = MaterialTheme.typography.bodyMedium,
                                     modifier =
                                         Modifier
                                             .fillMaxWidth(1f)

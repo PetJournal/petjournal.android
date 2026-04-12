@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,7 +24,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.R
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -69,7 +69,7 @@ fun PetItem(
         Text(
             modifier = Modifier.padding(top = 2.sdp),
             text = if (name.length > 15) name.take(12) + "..." else name,
-            fontSize = 16.ssp,
+            style = MaterialTheme.typography.titleMedium,
             maxLines = 1,
         )
         Spacer(Modifier.padding(bottom = 24.sdp))

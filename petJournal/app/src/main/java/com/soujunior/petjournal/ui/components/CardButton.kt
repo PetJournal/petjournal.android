@@ -31,7 +31,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun CardButton(
@@ -73,7 +72,7 @@ fun CardButton(
             if (hasText) {
                 Text(
                     text = text!!,
-                    fontSize = 8.ssp,
+                    style = MaterialTheme.typography.labelMedium,
                     color = textColor,
                     textAlign = TextAlign.Center,
                     maxLines = 1,

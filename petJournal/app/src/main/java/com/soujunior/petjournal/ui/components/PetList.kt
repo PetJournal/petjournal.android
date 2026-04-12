@@ -45,7 +45,6 @@ import com.soujunior.domain.model.PetModel
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun PetList(
@@ -77,9 +76,8 @@ fun PetList(
                             Text(
                                 text = "Ainda sem pet.",
                                 textAlign = TextAlign.Center,
-                                fontSize = 18.ssp,
+                                style = MaterialTheme.typography.bodyLarge,
                                 color = Color.Black.copy(alpha = 0.5f),
-                                lineHeight = 14.ssp,
                             )
                         }
                     }
@@ -94,7 +92,10 @@ fun PetList(
                         modifier = Modifier.size(16.sdp),
                     )
                     Spacer(modifier = Modifier.size(8.sdp))
-                    Text(text = stringResource(R.string.reload), fontSize = 12.ssp)
+                    Text(
+                        text = stringResource(R.string.reload),
+                        style = MaterialTheme.typography.labelMedium,
+                    )
                 }
             }
         }

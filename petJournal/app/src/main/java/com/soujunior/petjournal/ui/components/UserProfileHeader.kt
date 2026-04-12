@@ -48,13 +48,13 @@ fun UserProfileHeader(
         ) {
             Text(
                 text = name,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onSurface,
             )
             Spacer(modifier = Modifier.padding(2.dp))
             Text(
                 text = email,
-                style = MaterialTheme.typography.labelLarge,
+                style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight(1),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

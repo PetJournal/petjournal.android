@@ -51,6 +51,7 @@ fun TabSelector(
                         }
                     Text(
                         text = stringResource(id = textRes),
+                        style = MaterialTheme.typography.labelLarge,
                         fontWeight = if (selectedIndex == index) FontWeight.Bold else FontWeight.Normal,
                     )
                 },

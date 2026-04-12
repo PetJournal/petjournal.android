@@ -12,7 +12,6 @@ import com.soujunior.petjournal.ui.components.TaskCard
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.model.TaskData
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun TaskDateComponent(
@@ -28,7 +27,6 @@ fun TaskDateComponent(
             Text(
                 text = date,
                 style = MaterialTheme.typography.titleLarge,
-                fontSize = 18.ssp,
                 modifier = Modifier.padding(bottom = 8.sdp),
             )
         }
