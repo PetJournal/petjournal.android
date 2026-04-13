@@ -207,8 +207,7 @@ fun InputText(
     }
     Column(
         Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background),
+            .fillMaxWidth(),
     ) {
         if (textError != null) {
             textError.forEach {
@@ -227,7 +226,6 @@ fun InputText(
                 {
                     Text(
                         stringResource(R.string.required_field),
-                        color = MaterialTheme.colorScheme.outline,
                         style = MaterialTheme.typography.labelSmall,
                         modifier = Modifier.padding(10.sdp),
                     )
@@ -239,5 +237,9 @@ fun InputText(
 @Preview(showBackground = true, showSystemUi = false, device = "id:pixel_4_xl")
 @Composable
 fun InputTextPreview() {
-    InputText(textValue = "", onEvent = {})
+    InputText(
+        textValue = "",
+        requiredField = true,
+        onEvent = {},
+    )
 }

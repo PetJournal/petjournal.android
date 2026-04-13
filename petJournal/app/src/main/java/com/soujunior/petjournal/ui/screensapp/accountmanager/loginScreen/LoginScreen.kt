@@ -186,7 +186,6 @@ fun LoginScreen(navController: NavController) {
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
                     )
                 }
-
                 item {
                     InputText(
                         isPassword = true,
