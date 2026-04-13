@@ -28,8 +28,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.HeaderImageLogoImagePasswordAndTitle
+import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.screensapp.accountmanager.forgotPasswordScreen.components.Footer
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
@@ -90,6 +90,7 @@ fun ForgotPasswordScreen(navController: NavController) {
             verticalArrangement = Arrangement.Top,
         ) {
             HeaderImageLogoImagePasswordAndTitle(
+                showImage = false,
                 subText = stringResource(R.string.reset_password_in_two_steps),
                 title = stringResource(R.string.forgot_password),
                 spaceBetween = 40.sdp,
@@ -105,8 +106,9 @@ fun ForgotPasswordScreen(navController: NavController) {
                 verticalArrangement = Arrangement.Center,
             ) {
                 item {
-                    DashedInputText(
+                    InputText(
                         titleText = stringResource(R.string.what_is_your_registered_email_address),
+                        requiredField = true,
                         placeholderText = stringResource(R.string.email_hint),
                         textValue = viewModel.state.email,
                         textError = viewModel.state.emailError,

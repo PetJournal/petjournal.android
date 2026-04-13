@@ -50,12 +50,19 @@ fun TutorScreen(navController: NavController) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     ScaffoldCustom(
-        modifier = Modifier.fillMaxSize().navigationBarsPadding().statusBarsPadding(),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .navigationBarsPadding()
+                .statusBarsPadding(),
         navigationUp = navController,
         bottomNavigationBar = {
             NavigationBar(
                 navController = navController,
-                modifier = Modifier.navigationBarsPadding().statusBarsPadding(),
+                modifier =
+                    Modifier
+                        .navigationBarsPadding()
+                        .statusBarsPadding(),
             )
         },
         showBottomBarNavigation = true,
@@ -88,7 +95,7 @@ fun TutorScreen(navController: NavController) {
                             email = state.email,
                             imageUrl = null,
                         )
-                        HorizontalDivider(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+                        HorizontalDivider(modifier = Modifier.padding(start = 20.dp, end = 20.dp))
                         ActionItem(
                             title = stringResource(R.string.change_password),
                             onClick = {

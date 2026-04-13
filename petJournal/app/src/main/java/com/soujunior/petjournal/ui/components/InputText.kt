@@ -222,14 +222,13 @@ fun InputText(
                 )
             }
         } else {
-            if (requiredField)
-                {
-                    Text(
-                        stringResource(R.string.required_field),
-                        style = MaterialTheme.typography.labelSmall,
-                        modifier = Modifier.padding(10.sdp),
-                    )
-                }
+            if (requiredField) {
+                Text(
+                    stringResource(R.string.required_field),
+                    style = MaterialTheme.typography.labelSmall,
+                    modifier = Modifier.padding(10.sdp),
+                )
+            }
         }
     }
 }

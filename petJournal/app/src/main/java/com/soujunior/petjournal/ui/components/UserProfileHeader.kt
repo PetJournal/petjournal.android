@@ -31,7 +31,6 @@ fun UserProfileHeader(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
                 .consumeWindowInsets(WindowInsets.systemBars),
         verticalAlignment = Alignment.CenterVertically,
     ) {

@@ -38,9 +38,10 @@ import ir.kaaveh.sdpcompose.sdp
 @Composable
 fun HeaderImageLogoImagePasswordAndTitle(
     title: String,
+    showImage: Boolean = true,
     subText: String = "",
     modifierImage: Modifier = Modifier,
-    modifierTextTitle: Modifier = Modifier.padding(start = 8.dp),
+    modifierTextTitle: Modifier = Modifier,
     styleTitle: TextStyle = MaterialTheme.typography.headlineLarge,
     spaceBetween: Dp = 0.sdp,
     textAlign: TextAlign? = null,
@@ -64,34 +65,36 @@ fun HeaderImageLogoImagePasswordAndTitle(
                 .background(MaterialTheme.colorScheme.background),
     ) {
         Column {
-            Box(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .shadow(
-                            elevation = 8.sdp,
-                            shape = RoundedCornerShape(bottomStart = 8.sdp, bottomEnd = 8.sdp),
-                            clip = false,
-                        ),
-            ) {
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.background),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    ImageLogo(modifier = modifierImage)
+            if (showImage)
+                {
+                    Box(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .shadow(
+                                    elevation = 8.sdp,
+                                    shape = RoundedCornerShape(bottomStart = 8.sdp, bottomEnd = 8.sdp),
+                                    clip = false,
+                                ),
+                    ) {
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.background),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
+                            ImageLogo(modifier = modifierImage)
+                        }
+                    }
                 }
-            }
             Spacer(modifier = Modifier.height(spaceBetween))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
                 modifier =
                     Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.sdp),
+                        .fillMaxWidth(),
             ) {
                 Box(
                     contentAlignment = Alignment.Center,
@@ -143,12 +146,12 @@ fun HeaderImageLogoImagePasswordAndTitle(
                     horizontalArrangement = Arrangement.Center,
                     modifier =
                         Modifier
-                            .fillMaxWidth()
-                            .padding(10.sdp),
+                            .fillMaxWidth(),
                 ) {
                     Text(
                         text = subText,
                         style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(start = 20.sdp, end = 20.sdp),
                         color =
                             if (isSystemInDarkTheme()) {
                                 MaterialTheme.colorScheme.primary

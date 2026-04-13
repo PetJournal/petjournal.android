@@ -33,8 +33,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
+import com.soujunior.petjournal.ui.components.HeaderImageLogoImagePasswordAndTitle
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.components.Footer
-import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.components.Header
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.components.OTPTextField
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
@@ -100,8 +100,14 @@ fun AwaitingCodeScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
         ) {
-            Header()
-
+            HeaderImageLogoImagePasswordAndTitle(
+                showImage = false,
+                title = stringResource(R.string.txt_we_just_sent_a_code_to_your_email),
+                spaceBetween = 10.sdp,
+                subText = stringResource(R.string.txt_enter_the_6_digit_verification_code_sent_to_your_email_in_the_field_below),
+                textAlign = TextAlign.Center,
+                styleTitle = MaterialTheme.typography.headlineLarge,
+            )
             LazyColumn(
                 modifier =
                     Modifier
@@ -127,10 +133,7 @@ fun AwaitingCodeScreen(
                 }
                 item {
                     Box(
-                        modifier =
-                            Modifier
-                                .padding(start = 10.sdp, end = 10.sdp)
-                                .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().padding(top = 25.sdp),
                         contentAlignment = Alignment.TopStart,
                     ) {
                         Text(

@@ -33,9 +33,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
 import com.soujunior.petjournal.ui.components.Button3
-import com.soujunior.petjournal.ui.components.DashedInputText
 import com.soujunior.petjournal.ui.components.HeaderImageLogoImagePasswordAndTitle
-import com.soujunior.petjournal.ui.screensapp.accountmanager.changePasswordScreen.components.LogoutDevicesChangingPassword
+import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
@@ -95,6 +94,7 @@ fun ChangePasswordScreen(navController: NavController) {
             verticalArrangement = Arrangement.Top,
         ) {
             HeaderImageLogoImagePasswordAndTitle(
+                showImage = false,
                 title = stringResource(R.string.now_create_a_new_password),
                 spaceBetween = 10.sdp,
                 styleTitle = MaterialTheme.typography.headlineLarge,
@@ -108,7 +108,8 @@ fun ChangePasswordScreen(navController: NavController) {
                 verticalArrangement = Arrangement.Center,
             ) {
                 item {
-                    DashedInputText(
+                    InputText(
+                        requiredField = true,
                         titleText = stringResource(R.string.enter_a_new_password),
                         placeholderText = stringResource(id = R.string.password_hint),
                         textValue = viewModel.state.password,
@@ -125,7 +126,8 @@ fun ChangePasswordScreen(navController: NavController) {
                     )
                 }
                 item {
-                    DashedInputText(
+                    InputText(
+                        requiredField = true,
                         titleText = stringResource(id = R.string.confirm_password_label),
                         placeholderText = stringResource(R.string.enter_your_password_again),
                         textValue = viewModel.state.repeatedPassword,
@@ -140,19 +142,18 @@ fun ChangePasswordScreen(navController: NavController) {
                         },
                     )
                 }
-
-                item {
-                    LogoutDevicesChangingPassword(
-                        valueChecked = viewModel.state.disconnectOtherDevices,
-                        onEvent = { it: Boolean ->
-                            viewModel.onEvent(
-                                ChangePasswordFormEvent.DisconnectOtherDevices(
-                                    it,
-                                ),
-                            )
-                        },
-                    )
-                }
+//                item {
+//                    LogoutDevicesChangingPassword(
+//                        valueChecked = viewModel.state.disconnectOtherDevices,
+//                        onEvent = { it: Boolean ->
+//                            viewModel.onEvent(
+//                                ChangePasswordFormEvent.DisconnectOtherDevices(
+//                                    it,
+//                                ),
+//                            )
+//                        },
+//                    )
+//                }
                 item {
                     Row(
                         Modifier.padding(top = 40.sdp, bottom = 40.sdp),
