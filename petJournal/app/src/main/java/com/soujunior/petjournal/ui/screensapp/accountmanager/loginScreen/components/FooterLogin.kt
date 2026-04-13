@@ -25,16 +25,20 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button2
+import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.FakeLoginViewModel
 import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginViewModel
 import com.soujunior.petjournal.ui.states.TaskState
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import ir.kaaveh.sdpcompose.sdp
 
 @Composable
-fun Footer(
+fun FooterLogin(
     navController: NavController,
     viewModel: LoginViewModel,
 ) {
@@ -79,7 +83,7 @@ fun Footer(
         Spacer(modifier = Modifier.padding(top = 20.sdp))
         Row(modifier = Modifier.fillMaxWidth()) {
             Button2(
-                text = "Continuar",
+                text = "Login",
                 border = null,
                 buttonColor =
                     if (isDarkMode) {
@@ -98,5 +102,17 @@ fun Footer(
                 isLoading = taskState is TaskState.Loading,
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FooterLoginPreview() {
+    val navController = rememberNavController()
+    PetJournalTheme {
+        FooterLogin(
+            navController = navController,
+            viewModel = FakeLoginViewModel(),
+        )
     }
 }

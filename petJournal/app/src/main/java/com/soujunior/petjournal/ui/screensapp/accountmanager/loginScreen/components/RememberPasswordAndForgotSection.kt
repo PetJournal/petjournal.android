@@ -6,7 +6,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,12 +16,15 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Checkbox
+import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.FakeLoginViewModel
 import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginFormEvent
 import com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen.LoginViewModel
-import ir.kaaveh.sdpcompose.sdp
+import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 @Composable
 fun RememberPasswordAndForgotSection(
@@ -35,8 +37,7 @@ fun RememberPasswordAndForgotSection(
         verticalAlignment = Alignment.CenterVertically,
         modifier =
             Modifier
-                .fillMaxWidth()
-                .padding(top = 30.sdp, start = 5.sdp, bottom = 20.sdp),
+                .fillMaxWidth(),
     ) {
         Column(content = {
             Checkbox(
@@ -75,6 +76,18 @@ fun RememberPasswordAndForgotSection(
                     color = textColor,
                 )
             },
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RememberPasswordAndForgotSectionPreview() {
+    val navController = rememberNavController()
+    PetJournalTheme {
+        RememberPasswordAndForgotSection(
+            navController = navController,
+            viewModel = FakeLoginViewModel(),
         )
     }
 }

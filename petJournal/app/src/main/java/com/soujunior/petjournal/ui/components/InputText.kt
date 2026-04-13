@@ -2,7 +2,6 @@ package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -52,6 +51,7 @@ fun InputText(
     textInputModifier: Modifier = Modifier,
     placeholderText: String = "Placeholder",
     titleText: String = "Title",
+    requiredField: Boolean = false,
     textValue: String,
     isPassword: Boolean = false,
     isError: Boolean = false,
@@ -205,20 +205,33 @@ fun InputText(
             )
         }
     }
-    if (!isLoading) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
-        ) {
-            textError?.forEach {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background),
+    ) {
+        if (textError != null) {
+            textError.forEach {
                 AlertText(
                     textMessage = it,
-                    modifier = Modifier.padding(top = 6.sdp, bottom = 6.sdp, start = 10.sdp),
+                    modifier =
+                        Modifier.padding(
+                            top = 4.sdp,
+                            bottom = 6.sdp,
+                            start = 10.sdp,
+                        ),
                 )
             }
+        } else {
+            if (requiredField)
+                {
+                    Text(
+                        stringResource(R.string.required_field),
+                        color = MaterialTheme.colorScheme.outline,
+                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.padding(10.sdp),
+                    )
+                }
         }
     }
 }
