@@ -10,7 +10,7 @@ data class HomeState(
     val isLoadingListTask: Boolean = false,
     val isLoadingUserName: Boolean = false,
     val hasErrorOnNameUser: Boolean = false,
-    val listTaskData: List<TaskData>? = null,
+    val listTaskData: List<TaskData>? = emptyList(),
     val listScheduled: PaginatedScheduleResponseModel? = null,
     val menuItems: List<TagOption> = emptyList(),
     val isLoadingListPet: Boolean = false,

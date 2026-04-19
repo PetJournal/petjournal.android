@@ -93,13 +93,6 @@ fun HomeScreen(navController: NavController) {
             onRefresh = { viewModel.onEvent(HomeEvent.ReloadAll) },
         )
 
-    /*val systemUiController = rememberSystemUiController()
-
-    LaunchedEffect(Unit) {
-        systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
-        systemUiController.setNavigationBarColor(Color.Black)
-    }*/
-
     ScaffoldCustom(
         titleTopBar =
             if (state.hasErrorOnNameUser) {
@@ -174,31 +167,32 @@ fun HomeScreen(navController: NavController) {
                             TaskListItemShimmer()
                         }
                     } else {
-                        if (state.listTaskData.isNullOrEmpty()) {
+                        if (false) {
                             item {
                                 EmptyTaskSection(onClick = {
                                     navController.navigate("home/registerTaskScreen")
                                 })
                             }
-                        }
-                        state.listTaskData?.let { taskDataList: List<TaskData> ->
-                            item {
-                                SectionHeader(
-                                    title = stringResource(R.string.section_next_tasks),
-                                    showButton = true,
-                                    onAddClick = {
-                                        navController.navigate("home/registerTaskScreen")
-                                    },
-                                )
-                            }
-                            items(items = taskDataList, key = { it.id }) { task ->
-                                TaskCard(
-                                    taskData = task,
-                                    modifier =
-                                        Modifier
-                                            .fillMaxWidth()
-                                            .padding(bottom = 8.dp),
-                                )
+                        } else {
+                            state.listTaskData?.let { taskDataList: List<TaskData> ->
+                                item {
+                                    SectionHeader(
+                                        title = stringResource(R.string.section_next_tasks),
+                                        showButton = true,
+                                        onAddClick = {
+                                            navController.navigate("home/registerTaskScreen")
+                                        },
+                                    )
+                                }
+                                items(items = taskDataList, key = { it.id }) { task ->
+                                    TaskCard(
+                                        taskData = task,
+                                        modifier =
+                                            Modifier
+                                                .fillMaxWidth()
+                                                .padding(bottom = 8.dp),
+                                    )
+                                }
                             }
                         }
                     }

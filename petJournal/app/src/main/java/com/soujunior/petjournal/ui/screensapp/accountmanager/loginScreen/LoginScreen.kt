@@ -72,8 +72,9 @@ fun LoginScreen(navController: NavController) {
         viewModel.validationEvents.collect { event ->
             when (event) {
                 is ValidationEvent.Success -> {
-                    navController.popBackStack()
-                    navController.navigate("mainContent")
+                    navController.navigate("mainContent") {
+                        popUpTo("login") { inclusive = true }
+                    }
                 }
 
                 is ValidationEvent.Failed -> {

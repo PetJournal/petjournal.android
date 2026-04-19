@@ -71,7 +71,11 @@ fun TutorScreen(navController: NavController) {
             LogoutButton(
                 onLogoutClick = {
                     viewModel.logout()
-                    navController.navigate("account_manager")
+                    navController.navigate("account_manager") {
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                    }
                 },
                 modifier = Modifier.padding(bottom = 10.dp),
             )

@@ -25,7 +25,7 @@ class JwtManager private constructor(context: Context) {
     fun deleteToken(): Boolean {
         return try {
             with(sharedPreferences.edit()) {
-                remove(JWT_KEY)
+                putString(JWT_KEY, "")
                 apply()
             }
             true

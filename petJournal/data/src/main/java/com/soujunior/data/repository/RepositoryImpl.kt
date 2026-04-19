@@ -40,7 +40,12 @@ class RepositoryImpl(
 
     internal fun getToken(): String? {
         return try {
-            jwtManager.getToken()
+            val token = jwtManager.getToken()
+            if (token != null && !token.startsWith("Bearer ", ignoreCase = true)) {
+                "Bearer $token"
+            } else {
+                token
+            }
         } catch (e: Exception) {
             null
         }
@@ -51,8 +56,8 @@ class RepositoryImpl(
         return if (localName != null) {
             NetworkResult.Success(GuardianNameResponse(localName, ""))
         } else {
-            val token = "Bearer " + jwtManager.getToken()
-            when (val apiResult = remoteDataSource.getGuardianName(token)) {
+            val token = getToken()
+            when (val apiResult = remoteDataSource.getGuardianName(token!!)) {
                 is NetworkResult.Success -> {
                     coroutineScope {
                         try {
@@ -353,8 +358,8 @@ class RepositoryImpl(
         return if (!localListPetSizes.isNullOrEmpty()) {
             NetworkResult.Success(localListPetSizes)
         } else {
-            val token = "Bearer " + jwtManager.getToken()
-            when (val apiResult = remoteDataSource.getListPetSizes(token, petSpecie)) {
+            val token = getToken()
+            when (val apiResult = remoteDataSource.getListPetSizes(token!!, petSpecie)) {
                 is NetworkResult.Success -> {
                     coroutineScope {
                         try {
@@ -377,8 +382,8 @@ class RepositoryImpl(
         return if (!localListPetRaces.isNullOrEmpty()) {
             NetworkResult.Success(localListPetRaces)
         } else {
-            val token = "Bearer " + jwtManager.getToken()
-            when (val apiResult = remoteDataSource.getListPetRaces(token, petSpecie)) {
+            val token = getToken()
+            when (val apiResult = remoteDataSource.getListPetRaces(token!!, petSpecie)) {
                 is NetworkResult.Success -> {
                     coroutineScope {
                         try {
