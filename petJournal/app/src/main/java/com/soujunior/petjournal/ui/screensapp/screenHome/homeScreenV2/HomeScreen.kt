@@ -167,7 +167,7 @@ fun HomeScreen(navController: NavController) {
                             TaskListItemShimmer()
                         }
                     } else {
-                        if (false) {
+                        if (state.listTaskData.isNullOrEmpty()) {
                             item {
                                 EmptyTaskSection(onClick = {
                                     navController.navigate("home/registerTaskScreen")
