@@ -665,7 +665,9 @@ private fun DateInputText(
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH),
-        )
+        ).apply {
+            datePicker.maxDate = System.currentTimeMillis()
+        }
 
     val openDialog = { datePickerDialog.show() }
 
