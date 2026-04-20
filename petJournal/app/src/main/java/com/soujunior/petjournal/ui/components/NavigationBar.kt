@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,7 +49,7 @@ fun NavigationBar(
                 .height(60.dp)
                 .shadow(elevation = 20.dp, spotColor = Color(0x59000000), ambientColor = Color(0x59000000))
                 .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
-        backgroundColor = Color(0xFFE8D3FF),
+        backgroundColor = MaterialTheme.colorScheme.surfaceTint,
         contentColor = Color.Gray,
     ) {
         items.forEach { item ->
