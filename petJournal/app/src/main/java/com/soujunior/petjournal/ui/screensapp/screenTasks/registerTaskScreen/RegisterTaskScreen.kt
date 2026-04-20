@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -63,12 +64,19 @@ fun RegisterTaskScreen(
     val isLoadingAll = state.isLoadingListTag && state.isLoadingListPet
 
     ScaffoldCustom(
-        modifier = Modifier.fillMaxSize().navigationBarsPadding().statusBarsPadding(),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .navigationBarsPadding()
+                .statusBarsPadding(),
         navigationUp = navController,
         bottomNavigationBar = {
             NavigationBar(
                 navController,
-                modifier = Modifier.navigationBarsPadding().statusBarsPadding(),
+                modifier =
+                    Modifier
+                        .navigationBarsPadding()
+                        .statusBarsPadding(),
             )
         },
         showTopBar = true,
@@ -276,13 +284,19 @@ fun RegisterTaskScreen(
                     }
                     item {
                         if (!isLoadingAll) {
-                            Button3(
-                                submit = {
-                                    viewModel.onEvent(RegisterTaskEvent.Submit)
-                                },
-                                enableButton = true,
-                                text = stringResource(R.string.label_save_task),
-                            )
+                            Row(
+                                modifier = Modifier.fillMaxSize(),
+                                horizontalArrangement = Arrangement.Center,
+                            ) {
+                                Button3(
+                                    submit = {
+                                        viewModel.onEvent(RegisterTaskEvent.Submit)
+                                    },
+                                    enableButton = true,
+                                    text = stringResource(R.string.label_save_task),
+                                )
+                            }
+                            Spacer(Modifier.padding(top = 20.dp))
                         }
                     }
                 },

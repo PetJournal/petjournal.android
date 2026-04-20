@@ -35,7 +35,7 @@ fun TextFieldCustom(
     ) {
         Text(
             text = title,
-            color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.scrim,
+            color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight(500),
             style = MaterialTheme.typography.titleMedium,
             modifier =

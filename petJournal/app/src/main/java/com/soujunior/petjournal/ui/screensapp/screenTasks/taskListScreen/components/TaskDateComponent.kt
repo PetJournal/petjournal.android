@@ -27,6 +27,7 @@ fun TaskDateComponent(
             Text(
                 text = date,
                 style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(bottom = 8.sdp),
             )
         }

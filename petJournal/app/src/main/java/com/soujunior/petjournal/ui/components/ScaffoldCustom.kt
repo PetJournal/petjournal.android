@@ -128,7 +128,7 @@ fun ScaffoldCustom(
                             Text(
                                 text = titleTopBar,
                                 style = MaterialTheme.typography.headlineLarge,
-                                color = Color(0xFF222222),
+                                color = MaterialTheme.colorScheme.onSurface,
                                 textAlign = TextAlign.Center,
                             )
                         },

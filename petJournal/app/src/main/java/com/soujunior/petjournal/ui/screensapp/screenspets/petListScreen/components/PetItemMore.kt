@@ -54,6 +54,7 @@ fun PetItemMore(
             modifier = Modifier.padding(top = 2.sdp),
             text = stringResource(R.string.buttom_add),
             style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface,
         )
     }
 }

@@ -39,7 +39,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.petjournal.ui.theme.ColorCustom
-import com.soujunior.petjournal.ui.theme.ColorGrid
 import ir.kaaveh.sdpcompose.sdp
 
 @Composable
@@ -56,13 +55,14 @@ fun DropDown(
     textValue: String,
 ) {
     var isDropdownExpanded by remember { mutableStateOf(false) }
+    val onSurfaceColor = MaterialTheme.colorScheme.onSurface
 
     Column(modifier = modifier) {
         Row {
             Text(
                 text = titleText,
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.scrim,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight(500),
                 modifier = textTitleModifier.fillMaxWidth().padding(end = 24.sdp),
@@ -89,7 +89,7 @@ fun DropDown(
                                     width = 2.dp.toPx(),
                                 )
                             drawRoundRect(
-                                color = if (isError) Color.Transparent else ColorGrid.edge_not_selected,
+                                color = if (isError) Color.Transparent else onSurfaceColor,
                                 style = stroke,
                                 cornerRadius = CornerRadius(12.dp.toPx()),
                             )
@@ -106,9 +106,9 @@ fun DropDown(
                     style =
                         MaterialTheme.typography.bodyMedium.copy(
                             fontWeight = FontWeight(300),
-                            color = MaterialTheme.colorScheme.scrim,
+                            color = MaterialTheme.colorScheme.onSurface,
                         ),
-                    color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.scrim,
+                    color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
                 )
 
                 Icon(
@@ -141,7 +141,7 @@ fun DropDown(
                                 onEvent(item.name)
                             },
                         ) {
-                            Text(text = item.name)
+                            Text(text = item.name, color = onSurfaceColor)
                         }
                     }
                 }

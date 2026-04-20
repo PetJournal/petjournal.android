@@ -380,7 +380,7 @@ fun GroupSelectableButton(
             Text(
                 text = stringResource(R.string.label_select_main_category),
                 style = MaterialTheme.typography.titleMedium,
-                color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.scrim,
+                color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight(500),
                 modifier =
                     if (isLoading) {

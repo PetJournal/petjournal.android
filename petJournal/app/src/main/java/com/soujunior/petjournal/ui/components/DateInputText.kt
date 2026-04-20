@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,7 +37,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.ColorCustom
-import com.soujunior.petjournal.ui.theme.ColorGrid
 import ir.kaaveh.sdpcompose.sdp
 
 @Composable
@@ -55,13 +53,14 @@ fun DateInputText(
     visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
     var inFocus by remember { mutableStateOf(false) }
+    val onSurfaceColor = MaterialTheme.colorScheme.onSurface
 
     Column(modifier = modifier) {
         Row {
             Text(
                 text = titleText,
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.scrim,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight(500),
                 modifier =
@@ -100,7 +99,7 @@ fun DateInputText(
                                     width = 2.dp.toPx(),
                                 )
                             drawRoundRect(
-                                color = ColorGrid.edge_not_selected,
+                                color = onSurfaceColor,
                                 style = stroke,
                                 cornerRadius = CornerRadius(12.dp.toPx()),
                             )
@@ -115,15 +114,15 @@ fun DateInputText(
                 textStyle =
                     MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight(300),
-                        color = if (isSystemInDarkTheme()) ColorCustom.text_style_color else MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.onSurface,
                     ),
                 placeholder = {
                     Text(
                         text = placeholderText,
+                        color = onSurfaceColor.copy(alpha = 0.2f),
                         style =
                             MaterialTheme.typography.bodyMedium.copy(
                                 fontWeight = FontWeight(300),
-                                color = MaterialTheme.colorScheme.scrim,
                             ),
                         modifier = modifier.padding(bottom = 0.sdp),
                     )
@@ -136,6 +135,7 @@ fun DateInputText(
                     ),
                 colors =
                     TextFieldDefaults.textFieldColors(
+                        textColor = onSurfaceColor,
                         backgroundColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,

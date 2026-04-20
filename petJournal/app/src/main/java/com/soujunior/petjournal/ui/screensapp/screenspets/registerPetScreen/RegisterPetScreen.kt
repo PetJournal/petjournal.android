@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -226,7 +225,7 @@ fun RegisterPetScreen(navController: NavController) {
                                         Text(
                                             text = stringResource(R.string.pet_sex),
                                             textAlign = TextAlign.Start,
-                                            color = MaterialTheme.colorScheme.scrim,
+                                            color = MaterialTheme.colorScheme.onSurface,
                                             style = MaterialTheme.typography.bodyMedium,
                                             fontWeight = FontWeight(500),
                                             modifier =
@@ -257,7 +256,7 @@ fun RegisterPetScreen(navController: NavController) {
                                         Text(
                                             text = stringResource(R.string.pet_registration),
                                             textAlign = TextAlign.Start,
-                                            color = MaterialTheme.colorScheme.scrim,
+                                            color = MaterialTheme.colorScheme.onSurface,
                                             style = MaterialTheme.typography.bodyMedium,
                                             fontWeight = FontWeight(500),
                                             modifier =
@@ -288,6 +287,7 @@ fun RegisterPetScreen(navController: NavController) {
                                     enableButton = true,
                                     text = stringResource(R.string.save),
                                 )
+                                Spacer(modifier = Modifier.height(20.sdp))
                             }
                         },
                     )
@@ -520,7 +520,7 @@ private fun DropDown(
             Text(
                 text = titleText,
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.scrim,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight(500),
                 modifier =
@@ -576,9 +576,9 @@ private fun DropDown(
                             if (isError) {
                                 MaterialTheme.colorScheme.error
                             } else if (textValue.isEmpty()) {
-                                MaterialTheme.colorScheme.scrim.copy(alpha = 0.3f)
+                                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                             } else {
-                                MaterialTheme.colorScheme.scrim
+                                MaterialTheme.colorScheme.onSurface
                             },
                     )
 
@@ -676,8 +676,8 @@ private fun DateInputText(
             Text(
                 text = titleText,
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.scrim,
-                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight(500),
                 modifier =
                     textTitleModifier
@@ -712,19 +712,17 @@ private fun DateInputText(
                     shape = RoundedCornerShape(12.dp),
                     textStyle =
                         MaterialTheme.typography.bodyMedium.copy(
-                            color = if (isSystemInDarkTheme()) ColorCustom.text_style_color else MaterialTheme.colorScheme.onSurface,
+                            color = MaterialTheme.colorScheme.onSurface,
                         ),
                     placeholder = {
                         Text(
                             text = placeholderText,
                             style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
                         )
                     },
                     visualTransformation = visualTransformation,
-                    keyboardOptions =
-                        KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Number,
-                        ),
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                     trailingIcon = {
                         val iconModifier =
                             Modifier

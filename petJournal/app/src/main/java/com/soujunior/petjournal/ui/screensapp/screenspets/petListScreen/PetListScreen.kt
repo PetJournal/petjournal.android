@@ -179,6 +179,7 @@ fun PetListScreen(navController: NavController) {
                             text = stringResource(R.string.which_pet_do_you_want_to_see),
                             modifier = Modifier.padding(top = 20.sdp, bottom = 20.sdp),
                             style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                         LazyVerticalGrid(
                             modifier = Modifier.fillMaxWidth(),

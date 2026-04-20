@@ -71,6 +71,7 @@ fun PetItem(
             text = if (name.length > 15) name.take(12) + "..." else name,
             style = MaterialTheme.typography.titleMedium,
             maxLines = 1,
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Spacer(Modifier.padding(bottom = 24.sdp))
     }

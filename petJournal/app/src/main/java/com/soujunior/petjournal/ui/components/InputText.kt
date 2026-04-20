@@ -5,7 +5,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -41,7 +40,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.ColorCustom
-import com.soujunior.petjournal.ui.theme.ColorGrid
 import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
 
@@ -64,15 +62,16 @@ fun InputText(
     textTitleModifier: Modifier = Modifier,
 ) {
     var showPassword by remember { mutableStateOf(false) }
+    val onSurfaceColor = MaterialTheme.colorScheme.onSurface
 
     Column(modifier = modifier) {
         Row {
             Text(
                 text = titleText,
                 textAlign = TextAlign.Start,
-                color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.scrim,
+                color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight(500),
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier =
                     textTitleModifier
                         .fillMaxWidth()
@@ -87,7 +86,6 @@ fun InputText(
                         ),
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
         Row {
             BasicTextField(
                 modifier =
@@ -108,7 +106,7 @@ fun InputText(
                                     )
                                     .height(50.dp)
                                     .background(
-                                        color = MaterialTheme.colorScheme.surface,
+                                        color = if (isSystemInDarkTheme()) Color.Transparent else MaterialTheme.colorScheme.surface,
                                         shape = RoundedCornerShape(size = 12.dp),
                                     )
                                     .padding(0.sdp)
@@ -117,7 +115,7 @@ fun InputText(
                                     .drawBehind {
                                         val stroke = Stroke(width = 2.dp.toPx())
                                         drawRoundRect(
-                                            color = if (isError) ColorCustom.error_color else ColorGrid.edge_not_selected,
+                                            color = if (isError) ColorCustom.error_color else onSurfaceColor,
                                             style = stroke,
                                             cornerRadius = CornerRadius(12.dp.toPx()),
                                         )
@@ -135,8 +133,6 @@ fun InputText(
                         color =
                             if (isLoading) {
                                 Color.Transparent
-                            } else if (isSystemInDarkTheme()) {
-                                ColorCustom.shadow_color
                             } else {
                                 MaterialTheme.colorScheme.onSurface
                             },
@@ -165,7 +161,7 @@ fun InputText(
                             if (textValue.isEmpty() && !hasAMask) {
                                 Text(
                                     text = placeholderText,
-                                    color = if (isLoading) Color.Transparent else ColorCustom.color_placeholder,
+                                    color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
                                     style = MaterialTheme.typography.bodyMedium,
                                 )
                             }

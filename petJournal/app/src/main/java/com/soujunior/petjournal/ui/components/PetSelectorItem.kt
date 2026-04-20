@@ -175,7 +175,7 @@ fun PetFilterList(
     Column(modifier = Modifier) {
         Text(
             text = stringResource(R.string.which_pets_need_this_task),
-            color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.scrim,
+            color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight(500),
             style = MaterialTheme.typography.titleMedium,
             modifier = if (isLoading) Modifier.clip(RoundedCornerShape(4.dp)).shimmerEffect() else Modifier,
