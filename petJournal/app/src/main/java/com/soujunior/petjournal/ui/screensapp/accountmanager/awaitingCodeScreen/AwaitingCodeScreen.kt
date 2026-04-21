@@ -85,74 +85,68 @@ fun AwaitingCodeScreen(
         }
     }
 
-    Box(
+    Column(
         modifier =
             Modifier
-                .fillMaxSize()
                 .statusBarsPadding()
                 .navigationBarsPadding()
+                .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top,
     ) {
-        Column(
+        HeaderImageLogoImagePasswordAndTitle(
+            showImage = false,
+            title = stringResource(R.string.txt_we_just_sent_a_code_to_your_email),
+            spaceBetween = 10.sdp,
+            subText = stringResource(R.string.txt_enter_the_6_digit_verification_code_sent_to_your_email_in_the_field_below),
+            textAlign = TextAlign.Center,
+            styleTitle = MaterialTheme.typography.headlineLarge,
+        )
+        LazyColumn(
             modifier =
                 Modifier
-                    .fillMaxSize(),
+                    .fillMaxWidth()
+                    .padding(start = 20.sdp, end = 20.sdp, top = 20.sdp, bottom = 40.sdp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.Center,
         ) {
-            HeaderImageLogoImagePasswordAndTitle(
-                showImage = false,
-                title = stringResource(R.string.txt_we_just_sent_a_code_to_your_email),
-                spaceBetween = 10.sdp,
-                subText = stringResource(R.string.txt_enter_the_6_digit_verification_code_sent_to_your_email_in_the_field_below),
-                textAlign = TextAlign.Center,
-                styleTitle = MaterialTheme.typography.headlineLarge,
-            )
-            LazyColumn(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(start = 20.sdp, end = 20.sdp, top = 20.sdp, bottom = 40.sdp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                item {
-                    OTPTextField(
-                        textValue = state.codeOTP,
-                        isError = !state.codeOTPError.isNullOrEmpty(),
-                        onEvent = { code: String ->
-                            viewModel.onEvent(
-                                AwaitingCodeFormEvent.CodeOTPChanged(
-                                    code,
-                                ),
-                            )
-                        },
-                        textError = state.codeOTPError,
-                        viewModel = viewModel,
+            item {
+                OTPTextField(
+                    textValue = state.codeOTP,
+                    isError = !state.codeOTPError.isNullOrEmpty(),
+                    onEvent = { code: String ->
+                        viewModel.onEvent(
+                            AwaitingCodeFormEvent.CodeOTPChanged(
+                                code,
+                            ),
+                        )
+                    },
+                    textError = state.codeOTPError,
+                    viewModel = viewModel,
+                )
+            }
+            item {
+                Box(
+                    modifier = Modifier.fillMaxWidth().padding(top = 25.sdp),
+                    contentAlignment = Alignment.TopStart,
+                ) {
+                    Text(
+                        text = stringResource(R.string.txt_tip_If_you_dont_find_the_email_in_your_inbox_check_your_spam_folder),
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Start,
+                        color =
+                            if (isSystemInDarkTheme()) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.onBackground
+                            },
                     )
                 }
-                item {
-                    Box(
-                        modifier = Modifier.fillMaxWidth().padding(top = 25.sdp),
-                        contentAlignment = Alignment.TopStart,
-                    ) {
-                        Text(
-                            text = stringResource(R.string.txt_tip_If_you_dont_find_the_email_in_your_inbox_check_your_spam_folder),
-                            style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Start,
-                            color =
-                                if (isSystemInDarkTheme()) {
-                                    MaterialTheme.colorScheme.primary
-                                } else {
-                                    MaterialTheme.colorScheme.onBackground
-                                },
-                        )
-                    }
-                }
-                item {
-                    Spacer(modifier = Modifier.height(20.sdp))
-                    Footer(navController = navController, viewModel = viewModel)
-                }
+            }
+            item {
+                Spacer(modifier = Modifier.height(20.sdp))
+                Footer(navController = navController, viewModel = viewModel)
             }
         }
     }

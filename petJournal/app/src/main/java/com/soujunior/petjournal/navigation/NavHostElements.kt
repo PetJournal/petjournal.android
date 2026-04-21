@@ -67,7 +67,6 @@ fun NavHostMainContent() {
             AwaitingCodeScreen(backStackEntry.arguments?.getString("arg"), navController)
         }
         composable("changePassword") { ChangePasswordScreen(navController) }
-
         composable("pets/introRegisterPet") { IntroRegisterPetScreen(navController) }
         composable("pets/petListScreen") { PetListScreen(navController) }
         composable("pets/registerPet/{idPet}") { backStackEntry ->

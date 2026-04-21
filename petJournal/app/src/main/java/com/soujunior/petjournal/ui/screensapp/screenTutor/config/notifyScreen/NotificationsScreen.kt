@@ -1,11 +1,14 @@
 package com.soujunior.petjournal.ui.screensapp.screenTutor.config.notifyScreen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,48 +25,55 @@ import com.soujunior.petjournal.ui.theme.PetJournalTheme
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NotificationsScreen(navController: NavController) {
-    ScaffoldCustom(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .navigationBarsPadding()
-                .statusBarsPadding(),
-        navigationUp = navController,
-        showTopBar = true,
-        titleTopBar = stringResource(R.string.config),
-        bottomNavigationBar = {
-            NavigationBar(
-                navController = navController,
-                modifier =
-                    Modifier
-                        .navigationBarsPadding()
-                        .statusBarsPadding(),
-            )
-        },
-        showButtonToReturn = true,
-        showBottomBarNavigation = true,
-        contentToUse = {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = it,
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                item {
-                    SwitchOptionItem(
-                        title = "Quer receber as notificações por e-mail?",
-                        checked = false,
-                        onCheckedChange = {},
-                    )
-                    SwitchOptionItem(
-                        title = "Notificar pelo celular",
-                        checked = false,
-                        onCheckedChange = {},
-                    )
+    Column(modifier = Modifier.background(color = MaterialTheme.colorScheme.onPrimary)) {
+        ScaffoldCustom(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .navigationBarsPadding()
+                    .statusBarsPadding(),
+            navigationUp = navController,
+            showTopBar = true,
+            titleTopBar = stringResource(R.string.config),
+            bottomNavigationBar = {
+                NavigationBar(
+                    navController = navController,
+                    modifier =
+                        Modifier
+                            .navigationBarsPadding()
+                            .statusBarsPadding(),
+                )
+            },
+            showButtonToReturn = true,
+            showBottomBarNavigation = true,
+            contentToUse = {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = it,
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    item {
+                        SwitchOptionItem(
+                            title = "Tema escuro",
+                            checked = false,
+                            onCheckedChange = {},
+                        )
+                        SwitchOptionItem(
+                            title = "Quer receber as notificações por e-mail?",
+                            checked = false,
+                            onCheckedChange = {},
+                        )
+                        SwitchOptionItem(
+                            title = "Notificar pelo celular",
+                            checked = false,
+                            onCheckedChange = {},
+                        )
+                    }
                 }
-            }
-        },
-    )
+            },
+        )
+    }
 }
 
 @Preview(showBackground = true)
