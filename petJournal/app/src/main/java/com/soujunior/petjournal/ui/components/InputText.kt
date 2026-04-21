@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,11 +24,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -40,6 +39,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.ColorCustom
+import com.soujunior.petjournal.ui.theme.ColorCustom.color_background_pet_icon
+import com.soujunior.petjournal.ui.theme.ColorCustom.color_selectable_button_6
 import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
 
@@ -62,7 +63,6 @@ fun InputText(
     textTitleModifier: Modifier = Modifier,
 ) {
     var showPassword by remember { mutableStateOf(false) }
-    val onSurfaceColor = MaterialTheme.colorScheme.onSurface
 
     Column(modifier = modifier) {
         Row {
@@ -88,6 +88,12 @@ fun InputText(
         }
         Row {
             BasicTextField(
+                cursorBrush =
+                    if (isSystemInDarkTheme()) {
+                        SolidColor(color_selectable_button_6)
+                    } else {
+                        SolidColor(color_background_pet_icon)
+                    },
                 modifier =
                     textInputModifier
                         .then(
@@ -105,22 +111,25 @@ fun InputText(
                                         ambientColor = ColorCustom.shadow_color,
                                     )
                                     .height(50.dp)
+                                    .fillMaxWidth()
                                     .background(
                                         color = if (isSystemInDarkTheme()) Color.Transparent else MaterialTheme.colorScheme.surface,
                                         shape = RoundedCornerShape(size = 12.dp),
                                     )
-                                    .padding(0.sdp)
-                                    .fillMaxWidth()
+                                    .border(
+                                        width = 1.dp,
+                                        color =
+                                            if (isError) {
+                                                ColorCustom.error_color
+                                            } else {
+                                                MaterialTheme.colorScheme.onSurface.copy(
+                                                    alpha = 0.3f,
+                                                )
+                                            },
+                                        shape = RoundedCornerShape(size = 12.dp),
+                                    )
+                                    .clip(RoundedCornerShape(size = 12.dp))
                                     .testTag("inputField_test")
-                                    .drawBehind {
-                                        val stroke = Stroke(width = 2.dp.toPx())
-                                        drawRoundRect(
-                                            color = if (isError) ColorCustom.error_color else onSurfaceColor,
-                                            style = stroke,
-                                            cornerRadius = CornerRadius(12.dp.toPx()),
-                                        )
-                                    }
-                                    .clip(RoundedCornerShape(10.sdp))
                             },
                         ),
                 value = textValue,
@@ -161,7 +170,18 @@ fun InputText(
                             if (textValue.isEmpty() && !hasAMask) {
                                 Text(
                                     text = placeholderText,
-                                    color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
+                                    color =
+                                        if (isError) {
+                                            MaterialTheme.colorScheme.error
+                                        } else if (textValue.isEmpty()) {
+                                            if (isLoading) {
+                                                MaterialTheme.colorScheme.onSurface.copy(alpha = 0f)
+                                            } else {
+                                                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                                            }
+                                        } else {
+                                            MaterialTheme.colorScheme.onSurface
+                                        },
                                     style = MaterialTheme.typography.bodyMedium,
                                 )
                             }

@@ -1,6 +1,8 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,6 +30,7 @@ fun TextFieldCustom(
     title: String,
     placeholder: String,
     value: String,
+    isError: Boolean = false,
     onValueChange: (String) -> Unit,
     isLoading: Boolean = false,
     modifier: Modifier = Modifier,
@@ -48,7 +53,7 @@ fun TextFieldCustom(
                 },
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(0.dp))
 
         OutlinedTextField(
             value = value,
@@ -61,7 +66,7 @@ fun TextFieldCustom(
             placeholder = {
                 Text(
                     text = placeholder,
-                    color = if (isLoading) Color.Transparent else ColorCustom.color_placeholder,
+                    color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
                     style = MaterialTheme.typography.bodyMedium,
                 )
             },
@@ -70,23 +75,45 @@ fun TextFieldCustom(
                     .then(
                         if (isLoading) {
                             Modifier
-                                .fillMaxWidth()
                                 .height(100.dp)
+                                .fillMaxWidth()
                                 .clip(RoundedCornerShape(12.dp))
                                 .shimmerEffect()
                         } else {
                             Modifier
-                                .fillMaxWidth()
-                                .background(MaterialTheme.colorScheme.onPrimary)
+                                .shadow(
+                                    elevation = 30.dp,
+                                    spotColor = ColorCustom.shadow_color,
+                                    ambientColor = ColorCustom.shadow_color,
+                                )
                                 .height(100.dp)
+                                .fillMaxWidth()
+                                .background(
+                                    color = if (isSystemInDarkTheme()) Color.Transparent else MaterialTheme.colorScheme.surface,
+                                    shape = RoundedCornerShape(size = 12.dp),
+                                )
+                                .border(
+                                    width = 1.dp,
+                                    color =
+                                        if (isError) {
+                                            ColorCustom.error_color
+                                        } else {
+                                            MaterialTheme.colorScheme.onSurface.copy(
+                                                alpha = 0.3f,
+                                            )
+                                        },
+                                    shape = RoundedCornerShape(size = 12.dp),
+                                )
+                                .clip(RoundedCornerShape(size = 12.dp))
+                                .testTag("inputField_test")
                         },
                     ),
             shape = RoundedCornerShape(12.dp),
             colors =
                 OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = ColorCustom.color_placeholder,
-                    unfocusedBorderColor = ColorCustom.color_placeholder,
-                    disabledBorderColor = if (isLoading) Color.Transparent else ColorCustom.color_placeholder,
+                    focusedBorderColor = Color.Transparent,
+                    unfocusedBorderColor = Color.Transparent,
+                    disabledBorderColor = Color.Transparent,
                 ),
         )
     }

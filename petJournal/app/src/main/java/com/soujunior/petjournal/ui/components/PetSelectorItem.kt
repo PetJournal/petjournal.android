@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.soujunior.petjournal.R
@@ -150,7 +153,7 @@ fun PetFilterItem(
             text = name,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight(500),
-            color = if (isLoading) Color.Transparent else ColorCustom.color_title_pet_icon,
+            color = if (isLoading) Color.Transparent else MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center,
             maxLines = 1,
             modifier =
@@ -236,6 +239,82 @@ fun PetFilterList(
                     )
                 }
             }
+        }
+    }
+}
+
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF121212,
+)
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF121212,
+)
+@Composable
+fun PetFilterListPreview() {
+    Surface {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+        ) {
+            PetFilterList(
+                isLoading = true,
+                listPet = emptyList(),
+                selectedIds = emptyList(),
+                onSelectionChanged = {},
+            )
+
+            PetFilterList(
+                isLoading = false,
+                listPet = emptyList(),
+                selectedIds = emptyList(),
+                onSelectionChanged = {},
+            )
+        }
+    }
+}
+
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    backgroundColor = 0xFF121212,
+)
+@Composable
+fun PetFilterItemPreview() {
+    Surface {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            PetFilterItem(
+                name = "Rex",
+                isSelected = false,
+                isLoading = false,
+                onSelect = {},
+            )
+
+            PetFilterItem(
+                name = "Bidu",
+                isSelected = true,
+                isLoading = false,
+                onSelect = {},
+            )
+
+            PetFilterItem(
+                name = "Spike",
+                isSelected = false,
+                isLoading = true,
+                onSelect = {},
+            )
         }
     }
 }

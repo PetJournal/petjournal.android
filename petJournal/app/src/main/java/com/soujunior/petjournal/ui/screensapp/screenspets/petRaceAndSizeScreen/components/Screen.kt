@@ -52,6 +52,7 @@ import com.soujunior.petjournal.ui.util.getScreenHeightInch
 import ir.kaaveh.sdpcompose.sdp
 import org.koin.androidx.compose.getViewModel
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Composable
 fun getRaceAndSizeViewModelForPreview(): ViewModelRaceSize {
     return if (LocalInspectionMode.current) {
@@ -135,7 +136,8 @@ fun Screen(
                                         textError = viewModel.state.sizeError,
                                         isError = !viewModel.state.sizeError.isNullOrEmpty(),
                                         titleText = "Porte: ",
-                                        dropdownItems = viewModel.state.listSizes,
+//                                        dropdownItems = viewModel.state.listSizes,
+                                        dropdownItems = emptyList(),
                                         onEvent = { it: String ->
                                             viewModel.onEvent(
                                                 RaceSizeFormEvent.PetSize(it),

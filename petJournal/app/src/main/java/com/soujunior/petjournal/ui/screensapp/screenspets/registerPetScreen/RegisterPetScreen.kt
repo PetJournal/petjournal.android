@@ -69,6 +69,7 @@ import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.AlertText
 import com.soujunior.petjournal.ui.components.Button3
+import com.soujunior.petjournal.ui.components.DropDown
 import com.soujunior.petjournal.ui.components.DualActionButton
 import com.soujunior.petjournal.ui.components.ImagePet
 import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
@@ -500,6 +501,138 @@ fun Button3SavePreview() {
 }
 
 @Composable
+private fun DateInputText(
+    modifier: Modifier = Modifier,
+    textTitleModifier: Modifier = Modifier,
+    textInputModifier: Modifier = Modifier,
+    placeholderText: String = "Placeholder",
+    titleText: String = "Title",
+    textValue: String,
+    isError: Boolean = false,
+    textError: List<String>? = null,
+    onEvent: (String) -> Unit,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+) {
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+    val datePickerDialog =
+        DatePickerDialog(
+            context,
+            { _, year, month, dayOfMonth ->
+                val formattedDate = String.format("%02d%02d%04d", dayOfMonth, month + 1, year)
+                onEvent(formattedDate)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH),
+        ).apply {
+            datePicker.maxDate = System.currentTimeMillis()
+        }
+
+    val openDialog = { datePickerDialog.show() }
+
+    Column(modifier = modifier) {
+        Row {
+            Text(
+                text = titleText,
+                textAlign = TextAlign.Start,
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight(500),
+                modifier =
+                    textTitleModifier
+                        .fillMaxWidth()
+                        .padding(end = 24.sdp),
+            )
+        }
+        Row {
+            Box(
+                modifier =
+                    textInputModifier
+                        .height(50.dp)
+                        .fillMaxWidth()
+                        .shadow(
+                            elevation = 30.dp,
+                            shape = RoundedCornerShape(12.dp),
+                            spotColor = ColorCustom.shadow_color,
+                            ambientColor = ColorCustom.shadow_color,
+                        )
+                        .background(
+                            color = MaterialTheme.colorScheme.surface,
+                            shape = RoundedCornerShape(12.dp),
+                        ),
+            ) {
+                OutlinedTextField(
+                    value = textValue,
+                    onValueChange = { },
+                    readOnly = true,
+                    enabled = true,
+                    singleLine = true,
+                    modifier = Modifier.fillMaxSize(),
+                    shape = RoundedCornerShape(12.dp),
+                    textStyle =
+                        MaterialTheme.typography.bodyMedium.copy(
+                            color = MaterialTheme.colorScheme.onSurface,
+                        ),
+                    placeholder = {
+                        Text(
+                            text = placeholderText,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+                        )
+                    },
+                    visualTransformation = visualTransformation,
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    trailingIcon = {
+                        val iconModifier =
+                            Modifier
+                                .padding(10.sdp)
+                                .clickable { openDialog() }
+
+                        if (isError) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.icone_erro),
+                                contentDescription = stringResource(R.string.description_error),
+                                tint = Color.Unspecified,
+                                modifier = iconModifier,
+                            )
+                        } else if (textValue.length >= 8) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.icone_verificado_ok),
+                                contentDescription = null,
+                                tint = Color.Unspecified,
+                                modifier = iconModifier,
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Default.DateRange,
+                                contentDescription = "Selecionar Data",
+                                tint = MaterialTheme.colorScheme.outline,
+                                modifier = iconModifier,
+                            )
+                        }
+                    },
+                )
+
+                Box(
+                    modifier =
+                        Modifier
+                            .matchParentSize()
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable { openDialog() },
+                )
+            }
+        }
+
+        Row {
+            textError?.forEach {
+                AlertText(textMessage = it, modifier = Modifier.padding(10.sdp))
+            }
+        }
+    }
+}
+
+@Composable
 private fun DropDown(
     modifier: Modifier = Modifier,
     textTitleModifier: Modifier = Modifier,
@@ -635,138 +768,6 @@ private fun DropDown(
         Row {
             textError?.forEach {
                 AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
-            }
-        }
-    }
-}
-
-@Composable
-private fun DateInputText(
-    modifier: Modifier = Modifier,
-    textTitleModifier: Modifier = Modifier,
-    textInputModifier: Modifier = Modifier,
-    placeholderText: String = "Placeholder",
-    titleText: String = "Title",
-    textValue: String,
-    isError: Boolean = false,
-    textError: List<String>? = null,
-    onEvent: (String) -> Unit,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-) {
-    val context = LocalContext.current
-    val calendar = Calendar.getInstance()
-    val datePickerDialog =
-        DatePickerDialog(
-            context,
-            { _, year, month, dayOfMonth ->
-                val formattedDate = String.format("%02d%02d%04d", dayOfMonth, month + 1, year)
-                onEvent(formattedDate)
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH),
-        ).apply {
-            datePicker.maxDate = System.currentTimeMillis()
-        }
-
-    val openDialog = { datePickerDialog.show() }
-
-    Column(modifier = modifier) {
-        Row {
-            Text(
-                text = titleText,
-                textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight(500),
-                modifier =
-                    textTitleModifier
-                        .fillMaxWidth()
-                        .padding(end = 24.sdp),
-            )
-        }
-        Row {
-            Box(
-                modifier =
-                    textInputModifier
-                        .height(50.dp)
-                        .fillMaxWidth()
-                        .shadow(
-                            elevation = 30.dp,
-                            shape = RoundedCornerShape(12.dp),
-                            spotColor = ColorCustom.shadow_color,
-                            ambientColor = ColorCustom.shadow_color,
-                        )
-                        .background(
-                            color = MaterialTheme.colorScheme.surface,
-                            shape = RoundedCornerShape(12.dp),
-                        ),
-            ) {
-                OutlinedTextField(
-                    value = textValue,
-                    onValueChange = { },
-                    readOnly = true,
-                    enabled = true,
-                    singleLine = true,
-                    modifier = Modifier.fillMaxSize(),
-                    shape = RoundedCornerShape(12.dp),
-                    textStyle =
-                        MaterialTheme.typography.bodyMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurface,
-                        ),
-                    placeholder = {
-                        Text(
-                            text = placeholderText,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
-                        )
-                    },
-                    visualTransformation = visualTransformation,
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                    trailingIcon = {
-                        val iconModifier =
-                            Modifier
-                                .padding(10.sdp)
-                                .clickable { openDialog() }
-
-                        if (isError) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.icone_erro),
-                                contentDescription = stringResource(R.string.description_error),
-                                tint = Color.Unspecified,
-                                modifier = iconModifier,
-                            )
-                        } else if (textValue.length >= 8) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.icone_verificado_ok),
-                                contentDescription = null,
-                                tint = Color.Unspecified,
-                                modifier = iconModifier,
-                            )
-                        } else {
-                            Icon(
-                                imageVector = Icons.Default.DateRange,
-                                contentDescription = "Selecionar Data",
-                                tint = MaterialTheme.colorScheme.outline,
-                                modifier = iconModifier,
-                            )
-                        }
-                    },
-                )
-
-                Box(
-                    modifier =
-                        Modifier
-                            .matchParentSize()
-                            .clip(RoundedCornerShape(12.dp))
-                            .clickable { openDialog() },
-                )
-            }
-        }
-
-        Row {
-            textError?.forEach {
-                AlertText(textMessage = it, modifier = Modifier.padding(10.sdp))
             }
         }
     }
