@@ -42,7 +42,6 @@ fun NavHostAccountManager() {
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
         composable("mainContent") { (mainContent()) }
-
         composable("forgotPassword") { ForgotPasswordScreen(navController) }
         composable("changePassword") { ChangePasswordScreen(navController) }
         composable("awaitingCode/{arg}") { backStackEntry ->
@@ -57,7 +56,6 @@ fun NavHostMainContent() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController) }
-
         composable("account_manager") { accountManager() }
         composable("profile/tutorScreen") { TutorScreen(navController) }
         composable("profile/notificationScreen") { NotificationsScreen(navController) }
@@ -78,11 +76,9 @@ fun NavHostMainContent() {
         composable("home/registerPet") { RegisterPetScreen(navController) }
         composable("pets/registerPet") { RegisterPetScreen(navController) }
         composable("pets/speciesChoice") { SpeciesChoiceScreen(navController) }
-
         composable("schedule/taskListScreen") { TaskListScreen(navController) }
         composable("schedule/registerTaskScreen") { RegisterTaskScreen(navController) }
         composable("home/registerTaskScreen") { RegisterTaskScreen(navController) }
-
         composable("pets/nameAndGender/{arg}") { backStackEntry ->
             PetNameAndGenderScreen(
                 backStackEntry.arguments?.getString("arg"),

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -111,109 +112,129 @@ fun LoginScreen(navController: NavController) {
         }
     }
 
-    Box(
+    Column(
         modifier =
             Modifier
                 .fillMaxSize()
-                .statusBarsPadding()
-                .navigationBarsPadding()
                 .background(MaterialTheme.colorScheme.background),
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.rastro),
-            contentDescription = null,
-            modifier = Modifier.fillMaxWidth(),
-            contentScale = ContentScale.FillWidth,
-        )
-        Column(
+        Box(
             modifier =
-                Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top,
+                Modifier
+                    .fillMaxSize()
+                    .statusBarsPadding()
+                    .navigationBarsPadding(),
         ) {
-            LazyColumn(
+            Image(
+                painter = painterResource(id = R.drawable.rastro),
+                contentDescription = null,
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = ContentScale.FillWidth,
+            )
+            Column(
                 modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(start = 20.sdp, end = 20.sdp, bottom = 60.sdp),
-                horizontalAlignment = Alignment.Start,
+                    Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top,
             ) {
-                item {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.group_3_1),
-                            contentDescription = null,
-                            modifier =
-                                Modifier
-                                    .size(100.sdp)
-                                    .padding(top = 20.sdp),
-                        )
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(start = 10.sdp, end = 10.sdp),
-                            horizontalArrangement = Arrangement.Center,
+                LazyColumn(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(start = 20.sdp, end = 20.sdp, bottom = 60.sdp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Top,
+                ) {
+                    item {
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
-                            Text(
-                                text = stringResource(R.string.app_name),
-                                style = MaterialTheme.typography.displayMedium,
-                                modifier = Modifier.padding(start = 8.sdp, bottom = 50.sdp),
-                                color = MaterialTheme.colorScheme.primary,
-                                textAlign = null,
-                                fontWeight = FontWeight(500),
+                            Image(
+                                painter =
+                                    if (isSystemInDarkTheme()) {
+                                        painterResource(id = R.drawable.pet_heart)
+                                    } else {
+                                        painterResource(id = R.drawable.group_3_1)
+                                    },
+                                contentDescription = null,
+                                modifier =
+                                    if (isSystemInDarkTheme()) {
+                                        Modifier
+                                            .size(150.sdp)
+                                    } else {
+                                        Modifier
+                                            .size(100.sdp)
+                                            .padding(top = 20.sdp)
+                                    },
                             )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(start = 10.sdp, end = 10.sdp),
+                                horizontalArrangement = Arrangement.Center,
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.app_name),
+                                    style = MaterialTheme.typography.displayMedium,
+                                    modifier =
+                                        Modifier.padding(start = 8.sdp, bottom = 50.sdp),
+                                    color = MaterialTheme.colorScheme.primary,
+                                    textAlign = null,
+                                    fontWeight = FontWeight(500),
+                                )
+                            }
                         }
                     }
-                }
-                item {
-                    InputText(
-                        modifier = Modifier.testTag("input_email"),
-                        requiredField = true,
-                        textInputModifier = Modifier.fillMaxWidth(),
-                        placeholderText = stringResource(id = R.string.email_hint),
-                        textValue = viewModel.state.email,
-                        textError = viewModel.state.emailError,
-                        isError = !viewModel.state.emailError.isNullOrEmpty(),
-                        titleText = stringResource(id = R.string.email_label),
-                        onEvent = { it: String ->
-                            viewModel.onEvent(LoginFormEvent.EmailChanged(it))
-                        },
-                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
-                    )
-                }
-                item {
-                    InputText(
-                        isPassword = true,
-                        requiredField = true,
-                        textTitleModifier = Modifier.padding(bottom = 4.sdp),
-                        textInputModifier = Modifier.fillMaxWidth().testTag("input_password"),
-                        placeholderText = stringResource(id = R.string.password_hint),
-                        titleText = stringResource(id = R.string.password_label),
-                        textValue = viewModel.state.password,
-                        textError = viewModel.state.passwordError,
-                        isError = !viewModel.state.passwordError.isNullOrEmpty(),
-                        onEvent = { it: String ->
-                            viewModel.onEvent(LoginFormEvent.PasswordChanged(it))
-                        },
-                    )
-                }
-                item {
-                    Spacer(modifier = Modifier.padding(top = 20.sdp))
-                }
-                item {
-                    RememberPasswordAndForgotSection(navController, viewModel)
-                }
-                item {
-                    Spacer(modifier = Modifier.padding(top = 45.sdp))
-                }
-                item {
-                    FooterLogin(navController, viewModel)
+                    item {
+                        InputText(
+                            modifier = Modifier.testTag("input_email"),
+                            requiredField = true,
+                            textInputModifier = Modifier.fillMaxWidth(),
+                            placeholderText = stringResource(id = R.string.email_hint),
+                            textValue = viewModel.state.email,
+                            textError = viewModel.state.emailError,
+                            isError = !viewModel.state.emailError.isNullOrEmpty(),
+                            titleText = stringResource(id = R.string.email_label),
+                            onEvent = { it: String ->
+                                viewModel.onEvent(LoginFormEvent.EmailChanged(it))
+                            },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                        )
+                    }
+                    item {
+                        InputText(
+                            isPassword = true,
+                            requiredField = true,
+                            textTitleModifier = Modifier.padding(bottom = 4.sdp),
+                            textInputModifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .testTag("input_password"),
+                            placeholderText = stringResource(id = R.string.password_hint),
+                            titleText = stringResource(id = R.string.password_label),
+                            textValue = viewModel.state.password,
+                            textError = viewModel.state.passwordError,
+                            isError = !viewModel.state.passwordError.isNullOrEmpty(),
+                            onEvent = { it: String ->
+                                viewModel.onEvent(LoginFormEvent.PasswordChanged(it))
+                            },
+                        )
+                    }
+                    item {
+                        Spacer(modifier = Modifier.padding(top = 20.sdp))
+                    }
+                    item {
+                        RememberPasswordAndForgotSection(navController, viewModel)
+                    }
+                    item {
+                        Spacer(modifier = Modifier.padding(top = 45.sdp))
+                    }
+                    item {
+                        FooterLogin(navController, viewModel)
+                    }
                 }
             }
         }
