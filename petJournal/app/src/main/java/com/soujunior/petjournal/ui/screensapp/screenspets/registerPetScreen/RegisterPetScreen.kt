@@ -103,7 +103,7 @@ fun RegisterPetScreen(navController: NavController) {
     val taskState by viewModel.taskState.collectAsState()
     val state = viewModel.stateUi.collectAsStateWithLifecycle()
 
-    Column(modifier = Modifier) {
+    Column(modifier = Modifier.background(color = MaterialTheme.colorScheme.onPrimary)) {
         ScaffoldCustom(
             modifier = Modifier.fillMaxSize().navigationBarsPadding().statusBarsPadding(),
             navigationUp = navController,

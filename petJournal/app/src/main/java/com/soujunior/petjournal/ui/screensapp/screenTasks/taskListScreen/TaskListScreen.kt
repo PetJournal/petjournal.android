@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,7 +56,7 @@ fun TaskListScreen(navController: NavController) {
     val viewModel: TaskListViewModel = getCorrectViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    Column(modifier = Modifier) {
+    Column(modifier = Modifier.background(color = MaterialTheme.colorScheme.onPrimary)) {
         ScaffoldCustom(
             modifier = Modifier.fillMaxSize().navigationBarsPadding().statusBarsPadding(),
             navigationUp = navController,

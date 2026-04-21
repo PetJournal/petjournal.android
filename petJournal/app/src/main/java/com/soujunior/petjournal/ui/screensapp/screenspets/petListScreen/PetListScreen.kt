@@ -96,13 +96,18 @@ fun PetListScreen(navController: NavController) {
     Column(
         modifier =
             Modifier
+                .background(color = MaterialTheme.colorScheme.onPrimary)
                 .navigationBarsPadding()
                 .fillMaxSize(),
         horizontalAlignment = CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         ScaffoldCustom(
-            modifier = Modifier.fillMaxSize().navigationBarsPadding().statusBarsPadding(),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .navigationBarsPadding()
+                    .statusBarsPadding(),
             titleTopBar = stringResource(R.string.my_pets),
             showButtonToReturn = false,
             navigationUp = navController,

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -93,147 +94,162 @@ fun HomeScreen(navController: NavController) {
             onRefresh = { viewModel.onEvent(HomeEvent.ReloadAll) },
         )
 
-    ScaffoldCustom(
-        titleTopBar =
-            if (state.hasErrorOnNameUser) {
-                stringResource(R.string.wellcome)
-            } else {
-                stringResource(R.string.hello, state.nameUser.replaceFirstChar { it.uppercaseChar() })
+    Column(
+        modifier = Modifier.background(color = MaterialTheme.colorScheme.onPrimary),
+    ) {
+        ScaffoldCustom(
+            titleTopBar =
+                if (state.hasErrorOnNameUser) {
+                    stringResource(R.string.wellcome)
+                } else {
+                    stringResource(
+                        R.string.hello,
+                        state.nameUser.replaceFirstChar { it.uppercaseChar() },
+                    )
+                },
+            isLoading = state.isLoadingUserName,
+            modifier =
+                Modifier
+                    .navigationBarsPadding()
+                    .statusBarsPadding(),
+            showActions = true,
+            shadowBelowTopBar = 0.dp,
+            showButtonToReturn = false,
+            navigationUp = navController,
+            showTopBar = true,
+            showBottomBarNavigation = true,
+            bottomNavigationBar = {
+                NavigationBar(
+                    navController = navController,
+                    modifier = Modifier.navigationBarsPadding(),
+                )
             },
-        isLoading = state.isLoadingUserName,
-        modifier = Modifier.navigationBarsPadding().statusBarsPadding(),
-        showActions = true,
-        shadowBelowTopBar = 0.dp,
-        showButtonToReturn = false,
-        navigationUp = navController,
-        showTopBar = true,
-        showBottomBarNavigation = true,
-        bottomNavigationBar = {
-            NavigationBar(
-                navController = navController,
-                modifier = Modifier.navigationBarsPadding(),
-            )
-        },
-        contentToUse = { paddingValues ->
-            Box(modifier = Modifier.fillMaxSize().pullRefresh(pullRefreshState)) {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding =
-                        PaddingValues(
-                            top = paddingValues.calculateTopPadding(),
-                            bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                            start = 16.dp,
-                            end = 16.dp,
-                        ),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.Top,
+            contentToUse = { paddingValues ->
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .pullRefresh(pullRefreshState),
                 ) {
-                    if (state.isLoadingUserName || state.isLoadingListPet) {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding =
+                            PaddingValues(
+                                top = paddingValues.calculateTopPadding(),
+                                bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                                start = 16.dp,
+                                end = 16.dp,
+                            ),
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Top,
+                    ) {
+                        if (state.isLoadingUserName || state.isLoadingListPet) {
+                            item {
+                                Box(
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .height(180.dp)
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .shimmerEffect(),
+                                )
+                            }
+                        } else {
+                            item { Carousel(imageIds = viewModel.carouselImages) }
+                        }
+
+                        item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
+
                         item {
-                            Box(
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .height(180.dp)
-                                        .clip(RoundedCornerShape(8.dp))
-                                        .shimmerEffect(),
+                            if (!state.isLoadingListPet) {
+                                SectionHeader(
+                                    title = stringResource(R.string.section_my_pets),
+                                    showButton = true,
+                                    onAddClick = {
+                                        navController.navigate("home/registerPet")
+                                    },
+                                )
+                            }
+                            PetList(
+                                pets = state.listPets,
+                                showReloadButton = state.hasErrorOnListPets,
+                                isLoading = state.isLoadingListPet,
+                                onReload = { viewModel.onEvent(HomeEvent.ReloadListPet) },
                             )
                         }
-                    } else {
-                        item { Carousel(imageIds = viewModel.carouselImages) }
-                    }
+                        if (state.isLoadingListTask) {
+                            item {
+                                TaskListItemShimmer()
+                            }
+                        } else {
+                            if (state.listTaskData.isNullOrEmpty()) {
+                                item {
+                                    EmptyTaskSection(onClick = {
+                                        navController.navigate("home/registerTaskScreen")
+                                    })
+                                }
+                            } else {
+                                state.listTaskData?.let { taskDataList: List<TaskData> ->
+                                    item {
+                                        SectionHeader(
+                                            title = stringResource(R.string.section_next_tasks),
+                                            showButton = true,
+                                            onAddClick = {
+                                                navController.navigate("home/registerTaskScreen")
+                                            },
+                                        )
+                                    }
+                                    items(items = taskDataList, key = { it.id }) { task ->
+                                        TaskCard(
+                                            taskData = task,
+                                            modifier =
+                                                Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(bottom = 8.dp),
+                                        )
+                                    }
+                                }
+                            }
+                        }
 
-                    item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
-
-                    item {
-                        if (!state.isLoadingListPet) {
-                            SectionHeader(
-                                title = stringResource(R.string.section_my_pets),
-                                showButton = true,
-                                onAddClick = {
-                                    navController.navigate("home/registerPet")
+                        item {
+                            TagSection(
+                                isLoadingListTag = state.isLoadingListTag,
+                                listTag = state.listTag,
+                                hasErrorOnListTag = state.hasErrorOnListTag,
+                                onReload = { viewModel.onEvent(HomeEvent.ReloadListTag) },
+                                onTagClick = { tagId ->
+                                    when (tagId) {
+                                        "all_tags_option" -> showSheet = true
+                                        else -> Log.e(TAG, "Tag clicada: $tagId")
+                                    }
                                 },
                             )
                         }
-                        PetList(
-                            pets = state.listPets,
-                            showReloadButton = state.hasErrorOnListPets,
-                            isLoading = state.isLoadingListPet,
-                            onReload = { viewModel.onEvent(HomeEvent.ReloadListPet) },
-                        )
-                    }
-                    if (state.isLoadingListTask) {
-                        item {
-                            TaskListItemShimmer()
-                        }
-                    } else {
-                        if (state.listTaskData.isNullOrEmpty()) {
-                            item {
-                                EmptyTaskSection(onClick = {
-                                    navController.navigate("home/registerTaskScreen")
-                                })
-                            }
-                        } else {
-                            state.listTaskData?.let { taskDataList: List<TaskData> ->
-                                item {
-                                    SectionHeader(
-                                        title = stringResource(R.string.section_next_tasks),
-                                        showButton = true,
-                                        onAddClick = {
-                                            navController.navigate("home/registerTaskScreen")
-                                        },
-                                    )
-                                }
-                                items(items = taskDataList, key = { it.id }) { task ->
-                                    TaskCard(
-                                        taskData = task,
-                                        modifier =
-                                            Modifier
-                                                .fillMaxWidth()
-                                                .padding(bottom = 8.dp),
-                                    )
-                                }
-                            }
-                        }
                     }
 
-                    item {
-                        TagSection(
-                            isLoadingListTag = state.isLoadingListTag,
-                            listTag = state.listTag,
-                            hasErrorOnListTag = state.hasErrorOnListTag,
-                            onReload = { viewModel.onEvent(HomeEvent.ReloadListTag) },
-                            onTagClick = { tagId ->
-                                when (tagId) {
-                                    "all_tags_option" -> showSheet = true
-                                    else -> Log.e(TAG, "Tag clicada: $tagId")
-                                }
+                    PullRefreshIndicator(
+                        refreshing = isRefreshing,
+                        state = pullRefreshState,
+                        modifier = Modifier.align(Alignment.TopCenter),
+                    )
+
+                    MenuBottomSheet(
+                        isVisible = showSheet,
+                        onDismiss = { showSheet = false },
+                    ) {
+                        CategoryMenu(
+                            menuItems = state.menuItems,
+                            onSelect = { itemSelecionado ->
+                                println("Usuário escolheu: $itemSelecionado")
+                                showSheet = false
                             },
                         )
                     }
                 }
-
-                PullRefreshIndicator(
-                    refreshing = isRefreshing,
-                    state = pullRefreshState,
-                    modifier = Modifier.align(Alignment.TopCenter),
-                )
-
-                MenuBottomSheet(
-                    isVisible = showSheet,
-                    onDismiss = { showSheet = false },
-                ) {
-                    CategoryMenu(
-                        menuItems = state.menuItems,
-                        onSelect = { itemSelecionado ->
-                            println("Usuário escolheu: $itemSelecionado")
-                            showSheet = false
-                        },
-                    )
-                }
-            }
-        },
-    )
+            },
+        )
+    }
 }
 
 @Composable
