@@ -1,0 +1,41 @@
+package com.soujunior.data.repository
+
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
+import com.soujunior.domain.repository.PreferenceRepository
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+
+class PreferenceRepositoryImpl(
+    context: Context
+) : PreferenceRepository {
+
+    private val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
+    companion object {
+        private const val KEY_DARK_MODE = "dark_mode_pref_key"
+    }
+
+    override fun getDarkModePreference(): Flow<Boolean> = callbackFlow {
+        // Emit initial value
+        trySend(prefs.getBoolean(KEY_DARK_MODE, false))
+
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+            if (key == KEY_DARK_MODE) {
+                trySend(sharedPreferences.getBoolean(KEY_DARK_MODE, false))
+            }
+        }
+
+        prefs.registerOnSharedPreferenceChangeListener(listener)
+
+        awaitClose {
+            prefs.unregisterOnSharedPreferenceChangeListener(listener)
+        }
+    }
+
+    override suspend fun setDarkModePreference(isDark: Boolean) {
+        prefs.edit().putBoolean(KEY_DARK_MODE, isDark).apply()
+    }
+}

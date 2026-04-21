@@ -128,12 +128,12 @@ fun TutorScreen(navController: NavController) {
                             )
                             ActionItem(
                                 title = stringResource(R.string.config),
-                                onClick = { navController.navigate("profile/notificationScreen") },
+                                onClick = { navController.navigate("profile/settingsScreen") },
                             )
-                            ActionItem(
-                                title = stringResource(R.string.privacy_policy),
-                                onClick = { navController.navigate("profile/privacyPolicyScreen") },
-                            )
+//                            ActionItem(
+//                                title = stringResource(R.string.privacy_policy),
+//                                onClick = { navController.navigate("profile/privacyPolicyScreen") },
+//                            )
 //                        ActionItem(
 //                            title = stringResource(R.string.delete_account),
 //                            onClick = {},

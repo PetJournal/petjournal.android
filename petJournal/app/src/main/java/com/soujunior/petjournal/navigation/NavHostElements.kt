@@ -13,7 +13,7 @@ import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.Regi
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreen
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.RegisterTaskScreen
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskListScreen
-import com.soujunior.petjournal.ui.screensapp.screenTutor.config.notifyScreen.NotificationsScreen
+import com.soujunior.petjournal.ui.screensapp.screenTutor.config.notifyScreen.SettingsScreen
 import com.soujunior.petjournal.ui.screensapp.screenTutor.privacyPolicy.PrivacyPolicyScreen
 import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorScreen
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashScreen
@@ -58,7 +58,7 @@ fun NavHostMainContent() {
         composable("home") { HomeScreen(navController) }
         composable("account_manager") { accountManager() }
         composable("profile/tutorScreen") { TutorScreen(navController) }
-        composable("profile/notificationScreen") { NotificationsScreen(navController) }
+        composable("profile/settingsScreen") { SettingsScreen(navController) }
         composable("profile/privacyPolicyScreen") { PrivacyPolicyScreen(navController) }
         composable("forgotPassword") { ForgotPasswordScreen(navController) }
         composable("awaitingCode/{arg}") { backStackEntry ->

@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,10 +23,15 @@ import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.switchComponent.SwitchOptionItem
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
+import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun NotificationsScreen(navController: NavController) {
+fun SettingsScreen(
+    navController: NavController,
+    viewModel: SettingsViewModel = koinViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsState()
     Column(modifier = Modifier.background(color = MaterialTheme.colorScheme.onPrimary)) {
         ScaffoldCustom(
             modifier =
@@ -56,19 +63,19 @@ fun NotificationsScreen(navController: NavController) {
                     item {
                         SwitchOptionItem(
                             title = "Tema escuro",
-                            checked = false,
-                            onCheckedChange = {},
+                            checked = uiState.isDarkMode,
+                            onCheckedChange = { viewModel.toggleDarkMode(it) },
                         )
-                        SwitchOptionItem(
-                            title = "Quer receber as notificações por e-mail?",
-                            checked = false,
-                            onCheckedChange = {},
-                        )
-                        SwitchOptionItem(
-                            title = "Notificar pelo celular",
-                            checked = false,
-                            onCheckedChange = {},
-                        )
+//                        SwitchOptionItem(
+//                            title = "Quer receber as notificações por e-mail?",
+//                            checked = false,
+//                            onCheckedChange = {},
+//                        )
+//                        SwitchOptionItem(
+//                            title = "Notificar pelo celular",
+//                            checked = false,
+//                            onCheckedChange = {},
+//                        )
                     }
                 }
             },
@@ -80,6 +87,6 @@ fun NotificationsScreen(navController: NavController) {
 @Composable
 fun TutorScreenPreview() {
     PetJournalTheme {
-        NotificationsScreen(navController = rememberNavController())
+        SettingsScreen(navController = rememberNavController())
     }
 }

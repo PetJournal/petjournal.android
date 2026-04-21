@@ -14,10 +14,15 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
+import com.soujunior.domain.use_case.preference.GetDarkModePreferenceUseCase
+import org.koin.androidx.compose.get
 
 /**h1	displayLarge
 h2	displayMedium
@@ -126,14 +131,25 @@ fun PetJournalTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
+    val isDarkPref =
+        if (!LocalInspectionMode.current) {
+            val getDarkModeUseCase: GetDarkModePreferenceUseCase = get()
+            val pref by getDarkModeUseCase().collectAsState(initial = false)
+            pref
+        } else {
+            false
+        }
+
+    val finalDarkTheme = if (isDarkPref) true else darkTheme
+
     val colors =
         when {
             isDynamic && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
                 val context = LocalContext.current
-                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+                if (finalDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
             }
 
-            darkTheme -> if (!isIntro) DarkCor else schemeIntro
+            finalDarkTheme -> if (!isIntro) DarkCor else schemeIntro
             else -> if (!isIntro) lightCor else schemeIntro
         }
 

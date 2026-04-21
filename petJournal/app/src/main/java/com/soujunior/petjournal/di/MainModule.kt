@@ -9,7 +9,9 @@ import com.soujunior.data.remote.RemoteDataSource
 import com.soujunior.data.remote.adapters.internal.NetworkResultCallAdapterFactory
 import com.soujunior.data.repository.AppInfoDataImpl
 import com.soujunior.data.repository.AuthRepositoryImpl
+import com.soujunior.data.repository.PreferenceRepositoryImpl
 import com.soujunior.data.repository.RepositoryImpl
+import com.soujunior.domain.repository.PreferenceRepository
 import com.soujunior.domain.repository.api.AuthRepository
 import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.repository.appinfo.AppInfoDatabase
@@ -42,6 +44,8 @@ import com.soujunior.domain.use_case.pet.GetPetByIdUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
+import com.soujunior.domain.use_case.preference.GetDarkModePreferenceUseCase
+import com.soujunior.domain.use_case.preference.SaveDarkModePreferenceUseCase
 import com.soujunior.domain.use_case.tag.CreateTagUseCase
 import com.soujunior.domain.use_case.tag.DeleteTagUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
@@ -67,6 +71,7 @@ import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.vie
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskListViewModel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskListViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screenTutor.config.notifyScreen.SettingsViewModel
 import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorViewModel
 import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashViewModel
@@ -104,6 +109,7 @@ val mainModule =
         single<AppInfoDatabaseRepository> { AppInfoDataImpl(get()) }
         single<LocalDataSource> { LocalDataSourceImpl(get(), get()) }
         single<AppInfoDatabase> { AppInfoDataBaseImpl(get()) }
+        single<PreferenceRepository> { PreferenceRepositoryImpl(get()) }
 
         single {
             Room.databaseBuilder(
@@ -153,6 +159,8 @@ val mainModule =
         factory { GetListCurrentDateTaskUseCase(get()) }
         factory { GetListCurrentWeekTaskUseCase(get()) }
         factory { GetListCurrentMonthTaskUseCase(get()) }
+        factory { GetDarkModePreferenceUseCase(get()) }
+        factory { SaveDarkModePreferenceUseCase(get()) }
 
         single<AuthDataSource> { get<Retrofit>().create(AuthDataSource::class.java) }
         single<RemoteDataSource> { get<Retrofit>().create(RemoteDataSource::class.java) }
@@ -223,4 +231,5 @@ val mainModule =
         viewModel<RegisterTaskViewModel> { RegisterTaskViewModelImpl(get(), get(), get(), get(), get(), get()) }
         viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get()) }
         viewModel<TutorViewModel> { TutorViewModelImpl(get(), get(), get()) }
+        viewModel { SettingsViewModel(get(), get()) }
     }
