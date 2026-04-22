@@ -4,6 +4,9 @@ import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.model.PetDetailsDTO
+import com.soujunior.domain.model.response.tag.TagDTO
+import com.soujunior.domain.model.taskModel.ScheduleDataDTO
 import com.soujunior.domain.use_case.base.DataResult
 
 interface LocalDataSource {
@@ -19,4 +22,13 @@ interface LocalDataSource {
     suspend fun saveListPetSizes(tag: String, listPetSize: List<PetSizeItemModel>): DataResult<String>
     suspend fun getListPetRaces(tag: String): DataResult<List<PetRaceItemModel>>?
     suspend fun saveListPetRaces(tag: String, listPetRace: List<PetRaceItemModel>): DataResult<String>
+
+    suspend fun getAllPets(): List<PetDetailsDTO>
+    suspend fun saveAllPets(pets: List<PetDetailsDTO>)
+
+    suspend fun getAllTags(): List<TagDTO>
+    suspend fun saveAllTags(tags: List<TagDTO>)
+
+    suspend fun getAllTasks(): List<ScheduleDataDTO>
+    suspend fun saveAllTasks(tasks: List<ScheduleDataDTO>)
 }

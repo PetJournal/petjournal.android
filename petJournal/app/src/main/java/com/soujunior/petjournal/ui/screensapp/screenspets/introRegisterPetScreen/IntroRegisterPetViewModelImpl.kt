@@ -76,7 +76,7 @@ class IntroRegisterPetViewModelImpl(
 
     override fun getName() {
         viewModelScope.launch {
-            val result = getName.execute(Unit)
+            val result = getName.execute(false)
             result.handleResult(
                 { name -> run { _name.value = name.firstName } },
                 { error ->

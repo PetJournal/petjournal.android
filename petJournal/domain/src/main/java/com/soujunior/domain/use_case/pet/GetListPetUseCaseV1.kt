@@ -8,9 +8,9 @@ import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 
 class GetListPetUseCaseV1(private val repository: Repository):
-    BaseUseCase<Unit, List<PetModel>>() {
-    override suspend fun doWork(value: Unit): DataResult<List<PetModel>> {
-        return when (val response = repository.getListPet()) {
+    BaseUseCase<Boolean, List<PetModel>>() {
+    override suspend fun doWork(value: Boolean): DataResult<List<PetModel>> {
+        return when (val response = repository.getListPet(value)) {
             is NetworkResult.Success -> { DataResult.Success(response.data.toPetModelList()) }
             is NetworkResult.Error -> DataResult.Failure(Throwable(message = "${response.code} -> ${response.body?.error}"))
             is NetworkResult.Exception -> DataResult.Failure(response.e)

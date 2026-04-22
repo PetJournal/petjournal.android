@@ -107,7 +107,7 @@ val mainModule =
         single<AuthRepository> { AuthRepositoryImpl(get(), get(), get()) }
         single<Repository> { RepositoryImpl(get(), get(), get()) }
         single<AppInfoDatabaseRepository> { AppInfoDataImpl(get()) }
-        single<LocalDataSource> { LocalDataSourceImpl(get(), get()) }
+        single<LocalDataSource> { LocalDataSourceImpl(get(), get(), get(), get(), get()) }
         single<AppInfoDatabase> { AppInfoDataBaseImpl(get()) }
         single<PreferenceRepository> { PreferenceRepositoryImpl(get()) }
 
@@ -122,6 +122,9 @@ val mainModule =
         }
         single { get<AppDatabase>().guardianProfileDao() }
         single { get<AppDatabase>().applicationDao() }
+        single { get<AppDatabase>().petDetailsDao() }
+        single { get<AppDatabase>().tagDao() }
+        single { get<AppDatabase>().taskDao() }
 
         // UseCases
         factory { SignUpUseCase(get()) }

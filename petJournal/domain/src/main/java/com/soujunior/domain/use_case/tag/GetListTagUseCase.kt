@@ -7,9 +7,9 @@ import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 
-class GetListTagUseCase(private val repository: Repository): BaseUseCase<Unit, List<TagModel>>() {
-    override suspend fun doWork(value: Unit): DataResult<List<TagModel>> {
-        return when (val response = repository.getListTag()) {
+class GetListTagUseCase(private val repository: Repository): BaseUseCase<Boolean, List<TagModel>>() {
+    override suspend fun doWork(value: Boolean): DataResult<List<TagModel>> {
+        return when (val response = repository.getListTag(value)) {
             is NetworkResult.Success -> { DataResult.Success(response.data.toDomain()) }
             is NetworkResult.Error -> DataResult.Failure(Throwable(message = "${response.code} -> ${response.body?.error}"))
             is NetworkResult.Exception -> DataResult.Failure(response.e)

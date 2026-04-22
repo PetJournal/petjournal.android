@@ -51,25 +51,26 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun getGuardianName(): NetworkResult<GuardianNameResponse> {
-        val localName = guardianLocalDataSourceImpl.getGuardianName()
-        return if (localName != null) {
-            NetworkResult.Success(GuardianNameResponse(localName, ""))
-        } else {
-            val token = getToken()
-            when (val apiResult = remoteDataSource.getGuardianName(token!!)) {
-                is NetworkResult.Success -> {
-                    coroutineScope {
-                        try {
-                            guardianLocalDataSourceImpl.saveGuardianName(apiResult.data)
-                        } catch (e: Exception) {
-                        }
-                    }
-                    NetworkResult.Success(GuardianNameResponse(apiResult.data.firstName, ""))
-                }
-
-                else -> apiResult
+    override suspend fun getGuardianName(forceRequest: Boolean): NetworkResult<GuardianNameResponse> {
+        if (!forceRequest) {
+            val localName = guardianLocalDataSourceImpl.getGuardianName()
+            if (localName != null) {
+                return NetworkResult.Success(GuardianNameResponse(localName, ""))
             }
+        }
+        val token = getToken()
+        return when (val apiResult = remoteDataSource.getGuardianName(token!!)) {
+            is NetworkResult.Success -> {
+                coroutineScope {
+                    try {
+                        guardianLocalDataSourceImpl.saveGuardianName(apiResult.data)
+                    } catch (e: Exception) {
+                    }
+                }
+                NetworkResult.Success(GuardianNameResponse(apiResult.data.firstName, ""))
+            }
+
+            else -> apiResult
         }
     }
 
@@ -136,13 +137,24 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun getListTag(): NetworkResult<List<TagDTO>> {
+    override suspend fun getListTag(forceRequest: Boolean): NetworkResult<List<TagDTO>> {
+        if (!forceRequest) {
+            val localTags = guardianLocalDataSourceImpl.getAllTags()
+            if (localTags.isNotEmpty()) {
+                return NetworkResult.Success(localTags)
+            }
+        }
         getToken()?.let { token ->
             val apiResponse =  remoteDataSource.getListTag(token)
             var result: NetworkResult<List<TagDTO>> = NetworkResult.Error(0, null)
 
             apiResponse
                 .onSuccess { data ->
+                    coroutineScope {
+                        try {
+                            guardianLocalDataSourceImpl.saveAllTags(data)
+                        } catch (e: Exception) {}
+                    }
                     result = NetworkResult.Success(data)
                 }
                 .onError { code, body ->
@@ -219,13 +231,24 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun getListPet(): NetworkResult<List<PetDetailsDTO>> {
+    override suspend fun getListPet(forceRequest: Boolean): NetworkResult<List<PetDetailsDTO>> {
+        if (!forceRequest) {
+            val localPets = guardianLocalDataSourceImpl.getAllPets()
+            if (localPets.isNotEmpty()) {
+                return NetworkResult.Success(localPets)
+            }
+        }
         getToken()?.let { token ->
             val apiResponse =  remoteDataSource.getPetList(token)
             var result: NetworkResult<List<PetDetailsDTO>> = NetworkResult.Error(0, null)
 
             apiResponse
                 .onSuccess { data ->
+                    coroutineScope {
+                        try {
+                            guardianLocalDataSourceImpl.saveAllPets(data)
+                        } catch (e: Exception) {}
+                    }
                     result = NetworkResult.Success(data)
                 }
                 .onError { code, body ->
@@ -442,13 +465,24 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun listCurrentWeekScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
+    override suspend fun listCurrentWeekScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+        if (!forceRequest) {
+            val localTasks = guardianLocalDataSourceImpl.getAllTasks()
+            if (localTasks.isNotEmpty()) {
+                return NetworkResult.Success(PaginatedScheduleResponseDTO(localTasks, 1))
+            }
+        }
         getToken()?.let { token ->
             val apiResponse =  remoteDataSource.getTaskListCurrentWeek(token)
             var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
 
             apiResponse
                 .onSuccess {
+                    coroutineScope {
+                        try {
+                            guardianLocalDataSourceImpl.saveAllTasks(it.data)
+                        } catch (e: Exception) {}
+                    }
                     result = NetworkResult.Success(it)
                 }
                 .onError { code, body ->

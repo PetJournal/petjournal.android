@@ -56,7 +56,7 @@ class TaskListViewModelImpl(
             val result =
                 when (filter) {
                     DateFilter.DAILY -> getListCurrentDateTaskUseCase.execute(Unit)
-                    DateFilter.WEEKLY -> getListCurrentWeekTaskUseCase.execute(Unit)
+                    DateFilter.WEEKLY -> getListCurrentWeekTaskUseCase.execute(false)
                     DateFilter.MONTHLY -> getListCurrentMonthTaskUseCase.execute(Unit)
                 }
 

@@ -33,7 +33,7 @@ class PetListViewModelImpl(
     private fun getPetList() {
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
-            val result = getPetListUseCase.execute(Unit)
+            val result = getPetListUseCase.execute(false)
             result.handleResult({
                 _state.update { currentState ->
                     currentState.copy(listPets = it)

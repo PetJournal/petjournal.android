@@ -118,7 +118,7 @@ class ViewModelChoiceSpeciesImpl(
     private fun getData() {
         viewModelScope.launch {
             _taskState.value = TaskState.Loading
-            val result = getGuardianNameUseCase.execute(Unit)
+            val result = getGuardianNameUseCase.execute(false)
             result.handleResult(::success, ::failed)
         }
     }

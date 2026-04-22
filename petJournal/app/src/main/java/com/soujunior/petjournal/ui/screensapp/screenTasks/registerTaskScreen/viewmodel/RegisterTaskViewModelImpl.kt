@@ -228,7 +228,7 @@ class RegisterTaskViewModelImpl(
     private fun getTags() {
         _state.update { it.copy(isLoadingListTag = true) }
         viewModelScope.launch {
-            val result = getListTagCase.execute(Unit)
+            val result = getListTagCase.execute(false)
             result.handleResult({ list: List<TagModel> ->
                 _state.update {
                     it.copy(

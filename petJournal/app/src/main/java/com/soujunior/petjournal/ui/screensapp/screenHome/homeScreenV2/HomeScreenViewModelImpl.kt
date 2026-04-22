@@ -69,7 +69,7 @@ class HomeScreenViewModelImpl(
     override fun getGuardianName() {
         _state.value = _state.value.copy(isLoadingUserName = true)
         viewModelScope.launch {
-            val result = getGuardianNameUseCase.execute(Unit)
+            val result = getGuardianNameUseCase.execute(false)
             result.handleResult({
                 success(it)
             }, {
@@ -97,7 +97,7 @@ class HomeScreenViewModelImpl(
     private fun getPetList() {
         _state.value = _state.value.copy(isLoadingListPet = true)
         viewModelScope.launch {
-            val result = getPetListUseCase.execute(Unit)
+            val result = getPetListUseCase.execute(false)
             result.handleResult({
                 _state.value = _state.value.copy(listPets = it, isLoadingListPet = false)
             }, {
@@ -109,7 +109,7 @@ class HomeScreenViewModelImpl(
     private fun getTask() {
         _state.value = _state.value.copy(isLoadingListTask = true)
         viewModelScope.launch {
-            val result = getListCurrentWeekTaskUseCase.execute(Unit)
+            val result = getListCurrentWeekTaskUseCase.execute(false)
             result.handleResult({ value: PaginatedScheduleResponseModel ->
                 _state.update {
                     with(Mapper) {
@@ -129,7 +129,7 @@ class HomeScreenViewModelImpl(
     private fun getTags() {
         _state.value = _state.value.copy(isLoadingListTag = true, hasErrorOnListTag = false)
         viewModelScope.launch {
-            val result = getListTagUseCase.execute(Unit)
+            val result = getListTagUseCase.execute(false)
             result.handleResult({ tags ->
                 _state.value =
                     with(Mapper) {

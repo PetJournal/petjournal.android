@@ -56,7 +56,7 @@ class TutorViewModelImpl(
     override fun getGuardianName() {
         _state.value = _state.value.copy(isLoadingUserName = true)
         viewModelScope.launch {
-            val result = getGuardianNameUseCase.execute(Unit)
+            val result = getGuardianNameUseCase.execute(false)
             result.handleResult({
                 success(it)
             }, {
