@@ -59,17 +59,17 @@ class HomeScreenViewModelImpl(
 
     init {
         viewModelScope.launch {
-            getGuardianName()
-            getPetList()
-            getTask()
-            getTags()
+            getGuardianName(false)
+            getPetList(false)
+            getTask(false)
+            getTags(false)
         }
     }
 
-    override fun getGuardianName() {
+    override fun getGuardianName(forceRequest: Boolean) {
         _state.value = _state.value.copy(isLoadingUserName = true)
         viewModelScope.launch {
-            val result = getGuardianNameUseCase.execute(false)
+            val result = getGuardianNameUseCase.execute(forceRequest)
             result.handleResult({
                 success(it)
             }, {
@@ -83,21 +83,21 @@ class HomeScreenViewModelImpl(
 
     override fun onEvent(event: HomeEvent) {
         when (event) {
-            is HomeEvent.ReloadListPet -> getPetList()
-            is HomeEvent.ReloadListTag -> getTags()
+            is HomeEvent.ReloadListPet -> getPetList(true)
+            is HomeEvent.ReloadListTag -> getTags(true)
             is HomeEvent.ReloadAll -> {
-                getGuardianName()
-                getPetList()
-                getTask()
-                getTags()
+                getGuardianName(true)
+                getPetList(true)
+                getTask(true)
+                getTags(true)
             }
         }
     }
 
-    private fun getPetList() {
+    private fun getPetList(forceRequest: Boolean = false) {
         _state.value = _state.value.copy(isLoadingListPet = true)
         viewModelScope.launch {
-            val result = getPetListUseCase.execute(false)
+            val result = getPetListUseCase.execute(forceRequest)
             result.handleResult({
                 _state.value = _state.value.copy(listPets = it, isLoadingListPet = false)
             }, {
@@ -106,10 +106,10 @@ class HomeScreenViewModelImpl(
         }
     }
 
-    private fun getTask() {
+    private fun getTask(forceRequest: Boolean = false) {
         _state.value = _state.value.copy(isLoadingListTask = true)
         viewModelScope.launch {
-            val result = getListCurrentWeekTaskUseCase.execute(false)
+            val result = getListCurrentWeekTaskUseCase.execute(forceRequest)
             result.handleResult({ value: PaginatedScheduleResponseModel ->
                 _state.update {
                     with(Mapper) {
@@ -126,10 +126,10 @@ class HomeScreenViewModelImpl(
         }
     }
 
-    private fun getTags() {
+    private fun getTags(forceRequest: Boolean = false) {
         _state.value = _state.value.copy(isLoadingListTag = true, hasErrorOnListTag = false)
         viewModelScope.launch {
-            val result = getListTagUseCase.execute(false)
+            val result = getListTagUseCase.execute(forceRequest)
             result.handleResult({ tags ->
                 _state.value =
                     with(Mapper) {

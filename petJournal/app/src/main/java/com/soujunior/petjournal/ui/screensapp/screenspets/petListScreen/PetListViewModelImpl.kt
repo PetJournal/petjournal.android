@@ -30,10 +30,10 @@ class PetListViewModelImpl(
         getPetList()
     }
 
-    private fun getPetList() {
+    private fun getPetList(forceRequest: Boolean = false) {
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
-            val result = getPetListUseCase.execute(false)
+            val result = getPetListUseCase.execute(forceRequest)
             result.handleResult({
                 _state.update { currentState ->
                     currentState.copy(listPets = it)
@@ -44,7 +44,7 @@ class PetListViewModelImpl(
     }
 
     override fun reload() {
-        getPetList()
+        getPetList(true)
     }
 
     override fun failed(exception: Throwable?) {

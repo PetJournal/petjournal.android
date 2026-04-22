@@ -33,6 +33,7 @@ fun presentationManager() {
 fun accountManager() {
     PetJournalTheme(
         isIntro = false,
+        ignoreAppTheme = true,
         content = {
             NavHostAccountManager()
         },

@@ -1,5 +1,9 @@
 package com.petjournal.database.repository
 
+import com.petjournal.database.database.db.AppDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
 import com.petjournal.database.converter.Converter.toEntity
 import com.petjournal.database.converter.Converter.toListPetRaceEntity
 import com.petjournal.database.converter.Converter.toListPetRaceModel
@@ -31,6 +35,7 @@ class LocalDataSourceImpl(
     private val petDetailsDao: PetDetailsDao,
     private val tagDao: TagDao,
     private val taskDao: TaskDao,
+    private val appDatabase: AppDatabase,
 ) : LocalDataSource {
 
     override suspend fun getGuardianName(): String? {
@@ -162,11 +167,9 @@ class LocalDataSourceImpl(
     }
 
     override suspend fun deleteDatabase() {
-        guardianDao.deleteAllProfiles()
-        appInfoDao.deleteAllInformation()
-        petDetailsDao.deleteAll()
-        tagDao.deleteAll()
-        taskDao.deleteAll()
+        withContext(Dispatchers.IO) {
+            appDatabase.clearAllTables()
+        }
     }
 
     override suspend fun getAllPets(): List<PetDetailsDTO> {

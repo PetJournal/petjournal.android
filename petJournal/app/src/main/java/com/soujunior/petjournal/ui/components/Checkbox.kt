@@ -74,7 +74,7 @@ fun Checkbox(
             Text(
                 text = text,
                 style = styleText.merge(MaterialTheme.typography.labelSmall),
-                color = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.Unspecified,
+                color = MaterialTheme.colorScheme.onSurface,
             )
         }
     }

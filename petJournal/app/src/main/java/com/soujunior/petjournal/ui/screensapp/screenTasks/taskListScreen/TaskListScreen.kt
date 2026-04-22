@@ -13,8 +13,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -51,10 +55,17 @@ private fun getCorrectViewModel(): TaskListViewModel {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TaskListScreen(navController: NavController) {
     val viewModel: TaskListViewModel = getCorrectViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val pullRefreshState =
+        rememberPullRefreshState(
+            refreshing = state.isLoading,
+            onRefresh = { viewModel.onEvent(TaskListEvent.OnRefresh) },
+        )
 
     Column(modifier = Modifier.background(color = MaterialTheme.colorScheme.onPrimary)) {
         ScaffoldCustom(
@@ -91,51 +102,62 @@ fun TaskListScreen(navController: NavController) {
                 )
             },
             contentToUse = { paddingValues ->
-                Column(
+                Box(
                     modifier =
                         Modifier
                             .fillMaxSize()
-                            .padding(paddingValues),
+                            .padding(paddingValues)
+                            .pullRefresh(pullRefreshState),
                 ) {
-                    TabSelector(
-                        selectedFilter = state.selectedDateFilter,
-                        onFilterSelected = { newFilter ->
-                            viewModel.onEvent(TaskListEvent.OnDateFilterChange(newFilter))
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                    )
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        TabSelector(
+                            selectedFilter = state.selectedDateFilter,
+                            onFilterSelected = { newFilter ->
+                                viewModel.onEvent(TaskListEvent.OnDateFilterChange(newFilter))
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
 
-                    if (state.isLoading) {
-                        LazyColumn(
-                            modifier = Modifier.padding(start = 16.sdp, end = 16.sdp, top = 16.sdp),
-                        ) {
-                            items(3) {
-                                TaskListItemShimmer()
-                            }
-                        }
-                    } else {
-                        val groupedTasks =
-                            state.tasks.groupBy { task ->
-                                when (state.selectedDateFilter) {
-                                    DateFilter.DAILY -> task.startAt.toDailyGroupFormat()
-                                    DateFilter.WEEKLY -> task.startAt.toWeeklyGroupFormat()
-                                    DateFilter.MONTHLY -> task.startAt.toMonthlyGroupFormat()
+                        if (state.isLoading) {
+                            LazyColumn(
+                                modifier = Modifier.padding(start = 16.sdp, end = 16.sdp, top = 16.sdp),
+                            ) {
+                                items(3) {
+                                    TaskListItemShimmer()
                                 }
                             }
-                        LazyColumn(
-                            modifier = Modifier.padding(start = 16.sdp, end = 16.sdp, top = 16.sdp),
-                        ) {
-                            groupedTasks.forEach { (dateStr, groupTasks) ->
-                                item {
-                                    TaskDateComponent(
-                                        date = dateStr,
-                                        tasks = groupTasks,
-                                        modifier = Modifier.padding(bottom = 16.sdp),
-                                    )
+                        } else {
+                            val groupedTasks =
+                                state.tasks.groupBy { task ->
+                                    when (state.selectedDateFilter) {
+                                        DateFilter.DAILY -> task.startAt.toDailyGroupFormat()
+                                        DateFilter.WEEKLY -> task.startAt.toWeeklyGroupFormat()
+                                        DateFilter.MONTHLY -> task.startAt.toMonthlyGroupFormat()
+                                    }
+                                }
+                            LazyColumn(
+                                modifier = Modifier.padding(start = 16.sdp, end = 16.sdp, top = 16.sdp),
+                            ) {
+                                groupedTasks.forEach { (dateStr, groupTasks) ->
+                                    item {
+                                        TaskDateComponent(
+                                            date = dateStr,
+                                            tasks = groupTasks,
+                                            modifier = Modifier.padding(bottom = 16.sdp),
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
+
+                    PullRefreshIndicator(
+                        refreshing = state.isLoading,
+                        state = pullRefreshState,
+                        modifier = Modifier.align(Alignment.TopCenter),
+                    )
                 }
             },
         )

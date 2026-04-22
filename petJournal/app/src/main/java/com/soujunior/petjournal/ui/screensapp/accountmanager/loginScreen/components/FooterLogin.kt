@@ -77,7 +77,7 @@ fun FooterLogin(
                         )
                         .align(CenterVertically)
                         .testTag("link_to_register"),
-                color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color.Unspecified,
+                color = MaterialTheme.colorScheme.onSurface,
             )
         }
         Spacer(modifier = Modifier.padding(top = 20.sdp))

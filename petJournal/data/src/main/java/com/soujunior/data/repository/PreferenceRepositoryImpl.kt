@@ -38,4 +38,8 @@ class PreferenceRepositoryImpl(
     override suspend fun setDarkModePreference(isDark: Boolean) {
         prefs.edit().putBoolean(KEY_DARK_MODE, isDark).apply()
     }
+
+    override suspend fun resetDarkModePreference() {
+        prefs.edit().remove(KEY_DARK_MODE).apply()
+    }
 }

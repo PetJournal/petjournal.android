@@ -241,6 +241,7 @@ fun InputText(
             if (requiredField) {
                 Text(
                     stringResource(R.string.required_field),
+                    color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.labelSmall,
                     modifier = Modifier.padding(10.sdp),
                 )

@@ -45,7 +45,7 @@ class FakeHomeViewModel : HomeScreenViewModel() {
 
     override fun success(name: GuardianNameResponse) {}
 
-    override fun getGuardianName() {
+    override fun getGuardianName(forceRequest: Boolean) {
         state.value =
             state.value.copy(
                 nameUser = "Jorge Garcia",
@@ -130,7 +130,7 @@ abstract class HomeScreenViewModel : ViewModel() {
 
     abstract fun success(name: GuardianNameResponse)
 
-    abstract fun getGuardianName()
+    abstract fun getGuardianName(forceRequest: Boolean = false)
 
     abstract fun onEvent(event: HomeEvent)
 

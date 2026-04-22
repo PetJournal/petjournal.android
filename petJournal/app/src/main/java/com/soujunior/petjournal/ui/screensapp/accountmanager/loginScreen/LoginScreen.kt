@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -65,175 +65,179 @@ fun LoginScreen(navController: NavController) {
     val context = LocalContext.current
     var showDialog by remember { mutableStateOf(false) }
 
-    if (showDialog) {
-        AccountConfirmationDialog(onDismiss = { showDialog = false })
-    }
+    PetJournalTheme(ignoreAppTheme = true) {
+        val isDarkTheme = MaterialTheme.colorScheme.surface.luminance() < 0.5f
 
-    LaunchedEffect(key1 = context) {
-        viewModel.validationEvents.collect { event ->
-            when (event) {
-                is ValidationEvent.Success -> {
-                    navController.navigate("mainContent") {
-                        popUpTo("login") { inclusive = true }
+        if (showDialog) {
+            AccountConfirmationDialog(onDismiss = { showDialog = false })
+        }
+
+        LaunchedEffect(key1 = context) {
+            viewModel.validationEvents.collect { event ->
+                when (event) {
+                    is ValidationEvent.Success -> {
+                        navController.navigate("mainContent") {
+                            popUpTo("login") { inclusive = true }
+                        }
                     }
-                }
 
-                is ValidationEvent.Failed -> {
-                    if (event ==
-                        ValidationEvent.Failed && viewModel.message.value ==
-                        context.getString(
-                            R.string.email_are_not_confirmed,
-                        )
-                    ) {
-                        showDialog = true
-                    } else if (event ==
-                        ValidationEvent.Failed && viewModel.message.value ==
-                        context.getString(
-                            R.string.user_not_found,
-                        ) || viewModel.message.value ==
-                        context.getString(
-                            R.string.Unauthorized,
-                        )
-                    ) {
-                        Toast.makeText(
-                            context,
-                            R.string.incorrect_username_password,
-                            Toast.LENGTH_LONG,
-                        ).show()
-                    } else {
-                        Toast.makeText(
-                            context,
-                            context.getString(R.string.something_went_wrong_try_again_later),
-                            Toast.LENGTH_LONG,
-                        ).show()
+                    is ValidationEvent.Failed -> {
+                        if (event ==
+                            ValidationEvent.Failed && viewModel.message.value ==
+                            context.getString(
+                                R.string.email_are_not_confirmed,
+                            )
+                        ) {
+                            showDialog = true
+                        } else if (event ==
+                            ValidationEvent.Failed && viewModel.message.value ==
+                            context.getString(
+                                R.string.user_not_found,
+                            ) || viewModel.message.value ==
+                            context.getString(
+                                R.string.Unauthorized,
+                            )
+                        ) {
+                            Toast.makeText(
+                                context,
+                                R.string.incorrect_username_password,
+                                Toast.LENGTH_LONG,
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.something_went_wrong_try_again_later),
+                                Toast.LENGTH_LONG,
+                            ).show()
+                        }
                     }
                 }
             }
         }
-    }
 
-    Column(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-    ) {
-        Box(
+        Column(
             modifier =
                 Modifier
                     .fillMaxSize()
-                    .statusBarsPadding()
-                    .navigationBarsPadding(),
+                    .background(MaterialTheme.colorScheme.background),
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.rastro),
-                contentDescription = null,
-                modifier = Modifier.fillMaxWidth(),
-                contentScale = ContentScale.FillWidth,
-            )
-            Column(
+            Box(
                 modifier =
-                    Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top,
+                    Modifier
+                        .fillMaxSize()
+                        .statusBarsPadding()
+                        .navigationBarsPadding(),
             ) {
-                LazyColumn(
+                Image(
+                    painter = painterResource(id = R.drawable.rastro),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.FillWidth,
+                )
+                Column(
                     modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .padding(start = 20.sdp, end = 20.sdp, bottom = 60.sdp),
-                    horizontalAlignment = Alignment.Start,
+                        Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top,
                 ) {
-                    item {
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            Image(
-                                painter =
-                                    if (isSystemInDarkTheme()) {
-                                        painterResource(id = R.drawable.pet_heart)
-                                    } else {
-                                        painterResource(id = R.drawable.group_3_1)
-                                    },
-                                contentDescription = null,
-                                modifier =
-                                    if (isSystemInDarkTheme()) {
-                                        Modifier
-                                            .size(150.sdp)
-                                    } else {
-                                        Modifier
-                                            .size(100.sdp)
-                                            .padding(top = 20.sdp)
-                                    },
-                            )
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(start = 10.sdp, end = 10.sdp),
-                                horizontalArrangement = Arrangement.Center,
+                    LazyColumn(
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(start = 20.sdp, end = 20.sdp, bottom = 60.sdp),
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Top,
+                    ) {
+                        item {
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
-                                Text(
-                                    text = stringResource(R.string.app_name),
-                                    style = MaterialTheme.typography.displayMedium,
+                                Image(
+                                    painter =
+                                        if (isDarkTheme) {
+                                            painterResource(id = R.drawable.pet_heart)
+                                        } else {
+                                            painterResource(id = R.drawable.group_3_1)
+                                        },
+                                    contentDescription = null,
                                     modifier =
-                                        Modifier.padding(start = 8.sdp, bottom = 50.sdp),
-                                    color = MaterialTheme.colorScheme.primary,
-                                    textAlign = null,
-                                    fontWeight = FontWeight(500),
+                                        if (isDarkTheme) {
+                                            Modifier
+                                                .size(150.sdp)
+                                        } else {
+                                            Modifier
+                                                .size(100.sdp)
+                                                .padding(top = 20.sdp)
+                                        },
                                 )
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .padding(start = 10.sdp, end = 10.sdp),
+                                    horizontalArrangement = Arrangement.Center,
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.app_name),
+                                        style = MaterialTheme.typography.displayMedium,
+                                        modifier =
+                                            Modifier.padding(start = 8.sdp, bottom = 50.sdp),
+                                        color = MaterialTheme.colorScheme.primary,
+                                        textAlign = null,
+                                        fontWeight = FontWeight(500),
+                                    )
+                                }
                             }
                         }
-                    }
-                    item {
-                        InputText(
-                            modifier = Modifier.testTag("input_email"),
-                            requiredField = true,
-                            textInputModifier = Modifier.fillMaxWidth(),
-                            placeholderText = stringResource(id = R.string.email_hint),
-                            textValue = viewModel.state.email,
-                            textError = viewModel.state.emailError,
-                            isError = !viewModel.state.emailError.isNullOrEmpty(),
-                            titleText = stringResource(id = R.string.email_label),
-                            onEvent = { it: String ->
-                                viewModel.onEvent(LoginFormEvent.EmailChanged(it))
-                            },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
-                        )
-                    }
-                    item {
-                        InputText(
-                            isPassword = true,
-                            requiredField = true,
-                            textTitleModifier = Modifier.padding(bottom = 4.sdp),
-                            textInputModifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .testTag("input_password"),
-                            placeholderText = stringResource(id = R.string.password_hint),
-                            titleText = stringResource(id = R.string.password_label),
-                            textValue = viewModel.state.password,
-                            textError = viewModel.state.passwordError,
-                            isError = !viewModel.state.passwordError.isNullOrEmpty(),
-                            onEvent = { it: String ->
-                                viewModel.onEvent(LoginFormEvent.PasswordChanged(it))
-                            },
-                        )
-                    }
-                    item {
-                        Spacer(modifier = Modifier.padding(top = 20.sdp))
-                    }
-                    item {
-                        RememberPasswordAndForgotSection(navController, viewModel)
-                    }
-                    item {
-                        Spacer(modifier = Modifier.padding(top = 45.sdp))
-                    }
-                    item {
-                        FooterLogin(navController, viewModel)
+                        item {
+                            InputText(
+                                modifier = Modifier.testTag("input_email"),
+                                requiredField = true,
+                                textInputModifier = Modifier.fillMaxWidth(),
+                                placeholderText = stringResource(id = R.string.email_hint),
+                                textValue = viewModel.state.email,
+                                textError = viewModel.state.emailError,
+                                isError = !viewModel.state.emailError.isNullOrEmpty(),
+                                titleText = stringResource(id = R.string.email_label),
+                                onEvent = { it: String ->
+                                    viewModel.onEvent(LoginFormEvent.EmailChanged(it))
+                                },
+                                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                            )
+                        }
+                        item {
+                            InputText(
+                                isPassword = true,
+                                requiredField = true,
+                                textTitleModifier = Modifier.padding(bottom = 4.sdp),
+                                textInputModifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .testTag("input_password"),
+                                placeholderText = stringResource(id = R.string.password_hint),
+                                titleText = stringResource(id = R.string.password_label),
+                                textValue = viewModel.state.password,
+                                textError = viewModel.state.passwordError,
+                                isError = !viewModel.state.passwordError.isNullOrEmpty(),
+                                onEvent = { it: String ->
+                                    viewModel.onEvent(LoginFormEvent.PasswordChanged(it))
+                                },
+                            )
+                        }
+                        item {
+                            Spacer(modifier = Modifier.padding(top = 20.sdp))
+                        }
+                        item {
+                            RememberPasswordAndForgotSection(navController, viewModel)
+                        }
+                        item {
+                            Spacer(modifier = Modifier.padding(top = 45.sdp))
+                        }
+                        item {
+                            FooterLogin(navController, viewModel)
+                        }
                     }
                 }
             }
@@ -245,7 +249,7 @@ fun LoginScreen(navController: NavController) {
 @Composable
 fun LoginRegisterPreview() {
     val nav = rememberNavController()
-    PetJournalTheme {
+    PetJournalTheme(ignoreAppTheme = true) {
         LoginScreen(nav)
     }
 }

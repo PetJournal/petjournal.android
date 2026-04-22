@@ -107,7 +107,7 @@ val mainModule =
         single<AuthRepository> { AuthRepositoryImpl(get(), get(), get()) }
         single<Repository> { RepositoryImpl(get(), get(), get()) }
         single<AppInfoDatabaseRepository> { AppInfoDataImpl(get()) }
-        single<LocalDataSource> { LocalDataSourceImpl(get(), get(), get(), get(), get()) }
+        single<LocalDataSource> { LocalDataSourceImpl(get(), get(), get(), get(), get(), get()) }
         single<AppInfoDatabase> { AppInfoDataBaseImpl(get()) }
         single<PreferenceRepository> { PreferenceRepositoryImpl(get()) }
 
@@ -138,7 +138,7 @@ val mainModule =
         factory { SaveGuardianContactUseCase(get()) }
         factory { GetGuardianEmailUseCase(get()) }
         factory { GetGuardianNameUseCase(get()) }
-        factory { LogoutUseCase(get()) }
+        factory { LogoutUseCase(get(), get()) }
         factory { AppInfoDataBaseImpl(get()) }
         factory { GetPetRegistrationWentLive(get()) }
         factory { SetPetRegistrationWentLive(get()) }

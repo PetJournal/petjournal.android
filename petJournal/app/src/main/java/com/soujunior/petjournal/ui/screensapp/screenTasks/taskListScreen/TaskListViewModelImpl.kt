@@ -44,20 +44,24 @@ class TaskListViewModelImpl(
     override fun onEvent(event: TaskListEvent) {
         when (event) {
             is TaskListEvent.OnDateFilterChange -> loadTasks(event.dateFilter)
+            is TaskListEvent.OnRefresh -> loadTasks(_state.value.selectedDateFilter, true)
             is TaskListEvent.AddTaskButton -> {
                 // To be implemented using Navigation
             }
         }
     }
 
-    private fun loadTasks(filter: DateFilter) {
+    private fun loadTasks(
+        filter: DateFilter,
+        forceRequest: Boolean = false,
+    ) {
         _state.update { it.copy(isLoading = true, error = null, selectedDateFilter = filter) }
         viewModelScope.launch {
             val result =
                 when (filter) {
-                    DateFilter.DAILY -> getListCurrentDateTaskUseCase.execute(false)
-                    DateFilter.WEEKLY -> getListCurrentWeekTaskUseCase.execute(false)
-                    DateFilter.MONTHLY -> getListCurrentMonthTaskUseCase.execute(false)
+                    DateFilter.DAILY -> getListCurrentDateTaskUseCase.execute(forceRequest)
+                    DateFilter.WEEKLY -> getListCurrentWeekTaskUseCase.execute(forceRequest)
+                    DateFilter.MONTHLY -> getListCurrentMonthTaskUseCase.execute(forceRequest)
                 }
 
             result.handleResult({ value: PaginatedScheduleResponseModel ->

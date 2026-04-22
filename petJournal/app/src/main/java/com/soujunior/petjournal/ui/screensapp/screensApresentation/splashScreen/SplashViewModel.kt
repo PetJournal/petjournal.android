@@ -3,7 +3,6 @@ package com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.use_case.auth.CheckLoginStatusUseCase
-import com.soujunior.domain.use_case.base.DataResult
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -32,7 +31,7 @@ class SplashViewModel(
     private fun checkLoginStatus() {
         viewModelScope.launch {
             val result = checkLoginStatusUseCase.execute(Unit)
-            if (result is DataResult.Success) {
+            if (!result.success.data) {
                 success("User is already logged in!")
             } else {
                 failure()

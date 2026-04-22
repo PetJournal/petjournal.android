@@ -128,11 +128,12 @@ private val schemeIntro =
 fun PetJournalTheme(
     isDynamic: Boolean = false,
     isIntro: Boolean = false,
+    ignoreAppTheme: Boolean = false,
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
     val isDarkPref =
-        if (!LocalInspectionMode.current) {
+        if (!LocalInspectionMode.current && !ignoreAppTheme) {
             val getDarkModeUseCase: GetDarkModePreferenceUseCase = get()
             val pref by getDarkModeUseCase().collectAsState(initial = false)
             pref

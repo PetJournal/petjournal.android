@@ -76,6 +76,8 @@ class AuthRepositoryImpl(
     override suspend fun logout() {
         jwtManager.deleteToken()
         guardianLocalDataSourceImpl.deleteDatabase()
+        deleteToken()
+        prefs.edit().remove("Islogin").apply()
     }
 
     override suspend fun saveToken(token: String): Boolean {

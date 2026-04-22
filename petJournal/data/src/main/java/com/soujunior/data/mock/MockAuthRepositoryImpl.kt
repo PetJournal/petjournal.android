@@ -15,12 +15,15 @@ import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.api.AuthRepository
 
 class MockAuthRepositoryImpl : AuthRepository  {
+    private var token: String? = "tokenfake"
+
     override suspend fun signUp(signUpModel: SignUpModel): NetworkResult<UserInfoResponse> {
         TODO("Not yet implemented")
     }
 
     override suspend fun login(loginModel: LoginModel): NetworkResult<AccessTokenResponse> {
-        TODO("Not yet implemented")
+        token = "tokenfake"
+        return NetworkResult.Success(AccessTokenResponse("tokenfake"))
     }
 
     override suspend fun changePassword(changePasswordModel: ChangePasswordModel): NetworkResult<MessageResponse> {
@@ -36,14 +39,17 @@ class MockAuthRepositoryImpl : AuthRepository  {
     }
 
     override suspend fun saveToken(token: String): Boolean {
-        TODO("Not yet implemented")
+        this.token = token
+        return true
     }
 
     override suspend fun deleteToken(): Boolean {
-        TODO("Not yet implemented")
+        this.token = null
+        return true
     }
 
-    override suspend fun getToken() = "tokenfake"
+    override suspend fun getToken() = token
+
     override suspend fun saveLoginPreference(model: LoginPreferenceModel) {
         TODO("Not yet implemented")
     }
@@ -54,6 +60,6 @@ class MockAuthRepositoryImpl : AuthRepository  {
 
     override suspend fun logout() {
         Log.d(TAG, "Logout")
-
+        token = null
     }
 }
