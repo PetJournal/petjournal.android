@@ -96,7 +96,7 @@ class MockGuardianRepositoryImpl(): Repository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun listCurrentDateScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
+    override suspend fun listCurrentDateScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
         TODO("Not yet implemented")
     }
 
@@ -104,7 +104,7 @@ class MockGuardianRepositoryImpl(): Repository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun listCurrentMonthScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
+    override suspend fun listCurrentMonthScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
         TODO("Not yet implemented")
     }
 }

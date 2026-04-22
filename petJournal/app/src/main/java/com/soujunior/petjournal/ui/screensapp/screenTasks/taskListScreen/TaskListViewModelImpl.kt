@@ -55,9 +55,9 @@ class TaskListViewModelImpl(
         viewModelScope.launch {
             val result =
                 when (filter) {
-                    DateFilter.DAILY -> getListCurrentDateTaskUseCase.execute(Unit)
+                    DateFilter.DAILY -> getListCurrentDateTaskUseCase.execute(false)
                     DateFilter.WEEKLY -> getListCurrentWeekTaskUseCase.execute(false)
-                    DateFilter.MONTHLY -> getListCurrentMonthTaskUseCase.execute(Unit)
+                    DateFilter.MONTHLY -> getListCurrentMonthTaskUseCase.execute(false)
                 }
 
             result.handleResult({ value: PaginatedScheduleResponseModel ->

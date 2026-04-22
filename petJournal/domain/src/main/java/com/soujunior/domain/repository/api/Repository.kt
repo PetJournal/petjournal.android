@@ -39,7 +39,7 @@ interface Repository {
     suspend fun getListPetRaces(petSpecie: String): NetworkResult<List<PetRaceItemModel>>
 
     suspend fun scheduled(item: TaskDTO): NetworkResult<Unit>
-    suspend fun listCurrentDateScheduled(): NetworkResult<PaginatedScheduleResponseDTO>
+    suspend fun listCurrentDateScheduled(forceRequest: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>
     suspend fun listCurrentWeekScheduled(forceRequest: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>
-    suspend fun listCurrentMonthScheduled(): NetworkResult<PaginatedScheduleResponseDTO>
+    suspend fun listCurrentMonthScheduled(forceRequest: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>
 }

@@ -444,13 +444,24 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun listCurrentDateScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
+    override suspend fun listCurrentDateScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+        if (!forceRequest) {
+            val localTasks = guardianLocalDataSourceImpl.getAllTasks()
+            if (localTasks.isNotEmpty()) {
+                return NetworkResult.Success(PaginatedScheduleResponseDTO(localTasks, 1))
+            }
+        }
         getToken()?.let { token ->
             val apiResponse =  remoteDataSource.getTaskListCurrentDate(token)
             var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
 
             apiResponse
                 .onSuccess {
+                    coroutineScope {
+                        try {
+                            guardianLocalDataSourceImpl.saveAllTasks(it.data)
+                        } catch (e: Exception) {}
+                    }
                     result = NetworkResult.Success(it)
                 }
                 .onError { code, body ->
@@ -497,13 +508,24 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun listCurrentMonthScheduled(): NetworkResult<PaginatedScheduleResponseDTO> {
+    override suspend fun listCurrentMonthScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+        if (!forceRequest) {
+            val localTasks = guardianLocalDataSourceImpl.getAllTasks()
+            if (localTasks.isNotEmpty()) {
+                return NetworkResult.Success(PaginatedScheduleResponseDTO(localTasks, 1))
+            }
+        }
         getToken()?.let { token ->
             val apiResponse =  remoteDataSource.getTaskListCurrentMonth(token)
             var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
 
             apiResponse
                 .onSuccess {
+                    coroutineScope {
+                        try {
+                            guardianLocalDataSourceImpl.saveAllTasks(it.data)
+                        } catch (e: Exception) {}
+                    }
                     result = NetworkResult.Success(it)
                 }
                 .onError { code, body ->

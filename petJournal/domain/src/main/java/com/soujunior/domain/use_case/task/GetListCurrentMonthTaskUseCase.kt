@@ -8,9 +8,9 @@ import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 
 class GetListCurrentMonthTaskUseCase(private val repository: Repository):
-    BaseUseCase<Unit, PaginatedScheduleResponseModel>() {
-    override suspend fun doWork(value: Unit): DataResult<PaginatedScheduleResponseModel> {
-        return when (val response = repository.listCurrentMonthScheduled()) {
+    BaseUseCase<Boolean, PaginatedScheduleResponseModel>() {
+    override suspend fun doWork(value: Boolean): DataResult<PaginatedScheduleResponseModel> {
+        return when (val response = repository.listCurrentMonthScheduled(value)) {
             is NetworkResult.Success -> { DataResult.Success(response.data.toDomain()) }
             is NetworkResult.Error -> DataResult.Failure(Throwable(message = "${response.code} -> ${response.body?.error}"))
             is NetworkResult.Exception -> DataResult.Failure(response.e)
