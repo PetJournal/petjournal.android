@@ -127,38 +127,48 @@ fun TaskListScreen(navController: NavController) {
 
                         if (state.isLoading) {
                             LazyColumn(
-                                modifier = Modifier.padding(start = 16.sdp, end = 16.sdp, top = 16.sdp),
+                                modifier = Modifier.fillMaxSize(),
                             ) {
-                                items(3) {
-                                    TaskListItemShimmer()
+                                item { Spacer(modifier = Modifier.height(16.sdp)) }
+                                items(10) {
+                                    Box(modifier = Modifier.padding(horizontal = 16.sdp)) {
+                                        TaskListItemShimmer()
+                                    }
                                 }
                             }
                         } else if (state.tasks.isEmpty()) {
-                            Box(
+                            LazyColumn(
                                 modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center,
                             ) {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Filled.EventNote,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(64.sdp),
-                                        tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
-                                    )
-                                    Spacer(modifier = Modifier.height(16.sdp))
-                                    Text(
-                                        text =
-                                            when (state.selectedDateFilter) {
-                                                DateFilter.DAILY -> stringResource(R.string.empty_task_list_day)
-                                                DateFilter.WEEKLY -> stringResource(R.string.empty_task_list_week)
-                                                DateFilter.MONTHLY -> stringResource(R.string.empty_task_list_month)
-                                            },
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                                        fontWeight = FontWeight.Medium,
-                                    )
+                                item {
+                                    Box(
+                                        modifier = Modifier.fillParentMaxHeight().fillParentMaxWidth(),
+                                        contentAlignment = Alignment.Center,
+                                    ) {
+                                        Column(
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            modifier = Modifier.padding(bottom = 64.sdp),
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Filled.EventNote,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(64.sdp),
+                                                tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+                                            )
+                                            Spacer(modifier = Modifier.height(16.sdp))
+                                            Text(
+                                                text =
+                                                    when (state.selectedDateFilter) {
+                                                        DateFilter.DAILY -> stringResource(R.string.empty_task_list_day)
+                                                        DateFilter.WEEKLY -> stringResource(R.string.empty_task_list_week)
+                                                        DateFilter.MONTHLY -> stringResource(R.string.empty_task_list_month)
+                                                    },
+                                                style = MaterialTheme.typography.bodyLarge,
+                                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                                                fontWeight = FontWeight.Medium,
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         } else {
