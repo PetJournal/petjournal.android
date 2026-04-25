@@ -96,6 +96,14 @@ class MockGuardianRepositoryImpl(): Repository {
         TODO("Not yet implemented")
     }
 
+    override suspend fun listTasksByPeriod(
+        startDate: String,
+        endDate: String,
+        forceRequest: Boolean
+    ): NetworkResult<PaginatedScheduleResponseDTO> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun listCurrentDateScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
         TODO("Not yet implemented")
     }

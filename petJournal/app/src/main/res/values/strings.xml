@@ -225,4 +225,7 @@
     <string name="edit_task">Editar Tarefa</string>
     <string name="config">Configurações</string>
     <string name="register_">Inscreva-se:</string>
+    <string name="empty_task_list_day">Nenhum conteúdo para este dia</string>
+    <string name="empty_task_list_week">Nenhum conteúdo para esta semana</string>
+    <string name="empty_task_list_month">Nenhum conteúdo para este mês</string>
 </resources>

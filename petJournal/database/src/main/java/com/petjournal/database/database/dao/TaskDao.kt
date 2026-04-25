@@ -11,6 +11,9 @@ interface TaskDao {
     @Query("SELECT * FROM task")
     suspend fun getAllTasks(): List<TaskEntity>
 
+    @Query("SELECT * FROM task WHERE start >= :startDate AND start <= :endDate")
+    suspend fun getTasksInPeriod(startDate: String, endDate: String): List<TaskEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(tasks: List<TaskEntity>)
 

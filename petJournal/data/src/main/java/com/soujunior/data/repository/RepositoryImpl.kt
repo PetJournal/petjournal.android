@@ -444,100 +444,117 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun listCurrentDateScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+    override suspend fun listTasksByPeriod(
+        startDate: String,
+        endDate: String,
+        forceRequest: Boolean
+    ): NetworkResult<PaginatedScheduleResponseDTO> {
         if (!forceRequest) {
-            val localTasks = guardianLocalDataSourceImpl.getAllTasks()
+            val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(startDate, endDate)
+            if (localTasks.isNotEmpty()) {
+                return NetworkResult.Success(PaginatedScheduleResponseDTO(localTasks, 1, 0, localTasks.size))
+            }
+        }
+
+        val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
+        
+        // Estratégia: Como a API tem endpoints por período, e o UseCase já calcula as datas, 
+        // se chegamos aqui com forceRequest=true, precisamos decidir qual endpoint da API chamar.
+        // Uma forma simples é ver a diferença entre endDate e startDate.
+        
+        val start = java.time.LocalDateTime.parse(startDate)
+        val end = java.time.LocalDateTime.parse(endDate)
+        val daysBetween = java.time.Duration.between(start, end).toDays()
+
+        val apiResponse = when {
+            daysBetween <= 1 -> remoteDataSource.getTaskListCurrentDate(token)
+            daysBetween <= 7 -> remoteDataSource.getTaskListCurrentWeek(token)
+            else -> remoteDataSource.getTaskListCurrentMonth(token)
+        }
+
+        return handleTaskResponse(apiResponse, startDate, endDate)
+    }
+
+    override suspend fun listCurrentDateScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+        val today = java.time.LocalDate.now()
+        val start = today.atStartOfDay().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        val end = today.atTime(java.time.LocalTime.MAX).format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+
+        if (!forceRequest) {
+            val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(start, end)
             if (localTasks.isNotEmpty()) {
                 return NetworkResult.Success(PaginatedScheduleResponseDTO(localTasks, 1))
             }
         }
         getToken()?.let { token ->
             val apiResponse =  remoteDataSource.getTaskListCurrentDate(token)
-            var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
-
-            apiResponse
-                .onSuccess {
-                    coroutineScope {
-                        try {
-                            guardianLocalDataSourceImpl.saveAllTasks(it.data)
-                        } catch (e: Exception) {}
-                    }
-                    result = NetworkResult.Success(it)
-                }
-                .onError { code, body ->
-                    result = NetworkResult.Error(code, body)
-                }
-                .onException { throwable ->
-                    result = NetworkResult.Exception(throwable)
-                }
-            return result
+            return handleTaskResponse(apiResponse, start, end)
         }.run {
             return NetworkResult.Exception(Throwable("Token não encontrado"))
         }
     }
 
     override suspend fun listCurrentWeekScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+        val today = java.time.LocalDate.now()
+        val start = today.with(java.time.DayOfWeek.MONDAY).atStartOfDay().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        val end = today.with(java.time.DayOfWeek.SUNDAY).atTime(java.time.LocalTime.MAX).format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+
         if (!forceRequest) {
-            val localTasks = guardianLocalDataSourceImpl.getAllTasks()
+            val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(start, end)
             if (localTasks.isNotEmpty()) {
                 return NetworkResult.Success(PaginatedScheduleResponseDTO(localTasks, 1))
             }
         }
         getToken()?.let { token ->
             val apiResponse =  remoteDataSource.getTaskListCurrentWeek(token)
-            var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
-
-            apiResponse
-                .onSuccess {
-                    coroutineScope {
-                        try {
-                            guardianLocalDataSourceImpl.saveAllTasks(it.data)
-                        } catch (e: Exception) {}
-                    }
-                    result = NetworkResult.Success(it)
-                }
-                .onError { code, body ->
-                    result = NetworkResult.Error(code, body)
-                }
-                .onException { throwable ->
-                    result = NetworkResult.Exception(throwable)
-                }
-            return result
+            return handleTaskResponse(apiResponse, start, end)
         }.run {
             return NetworkResult.Exception(Throwable("Token não encontrado"))
         }
     }
 
     override suspend fun listCurrentMonthScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+        val today = java.time.LocalDate.now()
+        val start = today.withDayOfMonth(1).atStartOfDay().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        val end = today.withDayOfMonth(today.lengthOfMonth()).atTime(java.time.LocalTime.MAX).format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+
         if (!forceRequest) {
-            val localTasks = guardianLocalDataSourceImpl.getAllTasks()
+            val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(start, end)
             if (localTasks.isNotEmpty()) {
                 return NetworkResult.Success(PaginatedScheduleResponseDTO(localTasks, 1))
             }
         }
         getToken()?.let { token ->
             val apiResponse =  remoteDataSource.getTaskListCurrentMonth(token)
-            var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
-
-            apiResponse
-                .onSuccess {
-                    coroutineScope {
-                        try {
-                            guardianLocalDataSourceImpl.saveAllTasks(it.data)
-                        } catch (e: Exception) {}
-                    }
-                    result = NetworkResult.Success(it)
-                }
-                .onError { code, body ->
-                    result = NetworkResult.Error(code, body)
-                }
-                .onException { throwable ->
-                    result = NetworkResult.Exception(throwable)
-                }
-            return result
+            return handleTaskResponse(apiResponse, start, end)
         }.run {
             return NetworkResult.Exception(Throwable("Token não encontrado"))
         }
+    }
+
+    private suspend fun handleTaskResponse(
+        apiResponse: NetworkResult<PaginatedScheduleResponseDTO>,
+        startDate: String,
+        endDate: String
+    ): NetworkResult<PaginatedScheduleResponseDTO> {
+        var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
+        apiResponse
+            .onSuccess {
+                coroutineScope {
+                    try {
+                        guardianLocalDataSourceImpl.saveAllTasks(it.data)
+                        // Após salvar, buscamos do banco para garantir que o retorno 
+                        // respeita a filtragem de datas do Room e evita duplicatas visuais
+                        val filteredTasks = guardianLocalDataSourceImpl.getTasksInPeriod(startDate, endDate)
+                        result = NetworkResult.Success(PaginatedScheduleResponseDTO(filteredTasks, it.page, it.limit, it.count))
+                    } catch (e: Exception) {
+                        result = NetworkResult.Success(it) // Fallback para o dado da API se o banco falhar
+                    }
+                }
+            }
+            .onError { code, body -> result = NetworkResult.Error(code, body) }
+            .onException { throwable -> result = NetworkResult.Exception(throwable) }
+        return result
     }
 
     private fun String?.toTextRequestBody(): RequestBody {

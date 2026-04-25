@@ -244,6 +244,18 @@ class LocalDataSourceImpl(
         }
     }
 
+    override suspend fun getTasksInPeriod(startDate: String, endDate: String): List<ScheduleDataDTO> {
+        return taskDao.getTasksInPeriod(startDate, endDate).map {
+            ScheduleDataDTO(
+                id = it.id,
+                schedulerId = it.schedulerId,
+                start = it.start,
+                end = it.end,
+                scheduler = it.scheduler!!
+            )
+        }
+    }
+
     override suspend fun saveAllTasks(tasks: List<ScheduleDataDTO>) {
         taskDao.insertAll(tasks.map {
             TaskEntity(
