@@ -1,7 +1,10 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel
 
+import android.content.Context
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.tag.TagModel
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV2
@@ -10,6 +13,7 @@ import com.soujunior.domain.use_case.tag.DeleteTagUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.tag.UpdateTagUseCase
 import com.soujunior.domain.use_case.task.CreateTaskUseCase
+import com.soujunior.petjournal.infrastructure.worker.SyncTasksWorker
 import com.soujunior.petjournal.ui.mapper.Mapper.toColor
 import com.soujunior.petjournal.ui.mapper.Mapper.toListSelectableButtonInfo
 import com.soujunior.petjournal.ui.mapper.Mapper.toPetsList
@@ -41,6 +45,7 @@ class RegisterTaskViewModelImpl(
     private val deleteTagCase: DeleteTagUseCase,
     private val getPetListUseCase: GetListPetUseCaseV2,
     private val createTaskUseCase: CreateTaskUseCase,
+    private val context: Context,
 ) : RegisterTaskViewModel() {
     private val _state = MutableStateFlow(RegisterTaskState())
     override val state: MutableStateFlow<RegisterTaskState> get() = _state
@@ -333,6 +338,10 @@ class RegisterTaskViewModelImpl(
             result.handleResult(
                 { response ->
                     println("Tarefa criada com sucesso: $response")
+
+                    val workRequest = OneTimeWorkRequestBuilder<SyncTasksWorker>().build()
+                    WorkManager.getInstance(context).enqueue(workRequest)
+
                     state.update {
                         it.copy(
                             showDialogSuccess = true,
@@ -374,7 +383,8 @@ class RegisterTaskViewModelImpl(
 
         val utcDateTime = localDateTime.withZoneSameInstant(ZoneOffset.UTC)
 
-        return DateTimeFormatter.ISO_INSTANT.format(utcDateTime)
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        return utcDateTime.format(formatter)
     }
 
     fun resolveTimeTo24h(
@@ -441,16 +451,13 @@ class RegisterTaskViewModelImpl(
                 }
             }
         }
-        val nowUtc = ZonedDateTime.now(ZoneOffset.UTC)
-        val futureUtc = nowUtc.plusYears(2)
-
         return TaskDTO(
             tagId = tagId,
             title = title,
             description = description,
             note = note,
             startAt = startAt,
-            endAt = futureUtc.format(DateTimeFormatter.ISO_INSTANT),
+            endAt = null,
             daysOfWeek = daysOfWeek,
             pets = pets,
         )

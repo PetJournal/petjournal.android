@@ -79,7 +79,7 @@ fun CardDialog(
                     text = title,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight(600),
-                    color = MaterialTheme.colorScheme.scrim,
+                    color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center,
                 )
 

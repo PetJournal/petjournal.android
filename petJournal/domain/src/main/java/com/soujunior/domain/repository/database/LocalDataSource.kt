@@ -32,4 +32,6 @@ interface LocalDataSource {
     suspend fun getAllTasks(): List<ScheduleDataDTO>
     suspend fun getTasksInPeriod(startDate: String, endDate: String): List<ScheduleDataDTO>
     suspend fun saveAllTasks(tasks: List<ScheduleDataDTO>)
+    suspend fun getTasksToSchedule(): List<ScheduleDataDTO>
+    suspend fun updateAlarmStatus(id: String, isScheduled: Boolean)
 }

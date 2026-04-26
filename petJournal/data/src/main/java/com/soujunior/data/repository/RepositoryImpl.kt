@@ -458,12 +458,8 @@ class RepositoryImpl(
 
         val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
         
-        // Estratégia: Como a API tem endpoints por período, e o UseCase já calcula as datas, 
-        // se chegamos aqui com forceRequest=true, precisamos decidir qual endpoint da API chamar.
-        // Uma forma simples é ver a diferença entre endDate e startDate.
-        
-        val start = java.time.LocalDateTime.parse(startDate)
-        val end = java.time.LocalDateTime.parse(endDate)
+        val start = java.time.LocalDateTime.parse(startDate.split(".")[0].replace("Z", ""))
+        val end = java.time.LocalDateTime.parse(endDate.split(".")[0].replace("Z", ""))
         val daysBetween = java.time.Duration.between(start, end).toDays()
 
         val apiResponse = when {
@@ -543,14 +539,14 @@ class RepositoryImpl(
                 coroutineScope {
                     try {
                         guardianLocalDataSourceImpl.saveAllTasks(it.data)
-                        // Após salvar, buscamos do banco para garantir que o retorno 
-                        // respeita a filtragem de datas do Room e evita duplicatas visuais
-                        val filteredTasks = guardianLocalDataSourceImpl.getTasksInPeriod(startDate, endDate)
-                        result = NetworkResult.Success(PaginatedScheduleResponseDTO(filteredTasks, it.page, it.limit, it.count))
                     } catch (e: Exception) {
-                        result = NetworkResult.Success(it) // Fallback para o dado da API se o banco falhar
                     }
                 }
+                
+                // Força o retorno dos dados filtrados pelo período solicitado, 
+                // garantindo que o que veio da API respeite os limites de data da UI.
+                val filteredLocal = guardianLocalDataSourceImpl.getTasksInPeriod(startDate, endDate)
+                result = NetworkResult.Success(PaginatedScheduleResponseDTO(filteredLocal, 1, 0, filteredLocal.size))
             }
             .onError { code, body -> result = NetworkResult.Error(code, body) }
             .onException { throwable -> result = NetworkResult.Exception(throwable) }

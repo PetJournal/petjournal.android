@@ -233,38 +233,86 @@ class LocalDataSourceImpl(
     }
 
     override suspend fun getAllTasks(): List<ScheduleDataDTO> {
-        return taskDao.getAllTasks().map {
-            ScheduleDataDTO(
-                id = it.id,
-                schedulerId = it.schedulerId,
-                start = it.start,
-                end = it.end,
-                scheduler = it.scheduler!!
-            )
+        return taskDao.getAllTasks().mapNotNull {
+            it.scheduler?.let { scheduler ->
+                ScheduleDataDTO(
+                    id = it.id,
+                    schedulerId = it.schedulerId,
+                    start = it.start,
+                    end = it.end,
+                    scheduler = scheduler
+                )
+            }
         }
     }
 
     override suspend fun getTasksInPeriod(startDate: String, endDate: String): List<ScheduleDataDTO> {
-        return taskDao.getTasksInPeriod(startDate, endDate).map {
-            ScheduleDataDTO(
-                id = it.id,
-                schedulerId = it.schedulerId,
-                start = it.start,
-                end = it.end,
-                scheduler = it.scheduler!!
-            )
+        val startClean = startDate.split(".")[0].replace("Z", "")
+        val endClean = endDate.split(".")[0].replace("Z", "")
+        
+        val startDateTime = java.time.LocalDateTime.parse(startClean)
+        val dayOfWeek = (startDateTime.dayOfWeek.value % 7).toString() // 0-6 (dom-sab)
+        val dayOfMonth = startDateTime.dayOfMonth.toString()
+
+        return taskDao.getTasksInPeriod(startClean, endClean, dayOfWeek, dayOfMonth).mapNotNull {
+            it.scheduler?.let { scheduler ->
+                ScheduleDataDTO(
+                    id = it.id,
+                    schedulerId = it.schedulerId,
+                    start = it.start,
+                    end = it.end,
+                    scheduler = scheduler
+                )
+            }
         }
     }
 
     override suspend fun saveAllTasks(tasks: List<ScheduleDataDTO>) {
+        val ids = tasks.mapNotNull { it.id }
+        val existingTasks = if (ids.isNotEmpty()) taskDao.getTasksByIds(ids).associateBy { it.id } else emptyMap()
+        
         taskDao.insertAll(tasks.map {
+            val existing = existingTasks[it.id]
+            val scheduler = it.scheduler
             TaskEntity(
                 id = it.id ?: "",
                 schedulerId = it.schedulerId,
-                start = it.start,
-                end = it.end,
-                scheduler = it.scheduler
+                title = scheduler.title ?: "",
+                description = scheduler.description,
+                note = scheduler.note,
+                start = it.start?.split(".")?.get(0)?.replace("Z", ""),
+                end = it.end?.split(".")?.get(0)?.replace("Z", ""),
+                isRecurrent = scheduler.daily == true || !scheduler.daysOfWeek.isNullOrEmpty() || !scheduler.daysOfMonth.isNullOrEmpty(),
+                recurrenceType = when {
+                    scheduler.daily == true -> "DAILY"
+                    !scheduler.daysOfWeek.isNullOrEmpty() -> "WEEKLY"
+                    !scheduler.daysOfMonth.isNullOrEmpty() -> "MONTHLY"
+                    else -> null
+                },
+                daysOfWeek = scheduler.daysOfWeek?.joinToString(","),
+                daysOfMonth = scheduler.daysOfMonth?.joinToString(","),
+                tagId = scheduler.tagId,
+                scheduler = scheduler,
+                isAlarmScheduled = existing?.isAlarmScheduled ?: false
             )
         })
+    }
+
+    override suspend fun getTasksToSchedule(): List<ScheduleDataDTO> {
+        return taskDao.getTasksToSchedule().mapNotNull {
+            it.scheduler?.let { scheduler ->
+                ScheduleDataDTO(
+                    id = it.id,
+                    schedulerId = it.schedulerId,
+                    start = it.start,
+                    end = it.end,
+                    scheduler = scheduler
+                )
+            }
+        }
+    }
+
+    override suspend fun updateAlarmStatus(id: String, isScheduled: Boolean) {
+        taskDao.updateAlarmStatus(id, isScheduled)
     }
 }

@@ -7,21 +7,31 @@ import androidx.security.crypto.MasterKey
 
 class JwtManager private constructor(context: Context) {
 
-    private val mainKey = MasterKey.Builder(context)
-        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-        .build()
+    private val sharedPreferences: SharedPreferences = try {
+        createEncryptedSharedPreferences(context)
+    } catch (e: Exception) {
+        context.deleteSharedPreferences(sharedPrefsFile)
+        createEncryptedSharedPreferences(context)
+    }
 
-    private val sharedPreferences: SharedPreferences = EncryptedSharedPreferences.create(
-        context,
-        sharedPrefsFile,
-        mainKey,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
+    private fun createEncryptedSharedPreferences(context: Context): SharedPreferences {
+        val mainKey = MasterKey.Builder(context)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+
+        return EncryptedSharedPreferences.create(
+            context,
+            sharedPrefsFile,
+            mainKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+    }
 
     fun getToken(): String? {
         return sharedPreferences.getString(JWT_KEY, null)
     }
+
     fun deleteToken(): Boolean {
         return try {
             with(sharedPreferences.edit()) {
@@ -33,6 +43,7 @@ class JwtManager private constructor(context: Context) {
             false
         }
     }
+
     fun setToken(jwtToken: String) {
         with(sharedPreferences.edit()) {
             putString(JWT_KEY, jwtToken)

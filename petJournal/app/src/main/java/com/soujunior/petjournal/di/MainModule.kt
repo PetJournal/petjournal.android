@@ -17,6 +17,7 @@ import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.repository.appinfo.AppInfoDatabase
 import com.soujunior.domain.repository.appinfo.AppInfoDatabaseRepository
 import com.soujunior.domain.repository.database.LocalDataSource
+import com.soujunior.domain.repository.task.TaskReminderScheduler
 import com.soujunior.domain.repository.validation.ValidationRepository
 import com.soujunior.domain.use_case.auth.AwaitingCodeUseCase
 import com.soujunior.domain.use_case.auth.ChangePasswordUseCase
@@ -110,6 +111,7 @@ val mainModule =
         single<LocalDataSource> { LocalDataSourceImpl(get(), get(), get(), get(), get(), get()) }
         single<AppInfoDatabase> { AppInfoDataBaseImpl(get()) }
         single<PreferenceRepository> { PreferenceRepositoryImpl(get()) }
+        single<TaskReminderScheduler> { com.soujunior.petjournal.infrastructure.reminder.AndroidTaskScheduler(androidContext()) }
 
         single {
             Room.databaseBuilder(
@@ -231,7 +233,7 @@ val mainModule =
 
         viewModel<BirthDateViewModel> { BirthDateViewModelImpl(get(), get(), get(), get()) }
         viewModel<ViewModelRaceSize> { ViewModelRaceSizeImpl(get(), get(), get(), get(), get()) }
-        viewModel<RegisterTaskViewModel> { RegisterTaskViewModelImpl(get(), get(), get(), get(), get(), get()) }
+        viewModel<RegisterTaskViewModel> { RegisterTaskViewModelImpl(get(), get(), get(), get(), get(), get(), androidContext()) }
         viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get()) }
         viewModel<TutorViewModel> { TutorViewModelImpl(get(), get(), get()) }
         viewModel { SettingsViewModel(get(), get()) }

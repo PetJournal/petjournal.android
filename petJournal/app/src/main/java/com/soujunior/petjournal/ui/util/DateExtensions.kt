@@ -8,23 +8,23 @@ import java.util.TimeZone
 
 private const val ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 private const val ISO_FORMAT_BACKUP = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+private const val ISO_FORMAT_ROOM = "yyyy-MM-dd'T'HH:mm:ss"
 private val ptBrLocale = Locale("pt", "BR")
 
 private fun String?.parseIsoDate(): Date? {
     if (this.isNullOrBlank()) return null
-    return try {
-        val format = SimpleDateFormat(ISO_FORMAT, Locale.getDefault())
-        format.timeZone = TimeZone.getTimeZone("UTC")
-        format.parse(this)
-    } catch (e: Exception) {
+    val formats = listOf(ISO_FORMAT, ISO_FORMAT_BACKUP, ISO_FORMAT_ROOM)
+
+    for (pattern in formats) {
         try {
-            val format2 = SimpleDateFormat(ISO_FORMAT_BACKUP, Locale.getDefault())
-            format2.timeZone = TimeZone.getTimeZone("UTC")
-            format2.parse(this)
-        } catch (ex: Exception) {
-            null
+            val format = SimpleDateFormat(pattern, Locale.getDefault())
+            format.timeZone = if (pattern.endsWith("'Z'")) TimeZone.getTimeZone("UTC") else TimeZone.getDefault()
+            return format.parse(this)
+        } catch (e: Exception) {
+            continue
         }
     }
+    return null
 }
 
 fun String?.toCardFormat(): String {
@@ -52,24 +52,27 @@ fun String?.toWeeklyGroupFormat(): String {
     val date = this.parseIsoDate() ?: return this ?: ""
 
     val calendar = Calendar.getInstance(ptBrLocale)
-    calendar.timeZone = TimeZone.getDefault()
+    calendar.timeZone = TimeZone.getTimeZone("UTC") // Usar UTC para o cálculo inicial
     calendar.time = date
 
-    calendar.firstDayOfWeek = Calendar.SUNDAY
+    // Ajustar para o fuso local para exibição
+    val localCalendar = Calendar.getInstance(ptBrLocale)
+    localCalendar.time = date
 
-    val weekOfMonth = calendar.get(Calendar.WEEK_OF_MONTH)
+    localCalendar.firstDayOfWeek = Calendar.SUNDAY
+    val weekOfYear = localCalendar.get(Calendar.WEEK_OF_YEAR)
 
-    val startOfWeek = calendar.clone() as Calendar
+    val startOfWeek = localCalendar.clone() as Calendar
     startOfWeek.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
 
-    val endOfWeek = calendar.clone() as Calendar
+    val endOfWeek = localCalendar.clone() as Calendar
     endOfWeek.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY)
 
     val dayFormat = SimpleDateFormat("dd 'de' MMM", ptBrLocale)
     dayFormat.timeZone = TimeZone.getDefault()
 
     val startStr = dayFormat.format(startOfWeek.time).replaceFirstChar { it.uppercaseChar() }
-    val endStr = dayFormat.format(endOfWeek.time)
+    val endStr = dayFormat.format(endOfWeek.time).replaceFirstChar { it.uppercaseChar() }
 
-    return "Semana $weekOfMonth: $startStr - $endStr"
+    return "Semana $weekOfYear: $startStr - $endStr"
 }
