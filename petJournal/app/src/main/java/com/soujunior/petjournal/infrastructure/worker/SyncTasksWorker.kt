@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.infrastructure.worker
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.soujunior.domain.mapper.Mapper.toDomain
@@ -19,21 +20,27 @@ class SyncTasksWorker(
 
     override suspend fun doWork(): Result {
         return try {
-            // Sincroniza tarefas do mês atual
+            Log.d("SyncTasksWorker", "🔄 [INICIANDO] Sincronização de tarefas (Month List)...")
             repository.listCurrentMonthScheduled(forceRequest = true)
 
-            // Busca tarefas que ainda não foram agendadas no sistema de alarmes
             val tasksToSchedule = localDataSource.getTasksToSchedule()
+            Log.d("SyncTasksWorker", "📊 [RESULTADO] Encontradas ${tasksToSchedule.size} tarefas para agendar no banco local.")
 
             tasksToSchedule.forEach { taskDto ->
-                taskReminderScheduler.schedule(taskDto.toDomain())
+                val domainTask = taskDto.toDomain()
+                Log.d("SyncTasksWorker", "⚙️ [PROCESSANDO] Agendando ID: ${domainTask.id} | Título: ${domainTask.scheduler.title}")
+
+                taskReminderScheduler.schedule(domainTask)
+
                 taskDto.id?.let { id ->
+                    Log.d("SyncTasksWorker", "✅ [STATUS] Marcando alarme como ativo para $id")
                     localDataSource.updateAlarmStatus(id, true)
                 }
             }
 
             Result.success()
         } catch (e: Exception) {
+            Log.e("SyncTasksWorker", "🚨 [ERRO] Falha na sincronização", e)
             Result.retry()
         }
     }
