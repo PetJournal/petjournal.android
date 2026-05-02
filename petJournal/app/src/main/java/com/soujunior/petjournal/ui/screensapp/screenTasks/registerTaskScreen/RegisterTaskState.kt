@@ -31,4 +31,5 @@ data class RegisterTaskState(
     val timeSelected: Pair<Int, Int>? = null,
     val selectedDaysOfWeek: List<String> = listOf(),
     val observation: String = "",
+    val sendToApi: Boolean = true,
 )

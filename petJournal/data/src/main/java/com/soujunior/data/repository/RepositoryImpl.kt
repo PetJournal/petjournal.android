@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.Uri
 import com.soujunior.data.remote.RemoteDataSource
 import com.soujunior.data.util.manager.JwtManager
+import android.util.Log
+import com.soujunior.domain.mapper.Mapper.toDomain
 import com.soujunior.domain.model.BreedDTO
 import com.soujunior.domain.model.PetCreateDTO
 import com.soujunior.domain.model.PetModel
@@ -22,6 +24,7 @@ import com.soujunior.domain.network.onException
 import com.soujunior.domain.network.onSuccess
 import com.soujunior.domain.repository.database.LocalDataSource
 import com.soujunior.domain.repository.api.Repository
+import com.soujunior.domain.repository.task.TaskReminderScheduler
 import com.soujunior.domain.use_case.base.DataResult
 import kotlinx.coroutines.coroutineScope
 import okhttp3.MediaType
@@ -29,11 +32,15 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class RepositoryImpl(
     private val remoteDataSource: RemoteDataSource,
     private val guardianLocalDataSourceImpl: LocalDataSource,
-    private val context: Context
+    private val context: Context,
+    private val taskReminderScheduler: TaskReminderScheduler
 ) : Repository {
 
     private val jwtManager: JwtManager = JwtManager.getInstance(context)
@@ -58,8 +65,8 @@ class RepositoryImpl(
                 return NetworkResult.Success(GuardianNameResponse(localName, ""))
             }
         }
-        val token = getToken()
-        return when (val apiResult = remoteDataSource.getGuardianName(token!!)) {
+        val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
+        return when (val apiResult = remoteDataSource.getGuardianName(token)) {
             is NetworkResult.Success -> {
                 coroutineScope {
                     try {
@@ -311,6 +318,46 @@ class RepositoryImpl(
         }
     }
 
+    override suspend fun createPet(pet: PetCreateDTO, imageUri: String?): NetworkResult<PetDetailsDTO> {
+        val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
+
+        return try {
+            val imagePart: MultipartBody.Part = if (imageUri != null) {
+                val imageFile = getFileFromUri(context = context, Uri.parse(imageUri))
+                if (imageFile != null && imageFile.exists()) {
+                    val mediaType = MediaType.parse("image/*")
+                    val requestFile = RequestBody.create(mediaType, imageFile)
+                    MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
+                } else {
+                    throw IllegalArgumentException("Falha ao processar a imagem")
+                }
+            } else {
+                throw IllegalArgumentException("Imagem é obrigatória")
+            }
+
+            val apiResponse = remoteDataSource.createPet(
+                token = token,
+                image = imagePart,
+                specieName = (pet.specieName ?: "").toTextRequestBody(),
+                petName = (pet.petName ?: "").toTextRequestBody(),
+                gender = (pet.gender ?: "").toTextRequestBody(),
+                breedName = (pet.breedName ?: "").toTextRequestBody(),
+                size = (pet.size ?: "").toTextRequestBody(),
+                castrated = (pet.castrated ?: false).toString().toTextRequestBody(),
+                dateOfBirth = (pet.dateOfBirth ?: "").toTextRequestBody()
+            )
+
+            var result: NetworkResult<PetDetailsDTO> = NetworkResult.Error(0, null)
+            apiResponse
+                .onSuccess { result = NetworkResult.Success(it) }
+                .onError { code, body -> result = NetworkResult.Error(code, body) }
+                .onException { result = NetworkResult.Exception(it) }
+            result
+        } catch (e: Exception) {
+            NetworkResult.Exception(e)
+        }
+    }
+
     override suspend fun updatePet(id: String, pet: PetCreateDTO, imageUri: String?): NetworkResult<PetDetailsDTO> {
         val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
 
@@ -328,46 +375,30 @@ class RepositoryImpl(
                     throw IllegalArgumentException("Falha ao processar a nova imagem")
                 }
             } else if (imageUri != null && imageUri.startsWith("http", ignoreCase = true)) {
-                val urlBody = RequestBody.create(MediaType.parse("text/plain"), imageUri)
+                val urlBody = RequestBody.create(MediaType.parse("text/plain"), imageUri!!)
                 MultipartBody.Part.createFormData("image", "", urlBody)
             } else {
                 throw IllegalArgumentException("Imagem é obrigatória")
             }
 
-            val specieNamePart = pet.specieName.toTextRequestBody()
-            val petNamePart = pet.petName.toTextRequestBody()
-            val genderPart = pet.gender.toTextRequestBody()
-            val breedNamePart = pet.breedName.toTextRequestBody()
-            val sizePart = pet.size.toTextRequestBody()
-            val castratedPart = pet.castrated.toString().toTextRequestBody()
-            val dateOfBirthPart = pet.dateOfBirth.toTextRequestBody()
-
             val apiResponse = remoteDataSource.updatePet(
                 token = token,
                 image = imagePart,
-                specieName = specieNamePart,
-                petName = petNamePart,
-                gender = genderPart,
-                breedName = breedNamePart,
-                size = sizePart,
-                castrated = castratedPart,
-                dateOfBirth = dateOfBirthPart,
+                specieName = (pet.specieName ?: "").toTextRequestBody(),
+                petName = (pet.petName ?: "").toTextRequestBody(),
+                gender = (pet.gender ?: "").toTextRequestBody(),
+                breedName = (pet.breedName ?: "").toTextRequestBody(),
+                size = (pet.size ?: "").toTextRequestBody(),
+                castrated = (pet.castrated ?: false).toString().toTextRequestBody(),
+                dateOfBirth = (pet.dateOfBirth ?: "").toTextRequestBody(),
                 id = id
             )
 
             var result: NetworkResult<PetDetailsDTO> = NetworkResult.Error(0, null)
-
             apiResponse
-                .onSuccess { data ->
-                    result = NetworkResult.Success(data)
-                }
-                .onError { code, body ->
-                    result = NetworkResult.Error(code, body)
-                }
-                .onException { throwable ->
-                    result = NetworkResult.Exception(throwable)
-                }
-
+                .onSuccess { result = NetworkResult.Success(it) }
+                .onError { code, body -> result = NetworkResult.Error(code, body) }
+                .onException { result = NetworkResult.Exception(it) }
             result
         } catch (e: Exception) {
             NetworkResult.Exception(e)
@@ -381,8 +412,8 @@ class RepositoryImpl(
         return if (!localListPetSizes.isNullOrEmpty()) {
             NetworkResult.Success(localListPetSizes)
         } else {
-            val token = getToken()
-            when (val apiResult = remoteDataSource.getListPetSizes(token!!, petSpecie)) {
+            val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
+            when (val apiResult = remoteDataSource.getListPetSizes(token, petSpecie)) {
                 is NetworkResult.Success -> {
                     coroutineScope {
                         try {
@@ -405,8 +436,8 @@ class RepositoryImpl(
         return if (!localListPetRaces.isNullOrEmpty()) {
             NetworkResult.Success(localListPetRaces)
         } else {
-            val token = getToken()
-            when (val apiResult = remoteDataSource.getListPetRaces(token!!, petSpecie)) {
+            val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
+            when (val apiResult = remoteDataSource.getListPetRaces(token, petSpecie)) {
                 is NetworkResult.Success -> {
                     coroutineScope {
                         try {
@@ -423,14 +454,61 @@ class RepositoryImpl(
         }
     }
 
+    override suspend fun saveTaskLocal(task: TaskDTO): DataResult<Unit> {
+        return try {
+            val tags = guardianLocalDataSourceImpl.getAllTags()
+            val pets = guardianLocalDataSourceImpl.getAllPets()
+
+            val tag = tags.find { it.id == task.tagId } ?: return DataResult.Failure(Exception("Tag not found locally"))
+            val selectedPets = pets.filter { task.pets?.contains(it.id) == true }
+
+            val schedulerDto = com.soujunior.domain.model.taskModel.SchedulerDTO(
+                id = java.util.UUID.randomUUID().toString(),
+                tagId = tag.id,
+                title = task.title,
+                description = task.description,
+                note = task.note,
+                startAt = task.startAt,
+                endAt = task.endAt,
+                daysOfWeek = task.daysOfWeek,
+                daily = null,
+                daysOfMonth = null,
+                tag = tag,
+                pets = selectedPets
+            )
+
+            val scheduleDataDto = com.soujunior.domain.model.taskModel.ScheduleDataDTO(
+                id = java.util.UUID.randomUUID().toString(),
+                schedulerId = schedulerDto.id,
+                start = task.startAt,
+                end = task.endAt,
+                scheduler = schedulerDto
+            )
+
+            guardianLocalDataSourceImpl.saveAllTasks(listOf(scheduleDataDto))
+
+            Log.d("RepositoryImpl", "⚙️ [PROCESSANDO] Agendando ID recém-criado: ${scheduleDataDto.id} | Título: ${scheduleDataDto.scheduler.title}")
+            val domainTask = scheduleDataDto.toDomain()
+            taskReminderScheduler.schedule(domainTask)
+            
+            scheduleDataDto.id?.let { id ->
+                guardianLocalDataSourceImpl.updateAlarmStatus(id, true)
+            }
+
+            DataResult.Success(Unit)
+        } catch (e: Exception) {
+            DataResult.Failure(e)
+        }
+    }
+
     override suspend fun scheduled(item: TaskDTO): NetworkResult<Unit> {
         getToken()?.let { token ->
             val apiResponse =  remoteDataSource.scheduled(token, item)
             var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
 
             apiResponse
-                .onSuccess {
-                    result = NetworkResult.Success(Unit)
+                .onSuccess { data ->
+                    result = NetworkResult.Success(data)
                 }
                 .onError { code, body ->
                     result = NetworkResult.Error(code, body)
@@ -452,157 +530,29 @@ class RepositoryImpl(
         if (!forceRequest) {
             val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(startDate, endDate)
             if (localTasks.isNotEmpty()) {
-                return NetworkResult.Success(PaginatedScheduleResponseDTO(localTasks, 1, 0, localTasks.size))
-            }
-        }
-
-        val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
-        
-        val start = java.time.LocalDateTime.parse(startDate.split(".")[0].replace("Z", ""))
-        val end = java.time.LocalDateTime.parse(endDate.split(".")[0].replace("Z", ""))
-        val daysBetween = java.time.Duration.between(start, end).toDays()
-
-        val apiResponse = when {
-            daysBetween <= 1 -> remoteDataSource.getTaskListCurrentDate(token)
-            daysBetween <= 7 -> remoteDataSource.getTaskListCurrentWeek(token)
-            else -> remoteDataSource.getTaskListCurrentMonth(token)
-        }
-
-        return handleTaskResponse(apiResponse, startDate, endDate)
-    }
-
-    override suspend fun listCurrentDateScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
-        val today = java.time.LocalDate.now()
-        val start = today.atStartOfDay().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        val end = today.atTime(java.time.LocalTime.MAX).format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-
-        if (!forceRequest) {
-            val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(start, end)
-            if (localTasks.isNotEmpty()) {
-                return NetworkResult.Success(PaginatedScheduleResponseDTO(localTasks, 1))
+                return NetworkResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
             }
         }
         getToken()?.let { token ->
-            val apiResponse =  remoteDataSource.getTaskListCurrentDate(token)
-            return handleTaskResponse(apiResponse, start, end)
-        }.run {
-            return NetworkResult.Exception(Throwable("Token não encontrado"))
-        }
-    }
+            val apiResponseGeneric = remoteDataSource.getTaskListCurrentDate(token) 
+            
+            var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
 
-    override suspend fun listCurrentWeekScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
-        val today = java.time.LocalDate.now()
-        val start = today.with(java.time.DayOfWeek.MONDAY).atStartOfDay().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        val end = today.with(java.time.DayOfWeek.SUNDAY).atTime(java.time.LocalTime.MAX).format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-
-        if (!forceRequest) {
-            val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(start, end)
-            if (localTasks.isNotEmpty()) {
-                return NetworkResult.Success(PaginatedScheduleResponseDTO(localTasks, 1))
-            }
-        }
-        getToken()?.let { token ->
-            val apiResponse =  remoteDataSource.getTaskListCurrentWeek(token)
-            return handleTaskResponse(apiResponse, start, end)
-        }.run {
-            return NetworkResult.Exception(Throwable("Token não encontrado"))
-        }
-    }
-
-    override suspend fun listCurrentMonthScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
-        val today = java.time.LocalDate.now()
-        val start = today.withDayOfMonth(1).atStartOfDay().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        val end = today.withDayOfMonth(today.lengthOfMonth()).atTime(java.time.LocalTime.MAX).format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-
-        if (!forceRequest) {
-            val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(start, end)
-            if (localTasks.isNotEmpty()) {
-                return NetworkResult.Success(PaginatedScheduleResponseDTO(localTasks, 1))
-            }
-        }
-        getToken()?.let { token ->
-            val apiResponse =  remoteDataSource.getTaskListCurrentMonth(token)
-            return handleTaskResponse(apiResponse, start, end)
-        }.run {
-            return NetworkResult.Exception(Throwable("Token não encontrado"))
-        }
-    }
-
-    private suspend fun handleTaskResponse(
-        apiResponse: NetworkResult<PaginatedScheduleResponseDTO>,
-        startDate: String,
-        endDate: String
-    ): NetworkResult<PaginatedScheduleResponseDTO> {
-        var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
-        apiResponse
-            .onSuccess {
-                coroutineScope {
-                    try {
-                        guardianLocalDataSourceImpl.saveAllTasks(it.data)
-                    } catch (e: Exception) {
-                    }
-                }
-                
-                // Força o retorno dos dados filtrados pelo período solicitado, 
-                // garantindo que o que veio da API respeite os limites de data da UI.
-                val filteredLocal = guardianLocalDataSourceImpl.getTasksInPeriod(startDate, endDate)
-                result = NetworkResult.Success(PaginatedScheduleResponseDTO(filteredLocal, 1, 0, filteredLocal.size))
-            }
-            .onError { code, body -> result = NetworkResult.Error(code, body) }
-            .onException { throwable -> result = NetworkResult.Exception(throwable) }
-        return result
-    }
-
-    private fun String?.toTextRequestBody(): RequestBody {
-        val mediaType = MediaType.parse("text/plain")
-        val content = this ?: ""
-        return RequestBody.create(mediaType, content)
-    }
-
-    private fun Boolean?.toTextRequestBody(): RequestBody {
-        val mediaType = MediaType.parse("text/plain")
-        val content = (this ?: false).toString()
-        return RequestBody.create(mediaType, content)
-    }
-
-    override suspend fun createPet(pet: PetCreateDTO, imageUri: String?): NetworkResult<PetDetailsDTO> {
-        val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
-
-        return try {
-            val imageFile = imageUri?.let { getFileFromUri(context = context, Uri.parse(it)) }
-
-            val imagePart: MultipartBody.Part = if (imageFile != null && imageFile.exists()) {
-                val mediaType = MediaType.parse("image/*")
-                val requestFile = RequestBody.create(mediaType, imageFile)
-                MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
-            } else {
-                throw IllegalArgumentException("Imagem é obrigatória")
-            }
-
-            val specieNamePart = pet.specieName.toTextRequestBody()
-            val petNamePart = pet.petName.toTextRequestBody()
-            val genderPart = pet.gender.toTextRequestBody()
-            val breedNamePart = pet.breedName.toTextRequestBody()
-            val sizePart = pet.size.toTextRequestBody()
-            val castratedPart = pet.castrated.toString().toTextRequestBody()
-            val dateOfBirthPart = pet.dateOfBirth.toTextRequestBody()
-
-            val apiResponse = remoteDataSource.createPet(
-                token = token,
-                image = imagePart,
-                specieName = specieNamePart,
-                petName = petNamePart,
-                gender = genderPart,
-                breedName = breedNamePart,
-                size = sizePart,
-                castrated = castratedPart,
-                dateOfBirth = dateOfBirthPart
-            )
-
-            var result: NetworkResult<PetDetailsDTO> = NetworkResult.Error(0, null)
-
-            apiResponse
+            apiResponseGeneric
                 .onSuccess { data ->
+                    coroutineScope {
+                        try {
+                            guardianLocalDataSourceImpl.saveAllTasks(data.data)
+                            data.data.forEach { scheduleDataDto ->
+                                val domainTask = scheduleDataDto.toDomain()
+                                taskReminderScheduler.schedule(domainTask)
+                                scheduleDataDto.id?.let { id ->
+                                    guardianLocalDataSourceImpl.updateAlarmStatus(id, true)
+                                }
+                            }
+                        } catch (e: Exception) {
+                        }
+                    }
                     result = NetworkResult.Success(data)
                 }
                 .onError { code, body ->
@@ -611,24 +561,154 @@ class RepositoryImpl(
                 .onException { throwable ->
                     result = NetworkResult.Exception(throwable)
                 }
-
-            result
-        } catch (e: Exception) {
-            NetworkResult.Exception(e)
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
         }
+    }
+
+    override suspend fun listCurrentDateScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+        if (!forceRequest) {
+            val today = LocalDate.now().toString()
+            val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(today, today)
+            if (localTasks.isNotEmpty()) {
+                return NetworkResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
+            }
+        }
+
+        getToken()?.let { token ->
+            val apiResponse = remoteDataSource.getTaskListCurrentDate(token)
+            var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
+
+            apiResponse
+                .onSuccess { data ->
+                    coroutineScope {
+                        try {
+                            guardianLocalDataSourceImpl.saveAllTasks(data.data)
+                            data.data.forEach { scheduleDataDto ->
+                                val domainTask = scheduleDataDto.toDomain()
+                                taskReminderScheduler.schedule(domainTask)
+                                scheduleDataDto.id?.let { id ->
+                                    guardianLocalDataSourceImpl.updateAlarmStatus(id, true)
+                                }
+                            }
+                        } catch (e: Exception) {
+                        }
+                    }
+                    result = NetworkResult.Success(data)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
+
+    override suspend fun listCurrentWeekScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+        if (!forceRequest) {
+            val today = LocalDate.now()
+            val sunday = today.minusDays(today.dayOfWeek.value % 7L)
+            val saturday = sunday.plusDays(6)
+            val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(sunday.toString(), saturday.toString())
+            if (localTasks.isNotEmpty()) {
+                return NetworkResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
+            }
+        }
+        getToken()?.let { token ->
+            val apiResponse = remoteDataSource.getTaskListCurrentWeek(token)
+            var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
+
+            apiResponse
+                .onSuccess { data ->
+                    coroutineScope {
+                        try {
+                            guardianLocalDataSourceImpl.saveAllTasks(data.data)
+                            data.data.forEach { scheduleDataDto ->
+                                val domainTask = scheduleDataDto.toDomain()
+                                taskReminderScheduler.schedule(domainTask)
+                                scheduleDataDto.id?.let { id ->
+                                    guardianLocalDataSourceImpl.updateAlarmStatus(id, true)
+                                }
+                            }
+                        } catch (e: Exception) {
+                        }
+                    }
+                    result = NetworkResult.Success(data)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
+
+    override suspend fun listCurrentMonthScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+        if (!forceRequest) {
+            val today = LocalDate.now()
+            val start = today.withDayOfMonth(1).toString()
+            val end = today.withDayOfMonth(today.lengthOfMonth()).toString()
+            val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(start, end)
+            if (localTasks.isNotEmpty()) {
+                return NetworkResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
+            }
+        }
+        getToken()?.let { token ->
+            val apiResponse = remoteDataSource.getTaskListCurrentMonth(token)
+            var result: NetworkResult<PaginatedScheduleResponseDTO> = NetworkResult.Error(0, null)
+
+            apiResponse
+                .onSuccess { data ->
+                    coroutineScope {
+                        try {
+                            guardianLocalDataSourceImpl.saveAllTasks(data.data)
+                            data.data.forEach { scheduleDataDto ->
+                                val domainTask = scheduleDataDto.toDomain()
+                                taskReminderScheduler.schedule(domainTask)
+                                scheduleDataDto.id?.let { id ->
+                                    guardianLocalDataSourceImpl.updateAlarmStatus(id, true)
+                                }
+                            }
+                        } catch (e: Exception) {
+                        }
+                    }
+                    result = NetworkResult.Success(data)
+                }
+                .onError { code, body ->
+                    result = NetworkResult.Error(code, body)
+                }
+                .onException { throwable ->
+                    result = NetworkResult.Exception(throwable)
+                }
+            return result
+        }.run {
+            return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
+
+    private fun String.toTextRequestBody(): RequestBody {
+        return RequestBody.create(MediaType.parse("text/plain"), this)
     }
 
     private fun getFileFromUri(context: Context, uri: Uri): File? {
         return try {
-            val inputStream = context.contentResolver.openInputStream(uri) ?: return null
-            val tempFile = File(context.cacheDir, "temp_pet_image_${System.currentTimeMillis()}.jpg")
-            val outputStream = FileOutputStream(tempFile)
-
-            inputStream.copyTo(outputStream)
-
-            inputStream.close()
-            outputStream.close()
-
+            val contentResolver = context.contentResolver
+            val fileName = "pet_image_${System.currentTimeMillis()}.jpg"
+            val tempFile = File(context.cacheDir, fileName)
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                FileOutputStream(tempFile).use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+            }
             tempFile
         } catch (e: Exception) {
             null

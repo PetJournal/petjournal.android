@@ -1,6 +1,7 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
 import androidx.work.OneTimeWorkRequestBuilder
@@ -13,6 +14,8 @@ import com.soujunior.domain.use_case.tag.DeleteTagUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.tag.UpdateTagUseCase
 import com.soujunior.domain.use_case.task.CreateTaskUseCase
+import com.soujunior.domain.use_case.util.TaskDateCalculator
+import com.soujunior.domain.use_case.util.TaskPeriod
 import com.soujunior.petjournal.infrastructure.worker.SyncTasksWorker
 import com.soujunior.petjournal.ui.mapper.Mapper.toColor
 import com.soujunior.petjournal.ui.mapper.Mapper.toListSelectableButtonInfo
@@ -130,6 +133,11 @@ class RegisterTaskViewModelImpl(
                     it.copy(observation = event.value)
                 }
             }
+            is RegisterTaskEvent.OnSendToApiChanged -> {
+                _state.update {
+                    it.copy(sendToApi = event.value)
+                }
+            }
             is RegisterTaskEvent.Submit -> {
                 if (isFormComplete()) submit()
             }
@@ -150,6 +158,7 @@ class RegisterTaskViewModelImpl(
                         observation = "",
                         selectedPet = emptyList(),
                         selectedDaysOfWeek = emptyList(),
+                        sendToApi = true,
                     )
                 }
             }
@@ -159,17 +168,15 @@ class RegisterTaskViewModelImpl(
     override fun isFormComplete(): Boolean {
         val errorMessage: MutableList<String> = mutableListOf()
         var message = ""
-// todo: titulo nao pode haver numeros
 
         val tagId = state.value.selectedTag
         if (tagId == null) errorMessage.add("- Selecione uma tag")
-        val title = state.value.taskName
-        if (title.isBlank()) errorMessage.add("- Insira um titulo")
 
-        if (hasNumberAndSymbolInTheMiddle(title)) {
-            if (title.isBlank()) {
-                errorMessage.add("- O título não pode ter números ou simbolos no meio")
-            }
+        val title = state.value.taskName
+        if (title.isBlank()) {
+            errorMessage.add("- Insira um titulo")
+        } else if (hasNumberAndSymbolInTheMiddle(title)) {
+            errorMessage.add("- O título não pode ter números ou simbolos no meio")
         }
 
         val description = state.value.taskDescription
@@ -330,17 +337,25 @@ class RegisterTaskViewModelImpl(
             return
         }
 
-        viewModelScope.launch {
-            println("Payload gerado com sucesso: $payload")
+        val params = com.soujunior.domain.use_case.task.CreateTaskParams(payload, _state.value.sendToApi)
 
-            val result = createTaskUseCase.execute(value = payload)
+        viewModelScope.launch {
+            Log.d("RegisterTask", "🚀 Enviando payload para salvar tarefa: $payload")
+
+            val result = createTaskUseCase.execute(value = params)
 
             result.handleResult(
                 { response ->
-                    println("Tarefa criada com sucesso: $response")
+                    Log.d("RegisterTask", "✅ Tarefa criada com sucesso.")
 
-                    val workRequest = OneTimeWorkRequestBuilder<SyncTasksWorker>().build()
-                    WorkManager.getInstance(context).enqueue(workRequest)
+                    if (_state.value.sendToApi) {
+                        val workRequest =
+                            OneTimeWorkRequestBuilder<SyncTasksWorker>()
+                                .addTag("sync_after_create")
+                                .build()
+                        WorkManager.getInstance(context).enqueue(workRequest)
+                        Log.d("RegisterTask", "🔄 SyncTasksWorker enfileirado para agendar o alarme.")
+                    }
 
                     state.update {
                         it.copy(
@@ -350,6 +365,7 @@ class RegisterTaskViewModelImpl(
                     }
                 },
                 { error ->
+                    Log.e("RegisterTask", "🚨 Erro ao criar tarefa: ${error?.message}")
                     state.update {
                         it.copy(
                             showDialogError = true,
@@ -367,24 +383,25 @@ class RegisterTaskViewModelImpl(
         isRecurrent: Boolean,
     ): String? {
         if (time == null) return null
-
         if (!isRecurrent && dateMillis == null) return null
 
         val zoneId = ZoneId.systemDefault()
 
+        // Se dateMillis for do MaterialDatePicker, ele vem em UTC 00:00.
+        // Precisamos garantir que pegamos o dia correto no fuso local.
         val localDate =
             if (isRecurrent || dateMillis == null) {
                 LocalDate.now(zoneId)
             } else {
-                Instant.ofEpochMilli(dateMillis).atZone(zoneId).toLocalDate()
+                // Ajuste para evitar que o fuso mude o dia selecionado (ex: selecionou dia 10, vira dia 9 as 21h)
+                Instant.ofEpochMilli(dateMillis).atZone(ZoneOffset.UTC).toLocalDate()
             }
 
         val localDateTime = ZonedDateTime.of(localDate, time, zoneId)
-
         val utcDateTime = localDateTime.withZoneSameInstant(ZoneOffset.UTC)
 
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
-        return utcDateTime.format(formatter)
+        // Usar formatador padrão ISO que inclua milissegundos e o Z real
+        return utcDateTime.format(DateTimeFormatter.ISO_INSTANT)
     }
 
     fun resolveTimeTo24h(
@@ -451,13 +468,31 @@ class RegisterTaskViewModelImpl(
                 }
             }
         }
+        val endAt =
+            if (isRecurrent) {
+                val taskPeriod =
+                    when (state.periodType) {
+                        SelectedPeriodType.Daily -> TaskPeriod.DAILY
+                        SelectedPeriodType.Weekly -> TaskPeriod.WEEKLY
+                        SelectedPeriodType.Monthly -> TaskPeriod.MONTHLY
+                    }
+                TaskDateCalculator.calculateDefaultEndAt(
+                    startAtIso = startAt,
+                    period = taskPeriod,
+                    daysOfWeek = daysOfWeek,
+                    dayOfMonth = state.daySelected,
+                )
+            } else {
+                null
+            }
+
         return TaskDTO(
             tagId = tagId,
             title = title,
             description = description,
             note = note,
             startAt = startAt,
-            endAt = null,
+            endAt = endAt,
             daysOfWeek = daysOfWeek,
             pets = pets,
         )
@@ -473,14 +508,10 @@ class RegisterTaskViewModelImpl(
                 "qui" to 4,
                 "sex" to 5,
                 "sab" to 6,
-                "ter" to 2,
-                "sab" to 6,
             )
-        val value =
-            days.mapNotNull { day ->
-                dayMap[day.lowercase().trim()]
-            }.distinct().sorted()
-        return value
+        return days.mapNotNull { day ->
+            dayMap[day.lowercase().trim()]
+        }.distinct().sorted()
     }
 
     fun hasNumberAndSymbolInTheMiddle(text: String): Boolean {

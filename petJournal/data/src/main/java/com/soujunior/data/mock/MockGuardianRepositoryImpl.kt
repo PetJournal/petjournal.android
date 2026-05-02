@@ -92,6 +92,10 @@ class MockGuardianRepositoryImpl(): Repository {
         TODO("Not yet implemented")
     }
 
+    override suspend fun saveTaskLocal(task: TaskDTO): DataResult<Unit> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun scheduled(item: TaskDTO): NetworkResult<Unit> {
         TODO("Not yet implemented")
     }

@@ -18,6 +18,7 @@ import com.petjournal.database.database.entity.ApplicationInformation
 import com.petjournal.database.database.entity.GuardianProfile
 import com.petjournal.database.database.entity.PetDetailsEntity
 import com.petjournal.database.database.entity.TagEntity
+import android.util.Log
 import com.petjournal.database.database.entity.TaskEntity
 import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
@@ -268,10 +269,11 @@ class LocalDataSourceImpl(
     }
 
     override suspend fun saveAllTasks(tasks: List<ScheduleDataDTO>) {
+        Log.d("LocalDataSource", "💾 Salvando ${tasks.size} tarefas no banco local.")
         val ids = tasks.mapNotNull { it.id }
         val existingTasks = if (ids.isNotEmpty()) taskDao.getTasksByIds(ids).associateBy { it.id } else emptyMap()
         
-        taskDao.insertAll(tasks.map {
+        val entities = tasks.map {
             val existing = existingTasks[it.id]
             val scheduler = it.scheduler
             TaskEntity(
@@ -280,8 +282,8 @@ class LocalDataSourceImpl(
                 title = scheduler.title ?: "",
                 description = scheduler.description,
                 note = scheduler.note,
-                start = it.start?.split(".")?.get(0)?.replace("Z", ""),
-                end = it.end?.split(".")?.get(0)?.replace("Z", ""),
+                start = it.start, // Mantendo original para preservar UTC/Z
+                end = it.end,
                 isRecurrent = scheduler.daily == true || !scheduler.daysOfWeek.isNullOrEmpty() || !scheduler.daysOfMonth.isNullOrEmpty(),
                 recurrenceType = when {
                     scheduler.daily == true -> "DAILY"
@@ -295,11 +297,15 @@ class LocalDataSourceImpl(
                 scheduler = scheduler,
                 isAlarmScheduled = existing?.isAlarmScheduled ?: false
             )
-        })
+        }
+        taskDao.insertAll(entities)
+        Log.d("LocalDataSource", "✅ Inserção concluída.")
     }
 
     override suspend fun getTasksToSchedule(): List<ScheduleDataDTO> {
-        return taskDao.getTasksToSchedule().mapNotNull {
+        val tasks = taskDao.getTasksToSchedule()
+        Log.d("LocalDataSource", "🔍 getTasksToSchedule: Encontradas ${tasks.size} tarefas com isAlarmScheduled = 0")
+        return tasks.mapNotNull {
             it.scheduler?.let { scheduler ->
                 ScheduleDataDTO(
                     id = it.id,
@@ -308,6 +314,9 @@ class LocalDataSourceImpl(
                     end = it.end,
                     scheduler = scheduler
                 )
+            } ?: run {
+                Log.w("LocalDataSource", "⚠️ Tarefa ${it.id} ignorada: scheduler nulo no banco.")
+                null
             }
         }
     }

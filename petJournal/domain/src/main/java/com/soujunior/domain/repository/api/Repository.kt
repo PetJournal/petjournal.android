@@ -38,6 +38,7 @@ interface Repository {
     suspend fun getListPetSizes(petSpecie: String): NetworkResult<List<PetSizeItemModel>>
     suspend fun getListPetRaces(petSpecie: String): NetworkResult<List<PetRaceItemModel>>
 
+    suspend fun saveTaskLocal(task: TaskDTO): DataResult<Unit>
     suspend fun scheduled(item: TaskDTO): NetworkResult<Unit>
     suspend fun listTasksByPeriod(
         startDate: String,

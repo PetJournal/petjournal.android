@@ -39,4 +39,6 @@ sealed class RegisterTaskEvent {
     class OnDayOfWeekChanged(val value: String) : RegisterTaskEvent()
 
     class OnObservation(val value: String) : RegisterTaskEvent()
+
+    class OnSendToApiChanged(val value: Boolean) : RegisterTaskEvent()
 }
