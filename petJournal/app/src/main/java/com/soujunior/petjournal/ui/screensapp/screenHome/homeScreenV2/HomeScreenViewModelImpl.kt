@@ -6,6 +6,8 @@ import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseModel
 import com.soujunior.domain.use_case.auth.LogoutUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
+import com.soujunior.domain.use_case.preference.CheckNotificationPermissionRequestedUseCase
+import com.soujunior.domain.use_case.preference.SetNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
 import com.soujunior.petjournal.ui.mapper.Mapper
@@ -24,6 +26,8 @@ class HomeScreenViewModelImpl(
     private val getListCurrentWeekTaskUseCase: GetListCurrentWeekTaskUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val getListTagUseCase: GetListTagUseCase,
+    private val checkNotificationPermissionRequestedUseCase: CheckNotificationPermissionRequestedUseCase,
+    private val setNotificationPermissionRequestedUseCase: SetNotificationPermissionRequestedUseCase,
 ) : HomeScreenViewModel() {
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
@@ -151,6 +155,15 @@ class HomeScreenViewModelImpl(
     override fun logout() {
         viewModelScope.launch {
             logoutUseCase.doWork()
+        }
+    }
+
+    override fun checkNotificationPermission(onShouldRequest: () -> Unit) {
+        viewModelScope.launch {
+            if (!checkNotificationPermissionRequestedUseCase()) {
+                onShouldRequest()
+                setNotificationPermissionRequestedUseCase(true)
+            }
         }
     }
 }
