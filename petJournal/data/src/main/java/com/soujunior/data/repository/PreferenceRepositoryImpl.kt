@@ -16,6 +16,7 @@ class PreferenceRepositoryImpl(
 
     companion object {
         private const val KEY_DARK_MODE = "dark_mode_pref_key"
+        private const val KEY_NOTIFICATION_PERMISSION_REQUESTED = "notification_permission_requested"
     }
 
     override fun getDarkModePreference(): Flow<Boolean> = callbackFlow {
@@ -41,5 +42,13 @@ class PreferenceRepositoryImpl(
 
     override suspend fun resetDarkModePreference() {
         prefs.edit().remove(KEY_DARK_MODE).apply()
+    }
+
+    override suspend fun wasNotificationPermissionRequested(): Boolean {
+        return prefs.getBoolean(KEY_NOTIFICATION_PERMISSION_REQUESTED, false)
+    }
+
+    override suspend fun setNotificationPermissionRequested(requested: Boolean) {
+        prefs.edit().putBoolean(KEY_NOTIFICATION_PERMISSION_REQUESTED, requested).apply()
     }
 }

@@ -224,6 +224,13 @@
     <string name="show_more">Ver Mais</string>
     <string name="edit_task">Editar Tarefa</string>
     <string name="config">Configurações</string>
+    <string name="settings_dark_mode">Tema escuro</string>
+    <string name="settings_notifications">Notificações do sistema</string>
+    <string name="settings_exact_alarm">Alarme sonoro</string>
+    <string name="settings_permission_dialog_title">Permissão Necessária</string>
+    <string name="settings_notification_permission_description">Para receber lembretes das tarefas dos seus pets, precisamos da permissão de notificações.</string>
+    <string name="settings_exact_alarm_permission_description">Para que os alarmes toquem no horário exato, precisamos da permissão de alarmes exatos nas configurações do sistema.</string>
+    <string name="settings_go_to_settings">Configurações</string>
     <string name="register_">Inscreva-se:</string>
     <string name="empty_task_list_day">Nenhum conteúdo para este dia</string>
     <string name="empty_task_list_week">Nenhum conteúdo para esta semana</string>

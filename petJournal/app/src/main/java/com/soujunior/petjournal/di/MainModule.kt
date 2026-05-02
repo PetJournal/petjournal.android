@@ -45,8 +45,10 @@ import com.soujunior.domain.use_case.pet.GetPetByIdUseCase
 import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
+import com.soujunior.domain.use_case.preference.CheckNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.preference.GetDarkModePreferenceUseCase
 import com.soujunior.domain.use_case.preference.SaveDarkModePreferenceUseCase
+import com.soujunior.domain.use_case.preference.SetNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.tag.CreateTagUseCase
 import com.soujunior.domain.use_case.tag.DeleteTagUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
@@ -106,7 +108,7 @@ val mainModule =
         // Repositories
         single<ValidationRepository> { ValidationRepositoryImpl() }
         single<AuthRepository> { AuthRepositoryImpl(get(), get(), get()) }
-        single<Repository> { RepositoryImpl(get(), get(), get()) }
+        single<Repository> { RepositoryImpl(get(), get(), get(), get()) }
         single<AppInfoDatabaseRepository> { AppInfoDataImpl(get()) }
         single<LocalDataSource> { LocalDataSourceImpl(get(), get(), get(), get(), get(), get()) }
         single<AppInfoDatabase> { AppInfoDataBaseImpl(get()) }
@@ -166,6 +168,8 @@ val mainModule =
         factory { GetListCurrentMonthTaskUseCase(get()) }
         factory { GetDarkModePreferenceUseCase(get()) }
         factory { SaveDarkModePreferenceUseCase(get()) }
+        factory { CheckNotificationPermissionRequestedUseCase(get()) }
+        factory { SetNotificationPermissionRequestedUseCase(get()) }
 
         single<AuthDataSource> { get<Retrofit>().create(AuthDataSource::class.java) }
         single<RemoteDataSource> { get<Retrofit>().create(RemoteDataSource::class.java) }
@@ -194,7 +198,17 @@ val mainModule =
                 .build()
         }
 
-        viewModel<HomeScreenViewModel> { HomeScreenViewModelImpl(get(), get(), get(), get(), get()) }
+        viewModel<HomeScreenViewModel> {
+            HomeScreenViewModelImpl(
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+            )
+        }
 
         viewModel<IntroRegisterPetViewModel> {
             com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModelImpl(

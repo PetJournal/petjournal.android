@@ -1,5 +1,11 @@
 package com.soujunior.petjournal.ui.screensapp.screenTutor.config.notifyScreen
 
+import android.Manifest
+import android.app.AlarmManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.use_case.preference.GetDarkModePreferenceUseCase
@@ -32,6 +38,33 @@ class SettingsViewModel(
                     )
                 }
             }
+        }
+    }
+
+    fun updatePermissionsStatus(context: Context) {
+        val isNotificationEnabled =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                ) == PackageManager.PERMISSION_GRANTED
+            } else {
+                true
+            }
+
+        val isExactAlarmEnabled =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                alarmManager.canScheduleExactAlarms()
+            } else {
+                true
+            }
+
+        _uiState.update {
+            it.copy(
+                isNotificationEnabled = isNotificationEnabled,
+                isExactAlarmEnabled = isExactAlarmEnabled,
+            )
         }
     }
 
