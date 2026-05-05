@@ -50,6 +50,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.soujunior.petjournal.R
@@ -448,4 +449,97 @@ fun GroupSelectableButton(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SelectableButtonPreview() {
+    Column(
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        SelectableButton(
+            titleButton = "Selected",
+            colorButton = Color.Red,
+            isSelected = true,
+            onSelectionChanged = { _, _ -> },
+        )
+        SelectableButton(
+            titleButton = "Unselected",
+            colorButton = Color.Blue,
+            isSelected = false,
+            onSelectionChanged = { _, _ -> },
+        )
+        SelectableButton(
+            titleButton = "Loading",
+            colorButton = Color.Green,
+            isSelected = false,
+            isLoading = true,
+            onSelectionChanged = { _, _ -> },
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GroupSelectableButtonPreview() {
+    val tags =
+        listOf(
+            SelectableButtonInfo("1", "Trabalho", Color.Red),
+            SelectableButtonInfo("2", "Casa", Color.Green),
+            SelectableButtonInfo("3", "Estudo", Color.Blue),
+        )
+    Column(modifier = Modifier.padding(16.dp)) {
+        GroupSelectableButton(
+            listOfTags = tags,
+            selectedTag = "1",
+            showButton = true,
+            onSelection = {},
+            onAction = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TagFormPreview() {
+    Box(modifier = Modifier.padding(16.dp)) {
+        TagForm(
+            tagToEdit = null,
+            onSave = { _, _ -> },
+            onCancel = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TagListPreview() {
+    val tags =
+        listOf(
+            SelectableButtonInfo("1", "Tag 1", Color.Red),
+            SelectableButtonInfo("2", "Tag 2", Color.Green),
+            SelectableButtonInfo("3", "Tag 3", Color.Blue),
+        )
+    Box(modifier = Modifier.padding(16.dp)) {
+        TagList(tags = tags, onEdit = {}, onDelete = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ManageTagsDialogPreview() {
+    val tags =
+        listOf(
+            SelectableButtonInfo("1", "Trabalho", Color.Red),
+            SelectableButtonInfo("2", "Casa", Color.Green),
+            SelectableButtonInfo("3", "Estudo", Color.Blue),
+        )
+    // Nota: Dialogs em Preview podem aparecer de forma limitada dependendo da versão do AS,
+    // mas o conteúdo interno será renderizado.
+    ManageTagsDialog(
+        tags = tags,
+        onDismiss = {},
+        onAction = {},
+    )
 }
