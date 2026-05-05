@@ -16,6 +16,7 @@ class PreferenceRepositoryImpl(
 
     companion object {
         private const val KEY_DARK_MODE = "dark_mode_pref_key"
+        private const val KEY_SYSTEM_THEME = "system_theme_pref_key"
         private const val KEY_NOTIFICATION_PERMISSION_REQUESTED = "notification_permission_requested"
     }
 
@@ -42,6 +43,30 @@ class PreferenceRepositoryImpl(
 
     override suspend fun resetDarkModePreference() {
         prefs.edit().remove(KEY_DARK_MODE).apply()
+    }
+
+    override fun getSystemThemePreference(): Flow<Boolean> = callbackFlow {
+        trySend(prefs.getBoolean(KEY_SYSTEM_THEME, true))
+
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+            if (key == KEY_SYSTEM_THEME) {
+                trySend(sharedPreferences.getBoolean(KEY_SYSTEM_THEME, true))
+            }
+        }
+
+        prefs.registerOnSharedPreferenceChangeListener(listener)
+
+        awaitClose {
+            prefs.unregisterOnSharedPreferenceChangeListener(listener)
+        }
+    }
+
+    override suspend fun setSystemThemePreference(isSystem: Boolean) {
+        prefs.edit().putBoolean(KEY_SYSTEM_THEME, isSystem).apply()
+    }
+
+    override suspend fun resetSystemThemePreference() {
+        prefs.edit().remove(KEY_SYSTEM_THEME).apply()
     }
 
     override suspend fun wasNotificationPermissionRequested(): Boolean {

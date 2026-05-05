@@ -9,7 +9,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.use_case.preference.GetDarkModePreferenceUseCase
+import com.soujunior.domain.use_case.preference.GetSystemThemePreferenceUseCase
 import com.soujunior.domain.use_case.preference.SaveDarkModePreferenceUseCase
+import com.soujunior.domain.use_case.preference.SaveSystemThemePreferenceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,12 +21,15 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(
     private val getDarkModePreferenceUseCase: GetDarkModePreferenceUseCase,
     private val saveDarkModePreferenceUseCase: SaveDarkModePreferenceUseCase,
+    private val getSystemThemePreferenceUseCase: GetSystemThemePreferenceUseCase,
+    private val saveSystemThemePreferenceUseCase: SaveSystemThemePreferenceUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
     init {
         observeDarkModePreference()
+        observeSystemThemePreference()
     }
 
     private fun observeDarkModePreference() {
@@ -34,6 +39,20 @@ class SettingsViewModel(
                 _uiState.update {
                     it.copy(
                         isDarkMode = isDark,
+                        isLoading = false,
+                    )
+                }
+            }
+        }
+    }
+
+    private fun observeSystemThemePreference() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            getSystemThemePreferenceUseCase().collect { isSystem ->
+                _uiState.update {
+                    it.copy(
+                        isSystemTheme = isSystem,
                         isLoading = false,
                     )
                 }
@@ -71,6 +90,12 @@ class SettingsViewModel(
     fun toggleDarkMode(isDark: Boolean) {
         viewModelScope.launch {
             saveDarkModePreferenceUseCase(isDark)
+        }
+    }
+
+    fun toggleSystemTheme(isSystem: Boolean) {
+        viewModelScope.launch {
+            saveSystemThemePreferenceUseCase(isSystem)
         }
     }
 }

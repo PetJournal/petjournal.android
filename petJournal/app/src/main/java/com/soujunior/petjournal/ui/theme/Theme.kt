@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.domain.use_case.preference.GetDarkModePreferenceUseCase
+import com.soujunior.domain.use_case.preference.GetSystemThemePreferenceUseCase
 import org.koin.androidx.compose.get
 
 /**h1	displayLarge
@@ -132,16 +133,18 @@ fun PetJournalTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val isDarkPref =
+    val (isDarkPref, isSystemThemePref) =
         if (!LocalInspectionMode.current && !ignoreAppTheme) {
             val getDarkModeUseCase: GetDarkModePreferenceUseCase = get()
-            val pref by getDarkModeUseCase().collectAsState(initial = false)
-            pref
+            val getSystemThemeUseCase: GetSystemThemePreferenceUseCase = get()
+            val darkPref by getDarkModeUseCase().collectAsState(initial = false)
+            val systemPref by getSystemThemeUseCase().collectAsState(initial = true)
+            Pair(darkPref, systemPref)
         } else {
-            false
+            Pair(false, true)
         }
 
-    val finalDarkTheme = if (isDarkPref) true else darkTheme
+    val finalDarkTheme = if (isSystemThemePref) darkTheme else isDarkPref
 
     val colors =
         when {

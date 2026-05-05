@@ -33,6 +33,7 @@ fun SwitchCustom(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     val checkedTrackColor = MaterialTheme.colorScheme.primary
     val uncheckedTrackColor = Color.Transparent
@@ -40,6 +41,7 @@ fun SwitchCustom(
 
     val checkedThumbColor = Color.White
     val uncheckedThumbColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val disabledAlpha = 0.5f
 
     val trackColor by animateColorAsState(
         targetValue = if (checked) checkedTrackColor else uncheckedTrackColor,
@@ -71,13 +73,14 @@ fun SwitchCustom(
                 .width(50.dp)
                 .height(30.dp)
                 .clip(RoundedCornerShape(50))
-                .background(trackColor)
+                .background(if (enabled) trackColor else trackColor.copy(alpha = disabledAlpha))
                 .border(
                     width = 3.dp,
-                    color = borderColor,
+                    color = if (enabled) borderColor else borderColor.copy(alpha = disabledAlpha),
                     shape = RoundedCornerShape(50),
                 )
                 .clickable(
+                    enabled = enabled,
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() },
                 ) {
@@ -90,7 +93,10 @@ fun SwitchCustom(
                 Modifier
                     .offset(x = thumbOffset)
                     .size(if (checked) 20.dp else 15.dp)
-                    .background(color = thumbColor, shape = CircleShape),
+                    .background(
+                        color = if (enabled) thumbColor else thumbColor.copy(alpha = disabledAlpha),
+                        shape = CircleShape,
+                    ),
         )
     }
 }

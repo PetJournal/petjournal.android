@@ -10,5 +10,6 @@ class LogoutUseCase(
     suspend fun doWork() {
         authRepository.logout()
         preferenceRepository.resetDarkModePreference()
+        preferenceRepository.resetSystemThemePreference()
     }
 }

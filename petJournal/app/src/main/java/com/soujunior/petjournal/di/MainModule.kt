@@ -47,7 +47,9 @@ import com.soujunior.domain.use_case.pet.SavePetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.preference.CheckNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.preference.GetDarkModePreferenceUseCase
+import com.soujunior.domain.use_case.preference.GetSystemThemePreferenceUseCase
 import com.soujunior.domain.use_case.preference.SaveDarkModePreferenceUseCase
+import com.soujunior.domain.use_case.preference.SaveSystemThemePreferenceUseCase
 import com.soujunior.domain.use_case.preference.SetNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.tag.CreateTagUseCase
 import com.soujunior.domain.use_case.tag.DeleteTagUseCase
@@ -170,6 +172,8 @@ val mainModule =
         factory { GetLocalTasksByPeriodUseCase(get()) }
         factory { GetDarkModePreferenceUseCase(get()) }
         factory { SaveDarkModePreferenceUseCase(get()) }
+        factory { GetSystemThemePreferenceUseCase(get()) }
+        factory { SaveSystemThemePreferenceUseCase(get()) }
         factory { CheckNotificationPermissionRequestedUseCase(get()) }
         factory { SetNotificationPermissionRequestedUseCase(get()) }
 
@@ -252,5 +256,5 @@ val mainModule =
         viewModel<RegisterTaskViewModel> { RegisterTaskViewModelImpl(get(), get(), get(), get(), get(), get(), androidContext()) }
         viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get()) }
         viewModel<TutorViewModel> { TutorViewModelImpl(get(), get(), get()) }
-        viewModel { SettingsViewModel(get(), get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get()) }
     }

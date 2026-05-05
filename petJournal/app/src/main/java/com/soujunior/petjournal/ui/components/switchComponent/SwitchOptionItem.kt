@@ -22,6 +22,7 @@ fun SwitchOptionItem(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     Row(
         modifier =
@@ -34,7 +35,7 @@ fun SwitchOptionItem(
         Text(
             text = title,
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = if (enabled) 1f else 0.5f),
             modifier =
                 Modifier
                     .weight(1f)
@@ -44,6 +45,7 @@ fun SwitchOptionItem(
         SwitchCustom(
             checked = checked,
             onCheckedChange = onCheckedChange,
+            enabled = enabled,
         )
     }
 }

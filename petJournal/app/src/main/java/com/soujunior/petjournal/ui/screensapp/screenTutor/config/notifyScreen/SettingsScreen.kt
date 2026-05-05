@@ -148,9 +148,15 @@ fun SettingsScreen(
                 ) {
                     item {
                         SwitchOptionItem(
+                            title = "Tema definido pelo sistema",
+                            checked = uiState.isSystemTheme,
+                            onCheckedChange = { viewModel.toggleSystemTheme(it) },
+                        )
+                        SwitchOptionItem(
                             title = stringResource(R.string.settings_dark_mode),
                             checked = uiState.isDarkMode,
                             onCheckedChange = { viewModel.toggleDarkMode(it) },
+                            enabled = !uiState.isSystemTheme,
                         )
                         SwitchOptionItem(
                             title = stringResource(R.string.settings_notifications),
