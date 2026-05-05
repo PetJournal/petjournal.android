@@ -13,14 +13,21 @@ interface TaskDao {
 
     @Query("""
         SELECT * FROM task 
-        WHERE (start >= :startDate AND start <= :endDate) 
-        OR (isRecurrent = 1 AND (
+        WHERE ((start >= :startDate AND start <= :endDate) 
+        OR (isRecurrent = 1 AND start <= :endDate AND (end IS NULL OR end >= :startDate) AND (
             recurrenceType = 'DAILY' 
             OR (recurrenceType = 'WEEKLY' AND daysOfWeek LIKE '%' || :dayOfWeek || '%')
             OR (recurrenceType = 'MONTHLY' AND daysOfMonth LIKE '%' || :dayOfMonth || '%')
-        ))
+        )))
     """)
     suspend fun getTasksInPeriod(startDate: String, endDate: String, dayOfWeek: String, dayOfMonth: String): List<TaskEntity>
+
+    @Query("""
+        DELETE FROM task 
+        WHERE (isRecurrent = 0 AND ((end IS NOT NULL AND end < :currentDateTime) OR (end IS NULL AND start < :currentDateTime)))
+        OR (isRecurrent = 1 AND end IS NOT NULL AND end < :currentDateTime)
+    """)
+    suspend fun deletePastTasks(currentDateTime: String)
 
     @Query("SELECT * FROM task WHERE isAlarmScheduled = 0")
     suspend fun getTasksToSchedule(): List<TaskEntity>

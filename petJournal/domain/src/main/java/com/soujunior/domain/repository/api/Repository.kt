@@ -45,6 +45,12 @@ interface Repository {
         endDate: String,
         forceRequest: Boolean = false
     ): NetworkResult<PaginatedScheduleResponseDTO>
+    
+    suspend fun getLocalTasksByPeriod(
+        startDate: String,
+        endDate: String,
+        considerTime: Boolean
+    ): DataResult<PaginatedScheduleResponseDTO>
 
     suspend fun listCurrentDateScheduled(forceRequest: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>
     suspend fun listCurrentWeekScheduled(forceRequest: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>

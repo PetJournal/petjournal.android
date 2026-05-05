@@ -9,7 +9,7 @@ import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
 import com.soujunior.domain.use_case.preference.CheckNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.preference.SetNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
-import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
+import com.soujunior.domain.use_case.task.GetLocalTasksByPeriodUseCase
 import com.soujunior.petjournal.ui.mapper.Mapper
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 class HomeScreenViewModelImpl(
     private val getGuardianNameUseCase: GetGuardianNameUseCase,
     private val getPetListUseCase: GetListPetUseCaseV1,
-    private val getListCurrentWeekTaskUseCase: GetListCurrentWeekTaskUseCase,
+    private val getLocalTasksByPeriodUseCase: GetLocalTasksByPeriodUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val getListTagUseCase: GetListTagUseCase,
     private val checkNotificationPermissionRequestedUseCase: CheckNotificationPermissionRequestedUseCase,
@@ -113,7 +113,17 @@ class HomeScreenViewModelImpl(
     private fun getTask(forceRequest: Boolean = false) {
         _state.value = _state.value.copy(isLoadingListTask = true)
         viewModelScope.launch {
-            val result = getListCurrentWeekTaskUseCase.execute(forceRequest)
+            val today = java.time.LocalDate.now()
+            val startDate = today.atStartOfDay().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            val endDate = today.atTime(java.time.LocalTime.MAX).format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+
+            val input =
+                GetLocalTasksByPeriodUseCase.Input(
+                    startAt = startDate,
+                    endAt = endDate,
+                    considerTime = true,
+                )
+            val result = getLocalTasksByPeriodUseCase.execute(input)
             result.handleResult({ value: PaginatedScheduleResponseModel ->
                 _state.update {
                     with(Mapper) {

@@ -92,6 +92,14 @@ class MockGuardianLocalDataSource: LocalDataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getLocalTasksByPeriod(
+        startDate: String,
+        endDate: String,
+        considerTime: Boolean
+    ): List<ScheduleDataDTO> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun saveAllTasks(tasks: List<ScheduleDataDTO>) {
         TODO("Not yet implemented")
     }

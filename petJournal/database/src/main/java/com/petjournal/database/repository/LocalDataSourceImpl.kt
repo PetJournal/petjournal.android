@@ -248,9 +248,46 @@ class LocalDataSourceImpl(
     }
 
     override suspend fun getTasksInPeriod(startDate: String, endDate: String): List<ScheduleDataDTO> {
+        val currentDateTime = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        val currentClean = currentDateTime.split(".")[0].replace("Z", "")
+        taskDao.deletePastTasks(currentClean)
+
         val startClean = startDate.split(".")[0].replace("Z", "")
         val endClean = endDate.split(".")[0].replace("Z", "")
         
+        val startDateTime = java.time.LocalDateTime.parse(startClean)
+        val dayOfWeek = (startDateTime.dayOfWeek.value % 7).toString() // 0-6 (dom-sab)
+        val dayOfMonth = startDateTime.dayOfMonth.toString()
+
+        return taskDao.getTasksInPeriod(startClean, endClean, dayOfWeek, dayOfMonth).mapNotNull {
+            it.scheduler?.let { scheduler ->
+                ScheduleDataDTO(
+                    id = it.id,
+                    schedulerId = it.schedulerId,
+                    start = it.start,
+                    end = it.end,
+                    scheduler = scheduler
+                )
+            }
+        }
+    }
+
+    override suspend fun getLocalTasksByPeriod(startDate: String, endDate: String, considerTime: Boolean): List<ScheduleDataDTO> {
+        val currentDateTime = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        val currentClean = currentDateTime.split(".")[0].replace("Z", "")
+        
+        // Se formos considerar a hora exata (para resgatar apenas as atuais/futuras e não as do passado), deletamos primeiro
+        if (considerTime) {
+            taskDao.deletePastTasks(currentClean)
+        }
+
+        var startClean = startDate.split(".")[0].replace("Z", "")
+        val endClean = endDate.split(".")[0].replace("Z", "")
+        
+        if (considerTime && startClean < currentClean) {
+            startClean = currentClean
+        }
+
         val startDateTime = java.time.LocalDateTime.parse(startClean)
         val dayOfWeek = (startDateTime.dayOfWeek.value % 7).toString() // 0-6 (dom-sab)
         val dayOfMonth = startDateTime.dayOfMonth.toString()

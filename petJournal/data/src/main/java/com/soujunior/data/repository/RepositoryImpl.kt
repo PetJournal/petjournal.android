@@ -553,7 +553,8 @@ class RepositoryImpl(
                         } catch (e: Exception) {
                         }
                     }
-                    result = NetworkResult.Success(data)
+                    val updatedLocalTasks = guardianLocalDataSourceImpl.getTasksInPeriod(startDate, endDate)
+                    result = NetworkResult.Success(PaginatedScheduleResponseDTO(data = updatedLocalTasks))
                 }
                 .onError { code, body ->
                     result = NetworkResult.Error(code, body)
@@ -564,6 +565,19 @@ class RepositoryImpl(
             return result
         }.run {
             return NetworkResult.Exception(Throwable("Token não encontrado"))
+        }
+    }
+
+    override suspend fun getLocalTasksByPeriod(
+        startDate: String,
+        endDate: String,
+        considerTime: Boolean
+    ): DataResult<PaginatedScheduleResponseDTO> {
+        return try {
+            val localTasks = guardianLocalDataSourceImpl.getLocalTasksByPeriod(startDate, endDate, considerTime)
+            DataResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
+        } catch (e: Exception) {
+            DataResult.Failure(e)
         }
     }
 
@@ -595,7 +609,9 @@ class RepositoryImpl(
                         } catch (e: Exception) {
                         }
                     }
-                    result = NetworkResult.Success(data)
+                    val todayStr = LocalDate.now().toString()
+                    val updatedLocalTasks = guardianLocalDataSourceImpl.getTasksInPeriod(todayStr, todayStr)
+                    result = NetworkResult.Success(PaginatedScheduleResponseDTO(data = updatedLocalTasks))
                 }
                 .onError { code, body ->
                     result = NetworkResult.Error(code, body)
@@ -638,7 +654,11 @@ class RepositoryImpl(
                         } catch (e: Exception) {
                         }
                     }
-                    result = NetworkResult.Success(data)
+                    val todayDate = LocalDate.now()
+                    val sundayDate = todayDate.minusDays(todayDate.dayOfWeek.value % 7L)
+                    val saturdayDate = sundayDate.plusDays(6)
+                    val updatedLocalTasks = guardianLocalDataSourceImpl.getTasksInPeriod(sundayDate.toString(), saturdayDate.toString())
+                    result = NetworkResult.Success(PaginatedScheduleResponseDTO(data = updatedLocalTasks))
                 }
                 .onError { code, body ->
                     result = NetworkResult.Error(code, body)
@@ -681,7 +701,11 @@ class RepositoryImpl(
                         } catch (e: Exception) {
                         }
                     }
-                    result = NetworkResult.Success(data)
+                    val todayDate = LocalDate.now()
+                    val startDateStr = todayDate.withDayOfMonth(1).toString()
+                    val endDateStr = todayDate.withDayOfMonth(todayDate.lengthOfMonth()).toString()
+                    val updatedLocalTasks = guardianLocalDataSourceImpl.getTasksInPeriod(startDateStr, endDateStr)
+                    result = NetworkResult.Success(PaginatedScheduleResponseDTO(data = updatedLocalTasks))
                 }
                 .onError { code, body ->
                     result = NetworkResult.Error(code, body)

@@ -57,6 +57,7 @@ import com.soujunior.domain.use_case.task.CreateTaskUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentMonthTaskUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
+import com.soujunior.domain.use_case.task.GetLocalTasksByPeriodUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeViewModel
 import com.soujunior.petjournal.ui.screensapp.accountmanager.awaitingCodeScreen.AwaitingCodeViewModelImpl
@@ -166,6 +167,7 @@ val mainModule =
         factory { GetListCurrentDateTaskUseCase(get()) }
         factory { GetListCurrentWeekTaskUseCase(get()) }
         factory { GetListCurrentMonthTaskUseCase(get()) }
+        factory { GetLocalTasksByPeriodUseCase(get()) }
         factory { GetDarkModePreferenceUseCase(get()) }
         factory { SaveDarkModePreferenceUseCase(get()) }
         factory { CheckNotificationPermissionRequestedUseCase(get()) }
