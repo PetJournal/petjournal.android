@@ -144,6 +144,7 @@ dependencies {
 //    implementation("io.insert-koin:koin-androidx-compose:3.1.2")
     implementation("io.insert-koin:koin-androidx-compose:3.4.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
     implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation("com.github.Kaaveh:sdp-compose:1.1.0")

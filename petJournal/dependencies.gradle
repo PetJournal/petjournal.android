@@ -10,6 +10,7 @@ ext {
             koinAndroid            : "io.insert-koin:koin-android:$koinVersion",
 
             retrofit2Retrofit      : "com.squareup.retrofit2:retrofit:$retrofit2",
+            okhttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:4.9.3",
             moshiKotlin            : "com.squareup.moshi:moshi-kotlin:$moshiKotlinVersion",
             retrofit2ConverterMoshi: "com.squareup.retrofit2:converter-moshi:$moshiVersion",
 
