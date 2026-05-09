@@ -47,7 +47,7 @@ interface RemoteDataSource {
     @POST("api/pet")
     suspend fun createPet(
         @Header("Authorization") token: String,
-        @Part image: MultipartBody.Part,
+        @Part image: MultipartBody.Part?,
         @Part("specieName") specieName: RequestBody,
         @Part("petName") petName: RequestBody,
         @Part("gender") gender: RequestBody,
@@ -79,7 +79,7 @@ interface RemoteDataSource {
     suspend fun updatePet(
         @Header("Authorization") token: String,
         @Path("id") id: String,
-        @Part image: MultipartBody.Part,
+        @Part image: MultipartBody.Part?,
         @Part("specieName") specieName: RequestBody,
         @Part("petName") petName: RequestBody,
         @Part("gender") gender: RequestBody,

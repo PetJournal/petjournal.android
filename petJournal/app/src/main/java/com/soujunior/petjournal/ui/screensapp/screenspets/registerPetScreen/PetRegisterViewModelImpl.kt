@@ -234,7 +234,6 @@ class PetRegisterViewModelImpl(
         val currentState = _stateUi.value
         val errorMessage =
             when {
-                currentState.petImage.isNullOrBlank() -> "O pet não pode ficar sem foto."
                 currentState.petName.isNullOrBlank() -> "O nome do pet não pode ficar em branco."
                 currentState.petSize.isNullOrBlank() -> "Por favor, selecione o tamanho do pet."
                 currentState.petRace.isNullOrBlank() -> "Por favor, selecione a raça do pet."

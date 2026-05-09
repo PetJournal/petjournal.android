@@ -344,7 +344,7 @@ class RepositoryImpl(
         val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
 
         return try {
-            val imagePart: MultipartBody.Part = if (imageUri != null) {
+            val imagePart: MultipartBody.Part? = if (imageUri != null) {
                 val imageFile = getFileFromUri(context = context, Uri.parse(imageUri))
                 if (imageFile != null && imageFile.exists()) {
                     val mediaType = MediaType.parse("image/*")
@@ -354,7 +354,7 @@ class RepositoryImpl(
                     throw IllegalArgumentException("Falha ao processar a imagem")
                 }
             } else {
-                throw IllegalArgumentException("Imagem é obrigatória")
+                null
             }
 
             val apiResponse = remoteDataSource.createPet(
@@ -386,7 +386,7 @@ class RepositoryImpl(
         return try {
             val isLocalUri = imageUri != null && !imageUri.startsWith("http", ignoreCase = true)
 
-            val imagePart: MultipartBody.Part = if (isLocalUri) {
+            val imagePart: MultipartBody.Part? = if (isLocalUri) {
                 val imageFile = getFileFromUri(context = context, Uri.parse(imageUri))
 
                 if (imageFile != null && imageFile.exists()) {
@@ -397,10 +397,10 @@ class RepositoryImpl(
                     throw IllegalArgumentException("Falha ao processar a nova imagem")
                 }
             } else if (imageUri != null && imageUri.startsWith("http", ignoreCase = true)) {
-                val urlBody = RequestBody.create(MediaType.parse("text/plain"), imageUri!!)
+                val urlBody = RequestBody.create(MediaType.parse("text/plain"), imageUri)
                 MultipartBody.Part.createFormData("image", "", urlBody)
             } else {
-                throw IllegalArgumentException("Imagem é obrigatória")
+                null
             }
 
             val apiResponse = remoteDataSource.updatePet(

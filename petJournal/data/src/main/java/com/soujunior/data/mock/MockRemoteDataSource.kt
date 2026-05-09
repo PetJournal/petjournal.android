@@ -46,7 +46,7 @@ class MockRemoteDataSource : RemoteDataSource {
 
     override suspend fun createPet(
         token: String,
-        image: MultipartBody.Part,
+        image: MultipartBody.Part?,
         specieName: RequestBody,
         petName: RequestBody,
         gender: RequestBody,
@@ -79,7 +79,7 @@ class MockRemoteDataSource : RemoteDataSource {
     override suspend fun updatePet(
         token: String,
         id: String,
-        image: MultipartBody.Part,
+        image: MultipartBody.Part?,
         specieName: RequestBody,
         petName: RequestBody,
         gender: RequestBody,
