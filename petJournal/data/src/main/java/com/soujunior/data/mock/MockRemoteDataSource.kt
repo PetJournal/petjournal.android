@@ -8,6 +8,7 @@ import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
@@ -21,6 +22,10 @@ class MockRemoteDataSource : RemoteDataSource {
     override suspend fun getGuardianName(token: String): NetworkResult<GuardianNameResponse> {
         delay(1000)
         return NetworkResult.Success(MockDataProvider.getMockGuardianNameResponse())
+    }
+
+    override suspend fun getGuardianProfile(token: String): NetworkResult<UserInfoResponse> {
+        TODO("Not yet implemented")
     }
 
     override suspend fun getListPetSizes(
