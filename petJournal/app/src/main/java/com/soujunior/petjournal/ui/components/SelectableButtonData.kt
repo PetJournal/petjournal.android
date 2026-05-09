@@ -45,18 +45,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.model.SelectableButtonInfo
 import com.soujunior.petjournal.ui.model.TagAction
+import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.TagOnboardingStep
 import com.soujunior.petjournal.ui.theme.ColorCustom
+import com.soujunior.petjournal.ui.util.pulseEffect
 import com.soujunior.petjournal.ui.util.shimmerEffect
 import ir.kaaveh.sdpcompose.sdp
 
@@ -65,11 +70,21 @@ fun ManageTagsDialog(
     tags: List<SelectableButtonInfo>,
     onDismiss: () -> Unit,
     onAction: (TagAction) -> Unit,
+    step: TagOnboardingStep = TagOnboardingStep.IDLE,
+    onCreateClick: () -> Unit = {},
 ) {
     var isFormScreen by remember { mutableStateOf(false) }
     var editingTag by remember { mutableStateOf<SelectableButtonInfo?>(null) }
 
-    Dialog(onDismissRequest = onDismiss) {
+    val isUnlocked = step == TagOnboardingStep.IDLE || step == TagOnboardingStep.COMPLETED
+
+    Dialog(
+        onDismissRequest = { if (isUnlocked) onDismiss() },
+        properties = DialogProperties(
+            dismissOnBackPress = isUnlocked,
+            dismissOnClickOutside = isUnlocked
+        )
+    ) {
         Surface(
             shape = RoundedCornerShape(16.dp),
             color = MaterialTheme.colorScheme.surface,
@@ -102,27 +117,46 @@ fun ManageTagsDialog(
                             editingTag = null
                         },
                         onCancel = {
-                            isFormScreen = false
-                            editingTag = null
+                            if (isUnlocked) {
+                                isFormScreen = false
+                                editingTag = null
+                            }
                         },
+                        step = step
                     )
                 } else {
-                    TagList(
-                        tags = tags,
-                        onEdit = { tag ->
-                            editingTag = tag
-                            isFormScreen = true
-                        },
-                        onDelete = { tag ->
-                            tag.id?.let { onAction(TagAction.Delete(it)) }
-                        },
-                    )
+                    Column {
+                        TagList(
+                            tags = tags,
+                            onEdit = { tag ->
+                                editingTag = tag
+                                isFormScreen = true
+                            },
+                            onDelete = { tag ->
+                                tag.id?.let { onAction(TagAction.Delete(it)) }
+                            },
+                        )
+                    }
                     Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = { isFormScreen = true },
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        Text("Criar Nova Tag")
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        Button(
+                            onClick = {
+                                isFormScreen = true
+                                onCreateClick()
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .then(if (step == TagOnboardingStep.MANAGE_LIST) Modifier.pulseEffect() else Modifier),
+                        ) {
+                            Text("Criar Nova Tag")
+                        }
+                        if (step == TagOnboardingStep.MANAGE_LIST) {
+                            OnboardingPointer(
+                                text = "Click para criar uma tag",
+                                direction = ArrowDirection.BOTTOM,
+                                offset = IntOffset(0, with(LocalDensity.current) { (-50).sdp.toPx().toInt() })
+                            )
+                        }
                     }
                 }
             }
@@ -183,9 +217,11 @@ fun TagForm(
     tagToEdit: SelectableButtonInfo?,
     onSave: (String, Color) -> Unit,
     onCancel: () -> Unit,
+    step: TagOnboardingStep = TagOnboardingStep.IDLE,
 ) {
     var name by remember { mutableStateOf(tagToEdit?.title ?: "") }
     var selectedColor by remember { mutableStateOf(tagToEdit?.color ?: Color(0xFFE57373)) }
+    var colorClicked by remember { mutableStateOf(false) }
 
     val palette =
         listOf(
@@ -195,43 +231,73 @@ fun TagForm(
             Color(0xFF81C784), Color(0xFFAED581), Color(0xFFFF8A65),
         )
 
-    Column {
-        OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text(stringResource(R.string.tag_name)) },
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(stringResource(R.string.tags_colors), style = MaterialTheme.typography.bodySmall)
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(palette.size) { index ->
-                val color = palette[index]
-                Box(
-                    modifier =
-                        Modifier
-                            .size(32.dp)
-                            .clip(CircleShape)
-                            .background(color)
-                            .clickable { selectedColor = color }
-                            .then(
-                                if (selectedColor == color) {
-                                    Modifier.border(
-                                        2.dp,
-                                        MaterialTheme.colorScheme.onSurface,
-                                        CircleShape,
-                                    )
-                                } else {
-                                    Modifier
-                                },
-                            ),
+    Column(
+        modifier = Modifier.padding(16.sdp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            OutlinedTextField(
+                value = name,
+                onValueChange = { name = it },
+                label = { Text(stringResource(R.string.tag_name)) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            if (step == TagOnboardingStep.CREATE_FORM && name.length < 4) {
+                OnboardingPointer(
+                    text = "Digite pelo menos 4 caracteres",
+                    direction = ArrowDirection.BOTTOM,
+                    offset = IntOffset(0, with(LocalDensity.current) { (-50).sdp.toPx().toInt() })
                 )
             }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Column {
+                Text(stringResource(R.string.tags_colors), style = MaterialTheme.typography.bodySmall)
+                Spacer(modifier = Modifier.height(8.dp))
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    items(palette.size) { index ->
+                        val color = palette[index]
+                        Box(
+                            modifier =
+                                Modifier
+                                    .size(32.dp)
+                                    .clip(CircleShape)
+                                    .background(color)
+                                    .clickable {
+                                        selectedColor = color
+                                        colorClicked = true
+                                    }
+                                    .then(
+                                        if (selectedColor == color) {
+                                            Modifier.border(
+                                                2.dp,
+                                                MaterialTheme.colorScheme.onSurface,
+                                                CircleShape,
+                                            )
+                                        } else {
+                                            Modifier
+                                        },
+                                    ),
+                        )
+                    }
+                }
+            }
+            if (step == TagOnboardingStep.CREATE_FORM && name.length >= 4 && !colorClicked) {
+                OnboardingPointer(
+                    text = "Escolha uma cor para a tag",
+                    direction = ArrowDirection.BOTTOM,
+                    offset = IntOffset(0, with(LocalDensity.current) { (-50).sdp.toPx().toInt() })
+                )
+            }
+        }
+
         Spacer(modifier = Modifier.height(24.dp))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End,
@@ -241,15 +307,25 @@ fun TagForm(
                 Text("Cancelar")
             }
             Spacer(modifier = Modifier.width(8.dp))
-            Button(
-                onClick = {
-                    if (name.isNotBlank()) {
-                        onSave(name, selectedColor)
-                    }
-                },
-                enabled = name.isNotBlank(),
-            ) {
-                Text("Salvar")
+            Box {
+                Button(
+                    onClick = {
+                        if (name.length >= 4) {
+                            onSave(name, selectedColor)
+                        }
+                    },
+                    enabled = name.length >= 4,
+                    modifier = if (step == TagOnboardingStep.CREATE_FORM && name.length >= 4 && colorClicked) Modifier.pulseEffect() else Modifier
+                ) {
+                    Text("Salvar")
+                }
+                if (step == TagOnboardingStep.CREATE_FORM && name.length >= 4 && colorClicked) {
+                    OnboardingPointer(
+                        text = "Click para salvar",
+                        direction = ArrowDirection.BOTTOM,
+                        offset = IntOffset(0, with(LocalDensity.current) { (-50).sdp.toPx().toInt() })
+                    )
+                }
             }
         }
     }
@@ -348,9 +424,11 @@ fun GroupSelectableButton(
     isLoading: Boolean = false,
     showButton: Boolean = false,
     onAddClick: () -> Unit = {},
+    onCreateTagClick: () -> Unit = {},
     onSelection: (String?) -> Unit = {},
     onAction: (TagAction) -> Unit = {},
     maxItemsInEachRow: Int = Int.MAX_VALUE,
+    step: TagOnboardingStep = TagOnboardingStep.IDLE,
 ) {
     val displayTasks =
         if (isLoading && listOfTags.isEmpty()) {
@@ -360,12 +438,15 @@ fun GroupSelectableButton(
         }
 
     var showManageTagsDialog by remember { mutableStateOf(false) }
+    var isIntroClicked by remember { mutableStateOf(false) }
 
     if (showManageTagsDialog) {
         ManageTagsDialog(
             tags = listOfTags,
             onDismiss = { showManageTagsDialog = false },
             onAction = onAction,
+            step = step,
+            onCreateClick = onCreateTagClick
         )
     }
 
@@ -393,25 +474,44 @@ fun GroupSelectableButton(
                     },
             )
             if (showButton == true && isLoading == false) {
-                Surface(
-                    modifier =
-                        Modifier
-                            .clip(CircleShape)
-                            .size(24.sdp)
-                            .clickable {
-                                onAddClick()
-                                showManageTagsDialog = true
+                Box {
+                    if (step == TagOnboardingStep.INTRO && !isIntroClicked) {
+                        val density = LocalDensity.current
+                        OnboardingPointer(
+                            text = "Gerencie aqui suas tags!",
+                            direction = ArrowDirection.RIGHT,
+                            popupAlignment = Alignment.BottomEnd,
+                            arrowYProvider = { height ->
+                                height - with(density) { (12.dp - 8.dp).toPx() }
                             },
-                    shape = CircleShape,
-                    color = MaterialTheme.colorScheme.primary,
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            imageVector = Icons.Default.MoreVert,
-                            contentDescription = stringResource(R.string.addpet),
-                            tint = Color.White,
-                            modifier = Modifier.size(16.sdp),
+                            offset = IntOffset(
+                                x = with(density) { -(24.sdp.toPx().toInt() + 10.dp.toPx().toInt()) },
+                                y = 0
+                            )
                         )
+                    }
+                    Surface(
+                        modifier =
+                            Modifier
+                                .clip(CircleShape)
+                                .size(24.sdp)
+                                .then(if (step == TagOnboardingStep.INTRO && !isIntroClicked) Modifier.pulseEffect() else Modifier)
+                                .clickable {
+                                    isIntroClicked = true 
+                                    onAddClick()
+                                    showManageTagsDialog = true
+                                },
+                        shape = CircleShape,
+                        color = MaterialTheme.colorScheme.primary,
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = Icons.Default.MoreVert,
+                                contentDescription = stringResource(R.string.addpet),
+                                tint = Color.White,
+                                modifier = Modifier.size(16.sdp),
+                            )
+                        }
                     }
                 }
             }
@@ -454,29 +554,31 @@ fun GroupSelectableButton(
 @Preview(showBackground = true)
 @Composable
 fun SelectableButtonPreview() {
-    Column(
-        modifier = Modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        SelectableButton(
-            titleButton = "Selected",
-            colorButton = Color.Red,
-            isSelected = true,
-            onSelectionChanged = { _, _ -> },
-        )
-        SelectableButton(
-            titleButton = "Unselected",
-            colorButton = Color.Blue,
-            isSelected = false,
-            onSelectionChanged = { _, _ -> },
-        )
-        SelectableButton(
-            titleButton = "Loading",
-            colorButton = Color.Green,
-            isSelected = false,
-            isLoading = true,
-            onSelectionChanged = { _, _ -> },
-        )
+    MaterialTheme{
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            SelectableButton(
+                titleButton = "Selected",
+                colorButton = Color.Red,
+                isSelected = true,
+                onSelectionChanged = { _, _ -> },
+            )
+            SelectableButton(
+                titleButton = "Unselected",
+                colorButton = Color.Blue,
+                isSelected = false,
+                onSelectionChanged = { _, _ -> },
+            )
+            SelectableButton(
+                titleButton = "Loading",
+                colorButton = Color.Green,
+                isSelected = false,
+                isLoading = true,
+                onSelectionChanged = { _, _ -> },
+            )
+        }
     }
 }
 
@@ -489,26 +591,31 @@ fun GroupSelectableButtonPreview() {
             SelectableButtonInfo("2", "Casa", Color.Green),
             SelectableButtonInfo("3", "Estudo", Color.Blue),
         )
-    Column(modifier = Modifier.padding(16.dp)) {
-        GroupSelectableButton(
-            listOfTags = tags,
-            selectedTag = "1",
-            showButton = true,
-            onSelection = {},
-            onAction = {},
-        )
+    MaterialTheme{
+        Column(modifier = Modifier.padding(16.dp)) {
+            GroupSelectableButton(
+                step = TagOnboardingStep.IDLE,
+                listOfTags = tags,
+                selectedTag = "1",
+                showButton = true,
+                onSelection = {},
+                onAction = {},
+            )
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun TagFormPreview() {
-    Box(modifier = Modifier.padding(16.dp)) {
-        TagForm(
-            tagToEdit = null,
-            onSave = { _, _ -> },
-            onCancel = {},
-        )
+    MaterialTheme{
+        Box(modifier = Modifier.padding(16.dp)) {
+            TagForm(
+                tagToEdit = null,
+                onSave = { _, _ -> },
+                onCancel = {},
+            )
+        }
     }
 }
 
@@ -521,8 +628,10 @@ fun TagListPreview() {
             SelectableButtonInfo("2", "Tag 2", Color.Green),
             SelectableButtonInfo("3", "Tag 3", Color.Blue),
         )
-    Box(modifier = Modifier.padding(16.dp)) {
-        TagList(tags = tags, onEdit = {}, onDelete = {})
+    MaterialTheme{
+        Box(modifier = Modifier.padding(16.dp)) {
+            TagList(tags = tags, onEdit = {}, onDelete = {})
+        }
     }
 }
 
@@ -535,11 +644,34 @@ fun ManageTagsDialogPreview() {
             SelectableButtonInfo("2", "Casa", Color.Green),
             SelectableButtonInfo("3", "Estudo", Color.Blue),
         )
-    // Nota: Dialogs em Preview podem aparecer de forma limitada dependendo da versão do AS,
-    // mas o conteúdo interno será renderizado.
-    ManageTagsDialog(
-        tags = tags,
-        onDismiss = {},
-        onAction = {},
+    MaterialTheme {
+        ManageTagsDialog(
+            tags = tags,
+            onDismiss = {},
+            onAction = {},
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Group Button - Onboarding Intro")
+@Composable
+fun GroupSelectableButtonOnboardingIntroPreview() {
+    val tags = listOf(
+        SelectableButtonInfo("1", "Vacinas", Color(0xFFE57373)),
+        SelectableButtonInfo("2", "Consultas", Color(0xFF64B5F6))
     )
+    MaterialTheme {
+        Box(modifier = Modifier.padding(16.dp)) {
+            GroupSelectableButton(
+                listOfTags = tags,
+                selectedTag = null,
+                showButton = true,
+                step = TagOnboardingStep.INTRO,
+                onAddClick = {},
+                onCreateTagClick = {},
+                onSelection = {},
+                onAction = {}
+            )
+        }
+    }
 }
