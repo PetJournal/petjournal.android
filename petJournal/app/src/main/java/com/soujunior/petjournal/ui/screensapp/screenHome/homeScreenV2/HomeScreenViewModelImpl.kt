@@ -9,6 +9,7 @@ import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
 import com.soujunior.domain.use_case.preference.CheckNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.preference.SetNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
+import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
 import com.soujunior.domain.use_case.task.GetLocalTasksByPeriodUseCase
 import com.soujunior.petjournal.ui.mapper.Mapper
 import com.soujunior.petjournal.ui.states.TaskState
@@ -28,6 +29,7 @@ class HomeScreenViewModelImpl(
     private val getListTagUseCase: GetListTagUseCase,
     private val checkNotificationPermissionRequestedUseCase: CheckNotificationPermissionRequestedUseCase,
     private val setNotificationPermissionRequestedUseCase: SetNotificationPermissionRequestedUseCase,
+    private val getListCurrentDateTaskUseCase: GetListCurrentDateTaskUseCase,
 ) : HomeScreenViewModel() {
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
@@ -65,7 +67,7 @@ class HomeScreenViewModelImpl(
         viewModelScope.launch {
             getGuardianName(false)
             getPetList(false)
-            getTask(false)
+            getTasks()
             getTags(false)
         }
     }
@@ -91,7 +93,7 @@ class HomeScreenViewModelImpl(
             is HomeEvent.ReloadAll -> {
                 getGuardianName(true)
                 getPetList(true)
-                getTask(true)
+                getTasks()
                 getTags(true)
             }
         }
@@ -109,7 +111,7 @@ class HomeScreenViewModelImpl(
         }
     }
 
-    private fun getTask(forceRequest: Boolean = false) {
+    private fun getTasks() {
         _state.update { it.copy(isLoadingListTask = true) }
         viewModelScope.launch {
             val today = java.time.LocalDate.now()
@@ -123,6 +125,29 @@ class HomeScreenViewModelImpl(
                     considerTime = true,
                 )
             val result = getLocalTasksByPeriodUseCase.execute(input)
+            result.handleResult({ value: PaginatedScheduleResponseModel ->
+                if (value.data.isEmpty()) {
+                    fetchTasksFromApi()
+                } else {
+                    _state.update {
+                        with(Mapper) {
+                            it.copy(
+                                listScheduled = value,
+                                listTaskData = value.toListOfTaskData(),
+                                isLoadingListTask = false,
+                            )
+                        }
+                    }
+                }
+            }, {
+                fetchTasksFromApi()
+            })
+        }
+    }
+
+    private fun fetchTasksFromApi() {
+        viewModelScope.launch {
+            val result = getListCurrentDateTaskUseCase.execute(true)
             result.handleResult({ value: PaginatedScheduleResponseModel ->
                 _state.update {
                     with(Mapper) {

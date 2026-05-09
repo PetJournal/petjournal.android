@@ -8,7 +8,10 @@ import com.soujunior.domain.use_case.base.DataResult
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
-import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
+import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
+import com.soujunior.domain.use_case.task.GetLocalTasksByPeriodUseCase
+import com.soujunior.domain.use_case.preference.CheckNotificationPermissionRequestedUseCase
+import com.soujunior.domain.use_case.preference.SetNotificationPermissionRequestedUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -34,9 +37,12 @@ import org.robolectric.annotation.Config
 class HomeScreenViewModelImplTest {
     private val getGuardianNameUseCase: GetGuardianNameUseCase = mockk()
     private val getPetListUseCase: GetListPetUseCaseV1 = mockk()
-    private val getListCurrentWeekTaskUseCase: GetListCurrentWeekTaskUseCase = mockk()
+    private val getLocalTasksByPeriodUseCase: GetLocalTasksByPeriodUseCase = mockk()
     private val logoutUseCase: LogoutUseCase = mockk(relaxed = true)
     private val getListTagUseCase: GetListTagUseCase = mockk()
+    private val checkNotificationPermissionRequestedUseCase: CheckNotificationPermissionRequestedUseCase = mockk()
+    private val setNotificationPermissionRequestedUseCase: SetNotificationPermissionRequestedUseCase = mockk()
+    private val getListCurrentDateTaskUseCase: GetListCurrentDateTaskUseCase = mockk()
 
     private val testDispatcher = UnconfinedTestDispatcher()
 
@@ -45,9 +51,12 @@ class HomeScreenViewModelImplTest {
         Dispatchers.setMain(testDispatcher)
 
         // Mock default behavior for init
-        coEvery { getGuardianNameUseCase.execute(Unit) } returns DataResult.Failure(Exception())
-        coEvery { getPetListUseCase.execute(Unit) } returns DataResult.Failure(Exception())
-        coEvery { getListCurrentWeekTaskUseCase.execute(Unit) } returns DataResult.Failure(Exception())
+        coEvery { getGuardianNameUseCase.execute(any()) } returns DataResult.Failure(Exception())
+        coEvery { getPetListUseCase.execute(any()) } returns DataResult.Failure(Exception())
+        coEvery { getLocalTasksByPeriodUseCase.execute(any()) } returns DataResult.Failure(Exception())
+        coEvery { checkNotificationPermissionRequestedUseCase.invoke() } returns false
+        coEvery { setNotificationPermissionRequestedUseCase.invoke(any()) } returns Unit
+        coEvery { getListCurrentDateTaskUseCase.execute(any()) } returns DataResult.Failure(Exception())
     }
 
     @After
@@ -60,9 +69,12 @@ class HomeScreenViewModelImplTest {
         HomeScreenViewModelImpl(
             getGuardianNameUseCase,
             getPetListUseCase,
-            getListCurrentWeekTaskUseCase,
+            getLocalTasksByPeriodUseCase,
             logoutUseCase,
             getListTagUseCase,
+            checkNotificationPermissionRequestedUseCase,
+            setNotificationPermissionRequestedUseCase,
+            getListCurrentDateTaskUseCase
         )
 
     @Test
