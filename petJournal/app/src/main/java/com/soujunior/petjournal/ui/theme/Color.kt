@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 val light_primary = Color(0xFF7C54A7) // textos, //Cursor do campo input
 val light_onPrimary = Color(0xFFFFFFFF) // Background do campo input
 val light_primaryContainer = Color(0xFFFFC107)
-val light_onPrimaryContainer = Color(0xFFFFC107)
+val light_onPrimaryContainer = Color(0xFF000000)
 val light_inversePrimary = Color(0xFFFFC107)
 val light_secondary = Color(0xFFB90063)
 val light_onSecondary = Color(0xFFFFFFFF)
@@ -35,7 +35,7 @@ val light_onTertiary = light_primary // Cursor do campo input
 val dark_primary = Color(0xFFB78AF7) // textos // Cursor do campo input
 val dark_onPrimary = Color(0xFF2C2B2B) // Background do campo input
 val dark_primaryContainer = Color(0xFFFFC107)
-val dark_onPrimaryContainer = Color(0xFFFFC107)
+val dark_onPrimaryContainer = Color(0xFF000000)
 val dark_inversePrimary = Color(0xFFFFC107)
 val dark_secondary = Color(0xFFFF4081)
 val dark_onSecondary = Color(0xFFFFFFFF)
