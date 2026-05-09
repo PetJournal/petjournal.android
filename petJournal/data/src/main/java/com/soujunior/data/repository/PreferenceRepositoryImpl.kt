@@ -18,6 +18,8 @@ class PreferenceRepositoryImpl(
         private const val KEY_DARK_MODE = "dark_mode_pref_key"
         private const val KEY_SYSTEM_THEME = "system_theme_pref_key"
         private const val KEY_NOTIFICATION_PERMISSION_REQUESTED = "notification_permission_requested"
+        private const val KEY_GLOBAL_TUTORIAL_ENABLED = "global_tutorial_enabled"
+        private const val KEY_TAG_TUTORIAL_COMPLETED = "tag_tutorial_completed"
     }
 
     override fun getDarkModePreference(): Flow<Boolean> = callbackFlow {
@@ -75,5 +77,33 @@ class PreferenceRepositoryImpl(
 
     override suspend fun setNotificationPermissionRequested(requested: Boolean) {
         prefs.edit().putBoolean(KEY_NOTIFICATION_PERMISSION_REQUESTED, requested).apply()
+    }
+
+    override fun isGlobalTutorialEnabled(): Flow<Boolean> = callbackFlow {
+        trySend(prefs.getBoolean(KEY_GLOBAL_TUTORIAL_ENABLED, true))
+
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+            if (key == KEY_GLOBAL_TUTORIAL_ENABLED) {
+                trySend(sharedPreferences.getBoolean(KEY_GLOBAL_TUTORIAL_ENABLED, true))
+            }
+        }
+
+        prefs.registerOnSharedPreferenceChangeListener(listener)
+
+        awaitClose {
+            prefs.unregisterOnSharedPreferenceChangeListener(listener)
+        }
+    }
+
+    override suspend fun setGlobalTutorialEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean(KEY_GLOBAL_TUTORIAL_ENABLED, enabled).apply()
+    }
+
+    override suspend fun isTagTutorialCompleted(): Boolean {
+        return prefs.getBoolean(KEY_TAG_TUTORIAL_COMPLETED, false)
+    }
+
+    override suspend fun setTagTutorialCompleted(completed: Boolean) {
+        prefs.edit().putBoolean(KEY_TAG_TUTORIAL_COMPLETED, completed).apply()
     }
 }

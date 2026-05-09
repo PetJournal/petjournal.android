@@ -16,6 +16,7 @@ import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
 import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
 import com.soujunior.domain.network.NetworkResult
@@ -33,8 +34,6 @@ import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.time.LocalDate
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 class RepositoryImpl(
     private val remoteDataSource: RemoteDataSource,
@@ -61,23 +60,46 @@ class RepositoryImpl(
     override suspend fun getGuardianName(forceRequest: Boolean): NetworkResult<GuardianNameResponse> {
         if (!forceRequest) {
             val localName = guardianLocalDataSourceImpl.getGuardianName()
-            if (localName != null) {
+            if (!localName.isNullOrBlank()) {
                 return NetworkResult.Success(GuardianNameResponse(localName, ""))
             }
         }
+
         val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
-        return when (val apiResult = remoteDataSource.getGuardianName(token)) {
+
+        val apiResult = remoteDataSource.getGuardianName(token)
+        val finalResult = if (apiResult is NetworkResult.Error && apiResult.code == 404) {
+            remoteDataSource.getGuardianProfile(token)
+        } else {
+            apiResult
+        }
+
+        return when (finalResult) {
             is NetworkResult.Success -> {
-                coroutineScope {
-                    try {
-                        guardianLocalDataSourceImpl.saveGuardianName(apiResult.data)
-                    } catch (e: Exception) {
-                    }
+                val data = finalResult.data
+
+                val guardianNameResponse = when (data) {
+                    is UserInfoResponse -> GuardianNameResponse(data.firstName, data.lastName)
+                    is GuardianNameResponse -> data
+                    else -> GuardianNameResponse("", "")
                 }
-                NetworkResult.Success(GuardianNameResponse(apiResult.data.firstName, ""))
+                guardianLocalDataSourceImpl.saveGuardianName(guardianNameResponse)
+                if (data is UserInfoResponse) {
+                    guardianLocalDataSourceImpl.saveGuardianContact(data.email, data.phone)
+                }
+
+                NetworkResult.Success(guardianNameResponse)
             }
 
-            else -> apiResult
+            is NetworkResult.Error -> {
+                if (finalResult.code == 404) {
+                    NetworkResult.Success(GuardianNameResponse("", ""))
+                } else {
+                    NetworkResult.Error(finalResult.code, finalResult.body)
+                }
+            }
+
+            is NetworkResult.Exception -> NetworkResult.Exception(finalResult.e)
         }
     }
 

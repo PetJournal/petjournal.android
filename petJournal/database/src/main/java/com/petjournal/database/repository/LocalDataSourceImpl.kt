@@ -3,7 +3,6 @@ package com.petjournal.database.repository
 import com.petjournal.database.database.db.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-
 import com.petjournal.database.converter.Converter.toEntity
 import com.petjournal.database.converter.Converter.toListPetRaceEntity
 import com.petjournal.database.converter.Converter.toListPetRaceModel
@@ -18,7 +17,6 @@ import com.petjournal.database.database.entity.ApplicationInformation
 import com.petjournal.database.database.entity.GuardianProfile
 import com.petjournal.database.database.entity.PetDetailsEntity
 import com.petjournal.database.database.entity.TagEntity
-import android.util.Log
 import com.petjournal.database.database.entity.TaskEntity
 import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
@@ -40,7 +38,8 @@ class LocalDataSourceImpl(
 ) : LocalDataSource {
 
     override suspend fun getGuardianName(): String? {
-        return guardianDao.getProfile(1)?.firstName
+        val profile = guardianDao.getProfile(1)
+        return profile?.firstName
     }
 
     override suspend fun getGuardianEmail(): String? {
@@ -59,12 +58,11 @@ class LocalDataSourceImpl(
             )
             appInfoDao.insertInformation(ApplicationInformation(1, false))
         } else {
-            guardianDao.insertProfile(
-                existing.copy(
-                    firstName = response.firstName,
-                    lastName = response.lastName
-                )
+            val updatedProfile = existing.copy(
+                firstName = response.firstName,
+                lastName = response.lastName
             )
+            guardianDao.insertProfile(updatedProfile)
         }
     }
 
@@ -256,7 +254,7 @@ class LocalDataSourceImpl(
         val endClean = endDate.split(".")[0].replace("Z", "")
         
         val startDateTime = java.time.LocalDateTime.parse(startClean)
-        val dayOfWeek = (startDateTime.dayOfWeek.value % 7).toString() // 0-6 (dom-sab)
+        val dayOfWeek = (startDateTime.dayOfWeek.value % 7).toString()
         val dayOfMonth = startDateTime.dayOfMonth.toString()
 
         return taskDao.getTasksInPeriod(startClean, endClean, dayOfWeek, dayOfMonth).mapNotNull {
@@ -276,7 +274,6 @@ class LocalDataSourceImpl(
         val currentDateTime = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
         val currentClean = currentDateTime.split(".")[0].replace("Z", "")
         
-        // Se formos considerar a hora exata (para resgatar apenas as atuais/futuras e não as do passado), deletamos primeiro
         if (considerTime) {
             taskDao.deletePastTasks(currentClean)
         }
@@ -306,7 +303,6 @@ class LocalDataSourceImpl(
     }
 
     override suspend fun saveAllTasks(tasks: List<ScheduleDataDTO>) {
-        Log.d("LocalDataSource", "💾 Salvando ${tasks.size} tarefas no banco local.")
         val ids = tasks.mapNotNull { it.id }
         val existingTasks = if (ids.isNotEmpty()) taskDao.getTasksByIds(ids).associateBy { it.id } else emptyMap()
         
@@ -319,7 +315,7 @@ class LocalDataSourceImpl(
                 title = scheduler.title ?: "",
                 description = scheduler.description,
                 note = scheduler.note,
-                start = it.start, // Mantendo original para preservar UTC/Z
+                start = it.start,
                 end = it.end,
                 isRecurrent = scheduler.daily == true || !scheduler.daysOfWeek.isNullOrEmpty() || !scheduler.daysOfMonth.isNullOrEmpty(),
                 recurrenceType = when {
@@ -336,12 +332,10 @@ class LocalDataSourceImpl(
             )
         }
         taskDao.insertAll(entities)
-        Log.d("LocalDataSource", "✅ Inserção concluída.")
     }
 
     override suspend fun getTasksToSchedule(): List<ScheduleDataDTO> {
         val tasks = taskDao.getTasksToSchedule()
-        Log.d("LocalDataSource", "🔍 getTasksToSchedule: Encontradas ${tasks.size} tarefas com isAlarmScheduled = 0")
         return tasks.mapNotNull {
             it.scheduler?.let { scheduler ->
                 ScheduleDataDTO(
@@ -352,7 +346,6 @@ class LocalDataSourceImpl(
                     scheduler = scheduler
                 )
             } ?: run {
-                Log.w("LocalDataSource", "⚠️ Tarefa ${it.id} ignorada: scheduler nulo no banco.")
                 null
             }
         }
