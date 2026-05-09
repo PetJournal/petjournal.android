@@ -6,6 +6,14 @@ import com.soujunior.petjournal.ui.model.TaskData
 import com.soujunior.petjournal.ui.util.SelectedPeriodType
 import com.soujunior.petjournal.ui.util.TransactionType
 
+enum class TagOnboardingStep {
+    IDLE,
+    INTRO,
+    MANAGE_LIST,
+    CREATE_FORM,
+    COMPLETED
+}
+
 data class RegisterTaskState(
     val cardDialogMessage: String = "",
     val showDialogError: Boolean = false,
@@ -32,4 +40,5 @@ data class RegisterTaskState(
     val selectedDaysOfWeek: List<String> = listOf(),
     val observation: String = "",
     val sendToApi: Boolean = true,
+    val tagOnboardingStep: TagOnboardingStep = TagOnboardingStep.IDLE,
 )

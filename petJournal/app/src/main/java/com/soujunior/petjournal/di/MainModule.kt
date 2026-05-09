@@ -74,7 +74,6 @@ import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.Regi
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreenViewModel
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModel
-import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskListViewModel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskListViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenTutor.config.notifyScreen.SettingsViewModel
@@ -98,11 +97,13 @@ import com.soujunior.petjournal.ui.util.timeoutObserverInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModelImpl
 import java.util.concurrent.TimeUnit
 
 val mainModule =
@@ -135,7 +136,7 @@ val mainModule =
 
         // UseCases
         factory { SignUpUseCase(get()) }
-        factory { LoginUseCase(get()) }
+        factory { LoginUseCase(get(), get()) }
         factory { ForgotPasswordUseCase(get()) }
         factory { AwaitingCodeUseCase(get()) }
         factory { ChangePasswordUseCase(get()) }
@@ -187,8 +188,12 @@ val mainModule =
         }
 
         single {
+            val logging = HttpLoggingInterceptor()
+            logging.level = HttpLoggingInterceptor.Level.BODY
+            
             OkHttpClient.Builder()
                 .addInterceptor(timeoutObserverInterceptor)
+                .addInterceptor(logging)
                 .connectTimeout(45, TimeUnit.SECONDS)
                 .readTimeout(45, TimeUnit.SECONDS)
                 .writeTimeout(45, TimeUnit.SECONDS)
@@ -253,7 +258,19 @@ val mainModule =
 
         viewModel<BirthDateViewModel> { BirthDateViewModelImpl(get(), get(), get(), get()) }
         viewModel<ViewModelRaceSize> { ViewModelRaceSizeImpl(get(), get(), get(), get(), get()) }
-        viewModel<RegisterTaskViewModel> { RegisterTaskViewModelImpl(get(), get(), get(), get(), get(), get(), androidContext()) }
+        viewModel<RegisterTaskViewModel> {
+            RegisterTaskViewModelImpl(
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                androidContext()
+            )
+        }
         viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get()) }
         viewModel<TutorViewModel> { TutorViewModelImpl(get(), get(), get()) }
         viewModel { SettingsViewModel(get(), get(), get(), get()) }

@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
 import androidx.work.OneTimeWorkRequestBuilder
@@ -14,6 +13,10 @@ import com.soujunior.domain.use_case.tag.DeleteTagUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.tag.UpdateTagUseCase
 import com.soujunior.domain.use_case.task.CreateTaskUseCase
+import com.soujunior.domain.use_case.task.GetLocalTasksByPeriodUseCase
+import com.soujunior.domain.repository.PreferenceRepository
+import com.soujunior.domain.use_case.base.DataResult
+import com.soujunior.domain.use_case.task.CreateTaskParams
 import com.soujunior.domain.use_case.util.TaskDateCalculator
 import com.soujunior.domain.use_case.util.TaskPeriod
 import com.soujunior.petjournal.infrastructure.worker.SyncTasksWorker
@@ -23,6 +26,7 @@ import com.soujunior.petjournal.ui.mapper.Mapper.toPetsList
 import com.soujunior.petjournal.ui.mapper.Mapper.uiModel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.RegisterTaskEvent
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.RegisterTaskState
+import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.TagOnboardingStep
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.SelectedPeriodType
 import com.soujunior.petjournal.ui.util.TransactionType
@@ -48,10 +52,14 @@ class RegisterTaskViewModelImpl(
     private val deleteTagCase: DeleteTagUseCase,
     private val getPetListUseCase: GetListPetUseCaseV2,
     private val createTaskUseCase: CreateTaskUseCase,
+    private val preferenceRepository: PreferenceRepository,
+    private val getLocalTasksByPeriodUseCase: GetLocalTasksByPeriodUseCase,
     private val context: Context,
 ) : RegisterTaskViewModel() {
     private val _state = MutableStateFlow(RegisterTaskState())
     override val state: MutableStateFlow<RegisterTaskState> get() = _state
+
+    private val ALWAYS_SHOW_ONBOARDING = true
 
     override val validationEvents = emptyFlow<ValidationEvent>()
 
@@ -59,6 +67,35 @@ class RegisterTaskViewModelImpl(
 
     init {
         getData()
+        checkTagOnboarding()
+    }
+
+    private fun checkTagOnboarding() {
+        viewModelScope.launch {
+            if (ALWAYS_SHOW_ONBOARDING) {
+                _state.update { it.copy(tagOnboardingStep = TagOnboardingStep.INTRO) }
+                return@launch
+            }
+
+            val isTagTutorialCompleted = preferenceRepository.isTagTutorialCompleted()
+            
+            val result = getLocalTasksByPeriodUseCase.execute(
+                GetLocalTasksByPeriodUseCase.Input(
+                    startAt = LocalDate.now().minusMonths(1).atStartOfDay().toString(),
+                    endAt = LocalDate.now().plusDays(1).atStartOfDay().toString(),
+                    considerTime = false
+                )
+            )
+            
+            val hasTasks = when(result) {
+                is DataResult.Success -> result.data.data.isNotEmpty()
+                else -> false
+            }
+
+            if (!isTagTutorialCompleted && !hasTasks) {
+                _state.update { it.copy(tagOnboardingStep = TagOnboardingStep.INTRO) }
+            }
+        }
     }
 
     private fun getData() {
@@ -138,6 +175,23 @@ class RegisterTaskViewModelImpl(
                     it.copy(sendToApi = event.value)
                 }
             }
+            is RegisterTaskEvent.OnNextTagOnboardingStep -> {
+                val nextStep = when (state.value.tagOnboardingStep) {
+                    TagOnboardingStep.IDLE -> TagOnboardingStep.IDLE
+                    TagOnboardingStep.INTRO -> TagOnboardingStep.MANAGE_LIST
+                    TagOnboardingStep.MANAGE_LIST -> TagOnboardingStep.CREATE_FORM
+                    TagOnboardingStep.CREATE_FORM -> {
+                        viewModelScope.launch { preferenceRepository.setTagTutorialCompleted(true) }
+                        TagOnboardingStep.COMPLETED
+                    }
+                    TagOnboardingStep.COMPLETED -> TagOnboardingStep.COMPLETED
+                }
+                _state.update { it.copy(tagOnboardingStep = nextStep) }
+            }
+            is RegisterTaskEvent.OnDismissTagOnboarding -> {
+                viewModelScope.launch { preferenceRepository.setTagTutorialCompleted(true) }
+                _state.update { it.copy(tagOnboardingStep = TagOnboardingStep.IDLE) }
+            }
             is RegisterTaskEvent.Submit -> {
                 if (isFormComplete()) submit()
             }
@@ -197,7 +251,6 @@ class RegisterTaskViewModelImpl(
             TransactionType.Recurrent -> {
                 when (state.value.periodType) {
                     SelectedPeriodType.Weekly -> {
-                        // adicionar a validacao aqui, usando os campos Hour, ampm, daysofweek.
                         if (hour == null) errorMessage.add("- Selecione uma hora")
                         if (ampm == null) errorMessage.add("- Selecione um AM/PM")
                         if (daysOfWeek.isEmpty()) errorMessage.add("- Selecione pelo menos um dia da semana")
@@ -337,24 +390,19 @@ class RegisterTaskViewModelImpl(
             return
         }
 
-        val params = com.soujunior.domain.use_case.task.CreateTaskParams(payload, _state.value.sendToApi)
+        val params = CreateTaskParams(payload, _state.value.sendToApi)
 
         viewModelScope.launch {
-            Log.d("RegisterTask", "🚀 Enviando payload para salvar tarefa: $payload")
-
             val result = createTaskUseCase.execute(value = params)
 
             result.handleResult(
                 { response ->
-                    Log.d("RegisterTask", "✅ Tarefa criada com sucesso.")
-
                     if (_state.value.sendToApi) {
                         val workRequest =
                             OneTimeWorkRequestBuilder<SyncTasksWorker>()
                                 .addTag("sync_after_create")
                                 .build()
                         WorkManager.getInstance(context).enqueue(workRequest)
-                        Log.d("RegisterTask", "🔄 SyncTasksWorker enfileirado para agendar o alarme.")
                     }
 
                     state.update {
@@ -365,7 +413,6 @@ class RegisterTaskViewModelImpl(
                     }
                 },
                 { error ->
-                    Log.e("RegisterTask", "🚨 Erro ao criar tarefa: ${error?.message}")
                     state.update {
                         it.copy(
                             showDialogError = true,
@@ -387,20 +434,16 @@ class RegisterTaskViewModelImpl(
 
         val zoneId = ZoneId.systemDefault()
 
-        // Se dateMillis for do MaterialDatePicker, ele vem em UTC 00:00.
-        // Precisamos garantir que pegamos o dia correto no fuso local.
         val localDate =
             if (isRecurrent || dateMillis == null) {
                 LocalDate.now(zoneId)
             } else {
-                // Ajuste para evitar que o fuso mude o dia selecionado (ex: selecionou dia 10, vira dia 9 as 21h)
                 Instant.ofEpochMilli(dateMillis).atZone(ZoneOffset.UTC).toLocalDate()
             }
 
         val localDateTime = ZonedDateTime.of(localDate, time, zoneId)
         val utcDateTime = localDateTime.withZoneSameInstant(ZoneOffset.UTC)
 
-        // Usar formatador padrão ISO que inclua milissegundos e o Z real
         return utcDateTime.format(DateTimeFormatter.ISO_INSTANT)
     }
 

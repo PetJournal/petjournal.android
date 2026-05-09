@@ -41,4 +41,8 @@ sealed class RegisterTaskEvent {
     class OnObservation(val value: String) : RegisterTaskEvent()
 
     class OnSendToApiChanged(val value: Boolean) : RegisterTaskEvent()
+
+    object OnNextTagOnboardingStep : RegisterTaskEvent()
+
+    object OnDismissTagOnboarding : RegisterTaskEvent()
 }

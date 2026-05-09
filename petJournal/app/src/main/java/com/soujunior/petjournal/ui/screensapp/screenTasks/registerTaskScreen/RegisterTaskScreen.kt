@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -43,6 +44,7 @@ import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.TextFieldCustom
 import com.soujunior.petjournal.ui.components.TransactionTypeSelector
 import com.soujunior.petjournal.ui.components.dialog.CardDialog
+import com.soujunior.petjournal.ui.components.dialog.TagOnboardingDialog
 import com.soujunior.petjournal.ui.components.task.OneOffTask
 import com.soujunior.petjournal.ui.components.task.RecurringTask
 import com.soujunior.petjournal.ui.model.SelectableButtonInfo
@@ -65,6 +67,8 @@ fun RegisterTaskScreen(
             getViewModel()
         },
 ) {
+    var showIntroDialog by remember { mutableStateOf(true) }
+
     val state by viewModel.state.collectAsStateWithLifecycle()
     val isLoadingAll = state.isLoadingListTag && state.isLoadingListPet
 
@@ -131,6 +135,9 @@ fun RegisterTaskScreen(
                                                             .uppercase(),
                                                 ),
                                             )
+                                            if (state.tagOnboardingStep == TagOnboardingStep.CREATE_FORM) {
+                                                viewModel.onEvent(RegisterTaskEvent.OnNextTagOnboardingStep)
+                                            }
                                         }
 
                                         is TagAction.Delete -> {
@@ -156,6 +163,17 @@ fun RegisterTaskScreen(
                                         }
                                     }
                                 },
+                                onAddClick = {
+                                    if (state.tagOnboardingStep == TagOnboardingStep.INTRO) {
+                                        viewModel.onEvent(RegisterTaskEvent.OnNextTagOnboardingStep)
+                                    }
+                                },
+                                onCreateTagClick = {
+                                    if (state.tagOnboardingStep == TagOnboardingStep.MANAGE_LIST) {
+                                        viewModel.onEvent(RegisterTaskEvent.OnNextTagOnboardingStep)
+                                    }
+                                },
+                                step = state.tagOnboardingStep,
                             )
                         }
                         item {
@@ -361,6 +379,16 @@ fun RegisterTaskScreen(
                         subText = state.cardDialogMessage,
                     )
                 }
+
+                if (state.tagOnboardingStep == TagOnboardingStep.INTRO && showIntroDialog) {
+                    TagOnboardingDialog(
+                        title = "Organize com Tags!",
+                        description = "As tags ajudam você a separar tarefas de Saúde, Lazer e muito mais. Vamos aprender a gerenciá-las?",
+                        buttonText = "Começar Tutorial",
+                        onNext = { showIntroDialog = false },
+                        onDismiss = { viewModel.onEvent(RegisterTaskEvent.OnDismissTagOnboarding) }
+                    )
+                }
             },
         )
     }
@@ -413,7 +441,7 @@ fun GroupSelectableButtonPreview() {
     PetJournalTheme {
         GroupSelectableButton(
             modifier = Modifier,
-            listOfTasks,
+            listOfTags = listOfTasks,
             onSelection = {
             },
         )
@@ -524,5 +552,50 @@ fun Button3SaveTaskPreview() {
             enableButton = true,
             text = stringResource(R.string.label_save_task),
         )
+    }
+}
+
+@Preview(showBackground = true, name = "Tag Onboarding Dialog")
+@Composable
+fun TagOnboardingDialogPreview() {
+    PetJournalTheme {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            TagOnboardingDialog(
+                title = "Organize com Tags!",
+                description = "As tags ajudam você a separar tarefas de Saúde, Lazer e muito mais. Vamos aprender a gerenciá-las?",
+                buttonText = "Começar Tutorial",
+                onNext = {  },
+                onDismiss = {  }
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, name = "Group Button - Onboarding Gerenciar Tags")
+@Composable
+fun GroupSelectableButtonOnboardingPreview() {
+    PetJournalTheme {
+        Box(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.onPrimary)
+                .padding(16.dp)
+        ) {
+            GroupSelectableButton(
+                listOfTags = listOfTasks,
+                isLoading = false,
+                selectedTag = null,
+                showButton = true,
+                step = TagOnboardingStep.INTRO,
+                onSelection = {},
+                onAction = {},
+                onAddClick = {},
+                onCreateTagClick = {},
+            )
+        }
     }
 }
