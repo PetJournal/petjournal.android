@@ -109,7 +109,7 @@ fun HomeScreen(navController: NavController) {
         }
     }
 
-    val isRefreshing = state.isLoadingUserName || state.isLoadingListPet || state.isLoadingListTask || state.isLoadingListTag
+    val isRefreshing = state.isGlobalLoading
     val pullRefreshState =
         rememberPullRefreshState(
             refreshing = isRefreshing,
@@ -121,8 +121,8 @@ fun HomeScreen(navController: NavController) {
     ) {
         ScaffoldCustom(
             titleTopBar =
-                if (state.hasErrorOnNameUser) {
-                    stringResource(R.string.wellcome)
+                if (state.hasErrorOnNameUser || state.nameUser.isEmpty()) {
+                    stringResource(R.string.welcome)
                 } else {
                     stringResource(
                         R.string.hello,
@@ -165,7 +165,7 @@ fun HomeScreen(navController: NavController) {
                         horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.Top,
                     ) {
-                        if (state.isLoadingUserName || state.isLoadingListPet) {
+                        if (state.isLoadingListPet) {
                             item {
                                 Box(
                                     modifier =

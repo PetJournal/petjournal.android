@@ -39,7 +39,7 @@ class HomeScreenViewModelImpl(
     override val validationEventChannel = Channel<ValidationEvent>()
 
     private fun updateName(newName: GuardianNameResponse) {
-        _state.value = _state.value.copy(nameUser = newName.firstName)
+        _state.update { it.copy(nameUser = newName.firstName) }
     }
 
     override val message: StateFlow<String> get() = _message
@@ -71,17 +71,16 @@ class HomeScreenViewModelImpl(
     }
 
     override fun getGuardianName(forceRequest: Boolean) {
-        _state.value = _state.value.copy(isLoadingUserName = true)
+        _state.update { it.copy(isLoadingUserName = true) }
         viewModelScope.launch {
             val result = getGuardianNameUseCase.execute(forceRequest)
             result.handleResult({
                 success(it)
+                _state.update { it.copy(isLoadingUserName = false, hasErrorOnNameUser = false) }
             }, {
                 failed(it)
-
-                _state.value = _state.value.copy(hasErrorOnNameUser = false)
+                _state.update { it.copy(isLoadingUserName = false, hasErrorOnNameUser = true) }
             })
-            _state.value = _state.value.copy(isLoadingUserName = false)
         }
     }
 
@@ -99,19 +98,19 @@ class HomeScreenViewModelImpl(
     }
 
     private fun getPetList(forceRequest: Boolean = false) {
-        _state.value = _state.value.copy(isLoadingListPet = true)
+        _state.update { it.copy(isLoadingListPet = true) }
         viewModelScope.launch {
             val result = getPetListUseCase.execute(forceRequest)
-            result.handleResult({
-                _state.value = _state.value.copy(listPets = it, isLoadingListPet = false)
+            result.handleResult({ pets ->
+                _state.update { it.copy(listPets = pets, isLoadingListPet = false, hasErrorOnListPets = false) }
             }, {
-                _state.value = _state.value.copy(isLoadingListPet = false, hasErrorOnListPets = true)
+                _state.update { it.copy(isLoadingListPet = false, hasErrorOnListPets = true) }
             })
         }
     }
 
     private fun getTask(forceRequest: Boolean = false) {
-        _state.value = _state.value.copy(isLoadingListTask = true)
+        _state.update { it.copy(isLoadingListTask = true) }
         viewModelScope.launch {
             val today = java.time.LocalDate.now()
             val startDate = today.atStartOfDay().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
@@ -135,29 +134,31 @@ class HomeScreenViewModelImpl(
                     }
                 }
             }, {
-                _state.value = _state.value.copy(isLoadingListTask = false)
+                _state.update { it.copy(isLoadingListTask = false) }
             })
         }
     }
 
     private fun getTags(forceRequest: Boolean = false) {
-        _state.value = _state.value.copy(isLoadingListTag = true, hasErrorOnListTag = false)
+        _state.update { it.copy(isLoadingListTag = true, hasErrorOnListTag = false) }
         viewModelScope.launch {
             val result = getListTagUseCase.execute(forceRequest)
             result.handleResult({ tags ->
-                _state.value =
+                _state.update {
                     with(Mapper) {
-                        _state.value.copy(
+                        it.copy(
                             listTag = tags.map { it.toTagOption() },
                             isLoadingListTag = false,
                         )
                     }
+                }
             }, {
-                _state.value =
-                    _state.value.copy(
+                _state.update {
+                    it.copy(
                         isLoadingListTag = false,
                         hasErrorOnListTag = true,
                     )
+                }
             })
         }
     }

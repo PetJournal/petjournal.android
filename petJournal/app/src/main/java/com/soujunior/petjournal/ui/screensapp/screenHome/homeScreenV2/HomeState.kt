@@ -7,16 +7,19 @@ import com.soujunior.petjournal.ui.model.TaskData
 
 data class HomeState(
     val nameUser: String = "",
-    val isLoadingListTask: Boolean = false,
-    val isLoadingUserName: Boolean = false,
+    val isLoadingListTask: Boolean = true,
+    val isLoadingUserName: Boolean = true,
     val hasErrorOnNameUser: Boolean = false,
     val listTaskData: List<TaskData>? = emptyList(),
     val listScheduled: PaginatedScheduleResponseModel? = null,
     val menuItems: List<TagOption> = emptyList(),
-    val isLoadingListPet: Boolean = false,
+    val isLoadingListPet: Boolean = true,
     val hasErrorOnListPets: Boolean = false,
     val listPets: List<PetModel> = emptyList(),
-    val isLoadingListTag: Boolean = false,
+    val isLoadingListTag: Boolean = true,
     val hasErrorOnListTag: Boolean = false,
     val listTag: List<TagOption> = emptyList(),
-)
+) {
+    val isGlobalLoading: Boolean
+        get() = isLoadingUserName || isLoadingListPet || isLoadingListTask || isLoadingListTag
+}
