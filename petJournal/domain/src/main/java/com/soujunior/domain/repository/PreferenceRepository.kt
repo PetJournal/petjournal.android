@@ -13,4 +13,10 @@ interface PreferenceRepository {
 
     suspend fun wasNotificationPermissionRequested(): Boolean
     suspend fun setNotificationPermissionRequested(requested: Boolean)
+
+    fun isGlobalTutorialEnabled(): Flow<Boolean>
+    suspend fun setGlobalTutorialEnabled(enabled: Boolean)
+
+    suspend fun isTagTutorialCompleted(): Boolean
+    suspend fun setTagTutorialCompleted(completed: Boolean)
 }
