@@ -1,109 +1,50 @@
 package com.soujunior.data.repository
 
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.preference.PreferenceManager
+import com.soujunior.data.util.manager.UserPreferencesManager
 import com.soujunior.domain.repository.PreferenceRepository
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.first
 
 class PreferenceRepositoryImpl(
     context: Context
 ) : PreferenceRepository {
 
-    private val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    private val userPrefs = UserPreferencesManager.getInstance(context)
 
-    companion object {
-        private const val KEY_DARK_MODE = "dark_mode_pref_key"
-        private const val KEY_SYSTEM_THEME = "system_theme_pref_key"
-        private const val KEY_NOTIFICATION_PERMISSION_REQUESTED = "notification_permission_requested"
-        private const val KEY_GLOBAL_TUTORIAL_ENABLED = "global_tutorial_enabled"
-        private const val KEY_TAG_TUTORIAL_COMPLETED = "tag_tutorial_completed"
-    }
+    override fun getDarkModePreference(): Flow<Boolean> = 
+        userPrefs.getPreference(UserPreferencesManager.Keys.DARK_MODE, false)
 
-    override fun getDarkModePreference(): Flow<Boolean> = callbackFlow {
-        // Emit initial value
-        trySend(prefs.getBoolean(KEY_DARK_MODE, false))
+    override suspend fun setDarkModePreference(isDark: Boolean) = 
+        userPrefs.setPreference(UserPreferencesManager.Keys.DARK_MODE, isDark)
 
-        val listener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
-            if (key == KEY_DARK_MODE) {
-                trySend(sharedPreferences.getBoolean(KEY_DARK_MODE, false))
-            }
-        }
+    override suspend fun resetDarkModePreference() = 
+        userPrefs.removePreference(UserPreferencesManager.Keys.DARK_MODE)
 
-        prefs.registerOnSharedPreferenceChangeListener(listener)
+    override fun getSystemThemePreference(): Flow<Boolean> = 
+        userPrefs.getPreference(UserPreferencesManager.Keys.SYSTEM_THEME, true)
 
-        awaitClose {
-            prefs.unregisterOnSharedPreferenceChangeListener(listener)
-        }
-    }
+    override suspend fun setSystemThemePreference(isSystem: Boolean) = 
+        userPrefs.setPreference(UserPreferencesManager.Keys.SYSTEM_THEME, isSystem)
 
-    override suspend fun setDarkModePreference(isDark: Boolean) {
-        prefs.edit().putBoolean(KEY_DARK_MODE, isDark).apply()
-    }
+    override suspend fun resetSystemThemePreference() = 
+        userPrefs.removePreference(UserPreferencesManager.Keys.SYSTEM_THEME)
 
-    override suspend fun resetDarkModePreference() {
-        prefs.edit().remove(KEY_DARK_MODE).apply()
-    }
+    override suspend fun wasNotificationPermissionRequested(): Boolean = 
+        userPrefs.getPreference(UserPreferencesManager.Keys.NOTIFICATION_REQUESTED, false).first()
 
-    override fun getSystemThemePreference(): Flow<Boolean> = callbackFlow {
-        trySend(prefs.getBoolean(KEY_SYSTEM_THEME, true))
+    override suspend fun setNotificationPermissionRequested(requested: Boolean) = 
+        userPrefs.setPreference(UserPreferencesManager.Keys.NOTIFICATION_REQUESTED, requested)
 
-        val listener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
-            if (key == KEY_SYSTEM_THEME) {
-                trySend(sharedPreferences.getBoolean(KEY_SYSTEM_THEME, true))
-            }
-        }
+    override fun isGlobalTutorialEnabled(): Flow<Boolean> = 
+        userPrefs.getPreference(UserPreferencesManager.Keys.GLOBAL_TUTORIAL, true)
 
-        prefs.registerOnSharedPreferenceChangeListener(listener)
+    override suspend fun setGlobalTutorialEnabled(enabled: Boolean) = 
+        userPrefs.setPreference(UserPreferencesManager.Keys.GLOBAL_TUTORIAL, enabled)
 
-        awaitClose {
-            prefs.unregisterOnSharedPreferenceChangeListener(listener)
-        }
-    }
+    override suspend fun isTagTutorialCompleted(): Boolean = 
+        userPrefs.getPreference(UserPreferencesManager.Keys.TAG_TUTORIAL_COMPLETED, false).first()
 
-    override suspend fun setSystemThemePreference(isSystem: Boolean) {
-        prefs.edit().putBoolean(KEY_SYSTEM_THEME, isSystem).apply()
-    }
-
-    override suspend fun resetSystemThemePreference() {
-        prefs.edit().remove(KEY_SYSTEM_THEME).apply()
-    }
-
-    override suspend fun wasNotificationPermissionRequested(): Boolean {
-        return prefs.getBoolean(KEY_NOTIFICATION_PERMISSION_REQUESTED, false)
-    }
-
-    override suspend fun setNotificationPermissionRequested(requested: Boolean) {
-        prefs.edit().putBoolean(KEY_NOTIFICATION_PERMISSION_REQUESTED, requested).apply()
-    }
-
-    override fun isGlobalTutorialEnabled(): Flow<Boolean> = callbackFlow {
-        trySend(prefs.getBoolean(KEY_GLOBAL_TUTORIAL_ENABLED, true))
-
-        val listener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
-            if (key == KEY_GLOBAL_TUTORIAL_ENABLED) {
-                trySend(sharedPreferences.getBoolean(KEY_GLOBAL_TUTORIAL_ENABLED, true))
-            }
-        }
-
-        prefs.registerOnSharedPreferenceChangeListener(listener)
-
-        awaitClose {
-            prefs.unregisterOnSharedPreferenceChangeListener(listener)
-        }
-    }
-
-    override suspend fun setGlobalTutorialEnabled(enabled: Boolean) {
-        prefs.edit().putBoolean(KEY_GLOBAL_TUTORIAL_ENABLED, enabled).apply()
-    }
-
-    override suspend fun isTagTutorialCompleted(): Boolean {
-        return prefs.getBoolean(KEY_TAG_TUTORIAL_COMPLETED, false)
-    }
-
-    override suspend fun setTagTutorialCompleted(completed: Boolean) {
-        prefs.edit().putBoolean(KEY_TAG_TUTORIAL_COMPLETED, completed).apply()
-    }
+    override suspend fun setTagTutorialCompleted(completed: Boolean) = 
+        userPrefs.setPreference(UserPreferencesManager.Keys.TAG_TUTORIAL_COMPLETED, completed)
 }

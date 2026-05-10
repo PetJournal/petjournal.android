@@ -22,6 +22,7 @@ ext {
 
             securityCrypto         : "androidx.security:security-crypto-ktx:1.1.0-alpha06",
             preference             : 'androidx.preference:preference:1.2.0',
+            dataStorePreferences   : "androidx.datastore:datastore-preferences:1.0.0",
 
             roomRuntime            : 'androidx.room:room-runtime:2.4.3',
             roomKtx                : 'androidx.room:room-ktx:2.4.3',

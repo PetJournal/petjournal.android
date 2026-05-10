@@ -5,6 +5,7 @@ import android.net.Uri
 import com.soujunior.data.remote.RemoteDataSource
 import com.soujunior.data.util.manager.JwtManager
 import android.util.Log
+import com.soujunior.data.util.manager.SyncDataManager
 import com.soujunior.domain.mapper.Mapper.toDomain
 import com.soujunior.domain.model.BreedDTO
 import com.soujunior.domain.model.PetCreateDTO
@@ -43,6 +44,7 @@ class RepositoryImpl(
 ) : Repository {
 
     private val jwtManager: JwtManager = JwtManager.getInstance(context)
+    private val syncDataManager: SyncDataManager = SyncDataManager.getInstance(context)
 
     internal fun getToken(): String? {
         return try {
@@ -87,6 +89,7 @@ class RepositoryImpl(
                 if (data is UserInfoResponse) {
                     guardianLocalDataSourceImpl.saveGuardianContact(data.email, data.phone)
                 }
+                syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.GUARDIAN_NAME)
 
                 NetworkResult.Success(guardianNameResponse)
             }
@@ -182,6 +185,7 @@ class RepositoryImpl(
                     coroutineScope {
                         try {
                             guardianLocalDataSourceImpl.saveAllTags(data)
+                            syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.LIST_TAG)
                         } catch (e: Exception) {}
                     }
                     result = NetworkResult.Success(data)
@@ -276,6 +280,7 @@ class RepositoryImpl(
                     coroutineScope {
                         try {
                             guardianLocalDataSourceImpl.saveAllPets(data)
+                            syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.LIST_PET)
                         } catch (e: Exception) {}
                     }
                     result = NetworkResult.Success(data)
@@ -440,6 +445,7 @@ class RepositoryImpl(
                     coroutineScope {
                         try {
                             guardianLocalDataSourceImpl.saveListPetSizes(petSpecie, apiResult.data)
+                            syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.LIST_PET_SIZES)
                         } catch (e: Exception) {
                         }
                     }
@@ -464,6 +470,7 @@ class RepositoryImpl(
                     coroutineScope {
                         try {
                             guardianLocalDataSourceImpl.saveListPetRaces(petSpecie, apiResult.data)
+                            syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.LIST_PET_RACES)
                         } catch (e: Exception) {
                         }
                     }
@@ -572,6 +579,7 @@ class RepositoryImpl(
                                     guardianLocalDataSourceImpl.updateAlarmStatus(id, true)
                                 }
                             }
+                            syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD)
                         } catch (e: Exception) {
                         }
                     }
@@ -628,6 +636,7 @@ class RepositoryImpl(
                                     guardianLocalDataSourceImpl.updateAlarmStatus(id, true)
                                 }
                             }
+                            syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD)
                         } catch (e: Exception) {
                         }
                     }
@@ -673,6 +682,7 @@ class RepositoryImpl(
                                     guardianLocalDataSourceImpl.updateAlarmStatus(id, true)
                                 }
                             }
+                            syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD)
                         } catch (e: Exception) {
                         }
                     }
@@ -720,6 +730,7 @@ class RepositoryImpl(
                                     guardianLocalDataSourceImpl.updateAlarmStatus(id, true)
                                 }
                             }
+                            syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD)
                         } catch (e: Exception) {
                         }
                     }

@@ -1,8 +1,8 @@
 package com.soujunior.data.repository
 
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.preference.PreferenceManager
+import com.soujunior.data.util.manager.UserPreferencesManager
+import kotlinx.coroutines.flow.first
 import com.soujunior.data.remote.AuthDataSource
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.domain.model.request.AwaitingCodeModel
@@ -27,8 +27,7 @@ class AuthRepositoryImpl(
 ) : AuthRepository {
 
     private val jwtManager: JwtManager = JwtManager.getInstance(context)
-
-    private val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    private val userPrefs = UserPreferencesManager.getInstance(context)
 
     override suspend fun signUp(signUpModel: SignUpModel): NetworkResult<UserInfoResponse> {
         return authApi.signUp(signUpModel)
@@ -37,13 +36,12 @@ class AuthRepositoryImpl(
     override suspend fun login(loginModel: LoginModel): NetworkResult<AccessTokenResponse> {
         val result = authApi.login(loginModel)
         if (result is NetworkResult.Success) {
-            prefs.edit().putBoolean("Islogin", true).apply()
+            userPrefs.setPreference(UserPreferencesManager.Keys.IS_LOGIN, true)
         }
         return result
     }
 
     override suspend fun changePassword(changePasswordModel: ChangePasswordModel): NetworkResult<MessageResponse> {
-
         return authApi.changePassword("Bearer " + getToken(), changePasswordModel)
     }
 
@@ -56,19 +54,17 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun saveLoginPreference(model: LoginPreferenceModel) {
-        prefs.edit().apply {
-            putString("email", model.email)
-            putString("password", model.password)
-            putBoolean("isRemember", model.isRemember)
-        }.apply()
+        userPrefs.setPreference(UserPreferencesManager.Keys.LOGIN_EMAIL, model.email)
+        userPrefs.setPreference(UserPreferencesManager.Keys.LOGIN_PASSWORD, model.password)
+        userPrefs.setPreference(UserPreferencesManager.Keys.LOGIN_IS_REMEMBER, model.isRemember)
     }
 
     override suspend fun getLoginPreference(): LoginPreferenceModel? {
-        val email = prefs.getString("email", null)
-        val password = prefs.getString("password", null)
-        val isRemember = prefs.getBoolean("isRemember", false)
+        val email = userPrefs.getPreference(UserPreferencesManager.Keys.LOGIN_EMAIL, "").first()
+        val password = userPrefs.getPreference(UserPreferencesManager.Keys.LOGIN_PASSWORD, "").first()
+        val isRemember = userPrefs.getPreference(UserPreferencesManager.Keys.LOGIN_IS_REMEMBER, false).first()
 
-        return if (email != null && password != null) {
+        return if (email.isNotEmpty() && password.isNotEmpty()) {
             LoginPreferenceModel(email, password, isRemember)
         } else null
     }
@@ -77,7 +73,7 @@ class AuthRepositoryImpl(
         jwtManager.deleteToken()
         guardianLocalDataSourceImpl.deleteDatabase()
         deleteToken()
-        prefs.edit().remove("Islogin").apply()
+        userPrefs.removePreference(UserPreferencesManager.Keys.IS_LOGIN)
     }
 
     override suspend fun saveToken(token: String): Boolean {
