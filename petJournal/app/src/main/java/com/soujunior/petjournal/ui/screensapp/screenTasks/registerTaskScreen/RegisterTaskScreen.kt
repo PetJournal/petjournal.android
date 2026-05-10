@@ -37,6 +37,7 @@ import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.GroupSelectableButton
+import com.soujunior.petjournal.ui.components.IndeterminateCircularIndicator
 import com.soujunior.petjournal.ui.components.InputText
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.PetFilterList
@@ -51,6 +52,7 @@ import com.soujunior.petjournal.ui.model.SelectableButtonInfo
 import com.soujunior.petjournal.ui.model.TagAction
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.FakeRegisterTaskViewModel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModel
+import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.ColorCustom
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.TransactionType
@@ -70,6 +72,7 @@ fun RegisterTaskScreen(
     var showIntroDialog by remember { mutableStateOf(true) }
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val taskState by viewModel.taskState.collectAsStateWithLifecycle()
     val isLoadingAll = state.isLoadingListTag && state.isLoadingListPet
 
     Column(
@@ -96,61 +99,44 @@ fun RegisterTaskScreen(
             titleTopBar = stringResource(R.string.label_new_task),
             showBottomBarNavigation = true,
             contentToUse = { paddingValues ->
-                Image(
-                    painter = painterResource(R.drawable.rastro),
-                    contentDescription = null,
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .offset(y = 300.sdp),
-                )
-                LazyColumn(
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .padding(paddingValues),
-                    verticalArrangement = Arrangement.spacedBy(12.sdp),
-                    contentPadding = PaddingValues(horizontal = 14.sdp),
-                    content = {
-                        item {
-                            GroupSelectableButton(
-                                listOfTags = state.listTag,
-                                isLoading = isLoadingAll,
-                                selectedTag = state.selectedTag,
-                                showButton = !state.isLoadingListTag,
-                                onSelection = {
-                                    viewModel.onEvent(RegisterTaskEvent.OnSelectTag(it))
-                                },
-                                onAction = {
-                                    when (it) {
-                                        is TagAction.Create -> {
-                                            viewModel.onEvent(
-                                                RegisterTaskEvent.OnCreateTag(
-                                                    name = it.name,
-                                                    color =
-                                                        it.color
-                                                            .toArgb()
-                                                            .toUInt()
-                                                            .toString(16)
-                                                            .uppercase(),
-                                                ),
-                                            )
-                                            if (state.tagOnboardingStep == TagOnboardingStep.CREATE_FORM) {
-                                                viewModel.onEvent(RegisterTaskEvent.OnNextTagOnboardingStep)
-                                            }
-                                        }
-
-                                        is TagAction.Delete -> {
-                                            viewModel.onEvent(
-                                                event = RegisterTaskEvent.OnDeleteTag(it.id),
-                                            )
-                                        }
-
-                                        is TagAction.Update -> {
-                                            viewModel.onEvent(
-                                                event =
-                                                    RegisterTaskEvent.OnUpdateTag(
-                                                        id = it.id,
+                if (taskState is TaskState.Loading) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        IndeterminateCircularIndicator()
+                    }
+                } else {
+                    Image(
+                        painter = painterResource(R.drawable.rastro),
+                        contentDescription = null,
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .offset(y = 300.sdp),
+                    )
+                    LazyColumn(
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(paddingValues),
+                        verticalArrangement = Arrangement.spacedBy(12.sdp),
+                        contentPadding = PaddingValues(horizontal = 14.sdp),
+                        content = {
+                            item {
+                                GroupSelectableButton(
+                                    listOfTags = state.listTag,
+                                    isLoading = isLoadingAll,
+                                    selectedTag = state.selectedTag,
+                                    showButton = !state.isLoadingListTag,
+                                    onSelection = {
+                                        viewModel.onEvent(RegisterTaskEvent.OnSelectTag(it))
+                                    },
+                                    onAction = {
+                                        when (it) {
+                                            is TagAction.Create -> {
+                                                viewModel.onEvent(
+                                                    RegisterTaskEvent.OnCreateTag(
                                                         name = it.name,
                                                         color =
                                                             it.color
@@ -159,235 +145,271 @@ fun RegisterTaskScreen(
                                                                 .toString(16)
                                                                 .uppercase(),
                                                     ),
-                                            )
-                                        }
-                                    }
-                                },
-                                onAddClick = {
-                                    if (state.tagOnboardingStep == TagOnboardingStep.INTRO) {
-                                        viewModel.onEvent(RegisterTaskEvent.OnNextTagOnboardingStep)
-                                    }
-                                },
-                                onCreateTagClick = {
-                                    if (state.tagOnboardingStep == TagOnboardingStep.MANAGE_LIST) {
-                                        viewModel.onEvent(RegisterTaskEvent.OnNextTagOnboardingStep)
-                                    }
-                                },
-                                step = state.tagOnboardingStep,
-                            )
-                        }
-                        item {
-                            InputText(
-                                isLoading = isLoadingAll,
-                                modifier = Modifier.testTag("inputFieldTag"),
-                                placeholderText = stringResource(R.string.enter_task_name_here),
-                                titleText = stringResource(R.string.task_name),
-                                textValue = state.taskName,
-                                onEvent = { input ->
-                                    viewModel.onEvent(
-                                        RegisterTaskEvent.OnName(input.take(30)),
-                                    )
-                                },
-                            )
-                        }
-                        item {
-                            TextFieldCustom(
-                                isLoading = isLoadingAll,
-                                title = stringResource(R.string.label_description),
-                                placeholder = stringResource(R.string.enter_the_task_description_here),
-                                value = state.taskDescription,
-                                onValueChange = {
-                                    viewModel.onEvent(
-                                        RegisterTaskEvent.OnDescription(it),
-                                    )
-                                },
-                            )
-                        }
-                        item {
-                            PetFilterList(
-                                isLoading = isLoadingAll,
-                                listPet = state.listPets,
-                                selectedIds = state.selectedPet,
-                                onSelectionChanged = {
-                                    viewModel.onEvent(RegisterTaskEvent.OnPetList(it))
-                                },
-                            )
-                        }
-                        item {
-                            Column {
-                                TransactionTypeSelector(
-                                    isLoading = isLoadingAll,
-                                    transactionTypeSelected = state.selectedTransactionType,
-                                    onSelectionChanged = { type ->
-                                        type?.let {
-                                            viewModel.onEvent(
-                                                RegisterTaskEvent.OnChangeTransactionType(type),
-                                            )
+                                                )
+                                                if (state.tagOnboardingStep ==
+                                                    TagOnboardingStep.CREATE_FORM
+                                                ) {
+                                                    viewModel.onEvent(
+                                                        RegisterTaskEvent
+                                                            .OnNextTagOnboardingStep,
+                                                    )
+                                                }
+                                            }
+
+                                            is TagAction.Delete -> {
+                                                viewModel.onEvent(
+                                                    event = RegisterTaskEvent.OnDeleteTag(it.id),
+                                                )
+                                            }
+
+                                            is TagAction.Update -> {
+                                                viewModel.onEvent(
+                                                    event =
+                                                        RegisterTaskEvent.OnUpdateTag(
+                                                            id = it.id,
+                                                            name = it.name,
+                                                            color =
+                                                                it.color
+                                                                    .toArgb()
+                                                                    .toUInt()
+                                                                    .toString(16)
+                                                                    .uppercase(),
+                                                        ),
+                                                )
+                                            }
                                         }
                                     },
-                                )
-
-                                if (!isLoadingAll) {
-                                    Spacer(modifier = Modifier.padding(bottom = 16.dp))
-
-                                    when (state.selectedTransactionType) {
-                                        TransactionType.Recurrent -> {
-                                            RecurringTask(
-                                                onSelectedPeriod = {
-                                                    viewModel.onEvent(
-                                                        RegisterTaskEvent.OnPeriodType(it),
-                                                    )
-                                                },
-                                                selectedPeriod = state.periodType,
-                                                onAmPmSelector = {
-                                                    it?.let {
-                                                        viewModel.onEvent(
-                                                            RegisterTaskEvent.OnAmPm(it),
-                                                        )
-                                                    }
-                                                },
-                                                selectedAmPm = state.amPmSelected,
-                                                onTime = { hour, minute ->
-                                                    viewModel.onEvent(
-                                                        RegisterTaskEvent.OnTimeChange(
-                                                            Pair(hour, minute),
-                                                        ),
-                                                    )
-                                                },
-                                                time = state.timeSelected,
-                                                activeMonths = state.activeMonths,
-                                                onWeekDaySelected = {
-                                                    viewModel.onEvent(
-                                                        RegisterTaskEvent.OnDayOfWeekChanged(
-                                                            it,
-                                                        ),
-                                                    )
-                                                },
-                                                daySelected = state.daySelected,
-                                                selectedDaysOfWeek = state.selectedDaysOfWeek,
-                                                onDaySelected = {
-                                                    viewModel.onEvent(
-                                                        RegisterTaskEvent.OnDayChanged(
-                                                            it,
-                                                        ),
-                                                    )
-                                                },
-                                            )
+                                    onAddClick = {
+                                        if (state.tagOnboardingStep == TagOnboardingStep.INTRO) {
+                                            viewModel.onEvent(RegisterTaskEvent.OnNextTagOnboardingStep)
                                         }
+                                    },
+                                    onCreateTagClick = {
+                                        if (state.tagOnboardingStep == TagOnboardingStep.MANAGE_LIST) {
+                                            viewModel.onEvent(RegisterTaskEvent.OnNextTagOnboardingStep)
+                                        }
+                                    },
+                                    step = state.tagOnboardingStep,
+                                )
+                            }
+                            item {
+                                InputText(
+                                    isLoading = isLoadingAll,
+                                    modifier = Modifier.testTag("inputFieldTag"),
+                                    placeholderText = stringResource(R.string.enter_task_name_here),
+                                    titleText = stringResource(R.string.task_name),
+                                    textValue = state.taskName,
+                                    onEvent = { input ->
+                                        viewModel.onEvent(
+                                            RegisterTaskEvent.OnName(input.take(30)),
+                                        )
+                                    },
+                                )
+                            }
+                            item {
+                                TextFieldCustom(
+                                    isLoading = isLoadingAll,
+                                    title = stringResource(R.string.label_description),
+                                    placeholder = stringResource(R.string.enter_the_task_description_here),
+                                    value = state.taskDescription,
+                                    onValueChange = {
+                                        viewModel.onEvent(
+                                            RegisterTaskEvent.OnDescription(it),
+                                        )
+                                    },
+                                )
+                            }
+                            item {
+                                PetFilterList(
+                                    isLoading = isLoadingAll,
+                                    listPet = state.listPets,
+                                    selectedIds = state.selectedPet,
+                                    onSelectionChanged = {
+                                        viewModel.onEvent(RegisterTaskEvent.OnPetList(it))
+                                    },
+                                )
+                            }
+                            item {
+                                Column {
+                                    TransactionTypeSelector(
+                                        isLoading = isLoadingAll,
+                                        transactionTypeSelected = state.selectedTransactionType,
+                                        onSelectionChanged = { type ->
+                                            type?.let {
+                                                viewModel.onEvent(
+                                                    RegisterTaskEvent.OnChangeTransactionType(type),
+                                                )
+                                            }
+                                        },
+                                    )
 
-                                        TransactionType.OneOff -> {
-                                            OneOffTask(
-                                                onAmPmSelector = {
-                                                    it?.let {
+                                    if (!isLoadingAll) {
+                                        Spacer(modifier = Modifier.padding(bottom = 16.dp))
+
+                                        when (state.selectedTransactionType) {
+                                            TransactionType.Recurrent -> {
+                                                RecurringTask(
+                                                    onSelectedPeriod = {
                                                         viewModel.onEvent(
-                                                            RegisterTaskEvent.OnAmPm(it),
+                                                            RegisterTaskEvent.OnPeriodType(it),
                                                         )
-                                                    }
-                                                },
-                                                selectedAmPm = state.amPmSelected,
-                                                onTime = { hour, minute ->
-                                                    viewModel.onEvent(
-                                                        RegisterTaskEvent.OnTimeChange(
-                                                            Pair(hour, minute),
-                                                        ),
-                                                    )
-                                                },
-                                                time = state.timeSelected,
-                                                dateSelected = state.dateSelected,
-                                                onDateSelected = {
-                                                    viewModel.onEvent(
-                                                        RegisterTaskEvent.OnDateChanged(
-                                                            it,
-                                                        ),
-                                                    )
-                                                },
-                                            )
+                                                    },
+                                                    selectedPeriod = state.periodType,
+                                                    onAmPmSelector = {
+                                                        it?.let {
+                                                            viewModel.onEvent(
+                                                                RegisterTaskEvent.OnAmPm(it),
+                                                            )
+                                                        }
+                                                    },
+                                                    selectedAmPm = state.amPmSelected,
+                                                    onTime = { hour, minute ->
+                                                        viewModel.onEvent(
+                                                            RegisterTaskEvent.OnTimeChange(
+                                                                Pair(hour, minute),
+                                                            ),
+                                                        )
+                                                    },
+                                                    time = state.timeSelected,
+                                                    activeMonths = state.activeMonths,
+                                                    onWeekDaySelected = {
+                                                        viewModel.onEvent(
+                                                            RegisterTaskEvent.OnDayOfWeekChanged(
+                                                                it,
+                                                            ),
+                                                        )
+                                                    },
+                                                    daySelected = state.daySelected,
+                                                    selectedDaysOfWeek = state.selectedDaysOfWeek,
+                                                    onDaySelected = {
+                                                        viewModel.onEvent(
+                                                            RegisterTaskEvent.OnDayChanged(
+                                                                it,
+                                                            ),
+                                                        )
+                                                    },
+                                                )
+                                            }
+
+                                            TransactionType.OneOff -> {
+                                                OneOffTask(
+                                                    onAmPmSelector = {
+                                                        it?.let {
+                                                            viewModel.onEvent(
+                                                                RegisterTaskEvent.OnAmPm(it),
+                                                            )
+                                                        }
+                                                    },
+                                                    selectedAmPm = state.amPmSelected,
+                                                    onTime = { hour, minute ->
+                                                        viewModel.onEvent(
+                                                            RegisterTaskEvent.OnTimeChange(
+                                                                Pair(hour, minute),
+                                                            ),
+                                                        )
+                                                    },
+                                                    time = state.timeSelected,
+                                                    dateSelected = state.dateSelected,
+                                                    onDateSelected = {
+                                                        viewModel.onEvent(
+                                                            RegisterTaskEvent.OnDateChanged(
+                                                                it,
+                                                            ),
+                                                        )
+                                                    },
+                                                )
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                        item {
-                            TextFieldCustom(
-                                isLoading = isLoadingAll,
-                                title = stringResource(R.string.label_observation),
-                                placeholder = stringResource(R.string.enter_your_observation_here),
-                                value = state.observation,
-                                onValueChange = { obs ->
-                                    viewModel.onEvent(RegisterTaskEvent.OnObservation(obs))
-                                },
-                            )
-                        }
-                        item {
-                            if (!isLoadingAll) {
-                                Row(
-                                    modifier = Modifier.fillMaxSize(),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                ) {
-                                    Text(
-                                        text = "Sincronizar com a nuvem",
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        color = MaterialTheme.colorScheme.onSurface,
-                                    )
-                                    Switch(
-                                        checked = state.sendToApi,
-                                        onCheckedChange = { checked ->
-                                            viewModel.onEvent(RegisterTaskEvent.OnSendToApiChanged(checked))
-                                        },
-                                    )
-                                }
-                                Spacer(Modifier.padding(top = 16.dp))
-                                Row(
-                                    modifier = Modifier.fillMaxSize(),
-                                    horizontalArrangement = Arrangement.Center,
-                                ) {
-                                    Button3(
-                                        submit = {
-                                            viewModel.onEvent(RegisterTaskEvent.Submit)
-                                        },
-                                        enableButton = true,
-                                        text = stringResource(R.string.label_save_task),
-                                    )
-                                }
-                                Spacer(Modifier.padding(top = 20.dp))
+                            item {
+                                TextFieldCustom(
+                                    isLoading = isLoadingAll,
+                                    title = stringResource(R.string.label_observation),
+                                    placeholder = stringResource(R.string.enter_your_observation_here),
+                                    value = state.observation,
+                                    onValueChange = { obs ->
+                                        viewModel.onEvent(RegisterTaskEvent.OnObservation(obs))
+                                    },
+                                )
                             }
-                        }
-                    },
-                )
-                if (state.showDialogSuccess) {
-                    CardDialog(
-                        title = "Sucesso ao criar tarefa",
-                        textBottomButton = "Voltar",
-                        textTopButton = "Criar outra tarefa",
-                        onButtonTopClick = {
-                            viewModel.onEvent(RegisterTaskEvent.OnCardDialogAddNewTask)
-                        },
-                        onButtonBottomClick = {
-                            navController.navigateUp()
+                            item {
+                                if (!isLoadingAll) {
+                                    Row(
+                                        modifier = Modifier.fillMaxSize(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                    ) {
+                                        Text(
+                                            text = "Sincronizar com a nuvem",
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            color = MaterialTheme.colorScheme.onSurface,
+                                        )
+                                        Switch(
+                                            checked = state.sendToApi,
+                                            onCheckedChange = { checked ->
+                                                viewModel.onEvent(
+                                                    RegisterTaskEvent
+                                                        .OnSendToApiChanged(checked),
+                                                )
+                                            },
+                                        )
+                                    }
+                                    Spacer(Modifier.padding(top = 16.dp))
+                                    Row(
+                                        modifier = Modifier.fillMaxSize(),
+                                        horizontalArrangement = Arrangement.Center,
+                                    ) {
+                                        Button3(
+                                            submit = {
+                                                viewModel.onEvent(RegisterTaskEvent.Submit)
+                                            },
+                                            enableButton = true,
+                                            text = stringResource(R.string.label_save_task),
+                                        )
+                                    }
+                                    Spacer(Modifier.padding(top = 20.dp))
+                                }
+                            }
                         },
                     )
-                }
+                    if (state.showDialogSuccess) {
+                        CardDialog(
+                            title = "Sucesso ao criar tarefa",
+                            textBottomButton = "Voltar",
+                            textTopButton = "Criar outra tarefa",
+                            onButtonTopClick = {
+                                viewModel.onEvent(RegisterTaskEvent.OnCardDialogAddNewTask)
+                            },
+                            onButtonBottomClick = {
+                                navController.navigateUp()
+                            },
+                        )
+                    }
 
-                if (state.showDialogError) {
-                    CardDialog(
-                        title = "Ocorreu um erro ao criar tarefa",
-                        textBottomButton = stringResource(R.string.return_button_text),
-                        onButtonBottomClick = {
-                            viewModel.onEvent(RegisterTaskEvent.OnCardDialogError)
-                        },
-                        subText = state.cardDialogMessage,
-                    )
-                }
+                    if (state.showDialogError) {
+                        CardDialog(
+                            title = "Ocorreu um erro ao criar tarefa",
+                            textBottomButton = stringResource(R.string.return_button_text),
+                            onButtonBottomClick = {
+                                viewModel.onEvent(RegisterTaskEvent.OnCardDialogError)
+                            },
+                            subText = state.cardDialogMessage,
+                        )
+                    }
 
-                if (state.tagOnboardingStep == TagOnboardingStep.INTRO && showIntroDialog) {
-                    TagOnboardingDialog(
-                        title = "Organize com Tags!",
-                        description = "As tags ajudam você a separar tarefas de Saúde, Lazer e muito mais. Vamos aprender a gerenciá-las?",
-                        buttonText = "Começar Tutorial",
-                        onNext = { showIntroDialog = false },
-                        onDismiss = { viewModel.onEvent(RegisterTaskEvent.OnDismissTagOnboarding) },
-                    )
+                    if (state.tagOnboardingStep == TagOnboardingStep.INTRO && showIntroDialog) {
+                        TagOnboardingDialog(
+                            title = "Organize com Tags!",
+                            description =
+                                "As tags ajudam você a separar tarefas de Saúde, " +
+                                    "Lazer e muito mais. Vamos aprender a gerenciá-las?",
+                            buttonText = "Começar Tutorial",
+                            onNext = { showIntroDialog = false },
+                            onDismiss = { viewModel.onEvent(RegisterTaskEvent.OnDismissTagOnboarding) },
+                        )
+                    }
                 }
             },
         )
@@ -568,7 +590,9 @@ fun TagOnboardingDialogPreview() {
         ) {
             TagOnboardingDialog(
                 title = "Organize com Tags!",
-                description = "As tags ajudam você a separar tarefas de Saúde, Lazer e muito mais. Vamos aprender a gerenciá-las?",
+                description =
+                    "As tags ajudam você a separar tarefas de Saúde, Lazer e muito " +
+                        "mais. Vamos aprender a gerenciá-las?",
                 buttonText = "Começar Tutorial",
                 onNext = { },
                 onDismiss = { },

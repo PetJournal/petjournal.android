@@ -396,10 +396,12 @@ class RegisterTaskViewModelImpl(
         val params = CreateTaskParams(payload, _state.value.sendToApi)
 
         viewModelScope.launch {
+            taskState.value = TaskState.Loading
             val result = createTaskUseCase.execute(value = params)
 
             result.handleResult(
                 { response ->
+                    taskState.value = TaskState.Idle
                     if (_state.value.sendToApi) {
                         val workRequest =
                             OneTimeWorkRequestBuilder<SyncTasksWorker>()
@@ -416,6 +418,7 @@ class RegisterTaskViewModelImpl(
                     }
                 },
                 { error ->
+                    taskState.value = TaskState.Idle
                     state.update {
                         it.copy(
                             showDialogError = true,
