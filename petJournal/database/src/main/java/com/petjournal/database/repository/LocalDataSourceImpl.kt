@@ -250,8 +250,16 @@ class LocalDataSourceImpl(
         val currentClean = currentDateTime.split(".")[0].replace("Z", "")
         taskDao.deletePastTasks(currentClean)
 
-        val startClean = startDate.split(".")[0].replace("Z", "")
-        val endClean = endDate.split(".")[0].replace("Z", "")
+        val startClean = if (startDate.contains("T")) {
+            startDate.split(".")[0].replace("Z", "")
+        } else {
+            "${startDate}T00:00:00"
+        }
+        val endClean = if (endDate.contains("T")) {
+            endDate.split(".")[0].replace("Z", "")
+        } else {
+            "${endDate}T23:59:59"
+        }
         
         val startDateTime = java.time.LocalDateTime.parse(startClean)
         val dayOfWeek = (startDateTime.dayOfWeek.value % 7).toString()
@@ -278,8 +286,16 @@ class LocalDataSourceImpl(
             taskDao.deletePastTasks(currentClean)
         }
 
-        var startClean = startDate.split(".")[0].replace("Z", "")
-        val endClean = endDate.split(".")[0].replace("Z", "")
+        var startClean = if (startDate.contains("T")) {
+            startDate.split(".")[0].replace("Z", "")
+        } else {
+            "${startDate}T00:00:00"
+        }
+        val endClean = if (endDate.contains("T")) {
+            endDate.split(".")[0].replace("Z", "")
+        } else {
+            "${endDate}T23:59:59"
+        }
         
         if (considerTime && startClean < currentClean) {
             startClean = currentClean

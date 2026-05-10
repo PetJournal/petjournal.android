@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -40,6 +39,8 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.petjournal.R
@@ -82,6 +83,10 @@ fun PetListScreen(navController: NavController) {
         )
 
     if (!LocalInspectionMode.current) {
+        LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+            viewModel.reload()
+        }
+
         LaunchedEffect(key1 = context) {
             viewModel.validationEvents.collect { event ->
                 when (event) {
@@ -123,11 +128,12 @@ fun PetListScreen(navController: NavController) {
             },
             contentToUse = { paddingValues ->
                 val showShimmer = taskState is TaskState.Loading && state.value.listPets.isEmpty()
-                
+
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .pullRefresh(pullRefreshState)
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .pullRefresh(pullRefreshState),
                 ) {
                     if (showShimmer) {
                         Column(
@@ -241,9 +247,10 @@ fun PetListScreen(navController: NavController) {
                     PullRefreshIndicator(
                         refreshing = isRefreshing,
                         state = pullRefreshState,
-                        modifier = Modifier
-                            .align(Alignment.TopCenter)
-                            .padding(paddingValues)
+                        modifier =
+                            Modifier
+                                .align(Alignment.TopCenter)
+                                .padding(paddingValues),
                     )
                 }
             },

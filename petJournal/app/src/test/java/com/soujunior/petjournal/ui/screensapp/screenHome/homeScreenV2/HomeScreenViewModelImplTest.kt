@@ -7,11 +7,11 @@ import com.soujunior.domain.use_case.auth.LogoutUseCase
 import com.soujunior.domain.use_case.base.DataResult
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
+import com.soujunior.domain.use_case.preference.CheckNotificationPermissionRequestedUseCase
+import com.soujunior.domain.use_case.preference.SetNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
 import com.soujunior.domain.use_case.task.GetLocalTasksByPeriodUseCase
-import com.soujunior.domain.use_case.preference.CheckNotificationPermissionRequestedUseCase
-import com.soujunior.domain.use_case.preference.SetNotificationPermissionRequestedUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -74,7 +74,7 @@ class HomeScreenViewModelImplTest {
             getListTagUseCase,
             checkNotificationPermissionRequestedUseCase,
             setNotificationPermissionRequestedUseCase,
-            getListCurrentDateTaskUseCase
+            getListCurrentDateTaskUseCase,
         )
 
     @Test

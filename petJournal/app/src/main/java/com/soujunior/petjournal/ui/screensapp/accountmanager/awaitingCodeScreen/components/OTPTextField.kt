@@ -190,7 +190,7 @@ private fun TextFieldSingleView(
                 .padding(10.sdp),
         text = char,
         style = MaterialTheme.typography.bodyLarge,
-        color = Color.Black,
+        color = MaterialTheme.colorScheme.onSurface,
         textAlign = TextAlign.Center,
     )
 }

@@ -10,7 +10,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -126,31 +125,34 @@ fun Modifier.shimmerEffect(): Modifier =
         this.background(brush)
     }
 
-fun Modifier.pulseEffect(): Modifier = composed {
-    val transition = rememberInfiniteTransition(label = "pulse")
-    val scale by transition.animateFloat(
-        initialValue = 1f,
-        targetValue = 1.05f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(800, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "pulse_scale"
-    )
-    val alpha by transition.animateFloat(
-        initialValue = 0.5f,
-        targetValue = 0f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(800, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "pulse_alpha"
-    )
+fun Modifier.pulseEffect(): Modifier =
+    composed {
+        val transition = rememberInfiniteTransition(label = "pulse")
+        val scale by transition.animateFloat(
+            initialValue = 1f,
+            targetValue = 1.05f,
+            animationSpec =
+                infiniteRepeatable(
+                    animation = tween(800, easing = FastOutSlowInEasing),
+                    repeatMode = RepeatMode.Reverse,
+                ),
+            label = "pulse_scale",
+        )
+        val alpha by transition.animateFloat(
+            initialValue = 0.5f,
+            targetValue = 0f,
+            animationSpec =
+                infiniteRepeatable(
+                    animation = tween(800, easing = FastOutSlowInEasing),
+                    repeatMode = RepeatMode.Reverse,
+                ),
+            label = "pulse_alpha",
+        )
 
-    this.shadow(
-        elevation = (10 * scale).dp,
-        shape = CircleShape,
-        spotColor = MaterialTheme.colorScheme.primary.copy(alpha = alpha),
-        ambientColor = MaterialTheme.colorScheme.primary.copy(alpha = alpha)
-    ).graphicsLayer(scaleX = scale, scaleY = scale)
-}
+        this.shadow(
+            elevation = (10 * scale).dp,
+            shape = CircleShape,
+            spotColor = MaterialTheme.colorScheme.primary.copy(alpha = alpha),
+            ambientColor = MaterialTheme.colorScheme.primary.copy(alpha = alpha),
+        ).graphicsLayer(scaleX = scale, scaleY = scale)
+    }

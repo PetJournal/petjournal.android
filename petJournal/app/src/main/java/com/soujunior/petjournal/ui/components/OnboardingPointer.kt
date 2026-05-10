@@ -21,7 +21,10 @@ import androidx.compose.ui.window.PopupProperties
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 
 enum class ArrowDirection {
-    TOP, BOTTOM, LEFT, RIGHT
+    TOP,
+    BOTTOM,
+    LEFT,
+    RIGHT,
 }
 
 @Composable
@@ -32,20 +35,21 @@ fun OnboardingPointer(
     offset: IntOffset = IntOffset(0, 0),
     popupAlignment: Alignment? = null,
     arrowYProvider: ((totalHeight: Float) -> Float)? = null,
-    onDismiss: () -> Unit = {}
+    onDismiss: () -> Unit = {},
 ) {
-    val finalAlignment = popupAlignment ?: when (direction) {
-        ArrowDirection.TOP -> Alignment.BottomCenter
-        ArrowDirection.BOTTOM -> Alignment.TopCenter
-        ArrowDirection.LEFT -> Alignment.CenterStart
-        ArrowDirection.RIGHT -> Alignment.CenterEnd
-    }
+    val finalAlignment =
+        popupAlignment ?: when (direction) {
+            ArrowDirection.TOP -> Alignment.BottomCenter
+            ArrowDirection.BOTTOM -> Alignment.TopCenter
+            ArrowDirection.LEFT -> Alignment.CenterStart
+            ArrowDirection.RIGHT -> Alignment.CenterEnd
+        }
 
     Popup(
         alignment = finalAlignment,
         offset = offset,
         onDismissRequest = onDismiss,
-        properties = PopupProperties(focusable = false, dismissOnClickOutside = false)
+        properties = PopupProperties(focusable = false, dismissOnClickOutside = false),
     ) {
         PetJournalTheme {
             val backgroundColor = MaterialTheme.colorScheme.primaryContainer
@@ -54,69 +58,70 @@ fun OnboardingPointer(
             Box(modifier = modifier.padding(8.dp)) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .drawBehind {
-                            val cornerRadiusPx = 8.dp.toPx()
-                            val arrowSize = 10.dp.toPx()
+                    modifier =
+                        Modifier
+                            .drawBehind {
+                                val cornerRadiusPx = 8.dp.toPx()
+                                val arrowSize = 10.dp.toPx()
 
-                            val minSafeX = cornerRadiusPx + arrowSize
-                            val maxSafeX = (size.width - cornerRadiusPx - arrowSize).coerceAtLeast(minSafeX)
-                            val xCenter = (size.width / 2).coerceIn(minSafeX, maxSafeX)
+                                val minSafeX = cornerRadiusPx + arrowSize
+                                val maxSafeX = (size.width - cornerRadiusPx - arrowSize).coerceAtLeast(minSafeX)
+                                val xCenter = (size.width / 2).coerceIn(minSafeX, maxSafeX)
 
-                            val minSafeY = cornerRadiusPx + arrowSize
-                            val maxSafeY = (size.height - cornerRadiusPx - arrowSize).coerceAtLeast(minSafeY)
-                            val yCenter = (arrowYProvider?.invoke(size.height) ?: (size.height / 2)).coerceIn(minSafeY, maxSafeY)
+                                val minSafeY = cornerRadiusPx + arrowSize
+                                val maxSafeY = (size.height - cornerRadiusPx - arrowSize).coerceAtLeast(minSafeY)
+                                val yCenter = (arrowYProvider?.invoke(size.height) ?: (size.height / 2)).coerceIn(minSafeY, maxSafeY)
 
-                            val path = Path()
+                                val path = Path()
 
-                            path.moveTo(cornerRadiusPx, 0f)
+                                path.moveTo(cornerRadiusPx, 0f)
 
-                            if (direction == ArrowDirection.TOP) {
-                                path.lineTo(xCenter - arrowSize, 0f)
-                                path.lineTo(xCenter, -arrowSize)
-                                path.lineTo(xCenter + arrowSize, 0f)
+                                if (direction == ArrowDirection.TOP) {
+                                    path.lineTo(xCenter - arrowSize, 0f)
+                                    path.lineTo(xCenter, -arrowSize)
+                                    path.lineTo(xCenter + arrowSize, 0f)
+                                }
+                                path.lineTo(size.width - cornerRadiusPx, 0f)
+
+                                path.quadraticTo(size.width, 0f, size.width, cornerRadiusPx)
+
+                                if (direction == ArrowDirection.RIGHT) {
+                                    path.lineTo(size.width, yCenter - arrowSize)
+                                    path.lineTo(size.width + arrowSize, yCenter)
+                                    path.lineTo(size.width, yCenter + arrowSize)
+                                }
+                                path.lineTo(size.width, size.height - cornerRadiusPx)
+
+                                path.quadraticTo(size.width, size.height, size.width - cornerRadiusPx, size.height)
+
+                                if (direction == ArrowDirection.BOTTOM) {
+                                    path.lineTo(xCenter + arrowSize, size.height)
+                                    path.lineTo(xCenter, size.height + arrowSize)
+                                    path.lineTo(xCenter - arrowSize, size.height)
+                                }
+                                path.lineTo(cornerRadiusPx, size.height)
+
+                                path.quadraticTo(0f, size.height, 0f, size.height - cornerRadiusPx)
+
+                                if (direction == ArrowDirection.LEFT) {
+                                    path.lineTo(0f, yCenter + arrowSize)
+                                    path.lineTo(-arrowSize, yCenter)
+                                    path.lineTo(0f, yCenter - arrowSize)
+                                }
+                                path.lineTo(0f, cornerRadiusPx)
+
+                                path.quadraticTo(0f, 0f, cornerRadiusPx, 0f)
+
+                                path.close()
+                                drawPath(path, backgroundColor)
                             }
-                            path.lineTo(size.width - cornerRadiusPx, 0f)
-
-                            path.quadraticTo(size.width, 0f, size.width, cornerRadiusPx)
-
-                            if (direction == ArrowDirection.RIGHT) {
-                                path.lineTo(size.width, yCenter - arrowSize)
-                                path.lineTo(size.width + arrowSize, yCenter)
-                                path.lineTo(size.width, yCenter + arrowSize)
-                            }
-                            path.lineTo(size.width, size.height - cornerRadiusPx)
-
-                            path.quadraticTo(size.width, size.height, size.width - cornerRadiusPx, size.height)
-
-                            if (direction == ArrowDirection.BOTTOM) {
-                                path.lineTo(xCenter + arrowSize, size.height)
-                                path.lineTo(xCenter, size.height + arrowSize)
-                                path.lineTo(xCenter - arrowSize, size.height)
-                            }
-                            path.lineTo(cornerRadiusPx, size.height)
-
-                            path.quadraticTo(0f, size.height, 0f, size.height - cornerRadiusPx)
-
-                            if (direction == ArrowDirection.LEFT) {
-                                path.lineTo(0f, yCenter + arrowSize)
-                                path.lineTo(-arrowSize, yCenter)
-                                path.lineTo(0f, yCenter - arrowSize)
-                            }
-                            path.lineTo(0f, cornerRadiusPx)
-
-                            path.quadraticTo(0f, 0f, cornerRadiusPx, 0f)
-
-                            path.close()
-                            drawPath(path, backgroundColor)
-                        }
-                        .padding(12.dp)
+                            .padding(12.dp),
                 ) {
                     Text(
                         text = text,
                         color = textColor,
                         fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
                     )
                 }
             }
@@ -132,7 +137,7 @@ fun OnboardingPointerTopPreview() {
             OnboardingPointer(
                 text = "Clique aqui para gerenciar as tags!",
                 direction = ArrowDirection.TOP,
-                offset = IntOffset(0, 100)
+                offset = IntOffset(0, 100),
             )
         }
     }
@@ -146,7 +151,7 @@ fun OnboardingPointerBottomPreview() {
             OnboardingPointer(
                 text = "Sincronize seus dados com a nuvem",
                 direction = ArrowDirection.BOTTOM,
-                offset = IntOffset(0, 50)
+                offset = IntOffset(0, 50),
             )
         }
     }
@@ -160,7 +165,7 @@ fun OnboardingPointerLeftPreview() {
             OnboardingPointer(
                 text = "Menu de navegação lateral",
                 direction = ArrowDirection.LEFT,
-                offset = IntOffset(40, 50)
+                offset = IntOffset(40, 50),
             )
         }
     }
@@ -174,7 +179,7 @@ fun OnboardingPointerRightPreview() {
             OnboardingPointer(
                 text = "Opções avançadas de filtro",
                 direction = ArrowDirection.RIGHT,
-                offset = IntOffset(-40, 50)
+                offset = IntOffset(-40, 50),
             )
         }
     }

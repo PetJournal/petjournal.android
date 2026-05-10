@@ -74,6 +74,7 @@ import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.Regi
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreenViewModel
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreenViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModel
+import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskListViewModel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskListViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenTutor.config.notifyScreen.SettingsViewModel
@@ -103,7 +104,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen.viewmodel.RegisterTaskViewModelImpl
 import java.util.concurrent.TimeUnit
 
 val mainModule =
@@ -190,7 +190,7 @@ val mainModule =
         single {
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
-            
+
             OkHttpClient.Builder()
                 .addInterceptor(timeoutObserverInterceptor)
                 .addInterceptor(logging)
@@ -211,7 +211,6 @@ val mainModule =
 
         viewModel<HomeScreenViewModel> {
             HomeScreenViewModelImpl(
-                get(),
                 get(),
                 get(),
                 get(),
@@ -269,7 +268,7 @@ val mainModule =
                 get(),
                 get(),
                 get(),
-                androidContext()
+                androidContext(),
             )
         }
         viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get()) }

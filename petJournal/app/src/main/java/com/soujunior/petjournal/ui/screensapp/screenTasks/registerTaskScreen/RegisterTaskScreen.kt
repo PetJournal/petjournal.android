@@ -386,7 +386,7 @@ fun RegisterTaskScreen(
                         description = "As tags ajudam você a separar tarefas de Saúde, Lazer e muito mais. Vamos aprender a gerenciá-las?",
                         buttonText = "Começar Tutorial",
                         onNext = { showIntroDialog = false },
-                        onDismiss = { viewModel.onEvent(RegisterTaskEvent.OnDismissTagOnboarding) }
+                        onDismiss = { viewModel.onEvent(RegisterTaskEvent.OnDismissTagOnboarding) },
                     )
                 }
             },
@@ -560,17 +560,18 @@ fun Button3SaveTaskPreview() {
 fun TagOnboardingDialogPreview() {
     PetJournalTheme {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+            contentAlignment = Alignment.Center,
         ) {
             TagOnboardingDialog(
                 title = "Organize com Tags!",
                 description = "As tags ajudam você a separar tarefas de Saúde, Lazer e muito mais. Vamos aprender a gerenciá-las?",
                 buttonText = "Começar Tutorial",
-                onNext = {  },
-                onDismiss = {  }
+                onNext = { },
+                onDismiss = { },
             )
         }
     }
@@ -581,9 +582,10 @@ fun TagOnboardingDialogPreview() {
 fun GroupSelectableButtonOnboardingPreview() {
     PetJournalTheme {
         Box(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.onPrimary)
-                .padding(16.dp)
+            modifier =
+                Modifier
+                    .background(MaterialTheme.colorScheme.onPrimary)
+                    .padding(16.dp),
         ) {
             GroupSelectableButton(
                 listOfTags = listOfTasks,

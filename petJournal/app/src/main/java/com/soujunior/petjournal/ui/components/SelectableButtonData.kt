@@ -80,10 +80,11 @@ fun ManageTagsDialog(
 
     Dialog(
         onDismissRequest = { if (isUnlocked) onDismiss() },
-        properties = DialogProperties(
-            dismissOnBackPress = isUnlocked,
-            dismissOnClickOutside = isUnlocked
-        )
+        properties =
+            DialogProperties(
+                dismissOnBackPress = isUnlocked,
+                dismissOnClickOutside = isUnlocked,
+            ),
     ) {
         Surface(
             shape = RoundedCornerShape(16.dp),
@@ -122,7 +123,7 @@ fun ManageTagsDialog(
                                 editingTag = null
                             }
                         },
-                        step = step
+                        step = step,
                     )
                 } else {
                     Column {
@@ -144,9 +145,10 @@ fun ManageTagsDialog(
                                 isFormScreen = true
                                 onCreateClick()
                             },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .then(if (step == TagOnboardingStep.MANAGE_LIST) Modifier.pulseEffect() else Modifier),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .then(if (step == TagOnboardingStep.MANAGE_LIST) Modifier.pulseEffect() else Modifier),
                         ) {
                             Text("Criar Nova Tag")
                         }
@@ -154,7 +156,7 @@ fun ManageTagsDialog(
                             OnboardingPointer(
                                 text = "Click para criar uma tag",
                                 direction = ArrowDirection.BOTTOM,
-                                offset = IntOffset(0, with(LocalDensity.current) { (-50).sdp.toPx().toInt() })
+                                offset = IntOffset(0, with(LocalDensity.current) { (-50).sdp.toPx().toInt() }),
                             )
                         }
                     }
@@ -246,7 +248,7 @@ fun TagForm(
                 OnboardingPointer(
                     text = "Digite pelo menos 4 caracteres",
                     direction = ArrowDirection.BOTTOM,
-                    offset = IntOffset(0, with(LocalDensity.current) { (-50).sdp.toPx().toInt() })
+                    offset = IntOffset(0, with(LocalDensity.current) { (-50).sdp.toPx().toInt() }),
                 )
             }
         }
@@ -291,7 +293,7 @@ fun TagForm(
                 OnboardingPointer(
                     text = "Escolha uma cor para a tag",
                     direction = ArrowDirection.BOTTOM,
-                    offset = IntOffset(0, with(LocalDensity.current) { (-50).sdp.toPx().toInt() })
+                    offset = IntOffset(0, with(LocalDensity.current) { (-50).sdp.toPx().toInt() }),
                 )
             }
         }
@@ -315,7 +317,15 @@ fun TagForm(
                         }
                     },
                     enabled = name.length >= 4,
-                    modifier = if (step == TagOnboardingStep.CREATE_FORM && name.length >= 4 && colorClicked) Modifier.pulseEffect() else Modifier
+                    modifier =
+                        if (
+                            step == TagOnboardingStep.CREATE_FORM && name.length >= 4 &&
+                            colorClicked
+                        ) {
+                            Modifier.pulseEffect()
+                        } else {
+                            Modifier
+                        },
                 ) {
                     Text("Salvar")
                 }
@@ -323,7 +333,7 @@ fun TagForm(
                     OnboardingPointer(
                         text = "Click para salvar",
                         direction = ArrowDirection.BOTTOM,
-                        offset = IntOffset(0, with(LocalDensity.current) { (-50).sdp.toPx().toInt() })
+                        offset = IntOffset(0, with(LocalDensity.current) { (-50).sdp.toPx().toInt() }),
                     )
                 }
             }
@@ -446,7 +456,7 @@ fun GroupSelectableButton(
             onDismiss = { showManageTagsDialog = false },
             onAction = onAction,
             step = step,
-            onCreateClick = onCreateTagClick
+            onCreateClick = onCreateTagClick,
         )
     }
 
@@ -484,10 +494,11 @@ fun GroupSelectableButton(
                             arrowYProvider = { height ->
                                 height - with(density) { (12.dp - 8.dp).toPx() }
                             },
-                            offset = IntOffset(
-                                x = with(density) { -(24.sdp.toPx().toInt() + 10.dp.toPx().toInt()) },
-                                y = 0
-                            )
+                            offset =
+                                IntOffset(
+                                    x = with(density) { -(24.sdp.toPx().toInt() + 10.dp.toPx().toInt()) },
+                                    y = 0,
+                                ),
                         )
                     }
                     Surface(
@@ -497,7 +508,7 @@ fun GroupSelectableButton(
                                 .size(24.sdp)
                                 .then(if (step == TagOnboardingStep.INTRO && !isIntroClicked) Modifier.pulseEffect() else Modifier)
                                 .clickable {
-                                    isIntroClicked = true 
+                                    isIntroClicked = true
                                     onAddClick()
                                     showManageTagsDialog = true
                                 },
@@ -554,7 +565,7 @@ fun GroupSelectableButton(
 @Preview(showBackground = true)
 @Composable
 fun SelectableButtonPreview() {
-    MaterialTheme{
+    MaterialTheme {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -591,7 +602,7 @@ fun GroupSelectableButtonPreview() {
             SelectableButtonInfo("2", "Casa", Color.Green),
             SelectableButtonInfo("3", "Estudo", Color.Blue),
         )
-    MaterialTheme{
+    MaterialTheme {
         Column(modifier = Modifier.padding(16.dp)) {
             GroupSelectableButton(
                 step = TagOnboardingStep.IDLE,
@@ -608,7 +619,7 @@ fun GroupSelectableButtonPreview() {
 @Preview(showBackground = true)
 @Composable
 fun TagFormPreview() {
-    MaterialTheme{
+    MaterialTheme {
         Box(modifier = Modifier.padding(16.dp)) {
             TagForm(
                 tagToEdit = null,
@@ -628,7 +639,7 @@ fun TagListPreview() {
             SelectableButtonInfo("2", "Tag 2", Color.Green),
             SelectableButtonInfo("3", "Tag 3", Color.Blue),
         )
-    MaterialTheme{
+    MaterialTheme {
         Box(modifier = Modifier.padding(16.dp)) {
             TagList(tags = tags, onEdit = {}, onDelete = {})
         }
@@ -656,10 +667,11 @@ fun ManageTagsDialogPreview() {
 @Preview(showBackground = true, name = "Group Button - Onboarding Intro")
 @Composable
 fun GroupSelectableButtonOnboardingIntroPreview() {
-    val tags = listOf(
-        SelectableButtonInfo("1", "Vacinas", Color(0xFFE57373)),
-        SelectableButtonInfo("2", "Consultas", Color(0xFF64B5F6))
-    )
+    val tags =
+        listOf(
+            SelectableButtonInfo("1", "Vacinas", Color(0xFFE57373)),
+            SelectableButtonInfo("2", "Consultas", Color(0xFF64B5F6)),
+        )
     MaterialTheme {
         Box(modifier = Modifier.padding(16.dp)) {
             GroupSelectableButton(
@@ -670,7 +682,7 @@ fun GroupSelectableButtonOnboardingIntroPreview() {
                 onAddClick = {},
                 onCreateTagClick = {},
                 onSelection = {},
-                onAction = {}
+                onAction = {},
             )
         }
     }

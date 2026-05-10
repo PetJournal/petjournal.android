@@ -127,7 +127,8 @@ class AndroidTaskScheduler(private val context: Context) : TaskReminderScheduler
                         parsed
                     } else {
                         // Se não tem timezone, assume que é o horário local que o usuário escolheu
-                        val parsed = LocalDateTime.parse(startStr).atZone(zoneId).toInstant()
+                        val normalizedStr = if (startStr.contains("T")) startStr else "${startStr}T00:00:00"
+                        val parsed = LocalDateTime.parse(normalizedStr).atZone(zoneId).toInstant()
                         Log.d("TaskScheduler", "   [PARSE] Data sem fuso horário detectado. Assumindo Local. Instant: $parsed")
                         parsed
                     }

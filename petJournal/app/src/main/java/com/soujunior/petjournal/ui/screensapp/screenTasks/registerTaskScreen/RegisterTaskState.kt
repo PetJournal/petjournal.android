@@ -11,7 +11,7 @@ enum class TagOnboardingStep {
     INTRO,
     MANAGE_LIST,
     CREATE_FORM,
-    COMPLETED
+    COMPLETED,
 }
 
 data class RegisterTaskState(

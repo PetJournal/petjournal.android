@@ -7,16 +7,16 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.tag.TagModel
+import com.soujunior.domain.repository.PreferenceRepository
+import com.soujunior.domain.use_case.base.DataResult
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV2
 import com.soujunior.domain.use_case.tag.CreateTagUseCase
 import com.soujunior.domain.use_case.tag.DeleteTagUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.tag.UpdateTagUseCase
+import com.soujunior.domain.use_case.task.CreateTaskParams
 import com.soujunior.domain.use_case.task.CreateTaskUseCase
 import com.soujunior.domain.use_case.task.GetLocalTasksByPeriodUseCase
-import com.soujunior.domain.repository.PreferenceRepository
-import com.soujunior.domain.use_case.base.DataResult
-import com.soujunior.domain.use_case.task.CreateTaskParams
 import com.soujunior.domain.use_case.util.TaskDateCalculator
 import com.soujunior.domain.use_case.util.TaskPeriod
 import com.soujunior.petjournal.infrastructure.worker.SyncTasksWorker
@@ -59,7 +59,7 @@ class RegisterTaskViewModelImpl(
     private val _state = MutableStateFlow(RegisterTaskState())
     override val state: MutableStateFlow<RegisterTaskState> get() = _state
 
-    private val ALWAYS_SHOW_ONBOARDING = true
+    private val alwaysShowOnboarding = false
 
     override val validationEvents = emptyFlow<ValidationEvent>()
 
@@ -72,25 +72,27 @@ class RegisterTaskViewModelImpl(
 
     private fun checkTagOnboarding() {
         viewModelScope.launch {
-            if (ALWAYS_SHOW_ONBOARDING) {
+            if (alwaysShowOnboarding) {
                 _state.update { it.copy(tagOnboardingStep = TagOnboardingStep.INTRO) }
                 return@launch
             }
 
             val isTagTutorialCompleted = preferenceRepository.isTagTutorialCompleted()
-            
-            val result = getLocalTasksByPeriodUseCase.execute(
-                GetLocalTasksByPeriodUseCase.Input(
-                    startAt = LocalDate.now().minusMonths(1).atStartOfDay().toString(),
-                    endAt = LocalDate.now().plusDays(1).atStartOfDay().toString(),
-                    considerTime = false
+
+            val result =
+                getLocalTasksByPeriodUseCase.execute(
+                    GetLocalTasksByPeriodUseCase.Input(
+                        startAt = LocalDate.now().minusMonths(1).atStartOfDay().toString(),
+                        endAt = LocalDate.now().plusDays(1).atStartOfDay().toString(),
+                        considerTime = false,
+                    ),
                 )
-            )
-            
-            val hasTasks = when(result) {
-                is DataResult.Success -> result.data.data.isNotEmpty()
-                else -> false
-            }
+
+            val hasTasks =
+                when (result) {
+                    is DataResult.Success -> result.data.data.isNotEmpty()
+                    else -> false
+                }
 
             if (!isTagTutorialCompleted && !hasTasks) {
                 _state.update { it.copy(tagOnboardingStep = TagOnboardingStep.INTRO) }
@@ -176,16 +178,17 @@ class RegisterTaskViewModelImpl(
                 }
             }
             is RegisterTaskEvent.OnNextTagOnboardingStep -> {
-                val nextStep = when (state.value.tagOnboardingStep) {
-                    TagOnboardingStep.IDLE -> TagOnboardingStep.IDLE
-                    TagOnboardingStep.INTRO -> TagOnboardingStep.MANAGE_LIST
-                    TagOnboardingStep.MANAGE_LIST -> TagOnboardingStep.CREATE_FORM
-                    TagOnboardingStep.CREATE_FORM -> {
-                        viewModelScope.launch { preferenceRepository.setTagTutorialCompleted(true) }
-                        TagOnboardingStep.COMPLETED
+                val nextStep =
+                    when (state.value.tagOnboardingStep) {
+                        TagOnboardingStep.IDLE -> TagOnboardingStep.IDLE
+                        TagOnboardingStep.INTRO -> TagOnboardingStep.MANAGE_LIST
+                        TagOnboardingStep.MANAGE_LIST -> TagOnboardingStep.CREATE_FORM
+                        TagOnboardingStep.CREATE_FORM -> {
+                            viewModelScope.launch { preferenceRepository.setTagTutorialCompleted(true) }
+                            TagOnboardingStep.COMPLETED
+                        }
+                        TagOnboardingStep.COMPLETED -> TagOnboardingStep.COMPLETED
                     }
-                    TagOnboardingStep.COMPLETED -> TagOnboardingStep.COMPLETED
-                }
                 _state.update { it.copy(tagOnboardingStep = nextStep) }
             }
             is RegisterTaskEvent.OnDismissTagOnboarding -> {
