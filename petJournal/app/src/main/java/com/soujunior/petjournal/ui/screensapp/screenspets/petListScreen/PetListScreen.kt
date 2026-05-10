@@ -17,6 +17,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -120,114 +122,129 @@ fun PetListScreen(navController: NavController) {
                 )
             },
             contentToUse = { paddingValues ->
-                if (taskState is TaskState.Loading) {
-                    Column(
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .background(MaterialTheme.colorScheme.onPrimary)
-                                .padding(paddingValues),
-                        horizontalAlignment = CenterHorizontally,
-                    ) {
-                        Box(
+                val showShimmer = taskState is TaskState.Loading && state.value.listPets.isEmpty()
+                
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .pullRefresh(pullRefreshState)
+                ) {
+                    if (showShimmer) {
+                        Column(
                             modifier =
                                 Modifier
-                                    .padding(top = 20.sdp, bottom = 20.sdp)
-                                    .size(width = 200.sdp, height = 24.sdp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .shimmerEffect(),
-                        )
-
-                        LazyVerticalGrid(
-                            modifier = Modifier.fillMaxWidth(),
-                            columns = GridCells.Fixed(2),
-                            horizontalArrangement = Arrangement.Center,
+                                    .fillMaxSize()
+                                    .background(MaterialTheme.colorScheme.onPrimary)
+                                    .padding(paddingValues),
+                            horizontalAlignment = CenterHorizontally,
                         ) {
-                            items(6) {
-                                Column(
-                                    modifier = Modifier.fillMaxSize(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center,
-                                ) {
-                                    Box(
-                                        modifier =
-                                            Modifier
-                                                .size(108.sdp)
-                                                .clip(RoundedCornerShape(16.sdp))
-                                                .shimmerEffect(),
-                                    )
-                                    Box(
-                                        modifier =
-                                            Modifier
-                                                .padding(top = 8.sdp)
-                                                .size(width = 80.sdp, height = 16.sdp)
-                                                .clip(RoundedCornerShape(4.dp))
-                                                .shimmerEffect(),
-                                    )
-                                    Spacer(Modifier.padding(bottom = 24.sdp))
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    TrailBack()
+                            Box(
+                                modifier =
+                                    Modifier
+                                        .padding(top = 20.sdp, bottom = 20.sdp)
+                                        .size(width = 200.sdp, height = 24.sdp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .shimmerEffect(),
+                            )
 
-                    Column(
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .background(MaterialTheme.colorScheme.onPrimary)
-                                .padding(paddingValues),
-                        horizontalAlignment = CenterHorizontally,
-                    ) {
-                        Text(
-                            text = stringResource(R.string.which_pet_do_you_want_to_see),
-                            modifier = Modifier.padding(top = 20.sdp, bottom = 20.sdp),
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                        LazyVerticalGrid(
-                            modifier = Modifier.fillMaxWidth(),
-                            columns = GridCells.Fixed(2),
-                            horizontalArrangement = Arrangement.Center,
-                        ) {
-                            items(state.value.listPets) { pet ->
-                                Box(contentAlignment = Alignment.Center) {
-                                    PetItem(
-                                        imageRes = pet.image ?: "",
-                                        name = pet.petName ?: "",
-                                        onClick = {
-                                            navController.navigate("pets/registerPet/${pet.idPet}")
-                                        },
-                                        onLongClick = {
-                                            expandedMenuPetId = pet.idPet
-                                        },
-                                    )
-                                    DropdownMenu(
-                                        expanded = expandedMenuPetId == pet.idPet,
-                                        onDismissRequest = { expandedMenuPetId = null },
+                            LazyVerticalGrid(
+                                modifier = Modifier.fillMaxSize(),
+                                columns = GridCells.Fixed(2),
+                                horizontalArrangement = Arrangement.Center,
+                            ) {
+                                items(6) {
+                                    Column(
+                                        modifier = Modifier.fillMaxSize(),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center,
                                     ) {
-                                        DropdownMenuItem(
-                                            text = { Text("Apagar") },
-                                            onClick = {
-                                                expandedMenuPetId = null
-                                                pet.idPet?.let {
-                                                    viewModel.deletePetById(it)
-                                                }
-                                            },
+                                        Box(
+                                            modifier =
+                                                Modifier
+                                                    .size(108.sdp)
+                                                    .clip(RoundedCornerShape(16.sdp))
+                                                    .shimmerEffect(),
                                         )
+                                        Box(
+                                            modifier =
+                                                Modifier
+                                                    .padding(top = 8.sdp)
+                                                    .size(width = 80.sdp, height = 16.sdp)
+                                                    .clip(RoundedCornerShape(4.dp))
+                                                    .shimmerEffect(),
+                                        )
+                                        Spacer(Modifier.padding(bottom = 24.sdp))
                                     }
                                 }
                             }
-                            item {
-                                PetItemMore(
-                                    onClick = {
-                                        navController.navigate("pets/registerPet")
-                                    },
-                                )
+                        }
+                    } else {
+                        TrailBack()
+
+                        Column(
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .background(MaterialTheme.colorScheme.onPrimary)
+                                    .padding(paddingValues),
+                            horizontalAlignment = CenterHorizontally,
+                        ) {
+                            Text(
+                                text = stringResource(R.string.which_pet_do_you_want_to_see),
+                                modifier = Modifier.padding(top = 20.sdp, bottom = 20.sdp),
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onSurface,
+                            )
+                            LazyVerticalGrid(
+                                modifier = Modifier.fillMaxSize(),
+                                columns = GridCells.Fixed(2),
+                                horizontalArrangement = Arrangement.Center,
+                            ) {
+                                items(state.value.listPets) { pet ->
+                                    Box(contentAlignment = Alignment.Center) {
+                                        PetItem(
+                                            imageRes = pet.image ?: "",
+                                            name = pet.petName ?: "",
+                                            onClick = {
+                                                navController.navigate("pets/registerPet/${pet.idPet}")
+                                            },
+                                            onLongClick = {
+                                                expandedMenuPetId = pet.idPet
+                                            },
+                                        )
+                                        DropdownMenu(
+                                            expanded = expandedMenuPetId == pet.idPet,
+                                            onDismissRequest = { expandedMenuPetId = null },
+                                        ) {
+                                            DropdownMenuItem(
+                                                text = { Text("Apagar") },
+                                                onClick = {
+                                                    expandedMenuPetId = null
+                                                    pet.idPet?.let {
+                                                        viewModel.deletePetById(it)
+                                                    }
+                                                },
+                                            )
+                                        }
+                                    }
+                                }
+                                item {
+                                    PetItemMore(
+                                        onClick = {
+                                            navController.navigate("pets/registerPet")
+                                        },
+                                    )
+                                }
                             }
                         }
                     }
+                    PullRefreshIndicator(
+                        refreshing = isRefreshing,
+                        state = pullRefreshState,
+                        modifier = Modifier
+                            .align(Alignment.TopCenter)
+                            .padding(paddingValues)
+                    )
                 }
             },
         )
