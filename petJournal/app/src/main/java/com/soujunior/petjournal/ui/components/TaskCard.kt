@@ -159,8 +159,8 @@ fun TaskCard(
                                                 ) {
                                                     PetItem(
                                                         modifier = Modifier,
-                                                        imageRes = "",
-                                                        name = "",
+                                                        imageRes = pet.image?: "",
+                                                        name = pet.petName?: "",
                                                         onClick = {},
                                                     )
                                                 }

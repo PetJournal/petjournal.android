@@ -1,3 +1,14 @@
+import java.util.Properties
+import java.io.FileInputStream
+
+val appVersionCode = project.findProperty("versionCode")?.toString()?.toInt() ?: 6
+val appVersionName = project.findProperty("versionName")?.toString() ?: "1.0.6"
+val keystorePropertiesFile = rootProject.file("../key.properties")
+val keystoreProperties = Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -82,12 +93,21 @@ android {
     namespace = "com.soujunior.petjournal"
     compileSdk = 35
 
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String?
+            keyPassword = keystoreProperties["keyPassword"] as String?
+            storeFile = keystoreProperties["storeFile"]?.let { file(it) }
+            storePassword = keystoreProperties["storePassword"] as String?
+        }
+    }
+
     defaultConfig {
         applicationId = "com.soujunior.petjournal"
         minSdk = 27
         targetSdk = 35
-        versionCode = 6
-        versionName = "1.0.6"
+        versionCode = appVersionCode
+        versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -101,7 +121,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
