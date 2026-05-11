@@ -233,21 +233,23 @@ fun HomeScreen(navController: NavController) {
                                 }
                             }
                         }
-
-                        item {
-                            TagSection(
-                                isLoadingListTag = state.isLoadingListTag,
-                                listTag = state.listTag,
-                                hasErrorOnListTag = state.hasErrorOnListTag,
-                                onReload = { viewModel.onEvent(HomeEvent.ReloadListTag) },
-                                onTagClick = { tagId ->
-                                    when (tagId) {
-                                        "all_tags_option" -> showSheet = true
-                                        else -> Log.e(TAG, "Tag clicada: $tagId")
-                                    }
-                                },
-                            )
-                        }
+/**
+ * Esse topico esta pronto, porem, ainda nao tem utilidade
+ * */
+//                        item {
+//                            TagSection(
+//                                isLoadingListTag = state.isLoadingListTag,
+//                                listTag = state.listTag,
+//                                hasErrorOnListTag = state.hasErrorOnListTag,
+//                                onReload = { viewModel.onEvent(HomeEvent.ReloadListTag) },
+//                                onTagClick = { tagId ->
+//                                    when (tagId) {
+//                                        "all_tags_option" -> showSheet = true
+//                                        else -> Log.e(TAG, "Tag clicada: $tagId")
+//                                    }
+//                                },
+//                            )
+//                        }
                     }
 
                     PullRefreshIndicator(

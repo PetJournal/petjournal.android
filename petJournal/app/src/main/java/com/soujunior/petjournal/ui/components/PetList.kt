@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BrokenImage
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -34,9 +33,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -129,15 +128,17 @@ fun PetList(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center,
                             ) {
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Image(
-                                        painter = rememberVectorPainter(image = Icons.Default.BrokenImage),
-                                        contentDescription = "Pet ausente",
-                                        modifier = Modifier.size(40.sdp),
-                                        contentScale = ContentScale.Fit,
-                                        alpha = 0.6f,
-                                    )
+                                val placeholderRes = if (pet.species?.lowercase()?.contains("gato") == true) {
+                                    R.drawable.cat_profile
+                                } else {
+                                    R.drawable.dog_profile
                                 }
+                                Image(
+                                    painter = painterResource(id = placeholderRes),
+                                    contentDescription = "Placeholder do pet",
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = ContentScale.Crop,
+                                )
                             }
                         } else {
                             Box(modifier = Modifier.fillMaxSize()) {
@@ -173,11 +174,16 @@ fun PetList(
                                         modifier = Modifier.fillMaxSize(),
                                         contentAlignment = Alignment.Center,
                                     ) {
+                                        val errorPlaceholderRes = if (pet.species?.lowercase()?.contains("gato") == true) {
+                                            R.drawable.cat_profile
+                                        } else {
+                                            R.drawable.dog_profile
+                                        }
                                         Image(
-                                            painter = rememberVectorPainter(image = Icons.Default.BrokenImage),
+                                            painter = painterResource(id = errorPlaceholderRes),
                                             contentDescription = "Erro ao carregar imagem",
-                                            modifier = Modifier.size(48.sdp),
-                                            contentScale = ContentScale.Fit,
+                                            modifier = Modifier.fillMaxSize(),
+                                            contentScale = ContentScale.Crop,
                                         )
                                     }
                                 }

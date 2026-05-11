@@ -211,6 +211,7 @@ fun PetListScreen(navController: NavController) {
                                         PetItem(
                                             imageRes = pet.image ?: "",
                                             name = pet.petName ?: "",
+                                            species = pet.species,
                                             onClick = {
                                                 navController.navigate("pets/registerPet/${pet.idPet}")
                                             },

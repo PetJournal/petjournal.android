@@ -31,9 +31,15 @@ fun PetItem(
     modifier: Modifier = Modifier,
     imageRes: String,
     name: String,
+    species: String? = null,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
 ) {
+    val placeholderRes = if (species?.lowercase()?.contains("gato") == true) {
+        R.drawable.cat_profile
+    } else {
+        R.drawable.dog_profile
+    }
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,8 +64,8 @@ fun PetItem(
                 )
             } else {
                 Image(
-                    painter = painterResource(id = R.drawable.icon_dog),
-                    contentDescription = "image description",
+                    painter = painterResource(id = placeholderRes),
+                    contentDescription = "Placeholder do pet",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize(),
                 )
@@ -80,5 +86,5 @@ fun PetItem(
 @Preview
 @Composable
 private fun previewPetItem() {
-    PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {}, onLongClick = {})
+    PetItem(modifier = Modifier, imageRes = "", name = "", species = "Cachorro", onClick = {}, onLongClick = {})
 }
