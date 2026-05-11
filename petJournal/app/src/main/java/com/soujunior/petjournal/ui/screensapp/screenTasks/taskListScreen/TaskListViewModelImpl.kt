@@ -20,13 +20,13 @@ class TaskListViewModelImpl(
     private val getListCurrentWeekTaskUseCase: GetListCurrentWeekTaskUseCase,
     private val getListCurrentMonthTaskUseCase: GetListCurrentMonthTaskUseCase,
 ) : TaskListViewModel() {
-    private val _state = MutableStateFlow(TaskListState(isLoading = true))
+    private val _state = MutableStateFlow(TaskListState(isLoading = false))
     override val state: StateFlow<TaskListState> = _state.asStateFlow()
 
     override val validationEventChannel = Channel<ValidationEvent>()
 
     init {
-        onEvent(TaskListEvent.OnDateFilterChange(DateFilter.DAILY))
+        loadTasks(filter = DateFilter.DAILY, forceRequest = false, isSilent = false)
     }
 
     override fun success(name: GuardianNameResponse) {
@@ -43,26 +43,33 @@ class TaskListViewModelImpl(
 
     override fun onEvent(event: TaskListEvent) {
         when (event) {
-            is TaskListEvent.OnDateFilterChange -> loadTasks(event.dateFilter)
-            is TaskListEvent.OnRefresh -> loadTasks(_state.value.selectedDateFilter, true)
-            is TaskListEvent.AddTaskButton -> {
-                // To be implemented using Navigation
-            }
+            is TaskListEvent.OnDateFilterChange -> loadTasks(event.dateFilter, isSilent = false)
+            is TaskListEvent.OnRefresh -> loadTasks(_state.value.selectedDateFilter, forceRequest = true, isSilent = false)
+            is TaskListEvent.AddTaskButton -> { /* ... */ }
         }
+    }
+
+    override fun onResume() {
+        loadTasks(_state.value.selectedDateFilter, forceRequest = false, isSilent = true)
     }
 
     private fun loadTasks(
         filter: DateFilter,
         forceRequest: Boolean = false,
+        isSilent: Boolean = false
     ) {
-        _state.update { it.copy(isLoading = true, error = null, selectedDateFilter = filter) }
+        if (!isSilent) {
+            _state.update { it.copy(isLoading = true, error = null, selectedDateFilter = filter) }
+        } else {
+            _state.update { it.copy(error = null, selectedDateFilter = filter) }
+        }
+
         viewModelScope.launch {
-            val result =
-                when (filter) {
-                    DateFilter.DAILY -> getListCurrentDateTaskUseCase.execute(forceRequest)
-                    DateFilter.WEEKLY -> getListCurrentWeekTaskUseCase.execute(forceRequest)
-                    DateFilter.MONTHLY -> getListCurrentMonthTaskUseCase.execute(forceRequest)
-                }
+            val result = when (filter) {
+                DateFilter.DAILY -> getListCurrentDateTaskUseCase.execute(forceRequest)
+                DateFilter.WEEKLY -> getListCurrentWeekTaskUseCase.execute(forceRequest)
+                DateFilter.MONTHLY -> getListCurrentMonthTaskUseCase.execute(forceRequest)
+            }
 
             result.handleResult({ value: PaginatedScheduleResponseModel ->
                 _state.update {

@@ -27,11 +27,14 @@ class PetListViewModelImpl(
     override val taskState: StateFlow<TaskState> = _taskState
 
     init {
-        getPetList()
+        getPetList(forceRequest = false, isSilent = false)
     }
 
-    private fun getPetList(forceRequest: Boolean = false) {
-        _taskState.value = TaskState.Loading
+    private fun getPetList(forceRequest: Boolean = false, isSilent: Boolean = false) {
+        if (!isSilent) {
+            _taskState.value = TaskState.Loading
+        }
+
         viewModelScope.launch {
             val result = getPetListUseCase.execute(forceRequest)
             result.handleResult({
@@ -43,8 +46,12 @@ class PetListViewModelImpl(
         }
     }
 
+    override fun onResume() {
+        getPetList(forceRequest = false, isSilent = true)
+    }
+
     override fun reload() {
-        getPetList(true)
+        getPetList(forceRequest = true, isSilent = false)
     }
 
     override fun failed(exception: Throwable?) {

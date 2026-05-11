@@ -102,24 +102,26 @@ object Mapper {
     }
 
     fun List<ScheduleDataModel>.toTaskData(): List<TaskData> {
-        return this.map {
-            TaskData(
-                id = it.id ?: "",
-                title = it.scheduler.title ?: "",
-                descriptionResumed = it.scheduler.description ?: "",
-                descriptionCompleted = it.scheduler.note ?: "",
-                startAt = it.start.toFormattedDate(),
-                endAt = "--------",
-                type =
-                    TaskType(
-                        id = it.scheduler.tagId ?: "",
-                        name = it.scheduler.tag.name ?: "",
-                        color = it.scheduler.tag.color.toComposeColor(Color(0xFF000000)),
-                        iconVector = null,
-                    ),
-                pets = it.scheduler.pets,
-            )
-        }
+        return this
+            .sortedBy { it.start.orEmpty() }
+            .map {
+                TaskData(
+                    id = it.id ?: "",
+                    title = it.scheduler.title ?: "",
+                    descriptionResumed = it.scheduler.description ?: "",
+                    descriptionCompleted = it.scheduler.note ?: "",
+                    startAt = it.start.toFormattedDate(),
+                    endAt = "--------",
+                    type =
+                        TaskType(
+                            id = it.scheduler.tagId ?: "",
+                            name = it.scheduler.tag.name ?: "",
+                            color = it.scheduler.tag.color.toComposeColor(Color(0xFF000000)),
+                            iconVector = null,
+                        ),
+                    pets = it.scheduler.pets,
+                )
+            }
     }
 
     fun PaginatedScheduleResponseModel.toListOfTaskData(): List<TaskData> {

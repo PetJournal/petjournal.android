@@ -210,33 +210,33 @@ fun TaskCard(
                             }
                         }
                     }
-
-                    if (expanded) {
-                        Column(
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = 8.sdp, top = 16.sdp),
-                        ) {
-                            Button(
-                                onClick = {},
-                                modifier =
-                                    Modifier
-                                        .width(100.sdp)
-                                        .height(25.sdp)
-                                        .align(Alignment.CenterHorizontally),
-                                border = BorderStroke(1.sdp, Color(0xFF959EA6)),
-                                shape = RoundedCornerShape(50.sdp),
-                                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
-                            ) {
-                                Text(
-                                    text = stringResource(R.string.edit_task),
-                                    style = MaterialTheme.typography.titleSmall,
-                                    color = taskData.type.color ?: Color.Red,
-                                )
-                            }
-                        }
-                    }
+/** Botao de edição foi comentado ja que nao era usado **/
+//                    if (expanded) {
+//                        Column(
+//                            modifier =
+//                                Modifier
+//                                    .fillMaxWidth()
+//                                    .padding(bottom = 8.sdp, top = 16.sdp),
+//                        ) {
+//                            Button(
+//                                onClick = {},
+//                                modifier =
+//                                    Modifier
+//                                        .width(100.sdp)
+//                                        .height(25.sdp)
+//                                        .align(Alignment.CenterHorizontally),
+//                                border = BorderStroke(1.sdp, Color(0xFF959EA6)),
+//                                shape = RoundedCornerShape(50.sdp),
+//                                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
+//                            ) {
+//                                Text(
+//                                    text = stringResource(R.string.edit_task),
+//                                    style = MaterialTheme.typography.titleSmall,
+//                                    color = taskData.type.color ?: Color.Red,
+//                                )
+//                            }
+//                        }
+//                    }
 
                     Box(
                         modifier =

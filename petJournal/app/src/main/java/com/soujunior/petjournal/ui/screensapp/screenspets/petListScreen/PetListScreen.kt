@@ -84,7 +84,7 @@ fun PetListScreen(navController: NavController) {
 
     if (!LocalInspectionMode.current) {
         LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
-            viewModel.reload()
+            viewModel.onResume()
         }
 
         LaunchedEffect(key1 = context) {

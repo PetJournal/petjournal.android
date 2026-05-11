@@ -30,6 +30,10 @@ class FakePetListViewModel() : PetListViewModel() {
         TODO("Not yet implemented")
     }
 
+    override fun onResume() {
+        TODO("Not yet implemented")
+    }
+
     override fun reload() {}
 }
 
@@ -46,5 +50,6 @@ abstract class PetListViewModel : ViewModel() {
 
     abstract fun deletePetById(id: String)
 
+    abstract fun onResume()
     abstract fun reload()
 }
