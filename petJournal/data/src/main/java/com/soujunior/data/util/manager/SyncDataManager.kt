@@ -13,7 +13,6 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 
 class SyncDataManager private constructor(private val context: Context) {
 
-    // Chaves centralizadas para evitar typos
     object SyncKeys {
         val GUARDIAN_NAME = longPreferencesKey("getGuardianName")
         val LIST_TAG = longPreferencesKey("getListTag")
@@ -33,6 +32,20 @@ class SyncDataManager private constructor(private val context: Context) {
         return context.dataStore.data.map { preferences ->
             preferences[key]
         }
+    }
+
+    suspend fun invalidateCache(key: Preferences.Key<Long>) {
+        context.dataStore.edit { preferences ->
+            preferences[key] = 0L
+        }
+    }
+
+    suspend fun invalidateTasksPeriodCache() {
+        invalidateCache(SyncKeys.TASKS_PERIOD)
+    }
+
+    suspend fun invalidateListPetCache() {
+        invalidateCache(SyncKeys.LIST_PET)
     }
 
     companion object {

@@ -119,7 +119,7 @@ class FakeHomeViewModel : HomeScreenViewModel() {
 
 sealed class HomeEvent {
     object ReloadListPet : HomeEvent()
-
+    object SilentRefresh : HomeEvent()
     object ReloadListTag : HomeEvent()
 
     object ReloadAll : HomeEvent()

@@ -11,7 +11,9 @@ import com.soujunior.data.repository.AppInfoDataImpl
 import com.soujunior.data.repository.AuthRepositoryImpl
 import com.soujunior.data.repository.PreferenceRepositoryImpl
 import com.soujunior.data.repository.RepositoryImpl
+import com.soujunior.data.repository.SyncStateRepositoryImpl
 import com.soujunior.domain.repository.PreferenceRepository
+import com.soujunior.domain.repository.SyncStateRepository
 import com.soujunior.domain.repository.api.AuthRepository
 import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.repository.appinfo.AppInfoDatabase
@@ -110,6 +112,7 @@ val mainModule =
     module {
 
         // Repositories
+        single<SyncStateRepository> { SyncStateRepositoryImpl(get()) }
         single<ValidationRepository> { ValidationRepositoryImpl() }
         single<AuthRepository> { AuthRepositoryImpl(get(), get(), get()) }
         single<Repository> { RepositoryImpl(get(), get(), get(), get()) }
@@ -260,6 +263,7 @@ val mainModule =
         viewModel<ViewModelRaceSize> { ViewModelRaceSizeImpl(get(), get(), get(), get(), get()) }
         viewModel<RegisterTaskViewModel> {
             RegisterTaskViewModelImpl(
+                get(),
                 get(),
                 get(),
                 get(),

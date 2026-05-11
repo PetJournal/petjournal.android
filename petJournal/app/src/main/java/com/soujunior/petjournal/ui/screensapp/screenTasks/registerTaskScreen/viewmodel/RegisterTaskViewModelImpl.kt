@@ -8,6 +8,7 @@ import androidx.work.WorkManager
 import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.tag.TagModel
 import com.soujunior.domain.repository.PreferenceRepository
+import com.soujunior.domain.repository.SyncStateRepository
 import com.soujunior.domain.use_case.base.DataResult
 import com.soujunior.domain.use_case.pet.GetListPetUseCaseV2
 import com.soujunior.domain.use_case.tag.CreateTagUseCase
@@ -54,6 +55,7 @@ class RegisterTaskViewModelImpl(
     private val createTaskUseCase: CreateTaskUseCase,
     private val preferenceRepository: PreferenceRepository,
     private val getLocalTasksByPeriodUseCase: GetLocalTasksByPeriodUseCase,
+    private val syncStateRepository: SyncStateRepository,
     private val context: Context,
 ) : RegisterTaskViewModel() {
     private val _state = MutableStateFlow(RegisterTaskState())
@@ -408,6 +410,9 @@ class RegisterTaskViewModelImpl(
                                 .addTag("sync_after_create")
                                 .build()
                         WorkManager.getInstance(context).enqueue(workRequest)
+                        viewModelScope.launch {
+                            syncStateRepository.invalidateTasksCache()
+                        }
                     }
 
                     state.update {
