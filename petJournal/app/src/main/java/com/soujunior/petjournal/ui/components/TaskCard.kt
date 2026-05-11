@@ -162,7 +162,6 @@ fun TaskCard(
                                                         imageRes = "",
                                                         name = "",
                                                         onClick = {},
-                                                        onLongClick = {},
                                                     )
                                                 }
                                             }

@@ -26,21 +26,19 @@ class PetRegisterViewModelImpl(
     private val getListSizeUseCase: GetListSizeUseCase,
     private val getPetUseCase: GetPetByIdUseCase,
 ) : PetRegisterViewModel() {
-    private val _stateUi = MutableStateFlow(StateUI())
-    override val stateUi: StateFlow<StateUI>
-        get() {
-            return _stateUi.asStateFlow()
-        }
+    private val idPetFromRoute: String? = savedStateHandle.get<String>("idPet")
+
+    private val _stateUi = MutableStateFlow(StateUI(idPetSelected = idPetFromRoute))
+    override val stateUi: StateFlow<StateUI> = _stateUi.asStateFlow()
 
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Loading)
     override val taskState: StateFlow<TaskState> = _taskState
 
     init {
-        val idPet: String? = savedStateHandle.get<String>("idPet")
-        if (idPet.isNullOrBlank()) {
-            _taskState.value = TaskState.Idle
+        if (!idPetFromRoute.isNullOrBlank()) {
+            getPetById(idPetFromRoute)
         } else {
-            getPetById(idPet)
+            _taskState.value = TaskState.Idle
         }
     }
 

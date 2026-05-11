@@ -3,6 +3,7 @@ package com.soujunior.petjournal.ui.components
 import android.widget.ImageView
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.R
 import ir.kaaveh.sdpcompose.sdp
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PetItem(
     modifier: Modifier = Modifier,
@@ -33,27 +33,23 @@ fun PetItem(
     name: String,
     species: String? = null,
     onClick: () -> Unit,
-    onLongClick: () -> Unit,
 ) {
     val placeholderRes = if (species?.lowercase()?.contains("gato") == true) {
         R.drawable.cat_profile
     } else {
         R.drawable.dog_profile
     }
+
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         Box(
-            modifier =
-                Modifier
-                    .size(108.sdp)
-                    .clip(RoundedCornerShape(16.sdp))
-                    .combinedClickable(
-                        onClick = onClick,
-                        onLongClick = onLongClick,
-                    ),
+            modifier = Modifier
+                .size(108.sdp)
+                .clip(RoundedCornerShape(16.sdp))
+                .clickable { onClick() },
         ) {
             if (imageRes.isNotEmpty()) {
                 GlideImage(
@@ -85,6 +81,11 @@ fun PetItem(
 
 @Preview
 @Composable
-private fun previewPetItem() {
-    PetItem(modifier = Modifier, imageRes = "", name = "", species = "Cachorro", onClick = {}, onLongClick = {})
+private fun PreviewPetItem() {
+    PetItem(modifier = Modifier,
+        imageRes = "",
+        name = "",
+        species = "Cachorro",
+        onClick = {},
+    )
 }

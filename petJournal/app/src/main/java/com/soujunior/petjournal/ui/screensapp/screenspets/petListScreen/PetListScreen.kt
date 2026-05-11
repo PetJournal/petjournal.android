@@ -213,24 +213,33 @@ fun PetListScreen(navController: NavController) {
                                             name = pet.petName ?: "",
                                             species = pet.species,
                                             onClick = {
-                                                navController.navigate("pets/registerPet/${pet.idPet}")
-                                            },
-                                            onLongClick = {
                                                 expandedMenuPetId = pet.idPet
-                                            },
+                                            }
                                         )
                                         DropdownMenu(
                                             expanded = expandedMenuPetId == pet.idPet,
-                                            onDismissRequest = { expandedMenuPetId = null },
+                                            onDismissRequest = { expandedMenuPetId = null }
                                         ) {
                                             DropdownMenuItem(
-                                                text = { Text("Apagar") },
+                                                text = { Text("Visualizar") },
                                                 onClick = {
                                                     expandedMenuPetId = null
-                                                    pet.idPet?.let {
-                                                        viewModel.deletePetById(it)
-                                                    }
-                                                },
+                                                    navController.navigate("pets/view/${pet.idPet}")
+                                                }
+                                            )
+                                            DropdownMenuItem(
+                                                text = { Text("Editar") },
+                                                onClick = {
+                                                    expandedMenuPetId = null
+                                                    navController.navigate("pets/registerPet/${pet.idPet}")
+                                                }
+                                            )
+                                            DropdownMenuItem(
+                                                text = { Text("Deletar", color = MaterialTheme.colorScheme.error) },
+                                                onClick = {
+                                                    expandedMenuPetId = null
+                                                    pet.idPet?.let { viewModel.deletePetById(it) }
+                                                }
                                             )
                                         }
                                     }
