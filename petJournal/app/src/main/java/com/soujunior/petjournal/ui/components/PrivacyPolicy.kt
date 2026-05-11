@@ -23,7 +23,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.SecureFlagPolicy
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.screens_app.account_manager.registerScreen.state.StatesRegister
+import com.soujunior.petjournal.ui.screensapp.accountmanager.registerScreen.state.StatesRegister
 
 @Composable
 fun PrivacyPolicy() {
@@ -32,11 +32,12 @@ fun PrivacyPolicy() {
     Dialog(
         onDismissRequest = { showPrivacyPolicy.value = false },
         content = { BoxWithPrivacyPolicyText() },
-        properties = DialogProperties(
-            dismissOnClickOutside = true,
-            dismissOnBackPress = true,
-            securePolicy = SecureFlagPolicy.SecureOn
-        )
+        properties =
+            DialogProperties(
+                dismissOnClickOutside = true,
+                dismissOnBackPress = true,
+                securePolicy = SecureFlagPolicy.SecureOn,
+            ),
     )
 }
 
@@ -44,23 +45,24 @@ fun PrivacyPolicy() {
 fun BoxWithPrivacyPolicyText() {
     val showPrivacyPolicy = StatesRegister.showPrivacyPolicy.current
     Column(
-        modifier = Modifier
-            .size(800.dp)
-            .background(MaterialTheme.colorScheme.background)
-            .padding(10.dp),
+        modifier =
+            Modifier
+                .size(800.dp)
+                .background(MaterialTheme.colorScheme.background)
+                .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Top,
     ) {
         Box(
             modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.TopEnd
+            contentAlignment = Alignment.TopEnd,
         ) {
             IconButton(
-                onClick = { showPrivacyPolicy.value = false }
+                onClick = { showPrivacyPolicy.value = false },
             ) {
                 Icon(
                     imageVector = Icons.Default.Close,
-                    contentDescription = "Botão para fechar a caixa"
+                    contentDescription = "Botão para fechar a caixa",
                 )
             }
         }
@@ -68,97 +70,97 @@ fun BoxWithPrivacyPolicyText() {
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_0_title),
-                    style = MaterialTheme.typography.displaySmall
+                    style = MaterialTheme.typography.displaySmall,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_0_text),
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_1_title),
-                    style = MaterialTheme.typography.displaySmall
+                    style = MaterialTheme.typography.displaySmall,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_1_text),
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_2_title),
-                    style = MaterialTheme.typography.displaySmall
+                    style = MaterialTheme.typography.displaySmall,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_2_text),
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_3_title),
-                    style = MaterialTheme.typography.displaySmall
+                    style = MaterialTheme.typography.displaySmall,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_3_text),
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_4_title),
-                    style = MaterialTheme.typography.displaySmall
+                    style = MaterialTheme.typography.displaySmall,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_4_text),
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_5_title),
-                    style = MaterialTheme.typography.displaySmall
+                    style = MaterialTheme.typography.displaySmall,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_5_text),
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_6_title),
-                    style = MaterialTheme.typography.displaySmall
+                    style = MaterialTheme.typography.displaySmall,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_6_text),
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_7_title),
-                    style = MaterialTheme.typography.displaySmall
+                    style = MaterialTheme.typography.displaySmall,
                 )
             }
             item {
                 Text(
                     text = stringResource(id = R.string.privacy_policy_item_7_text),
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
         }

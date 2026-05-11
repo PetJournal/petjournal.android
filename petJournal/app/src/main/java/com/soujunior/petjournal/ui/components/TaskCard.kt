@@ -4,10 +4,12 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,8 +17,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,195 +36,257 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
-import com.soujunior.petjournal.ui.components.data.TaskData
-import com.soujunior.petjournal.ui.components.data.TaskDummyData
+import com.soujunior.petjournal.ui.components.data.TaskFakeData
+import com.soujunior.petjournal.ui.model.TaskData
+import com.soujunior.petjournal.ui.util.shimmerEffect
+import com.soujunior.petjournal.ui.util.toCardFormat
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
+
+@Composable
+fun TaskListItemShimmer() {
+    Column(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        repeat(2) {
+            Box(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(60.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .shimmerEffect(),
+            )
+        }
+    }
+}
 
 @Composable
 fun TaskCard(
-    taskData: TaskData
+    taskData: TaskData,
+    modifier: Modifier = Modifier,
+    expandValue: Boolean = false,
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by rememberSaveable(taskData.id) { mutableStateOf(expandValue) }
 
     Box(
-        modifier = Modifier.clip(RectangleShape)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clip(RectangleShape),
     ) {
         Surface(
-            shape = RoundedCornerShape(8.sdp),
+            shape = RoundedCornerShape(10.sdp),
             tonalElevation = 2.dp,
-            modifier = Modifier
-                .padding(2.sdp)
-                .animateContentSize() // Animates the size change
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(2.sdp)
+                    .animateContentSize(),
         ) {
-            // Background icon when expanded - outside the Surface
-            if (expanded) {
-                Icon(
-                    painter = painterResource(id = taskData.tipo.iconeVector!!),
-                    contentDescription = "Ícone ${taskData.tipo.nome}",
-                    tint = taskData.tipo.cor.copy(alpha = .5f),
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(start = 2.sdp, bottom = 42.sdp)
-                        .size(150.sdp)
-                        .offset(x = (-80).dp, y = (70).dp)
-                )
-            }
-            Column {
-                // Main content: Title/Date on Start, Description on End
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(4.sdp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Top
-                ) {
-                    // Left side: Title and Date
-                    Column(
-                        modifier = Modifier
-                            .padding(horizontal = 8.sdp)
-                            .weight(0.4f),
-                        horizontalAlignment = Alignment.Start
+            Box(modifier = Modifier.fillMaxWidth()) {
+                if (expanded && taskData.type.iconVector != null) {
+                    Icon(
+                        painter = painterResource(id = taskData.type.iconVector!!),
+                        contentDescription = "Ícone ${taskData.type.name}",
+                        tint = taskData.type.color?.copy(alpha = .5f) ?: Color.Gray,
+                        modifier =
+                            Modifier
+                                .align(Alignment.BottomStart)
+                                .padding(start = 2.sdp, bottom = 42.sdp)
+                                .size(150.sdp)
+                                .offset(x = (-80).dp, y = (70).dp),
+                    )
+                }
+
+                Column {
+                    Row(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(2.sdp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.Top,
                     ) {
-                        Text(
-                            text = taskData.titulo,
-                            modifier = Modifier.padding(bottom = 2.sdp),
-                            style = MaterialTheme.typography.titleMedium,
-                            fontSize = 15.ssp
+                        Column(
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = 8.sdp)
+                                    .weight(0.4f),
+                            horizontalAlignment = Alignment.Start,
+                        ) {
+                            Text(
+                                text =
+                                    if (!expanded && taskData.title.length > 12) {
+                                        taskData.title.take(12).uppercase()
+                                    } else {
+                                        taskData.title.uppercase()
+                                    },
+                                modifier = Modifier.padding(bottom = 2.sdp),
+                                style = MaterialTheme.typography.titleMedium,
+                            )
+                            Text(
+                                text = taskData.startAt.toCardFormat(),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = Color.Gray,
+                            )
 
-                        )
-                        Text(
-                            text = taskData.dataHora,
-                            style = MaterialTheme.typography.titleMedium,
-                            color = Color.Gray,
-                            fontSize = 10.ssp
-                        )
+                            if (expanded) {
+                                Spacer(modifier = Modifier.height(8.sdp))
 
-                        /**
-                         * Vai receber n ids de pets e vai criar a grid com as imagens dos respectivos pets
-                         * */
-                        if (expanded) {
-                            LazyVerticalGrid(
-                                modifier = Modifier.fillMaxWidth(),
-                                columns = GridCells.Fixed(3),
-                                horizontalArrangement = Arrangement.Start
-                            ) {
-                                items(taskData.pets.size) { index ->
-                                    Box(modifier = Modifier.aspectRatio(1f)) {
-                                        PetItem(modifier = Modifier, imageRes = "", name = "", onClick = {})
+                                val rows = taskData.pets.chunked(3)
+
+                                Column(modifier = Modifier.fillMaxWidth()) {
+                                    rows.forEach { rowPets ->
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.Start,
+                                        ) {
+                                            rowPets.forEach { pet ->
+                                                Box(
+                                                    modifier =
+                                                        Modifier
+                                                            .weight(1f)
+                                                            .aspectRatio(1f)
+                                                            .padding(2.dp),
+                                                ) {
+                                                    PetItem(
+                                                        modifier = Modifier,
+                                                        imageRes = pet.image?: "",
+                                                        name = pet.petName?: "",
+                                                        onClick = {},
+                                                    )
+                                                }
+                                            }
+                                            val emptySlots = 3 - rowPets.size
+                                            repeat(emptySlots) {
+                                                Spacer(modifier = Modifier.weight(1f))
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    // Right side: Description
-                    Column(
-                        modifier = Modifier
-                            .padding(horizontal = 8.sdp)
-                            .weight(0.6f),
-                        horizontalAlignment = Alignment.Start
-                    ) {
-                        val displayText = if (!expanded && taskData.descricaoResumida.length > 50) {
-                            taskData.descricaoResumida.take(50) + "..."
-                        } else {
-                            taskData.descricaoResumida
-                        }
-
-                        Text(
-                            text = displayText,
-                            style = MaterialTheme.typography.titleSmall,
-                            modifier = Modifier
-                                .fillMaxWidth(1f)
-                                .padding(start = 8.sdp)
-                        )
-
-                        if (expanded) {
-                            Text(
-                                text = taskData.descricaoCompleta,
-                                style = MaterialTheme.typography.titleSmall,
-                                modifier = Modifier
-                                    .fillMaxWidth(1f)
-                                    .padding(start = 8.sdp, top = 8.sdp)
-                            )
-                        }
-                    }
-                }
-
-                // Expanded content
-                if (expanded) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 8.sdp, top = 16.sdp),
-                    ) {
-                        Button(
-                            onClick = {},
-                            modifier = Modifier
-                                .width(100.sdp)
-                                .height(25.sdp)
-                                .align(Alignment.CenterHorizontally),
-                            border = BorderStroke(
-                                1.sdp, Color(0xFF959EA6)
-                            ),
-                            shape = RoundedCornerShape(50.sdp),
-                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background)
-
+                        Column(
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = 8.sdp)
+                                    .weight(0.6f),
+                            horizontalAlignment = Alignment.Start,
                         ) {
-                            // TODO: AJUSTAR A COR DO BOTÃO PARA A COR DA TAREFA
+                            val displayText =
+                                if (!expanded && taskData.descriptionResumed.length > 50) {
+                                    taskData.descriptionResumed.take(50) + "..."
+                                } else {
+                                    taskData.descriptionResumed
+                                }
+
                             Text(
-                                text = "Editar Tarefa",
-                                fontSize = 10.ssp,
-                                color = taskData.tipo.cor,
-                                style = MaterialTheme.typography.headlineLarge
+                                text = displayText,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth(1f)
+                                        .padding(start = 8.sdp),
                             )
+
+                            if (expanded) {
+                                Text(
+                                    text = taskData.descriptionCompleted,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth(1f)
+                                            .padding(start = 8.sdp, top = 8.sdp),
+                                )
+                            }
                         }
                     }
-                }
+/** Botao de edição foi comentado ja que nao era usado **/
+//                    if (expanded) {
+//                        Column(
+//                            modifier =
+//                                Modifier
+//                                    .fillMaxWidth()
+//                                    .padding(bottom = 8.sdp, top = 16.sdp),
+//                        ) {
+//                            Button(
+//                                onClick = {},
+//                                modifier =
+//                                    Modifier
+//                                        .width(100.sdp)
+//                                        .height(25.sdp)
+//                                        .align(Alignment.CenterHorizontally),
+//                                border = BorderStroke(1.sdp, Color(0xFF959EA6)),
+//                                shape = RoundedCornerShape(50.sdp),
+//                                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
+//                            ) {
+//                                Text(
+//                                    text = stringResource(R.string.edit_task),
+//                                    style = MaterialTheme.typography.titleSmall,
+//                                    color = taskData.type.color ?: Color.Red,
+//                                )
+//                            }
+//                        }
+//                    }
 
-                // Bottom section: "Ver Mais" / "Ver Menos"
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(taskData.tipo.cor)
-                        .clickable { expanded = !expanded } // Toggles the expanded state
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 6.sdp),
-                        horizontalArrangement = Arrangement.Center
+                    Box(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(20.sdp)
+                                .background(taskData.type.color ?: Color.Red)
+                                .clickable(
+                                    indication = null,
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    onClick = { expanded = !expanded },
+                                ),
                     ) {
                         Text(
-                            text = if (expanded) "Ver Menos" else "Ver Mais",
-                            fontSize = 10.ssp,
+                            text =
+                                if (expanded) {
+                                    stringResource(R.string.show_minus)
+                                } else {
+                                    stringResource(
+                                        R.string.show_more,
+                                    )
+                                },
+                            style = MaterialTheme.typography.titleSmall,
                             color = MaterialTheme.colorScheme.background,
-                            style = MaterialTheme.typography.displaySmall
+                            modifier = Modifier.align(Alignment.Center),
                         )
                     }
                 }
             }
         }
-
-
     }
 }
 
 @Preview
 @Composable
 private fun TaskCardPreview() {
-    Column(Modifier.padding(8.sdp)) {
+    Column(Modifier) {
         TaskCard(
-            taskData = TaskDummyData.sampleTasks[0]
+            taskData = TaskFakeData.sampleTasks[0],
         )
-//        TaskCard(
-//            taskData = TaskDummyData.sampleTasks[1]
-//        )
-//        TaskCard(
-//            taskData = TaskDummyData.sampleTasks[2]
-//        )
+    }
+}
+
+@Preview
+@Composable
+private fun TaskCardExpandedPreview() {
+    Column(Modifier) {
+        TaskCard(
+            taskData = TaskFakeData.sampleTasks[0],
+            expandValue = true,
+        )
     }
 }

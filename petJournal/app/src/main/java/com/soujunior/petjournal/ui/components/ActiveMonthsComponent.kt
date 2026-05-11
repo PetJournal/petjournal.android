@@ -26,18 +26,29 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.theme.ColorCustom
 
 @Composable
-fun ActiveMonthsComponent(activeMonths: Set<String>) {
-    val allMonths = listOf(
-        "Jan", "Fev", "Mar", "Abr", "Mai",
-        "Jun", "Jul", "Ago", "Set", "Out",
-        "Nov", "Dez"
-    )
+fun ActiveMonthsComponent(activeMonths: List<Int>) {
+    val allMonths =
+        listOf(
+            stringResource(R.string.jan),
+            stringResource(R.string.fev),
+            stringResource(R.string.mar),
+            stringResource(R.string.abr),
+            stringResource(R.string.mai),
+            stringResource(R.string.jun),
+            stringResource(R.string.jul),
+            stringResource(R.string.ago),
+            stringResource(R.string.set),
+            stringResource(R.string.out),
+            stringResource(R.string.nov),
+            stringResource(R.string.dez),
+        )
 
     Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .background(MaterialTheme.colorScheme.onPrimary, shape = RoundedCornerShape(16.dp))
-            .padding(16.dp)
+        modifier =
+            Modifier
+                .padding(16.dp)
+                .background(MaterialTheme.colorScheme.onPrimary, shape = RoundedCornerShape(16.dp))
+                .padding(16.dp),
     ) {
         Text(
             text = stringResource(R.string.active_in_months),
@@ -45,37 +56,52 @@ fun ActiveMonthsComponent(activeMonths: Set<String>) {
             fontWeight = FontWeight(400),
             modifier = Modifier.align(Alignment.CenterHorizontally),
             color = MaterialTheme.colorScheme.scrim,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         for (i in 0 until 2) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 for (j in 0 until 5) {
-                    val month = allMonths[i * 5 + j]
-                    val isActive = activeMonths.contains(month)
+                    val index = i * 5 + j
+                    val month = allMonths[index]
+                    val isActive = activeMonths.contains(index + 1)
+
+                    val backgroundColor =
+                        if (isActive) {
+                            ColorCustom.color_background_month_active
+                        } else {
+                            ColorCustom.color_background_month_disabled
+                        }
+
+                    val textColor =
+                        if (isActive) {
+                            MaterialTheme.colorScheme.onPrimary
+                        } else {
+                            MaterialTheme.colorScheme.error
+                        }
 
                     Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .clip(RoundedCornerShape(6.dp))
-                            .background(
-                                if (isActive) ColorCustom.color_background_month_active else ColorCustom.color_background_month_disabled
-                            )
-                            .padding(vertical = 2.dp),
-                        contentAlignment = Alignment.Center
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(backgroundColor)
+                                .padding(vertical = 2.dp),
+                        contentAlignment = Alignment.Center,
                     ) {
                         Text(
                             text = month,
                             style = MaterialTheme.typography.labelLarge,
-                            color = if (isActive) MaterialTheme.colorScheme.onPrimary else ColorCustom.color_border_dialog,
-                            fontWeight = FontWeight(400)
+                            color = textColor,
+                            fontWeight = FontWeight(400),
                         )
                     }
                 }
@@ -83,29 +109,43 @@ fun ActiveMonthsComponent(activeMonths: Set<String>) {
         }
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
-            horizontalArrangement = Arrangement.Center
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+            horizontalArrangement = Arrangement.Center,
         ) {
             for (i in 10 until 12) {
                 val month = allMonths[i]
-                val isActive = activeMonths.contains(month)
+                val isActive = activeMonths.contains(i + 1)
+
+                val backgroundColor =
+                    if (isActive) {
+                        ColorCustom.color_background_month_active
+                    } else {
+                        ColorCustom.color_background_month_disabled
+                    }
+
+                val textColor =
+                    if (isActive) {
+                        MaterialTheme.colorScheme.onPrimary
+                    } else {
+                        MaterialTheme.colorScheme.error
+                    }
 
                 Box(
-                    modifier = Modifier
-                        .width(60.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(
-                            if (isActive) ColorCustom.color_background_month_active else ColorCustom.color_background_month_disabled
-                        )
-                        .padding(vertical = 2.dp),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .width(60.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(backgroundColor)
+                            .padding(vertical = 2.dp),
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = month,
-                        color = if (isActive) MaterialTheme.colorScheme.onPrimary else ColorCustom.color_border_dialog,
-                        fontWeight = FontWeight(400)
+                        color = textColor,
+                        fontWeight = FontWeight(400),
                     )
                 }
 
@@ -118,5 +158,5 @@ fun ActiveMonthsComponent(activeMonths: Set<String>) {
 @Preview
 @Composable
 fun ActiveMonthsComponentPreview() {
-    ActiveMonthsComponent(activeMonths = setOf("Jan", "Mar", "Mai"))
+    ActiveMonthsComponent(activeMonths = listOf(1, 3, 5))
 }

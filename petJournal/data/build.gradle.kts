@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.soujunior.data"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 27
@@ -29,11 +29,15 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
     implementation(project(":domain"))
     implementation(project(":database"))
+    implementation("androidx.datastore:datastore-core:1.2.1")
 
     val dependencies = rootProject.ext["dependencies"] as Map<String, String>
     implementation(dependencies["securityCrypto"]!!)
@@ -44,6 +48,7 @@ dependencies {
     implementation(dependencies["coroutineAndroid"]!!)
     implementation(dependencies["coreKtx"]!!)
     implementation(dependencies["preference"]!!)
+    implementation(dependencies["dataStorePreferences"]!!)
 
     testImplementation(rootProject.ext["testJunit"] as String)
     testImplementation(rootProject.ext["testMockk"] as String)

@@ -2,7 +2,7 @@ package com.soujunior.domain.use_case.pet
 
 import assertk.assertions.isEqualTo
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.setup.petInformation
 import io.mockk.coEvery
@@ -17,14 +17,14 @@ class CreatePetInformationApiUseCaseTest {
     @get:Rule
     var coroutineTesteRule = MainCoroutineRule()
 
-    private val repository = mockk<GuardianRepository>(relaxed = true)
+    private val repository = mockk<Repository>(relaxed = true)
 
     @Test
     fun `failure create pet information`() = runBlocking {
-        coEvery { repository.createPetInformationApi(petInformation) } returns NetworkResult.Exception(
+        coEvery { repository.createPet(petInformation) } returns NetworkResult.Exception(
             Throwable()
         )
-        val createPetInformation = CreatePetInformationApiUseCase(repository = repository)
+        val createPetInformation = CreatePetUseCase(repository = repository)
 
         val result = createPetInformation.execute(petInformation)
 
@@ -33,8 +33,8 @@ class CreatePetInformationApiUseCaseTest {
 
     @Test
     fun `successful in create pet Information`() = runBlocking {
-        coEvery { repository.createPetInformationApi(petInformation) } returns NetworkResult.Success(data = Unit)
-        val createPetInformationUseCase = CreatePetInformationApiUseCase(repository = repository)
+        coEvery { repository.createPet(petInformation) } returns NetworkResult.Success(data = Unit)
+        val createPetInformationUseCase = CreatePetUseCase(repository = repository)
 
         val result = createPetInformationUseCase.execute(petInformation)
 

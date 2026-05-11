@@ -27,21 +27,21 @@ fun Button(
     text: String = "Button",
     inDarkMode: Boolean,
     setSystemBarColor: Boolean,
-    isLoading: Boolean = false
+    isLoading: Boolean = false,
 ) {
-
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .fillMaxWidth(),
     ) {
         Button(
             onClick = { submit() },
             enabled = enableButton,
             modifier = modifier,
             border = border,
-            shape = Shapes.large
+            shape = Shapes.large,
         ) {
             if (!isLoading) {
                 Text(
@@ -51,7 +51,7 @@ fun Button(
             } else {
                 CircularProgressIndicator(
                     modifier = Modifier.size(24.dp),
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onPrimary,
                 )
             }
         }
@@ -68,7 +68,7 @@ fun ButtonPreview() {
                 enableButton = true,
                 border = null,
                 setSystemBarColor = true,
-                inDarkMode = true
+                inDarkMode = true,
             )
         }
         Row {
@@ -77,10 +77,10 @@ fun ButtonPreview() {
                 enableButton = false,
                 border = null,
                 setSystemBarColor = false,
-                inDarkMode = false
+                inDarkMode = false,
             )
         }
-        Row{
+        Row {
             Button2(submit = { /*TODO*/ }, enableButton = true)
         }
         Row {

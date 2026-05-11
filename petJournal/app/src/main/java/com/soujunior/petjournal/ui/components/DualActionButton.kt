@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -18,17 +16,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.ui.theme.Shapes
 import ir.kaaveh.sdpcompose.sdp
-import ir.kaaveh.sdpcompose.ssp
 
 @Composable
 fun DualActionButton(
+    isLeftSelected: Boolean = false,
+    isRightSelected: Boolean = false,
     rightButtonSubmit: () -> Unit,
     leftButtonSubmit: () -> Unit,
     titleText: String = "Title",
@@ -37,84 +33,86 @@ fun DualActionButton(
     buttonModifier: Modifier = Modifier,
     leftButtonText: String = "Button",
     rightButtonText: String = "Button",
-    leftButtonColor: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-    rightButtonColor: ButtonColors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
-    leftButtonTextColor: Color = MaterialTheme.colorScheme.onPrimary,
-    rightButtonTextColor: Color = MaterialTheme.colorScheme.primary,
-    isLoading: Boolean = false
+    isLoading: Boolean = false,
 ) {
+    val activeContainerColor = MaterialTheme.colorScheme.primary
+    val inactiveContainerColor = MaterialTheme.colorScheme.surface
+
+    val activeContentColor = MaterialTheme.colorScheme.onPrimary
+    val inactiveContentColor = MaterialTheme.colorScheme.primary
 
     Column(modifier = modifier) {
-        Row {
-            Text(
-                text = titleText,
-                textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.scrim,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight(500),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.sdp, end = 24.sdp)
-            )
-        }
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = buttonModifier.fillMaxWidth()
+            modifier = buttonModifier.fillMaxWidth(),
         ) {
             androidx.compose.material3.Button(
-                onClick = { rightButtonSubmit() },
+                onClick = { leftButtonSubmit() },
                 enabled = enableButton,
-                modifier = modifier.width(115.sdp).height(32.sdp),
-                border = BorderStroke(
-                    width = 1.sdp,
-                    color = MaterialTheme.colorScheme.primary
-                ),
+                modifier =
+                    modifier
+                        .width(115.sdp)
+                        .height(32.sdp),
+                border =
+                    BorderStroke(
+                        width = 1.sdp,
+                        color = MaterialTheme.colorScheme.primary,
+                    ),
                 shape = Shapes.medium,
-                colors = leftButtonColor,
-                contentPadding = PaddingValues(2.sdp)
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = if (isLeftSelected) activeContainerColor else inactiveContainerColor,
+                        contentColor = if (isLeftSelected) activeContentColor else inactiveContentColor,
+                    ),
+                contentPadding = PaddingValues(2.sdp),
             ) {
                 if (!isLoading) {
                     Text(
                         text = leftButtonText,
                         fontWeight = FontWeight.W900,
-                        fontSize = 12.ssp,
-                        style = MaterialTheme.typography.titleLarge,
-                        color = leftButtonTextColor
+                        style = MaterialTheme.typography.labelMedium,
+                        color = if (isLeftSelected) activeContentColor else inactiveContentColor,
                     )
                 } else {
                     CircularProgressIndicator(
                         modifier = Modifier.size(17.sdp),
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = if (isLeftSelected) activeContentColor else inactiveContentColor,
                     )
                 }
             }
-            androidx.compose.material3.Button(
-                onClick = { leftButtonSubmit() },
-                enabled = enableButton,
-                modifier = modifier.width(115.sdp).height(32.sdp)
-                ,
-                border = BorderStroke(
-                    width = 1.sdp,
-                    color = MaterialTheme.colorScheme.primary
-                ),
 
+            androidx.compose.material3.Button(
+                onClick = { rightButtonSubmit() },
+                enabled = enableButton,
+                modifier =
+                    modifier
+                        .width(115.sdp)
+                        .height(32.sdp),
+                border =
+                    BorderStroke(
+                        width = 1.sdp,
+                        color = MaterialTheme.colorScheme.primary,
+                    ),
                 shape = Shapes.medium,
-                colors = rightButtonColor,
-                contentPadding = PaddingValues(2.sdp)
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = if (isRightSelected) activeContainerColor else inactiveContainerColor,
+                        contentColor = if (isRightSelected) activeContentColor else inactiveContentColor,
+                    ),
+                contentPadding = PaddingValues(2.sdp),
             ) {
                 if (!isLoading) {
                     Text(
                         text = rightButtonText,
                         fontWeight = FontWeight.W900,
-                        fontSize = 12.ssp,
-                        style = MaterialTheme.typography.titleLarge,
-                        color = rightButtonTextColor
+                        style = MaterialTheme.typography.labelMedium,
+                        color = if (isRightSelected) activeContentColor else inactiveContentColor,
                     )
                 } else {
                     CircularProgressIndicator(
                         modifier = Modifier.size(17.sdp),
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = if (isRightSelected) activeContentColor else inactiveContentColor,
                     )
                 }
             }
@@ -130,6 +128,6 @@ fun DualActionButtonPreview() {
         leftButtonSubmit = {},
         enableButton = true,
         leftButtonText = "Macho",
-        rightButtonText = "Fêmea"
+        rightButtonText = "Fêmea",
     )
 }

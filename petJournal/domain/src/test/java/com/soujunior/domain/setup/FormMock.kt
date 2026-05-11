@@ -1,6 +1,6 @@
 package com.soujunior.domain.setup
 
-import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.ForgotPasswordModel
 import com.soujunior.domain.model.request.LoginModel
 import com.soujunior.domain.model.request.PetRaceItemModel
@@ -26,7 +26,7 @@ val formForgot  = ForgotPasswordModel (
     email = "fulano@email.com"
 )
 
-val petInformation = PetInformationModel(
+val petInformation = PetModel(
     id = 1,
     species = "Dog",
     guardianId = 1

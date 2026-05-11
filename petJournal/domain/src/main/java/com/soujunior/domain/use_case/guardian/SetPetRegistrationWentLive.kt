@@ -1,6 +1,6 @@
 package com.soujunior.domain.use_case.guardian
 
-import com.soujunior.domain.repository.AppInfoDataBase
+import com.soujunior.domain.repository.appinfo.AppInfoDatabase
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 
@@ -15,7 +15,7 @@ import com.soujunior.domain.use_case.base.DataResult
 
 
 
-class SetPetRegistrationWentLive(private val db: AppInfoDataBase) : BaseUseCase<Boolean, String>() {
+class SetPetRegistrationWentLive(private val db: AppInfoDatabase) : BaseUseCase<Boolean, String>() {
     override suspend fun doWork(value: Boolean): DataResult<String> {
         return try {
             db.setIsPetRegistrationWentLive(value)

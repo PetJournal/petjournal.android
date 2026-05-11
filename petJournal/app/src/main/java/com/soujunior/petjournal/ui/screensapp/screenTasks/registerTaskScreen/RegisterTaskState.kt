@@ -1,0 +1,44 @@
+package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
+
+import com.soujunior.petjournal.ui.model.Pets
+import com.soujunior.petjournal.ui.model.SelectableButtonInfo
+import com.soujunior.petjournal.ui.model.TaskData
+import com.soujunior.petjournal.ui.util.SelectedPeriodType
+import com.soujunior.petjournal.ui.util.TransactionType
+
+enum class TagOnboardingStep {
+    IDLE,
+    INTRO,
+    MANAGE_LIST,
+    CREATE_FORM,
+    COMPLETED,
+}
+
+data class RegisterTaskState(
+    val cardDialogMessage: String = "",
+    val showDialogError: Boolean = false,
+    val showDialogSuccess: Boolean = false,
+    val listTaskData: List<TaskData> = emptyList(),
+    val hasErrorOnListTag: Boolean = false,
+    val isLoadingListTag: Boolean = false,
+    val listTag: MutableList<SelectableButtonInfo> = emptyList<SelectableButtonInfo>().toMutableList(),
+    val selectedTag: String? = null,
+    val taskName: String = "",
+    val taskDescription: String = "",
+    val isLoadingListPet: Boolean = false,
+    val hasErrorOnListPets: Boolean = false,
+    val listPets: List<Pets> = emptyList(),
+    val selectedPet: List<String> = emptyList(),
+    val selectedTransactionType: TransactionType = TransactionType.Recurrent,
+    val periodType: SelectedPeriodType = SelectedPeriodType.Weekly,
+    val daySelected: Int? = null,
+    val weekDaySelected: String? = null,
+    val activeMonths: List<Int> = listOf(),
+    val dateSelected: Long? = null,
+    val amPmSelected: String? = null,
+    val timeSelected: Pair<Int, Int>? = null,
+    val selectedDaysOfWeek: List<String> = listOf(),
+    val observation: String = "",
+    val sendToApi: Boolean = true,
+    val tagOnboardingStep: TagOnboardingStep = TagOnboardingStep.IDLE,
+)

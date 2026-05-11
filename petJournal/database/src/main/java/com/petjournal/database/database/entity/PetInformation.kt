@@ -5,6 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+//todo: como o PetInformation, que deveria ter dados do pet, esta com parametro de guardianId?? Existe um PetInformation.toModel(): PetModel, verifique isso.
 @Entity(
     tableName = "pet_information",
     foreignKeys = [ForeignKey(
@@ -16,7 +17,9 @@ import androidx.room.PrimaryKey
     indices = [Index("guardianId")]
 )
 data class PetInformation(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+    val idPet: String? = null,
     val guardianId: Int,
     val species: String? = null,
     val name: String? = null,
@@ -26,5 +29,3 @@ data class PetInformation(
     val petAge: String? = null,
     val castration: Boolean? = null
 )
-
-

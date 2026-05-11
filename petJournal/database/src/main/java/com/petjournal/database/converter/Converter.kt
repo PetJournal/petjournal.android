@@ -3,17 +3,16 @@ package com.petjournal.database.converter
 import com.petjournal.database.database.entity.PetInformation
 import com.petjournal.database.database.entity.PetRace
 import com.petjournal.database.database.entity.PetSize
-import com.soujunior.domain.model.PetInformationModel
+import com.soujunior.domain.model.PetModel
 import com.soujunior.domain.model.request.PetRaceItemModel
 import com.soujunior.domain.model.request.PetSizeItemModel
-import com.soujunior.domain.model.response.PetInformationResponse
 
 object Converter {
-    fun PetInformation.toModel(): PetInformationModel {
-        return PetInformationModel(
+    fun PetInformation.toModel(): PetModel {
+        return PetModel(
             id = this.id,
             species = this.species,
-            name = this.name,
+            petName = this.name,
             gender = this.gender,
             size = this.size,
             petRace = this.petRace,
@@ -23,12 +22,13 @@ object Converter {
         )
     }
 
-    fun PetInformationModel.toEntity(): PetInformation {
+    fun PetModel.toEntity(): PetInformation {
         return PetInformation(
             id = this.id,
+            idPet = this.idPet,
             guardianId = this.guardianId ?: 0,
             species = this.species,
-            name = this.name,
+            name = this.petName,
             gender = this.gender,
             size = this.size,
             petRace = this.petRace,
@@ -36,18 +36,6 @@ object Converter {
             castration = this.castrated
         )
     }
-    fun PetInformationModel.toResponse(): PetInformationResponse {
-        return PetInformationResponse(
-            specieName = if (this.species == "Cat" ) "Gato" else if ( this.species == "Dog") "Cachorro" else this.species,
-            petName = this.name,
-            gender = this.gender,
-            breedName = this.petRace,
-            size = this.size,
-            castrated = this.castrated,
-            dateOfBirth = this.petAge
-        )
-    }
-
 
     fun List<PetSize>.toListPetSizeItemModel(): List<PetSizeItemModel> {
         val listPetSizesItemModel: MutableList<PetSizeItemModel> = mutableListOf()

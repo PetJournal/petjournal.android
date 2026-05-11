@@ -1,9 +1,9 @@
 package com.petjournal.database.repository
 
 import com.petjournal.database.database.dao.ApplicationInformationDao
-import com.soujunior.domain.repository.AppInfoDataBase
+import com.soujunior.domain.repository.appinfo.AppInfoDatabase
 
-class AppInfoDataBaseImpl(private val appInfoDao: ApplicationInformationDao): AppInfoDataBase {
+class AppInfoDataBaseImpl(private val appInfoDao: ApplicationInformationDao): AppInfoDatabase {
     override suspend fun getIsPetRegistrationWentLive(): Boolean {
         return appInfoDao.getPetRegistrationWentLive(1)
     }

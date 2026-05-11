@@ -1,7 +1,7 @@
 package com.soujunior.domain.use_case.pet
 
 import assertk.assertions.isEqualTo
-import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.setup.petInformation
 import com.soujunior.domain.use_case.base.DataResult
@@ -17,11 +17,11 @@ class UpdatePetInformationUseCaseTest {
     @get:Rule
     var coroutineTesteRule = MainCoroutineRule()
 
-    private val repository = mockk<GuardianRepository>(relaxed = true)
+    private val repository = mockk<Repository>(relaxed = true)
 
     @Test
     fun `failure update pet information`() = runBlocking {
-        coEvery { repository.updatePetInformation(petInformation) } returns DataResult.Failure(
+        coEvery { repository.updatePet(petInformation) } returns DataResult.Failure(
             Throwable()
         )
         val updatePetInformationUseCase = UpdatePetInformationUseCase(repository = repository)
@@ -34,7 +34,7 @@ class UpdatePetInformationUseCaseTest {
     @Test
     fun `successful in update pet Information`() = runBlocking {
 
-        coEvery { repository.updatePetInformation(petInformation) } returns DataResult.Success(data = Unit)
+        coEvery { repository.updatePet(petInformation) } returns DataResult.Success(data = Unit)
         val updatePetInformationUseCase = UpdatePetInformationUseCase(repository = repository)
 
         val result = updatePetInformationUseCase.execute(petInformation)

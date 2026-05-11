@@ -2,11 +2,12 @@ package com.soujunior.domain.use_case.pet
 
 import assertk.assertions.isEqualTo
 import com.soujunior.domain.network.NetworkResult
-import com.soujunior.domain.repository.GuardianRepository
+import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.setup.CAT
 import com.soujunior.domain.setup.MainCoroutineRule
 import com.soujunior.domain.setup.listPetSizes
 import com.soujunior.domain.setup.petInformation
+import com.soujunior.domain.use_case.information.GetListPetSizesUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,7 +20,7 @@ class GetListPetSizesUseCaseTest{
     @get:Rule
     var coroutineTesteRule = MainCoroutineRule()
 
-    private val repository = mockk<GuardianRepository>(relaxed = true)
+    private val repository = mockk<Repository>(relaxed = true)
 
     @Test
     fun `failure get list pet sizes`() = runBlocking {

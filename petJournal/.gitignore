@@ -17,3 +17,6 @@ petJournal/.idea/gradle.xml
 petJournal/.idea/inspectionProfiles/Project_Default.xml
 petJournal/.idea/vcs.xml
 /.idea/workspace.xml
+
+# Default ignored files for Roborazzi Golden Images (snapshots)
+**/snapshots/**/*.png

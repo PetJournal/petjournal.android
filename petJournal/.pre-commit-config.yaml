@@ -1,0 +1,16 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+
+  # - repo: local
+  #   hooks:
+  #     - id: ktlint
+  #       name: Ktlint
+  #       entry: cmd /c gradlew.bat ktlintCheck
+  #       language: system
+  #       types: [kotlin]
+  #       pass_filenames: false

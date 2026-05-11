@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun LoadingText(
@@ -23,18 +22,19 @@ fun LoadingText(
 ) {
     if (isLoading) {
         Shimmer(
-            modifier = modifierShimemr
-                .fillMaxWidth(0.6f)
-                .height(30.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(Color.Gray)
+            modifier =
+                modifierShimemr
+                    .fillMaxWidth(0.6f)
+                    .height(30.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(Color.Gray),
         )
     } else {
         Text(
             text = titleTopBar,
             color = titleTopBarColor,
-            fontSize = 22.sp,
-            modifier = modifierText
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = modifierText,
         )
     }
 }

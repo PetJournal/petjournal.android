@@ -16,15 +16,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,7 +44,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.soujunior.domain.model.request.PetRaceItemModel
 import ir.kaaveh.sdpcompose.sdp
 
@@ -58,7 +58,7 @@ fun AutoCompleteDropDown(
     dropdownItems: List<PetRaceItemModel>? = null,
     onEvent: (String) -> Unit,
     onDropdownItemSelected: (String) -> Unit = {},
-    onFocusChange: (Boolean) -> Unit = {}
+    onFocusChange: (Boolean) -> Unit = {},
 ) {
     val colorBorder = MaterialTheme.colorScheme.outline
     var expanded by remember {
@@ -71,10 +71,10 @@ fun AutoCompleteDropDown(
                 textAlign = TextAlign.Start,
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
-                fontSize = 15.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, bottom = 5.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 10.dp, bottom = 5.dp),
             )
         }
 
@@ -82,61 +82,61 @@ fun AutoCompleteDropDown(
             Row {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
-
-                    ) {
+                ) {
                     TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(5.dp)
-                            .height(50.dp)
-                            .onFocusChanged {focusState ->
-                                if (focusState.isFocused){
-                                    onFocusChange(true)
-                                }else{
-                                    onFocusChange(false)
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(5.dp)
+                                .height(50.dp)
+                                .onFocusChanged { focusState ->
+                                    if (focusState.isFocused) {
+                                        onFocusChange(true)
+                                    } else {
+                                        onFocusChange(false)
+                                    }
                                 }
-                            }
-                            .drawBehind {
-                                val stroke = Stroke(
-                                    width = 1.dp.toPx(),
-                                    pathEffect = PathEffect.dashPathEffect(
-                                        intervals = floatArrayOf(12.dp.toPx(), 12.dp.toPx(), 0f)
+                                .drawBehind {
+                                    val stroke =
+                                        Stroke(
+                                            width = 1.dp.toPx(),
+                                            pathEffect =
+                                                PathEffect.dashPathEffect(
+                                                    intervals = floatArrayOf(12.dp.toPx(), 12.dp.toPx(), 0f),
+                                                ),
+                                        )
+                                    drawRoundRect(
+                                        color = if (isError) Color.Transparent else colorBorder,
+                                        style = stroke,
+                                        cornerRadius = CornerRadius(10.dp.toPx()),
                                     )
+                                }
+                                .border(
+                                    2.dp,
+                                    if (isError) MaterialTheme.colorScheme.error else Color.Transparent,
+                                    shape = RoundedCornerShape(10.sdp),
                                 )
-                                drawRoundRect(
-                                    color = if (isError) Color.Transparent else colorBorder,
-                                    style = stroke,
-                                    cornerRadius = CornerRadius(10.dp.toPx())
-                                )
-
-                            }
-                            .border(
-                                2.dp,
-                                if (isError) MaterialTheme.colorScheme.error else Color.Transparent,
-                                shape = RoundedCornerShape(10.sdp)
-                            )
-                            .clip(RoundedCornerShape(10.sdp)),
-
-
+                                .clip(RoundedCornerShape(10.sdp)),
                         value = textValue,
                         onValueChange = {
                             onEvent(it)
                             expanded = true
                         },
-
-                        colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            cursorColor = MaterialTheme.colorScheme.primary
-                        ),
-
+                        colors =
+                            TextFieldDefaults.colors(
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                cursorColor = MaterialTheme.colorScheme.primary,
+                                focusedContainerColor = Color.Transparent,
+                                unfocusedContainerColor = Color.Transparent,
+                                errorContainerColor = Color.Transparent,
+                            ),
                         textStyle = MaterialTheme.typography.bodyMedium,
-
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Done
-                        ),
+                        keyboardOptions =
+                            KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Done,
+                            ),
                         singleLine = true,
                         trailingIcon = {
                             IconButton(onClick = {
@@ -147,22 +147,17 @@ fun AutoCompleteDropDown(
                                     imageVector = Icons.Rounded.KeyboardArrowDown,
                                     contentDescription = "arrow",
                                     tint = MaterialTheme.colorScheme.outline,
-
-                                    )
+                                )
                             }
-
                         },
-
                         placeholder = {
                             Text(
                                 text = if (isError) "X" else placeholderText,
                                 color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
                                 style = MaterialTheme.typography.bodyMedium,
-                                fontSize = 15.sp
                             )
                         },
                     )
-
                 }
             }
             Row {
@@ -171,39 +166,40 @@ fun AutoCompleteDropDown(
                         AlertText(textMessage = it, modifier = Modifier.padding(10.dp))
                     }
                 } else {
-                    androidx.compose.material3.Text(
+                    Text(
                         "*Campo Obrigatório.",
                         color = MaterialTheme.colorScheme.outline,
                         modifier = Modifier.padding(10.dp),
-                        fontSize = 15.sp
+                        style = MaterialTheme.typography.bodySmall,
                     )
                 }
             }
 
             AnimatedVisibility(visible = expanded) {
                 Card(
-                    modifier = Modifier
-                        .padding(horizontal = 5.dp)
-                        .heightIn(max = 180.dp),
-                    elevation = 15.dp,
+                    modifier =
+                        Modifier
+                            .padding(horizontal = 5.dp)
+                            .heightIn(max = 180.dp),
+                    elevation = CardDefaults.cardElevation(10.dp),
                     shape = RoundedCornerShape(10.dp),
-                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
                 ) {
-
                     LazyColumn(
-                        modifier = Modifier
-                            .heightIn(max = 180.dp)
-                            .padding(5.dp)
+                        modifier =
+                            Modifier
+                                .heightIn(max = 180.dp)
+                                .padding(5.dp),
                     ) {
-
                         if (textValue.isNotEmpty()) {
                             dropdownItems?.filter {
                                 it.name.lowercase()
-                                    .contains(textValue.lowercase()) || it.name.lowercase()
-                                    .contains("Outro")
+                                    .contains(textValue.lowercase()) ||
+                                    it.name.lowercase()
+                                        .contains("Outro")
                             }?.let { itemList ->
                                 items(
-                                    itemList
+                                    itemList,
                                 ) { itemFilter ->
                                     CategoryItems(true, title = itemFilter.name) {
                                         expanded = false
@@ -215,7 +211,7 @@ fun AutoCompleteDropDown(
                         } else {
                             if (dropdownItems != null) {
                                 items(
-                                    dropdownItems
+                                    dropdownItems,
                                 ) { itemFilter ->
                                     CategoryItems(false, title = itemFilter.name) {
                                         expanded = false
@@ -225,39 +221,67 @@ fun AutoCompleteDropDown(
                                 }
                             }
                         }
-
                     }
-
                 }
             }
-
         }
-
     }
-
-
 }
 
 @Composable
 fun CategoryItems(
     styleSearch: Boolean?,
     title: String,
-    onSelect: (String) -> Unit
+    onSelect: (String) -> Unit,
 ) {
-
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                onSelect(title)
-            }
-            .padding(10.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clickable {
+                    onSelect(title)
+                }
+                .padding(10.dp),
     ) {
         Text(
             text = title,
-            fontSize = 15.sp,
-            fontWeight = if (styleSearch == true) FontWeight.Bold else FontWeight.Normal
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = if (styleSearch == true) FontWeight.Bold else FontWeight.Normal,
         )
     }
+}
 
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true)
+@Composable
+fun AutoCompleteDropDownPreview() {
+    var textValue by remember { mutableStateOf("") }
+
+    val sampleItems =
+        listOf(
+            PetRaceItemModel(id = "1", name = "Golden Retriever", specieId = "dog"),
+            PetRaceItemModel(id = "2", name = "Husky Siberiano", specieId = "dog"),
+            PetRaceItemModel(id = "3", name = "Poodle", specieId = "dog"),
+            PetRaceItemModel(id = "4", name = "Bulldog", specieId = "dog"),
+            PetRaceItemModel(id = "5", name = "Vira-lata (SRD)", specieId = "dog"),
+            PetRaceItemModel(id = "6", name = "Outro", specieId = "dog"),
+        )
+
+    MaterialTheme {
+        Box(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+        ) {
+            AutoCompleteDropDown(
+                textValue = textValue,
+                dropdownItems = sampleItems,
+                onEvent = { newValue -> textValue = newValue },
+                onDropdownItemSelected = { selectedItem -> textValue = selectedItem },
+                placeholderText = "Selecione uma raça",
+                titleText = "Raça",
+                isError = false,
+            )
+        }
+    }
 }

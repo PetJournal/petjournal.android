@@ -20,28 +20,33 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun Shimmer(modifier: Modifier = Modifier) {
     val transition = rememberInfiniteTransition()
-    val translateAnim = transition.animateFloat(
-        initialValue = -1000f,
-        targetValue = 1000f,
-        animationSpec = infiniteRepeatable(
-            tween(1000, easing = LinearEasing),
-            RepeatMode.Restart
+    val translateAnim =
+        transition.animateFloat(
+            initialValue = -1000f,
+            targetValue = 1000f,
+            animationSpec =
+                infiniteRepeatable(
+                    tween(1000, easing = LinearEasing),
+                    RepeatMode.Restart,
+                ),
         )
-    )
 
     Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(10.dp))
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        Color.LightGray.copy(alpha = 0.3f),
-                        Color.LightGray.copy(alpha = 0.9f),
-                        Color.LightGray.copy(alpha = 0.3f)
-                    ),
-                    start = Offset(translateAnim.value - 1000f, translateAnim.value - 1000f),
-                    end = Offset(translateAnim.value, translateAnim.value)
-                )
-            )
+        modifier =
+            modifier
+                .clip(RoundedCornerShape(10.dp))
+                .background(
+                    brush =
+                        Brush.linearGradient(
+                            colors =
+                                listOf(
+                                    Color.LightGray.copy(alpha = 0.3f),
+                                    Color.LightGray.copy(alpha = 0.9f),
+                                    Color.LightGray.copy(alpha = 0.3f),
+                                ),
+                            start = Offset(translateAnim.value - 1000f, translateAnim.value - 1000f),
+                            end = Offset(translateAnim.value, translateAnim.value),
+                        ),
+                ),
     )
 }

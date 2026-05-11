@@ -26,12 +26,12 @@ Para utilizar um padrão semelhante em outras telas, siga estas etapas:
       val error: String? = null
   )
   ```
-  
+
   ```kotlin
   class ScreenViewModel : ViewModel() {
       private val _state = MutableLiveData<ScreenState>()
       val state: LiveData<ScreenState> = _state
-  
+
       fun onEvent(event: ScreenEvent) {
           when (event) {
               is ScreenEvent.EventA -> {
@@ -46,7 +46,7 @@ Para utilizar um padrão semelhante em outras telas, siga estas etapas:
           }
       }
   }
-  
+
   ```
 3. **Emita eventos a partir da UI**: Na interface do usuário, emita os eventos apropriados em resposta às ações do usuário.
   ```kotlin

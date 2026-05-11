@@ -13,14 +13,16 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun IndeterminateCircularIndicator(modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .fillMaxSize(),
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(
-            modifier = modifier
-                .size(64.dp),
-            color = MaterialTheme.colorScheme.secondary,
+            modifier =
+                modifier
+                    .size(64.dp),
+            color = MaterialTheme.colorScheme.onPrimary,
             backgroundColor = MaterialTheme.colorScheme.primary,
         )
     }

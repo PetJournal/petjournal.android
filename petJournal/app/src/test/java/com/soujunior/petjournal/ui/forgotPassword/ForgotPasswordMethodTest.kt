@@ -5,9 +5,9 @@ import assertk.assertions.isTrue
 import com.soujunior.domain.use_case.auth.ForgotPasswordUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.util.ValidationResult
-import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordFormEvent
-import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordFormState
-import com.soujunior.petjournal.ui.accountManager.forgotPasswordScreen.ForgotPasswordViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.accountmanager.forgotPasswordScreen.ForgotPasswordFormEvent
+import com.soujunior.petjournal.ui.screensapp.accountmanager.forgotPasswordScreen.ForgotPasswordFormState
+import com.soujunior.petjournal.ui.screensapp.accountmanager.forgotPasswordScreen.ForgotPasswordViewModelImpl
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase
@@ -19,13 +19,12 @@ import org.junit.Before
 import org.junit.Test
 
 class ForgotPasswordMethodTest {
-
     private val forgotPassword = mockk<ForgotPasswordUseCase>(relaxed = true)
     private val validation = mockk<ValidationRepositoryImpl>(relaxed = true)
     private val viewModel =
         ForgotPasswordViewModelImpl(
             forgotPasswordUseCase = forgotPassword,
-            validation = validation
+            validation = validation,
         )
 
     @Before
@@ -72,9 +71,10 @@ class ForgotPasswordMethodTest {
 
     @Test
     fun `When enable() button is called make sure field email is filled and it return true`() {
-        every { this@ForgotPasswordMethodTest.validation.validateEmail(any()) } returns ValidationResult(
-            success = true
-        )
+        every { this@ForgotPasswordMethodTest.validation.validateEmail(any()) } returns
+            ValidationResult(
+                success = true,
+            )
 
         viewModel.state = ForgotPasswordFormState(email = "john.doe@example.com")
         val enableButton = viewModel.enableButton()
@@ -83,9 +83,10 @@ class ForgotPasswordMethodTest {
 
     @Test
     fun `When enable() button is called make sure field email is filled and it return false if not`() {
-        every { this@ForgotPasswordMethodTest.validation.validateEmail(any()) } returns ValidationResult(
-            success = false
-        )
+        every { this@ForgotPasswordMethodTest.validation.validateEmail(any()) } returns
+            ValidationResult(
+                success = false,
+            )
         viewModel.state = ForgotPasswordFormState(email = "")
         val enableButton = viewModel.enableButton()
         assertk.assertThat(enableButton).isFalse()

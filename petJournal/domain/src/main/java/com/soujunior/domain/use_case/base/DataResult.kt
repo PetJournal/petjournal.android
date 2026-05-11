@@ -31,4 +31,3 @@ suspend fun <T> DataResult<T>.onFailure(
         executable(throwable)
     }
 }
-
