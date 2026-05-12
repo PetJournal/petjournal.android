@@ -18,5 +18,11 @@ petJournal/.idea/inspectionProfiles/Project_Default.xml
 petJournal/.idea/vcs.xml
 /.idea/workspace.xml
 
+# Signing — never commit keystore or credentials
+# See: memoryFlash/android/.gitignore (reference pattern)
+key.properties
+**/*.keystore
+**/*.jks
+
 # Default ignored files for Roborazzi Golden Images (snapshots)
 **/snapshots/**/*.png
