@@ -56,7 +56,9 @@ jobs:
             -PversionName="1.0.${{ github.run_number }}"
 
       - name: Create Service Account JSON
-        run: echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > petJournal/service-account.json
+        env:
+          GCP_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        run: echo "$GCP_KEY" > petJournal/service-account.json
 
       - name: Upload to Google Play
         id: upload
