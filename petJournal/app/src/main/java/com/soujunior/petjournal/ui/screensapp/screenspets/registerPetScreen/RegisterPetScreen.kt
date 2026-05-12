@@ -110,11 +110,11 @@ fun RegisterPetScreen(navController: NavController) {
             showTopBar = true,
             showButtonToReturn = true,
             titleTopBar =
-                    if (!state.value.idPetSelected.isNullOrBlank()) {
-                        stringResource(R.string.edit_pet_data)
-                    } else {
-                        stringResource(R.string.add_new_pet)
-                    },
+                if (!state.value.idPetSelected.isNullOrBlank()) {
+                    stringResource(R.string.edit_pet_data)
+                } else {
+                    stringResource(R.string.add_new_pet)
+                },
             showBottomBarNavigation = true,
             bottomNavigationBar = {
                 NavigationBar(

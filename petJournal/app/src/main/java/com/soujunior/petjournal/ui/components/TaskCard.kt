@@ -1,7 +1,6 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -16,10 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -159,8 +155,8 @@ fun TaskCard(
                                                 ) {
                                                     PetItem(
                                                         modifier = Modifier,
-                                                        imageRes = pet.image?: "",
-                                                        name = pet.petName?: "",
+                                                        imageRes = pet.image ?: "",
+                                                        name = pet.petName ?: "",
                                                         onClick = {},
                                                     )
                                                 }
@@ -210,33 +206,6 @@ fun TaskCard(
                             }
                         }
                     }
-/** Botao de edição foi comentado ja que nao era usado **/
-//                    if (expanded) {
-//                        Column(
-//                            modifier =
-//                                Modifier
-//                                    .fillMaxWidth()
-//                                    .padding(bottom = 8.sdp, top = 16.sdp),
-//                        ) {
-//                            Button(
-//                                onClick = {},
-//                                modifier =
-//                                    Modifier
-//                                        .width(100.sdp)
-//                                        .height(25.sdp)
-//                                        .align(Alignment.CenterHorizontally),
-//                                border = BorderStroke(1.sdp, Color(0xFF959EA6)),
-//                                shape = RoundedCornerShape(50.sdp),
-//                                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
-//                            ) {
-//                                Text(
-//                                    text = stringResource(R.string.edit_task),
-//                                    style = MaterialTheme.typography.titleSmall,
-//                                    color = taskData.type.color ?: Color.Red,
-//                                )
-//                            }
-//                        }
-//                    }
 
                     Box(
                         modifier =

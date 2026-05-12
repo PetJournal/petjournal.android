@@ -56,7 +56,7 @@ class TaskListViewModelImpl(
     private fun loadTasks(
         filter: DateFilter,
         forceRequest: Boolean = false,
-        isSilent: Boolean = false
+        isSilent: Boolean = false,
     ) {
         if (!isSilent) {
             _state.update { it.copy(isLoading = true, error = null, selectedDateFilter = filter) }
@@ -65,11 +65,12 @@ class TaskListViewModelImpl(
         }
 
         viewModelScope.launch {
-            val result = when (filter) {
-                DateFilter.DAILY -> getListCurrentDateTaskUseCase.execute(forceRequest)
-                DateFilter.WEEKLY -> getListCurrentWeekTaskUseCase.execute(forceRequest)
-                DateFilter.MONTHLY -> getListCurrentMonthTaskUseCase.execute(forceRequest)
-            }
+            val result =
+                when (filter) {
+                    DateFilter.DAILY -> getListCurrentDateTaskUseCase.execute(forceRequest)
+                    DateFilter.WEEKLY -> getListCurrentWeekTaskUseCase.execute(forceRequest)
+                    DateFilter.MONTHLY -> getListCurrentMonthTaskUseCase.execute(forceRequest)
+                }
 
             result.handleResult({ value: PaginatedScheduleResponseModel ->
                 _state.update {

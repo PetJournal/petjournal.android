@@ -1,5 +1,5 @@
-import java.util.Properties
 import java.io.FileInputStream
+import java.util.Properties
 
 // [CI-INFO] Estas variáveis recebem os valores passados pelo GitHub Actions via flag -P.
 // Se rodar localmente sem flags, ele assume o padrão (versionCode 6 / versionName 1.0.6).
@@ -57,7 +57,7 @@ android {
         applicationId = "com.soujunior.petjournal"
         minSdk = 27
         targetSdk = 35
-        
+
         // [CI-INFO] Versões injetadas dinamicamente pelo GitHub Actions.
         versionCode = appVersionCode
         versionName = appVersionName
@@ -72,13 +72,13 @@ android {
         release {
             // [CI-INFO] Habilita R8 (Minificação). Essencial para reduzir o tamanho do .aab no deploy.
             isMinifyEnabled = true
-            
+
             // [CI-INFO] VINCULA A ASSINATURA. Sem esta linha, o upload na Google Play falha.
             signingConfig = signingConfigs.getByName("release")
-            
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -155,11 +155,11 @@ dependencies {
     testImplementation("io.github.takahirom.roborazzi:roborazzi:1.7.0-alpha-1")
     testImplementation("io.github.takahirom.roborazzi:roborazzi-compose:1.7.0-alpha-1")
     testImplementation("io.github.takahirom.roborazzi:roborazzi-junit-rule:1.7.0-alpha-1")
-    
+
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeUiVersion")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    
+
     implementation("androidx.work:work-runtime-ktx:2.8.1")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeUiVersion")
     debugImplementation("androidx.compose.ui:ui-test-manifest:$composeUiVersion")

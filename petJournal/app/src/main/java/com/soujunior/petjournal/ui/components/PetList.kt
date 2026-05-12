@@ -128,11 +128,12 @@ fun PetList(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center,
                             ) {
-                                val placeholderRes = if (pet.species?.lowercase()?.contains("gato") == true) {
-                                    R.drawable.cat_profile
-                                } else {
-                                    R.drawable.dog_profile
-                                }
+                                val placeholderRes =
+                                    if (pet.species?.lowercase()?.contains("gato") == true) {
+                                        R.drawable.cat_profile
+                                    } else {
+                                        R.drawable.dog_profile
+                                    }
                                 Image(
                                     painter = painterResource(id = placeholderRes),
                                     contentDescription = "Placeholder do pet",
@@ -174,11 +175,12 @@ fun PetList(
                                         modifier = Modifier.fillMaxSize(),
                                         contentAlignment = Alignment.Center,
                                     ) {
-                                        val errorPlaceholderRes = if (pet.species?.lowercase()?.contains("gato") == true) {
-                                            R.drawable.cat_profile
-                                        } else {
-                                            R.drawable.dog_profile
-                                        }
+                                        val errorPlaceholderRes =
+                                            if (pet.species?.lowercase()?.contains("gato") == true) {
+                                                R.drawable.cat_profile
+                                            } else {
+                                                R.drawable.dog_profile
+                                            }
                                         Image(
                                             painter = painterResource(id = errorPlaceholderRes),
                                             contentDescription = "Erro ao carregar imagem",

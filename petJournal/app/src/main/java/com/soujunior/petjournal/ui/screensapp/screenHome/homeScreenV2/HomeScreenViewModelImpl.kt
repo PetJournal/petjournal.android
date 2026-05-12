@@ -31,7 +31,6 @@ class HomeScreenViewModelImpl(
     private val setNotificationPermissionRequestedUseCase: SetNotificationPermissionRequestedUseCase,
     private val getListCurrentDateTaskUseCase: GetListCurrentDateTaskUseCase,
 ) : HomeScreenViewModel() {
-
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
 
@@ -81,21 +80,25 @@ class HomeScreenViewModelImpl(
         getGuardianNameInternal(forceRequest, isSilent = false)
     }
 
-    private fun getGuardianNameInternal(forceRequest: Boolean, isSilent: Boolean) {
+    private fun getGuardianNameInternal(
+        forceRequest: Boolean,
+        isSilent: Boolean,
+    ) {
         guardianJob?.cancel()
         if (!isSilent) _state.update { it.copy(isLoadingUserName = true, hasErrorOnNameUser = false) }
 
-        guardianJob = viewModelScope.launch {
-            val result = getGuardianNameUseCase.execute(forceRequest)
-            result.handleResult({
-                success(it)
-                _state.update { state -> state.copy(isLoadingUserName = false) }
-            }, { error ->
-                if (error is CancellationException) throw error
-                failed(error)
-                _state.update { state -> state.copy(isLoadingUserName = false, hasErrorOnNameUser = true) }
-            })
-        }
+        guardianJob =
+            viewModelScope.launch {
+                val result = getGuardianNameUseCase.execute(forceRequest)
+                result.handleResult({
+                    success(it)
+                    _state.update { state -> state.copy(isLoadingUserName = false) }
+                }, { error ->
+                    if (error is CancellationException) throw error
+                    failed(error)
+                    _state.update { state -> state.copy(isLoadingUserName = false, hasErrorOnNameUser = true) }
+                })
+            }
     }
 
     override fun onEvent(event: HomeEvent) {
@@ -118,64 +121,76 @@ class HomeScreenViewModelImpl(
         }
     }
 
-    private fun getPetList(forceRequest: Boolean = false, isSilent: Boolean = false) {
+    private fun getPetList(
+        forceRequest: Boolean = false,
+        isSilent: Boolean = false,
+    ) {
         petJob?.cancel()
         if (!isSilent) _state.update { it.copy(isLoadingListPet = true, hasErrorOnListPets = false) }
 
-        petJob = viewModelScope.launch {
-            val result = getPetListUseCase.execute(forceRequest)
-            result.handleResult({ pets ->
-                _state.update { it.copy(listPets = pets, isLoadingListPet = false) }
-            }, { error ->
-                if (error is CancellationException) throw error
-                _state.update { it.copy(isLoadingListPet = false, hasErrorOnListPets = true) }
-            })
-        }
+        petJob =
+            viewModelScope.launch {
+                val result = getPetListUseCase.execute(forceRequest)
+                result.handleResult({ pets ->
+                    _state.update { it.copy(listPets = pets, isLoadingListPet = false) }
+                }, { error ->
+                    if (error is CancellationException) throw error
+                    _state.update { it.copy(isLoadingListPet = false, hasErrorOnListPets = true) }
+                })
+            }
     }
 
-    private fun getTasks(forceRequest: Boolean = false, isSilent: Boolean = false) {
+    private fun getTasks(
+        forceRequest: Boolean = false,
+        isSilent: Boolean = false,
+    ) {
         taskJob?.cancel()
         if (!isSilent) _state.update { it.copy(isLoadingListTask = true) }
 
-        taskJob = viewModelScope.launch {
-            val result = getListCurrentDateTaskUseCase.execute(forceRequest)
-            result.handleResult({ value: PaginatedScheduleResponseModel ->
-                _state.update {
-                    with(Mapper) {
-                        it.copy(
-                            listScheduled = value,
-                            listTaskData = value.toListOfTaskData(),
-                            isLoadingListTask = false,
-                        )
+        taskJob =
+            viewModelScope.launch {
+                val result = getListCurrentDateTaskUseCase.execute(forceRequest)
+                result.handleResult({ value: PaginatedScheduleResponseModel ->
+                    _state.update {
+                        with(Mapper) {
+                            it.copy(
+                                listScheduled = value,
+                                listTaskData = value.toListOfTaskData(),
+                                isLoadingListTask = false,
+                            )
+                        }
                     }
-                }
-            }, { error ->
-                if (error is CancellationException) throw error
-                _state.update { it.copy(isLoadingListTask = false) }
-            })
-        }
+                }, { error ->
+                    if (error is CancellationException) throw error
+                    _state.update { it.copy(isLoadingListTask = false) }
+                })
+            }
     }
 
-    private fun getTags(forceRequest: Boolean = false, isSilent: Boolean = false) {
+    private fun getTags(
+        forceRequest: Boolean = false,
+        isSilent: Boolean = false,
+    ) {
         tagJob?.cancel()
         if (!isSilent) _state.update { it.copy(isLoadingListTag = true, hasErrorOnListTag = false) }
 
-        tagJob = viewModelScope.launch {
-            val result = getListTagUseCase.execute(forceRequest)
-            result.handleResult({ tags ->
-                _state.update {
-                    with(Mapper) {
-                        it.copy(
-                            listTag = tags.map { tag -> tag.toTagOption() },
-                            isLoadingListTag = false,
-                        )
+        tagJob =
+            viewModelScope.launch {
+                val result = getListTagUseCase.execute(forceRequest)
+                result.handleResult({ tags ->
+                    _state.update {
+                        with(Mapper) {
+                            it.copy(
+                                listTag = tags.map { tag -> tag.toTagOption() },
+                                isLoadingListTag = false,
+                            )
+                        }
                     }
-                }
-            }, { error ->
-                if (error is CancellationException) throw error
-                _state.update { it.copy(isLoadingListTag = false, hasErrorOnListTag = true) }
-            })
-        }
+                }, { error ->
+                    if (error is CancellationException) throw error
+                    _state.update { it.copy(isLoadingListTag = false, hasErrorOnListTag = true) }
+                })
+            }
     }
 
     override fun logout() {

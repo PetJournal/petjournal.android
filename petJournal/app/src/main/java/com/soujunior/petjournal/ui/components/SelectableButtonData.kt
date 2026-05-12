@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -426,6 +427,7 @@ fun SelectableButton(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun GroupSelectableButton(
     modifier: Modifier = Modifier,
@@ -483,7 +485,7 @@ fun GroupSelectableButton(
                         Modifier
                     },
             )
-            if (showButton == true && isLoading == false) {
+            if (showButton && !isLoading) {
                 Box {
                     if (step == TagOnboardingStep.INTRO && !isIntroClicked) {
                         val density = LocalDensity.current
@@ -539,7 +541,7 @@ fun GroupSelectableButton(
                     colorButton = buttonInfo.color,
                     isSelected = buttonInfo.id == selectedTag,
                     isLoading = isLoading,
-                    onSelectionChanged = { title, selected ->
+                    onSelectionChanged = { _, selected ->
                         if (selected) {
                             onSelection(buttonInfo.id)
                         } else {
