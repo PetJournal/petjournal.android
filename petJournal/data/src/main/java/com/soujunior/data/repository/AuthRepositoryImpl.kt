@@ -1,6 +1,7 @@
 package com.soujunior.data.repository
 
 import android.content.Context
+import android.util.Log
 import com.soujunior.data.util.manager.UserPreferencesManager
 import kotlinx.coroutines.flow.first
 import com.soujunior.data.remote.AuthDataSource
@@ -34,11 +35,23 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun login(loginModel: LoginModel): NetworkResult<AccessTokenResponse> {
-        val result = authApi.login(loginModel)
-        if (result is NetworkResult.Success) {
-            userPrefs.setPreference(UserPreferencesManager.Keys.IS_LOGIN, true)
+        Log.d("PJ_LOGIN", "[AuthRepo] login() chamado para email=${loginModel.email}")
+        return try {
+            val result = authApi.login(loginModel)
+            Log.d("PJ_LOGIN", "[AuthRepo] authApi.login() retornou: ${result::class.simpleName}")
+            if (result is NetworkResult.Success) {
+                Log.d("PJ_LOGIN", "[AuthRepo] Success — data class: ${result.data::class.simpleName}, accessToken=${result.data.accessToken.take(10)}...")
+                userPrefs.setPreference(UserPreferencesManager.Keys.IS_LOGIN, true)
+            } else if (result is NetworkResult.Error) {
+                Log.e("PJ_LOGIN", "[AuthRepo] Error — code=${result.code}, body=${result.body?.error}")
+            } else if (result is NetworkResult.Exception) {
+                Log.e("PJ_LOGIN", "[AuthRepo] Exception", result.e)
+            }
+            result
+        } catch (e: Throwable) {
+            Log.e("PJ_LOGIN", "[AuthRepo] CRASH em login()", e)
+            NetworkResult.Exception(e)
         }
-        return result
     }
 
     override suspend fun changePassword(changePasswordModel: ChangePasswordModel): NetworkResult<MessageResponse> {
@@ -82,6 +95,7 @@ class AuthRepositoryImpl(
                 jwtManager.setToken(token)
                 true
             } catch (e: Exception) {
+                Log.e("PJ_LOGIN", "[AuthRepo] saveToken FALHOU", e)
                 false
             }
         }
@@ -91,6 +105,7 @@ class AuthRepositoryImpl(
         return try {
             jwtManager.getToken()
         } catch (e: Exception) {
+            Log.e("PJ_LOGIN", "[AuthRepo] getToken FALHOU", e)
             null
         }
     }

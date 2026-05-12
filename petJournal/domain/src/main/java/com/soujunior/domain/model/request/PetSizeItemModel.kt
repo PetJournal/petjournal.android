@@ -1,7 +1,11 @@
 package com.soujunior.domain.model.request
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = false)
 data class PetSizeItemModel(
-    val id: String,
-    val name: String,
-    val specieId: String
+    @Json(name = "id") val id: String,
+    @Json(name = "name") val name: String,
+    @Json(name = "specieId") val specieId: String
 )

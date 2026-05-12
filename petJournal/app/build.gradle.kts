@@ -1,13 +1,9 @@
 import java.io.FileInputStream
 import java.util.Properties
 
-// [CI-INFO] Estas variáveis recebem os valores passados pelo GitHub Actions via flag -P.
-// Se rodar localmente sem flags, ele assume o padrão (versionCode 6 / versionName 1.0.6).
 val appVersionCode = project.findProperty("versionCode")?.toString()?.toInt() ?: 6
 val appVersionName = project.findProperty("versionName")?.toString() ?: "1.0.6"
 
-// [CI-INFO] O Gradle procura este arquivo na raiz da pasta petJournal.
-// O CI cria este arquivo dinamicamente para não deixar senhas expostas no Git.
 val keystorePropertiesFile = rootProject.file("key.properties")
 val keystoreProperties = Properties()
 if (keystorePropertiesFile.exists()) {
@@ -22,7 +18,6 @@ plugins {
     id("io.github.takahirom.roborazzi")
 }
 
-// [CI-INFO] Task do Spotless garante que o código no CI esteja sempre formatado.
 spotless {
     kotlin {
         target("**/*.kt")
@@ -41,13 +36,10 @@ android {
     namespace = "com.soujunior.petjournal"
     compileSdk = 35
 
-    // [CI-INFO] Configuração de Assinatura.
-    // Os dados (Alias, Passwords) são injetados aqui vindos do arquivo key.properties criado pelo CI.
     signingConfigs {
         create("release") {
             keyAlias = keystoreProperties["keyAlias"] as String?
             keyPassword = keystoreProperties["keyPassword"] as String?
-            // O caminho abaixo é relativo à pasta do projeto (petJournal/app/keystore.jks)
             storeFile = keystoreProperties["storeFile"]?.let { file(it) }
             storePassword = keystoreProperties["storePassword"] as String?
         }
@@ -58,7 +50,6 @@ android {
         minSdk = 27
         targetSdk = 35
 
-        // [CI-INFO] Versões injetadas dinamicamente pelo GitHub Actions.
         versionCode = appVersionCode
         versionName = appVersionName
 
@@ -70,11 +61,10 @@ android {
 
     buildTypes {
         release {
-            // [CI-INFO] Habilita R8 (Minificação). Essencial para reduzir o tamanho do .aab no deploy.
             isMinifyEnabled = true
+            isShrinkResources = true
 
-            // [CI-INFO] VINCULA A ASSINATURA. Sem esta linha, o upload na Google Play falha.
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("debug")
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

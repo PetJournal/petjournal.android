@@ -1,6 +1,5 @@
 package com.soujunior.data.remote.adapters.internal
 
-import android.content.ContentValues.TAG
 import android.util.Log
 import com.soujunior.domain.network.ErrorBody
 import com.soujunior.domain.network.NetworkResult
@@ -19,12 +18,19 @@ class NetworkResultCall<T : Any>(
             override fun onResponse(call: Call<T>, response: Response<T>) {
                 val body = response.body()
                 var networkResult: NetworkResult<T>
+                Log.d("PJ_LOGIN", "[NetworkResultCall] onResponse — code=${response.code()}, isSuccessful=${response.isSuccessful}, body=${body != null}, bodyClass=${body?.let { it::class.simpleName }}")
                 try {
                     networkResult = if (response.isSuccessful && body != null) {
+                        Log.d("PJ_LOGIN", "[NetworkResultCall] → Success com body: $body")
                         NetworkResult.Success(body)
+                    } else if (response.isSuccessful && body == null) {
+                        Log.e("PJ_LOGIN", "[NetworkResultCall] → Response 2xx mas body=null! R8 pode ter removido o adapter Moshi.")
+                        val code = response.code()
+                        NetworkResult.Error(code, ErrorBody("Response body is null despite successful HTTP status"))
                     } else {
                         val code = response.code()
                         val errorBodyStr = response.errorBody()?.string()
+                        Log.e("PJ_LOGIN", "[NetworkResultCall] → Error code=$code, errorBody=$errorBodyStr")
 
                         val errorMessage = try {
                             val json = JSONObject(errorBodyStr ?: "")
@@ -36,6 +42,7 @@ class NetworkResultCall<T : Any>(
                         NetworkResult.Error(code, ErrorBody(errorMessage))
                     }
                 } catch (e: Exception) {
+                    Log.e("PJ_LOGIN", "[NetworkResultCall] → EXCEPTION ao processar response", e)
                     networkResult = NetworkResult.Exception(e)
                 }
 
@@ -43,6 +50,7 @@ class NetworkResultCall<T : Any>(
             }
 
             override fun onFailure(call: Call<T>, t: Throwable) {
+                Log.e("PJ_LOGIN", "[NetworkResultCall] onFailure", t)
                 val networkResult = NetworkResult.Exception<T>(t)
                 callback.onResponse(this@NetworkResultCall, Response.success(networkResult))
             }

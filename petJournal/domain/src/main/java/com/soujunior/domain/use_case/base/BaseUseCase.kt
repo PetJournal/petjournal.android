@@ -1,5 +1,6 @@
 package com.soujunior.domain.use_case.base
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -17,6 +18,7 @@ abstract class BaseUseCase<in Params, out R> {
             try {
                 withContext(Dispatchers.IO) { doWork(value) }
             } catch (e: Throwable) {
+                Log.e("PJ_LOGIN", "[BaseUseCase] execute() capturou exception: ${e::class.simpleName} — ${e.message}", e)
                 DataResult.Failure(e)
             }
         }

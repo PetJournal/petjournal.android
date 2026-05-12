@@ -1,12 +1,16 @@
 package com.soujunior.domain.model.response.pet
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = false)
 data class PetInformationResponse(
-    val specieName: String? = null,
-    val petName: String? = null,
-    val gender: String? = null,
-    val breedName: String? = null,
-    val size: String? = null,
-    val castrated: Boolean? = null,
-    val dateOfBirth: String? = null,
-    val image: String = ""
+    @Json(name = "specieName") val specieName: String? = null,
+    @Json(name = "petName") val petName: String? = null,
+    @Json(name = "gender") val gender: String? = null,
+    @Json(name = "breedName") val breedName: String? = null,
+    @Json(name = "size") val size: String? = null,
+    @Json(name = "castrated") val castrated: Boolean? = null,
+    @Json(name = "dateOfBirth") val dateOfBirth: String? = null,
+    @Json(name = "image") val image: String = ""
 )
