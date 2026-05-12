@@ -10,11 +10,8 @@
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 
-# Preserva assinaturas genéricas (necessário para Retrofit/Moshi/Gson).
--keepattributes Signature
--keepattributes *Annotation*
--keepattributes InnerClasses
--keepattributes EnclosingMethod
+# Preservar atributos necessários para Reflexão (fundamentais para Retrofit/Moshi).
+-keepattributes Signature, InnerClasses, EnclosingMethod, AnnotationDefault, *Annotation*
 -keepattributes Exceptions
 
 # ---------- Kotlin -------------------------------------------------------
@@ -33,31 +30,28 @@
 -keep class com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory { *; }
 -dontwarn com.squareup.moshi.**
 
-# Mantém TODOS os data classes do domain usados pela serialização Moshi/Gson.
+# Mantém os data classes do domain e data usados pela serialização.
 -keep class com.soujunior.domain.model.** { *; }
 -keepclassmembers class com.soujunior.domain.model.** { *; }
-
-# ---------- Gson ----------------------------------------------------------
--keep class com.google.gson.** { *; }
--keepclassmembers class * {
-    @com.google.gson.annotations.SerializedName <fields>;
-}
-# Garante que campos com @SerializedName não sejam removidos/renomeados.
--keepclassmembers,allowobfuscation class * {
-    @com.google.gson.annotations.SerializedName <fields>;
-}
+-keep class com.soujunior.data.model.** { *; }
+-keepclassmembers class com.soujunior.data.model.** { *; }
 
 # ---------- Retrofit 2 ----------------------------------------------------
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 -keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
 
+# Impedir a ofuscação de QUALQUER interface de serviço do Retrofit
+-keep @retrofit2.http.* interface * { <methods>; }
+
+# Preservar os tipos genéricos e anotações do Retrofit
 # Interfaces de API do Retrofit (usadas por reflexão via Proxy)
--keep,allowobfuscation interface com.soujunior.data.remote.AuthDataSource { *; }
--keep,allowobfuscation interface com.soujunior.data.remote.RemoteDataSource { *; }
+-keep interface com.soujunior.data.remote.AuthDataSource { *; }
+-keep interface com.soujunior.data.remote.RemoteDataSource { *; }
 
 # Mantém classes que estendem Call/CallAdapter do Retrofit
 -keep class com.soujunior.data.remote.adapters.** { *; }
+-keepclassmembers class com.soujunior.data.remote.adapters.** { *; }
 
 # ---------- OkHttp --------------------------------------------------------
 -dontwarn okhttp3.**
@@ -104,6 +98,20 @@
 -keep class androidx.datastore.** { *; }
 -dontwarn androidx.datastore.**
 
+# ---------- Network Infrastructure (sealed classes do Retrofit adapter) ----
+-keep class com.soujunior.domain.network.** { *; }
+-keepclassmembers class com.soujunior.domain.network.** { *; }
+
+# ---------- BaseUseCase / DataResult (sealed classes) ---------------------
+-keep class com.soujunior.domain.use_case.base.** { *; }
+-keepclassmembers class com.soujunior.domain.use_case.base.** { *; }
+
+# ---------- Validation (instanciado via Koin) ----------------------------
+-keep class com.soujunior.domain.use_case.util.** { *; }
+
+# ---------- Infrastructure (Workers, Schedulers) -------------------------
+-keep class com.soujunior.petjournal.infrastructure.** { *; }
+
 # ---------- Repositories do projeto ---------------------------------------
 # Implementações de repositórios no módulo :data (instanciados via Koin)
 -keep class com.soujunior.data.repository.** { *; }
@@ -130,7 +138,7 @@
 -keep class androidx.security.crypto.** { *; }
 -dontwarn androidx.security.crypto.**
 
-# ---------- Enums (necessário para Gson/Moshi) ----------------------------
+# ---------- Enums (necessário para Moshi) ----------------------------
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
@@ -153,8 +161,30 @@
 }
 
 # ---------- R8 Full Mode ajustes -----------------------------------------
-# Impede R8 de remover campos/métodos não referenciados diretamente mas
-# usados por frameworks via reflexão.
--keepclassmembers,allowshrinking class * {
+# Impede R8 de remover construtores usados por Koin e Moshi via reflexão.
+-keepclassmembers class * {
     public <init>(...);
 }
+
+# Preserva os tipos genéricos (evita o erro de ParameterizedType)
+-keepattributes Signature, InnerClasses, EnclosingMethod, AnnotationDefault, *Annotation*
+
+# Mantém as anotações do Retrofit intactas
+-keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
+
+# Impede a renomeação das interfaces de API (Retrofit usa proxies dinâmicos)
+-keep @retrofit2.http.* interface * { <methods>; }
+
+# Preserva as classes do Retrofit para que a reflexão funcione
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+
+# ---------- AndroidX Security / Tink (Google Crypto) ---------------------
+# O Tink possui chamadas opcionais para bibliotecas HTTP e Joda-Time.
+# Como validado via grep, o PetJournal não utiliza essas bibliotecas, 
+# então podemos silenciar os avisos com segurança.
+
+-dontwarn com.google.api.client.http.**
+-dontwarn com.google.api.client.http.javanet.**
+-dontwarn org.joda.time.**
+-dontwarn com.google.crypto.tink.util.KeysDownloader

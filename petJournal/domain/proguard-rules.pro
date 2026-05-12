@@ -1,21 +1,35 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.kts.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# ============================================================================
+# PetJournal - Camada DOMAIN (Versão Final Validada)
+# ============================================================================
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Preservar assinaturas de tipos genéricos (Vital para evitar ClassCastException)
+# Isso garante que o Retrofit entenda o que está dentro de DataResult<T>
+-keepattributes Signature, InnerClasses, EnclosingMethod, *Annotation*
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# ---------- Modelos de Negócio (Domain Models) ---------------------------
+# Mantém os pacotes validados pelo seu comando 'find'
+-keep class com.soujunior.domain.model.** { *; }
+-keepclassmembers class com.soujunior.domain.model.** { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# ---------- Interfaces de Repositório ------------------------------------
+# Necessário para que o Koin localize os contratos durante a injeção
+-keep interface com.soujunior.domain.repository.** { *; }
+
+# ---------- Casos de Uso (Use Cases) -------------------------------------
+# Protege a lógica principal e as classes base validadas no terminal
+-keep class com.soujunior.domain.use_case.** { *; }
+-keepclassmembers class com.soujunior.domain.use_case.** { *; }
+
+# ---------- Infraestrutura de Base (DataResult & BaseUseCase) ------------
+# Regras específicas para o pacote base onde estão seus arquivos de fluxo
+-keep class com.soujunior.domain.use_case.base.** { *; }
+-keepclassmembers class com.soujunior.domain.use_case.base.** { *; }
+
+# ---------- Kotlin Coroutines / Flow -------------------------------------
+# Versão compatível com R8 Full Mode que não gera erro de sintaxe
+-keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
+-keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
+
+# ---------- Metadata (Injeção de Dependência) ----------------------------
+# Garante que o Koin consiga ler os construtores das suas classes Kotlin
+-keep class kotlin.Metadata { *; }

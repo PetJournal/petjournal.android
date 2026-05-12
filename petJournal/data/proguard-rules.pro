@@ -1,21 +1,18 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.kts.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# Preservar a assinatura de tipos genéricos (essencial para o Retrofit no módulo data)
+-keepattributes Signature, *Annotation*, InnerClasses, EnclosingMethod
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Impedir a ofuscação das interfaces de API que o Retrofit usa para criar os Proxies
+-keep @retrofit2.http.* interface * { <methods>; }
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Manter as classes de modelo (DTOs) que recebem o JSON
+# Garante que o nome dos campos não mude, senão o mapeamento do JSON falha
+-keep class com.soujunior.data.model.** { *; }
+-keepclassmembers class com.soujunior.data.model.** { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Se você usa Moshi neste módulo, mantenha as anotações
+-keepclassmembers class * {
+    @com.squareup.moshi.Json <fields>;
+}
+
+# Manter as classes de resposta de rede e adaptadores
+-keep class com.soujunior.data.remote.** { *; }

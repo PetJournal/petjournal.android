@@ -1,21 +1,32 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.kts.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# ============================================================================
+# PetJournal - Camada DATABASE (Room)
+# ============================================================================
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# ---------- Room Library -------------------------------------------------
+-keep class androidx.room.** { *; }
+-dontwarn androidx.room.**
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# ---------- Entidades e DAOs ---------------------------------------------
+# Impede que o R8 renomeie as classes de entidade e seus campos,
+# pois os nomes dos campos são usados como nomes de colunas no SQLite.
+-keep class com.petjournal.database.** { *; }
+-keepclassmembers class com.petjournal.database.** { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Mantém os nomes das classes que implementam as DAOs (geradas pelo Room)
+-keep class * extends androidx.room.RoomDatabase { *; }
+-keep class * implements androidx.room.Entity { *; }
+
+# ---------- Suporte a Kotlin Serialization / Gson (se usado em TypeConverters)
+-keepattributes Signature, *Annotation*
+
+# ---------- TypeConverters ----------------------------------------------
+# Se você usa conversores de tipo personalizados (ex: Date para Long),
+# eles precisam ser preservados para o Room encontrá-los.
+-keep class * {
+    @androidx.room.TypeConverter <methods>;
+}
+
+# ---------- Repositories da Camada Database -----------------------------
+# Como as implementações de repositórios que usam o banco de dados ficam aqui,
+# precisamos garantir que o Koin consiga instanciá-las.
+-keep class com.petjournal.database.repository.** { *; }

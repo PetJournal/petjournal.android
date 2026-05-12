@@ -1,3 +1,9 @@
 package com.soujunior.domain.model.response
 
-data class MessageResponse(val message: String)
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = false)
+data class MessageResponse(
+    @Json(name = "message") val message: String
+)

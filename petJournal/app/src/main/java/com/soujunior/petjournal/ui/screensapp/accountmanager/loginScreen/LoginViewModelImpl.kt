@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.screensapp.accountmanager.loginScreen
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -56,11 +57,13 @@ class LoginViewModelImpl(
     }
 
     override fun failed(exception: Throwable?) {
+        Log.e("PJ_LOGIN", "[ViewModel] login FAILED: ${exception?.message}", exception)
         setMessage.value = exception?.message.toString() ?: "Erro desconhecido!"
         viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }
 
     override fun success(resulMessage: String) {
+        Log.d("PJ_LOGIN", "[ViewModel] login SUCCESS: $resulMessage")
         setMessage.value = resulMessage
         viewModelScope.launch {
             passwordRemember()
@@ -148,11 +151,13 @@ class LoginViewModelImpl(
     }
 
     override fun submitData() {
+        Log.d("PJ_LOGIN", "[ViewModel] submitData() chamado")
         val emailResult = validation.validateEmail(state.email)
         val passwordResult = validation.validateField(state.password)
         val hasError = listOf(emailResult, passwordResult).any { !it.success }
 
         if (hasError) {
+            Log.w("PJ_LOGIN", "[ViewModel] validação falhou: email=${emailResult.errorMessage}, pass=${passwordResult.errorMessage}")
             state =
                 state.copy(
                     emailError = emailResult.errorMessage,
@@ -161,18 +166,26 @@ class LoginViewModelImpl(
             return
         }
 
+        Log.d("PJ_LOGIN", "[ViewModel] validação OK, iniciando login...")
         _taskState.value = TaskState.Loading
         viewModelScope.launch {
-            val result =
-                loginUseCase.execute(
-                    LoginModel(
-                        email = state.email,
-                        password = state.password,
-                    ),
-                )
+            try {
+                val result =
+                    loginUseCase.execute(
+                        LoginModel(
+                            email = state.email,
+                            password = state.password,
+                        ),
+                    )
 
-            result.handleResult(::success, ::failed)
-            _taskState.value = TaskState.Idle
+                Log.d("PJ_LOGIN", "[ViewModel] loginUseCase retornou: ${result::class.simpleName}")
+                result.handleResult(::success, ::failed)
+            } catch (e: Throwable) {
+                Log.e("PJ_LOGIN", "[ViewModel] EXCEPTION não tratada no submitData", e)
+                failed(e)
+            } finally {
+                _taskState.value = TaskState.Idle
+            }
         }
     }
 }

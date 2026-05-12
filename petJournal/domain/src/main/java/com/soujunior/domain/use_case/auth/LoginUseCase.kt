@@ -1,5 +1,6 @@
 package com.soujunior.domain.use_case.auth
 
+import android.util.Log
 import com.soujunior.domain.model.request.LoginModel
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.api.AuthRepository
@@ -12,18 +13,34 @@ class LoginUseCase(
     private val repository: Repository
 ) : BaseUseCase<LoginModel, String>() {
     override suspend fun doWork(value: LoginModel): DataResult<String> {
-        return when (val response = authRepository.login(value)) {
-            is NetworkResult.Success -> {
-                val success = authRepository.saveToken(response.data.accessToken)
-                if (success) {
-                    repository.getGuardianName(true)
-                    DataResult.Success("Token Saved")
-                } else {
-                    DataResult.Failure(Throwable("Error in Save Token!"))
+        Log.d("PJ_LOGIN", "[LoginUseCase] doWork() chamado para email=${value.email}")
+        return try {
+            val response = authRepository.login(value)
+            Log.d("PJ_LOGIN", "[LoginUseCase] authRepository.login() retornou: ${response::class.simpleName}")
+            when (response) {
+                is NetworkResult.Success -> {
+                    Log.d("PJ_LOGIN", "[LoginUseCase] Success — accessToken presente=${response.data.accessToken.isNotEmpty()}")
+                    val success = authRepository.saveToken(response.data.accessToken)
+                    if (success) {
+                        repository.getGuardianName(true)
+                        DataResult.Success("Token Saved")
+                    } else {
+                        Log.e("PJ_LOGIN", "[LoginUseCase] Falha ao salvar token!")
+                        DataResult.Failure(Throwable("Error in Save Token!"))
+                    }
+                }
+                is NetworkResult.Error -> {
+                    Log.e("PJ_LOGIN", "[LoginUseCase] Error — code=${response.code}, body=${response.body?.error}")
+                    DataResult.Failure(Throwable(message = "${response.code} -> ${response.body?.error}"))
+                }
+                is NetworkResult.Exception -> {
+                    Log.e("PJ_LOGIN", "[LoginUseCase] Exception", response.e)
+                    DataResult.Failure(response.e)
                 }
             }
-            is NetworkResult.Error -> DataResult.Failure(Throwable(message = "${response.code} -> ${response.body?.error}"))
-            is NetworkResult.Exception -> DataResult.Failure(response.e)
+        } catch (e: Throwable) {
+            Log.e("PJ_LOGIN", "[LoginUseCase] CRASH em doWork()", e)
+            DataResult.Failure(e)
         }
     }
 }

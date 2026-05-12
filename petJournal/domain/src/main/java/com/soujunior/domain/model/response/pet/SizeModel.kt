@@ -1,6 +1,10 @@
 package com.soujunior.domain.model.response.pet
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = false)
 data class SizeModel(
-    val id: String? = null,
-    val name: String? = null
+    @Json(name = "id") val id: String? = null,
+    @Json(name = "name") val name: String? = null
 )
