@@ -1,10 +1,8 @@
 package com.soujunior.petjournal.ui.components
 
 import android.widget.ImageView
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,11 +32,12 @@ fun PetItem(
     species: String? = null,
     onClick: () -> Unit,
 ) {
-    val placeholderRes = if (species?.lowercase()?.contains("gato") == true) {
-        R.drawable.cat_profile
-    } else {
-        R.drawable.dog_profile
-    }
+    val placeholderRes =
+        if (species?.lowercase()?.contains("gato") == true) {
+            R.drawable.cat_profile
+        } else {
+            R.drawable.dog_profile
+        }
 
     Column(
         modifier = modifier.fillMaxSize(),
@@ -46,10 +45,11 @@ fun PetItem(
         verticalArrangement = Arrangement.Center,
     ) {
         Box(
-            modifier = Modifier
-                .size(108.sdp)
-                .clip(RoundedCornerShape(16.sdp))
-                .clickable { onClick() },
+            modifier =
+                Modifier
+                    .size(108.sdp)
+                    .clip(RoundedCornerShape(16.sdp))
+                    .clickable { onClick() },
         ) {
             if (imageRes.isNotEmpty()) {
                 GlideImage(
@@ -82,7 +82,8 @@ fun PetItem(
 @Preview
 @Composable
 private fun PreviewPetItem() {
-    PetItem(modifier = Modifier,
+    PetItem(
+        modifier = Modifier,
         imageRes = "",
         name = "",
         species = "Cachorro",

@@ -214,32 +214,32 @@ fun PetListScreen(navController: NavController) {
                                             species = pet.species,
                                             onClick = {
                                                 expandedMenuPetId = pet.idPet
-                                            }
+                                            },
                                         )
                                         DropdownMenu(
                                             expanded = expandedMenuPetId == pet.idPet,
-                                            onDismissRequest = { expandedMenuPetId = null }
+                                            onDismissRequest = { expandedMenuPetId = null },
                                         ) {
                                             DropdownMenuItem(
                                                 text = { Text("Visualizar") },
                                                 onClick = {
                                                     expandedMenuPetId = null
                                                     navController.navigate("pets/view/${pet.idPet}")
-                                                }
+                                                },
                                             )
                                             DropdownMenuItem(
                                                 text = { Text("Editar") },
                                                 onClick = {
                                                     expandedMenuPetId = null
                                                     navController.navigate("pets/registerPet/${pet.idPet}")
-                                                }
+                                                },
                                             )
                                             DropdownMenuItem(
                                                 text = { Text("Deletar", color = MaterialTheme.colorScheme.error) },
                                                 onClick = {
                                                     expandedMenuPetId = null
                                                     pet.idPet?.let { viewModel.deletePetById(it) }
-                                                }
+                                                },
                                             )
                                         }
                                     }

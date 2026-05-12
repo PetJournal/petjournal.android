@@ -2,9 +2,7 @@ package com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.os.Build
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -238,23 +236,6 @@ fun HomeScreen(navController: NavController) {
                                 }
                             }
                         }
-/**
- * Esse topico esta pronto, porem, ainda nao tem utilidade
- * */
-//                        item {
-//                            TagSection(
-//                                isLoadingListTag = state.isLoadingListTag,
-//                                listTag = state.listTag,
-//                                hasErrorOnListTag = state.hasErrorOnListTag,
-//                                onReload = { viewModel.onEvent(HomeEvent.ReloadListTag) },
-//                                onTagClick = { tagId ->
-//                                    when (tagId) {
-//                                        "all_tags_option" -> showSheet = true
-//                                        else -> Log.e(TAG, "Tag clicada: $tagId")
-//                                    }
-//                                },
-//                            )
-//                        }
                     }
 
                     PullRefreshIndicator(

@@ -30,7 +30,10 @@ class PetListViewModelImpl(
         getPetList(forceRequest = false, isSilent = false)
     }
 
-    private fun getPetList(forceRequest: Boolean = false, isSilent: Boolean = false) {
+    private fun getPetList(
+        forceRequest: Boolean = false,
+        isSilent: Boolean = false,
+    ) {
         if (!isSilent) {
             _taskState.value = TaskState.Loading
         }

@@ -51,5 +51,6 @@ abstract class PetListViewModel : ViewModel() {
     abstract fun deletePetById(id: String)
 
     abstract fun onResume()
+
     abstract fun reload()
 }

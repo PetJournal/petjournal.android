@@ -21,6 +21,7 @@ abstract class TaskListViewModel : ViewModel() {
     abstract fun failed(exception: Throwable?)
 
     abstract fun onResume()
+
     abstract fun onEvent(event: TaskListEvent)
 }
 
@@ -32,6 +33,7 @@ class FakeTaskListViewModel : TaskListViewModel() {
     override fun success(name: GuardianNameResponse) {}
 
     override fun failed(exception: Throwable?) {}
+
     override fun onResume() {
         TODO("Not yet implemented")
     }
