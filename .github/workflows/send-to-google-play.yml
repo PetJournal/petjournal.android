@@ -35,10 +35,11 @@ jobs:
 
       - name: Setup Keystore
         run: |
-          mkdir -p petJournal/app
+          mkdir -p petJournal/app 
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > petJournal/app/keystore.jks
 
       - name: Create key.properties
+        # Criamos o arquivo onde o gradlew está
         run: |
           cat > petJournal/key.properties <<EOF
           storeFile=${{ github.workspace }}/petJournal/app/keystore.jks
@@ -48,20 +49,20 @@ jobs:
           EOF
 
       - name: Build App Bundle (Release)
+        working-directory: ./petJournal
         run: |
-          cd petJournal
           ./gradlew :app:bundleRelease \
             -PversionCode=${{ github.run_number }} \
             -PversionName="1.0.${{ github.run_number }}"
 
       - name: Create Service Account JSON
-        run: echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > service-account.json
+        run: echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > petJournal/service-account.json
 
       - name: Upload to Google Play
         id: upload
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: service-account.json
+          serviceAccountJson: petJournal/service-account.json
           packageName: com.soujunior.petjournal
           releaseFiles: petJournal/app/build/outputs/bundle/release/app-release.aab
           track: internal
