@@ -54,9 +54,9 @@ jobs:
             -PversionCode=${{ github.run_number }} \
             -PversionName="1.0.${{ github.run_number }}"
 
-      - name: 🕵️ Debug: Confirmar Variável do Google Cloud
+      - name: "🕵️ Debug: Confirmar Variável do Google Cloud"
         env:
-          SECRET_VAL: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+          SECRET_VAL: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
         run: |
           TAMANHO=${#SECRET_VAL}
           
