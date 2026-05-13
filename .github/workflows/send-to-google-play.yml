@@ -33,10 +33,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x petJournal/gradlew
 
-      # - name: Setup Keystore
-      #   run: |
-      #     mkdir -p petJournal/app 
-      #     echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > petJournal/app/keystore.jks
+      - name: Setup Keystore
+        run: |
+          mkdir -p petJournal/app 
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > petJournal/app/keystore.jks
 
       # - name: Create key.properties
       #   run: |
