@@ -33,59 +33,59 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x petJournal/gradlew
 
-      - name: Setup Keystore
-        run: |
-          mkdir -p petJournal/app 
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > petJournal/app/keystore.jks
+      # - name: Setup Keystore
+      #   run: |
+      #     mkdir -p petJournal/app 
+      #     echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > petJournal/app/keystore.jks
 
-      - name: Create key.properties
-        run: |
-          cat > petJournal/key.properties <<EOF
-          storeFile=${{ github.workspace }}/petJournal/app/keystore.jks
-          storePassword=${{ secrets.KEYSTORE_PASSWORD }}
-          keyAlias=${{ secrets.KEY_ALIAS }}
-          keyPassword=${{ secrets.KEY_PASSWORD }}
-          EOF
+      # - name: Create key.properties
+      #   run: |
+      #     cat > petJournal/key.properties <<EOF
+      #     storeFile=${{ github.workspace }}/petJournal/app/keystore.jks
+      #     storePassword=${{ secrets.KEYSTORE_PASSWORD }}
+      #     keyAlias=${{ secrets.KEY_ALIAS }}
+      #     keyPassword=${{ secrets.KEY_PASSWORD }}
+      #     EOF
 
-      - name: Build App Bundle (Release)
-        working-directory: ./petJournal
-        run: |
-          ./gradlew :app:bundleRelease \
-            -PversionCode=${{ github.run_number }} \
-            -PversionName="1.0.${{ github.run_number }}"
+      # - name: Build App Bundle (Release)
+      #   working-directory: ./petJournal
+      #   run: |
+      #     ./gradlew :app:bundleRelease \
+      #       -PversionCode=${{ github.run_number }} \
+      #       -PversionName="1.0.${{ github.run_number }}"
 
-      - name: 🕵️ Debug: Confirmar Variável do Google Cloud
-        run: |
-          SECRET_VAL="${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
-          TAMANHO=${#SECRET_VAL}
+      # - name: 🕵️ Debug: Confirmar Variável do Google Cloud
+      #   run: |
+      #     SECRET_VAL="${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
+      #     TAMANHO=${#SECRET_VAL}
           
-          echo "Quantidade de caracteres na variável GCP_SERVICE_ACCOUNT_KEY: $TAMANHO"
+      #     echo "Quantidade de caracteres na variável GCP_SERVICE_ACCOUNT_KEY: $TAMANHO"
           
-          if [ "$TAMANHO" -eq 0 ]; then
-            echo "🚨 ERRO CRÍTICO: A variável está completamente VAZIA."
-            echo "Isso significa que o GitHub Actions não encontrou a variável em 'Repository secrets'."
-            echo "Verifique se o nome está exato e se ela não foi criada por engano em 'Environment secrets'."
-            exit 1
-          else
-            echo "✅ SUCESSO: A variável foi encontrada e contém dados!"
-          fi
+      #     if [ "$TAMANHO" -eq 0 ]; then
+      #       echo "🚨 ERRO CRÍTICO: A variável está completamente VAZIA."
+      #       echo "Isso significa que o GitHub Actions não encontrou a variável em 'Repository secrets'."
+      #       echo "Verifique se o nome está exato e se ela não foi criada por engano em 'Environment secrets'."
+      #       exit 1
+      #     else
+      #       echo "✅ SUCESSO: A variável foi encontrada e contém dados!"
+      #     fi
 
-      - name: Upload to Google Play
-        id: upload
-        uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJson: petJournal/service-account.json
-          packageName: com.soujunior.petjournal
-          releaseFiles: petJournal/app/build/outputs/bundle/release/app-release.aab
-          tracks: internal
-          status: completed
+      # - name: Upload to Google Play
+      #   id: upload
+      #   uses: r0adkll/upload-google-play@v1
+      #   with:
+      #     serviceAccountJson: petJournal/service-account.json
+      #     packageName: com.soujunior.petjournal
+      #     releaseFiles: petJournal/app/build/outputs/bundle/release/app-release.aab
+      #     tracks: internal
+      #     status: completed
 
-      - name: Resultado do Deploy
-        if: always()
-        run: |
-          if [ "${{ steps.upload.outcome }}" = "success" ]; then
-            echo "🎉 CONEXÃO E UPLOAD REALIZADOS COM SUCESSO!"
-          else
-            echo "❌ Falha no processo. Verifique os logs acima."
-            exit 1
-          fi
+      # - name: Resultado do Deploy
+      #   if: always()
+      #   run: |
+      #     if [ "${{ steps.upload.outcome }}" = "success" ]; then
+      #       echo "🎉 CONEXÃO E UPLOAD REALIZADOS COM SUCESSO!"
+      #     else
+      #       echo "❌ Falha no processo. Verifique os logs acima."
+      #       exit 1
+      #     fi
