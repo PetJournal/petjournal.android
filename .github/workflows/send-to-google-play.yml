@@ -54,8 +54,21 @@ jobs:
             -PversionCode=${{ github.run_number }} \
             -PversionName="1.0.${{ github.run_number }}"
 
-      - name: Create Service Account JSON
-        run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" | base64 --decode > petJournal/service-account.json
+      - name: 🕵️ Debug: Confirmar Variável do Google Cloud
+        run: |
+          SECRET_VAL="${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
+          TAMANHO=${#SECRET_VAL}
+          
+          echo "Quantidade de caracteres na variável GCP_SERVICE_ACCOUNT_KEY: $TAMANHO"
+          
+          if [ "$TAMANHO" -eq 0 ]; then
+            echo "🚨 ERRO CRÍTICO: A variável está completamente VAZIA."
+            echo "Isso significa que o GitHub Actions não encontrou a variável em 'Repository secrets'."
+            echo "Verifique se o nome está exato e se ela não foi criada por engano em 'Environment secrets'."
+            exit 1
+          else
+            echo "✅ SUCESSO: A variável foi encontrada e contém dados!"
+          fi
 
       - name: Upload to Google Play
         id: upload
