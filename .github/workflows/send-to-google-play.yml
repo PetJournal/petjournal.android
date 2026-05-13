@@ -64,6 +64,11 @@ jobs:
           fi
           echo "✅ SUCESSO: A variável foi encontrada e contém dados!"
 
+      - name: "Criar Arquivo JSON do Google"
+        env:
+          SECRET_VAL: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
+        run: echo "$SECRET_VAL" | base64 --decode > petJournal/service-account.json
+        
       - name: Upload to Google Play
         id: upload
         uses: r0adkll/upload-google-play@v1
