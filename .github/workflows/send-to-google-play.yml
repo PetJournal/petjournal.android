@@ -54,22 +54,15 @@ jobs:
             -PversionCode=${{ github.run_number }} \
             -PversionName="1.0.${{ github.run_number }}"
 
-      - name: "🕵️ Debug: Confirmar Variável do Google Cloud"
+      - name: "Checar Secret do Google"
         env:
-          SECRET_VAL: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
+          SECRET: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
         run: |
-          TAMANHO=${#SECRET_VAL}
-          
-          echo "Quantidade de caracteres na variável GCP_SERVICE_ACCOUNT_KEY: $TAMANHO"
-          
-          if [ "$TAMANHO" -eq 0 ]; then
-            echo "🚨 ERRO CRÍTICO: A variável está completamente VAZIA."
-            echo "Isso significa que o GitHub Actions não encontrou a variável em 'Repository secrets'."
-            echo "Verifique se o nome está exato e se ela não foi criada por engano em 'Environment secrets'."
+          if [ -z "$SECRET" ]; then
+            echo "🚨 ERRO: A variável secreta está VAZIA."
             exit 1
-          else
-            echo "✅ SUCESSO: A variável foi encontrada e contém dados!"
           fi
+          echo "✅ SUCESSO: A variável foi encontrada e contém dados!"
 
       - name: Upload to Google Play
         id: upload
