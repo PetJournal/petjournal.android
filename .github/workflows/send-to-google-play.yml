@@ -39,7 +39,6 @@ jobs:
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > petJournal/app/keystore.jks
 
       - name: Create key.properties
-        # Criamos o arquivo onde o gradlew está
         run: |
           cat > petJournal/key.properties <<EOF
           storeFile=${{ github.workspace }}/petJournal/app/keystore.jks
@@ -56,9 +55,7 @@ jobs:
             -PversionName="1.0.${{ github.run_number }}"
 
       - name: Create Service Account JSON
-        env:
-          GCP_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
-        run: echo "$GCP_KEY" > petJournal/service-account.json
+        run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" | base64 --decode > petJournal/service-account.json
 
       - name: Upload to Google Play
         id: upload
@@ -67,7 +64,7 @@ jobs:
           serviceAccountJson: petJournal/service-account.json
           packageName: com.soujunior.petjournal
           releaseFiles: petJournal/app/build/outputs/bundle/release/app-release.aab
-          track: internal
+          tracks: internal
           status: completed
 
       - name: Resultado do Deploy
