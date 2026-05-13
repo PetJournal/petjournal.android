@@ -38,21 +38,21 @@ jobs:
           mkdir -p petJournal/app 
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > petJournal/app/keystore.jks
 
-      # - name: Create key.properties
-      #   run: |
-      #     cat > petJournal/key.properties <<EOF
-      #     storeFile=${{ github.workspace }}/petJournal/app/keystore.jks
-      #     storePassword=${{ secrets.KEYSTORE_PASSWORD }}
-      #     keyAlias=${{ secrets.KEY_ALIAS }}
-      #     keyPassword=${{ secrets.KEY_PASSWORD }}
-      #     EOF
+      - name: Create key.properties
+        run: |
+          cat > petJournal/key.properties <<EOF
+          storeFile=${{ github.workspace }}/petJournal/app/keystore.jks
+          storePassword=${{ secrets.KEYSTORE_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          EOF
 
-      # - name: Build App Bundle (Release)
-      #   working-directory: ./petJournal
-      #   run: |
-      #     ./gradlew :app:bundleRelease \
-      #       -PversionCode=${{ github.run_number }} \
-      #       -PversionName="1.0.${{ github.run_number }}"
+      - name: Build App Bundle (Release)
+        working-directory: ./petJournal
+        run: |
+          ./gradlew :app:bundleRelease \
+            -PversionCode=${{ github.run_number }} \
+            -PversionName="1.0.${{ github.run_number }}"
 
       # - name: 🕵️ Debug: Confirmar Variável do Google Cloud
       #   run: |
