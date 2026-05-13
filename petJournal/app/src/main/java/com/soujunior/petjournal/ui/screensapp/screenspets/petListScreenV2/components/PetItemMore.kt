@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.components
+package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreenV2.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

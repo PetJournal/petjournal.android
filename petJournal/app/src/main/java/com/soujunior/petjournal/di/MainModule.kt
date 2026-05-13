@@ -86,8 +86,8 @@ import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.
 import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModel
 import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.BirthDateViewModel
 import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.BirthDateViewModelImpl
-import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.PetListViewModel
-import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.PetListViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreenV2.PetListViewModel
+import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreenV2.PetListViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.ViewModelNameGender
 import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.ViewModelNameGenderImpl
 import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.ViewModelRaceSize

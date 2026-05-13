@@ -19,8 +19,8 @@ import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.FakeHomeViewModel
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.HomeScreenViewModel
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashViewModel
-import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.PetListViewModel
-import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.PetListViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreenV2.PetListViewModel
+import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreenV2.PetListViewModelImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

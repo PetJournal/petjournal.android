@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen
+package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreenV2
 
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.use_case.pet.DeletePetByIdUseCase

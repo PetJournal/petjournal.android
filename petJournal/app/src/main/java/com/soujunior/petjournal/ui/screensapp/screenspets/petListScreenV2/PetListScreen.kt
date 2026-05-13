@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen
+package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreenV2
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -48,7 +48,7 @@ import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.PetItem
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.TrailBack
-import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.components.PetItemMore
+import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreenV2.components.PetItemMore
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
@@ -268,7 +268,11 @@ fun PetListScreen(navController: NavController) {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = "spec:width=411dp,height=891dp",
+)
 @Composable
 fun PetListPrev() {
     val nav = rememberNavController()

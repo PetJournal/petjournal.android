@@ -19,7 +19,7 @@ import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorScree
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.PetBirthScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.PetListScreen
+import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreenV2.PetListScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.PetNameAndGenderScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.PetRaceAndSizeScreen
 import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.RegisterPetScreen

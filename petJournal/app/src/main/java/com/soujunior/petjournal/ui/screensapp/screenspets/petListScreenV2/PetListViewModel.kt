@@ -1,4 +1,4 @@
-package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen
+package com.soujunior.petjournal.ui.screensapp.screenspets.petListScreenV2
 
 import androidx.lifecycle.ViewModel
 import com.soujunior.domain.model.PetModel
@@ -15,26 +15,35 @@ data class State(
     val listPets: List<PetModel> = emptyList(),
 )
 
-class FakePetListViewModel() : PetListViewModel() {
-    override val state: StateFlow<State>
-        get() {
-            TODO()
-        }
-    override val validationEventChannel = Channel<ValidationEvent>()
-    override val validationEvents = emptyFlow<ValidationEvent>()
+class FakePetListViewModel : PetListViewModel() {
+    private val mockPets =
+        listOf(
+            PetModel(idPet = "1", petName = "Rex", species = "Cachorro", image = null),
+            PetModel(idPet = "2", petName = "Luna", species = "Gato", image = null),
+            PetModel(idPet = "3", petName = "Bidu", species = "Cachorro", image = null),
+            PetModel(idPet = "4", petName = "Pipoca", species = "Pássaro", image = null),
+        )
+
+    override val state = MutableStateFlow(State(listPets = mockPets))
+
     override val taskState = MutableStateFlow<TaskState>(TaskState.Idle)
 
-    override fun failed(exception: Throwable?) {}
+    override val validationEventChannel = Channel<ValidationEvent>()
+    override val validationEvents: Flow<ValidationEvent> = emptyFlow()
+
+    override fun failed(exception: Throwable?) {
+    }
 
     override fun deletePetById(id: String) {
-        TODO("Not yet implemented")
+        val currentList = state.value.listPets.filter { it.idPet != id }
+        state.value = state.value.copy(listPets = currentList)
     }
 
     override fun onResume() {
-        TODO("Not yet implemented")
     }
 
-    override fun reload() {}
+    override fun reload() {
+    }
 }
 
 abstract class PetListViewModel : ViewModel() {
