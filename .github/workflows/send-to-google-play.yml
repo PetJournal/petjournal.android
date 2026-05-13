@@ -55,8 +55,9 @@ jobs:
             -PversionName="1.0.${{ github.run_number }}"
 
       - name: 🕵️ Debug: Confirmar Variável do Google Cloud
+        env:
+          SECRET_VAL: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
         run: |
-          SECRET_VAL="${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
           TAMANHO=${#SECRET_VAL}
           
           echo "Quantidade de caracteres na variável GCP_SERVICE_ACCOUNT_KEY: $TAMANHO"
