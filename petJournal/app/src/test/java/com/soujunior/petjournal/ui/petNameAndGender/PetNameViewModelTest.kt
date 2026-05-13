@@ -8,9 +8,9 @@ import com.soujunior.domain.use_case.pet.GetPetInformationUseCase
 import com.soujunior.domain.use_case.pet.UpdatePetInformationUseCase
 import com.soujunior.domain.use_case.util.ValidationRepositoryImpl
 import com.soujunior.domain.use_case.util.ValidationResult
-import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.NameGenderFormEvent
-import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.NameGenderFormState
-import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.ViewModelNameGenderImpl
+import com.soujunior.petjournal.ui.screensapp.screensPets.petNameAndGenderScreen.NameGenderFormEvent
+import com.soujunior.petjournal.ui.screensapp.screensPets.petNameAndGenderScreen.NameGenderFormState
+import com.soujunior.petjournal.ui.screensapp.screensPets.petNameAndGenderScreen.ViewModelNameGenderImpl
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
