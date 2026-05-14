@@ -71,7 +71,11 @@ class FakePetDetailsViewModel : PetDetailsViewModel() {
             PetDetailsState(
                 pet =
                     PetDetailsDTO(
+                        id = "1",
                         petName = "Rex",
+                        specieAlias = "Cachorro",
+                        gender = "Macho",
+                        breedAlias = "Golden Retriever",
                         image = null,
                     ),
             ),
