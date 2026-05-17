@@ -45,6 +45,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.soujunior.domain.model.PetDetailsDTO
@@ -110,12 +111,14 @@ fun PetDetailsScreenV2(
         titleTopBar = "Perfil do Pet",
         showButtonToReturn = true,
         navigationUp = navController,
+        floatingActionButton = {
+        },
         showTopBar = true,
         showBottomBarNavigation = true,
         bottomNavigationBar = {
             NavigationBar(
                 navController = navController,
-                modifier = Modifier.navigationBarsPadding().statusBarsPadding(),
+                modifier = Modifier.navigationBarsPadding(),
             )
         },
         contentToUse = { paddingValues ->
@@ -123,7 +126,6 @@ fun PetDetailsScreenV2(
                 modifier =
                     Modifier
                         .fillMaxSize()
-                        .padding(paddingValues)
                         .background(color = MaterialTheme.colorScheme.background),
             ) {
                 if (taskState is TaskState.Loading) {
@@ -136,10 +138,13 @@ fun PetDetailsScreenV2(
                             Modifier
                                 .fillMaxSize()
                                 .verticalScroll(rememberScrollState())
-                                .padding(bottom = 20.sdp),
+                                .padding(
+                                    top = paddingValues.calculateTopPadding(),
+                                    bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                ),
                     ) {
-                        Spacer(modifier = Modifier.height(20.sdp))
-
                         state.pet?.let { currentPet ->
                             PetProfileHeader(
                                 pet = currentPet,
@@ -160,7 +165,11 @@ fun PetDetailsScreenV2(
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onBackground,
-                            modifier = Modifier.padding(horizontal = 16.sdp, vertical = 8.sdp),
+                            modifier =
+                                Modifier
+                                    .padding(
+                                        vertical = 8.sdp,
+                                    ),
                         )
 
                         TaskDateComponent(
@@ -185,8 +194,7 @@ fun PetProfileHeader(
     Row(
         modifier =
             Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.sdp),
+                .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(16.sdp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

@@ -86,6 +86,8 @@ import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.
 import com.soujunior.petjournal.ui.screensapp.screensPets.introRegisterPetScreen.IntroRegisterPetViewModel
 import com.soujunior.petjournal.ui.screensapp.screensPets.petBirthDateScreen.BirthDateViewModel
 import com.soujunior.petjournal.ui.screensapp.screensPets.petBirthDateScreen.BirthDateViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screensPets.petDetailsScreenV2.PetDetailsViewModel
+import com.soujunior.petjournal.ui.screensapp.screensPets.petDetailsScreenV2.PetDetailsViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screensPets.petListScreenV2.PetListViewModel
 import com.soujunior.petjournal.ui.screensapp.screensPets.petListScreenV2.PetListViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screensPets.petNameAndGenderScreen.ViewModelNameGender
@@ -276,6 +278,7 @@ val mainModule =
             )
         }
         viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get()) }
+        viewModel<PetDetailsViewModel> { PetDetailsViewModelImpl(get()) }
         viewModel<TutorViewModel> { TutorViewModelImpl(get(), get(), get()) }
         viewModel { SettingsViewModel(get(), get(), get(), get()) }
     }
