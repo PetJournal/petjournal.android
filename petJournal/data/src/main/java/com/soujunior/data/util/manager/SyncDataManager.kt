@@ -20,6 +20,7 @@ class SyncDataManager private constructor(private val context: Context) {
         val LIST_PET_SIZES = longPreferencesKey("getListPetSizes")
         val LIST_PET_RACES = longPreferencesKey("getListPetRaces")
         val TASKS_PERIOD = longPreferencesKey("listTasksByPeriod")
+        val TASKS_NEXT_PET = longPreferencesKey("getNextEventsForPet")
     }
 
     suspend fun saveSyncTime(key: Preferences.Key<Long>, timestamp: Long = System.currentTimeMillis()) {

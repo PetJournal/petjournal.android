@@ -10,7 +10,7 @@ import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.soujunior.petjournal.ui.components.Button3
 import com.soujunior.petjournal.ui.components.DashedInputText
-import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.components.GenderSelector
+import com.soujunior.petjournal.ui.screensapp.screensPets.petNameAndGenderScreen.components.GenderSelector
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

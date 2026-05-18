@@ -20,6 +20,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import okhttp3.Interceptor
+import java.time.Instant
+import java.time.LocalDate
+import java.time.Period
+import java.time.ZoneId
+import java.time.format.DateTimeParseException
 
 /**
  * isValidLength = will return True if the String field is not Blank, the length of the String
@@ -156,3 +161,22 @@ fun Modifier.pulseEffect(): Modifier =
             ambientColor = MaterialTheme.colorScheme.primary.copy(alpha = alpha),
         ).graphicsLayer(scaleX = scale, scaleY = scale)
     }
+
+/**
+ * Calculates the pet's age in years based on an ISO 8601 birth date string.
+ * Example input: "2026-05-02T00:00:00.000Z"
+ */
+fun getPetAgeInYears(birthDateIso: String?): Int {
+    if (birthDateIso.isNullOrBlank()) return 0
+
+    return try {
+        val birthInstant = Instant.parse(birthDateIso)
+        val birthDate = birthInstant.atZone(ZoneId.systemDefault()).toLocalDate()
+        val currentDate = LocalDate.now(ZoneId.systemDefault())
+        val age = Period.between(birthDate, currentDate).years
+        if (age < 0) 0 else age
+    } catch (e: DateTimeParseException) {
+        e.printStackTrace()
+        0
+    }
+}

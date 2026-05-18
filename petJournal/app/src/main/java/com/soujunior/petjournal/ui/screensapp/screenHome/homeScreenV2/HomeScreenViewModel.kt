@@ -100,7 +100,16 @@ class FakeHomeViewModel : HomeScreenViewModel() {
     }
 
     override fun onEvent(event: HomeEvent) {
-        TODO("Not yet implemented")
+        // Handle events in the fake ViewModel to support Preview functionality
+        // without throwing NotImplementedError.
+        when (event) {
+            HomeEvent.SilentRefresh, HomeEvent.ReloadAll -> {
+                getGuardianName()
+            }
+            else -> {
+                // Other events like ReloadListPet or ReloadListTag can be ignored in the fake
+            }
+        }
     }
 
     override fun logout() {}

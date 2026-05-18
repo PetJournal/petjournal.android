@@ -53,7 +53,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -92,7 +91,6 @@ fun HomeScreen(navController: NavController) {
     var showSheet by remember { mutableStateOf(false) }
     val viewModel: HomeScreenViewModel = getCorrectViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val context = LocalContext.current
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         viewModel.onEvent(HomeEvent.SilentRefresh)

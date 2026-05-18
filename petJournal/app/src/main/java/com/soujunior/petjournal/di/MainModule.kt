@@ -83,19 +83,19 @@ import com.soujunior.petjournal.ui.screensapp.screenTutor.config.notifyScreen.Se
 import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorViewModel
 import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashViewModel
-import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModel
-import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.BirthDateViewModel
-import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.BirthDateViewModelImpl
-import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.PetListViewModel
-import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.PetListViewModelImpl
-import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.ViewModelNameGender
-import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.ViewModelNameGenderImpl
-import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.ViewModelRaceSize
-import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
-import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.PetRegisterViewModel
-import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.PetRegisterViewModelImpl
-import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.ViewModelChoiceSpecies
-import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.ViewModelChoiceSpeciesImpl
+import com.soujunior.petjournal.ui.screensapp.screensPets.introRegisterPetScreen.IntroRegisterPetViewModel
+import com.soujunior.petjournal.ui.screensapp.screensPets.petDetailsScreenV2.PetDetailsViewModel
+import com.soujunior.petjournal.ui.screensapp.screensPets.petDetailsScreenV2.PetDetailsViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screensPets.petListScreenV2.PetListViewModel
+import com.soujunior.petjournal.ui.screensapp.screensPets.petListScreenV2.PetListViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screensPets.petNameAndGenderScreen.ViewModelNameGender
+import com.soujunior.petjournal.ui.screensapp.screensPets.petNameAndGenderScreen.ViewModelNameGenderImpl
+import com.soujunior.petjournal.ui.screensapp.screensPets.petRaceAndSizeScreen.ViewModelRaceSize
+import com.soujunior.petjournal.ui.screensapp.screensPets.petRaceAndSizeScreen.ViewModelRaceSizeImpl
+import com.soujunior.petjournal.ui.screensapp.screensPets.registerPetScreen.PetRegisterViewModel
+import com.soujunior.petjournal.ui.screensapp.screensPets.registerPetScreen.PetRegisterViewModelImpl
+import com.soujunior.petjournal.ui.screensapp.screensPets.speciesChoiceScreen.ViewModelChoiceSpecies
+import com.soujunior.petjournal.ui.screensapp.screensPets.speciesChoiceScreen.ViewModelChoiceSpeciesImpl
 import com.soujunior.petjournal.ui.util.timeoutObserverInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -174,6 +174,7 @@ val mainModule =
         factory { GetListCurrentWeekTaskUseCase(get()) }
         factory { GetListCurrentMonthTaskUseCase(get()) }
         factory { GetLocalTasksByPeriodUseCase(get()) }
+        factory { com.soujunior.domain.use_case.task.GetNextEventsForPetUseCase(get()) }
         factory { GetDarkModePreferenceUseCase(get()) }
         factory { SaveDarkModePreferenceUseCase(get()) }
         factory { GetSystemThemePreferenceUseCase(get()) }
@@ -225,7 +226,7 @@ val mainModule =
         }
 
         viewModel<IntroRegisterPetViewModel> {
-            com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetViewModelImpl(
+            com.soujunior.petjournal.ui.screensapp.screensPets.introRegisterPetScreen.IntroRegisterPetViewModelImpl(
                 get(),
                 get(),
                 get(),
@@ -259,7 +260,14 @@ val mainModule =
             )
         }
 
-        viewModel<BirthDateViewModel> { BirthDateViewModelImpl(get(), get(), get(), get()) }
+        viewModel<com.soujunior.petjournal.ui.screensapp.screensPets.petBirthDateScreen.BirthDateViewModel> {
+            com.soujunior.petjournal.ui.screensapp.screensPets.petBirthDateScreen.BirthDateViewModelImpl(
+                get(),
+                get(),
+                get(),
+                get(),
+            )
+        }
         viewModel<ViewModelRaceSize> { ViewModelRaceSizeImpl(get(), get(), get(), get(), get()) }
         viewModel<RegisterTaskViewModel> {
             RegisterTaskViewModelImpl(
@@ -276,6 +284,7 @@ val mainModule =
             )
         }
         viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get()) }
+        viewModel<PetDetailsViewModel> { PetDetailsViewModelImpl(get(), get(), get()) }
         viewModel<TutorViewModel> { TutorViewModelImpl(get(), get(), get()) }
         viewModel { SettingsViewModel(get(), get(), get(), get()) }
     }

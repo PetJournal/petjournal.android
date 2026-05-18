@@ -55,4 +55,5 @@ interface Repository {
     suspend fun listCurrentDateScheduled(forceRequest: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>
     suspend fun listCurrentWeekScheduled(forceRequest: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>
     suspend fun listCurrentMonthScheduled(forceRequest: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>
+    suspend fun getNextEventsForPet(petId: String, forceRequest: Boolean = false): NetworkResult<com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO>
 }

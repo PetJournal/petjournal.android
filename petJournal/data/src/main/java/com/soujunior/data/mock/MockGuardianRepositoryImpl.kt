@@ -11,6 +11,7 @@ import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
+import com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.repository.api.Repository
@@ -125,6 +126,13 @@ class MockGuardianRepositoryImpl(): Repository {
     }
 
     override suspend fun listCurrentMonthScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getNextEventsForPet(
+        petId: String,
+        forceRequest: Boolean
+    ): NetworkResult<PaginatedNextEventsResponseDTO> {
         TODO("Not yet implemented")
     }
 }

@@ -7,10 +7,10 @@ import androidx.navigation.compose.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreen.HomeScreen
 import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.PetNameAndGenderScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.PetRaceAndSizeScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.SpeciesChoiceScreen
+import com.soujunior.petjournal.ui.screensapp.screensPets.introRegisterPetScreen.IntroRegisterPetScreen
+import com.soujunior.petjournal.ui.screensapp.screensPets.petNameAndGenderScreen.PetNameAndGenderScreen
+import com.soujunior.petjournal.ui.screensapp.screensPets.petRaceAndSizeScreen.PetRaceAndSizeScreen
+import com.soujunior.petjournal.ui.screensapp.screensPets.speciesChoiceScreen.SpeciesChoiceScreen
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable

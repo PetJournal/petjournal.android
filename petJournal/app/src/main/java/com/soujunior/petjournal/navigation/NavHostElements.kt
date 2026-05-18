@@ -17,13 +17,14 @@ import com.soujunior.petjournal.ui.screensapp.screenTutor.config.notifyScreen.Se
 import com.soujunior.petjournal.ui.screensapp.screenTutor.privacyPolicy.PrivacyPolicyScreen
 import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorScreen
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.introRegisterPetScreen.IntroRegisterPetScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.petBirthDateScreen.PetBirthScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.petListScreen.PetListScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.petNameAndGenderScreen.PetNameAndGenderScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.petRaceAndSizeScreen.PetRaceAndSizeScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.registerPetScreen.RegisterPetScreen
-import com.soujunior.petjournal.ui.screensapp.screenspets.speciesChoiceScreen.SpeciesChoiceScreen
+import com.soujunior.petjournal.ui.screensapp.screensPets.introRegisterPetScreen.IntroRegisterPetScreen
+import com.soujunior.petjournal.ui.screensapp.screensPets.petBirthDateScreen.PetBirthScreen
+import com.soujunior.petjournal.ui.screensapp.screensPets.petDetailsScreenV2.PetDetailsScreenV2
+import com.soujunior.petjournal.ui.screensapp.screensPets.petListScreenV2.PetListScreen
+import com.soujunior.petjournal.ui.screensapp.screensPets.petNameAndGenderScreen.PetNameAndGenderScreen
+import com.soujunior.petjournal.ui.screensapp.screensPets.petRaceAndSizeScreen.PetRaceAndSizeScreen
+import com.soujunior.petjournal.ui.screensapp.screensPets.registerPetScreen.RegisterPetScreen
+import com.soujunior.petjournal.ui.screensapp.screensPets.speciesChoiceScreen.SpeciesChoiceScreen
 
 @Composable
 fun Presentation() {
@@ -70,6 +71,12 @@ fun NavHostMainContent() {
         composable("pets/registerPet/{idPet}") { backStackEntry ->
             backStackEntry.arguments?.getString("idPet")
             RegisterPetScreen(
+                navController,
+            )
+        }
+        composable("pets/petdetails/{idPet}") { backStackEntry ->
+            backStackEntry.arguments?.getString("idPet")
+            PetDetailsScreenV2(
                 navController,
             )
         }
