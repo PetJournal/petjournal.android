@@ -11,6 +11,7 @@ import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
+import com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
 import com.soujunior.domain.network.NetworkResult
 import kotlinx.coroutines.delay
@@ -147,6 +148,13 @@ class MockRemoteDataSource : RemoteDataSource {
     }
 
     override suspend fun getTaskListCurrentMonth(token: String): NetworkResult<PaginatedScheduleResponseDTO> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getNextEventsForPet(
+        token: String,
+        petId: String
+    ): NetworkResult<PaginatedNextEventsResponseDTO> {
         TODO("Not yet implemented")
     }
 }

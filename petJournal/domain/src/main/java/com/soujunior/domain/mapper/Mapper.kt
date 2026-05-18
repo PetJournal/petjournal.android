@@ -11,6 +11,8 @@ import com.soujunior.domain.model.response.pet.BreedModel
 import com.soujunior.domain.model.response.pet.SizeModel
 import com.soujunior.domain.model.response.tag.TagDTO
 import com.soujunior.domain.model.response.tag.TagModel
+import com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO
+import com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseModel
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseModel
 import com.soujunior.domain.model.taskModel.ScheduleDataDTO
@@ -215,6 +217,16 @@ object Mapper {
             page = page,
             limit = limit,
             count = count
+        )
+    }
+
+    @JvmName("PaginatedNextEventsResponseDTOtoDomain")
+    fun PaginatedNextEventsResponseDTO.toDomain(): PaginatedNextEventsResponseModel{
+        return PaginatedNextEventsResponseModel(
+            nextEvents = nextEvents.toListDomain(),
+            page = page,
+            limit = limit,
+            totalPages = totalPages
         )
     }
 

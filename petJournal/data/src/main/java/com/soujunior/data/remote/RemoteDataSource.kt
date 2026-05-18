@@ -10,6 +10,7 @@ import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
+import com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
 import com.soujunior.domain.network.NetworkResult
 import okhttp3.MultipartBody
@@ -151,4 +152,10 @@ interface RemoteDataSource {
     suspend fun getTaskListCurrentMonth(
         @Header("Authorization") token: String,
     ): NetworkResult<PaginatedScheduleResponseDTO>
+
+    @GET("api/tasks/pet/next/{petId}")
+    suspend fun getNextEventsForPet(
+        @Header("Authorization") token: String,
+        @Path("petId") petId: String
+    ): NetworkResult<PaginatedNextEventsResponseDTO>
 }

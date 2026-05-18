@@ -587,6 +587,58 @@ class RepositoryImpl(
         }
     }
 
+    override suspend fun getNextEventsForPet(petId: String, forceRequest: Boolean): NetworkResult<com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO> {
+        val today = LocalDate.now()
+        val start = today.atStartOfDay().toString()
+        val end = today.plusYears(1).atTime(java.time.LocalTime.MAX).toString()
+        
+        val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(start, end)
+        val filteredLocalTasks = localTasks.filter { task ->
+            task.scheduler.pets.any { pet -> pet.id == petId }
+        }
+        val localEmpty = filteredLocalTasks.isEmpty()
+
+        if (!forceRequest && !localEmpty) {
+            val lastSync = syncDataManager.getLastSyncTime(SyncDataManager.SyncKeys.TASKS_NEXT_PET).first() ?: 0L
+            if (System.currentTimeMillis() - lastSync < CACHE_TIMEOUT_MILLIS) {
+                return NetworkResult.Success(com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO(nextEvents = filteredLocalTasks))
+            }
+        }
+
+        val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
+
+        return when (val apiResponse = remoteDataSource.getNextEventsForPet(token, petId)) {
+            is NetworkResult.Success -> {
+                try {
+                    guardianLocalDataSourceImpl.saveAllTasks(apiResponse.data.nextEvents)
+                    apiResponse.data.nextEvents.forEach { scheduleDataDto ->
+                        taskReminderScheduler.schedule(scheduleDataDto.toDomain())
+                        scheduleDataDto.id?.let { guardianLocalDataSourceImpl.updateAlarmStatus(it, true) }
+                    }
+                    syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_NEXT_PET)
+                } catch (e: Exception) { Log.e("RepositoryImpl", "Erro local", e) }
+                val updatedLocal = guardianLocalDataSourceImpl.getTasksInPeriod(start, end)
+                val updatedFiltered = updatedLocal.filter { task ->
+                    task.scheduler.pets.any { pet -> pet.id == petId }
+                }
+                NetworkResult.Success(com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO(
+                    nextEvents = updatedFiltered, 
+                    page = apiResponse.data.page, 
+                    limit = apiResponse.data.limit, 
+                    totalPages = apiResponse.data.totalPages
+                ))
+            }
+            is NetworkResult.Error -> {
+                if (!localEmpty) NetworkResult.Success(com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO(nextEvents = filteredLocalTasks))
+                else NetworkResult.Error(apiResponse.code, apiResponse.body)
+            }
+            is NetworkResult.Exception -> {
+                if (!localEmpty) NetworkResult.Success(com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO(nextEvents = filteredLocalTasks))
+                else NetworkResult.Exception(apiResponse.e)
+            }
+        }
+    }
+
     private fun String.toTextRequestBody(): RequestBody = RequestBody.create(MediaType.parse("text/plain"), this)
 
     private fun getFileFromUri(context: Context, uri: Uri): File? {
