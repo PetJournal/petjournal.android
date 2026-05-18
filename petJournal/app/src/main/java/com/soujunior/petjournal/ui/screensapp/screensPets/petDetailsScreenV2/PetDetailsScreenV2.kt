@@ -48,7 +48,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.GlideImage
 import com.soujunior.petjournal.ui.components.NavigationBar
@@ -58,6 +57,7 @@ import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.compone
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import com.soujunior.petjournal.ui.util.ValidationEvent
+import com.soujunior.petjournal.ui.util.getPetAgeInYears
 import ir.kaaveh.sdpcompose.sdp
 import org.koin.androidx.compose.getViewModel
 
@@ -147,11 +147,13 @@ fun PetDetailsScreenV2(
                     ) {
                         state.pet?.let { currentPet ->
                             PetProfileHeader(
-                                pet = currentPet,
-                                gender = currentPet.gender ?: "Fêmea",
-                                breed = currentPet.breedAlias ?: currentPet.breed?.name ?: "Golden Retriever",
-                                age = currentPet.dateOfBirth ?: "4 anos",
-                                weight = currentPet.size?.name ?: "6kg",
+                                petName = currentPet.petName ?: "",
+                                specie = currentPet.specieAlias ?: currentPet.specie?.name ?: "",
+                                gender = currentPet.gender ?: "-",
+                                breed = currentPet.breed?.name ?: "Sem raça",
+                                age = getPetAgeInYears(currentPet.dateOfBirth).toString(),
+                                weight = currentPet.size?.name ?: "-",
+                                imageUrl = currentPet.image,
                                 onEditClick = {
                                     navController.navigate("pets/registerPet/${currentPet.id}")
                                 },
@@ -184,11 +186,13 @@ fun PetDetailsScreenV2(
 
 @Composable
 fun PetProfileHeader(
-    pet: PetDetailsDTO,
+    petName: String,
+    specie: String,
     gender: String,
     breed: String,
     age: String,
     weight: String,
+    imageUrl: String?,
     onEditClick: () -> Unit,
 ) {
     Row(
@@ -198,7 +202,6 @@ fun PetProfileHeader(
         horizontalArrangement = Arrangement.spacedBy(16.sdp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val imageUrl = pet.image
         val isImageLoading = remember { mutableStateOf(false) }
         val hasError = remember { mutableStateOf(false) }
 
@@ -207,8 +210,8 @@ fun PetProfileHeader(
             hasError.value = false
         }
 
-        val specieName = pet.specieAlias ?: pet.specie?.name ?: ""
-        val isCat = specieName.lowercase().contains("gato")
+        // Verifica se é gato usando a string passada por parâmetro
+        val isCat = specie.lowercase().contains("gato")
         val placeholderRes = if (isCat) R.drawable.cat_profile else R.drawable.dog_profile
 
         Surface(
@@ -282,7 +285,12 @@ fun PetProfileHeader(
             shape = RoundedCornerShape(16.sdp),
             color = Color(0xFFF4EDFC),
         ) {
-            Box(modifier = Modifier.fillMaxSize().padding(12.sdp)) {
+            Box(
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(12.sdp),
+            ) {
                 Column(
                     modifier =
                         Modifier
@@ -291,7 +299,13 @@ fun PetProfileHeader(
                     verticalArrangement = Arrangement.SpaceEvenly,
                 ) {
                     Text(
-                        text = pet.petName ?: "Sem Nome",
+                        text =
+                            petName
+                                .trim()
+                                .substringBefore(" ")
+                                .lowercase()
+                                .replaceFirstChar { it.uppercase() }
+                                .ifEmpty { "Sem Nome" },
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
@@ -300,13 +314,31 @@ fun PetProfileHeader(
                     )
 
                     Text(
-                        text = "${specieName.ifEmpty { "Espécie" }} . $gender",
+                        text = "${specie.ifEmpty { "-" }}",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.primary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
+
+                    gender?.let { g ->
+                        val formattedGender =
+                            when (g.uppercase()) {
+                                "F" -> "Fêmea"
+                                "M" -> "Macho"
+                                else -> g
+                            }
+
+                        Text(
+                            text = formattedGender,
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.primary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
 
                     Text(
                         text = breed,
@@ -318,13 +350,32 @@ fun PetProfileHeader(
                     )
 
                     Text(
-                        text = "$age . $weight",
+                        text = "$age anos",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.primary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
+
+                    weight?.takeIf { it.isNotBlank() }?.let { validWeight ->
+                        val formattedWeight =
+                            if (validWeight.contains("(")) {
+                                val parts = validWeight.split("(")
+                                "${parts[0].trim()}\n(${parts[1]}"
+                            } else {
+                                validWeight
+                            }
+
+                        Text(
+                            text = formattedWeight,
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.primary,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
                 }
 
                 Box(

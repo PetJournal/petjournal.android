@@ -1,5 +1,8 @@
 package com.soujunior.petjournal.ui.screensapp.screensPets.petDetailsScreenV2
 
+import android.content.ContentValues.TAG
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetDetailsDTO
@@ -33,8 +36,11 @@ abstract class PetDetailsViewModel : ViewModel() {
 }
 
 class PetDetailsViewModelImpl(
+    private val savedStateHandle: SavedStateHandle,
     private val getPetByIdUseCase: GetPetByIdUseCase,
 ) : PetDetailsViewModel() {
+    private val idPetFromRoute: String? = savedStateHandle.get<String>("idPet")
+
     private val _state = MutableStateFlow(PetDetailsState())
     override val state: StateFlow<PetDetailsState> = _state.asStateFlow()
 
@@ -42,6 +48,14 @@ class PetDetailsViewModelImpl(
     override val taskState: StateFlow<TaskState> = _taskState.asStateFlow()
 
     override val validationEventChannel = Channel<ValidationEvent>()
+
+    init {
+        if (!idPetFromRoute.isNullOrBlank()) {
+            getPetDetails(idPetFromRoute)
+        } else {
+            _taskState.value = TaskState.Idle
+        }
+    }
 
     override fun getPetDetails(id: String) {
         _taskState.value = TaskState.Loading
@@ -51,6 +65,7 @@ class PetDetailsViewModelImpl(
             result.handleResult(
                 success = { pet ->
                     _state.update { it.copy(pet = pet) }
+                    Log.e(TAG, "OBJETO RECEBIDO: $pet")
                     _taskState.value = TaskState.Idle
                 },
                 error = { failed(it) },

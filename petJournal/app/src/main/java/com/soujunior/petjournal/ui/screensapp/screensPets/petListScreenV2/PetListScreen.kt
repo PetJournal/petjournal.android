@@ -224,7 +224,7 @@ fun PetListScreen(navController: NavController) {
                                                 text = { Text("Visualizar") },
                                                 onClick = {
                                                     expandedMenuPetId = null
-                                                    navController.navigate("pets/view/${pet.idPet}")
+                                                    navController.navigate("pets/petdetails/${pet.idPet}")
                                                 },
                                             )
                                             DropdownMenuItem(
