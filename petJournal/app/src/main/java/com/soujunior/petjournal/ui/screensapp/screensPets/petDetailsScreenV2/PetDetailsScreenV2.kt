@@ -52,7 +52,6 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.GlideImage
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
-import com.soujunior.petjournal.ui.components.data.TaskFakeData
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TaskDateComponent
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
@@ -162,21 +161,23 @@ fun PetDetailsScreenV2(
 
                         Spacer(modifier = Modifier.height(24.sdp))
 
-                        Text(
-                            text = "Próximas tarefas:",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onBackground,
-                            modifier =
-                                Modifier
-                                    .padding(
-                                        vertical = 8.sdp,
-                                    ),
-                        )
+                        if (state.nextTasks.isNotEmpty()) {
+                            Text(
+                                text = "Próximas tarefas:",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onBackground,
+                                modifier =
+                                    Modifier
+                                        .padding(
+                                            vertical = 8.sdp,
+                                        ),
+                            )
 
-                        TaskDateComponent(
-                            tasks = TaskFakeData.sampleTasks.take(3),
-                        )
+                            TaskDateComponent(
+                                tasks = state.nextTasks,
+                            )
+                        }
                     }
                 }
             }

@@ -7,8 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.domain.use_case.pet.GetPetByIdUseCase
+import com.soujunior.domain.use_case.task.GetNextEventsForPetParams
+import com.soujunior.domain.use_case.task.GetNextEventsForPetUseCase
+import com.soujunior.petjournal.ui.mapper.Mapper.toTaskData
+import com.soujunior.petjournal.ui.model.TaskData
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.util.ValidationEvent
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +25,7 @@ import kotlinx.coroutines.launch
 
 data class PetDetailsState(
     val pet: PetDetailsDTO? = null,
+    val nextTasks: List<TaskData> = emptyList(),
 )
 
 abstract class PetDetailsViewModel : ViewModel() {
@@ -38,6 +44,7 @@ abstract class PetDetailsViewModel : ViewModel() {
 class PetDetailsViewModelImpl(
     private val savedStateHandle: SavedStateHandle,
     private val getPetByIdUseCase: GetPetByIdUseCase,
+    private val getNextEventsForPetUseCase: GetNextEventsForPetUseCase,
 ) : PetDetailsViewModel() {
     private val idPetFromRoute: String? = savedStateHandle.get<String>("idPet")
 
@@ -61,15 +68,30 @@ class PetDetailsViewModelImpl(
         _taskState.value = TaskState.Loading
 
         viewModelScope.launch {
-            val result = getPetByIdUseCase.execute(id)
-            result.handleResult(
+            val petDetailsDeferred = async { getPetByIdUseCase.execute(id) }
+            val nextEventsDeferred = async { getNextEventsForPetUseCase.execute(GetNextEventsForPetParams(petId = id)) }
+
+            val petResult = petDetailsDeferred.await()
+            val nextEventsResult = nextEventsDeferred.await()
+
+            petResult.handleResult(
                 success = { pet ->
                     _state.update { it.copy(pet = pet) }
                     Log.e(TAG, "OBJETO RECEBIDO: $pet")
-                    _taskState.value = TaskState.Idle
                 },
                 error = { failed(it) },
             )
+
+            nextEventsResult.handleResult(
+                success = { response ->
+                    _state.update { it.copy(nextTasks = response.nextEvents.toTaskData()) }
+                },
+                error = {
+                    Log.e(TAG, "Error fetching next tasks: $it")
+                },
+            )
+
+            _taskState.value = TaskState.Idle
         }
     }
 
@@ -93,6 +115,7 @@ class FakePetDetailsViewModel : PetDetailsViewModel() {
                         breedAlias = "Golden Retriever",
                         image = null,
                     ),
+                nextTasks = emptyList(),
             ),
         ).asStateFlow()
 

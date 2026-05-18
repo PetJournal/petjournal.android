@@ -174,6 +174,7 @@ val mainModule =
         factory { GetListCurrentWeekTaskUseCase(get()) }
         factory { GetListCurrentMonthTaskUseCase(get()) }
         factory { GetLocalTasksByPeriodUseCase(get()) }
+        factory { com.soujunior.domain.use_case.task.GetNextEventsForPetUseCase(get()) }
         factory { GetDarkModePreferenceUseCase(get()) }
         factory { SaveDarkModePreferenceUseCase(get()) }
         factory { GetSystemThemePreferenceUseCase(get()) }
@@ -283,7 +284,7 @@ val mainModule =
             )
         }
         viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get()) }
-        viewModel<PetDetailsViewModel> { PetDetailsViewModelImpl(get(), get()) }
+        viewModel<PetDetailsViewModel> { PetDetailsViewModelImpl(get(), get(), get()) }
         viewModel<TutorViewModel> { TutorViewModelImpl(get(), get(), get()) }
         viewModel { SettingsViewModel(get(), get(), get(), get()) }
     }
