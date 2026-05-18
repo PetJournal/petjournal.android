@@ -185,7 +185,16 @@ class RepositoryImpl(
         val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
         var result: NetworkResult<TagDTO> = NetworkResult.Error(0, null)
         remoteDataSource.createTag(token, tag)
-            .onSuccess { result = NetworkResult.Success(it) }
+            .onSuccess { 
+                result = NetworkResult.Success(it) 
+                try {
+                    val localTags = guardianLocalDataSourceImpl.getAllTags().toMutableList()
+                    localTags.add(it)
+                    guardianLocalDataSourceImpl.saveAllTags(localTags)
+                } catch (e: Exception) {
+                    Log.e("RepositoryImpl", "Erro ao salvar nova tag localmente", e)
+                }
+            }
             .onError { code, body -> result = NetworkResult.Error(code, body) }
             .onException { result = NetworkResult.Exception(it) }
         return result

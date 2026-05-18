@@ -58,7 +58,13 @@ class LoginViewModelImpl(
 
     override fun failed(exception: Throwable?) {
         Log.e("PJ_LOGIN", "[ViewModel] login FAILED: ${exception?.message}", exception)
-        setMessage.value = exception?.message.toString() ?: "Erro desconhecido!"
+        setMessage.value =
+            when (exception) {
+                is java.net.SocketTimeoutException -> "Tempo de conexão esgotado. Verifique sua internet ou tente novamente mais tarde."
+                is java.net.UnknownHostException -> "Não foi possível conectar ao servidor. Verifique sua conexão com a internet."
+                is java.net.ConnectException -> "Falha ao conectar ao servidor. O serviço pode estar temporariamente indisponível."
+                else -> exception?.message ?: "Erro desconhecido!"
+            }
         viewModelScope.launch { validationEventChannel.send(ValidationEvent.Failed) }
     }
 

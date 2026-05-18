@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -128,6 +130,7 @@ fun RegisterTaskScreen(
                                     selectedTag = state.selectedTag,
                                     showButton = !state.isLoadingListTag,
                                     onSelection = {
+                                        Log.e(TAG, "onSelection Tag Selected: $it")
                                         viewModel.onEvent(RegisterTaskEvent.OnSelectTag(it))
                                     },
                                     onAction = {
