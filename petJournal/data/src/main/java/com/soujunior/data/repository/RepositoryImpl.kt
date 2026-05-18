@@ -19,7 +19,10 @@ import com.soujunior.domain.model.request.taskModels.TaskDTO
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.response.UserInfoResponse
 import com.soujunior.domain.model.response.tag.UpdatePetByIdDTO
+import com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseDTO
+import com.soujunior.domain.model.taskModel.ScheduleDataDTO
+import com.soujunior.domain.model.taskModel.SchedulerDTO
 import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.network.onError
 import com.soujunior.domain.network.onException
@@ -28,7 +31,6 @@ import com.soujunior.domain.repository.database.LocalDataSource
 import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.repository.task.TaskReminderScheduler
 import com.soujunior.domain.use_case.base.DataResult
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.first
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -36,6 +38,7 @@ import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.time.LocalDate
+import java.util.UUID
 
 class RepositoryImpl(
     private val remoteDataSource: RemoteDataSource,
@@ -395,14 +398,27 @@ class RepositoryImpl(
             val tag = tags.find { it.id == task.tagId } ?: return DataResult.Failure(Exception("Tag not found locally"))
             val selectedPets = pets.filter { task.pets?.contains(it.id) == true }
 
-            val schedulerDto = com.soujunior.domain.model.taskModel.SchedulerDTO(
-                id = java.util.UUID.randomUUID().toString(), tagId = tag.id, title = task.title, description = task.description,
-                note = task.note, startAt = task.startAt, endAt = task.endAt, daysOfWeek = task.daysOfWeek, daily = null,
-                daysOfMonth = null, tag = tag, pets = selectedPets
+            val schedulerDto = SchedulerDTO(
+                id = UUID.randomUUID().toString(),
+                tagId = tag.id,
+                title = task.title,
+                description = task.description,
+                note = task.note,
+                startAt = task.startAt,
+                endAt = task.endAt,
+                daysOfWeek = task.daysOfWeek,
+                daily = null,
+                daysOfMonth = null,
+                tag = tag,
+                pets = selectedPets
             )
 
-            val scheduleDataDto = com.soujunior.domain.model.taskModel.ScheduleDataDTO(
-                id = java.util.UUID.randomUUID().toString(), schedulerId = schedulerDto.id, start = task.startAt, end = task.endAt, scheduler = schedulerDto
+            val scheduleDataDto = ScheduleDataDTO(
+                id = UUID.randomUUID().toString(),
+                schedulerId = schedulerDto.id,
+                start = task.startAt,
+                end = task.endAt,
+                scheduler = schedulerDto
             )
 
             guardianLocalDataSourceImpl.saveAllTasks(listOf(scheduleDataDto))
@@ -587,7 +603,7 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun getNextEventsForPet(petId: String, forceRequest: Boolean): NetworkResult<com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO> {
+    override suspend fun getNextEventsForPet(petId: String, forceRequest: Boolean): NetworkResult<PaginatedNextEventsResponseDTO> {
         val today = LocalDate.now()
         val start = today.atStartOfDay().toString()
         val end = today.plusYears(1).atTime(java.time.LocalTime.MAX).toString()
@@ -601,7 +617,7 @@ class RepositoryImpl(
         if (!forceRequest && !localEmpty) {
             val lastSync = syncDataManager.getLastSyncTime(SyncDataManager.SyncKeys.TASKS_NEXT_PET).first() ?: 0L
             if (System.currentTimeMillis() - lastSync < CACHE_TIMEOUT_MILLIS) {
-                return NetworkResult.Success(com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO(nextEvents = filteredLocalTasks))
+                return NetworkResult.Success(PaginatedNextEventsResponseDTO(nextEvents = filteredLocalTasks))
             }
         }
 
@@ -621,7 +637,7 @@ class RepositoryImpl(
                 val updatedFiltered = updatedLocal.filter { task ->
                     task.scheduler.pets.any { pet -> pet.id == petId }
                 }
-                NetworkResult.Success(com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO(
+                NetworkResult.Success(PaginatedNextEventsResponseDTO(
                     nextEvents = updatedFiltered, 
                     page = apiResponse.data.page, 
                     limit = apiResponse.data.limit, 
@@ -629,11 +645,11 @@ class RepositoryImpl(
                 ))
             }
             is NetworkResult.Error -> {
-                if (!localEmpty) NetworkResult.Success(com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO(nextEvents = filteredLocalTasks))
+                if (!localEmpty) NetworkResult.Success(PaginatedNextEventsResponseDTO(nextEvents = filteredLocalTasks))
                 else NetworkResult.Error(apiResponse.code, apiResponse.body)
             }
             is NetworkResult.Exception -> {
-                if (!localEmpty) NetworkResult.Success(com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO(nextEvents = filteredLocalTasks))
+                if (!localEmpty) NetworkResult.Success(PaginatedNextEventsResponseDTO(nextEvents = filteredLocalTasks))
                 else NetworkResult.Exception(apiResponse.e)
             }
         }

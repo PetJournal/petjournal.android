@@ -35,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -101,88 +102,100 @@ fun PetDetailsScreenV2(
         }
     }
 
-    ScaffoldCustom(
+    Column(
         modifier =
             Modifier
-                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.onPrimary)
                 .navigationBarsPadding()
-                .statusBarsPadding(),
-        titleTopBar = "Perfil do Pet",
-        showButtonToReturn = true,
-        navigationUp = navController,
-        floatingActionButton = {
-        },
-        showTopBar = true,
-        showBottomBarNavigation = true,
-        bottomNavigationBar = {
-            NavigationBar(
-                navController = navController,
-                modifier = Modifier.navigationBarsPadding(),
-            )
-        },
-        contentToUse = { paddingValues ->
-            Box(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .background(color = MaterialTheme.colorScheme.background),
-            ) {
-                if (taskState is TaskState.Loading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                } else {
-                    Column(
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .verticalScroll(rememberScrollState())
-                                .padding(
-                                    top = paddingValues.calculateTopPadding(),
-                                    bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                ),
-                    ) {
-                        state.pet?.let { currentPet ->
-                            PetProfileHeader(
-                                petName = currentPet.petName ?: "",
-                                specie = currentPet.specieAlias ?: currentPet.specie?.name ?: "",
-                                gender = currentPet.gender ?: "-",
-                                breed = currentPet.breed?.name ?: "Sem raça",
-                                age = getPetAgeInYears(currentPet.dateOfBirth).toString(),
-                                weight = currentPet.size?.name ?: "-",
-                                imageUrl = currentPet.image,
-                                onEditClick = {
-                                    navController.navigate("pets/registerPet/${currentPet.id}")
-                                },
-                            )
-                        }
+                .fillMaxSize(),
+        horizontalAlignment = CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        ScaffoldCustom(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .navigationBarsPadding()
+                    .statusBarsPadding(),
+            titleTopBar = "Perfil do Pet",
+            showButtonToReturn = true,
+            navigationUp = navController,
+            floatingActionButton = {
+            },
+            showTopBar = true,
+            showBottomBarNavigation = true,
+            bottomNavigationBar = {
+                NavigationBar(
+                    navController = navController,
+                    modifier = Modifier.navigationBarsPadding(),
+                )
+            },
+            contentToUse = { paddingValues ->
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .background(color = MaterialTheme.colorScheme.onPrimary),
+                ) {
+                    if (taskState is TaskState.Loading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center),
+                        )
+                    } else {
+                        Column(
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .verticalScroll(rememberScrollState())
+                                    .padding(
+                                        top = paddingValues.calculateTopPadding() + 10.dp,
+                                        bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                                        start = 16.dp,
+                                        end = 16.dp,
+                                    ),
+                        ) {
+                            state.pet?.let { currentPet ->
+                                PetProfileHeader(
+                                    petName = currentPet.petName ?: "",
+                                    specie =
+                                        currentPet.specieAlias ?: currentPet.specie?.name
+                                            ?: "",
+                                    gender = currentPet.gender ?: "-",
+                                    breed = currentPet.breed?.name ?: "Sem raça",
+                                    age = getPetAgeInYears(currentPet.dateOfBirth).toString(),
+                                    weight = currentPet.size?.name ?: "-",
+                                    imageUrl = currentPet.image,
+                                    onEditClick = {
+                                        navController.navigate("pets/registerPet/${currentPet.id}")
+                                    },
+                                )
+                            }
 
-                        Spacer(modifier = Modifier.height(24.sdp))
+                            Spacer(modifier = Modifier.height(24.sdp))
 
-                        if (state.nextTasks.isNotEmpty()) {
-                            Text(
-                                text = "Próximas tarefas:",
-                                style = MaterialTheme.typography.titleLarge,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onBackground,
-                                modifier =
-                                    Modifier
-                                        .padding(
-                                            vertical = 8.sdp,
-                                        ),
-                            )
+                            if (state.nextTasks.isNotEmpty()) {
+                                Text(
+                                    text = "Próximas tarefas:",
+                                    style = MaterialTheme.typography.titleLarge,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                    modifier =
+                                        Modifier
+                                            .padding(
+                                                vertical = 8.sdp,
+                                            ),
+                                )
 
-                            TaskDateComponent(
-                                tasks = state.nextTasks,
-                            )
+                                TaskDateComponent(
+                                    tasks = state.nextTasks,
+                                )
+                            }
                         }
                     }
                 }
-            }
-        },
-    )
+            },
+        )
+    }
 }
 
 @Composable
@@ -218,7 +231,7 @@ fun PetProfileHeader(
         Surface(
             modifier = Modifier.size(130.sdp),
             shape = RoundedCornerShape(16.sdp),
-            color = Color(0xFFD9D9D9),
+            color = MaterialTheme.colorScheme.surfaceVariant,
         ) {
             if (imageUrl.isNullOrEmpty()) {
                 Box(
@@ -250,7 +263,7 @@ fun PetProfileHeader(
                             modifier =
                                 Modifier
                                     .fillMaxSize()
-                                    .background(Color(0xFFDED1D1)),
+                                    .background(MaterialTheme.colorScheme.surfaceVariant),
                             contentAlignment = Alignment.Center,
                         ) {
                             CircularProgressIndicator(
@@ -284,7 +297,7 @@ fun PetProfileHeader(
                     .weight(1f)
                     .height(130.sdp),
             shape = RoundedCornerShape(16.sdp),
-            color = Color(0xFFF4EDFC),
+            color = MaterialTheme.colorScheme.surfaceTint,
         ) {
             Box(
                 modifier =
