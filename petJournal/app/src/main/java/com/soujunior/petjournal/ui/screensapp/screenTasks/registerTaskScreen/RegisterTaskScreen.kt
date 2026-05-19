@@ -1,5 +1,7 @@
 package com.soujunior.petjournal.ui.screensapp.screenTasks.registerTaskScreen
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,8 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -130,6 +130,7 @@ fun RegisterTaskScreen(
                                     selectedTag = state.selectedTag,
                                     showButton = !state.isLoadingListTag,
                                     onSelection = {
+                                        Log.e(TAG, "onSelection Tag Selected: $it")
                                         viewModel.onEvent(RegisterTaskEvent.OnSelectTag(it))
                                     },
                                     onAction = {
@@ -336,26 +337,26 @@ fun RegisterTaskScreen(
                             }
                             item {
                                 if (!isLoadingAll) {
-                                    Row(
-                                        modifier = Modifier.fillMaxSize(),
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                    ) {
-                                        Text(
-                                            text = "Sincronizar com a nuvem",
-                                            style = MaterialTheme.typography.bodyLarge,
-                                            color = MaterialTheme.colorScheme.onSurface,
-                                        )
-                                        Switch(
-                                            checked = state.sendToApi,
-                                            onCheckedChange = { checked ->
-                                                viewModel.onEvent(
-                                                    RegisterTaskEvent
-                                                        .OnSendToApiChanged(checked),
-                                                )
-                                            },
-                                        )
-                                    }
+//                                    Row(
+//                                        modifier = Modifier.fillMaxSize(),
+//                                        verticalAlignment = Alignment.CenterVertically,
+//                                        horizontalArrangement = Arrangement.SpaceBetween,
+//                                    ) {
+//                                        Text(
+//                                            text = "Sincronizar com a nuvem",
+//                                            style = MaterialTheme.typography.bodyLarge,
+//                                            color = MaterialTheme.colorScheme.onSurface,
+//                                        )
+//                                        Switch(
+//                                            checked = state.sendToApi,
+//                                            onCheckedChange = { checked ->
+//                                                viewModel.onEvent(
+//                                                    RegisterTaskEvent
+//                                                        .OnSendToApiChanged(checked),
+//                                                )
+//                                            },
+//                                        )
+//                                    }
                                     Spacer(Modifier.padding(top = 16.dp))
                                     Row(
                                         modifier = Modifier.fillMaxSize(),

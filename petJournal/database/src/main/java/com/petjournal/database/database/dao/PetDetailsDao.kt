@@ -16,4 +16,7 @@ interface PetDetailsDao {
 
     @Query("DELETE FROM pet_details")
     suspend fun deleteAll()
+
+    @Query("DELETE FROM pet_details WHERE id = :id")
+    suspend fun deleteById(id: String)
 }

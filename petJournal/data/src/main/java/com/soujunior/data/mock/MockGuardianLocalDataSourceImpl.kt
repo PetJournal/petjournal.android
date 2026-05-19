@@ -73,6 +73,10 @@ class MockGuardianLocalDataSourceImpl:LocalDataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun deletePetById(id: String) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getAllTags(): List<TagDTO> {
         TODO("Not yet implemented")
     }

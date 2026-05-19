@@ -25,6 +25,7 @@ interface LocalDataSource {
 
     suspend fun getAllPets(): List<PetDetailsDTO>
     suspend fun saveAllPets(pets: List<PetDetailsDTO>)
+    suspend fun deletePetById(id: String)
 
     suspend fun getAllTags(): List<TagDTO>
     suspend fun saveAllTags(tags: List<TagDTO>)

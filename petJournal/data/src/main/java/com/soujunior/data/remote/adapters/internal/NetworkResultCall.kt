@@ -50,7 +50,11 @@ class NetworkResultCall<T : Any>(
             }
 
             override fun onFailure(call: Call<T>, t: Throwable) {
-                Log.e("PJ_LOGIN", "[NetworkResultCall] onFailure", t)
+                if (t is java.net.SocketTimeoutException) {
+                    Log.e("PJ_LOGIN", "[NetworkResultCall] onFailure: TIMEOUT", t)
+                } else {
+                    Log.e("PJ_LOGIN", "[NetworkResultCall] onFailure: ${t.message}", t)
+                }
                 val networkResult = NetworkResult.Exception<T>(t)
                 callback.onResponse(this@NetworkResultCall, Response.success(networkResult))
             }
