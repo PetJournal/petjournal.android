@@ -209,6 +209,10 @@ class LocalDataSourceImpl(
         })
     }
 
+    override suspend fun deletePetById(id: String) {
+        petDetailsDao.deleteById(id)
+    }
+
     override suspend fun getAllTags(): List<TagDTO> {
         return tagDao.getAllTags().map {
             TagDTO(

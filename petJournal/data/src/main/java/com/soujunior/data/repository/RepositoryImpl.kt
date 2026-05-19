@@ -273,7 +273,14 @@ class RepositoryImpl(
         val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
         var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
         remoteDataSource.deletePetById(token, id)
-            .onSuccess { result = NetworkResult.Success(it) }
+            .onSuccess { 
+                result = NetworkResult.Success(it) 
+                try {
+                    guardianLocalDataSourceImpl.deletePetById(id)
+                } catch (e: Exception) {
+                    Log.e("RepositoryImpl", "Erro ao deletar pet localmente", e)
+                }
+            }
             .onError { code, body -> result = NetworkResult.Error(code, body) }
             .onException { result = NetworkResult.Exception(it) }
         return result
@@ -299,7 +306,16 @@ class RepositoryImpl(
             )
 
             var result: NetworkResult<PetDetailsDTO> = NetworkResult.Error(0, null)
-            apiResponse.onSuccess { result = NetworkResult.Success(it) }.onError { code, body -> result = NetworkResult.Error(code, body) }.onException { result = NetworkResult.Exception(it) }
+            apiResponse.onSuccess { 
+                result = NetworkResult.Success(it) 
+                try {
+                    val localPets = guardianLocalDataSourceImpl.getAllPets().toMutableList()
+                    localPets.add(it)
+                    guardianLocalDataSourceImpl.saveAllPets(localPets)
+                } catch (e: Exception) {
+                    Log.e("RepositoryImpl", "Erro ao salvar novo pet localmente", e)
+                }
+            }.onError { code, body -> result = NetworkResult.Error(code, body) }.onException { result = NetworkResult.Exception(it) }
             result
         } catch (e: Exception) { NetworkResult.Exception(e) }
     }
@@ -328,7 +344,21 @@ class RepositoryImpl(
             )
 
             var result: NetworkResult<PetDetailsDTO> = NetworkResult.Error(0, null)
-            apiResponse.onSuccess { result = NetworkResult.Success(it) }.onError { code, body -> result = NetworkResult.Error(code, body) }.onException { result = NetworkResult.Exception(it) }
+            apiResponse.onSuccess { 
+                result = NetworkResult.Success(it) 
+                try {
+                    val localPets = guardianLocalDataSourceImpl.getAllPets().toMutableList()
+                    val index = localPets.indexOfFirst { p -> p.id == id }
+                    if (index != -1) {
+                        localPets[index] = it
+                    } else {
+                        localPets.add(it)
+                    }
+                    guardianLocalDataSourceImpl.saveAllPets(localPets)
+                } catch (e: Exception) {
+                    Log.e("RepositoryImpl", "Erro ao atualizar pet localmente", e)
+                }
+            }.onError { code, body -> result = NetworkResult.Error(code, body) }.onException { result = NetworkResult.Exception(it) }
             result
         } catch (e: Exception) { NetworkResult.Exception(e) }
     }
