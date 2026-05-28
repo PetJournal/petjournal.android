@@ -14,15 +14,15 @@ import java.time.format.DateTimeFormatter
 class GetListCurrentWeekTaskUseCase(private val repository: Repository):
     BaseUseCase<Boolean, PaginatedScheduleResponseModel>() {
     override suspend fun doWork(value: Boolean): DataResult<PaginatedScheduleResponseModel> {
-        val today = LocalDate.now()
-        val daysToSubtract = today.dayOfWeek.value % 7L
-        val sunday = today.minusDays(daysToSubtract)
-        val saturday = sunday.plusDays(6)
-        
-        val startDate = sunday.atStartOfDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        val endDate = saturday.atTime(LocalTime.MAX).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        return when (val response = repository.listCurrentWeekScheduled(forceRequest = value, localOnly = false)) {
+            is NetworkResult.Success -> { DataResult.Success(response.data.toDomain()) }
+            is NetworkResult.Error -> DataResult.Failure(Throwable(message = "${response.code} -> ${response.body?.error}"))
+            is NetworkResult.Exception -> DataResult.Failure(response.e)
+        }
+    }
 
-        return when (val response = repository.listTasksByPeriod(startDate, endDate, value)) {
+    suspend fun executeLocalOnly(): DataResult<PaginatedScheduleResponseModel> {
+        return when (val response = repository.listCurrentWeekScheduled(forceRequest = false, localOnly = true)) {
             is NetworkResult.Success -> { DataResult.Success(response.data.toDomain()) }
             is NetworkResult.Error -> DataResult.Failure(Throwable(message = "${response.code} -> ${response.body?.error}"))
             is NetworkResult.Exception -> DataResult.Failure(response.e)

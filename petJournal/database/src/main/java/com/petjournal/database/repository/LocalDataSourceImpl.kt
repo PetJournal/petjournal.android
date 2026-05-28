@@ -250,9 +250,9 @@ class LocalDataSourceImpl(
     }
 
     override suspend fun getTasksInPeriod(startDate: String, endDate: String): List<ScheduleDataDTO> {
-        val currentDateTime = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        val currentClean = currentDateTime.split(".")[0].replace("Z", "")
-        taskDao.deletePastTasks(currentClean)
+        val deleteThresholdRaw = java.time.Instant.now().minus(2, java.time.temporal.ChronoUnit.DAYS).toString()
+        val deleteThreshold = cleanToUtcString(deleteThresholdRaw) ?: ""
+        taskDao.deletePastTasks(deleteThreshold)
 
         val startClean = if (startDate.contains("T")) {
             startDate.split(".")[0].replace("Z", "")
@@ -265,11 +265,18 @@ class LocalDataSourceImpl(
             "${endDate}T23:59:59"
         }
         
+        val zoneId = java.time.ZoneId.systemDefault()
+        val localStart = java.time.LocalDateTime.parse(startClean)
+        val localEnd = java.time.LocalDateTime.parse(endClean)
+        
+        val startUtc = cleanToUtcString(localStart.atZone(zoneId).toInstant().toString()) ?: ""
+        val endUtc = cleanToUtcString(localEnd.atZone(zoneId).toInstant().toString()) ?: ""
+
         val startDateTime = java.time.LocalDateTime.parse(startClean)
         val dayOfWeek = (startDateTime.dayOfWeek.value % 7).toString()
         val dayOfMonth = startDateTime.dayOfMonth.toString()
 
-        return taskDao.getTasksInPeriod(startClean, endClean, dayOfWeek, dayOfMonth).mapNotNull {
+        return taskDao.getTasksInPeriod(startUtc, endUtc, dayOfWeek, dayOfMonth).mapNotNull {
             it.scheduler?.let { scheduler ->
                 ScheduleDataDTO(
                     id = it.id,
@@ -287,7 +294,9 @@ class LocalDataSourceImpl(
         val currentClean = currentDateTime.split(".")[0].replace("Z", "")
         
         if (considerTime) {
-            taskDao.deletePastTasks(currentClean)
+            val deleteThresholdRaw = java.time.Instant.now().minus(2, java.time.temporal.ChronoUnit.DAYS).toString()
+            val deleteThreshold = cleanToUtcString(deleteThresholdRaw) ?: ""
+            taskDao.deletePastTasks(deleteThreshold)
         }
 
         var startClean = if (startDate.contains("T")) {
@@ -305,11 +314,18 @@ class LocalDataSourceImpl(
             startClean = currentClean
         }
 
+        val zoneId = java.time.ZoneId.systemDefault()
+        val localStart = java.time.LocalDateTime.parse(startClean)
+        val localEnd = java.time.LocalDateTime.parse(endClean)
+        
+        val startUtc = cleanToUtcString(localStart.atZone(zoneId).toInstant().toString()) ?: ""
+        val endUtc = cleanToUtcString(localEnd.atZone(zoneId).toInstant().toString()) ?: ""
+
         val startDateTime = java.time.LocalDateTime.parse(startClean)
         val dayOfWeek = (startDateTime.dayOfWeek.value % 7).toString() // 0-6 (dom-sab)
         val dayOfMonth = startDateTime.dayOfMonth.toString()
 
-        return taskDao.getTasksInPeriod(startClean, endClean, dayOfWeek, dayOfMonth).mapNotNull {
+        return taskDao.getTasksInPeriod(startUtc, endUtc, dayOfWeek, dayOfMonth).mapNotNull {
             it.scheduler?.let { scheduler ->
                 ScheduleDataDTO(
                     id = it.id,
@@ -335,8 +351,8 @@ class LocalDataSourceImpl(
                 title = scheduler.title ?: "",
                 description = scheduler.description,
                 note = scheduler.note,
-                start = it.start,
-                end = it.end,
+                start = cleanToUtcString(it.start),
+                end = cleanToUtcString(it.end),
                 isRecurrent = scheduler.daily == true || !scheduler.daysOfWeek.isNullOrEmpty() || !scheduler.daysOfMonth.isNullOrEmpty(),
                 recurrenceType = when {
                     scheduler.daily == true -> "DAILY"
@@ -373,5 +389,11 @@ class LocalDataSourceImpl(
 
     override suspend fun updateAlarmStatus(id: String, isScheduled: Boolean) {
         taskDao.updateAlarmStatus(id, isScheduled)
+    }
+
+    private fun cleanToUtcString(dateString: String?): String? {
+        if (dateString == null) return null
+        val clean = dateString.split(".")[0]
+        return if (clean.endsWith("Z")) clean else "${clean}Z"
     }
 }

@@ -53,8 +53,8 @@ interface Repository {
         considerTime: Boolean
     ): DataResult<PaginatedScheduleResponseDTO>
 
-    suspend fun listCurrentDateScheduled(forceRequest: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>
-    suspend fun listCurrentWeekScheduled(forceRequest: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>
-    suspend fun listCurrentMonthScheduled(forceRequest: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>
+    suspend fun listCurrentDateScheduled(forceRequest: Boolean = false, localOnly: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>
+    suspend fun listCurrentWeekScheduled(forceRequest: Boolean = false, localOnly: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>
+    suspend fun listCurrentMonthScheduled(forceRequest: Boolean = false, localOnly: Boolean = false): NetworkResult<PaginatedScheduleResponseDTO>
     suspend fun getNextEventsForPet(petId: String, forceRequest: Boolean = false): NetworkResult<com.soujunior.domain.model.taskModel.PaginatedNextEventsResponseDTO>
 }

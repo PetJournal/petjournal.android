@@ -13,11 +13,7 @@ import java.time.format.DateTimeFormatter
 class GetListCurrentDateTaskUseCase(private val repository: Repository):
     BaseUseCase<Boolean, PaginatedScheduleResponseModel>() {
     override suspend fun doWork(value: Boolean): DataResult<PaginatedScheduleResponseModel> {
-        val today = LocalDate.now()
-        val startDate = today.atStartOfDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        val endDate = today.atTime(LocalTime.MAX).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-
-        return when (val response = repository.listTasksByPeriod(startDate, endDate, value)) {
+        return when (val response = repository.listCurrentDateScheduled(forceRequest = value, localOnly = false)) {
             is NetworkResult.Success -> { DataResult.Success(response.data.toDomain()) }
             is NetworkResult.Error -> DataResult.Failure(Throwable(message = "${response.code} -> ${response.body?.error}"))
             is NetworkResult.Exception -> DataResult.Failure(response.e)
@@ -25,11 +21,7 @@ class GetListCurrentDateTaskUseCase(private val repository: Repository):
     }
 
     suspend fun executeLocalOnly(): DataResult<PaginatedScheduleResponseModel> {
-        val today = LocalDate.now()
-        val startDate = today.atStartOfDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        val endDate = today.atTime(LocalTime.MAX).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-
-        return when (val response = repository.listTasksByPeriod(startDate, endDate, forceRequest = false, localOnly = true)) {
+        return when (val response = repository.listCurrentDateScheduled(forceRequest = false, localOnly = true)) {
             is NetworkResult.Success -> { DataResult.Success(response.data.toDomain()) }
             is NetworkResult.Error -> DataResult.Failure(Throwable(message = "${response.code} -> ${response.body?.error}"))
             is NetworkResult.Exception -> DataResult.Failure(response.e)
