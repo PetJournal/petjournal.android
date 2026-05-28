@@ -142,9 +142,12 @@ dependencies {
     testImplementation("io.mockk:mockk:1.12.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
     testImplementation("org.robolectric:robolectric:4.10.3")
+    testImplementation(rootProject.ext["testAssertk"] as String)
     testImplementation("io.github.takahirom.roborazzi:roborazzi:1.7.0-alpha-1")
     testImplementation("io.github.takahirom.roborazzi:roborazzi-compose:1.7.0-alpha-1")
     testImplementation("io.github.takahirom.roborazzi:roborazzi-junit-rule:1.7.0-alpha-1")
+    testImplementation("androidx.compose.ui:ui-test-junit4:$composeUiVersion")
+    testImplementation("androidx.navigation:navigation-testing:2.6.0-beta01")
 
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeUiVersion")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

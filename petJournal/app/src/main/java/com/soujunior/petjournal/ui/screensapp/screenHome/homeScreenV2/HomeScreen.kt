@@ -5,6 +5,12 @@ import android.annotation.SuppressLint
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,7 +28,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -31,14 +36,12 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -56,12 +59,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -122,9 +125,10 @@ fun HomeScreen(navController: NavController) {
         )
 
     Column(
-        modifier = Modifier.background(color = MaterialTheme.colorScheme.onPrimary),
+        modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
     ) {
         ScaffoldCustom(
+            containerColor = MaterialTheme.colorScheme.background,
             titleTopBar =
                 if (state.hasErrorOnNameUser || state.nameUser.isEmpty()) {
                     stringResource(R.string.welcome)
@@ -140,6 +144,14 @@ fun HomeScreen(navController: NavController) {
                     .navigationBarsPadding()
                     .statusBarsPadding(),
             showActions = true,
+            actions = {
+                if (state.isSyncingBackground) {
+                    RotatingLoadingIcon(
+                        modifier = Modifier.padding(end = 8.dp),
+                    )
+                }
+                HomeTopBarActions(onLogout = { viewModel.logout() })
+            },
             shadowBelowTopBar = 0.dp,
             showButtonToReturn = false,
             navigationUp = navController,
@@ -158,9 +170,6 @@ fun HomeScreen(navController: NavController) {
                             .fillMaxSize()
                             .pullRefresh(pullRefreshState),
                 ) {
-                    if (state.isGlobalLoading) {
-                        LoadingProgressDialog(state = state)
-                    }
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding =
@@ -188,7 +197,7 @@ fun HomeScreen(navController: NavController) {
                             item { Carousel(imageIds = viewModel.carouselImages) }
                         }
 
-                        item { Spacer(modifier = Modifier.padding(top = 16.dp)) }
+                        item { Spacer(modifier = Modifier.height(16.dp)) }
 
                         item {
                             if (!state.isLoadingListPet) {
@@ -267,51 +276,6 @@ fun HomeScreen(navController: NavController) {
     }
 }
 
-@Composable
-fun TagSection(
-    isLoadingListTag: Boolean,
-    listTag: List<TagOption>,
-    hasErrorOnListTag: Boolean,
-    onReload: () -> Unit,
-    onTagClick: (String) -> Unit,
-) {
-    if (isLoadingListTag || listTag.isNotEmpty() || hasErrorOnListTag) {
-        Column(modifier = if (isLoadingListTag) Modifier.padding(top = 16.dp) else Modifier) {
-            if (!isLoadingListTag) {
-                SectionHeader(
-                    title = stringResource(R.string.section_learn_more),
-                )
-            }
-            if (hasErrorOnListTag) {
-                androidx.compose.material3.Button(
-                    onClick = onReload,
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(top = 8.dp),
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Refresh,
-                        contentDescription = null,
-                        modifier = Modifier.size(16.dp),
-                    )
-                    Spacer(modifier = Modifier.size(8.dp))
-                    Text(
-                        text = stringResource(R.string.reload),
-                        style = MaterialTheme.typography.labelMedium,
-                    )
-                }
-            } else {
-                HorizontalButtonList(
-                    onItemClick = onTagClick,
-                    menuItems = listTag,
-                    isLoading = isLoadingListTag,
-                )
-            }
-        }
-    }
-}
-
 @SuppressLint("ViewModelConstructorInComposable")
 @Composable
 private fun getCorrectViewModel(): HomeScreenViewModel {
@@ -349,13 +313,13 @@ private fun SectionHeader(
                         .size(24.sdp)
                         .clickable(onClick = onAddClick),
                 shape = CircleShape,
-                color = Color(0xFF8D4CD2),
+                color = MaterialTheme.colorScheme.primary,
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = stringResource(R.string.addpet),
-                        tint = Color.White,
+                        tint = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.size(16.sdp),
                     )
                 }
@@ -492,48 +456,25 @@ private fun Preview() {
 }
 
 @Composable
-fun LoadingProgressDialog(state: HomeState) {
-    Dialog(onDismissRequest = { }) {
-        Surface(
-            shape = RoundedCornerShape(16.dp),
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 8.dp,
-        ) {
-            Column(modifier = Modifier.padding(24.dp)) {
-                Text(
-                    text = "Preparando ambiente...",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(bottom = 16.dp),
-                )
-                LoadingStatusRow("Obtendo dados do usuário", state.isLoadingUserName)
-                LoadingStatusRow("Obtendo seus pets", state.isLoadingListPet)
-                LoadingStatusRow("Verificando tarefas", state.isLoadingListTask)
-                LoadingStatusRow("Obtendo tags salvas", state.isLoadingListTag)
-            }
-        }
-    }
-}
-
-@Composable
-fun LoadingStatusRow(
-    text: String,
-    isLoading: Boolean,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(vertical = 8.dp),
-    ) {
-        if (isLoading) {
-            CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
-        } else {
-            Icon(
-                imageVector = Icons.Default.CheckCircle,
-                contentDescription = null,
-                tint = Color(0xFF4CAF50),
-                modifier = Modifier.size(20.dp),
-            )
-        }
-        Spacer(modifier = Modifier.width(12.dp))
-        Text(text = text, style = MaterialTheme.typography.bodyMedium)
-    }
+fun RotatingLoadingIcon(modifier: Modifier = Modifier) {
+    val infiniteTransition = rememberInfiniteTransition(label = "loading_rotation")
+    val angle by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(1200, easing = LinearEasing),
+                repeatMode = RepeatMode.Restart,
+            ),
+        label = "loading_angle",
+    )
+    Icon(
+        imageVector = Icons.Default.Refresh,
+        contentDescription = "Carregando dados da API...",
+        tint = MaterialTheme.colorScheme.primary,
+        modifier =
+            modifier
+                .size(24.dp)
+                .graphicsLayer(rotationZ = angle),
+    )
 }

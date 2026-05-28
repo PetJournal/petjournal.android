@@ -16,20 +16,20 @@ import com.soujunior.domain.network.NetworkResult
 import com.soujunior.domain.use_case.base.DataResult
 
 interface Repository {
-    suspend fun getGuardianName(forceRequest: Boolean = false): NetworkResult<GuardianNameResponse>
+    suspend fun getGuardianName(forceRequest: Boolean = false, localOnly: Boolean = false): NetworkResult<GuardianNameResponse>
     suspend fun getGuardianEmail(): String?
     suspend fun saveGuardianContact(email: String, phone: String)
 
     suspend fun getListSize(animal: String): NetworkResult<List<SizeDTO>>
     suspend fun getListBreed(animal: String): NetworkResult<List<BreedDTO>>
 
-    suspend fun getListTag(forceRequest: Boolean = false): NetworkResult<List<TagDTO>>
+    suspend fun getListTag(forceRequest: Boolean = false, localOnly: Boolean = false): NetworkResult<List<TagDTO>>
     suspend fun createTag(tag: TagDTO): NetworkResult<TagDTO>
     suspend fun updateTag(tag: TagDTO): NetworkResult<UpdatePetByIdDTO>
     suspend fun deleteTag(id: String): NetworkResult<Unit>
 
     suspend fun savePet(petModel: PetModel): DataResult<Long>
-    suspend fun getListPet(forceRequest: Boolean = false): NetworkResult<List<PetDetailsDTO>>
+    suspend fun getListPet(forceRequest: Boolean = false, localOnly: Boolean = false): NetworkResult<List<PetDetailsDTO>>
     suspend fun createPet(pet: PetCreateDTO, imageUri: String?): NetworkResult<PetDetailsDTO>
     suspend fun getPet(idPet: Long): DataResult<PetModel>
     suspend fun getPetById(id: String) : NetworkResult<PetDetailsDTO>
@@ -43,7 +43,8 @@ interface Repository {
     suspend fun listTasksByPeriod(
         startDate: String,
         endDate: String,
-        forceRequest: Boolean = false
+        forceRequest: Boolean = false,
+        localOnly: Boolean = false
     ): NetworkResult<PaginatedScheduleResponseDTO>
     
     suspend fun getLocalTasksByPeriod(

@@ -67,9 +67,13 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun getGuardianName(forceRequest: Boolean): NetworkResult<GuardianNameResponse> {
+    override suspend fun getGuardianName(forceRequest: Boolean, localOnly: Boolean): NetworkResult<GuardianNameResponse> {
         val localName = guardianLocalDataSourceImpl.getGuardianName()
         val localEmpty = localName.isNullOrBlank()
+
+        if (localOnly) {
+            return NetworkResult.Success(GuardianNameResponse(localName ?: "", ""))
+        }
 
         if (!forceRequest && !localEmpty) {
             val lastSync = syncDataManager.getLastSyncTime(SyncDataManager.SyncKeys.GUARDIAN_NAME).first() ?: 0L
@@ -148,8 +152,11 @@ class RepositoryImpl(
         return result
     }
 
-    override suspend fun getListTag(forceRequest: Boolean): NetworkResult<List<TagDTO>> {
+    override suspend fun getListTag(forceRequest: Boolean, localOnly: Boolean): NetworkResult<List<TagDTO>> {
         val localTags = guardianLocalDataSourceImpl.getAllTags()
+        if (localOnly) {
+            return NetworkResult.Success(localTags)
+        }
         val localEmpty = localTags.isEmpty()
 
         if (!forceRequest && !localEmpty) {
@@ -220,8 +227,11 @@ class RepositoryImpl(
         return result
     }
 
-    override suspend fun getListPet(forceRequest: Boolean): NetworkResult<List<PetDetailsDTO>> {
+    override suspend fun getListPet(forceRequest: Boolean, localOnly: Boolean): NetworkResult<List<PetDetailsDTO>> {
         val localPets = guardianLocalDataSourceImpl.getAllPets()
+        if (localOnly) {
+            return NetworkResult.Success(localPets)
+        }
         val localEmpty = localPets.isEmpty()
 
         if (!forceRequest && !localEmpty) {
@@ -480,8 +490,16 @@ class RepositoryImpl(
         return result
     }
 
-    override suspend fun listTasksByPeriod(startDate: String, endDate: String, forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+    override suspend fun listTasksByPeriod(
+        startDate: String,
+        endDate: String,
+        forceRequest: Boolean,
+        localOnly: Boolean
+    ): NetworkResult<PaginatedScheduleResponseDTO> {
         val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(startDate, endDate)
+        if (localOnly) {
+            return NetworkResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
+        }
         val localEmpty = localTasks.isEmpty()
 
         if (!forceRequest && !localEmpty) {

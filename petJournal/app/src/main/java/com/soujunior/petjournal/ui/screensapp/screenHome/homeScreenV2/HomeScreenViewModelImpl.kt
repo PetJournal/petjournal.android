@@ -1,5 +1,6 @@
 package com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseModel
@@ -106,12 +107,139 @@ class HomeScreenViewModelImpl(
             is HomeEvent.ReloadListPet -> getPetList(forceRequest = true, isSilent = false)
             is HomeEvent.ReloadListTag -> getTags(forceRequest = true, isSilent = false)
             is HomeEvent.ReloadAll -> {
-                getGuardianNameInternal(forceRequest = true, isSilent = false)
-                getPetList(forceRequest = true, isSilent = false)
-                getTasks(forceRequest = true, isSilent = false)
-                getTags(forceRequest = true, isSilent = false)
+                guardianJob?.cancel()
+                petJob?.cancel()
+                taskJob?.cancel()
+                tagJob?.cancel()
+
+                _state.update { it.copy(isSyncingBackground = true) }
+
+                viewModelScope.launch {
+                    // Phase 1: Retrieve currently stored database data IMMEDIATELY
+                    val localNameJob =
+                        launch {
+                            getGuardianNameUseCase.executeLocalOnly().handleResult({
+                                updateName(it)
+                                _state.update { s -> s.copy(isLoadingUserName = false) }
+                            }, {
+                                _state.update { s -> s.copy(isLoadingUserName = false) }
+                            })
+                        }
+                    val localPetsJob =
+                        launch {
+                            getPetListUseCase.executeLocalOnly().handleResult({ pets ->
+                                _state.update { s -> s.copy(listPets = pets, isLoadingListPet = false) }
+                            }, {
+                                _state.update { s -> s.copy(isLoadingListPet = false) }
+                            })
+                        }
+                    val localTasksJob =
+                        launch {
+                            getListCurrentDateTaskUseCase.executeLocalOnly().handleResult({ value ->
+                                val taskDataList = with(Mapper) { value.toListOfTaskData() }
+                                _state.update { s ->
+                                    s.copy(
+                                        listScheduled = value,
+                                        listTaskData = taskDataList,
+                                        isLoadingListTask = false,
+                                    )
+                                }
+                            }, {
+                                _state.update { s -> s.copy(isLoadingListTask = false) }
+                            })
+                        }
+                    val localTagsJob =
+                        launch {
+                            getListTagUseCase.executeLocalOnly().handleResult({ tags ->
+                                _state.update { s ->
+                                    with(Mapper) {
+                                        s.copy(
+                                            listTag = tags.map { tag -> tag.toTagOption() },
+                                            isLoadingListTag = false,
+                                        )
+                                    }
+                                }
+                            }, {
+                                _state.update { s -> s.copy(isLoadingListTag = false) }
+                            })
+                        }
+
+                    // Await local database data to display it on screen before network starts
+                    localNameJob.join()
+                    localPetsJob.join()
+                    localTasksJob.join()
+                    localTagsJob.join()
+
+                    // Phase 2: Start network requests in the background
+                    val remoteNameJob =
+                        launch {
+                            getGuardianNameUseCase.execute(true).handleResult({
+                                updateName(it)
+                                _state.update { s -> s.copy(isLoadingUserName = false) }
+                            }, { error ->
+                                if (error is CancellationException) throw error
+                                failed(error)
+                                _state.update { s -> s.copy(isLoadingUserName = false, hasErrorOnNameUser = true) }
+                            })
+                        }
+                    guardianJob = remoteNameJob
+
+                    val remotePetsJob =
+                        launch {
+                            getPetListUseCase.execute(true).handleResult({ pets ->
+                                _state.update { s -> s.copy(listPets = pets, isLoadingListPet = false) }
+                            }, { error ->
+                                if (error is CancellationException) throw error
+                                _state.update { s -> s.copy(isLoadingListPet = false, hasErrorOnListPets = true) }
+                            })
+                        }
+                    petJob = remotePetsJob
+
+                    val remoteTasksJob =
+                        launch {
+                            getListCurrentDateTaskUseCase.execute(true).handleResult({ value ->
+                                val taskDataList = with(Mapper) { value.toListOfTaskData() }
+                                _state.update { s ->
+                                    s.copy(
+                                        listScheduled = value,
+                                        listTaskData = taskDataList,
+                                        isLoadingListTask = false,
+                                    )
+                                }
+                            }, { error ->
+                                if (error is CancellationException) throw error
+                                _state.update { s -> s.copy(isLoadingListTask = false) }
+                            })
+                        }
+                    taskJob = remoteTasksJob
+
+                    val remoteTagsJob =
+                        launch {
+                            getListTagUseCase.execute(true).handleResult({ tags ->
+                                _state.update { s ->
+                                    with(Mapper) {
+                                        s.copy(
+                                            listTag = tags.map { tag -> tag.toTagOption() },
+                                            isLoadingListTag = false,
+                                        )
+                                    }
+                                }
+                            }, { error ->
+                                if (error is CancellationException) throw error
+                                _state.update { s -> s.copy(isLoadingListTag = false, hasErrorOnListTag = true) }
+                            })
+                        }
+                    tagJob = remoteTagsJob
+
+                    // Wait for all background requests to complete
+                    remoteNameJob.join()
+                    remotePetsJob.join()
+                    remoteTasksJob.join()
+                    remoteTagsJob.join()
+
+                    _state.update { s -> s.copy(isSyncingBackground = false) }
+                }
             }
-            // NOVO FLUXO: Atualização 100% invisível baseada no Cache (Short-Circuit fará o trabalho duro)
             is HomeEvent.SilentRefresh -> {
                 getGuardianNameInternal(forceRequest = false, isSilent = true)
                 getPetList(forceRequest = false, isSilent = true)
@@ -145,23 +273,29 @@ class HomeScreenViewModelImpl(
         isSilent: Boolean = false,
     ) {
         taskJob?.cancel()
+        Log.d("HomeScreenViewModel", "getTasks: Iniciando carregamento. forceRequest=$forceRequest, isSilent=$isSilent")
         if (!isSilent) _state.update { it.copy(isLoadingListTask = true) }
 
         taskJob =
             viewModelScope.launch {
                 val result = getListCurrentDateTaskUseCase.execute(forceRequest)
                 result.handleResult({ value: PaginatedScheduleResponseModel ->
+                    Log.d("HomeScreenViewModel", "getTasks: Sucesso. Recebidas ${value.data?.size ?: 0} tarefas brutas da API/Cache.")
+                    val taskDataList = with(Mapper) { value.toListOfTaskData() }
+                    Log.d("HomeScreenViewModel", "getTasks: Mapeamento concluído. ${taskDataList.size} tarefas prontas para exibição.")
                     _state.update {
-                        with(Mapper) {
-                            it.copy(
-                                listScheduled = value,
-                                listTaskData = value.toListOfTaskData(),
-                                isLoadingListTask = false,
-                            )
-                        }
+                        it.copy(
+                            listScheduled = value,
+                            listTaskData = taskDataList,
+                            isLoadingListTask = false,
+                        )
                     }
                 }, { error ->
-                    if (error is CancellationException) throw error
+                    if (error is CancellationException) {
+                        Log.d("HomeScreenViewModel", "getTasks: Corotina cancelada.")
+                        throw error
+                    }
+                    Log.e("HomeScreenViewModel", "getTasks: Falha ao obter tarefas.", error)
                     _state.update { it.copy(isLoadingListTask = false) }
                 })
             }
