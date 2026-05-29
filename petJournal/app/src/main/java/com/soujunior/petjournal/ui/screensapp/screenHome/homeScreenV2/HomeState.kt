@@ -19,6 +19,7 @@ data class HomeState(
     val isLoadingListTag: Boolean = true,
     val hasErrorOnListTag: Boolean = false,
     val listTag: List<TagOption> = emptyList(),
+    val isSyncingBackground: Boolean = false,
 ) {
     val isGlobalLoading: Boolean
         get() = isLoadingUserName || isLoadingListPet || isLoadingListTask || isLoadingListTag

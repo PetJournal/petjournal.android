@@ -18,7 +18,7 @@ import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.use_case.base.DataResult
 
 class MockGuardianRepositoryImpl(): Repository {
-    override suspend fun getGuardianName(forceRequest: Boolean): NetworkResult<GuardianNameResponse> = NetworkResult.Success (GuardianNameResponse("Petjornaleiro", "Jr"))
+    override suspend fun getGuardianName(forceRequest: Boolean, localOnly: Boolean): NetworkResult<GuardianNameResponse> = NetworkResult.Success (GuardianNameResponse("Petjornaleiro", "Jr"))
 
     override suspend fun getGuardianEmail(): String? {
         return "mock@email.com"
@@ -38,7 +38,7 @@ class MockGuardianRepositoryImpl(): Repository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getListTag(forceRequest: Boolean): NetworkResult<List<TagDTO>> {
+    override suspend fun getListTag(forceRequest: Boolean, localOnly: Boolean): NetworkResult<List<TagDTO>> {
         TODO("Not yet implemented")
     }
 
@@ -54,7 +54,7 @@ class MockGuardianRepositoryImpl(): Repository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getListPet(forceRequest: Boolean): NetworkResult<List<PetDetailsDTO>> {
+    override suspend fun getListPet(forceRequest: Boolean, localOnly: Boolean): NetworkResult<List<PetDetailsDTO>> {
         TODO("Not yet implemented")
     }
 
@@ -104,7 +104,8 @@ class MockGuardianRepositoryImpl(): Repository {
     override suspend fun listTasksByPeriod(
         startDate: String,
         endDate: String,
-        forceRequest: Boolean
+        forceRequest: Boolean,
+        localOnly: Boolean
     ): NetworkResult<PaginatedScheduleResponseDTO> {
         TODO("Not yet implemented")
     }
@@ -117,15 +118,15 @@ class MockGuardianRepositoryImpl(): Repository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun listCurrentDateScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+    override suspend fun listCurrentDateScheduled(forceRequest: Boolean, localOnly: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun listCurrentWeekScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+    override suspend fun listCurrentWeekScheduled(forceRequest: Boolean, localOnly: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun listCurrentMonthScheduled(forceRequest: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
+    override suspend fun listCurrentMonthScheduled(forceRequest: Boolean, localOnly: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
         TODO("Not yet implemented")
     }
 

@@ -3,6 +3,8 @@ package com.soujunior.petjournal.ui.screensapp.accountmanager.changePasswordScre
 import android.content.Context
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.navigation.compose.ComposeNavigator
+import androidx.navigation.compose.composable
+import androidx.navigation.createGraph
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import org.junit.Assert.assertEquals
@@ -31,10 +33,10 @@ class PasswordRecoveryNavigationTest {
                 navController.createGraph(
                     startDestination = "originScreen",
                 ) {
-                    androidx.navigation.compose.composable("originScreen") { }
-                    androidx.navigation.compose.composable("forgotPassword") { }
-                    androidx.navigation.compose.composable("awaitingCode/{arg}") { }
-                    androidx.navigation.compose.composable("changePassword") { }
+                    composable("originScreen") { }
+                    composable("forgotPassword") { }
+                    composable("awaitingCode/{arg}") { }
+                    composable("changePassword") { }
                 }
         }
 

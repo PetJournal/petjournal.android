@@ -16,4 +16,12 @@ class GetListPetUseCaseV1(private val repository: Repository):
             is NetworkResult.Exception -> DataResult.Failure(response.e)
         }
     }
+
+    suspend fun executeLocalOnly(): DataResult<List<PetModel>> {
+        return when (val response = repository.getListPet(forceRequest = false, localOnly = true)) {
+            is NetworkResult.Success -> { DataResult.Success(response.data.toPetModelList()) }
+            is NetworkResult.Error -> DataResult.Failure(Throwable(message = "${response.code} -> ${response.body?.error}"))
+            is NetworkResult.Exception -> DataResult.Failure(response.e)
+        }
+    }
 }

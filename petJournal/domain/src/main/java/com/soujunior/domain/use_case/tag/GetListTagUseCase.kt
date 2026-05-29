@@ -15,4 +15,12 @@ class GetListTagUseCase(private val repository: Repository): BaseUseCase<Boolean
             is NetworkResult.Exception -> DataResult.Failure(response.e)
         }
     }
+
+    suspend fun executeLocalOnly(): DataResult<List<TagModel>> {
+        return when (val response = repository.getListTag(forceRequest = false, localOnly = true)) {
+            is NetworkResult.Success -> { DataResult.Success(response.data.toDomain()) }
+            is NetworkResult.Error -> DataResult.Failure(Throwable(message = "${response.code} -> ${response.body?.error}"))
+            is NetworkResult.Exception -> DataResult.Failure(response.e)
+        }
+    }
 }

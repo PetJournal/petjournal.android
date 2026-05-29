@@ -11,7 +11,6 @@ import com.soujunior.domain.use_case.preference.CheckNotificationPermissionReque
 import com.soujunior.domain.use_case.preference.SetNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
-import com.soujunior.domain.use_case.task.GetLocalTasksByPeriodUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +36,6 @@ import org.robolectric.annotation.Config
 class HomeScreenViewModelImplTest {
     private val getGuardianNameUseCase: GetGuardianNameUseCase = mockk()
     private val getPetListUseCase: GetListPetUseCaseV1 = mockk()
-    private val getLocalTasksByPeriodUseCase: GetLocalTasksByPeriodUseCase = mockk()
     private val logoutUseCase: LogoutUseCase = mockk(relaxed = true)
     private val getListTagUseCase: GetListTagUseCase = mockk()
     private val checkNotificationPermissionRequestedUseCase: CheckNotificationPermissionRequestedUseCase = mockk()
@@ -53,10 +51,16 @@ class HomeScreenViewModelImplTest {
         // Mock default behavior for init
         coEvery { getGuardianNameUseCase.execute(any()) } returns DataResult.Failure(Exception())
         coEvery { getPetListUseCase.execute(any()) } returns DataResult.Failure(Exception())
-        coEvery { getLocalTasksByPeriodUseCase.execute(any()) } returns DataResult.Failure(Exception())
+        coEvery { getListTagUseCase.execute(any()) } returns DataResult.Failure(Exception())
         coEvery { checkNotificationPermissionRequestedUseCase.invoke() } returns false
         coEvery { setNotificationPermissionRequestedUseCase.invoke(any()) } returns Unit
         coEvery { getListCurrentDateTaskUseCase.execute(any()) } returns DataResult.Failure(Exception())
+
+        // Mock default behavior for local-only
+        coEvery { getGuardianNameUseCase.executeLocalOnly() } returns DataResult.Failure(Exception())
+        coEvery { getPetListUseCase.executeLocalOnly() } returns DataResult.Failure(Exception())
+        coEvery { getListTagUseCase.executeLocalOnly() } returns DataResult.Failure(Exception())
+        coEvery { getListCurrentDateTaskUseCase.executeLocalOnly() } returns DataResult.Failure(Exception())
     }
 
     @After
@@ -69,7 +73,6 @@ class HomeScreenViewModelImplTest {
         HomeScreenViewModelImpl(
             getGuardianNameUseCase,
             getPetListUseCase,
-            getLocalTasksByPeriodUseCase,
             logoutUseCase,
             getListTagUseCase,
             checkNotificationPermissionRequestedUseCase,
@@ -80,7 +83,7 @@ class HomeScreenViewModelImplTest {
     @Test
     fun `getTags emite Loading = false e hasError = true quando usecase falha`() =
         runTest {
-            coEvery { getListTagUseCase.execute(Unit) } returns DataResult.Failure(Exception("Network error"))
+            coEvery { getListTagUseCase.execute(any()) } returns DataResult.Failure(Exception("Network error"))
 
             val viewModel = createViewModel()
 
@@ -92,7 +95,7 @@ class HomeScreenViewModelImplTest {
     @Test
     fun `getTags carrega tags mapeadas corretamente com cores validas`() =
         runTest {
-            coEvery { getListTagUseCase.execute(Unit) } returns
+            coEvery { getListTagUseCase.execute(any()) } returns
                 DataResult.Success(
                     listOf(TagModel(id = "valid1", name = "Tag Valida", color = "#FF0000")),
                 )
@@ -116,7 +119,7 @@ class HomeScreenViewModelImplTest {
             val tagCorrupted = TagModel(id = "err1", name = "Test1", color = "corDeMorango")
             val tagNullColor = TagModel(id = "err2", name = "Test2", color = null)
 
-            coEvery { getListTagUseCase.execute(Unit) } returns DataResult.Success(listOf(tagCorrupted, tagNullColor))
+            coEvery { getListTagUseCase.execute(any()) } returns DataResult.Success(listOf(tagCorrupted, tagNullColor))
 
             val viewModel = createViewModel()
 
