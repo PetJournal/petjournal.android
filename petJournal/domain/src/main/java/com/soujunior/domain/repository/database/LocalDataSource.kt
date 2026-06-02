@@ -1,0 +1,39 @@
+package com.soujunior.domain.repository.database
+
+import com.soujunior.domain.model.PetModel
+import com.soujunior.domain.model.request.PetRaceItemModel
+import com.soujunior.domain.model.request.PetSizeItemModel
+import com.soujunior.domain.model.response.GuardianNameResponse
+import com.soujunior.domain.model.PetDetailsDTO
+import com.soujunior.domain.model.response.tag.TagDTO
+import com.soujunior.domain.model.taskModel.ScheduleDataDTO
+import com.soujunior.domain.use_case.base.DataResult
+
+interface LocalDataSource {
+    suspend fun getGuardianName(): String?
+    suspend fun getGuardianEmail(): String?
+    suspend fun deleteDatabase()
+    suspend fun saveGuardianContact(email: String, phone: String)
+    suspend fun saveGuardianName(response: GuardianNameResponse)
+    suspend fun savePetInformation(petModel: PetModel) : DataResult<Long>
+    suspend fun getPetInformation(id: Long) : DataResult<PetModel>
+    suspend fun updatePetInformation(petModel: PetModel) : DataResult<Unit>
+    suspend fun getListPetSizes(tag: String): DataResult<List<PetSizeItemModel>>?
+    suspend fun saveListPetSizes(tag: String, listPetSize: List<PetSizeItemModel>): DataResult<String>
+    suspend fun getListPetRaces(tag: String): DataResult<List<PetRaceItemModel>>?
+    suspend fun saveListPetRaces(tag: String, listPetRace: List<PetRaceItemModel>): DataResult<String>
+
+    suspend fun getAllPets(): List<PetDetailsDTO>
+    suspend fun saveAllPets(pets: List<PetDetailsDTO>)
+    suspend fun deletePetById(id: String)
+
+    suspend fun getAllTags(): List<TagDTO>
+    suspend fun saveAllTags(tags: List<TagDTO>)
+
+    suspend fun getAllTasks(): List<ScheduleDataDTO>
+    suspend fun getTasksInPeriod(startDate: String, endDate: String): List<ScheduleDataDTO>
+    suspend fun getLocalTasksByPeriod(startDate: String, endDate: String, considerTime: Boolean): List<ScheduleDataDTO>
+    suspend fun saveAllTasks(tasks: List<ScheduleDataDTO>)
+    suspend fun getTasksToSchedule(): List<ScheduleDataDTO>
+    suspend fun updateAlarmStatus(id: String, isScheduled: Boolean)
+}

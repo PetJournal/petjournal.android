@@ -1,0 +1,28 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+petJournal/.idea/misc.xml
+petJournal/.idea/compiler.xml
+petJournal/.idea/.name
+petJournal/.idea/discord.xml
+petJournal/.idea/gradle.xml
+petJournal/.idea/inspectionProfiles/Project_Default.xml
+petJournal/.idea/vcs.xml
+/.idea/workspace.xml
+
+# Signing — never commit keystore or credentials
+# See: memoryFlash/android/.gitignore (reference pattern)
+key.properties
+**/*.keystore
+**/*.jks
+
+# Default ignored files for Roborazzi Golden Images (snapshots)
+**/snapshots/**/*.png

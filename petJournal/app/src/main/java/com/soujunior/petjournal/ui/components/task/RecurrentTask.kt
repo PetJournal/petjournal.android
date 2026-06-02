@@ -1,0 +1,77 @@
+package com.soujunior.petjournal.ui.components.task
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import com.soujunior.petjournal.ui.components.PeriodSelector
+import com.soujunior.petjournal.ui.components.clock.MonthlyTaskSelector
+import com.soujunior.petjournal.ui.components.clock.TimePickerWithPeriodSelector
+import com.soujunior.petjournal.ui.components.clock.WeeklyTaskSelector
+import com.soujunior.petjournal.ui.util.SelectedPeriodType
+
+@Composable
+fun RecurringTask(
+    activeMonths: List<Int> = listOf(),
+    onAmPmSelector: (String?) -> Unit = {},
+    selectedAmPm: String? = null,
+    onTime: (Int, Int) -> Unit = { _, _ -> },
+    time: Pair<Int, Int>? = null,
+    onWeekDaySelected: (String) -> Unit = {},
+    selectedDaysOfWeek: List<String>? = null,
+    onDaySelected: (Int?) -> Unit = {},
+    daySelected: Int? = null,
+    is24HourFormat: Boolean = false,
+    onSelectedPeriod: (SelectedPeriodType) -> Unit = {},
+    selectedPeriod: SelectedPeriodType = SelectedPeriodType.Weekly,
+) {
+    PeriodSelector(
+        selected = selectedPeriod,
+        onSelectionChanged = onSelectedPeriod,
+    )
+
+    when (selectedPeriod) {
+        SelectedPeriodType.Daily -> {
+            TimePickerWithPeriodSelector(
+                time = time,
+                onAmPmSelector = { amPmSelector ->
+                    onAmPmSelector(amPmSelector)
+                },
+                selectedAmPm = selectedAmPm,
+                onTime = { hour, minute ->
+                    onTime(hour, minute)
+                },
+                is24HourFormat = is24HourFormat,
+            )
+        }
+
+        SelectedPeriodType.Weekly -> {
+            WeeklyTaskSelector(
+                onWeekDaySelected = { onWeekDaySelected(it) },
+                selectedDays = selectedDaysOfWeek,
+                onAmPmSelector = { amPmSelector -> onAmPmSelector(amPmSelector) },
+                selectedAmPm = selectedAmPm,
+                onTime = { hour, minute -> onTime(hour, minute) },
+                time = time,
+                is24HourFormat = is24HourFormat,
+            )
+        }
+
+        SelectedPeriodType.Monthly -> {
+            MonthlyTaskSelector(
+                activeMonths = activeMonths,
+                onDaySelected = { onDaySelected(it) },
+                daySelected = daySelected,
+                onAmPmSelector = { amPmSelector -> onAmPmSelector(amPmSelector) },
+                selectedAmPm = selectedAmPm,
+                onTime = { hour, minute -> onTime(hour, minute) },
+                time = time,
+                is24HourFormat = is24HourFormat,
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RecurringTaskPreview() {
+    RecurringTask()
+}
