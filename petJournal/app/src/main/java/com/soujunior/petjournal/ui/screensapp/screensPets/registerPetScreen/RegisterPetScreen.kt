@@ -255,7 +255,7 @@ fun RegisterPetScreen(navController: NavController) {
                                 Column {
                                     Row {
                                         Text(
-                                            text = stringResource(R.string.pet_registration),
+                                            text = stringResource(R.string.castrated),
                                             textAlign = TextAlign.Start,
                                             color = MaterialTheme.colorScheme.onSurface,
                                             style = MaterialTheme.typography.bodyMedium,

@@ -206,7 +206,7 @@ val mainModule =
 
         single {
             Retrofit.Builder()
-                .baseUrl("https://pet-journal.app/")
+                .baseUrl("https://petjournalapi-production.up.railway.app/")
                 .client(get())
                 .addConverterFactory(MoshiConverterFactory.create(get()))
                 .addCallAdapterFactory(NetworkResultCallAdapterFactory.create())
