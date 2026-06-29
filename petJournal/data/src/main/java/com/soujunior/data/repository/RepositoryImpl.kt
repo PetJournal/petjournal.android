@@ -729,9 +729,9 @@ class RepositoryImpl(
             .onSuccess {
                 result = NetworkResult.Success(it)
                 try {
-//                    guardianLocalDataSourceImpl.deletePetById(id)
+                    guardianLocalDataSourceImpl.deleteTaskById(id)
                 } catch (e: Exception) {
-//                    Log.e("RepositoryImpl", "Erro ao deletar task localmente", e)
+                    Log.e("RepositoryImpl", "Erro ao deletar task localmente", e)
                 }
             }
             .onError { code, body -> result = NetworkResult.Error(code, body) }

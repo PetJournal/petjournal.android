@@ -245,7 +245,12 @@ class HomeScreenViewModelImpl(
             }
             is HomeEvent.OnDeleteTask -> {
                 viewModelScope.launch {
-                    deleteTaskUseCase.execute(event.id)
+                    val result = deleteTaskUseCase.execute(event.id)
+                    result.handleResult({
+                        getTasks(forceRequest = true, isSilent = true)
+                    }, { error ->
+                        Log.e("HomeScreenViewModel", "Erro ao deletar task: ${error?.message}", error)
+                    })
                 }
             }
         }
