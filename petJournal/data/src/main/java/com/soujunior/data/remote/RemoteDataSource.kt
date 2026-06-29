@@ -158,4 +158,10 @@ interface RemoteDataSource {
         @Header("Authorization") token: String,
         @Path("petId") petId: String
     ): NetworkResult<PaginatedNextEventsResponseDTO>
+
+    @DELETE("api/tasks/{id}")
+    suspend fun deleteTasks(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): NetworkResult<Unit>
 }

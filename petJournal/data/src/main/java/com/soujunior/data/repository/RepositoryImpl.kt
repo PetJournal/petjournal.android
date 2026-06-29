@@ -722,4 +722,20 @@ class RepositoryImpl(
 
     private fun String.toTextRequestBody(): RequestBody = RequestBody.create(MediaType.parse("text/plain"), this)
 
+    override suspend fun deleteTasksById(id: String): NetworkResult<Unit> {
+        val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
+        var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
+        remoteDataSource.deleteTasks(token, id)
+            .onSuccess {
+                result = NetworkResult.Success(it)
+                try {
+//                    guardianLocalDataSourceImpl.deletePetById(id)
+                } catch (e: Exception) {
+//                    Log.e("RepositoryImpl", "Erro ao deletar task localmente", e)
+                }
+            }
+            .onError { code, body -> result = NetworkResult.Error(code, body) }
+            .onException { result = NetworkResult.Exception(it) }
+        return result
+    }
 }
