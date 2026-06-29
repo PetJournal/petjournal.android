@@ -241,6 +241,10 @@ fun HomeScreen(navController: NavController) {
                                     items(items = taskDataList, key = { it.id }) { task ->
                                         TaskCard(
                                             taskData = task,
+                                            enableSwipeToDelete = true,
+                                            onDelete = {
+                                                viewModel.onEvent(HomeEvent.OnDeleteTask(task.id))
+                                            },
                                             modifier =
                                                 Modifier
                                                     .fillMaxWidth()
@@ -291,6 +295,7 @@ private fun SectionHeader(
     title: String,
     showButton: Boolean = false,
     onAddClick: () -> Unit = {},
+    onDeleteTask: () -> Unit = {},
 ) {
     Row(
         modifier =
@@ -477,4 +482,19 @@ fun RotatingLoadingIcon(modifier: Modifier = Modifier) {
                 .size(24.dp)
                 .graphicsLayer(rotationZ = angle),
     )
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+private fun SectionHeaderPreview() {
+    MaterialTheme {
+        Column {
+            SectionHeader(
+                title = "Meus Pets",
+                showButton = true,
+                onAddClick = {},
+                onDeleteTask = {},
+            )
+        }
+    }
 }

@@ -10,6 +10,7 @@ import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
 import com.soujunior.domain.use_case.preference.CheckNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.preference.SetNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
+import com.soujunior.domain.use_case.task.DeleteTasksByIdUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
 import com.soujunior.petjournal.ui.mapper.Mapper
 import com.soujunior.petjournal.ui.states.TaskState
@@ -28,6 +29,7 @@ class HomeScreenViewModelImpl(
     private val getPetListUseCase: GetListPetUseCaseV1,
     private val logoutUseCase: LogoutUseCase,
     private val getListTagUseCase: GetListTagUseCase,
+    private val deleteTaskUseCase: DeleteTasksByIdUseCase,
     private val checkNotificationPermissionRequestedUseCase: CheckNotificationPermissionRequestedUseCase,
     private val setNotificationPermissionRequestedUseCase: SetNotificationPermissionRequestedUseCase,
     private val getListCurrentDateTaskUseCase: GetListCurrentDateTaskUseCase,
@@ -70,7 +72,6 @@ class HomeScreenViewModelImpl(
     }
 
     init {
-        // Inicialização normal (COM Shimmer de carregamento)
         getGuardianNameInternal(forceRequest = false, isSilent = false)
         getPetList(forceRequest = false, isSilent = false)
         getTasks(forceRequest = false, isSilent = false)
@@ -115,7 +116,6 @@ class HomeScreenViewModelImpl(
                 _state.update { it.copy(isSyncingBackground = true) }
 
                 viewModelScope.launch {
-                    // Phase 1: Retrieve currently stored database data IMMEDIATELY
                     val localNameJob =
                         launch {
                             getGuardianNameUseCase.executeLocalOnly().handleResult({
@@ -164,13 +164,11 @@ class HomeScreenViewModelImpl(
                             })
                         }
 
-                    // Await local database data to display it on screen before network starts
                     localNameJob.join()
                     localPetsJob.join()
                     localTasksJob.join()
                     localTagsJob.join()
 
-                    // Phase 2: Start network requests in the background
                     val remoteNameJob =
                         launch {
                             getGuardianNameUseCase.execute(true).handleResult({
@@ -231,7 +229,6 @@ class HomeScreenViewModelImpl(
                         }
                     tagJob = remoteTagsJob
 
-                    // Wait for all background requests to complete
                     remoteNameJob.join()
                     remotePetsJob.join()
                     remoteTasksJob.join()
@@ -245,6 +242,11 @@ class HomeScreenViewModelImpl(
                 getPetList(forceRequest = false, isSilent = true)
                 getTasks(forceRequest = false, isSilent = true)
                 getTags(forceRequest = false, isSilent = true)
+            }
+            is HomeEvent.OnDeleteTask -> {
+                viewModelScope.launch {
+                    deleteTaskUseCase.execute(event.id)
+                }
             }
         }
     }
