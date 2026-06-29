@@ -3,6 +3,7 @@ package com.soujunior.data.repository
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import com.soujunior.data.util.ImageHelper
 import com.soujunior.data.remote.RemoteDataSource
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.data.util.manager.SyncDataManager
@@ -35,8 +36,6 @@ import kotlinx.coroutines.flow.first
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.File
-import java.io.FileOutputStream
 import java.time.LocalDate
 import java.util.UUID
 
@@ -300,7 +299,7 @@ class RepositoryImpl(
         val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
         return try {
             val imagePart: MultipartBody.Part? = if (imageUri != null) {
-                val imageFile = getFileFromUri(context = context, Uri.parse(imageUri))
+                val imageFile = ImageHelper.getFileFromUri(context = context, Uri.parse(imageUri))
                 if (imageFile != null && imageFile.exists()) {
                     val mediaType = MediaType.parse("image/*")
                     val requestFile = RequestBody.create(mediaType, imageFile)
@@ -335,7 +334,7 @@ class RepositoryImpl(
         return try {
             val isLocalUri = imageUri != null && !imageUri.startsWith("http", ignoreCase = true)
             val imagePart: MultipartBody.Part? = if (isLocalUri) {
-                val imageFile = getFileFromUri(context = context, Uri.parse(imageUri))
+                val imageFile = ImageHelper.getFileFromUri(context = context, Uri.parse(imageUri))
                 if (imageFile != null && imageFile.exists()) {
                     val mediaType = MediaType.parse("image/*")
                     val requestFile = RequestBody.create(mediaType, imageFile)
@@ -723,15 +722,4 @@ class RepositoryImpl(
 
     private fun String.toTextRequestBody(): RequestBody = RequestBody.create(MediaType.parse("text/plain"), this)
 
-    private fun getFileFromUri(context: Context, uri: Uri): File? {
-        return try {
-            val contentResolver = context.contentResolver
-            val fileName = "pet_image_${System.currentTimeMillis()}.jpg"
-            val tempFile = File(context.cacheDir, fileName)
-            contentResolver.openInputStream(uri)?.use { inputStream ->
-                FileOutputStream(tempFile).use { outputStream -> inputStream.copyTo(outputStream) }
-            }
-            tempFile
-        } catch (e: Exception) { null }
-    }
 }
