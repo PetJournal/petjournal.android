@@ -136,4 +136,8 @@ class MockGuardianRepositoryImpl(): Repository {
     ): NetworkResult<PaginatedNextEventsResponseDTO> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun deleteTasksById(id: String): NetworkResult<Unit> {
+        return NetworkResult.Success(Unit)
+    }
 }

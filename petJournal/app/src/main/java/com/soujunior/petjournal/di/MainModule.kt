@@ -58,6 +58,7 @@ import com.soujunior.domain.use_case.tag.DeleteTagUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.tag.UpdateTagUseCase
 import com.soujunior.domain.use_case.task.CreateTaskUseCase
+import com.soujunior.domain.use_case.task.DeleteTasksByIdUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentMonthTaskUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
@@ -170,6 +171,7 @@ val mainModule =
         factory { UpdateTagUseCase(get()) }
         factory { DeleteTagUseCase(get()) }
         factory { CreateTaskUseCase(get()) }
+        factory { DeleteTasksByIdUseCase(get()) }
         factory { GetListCurrentDateTaskUseCase(get()) }
         factory { GetListCurrentWeekTaskUseCase(get()) }
         factory { GetListCurrentMonthTaskUseCase(get()) }
@@ -216,6 +218,7 @@ val mainModule =
 
         viewModel<HomeScreenViewModel> {
             HomeScreenViewModelImpl(
+                get(),
                 get(),
                 get(),
                 get(),
