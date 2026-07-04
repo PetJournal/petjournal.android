@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,6 +50,7 @@ import com.soujunior.petjournal.ui.model.TaskData
 import com.soujunior.petjournal.ui.util.shimmerEffect
 import com.soujunior.petjournal.ui.util.toCardFormat
 import ir.kaaveh.sdpcompose.sdp
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -89,7 +91,13 @@ fun TaskCard(
 
     val maxSwipePx = remember { with(density) { 60.dp.toPx() } }
 
-    val offsetX = remember { Animatable(0f) }
+    val offsetX = remember(taskData.id) { Animatable(0f) }
+
+    LaunchedEffect(enableSwipeToDelete) {
+        if (!enableSwipeToDelete && offsetX.value != 0f) {
+            offsetX.animateTo(0f)
+        }
+    }
 
     Box(
         modifier =
@@ -122,28 +130,38 @@ fun TaskCard(
             modifier =
                 Modifier
                     .offset { IntOffset(offsetX.value.roundToInt(), 0) }
-                    .pointerInput(enableSwipeToDelete) {
+                    .pointerInput(enableSwipeToDelete, taskData.id) {
                         if (!enableSwipeToDelete) return@pointerInput
-
+                        var accumulatedDrag = offsetX.value
+                        var dragJob: Job? = null
                         detectHorizontalDragGestures(
-                            onDragEnd = {
-                                coroutineScope.launch {
-                                    if (offsetX.value < -maxSwipePx * 0.5f) {
-                                        offsetX.animateTo(-maxSwipePx)
-                                        onDelete()
-                                    } else {
-                                        offsetX.animateTo(0f)
-                                    }
-                                }
-                            },
-                            onDragCancel = {
-                                coroutineScope.launch { offsetX.animateTo(0f) }
+                            onDragStart = {
+                                accumulatedDrag = offsetX.value
+                                dragJob?.cancel()
+                                coroutineScope.launch { offsetX.stop() }
                             },
                             onHorizontalDrag = { change, dragAmount ->
                                 change.consume()
+                                accumulatedDrag = (accumulatedDrag + dragAmount).coerceIn(-maxSwipePx * 1.5f, 0f)
+                                dragJob?.cancel()
+                                dragJob =
+                                    coroutineScope.launch {
+                                        offsetX.snapTo(accumulatedDrag)
+                                    }
+                            },
+                            onDragEnd = {
+                                dragJob?.cancel()
                                 coroutineScope.launch {
-                                    val newOffset = (offsetX.value + dragAmount).coerceIn(-maxSwipePx, 0f)
-                                    offsetX.snapTo(newOffset)
+                                    if (offsetX.value < -maxSwipePx * 0.5f) {
+                                        onDelete()
+                                    }
+                                    offsetX.animateTo(0f)
+                                }
+                            },
+                            onDragCancel = {
+                                dragJob?.cancel()
+                                coroutineScope.launch {
+                                    offsetX.animateTo(0f)
                                 }
                             },
                         )
