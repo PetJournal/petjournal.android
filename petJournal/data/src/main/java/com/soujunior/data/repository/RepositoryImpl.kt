@@ -32,6 +32,9 @@ import com.soujunior.domain.repository.database.LocalDataSource
 import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.repository.task.TaskReminderScheduler
 import com.soujunior.domain.use_case.base.DataResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.first
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -724,18 +727,29 @@ class RepositoryImpl(
 
     override suspend fun deleteTasksById(id: String): NetworkResult<Unit> {
         val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
-        var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
-        remoteDataSource.deleteTasks(token, id)
-            .onSuccess {
-                result = NetworkResult.Success(it)
-                try {
-                    guardianLocalDataSourceImpl.deleteTaskById(id)
-                } catch (e: Exception) {
-                    Log.e("RepositoryImpl", "Erro ao deletar task localmente", e)
+        
+        // Exclusão Otimista
+        try {
+            Log.d("RepositoryImpl", "deleteTasksById: Deletando localmente. ID = $id")
+            guardianLocalDataSourceImpl.deleteTaskById(id)
+            Log.d("RepositoryImpl", "deleteTasksById: Tarefa deletada com sucesso no banco de dados local. ID = $id")
+        } catch (e: Exception) {
+            Log.e("RepositoryImpl", "Erro ao deletar task localmente", e)
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.deleteTasks(token, id)
+                .onSuccess {
+                    Log.d("RepositoryImpl", "deleteTasksById: Sucesso na API, deletado remotamente. ID = $id")
                 }
-            }
-            .onError { code, body -> result = NetworkResult.Error(code, body) }
-            .onException { result = NetworkResult.Exception(it) }
-        return result
+                .onError { code, body -> 
+                    Log.e("RepositoryImpl", "Erro remoto ao deletar task, código = $code")
+                }
+                .onException { e ->
+                    Log.e("RepositoryImpl", "Exceção remota ao deletar task", e)
+                }
+        }
+        
+        return NetworkResult.Success(Unit)
     }
 }
