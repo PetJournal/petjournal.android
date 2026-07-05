@@ -29,7 +29,6 @@ class HomeScreenViewModelImpl(
     private val getPetListUseCase: GetListPetUseCaseV1,
     private val logoutUseCase: LogoutUseCase,
     private val getListTagUseCase: GetListTagUseCase,
-    private val deleteTaskUseCase: DeleteTasksByIdUseCase,
     private val checkNotificationPermissionRequestedUseCase: CheckNotificationPermissionRequestedUseCase,
     private val setNotificationPermissionRequestedUseCase: SetNotificationPermissionRequestedUseCase,
     private val getListCurrentDateTaskUseCase: GetListCurrentDateTaskUseCase,

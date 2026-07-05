@@ -727,8 +727,6 @@ class RepositoryImpl(
 
     override suspend fun deleteTasksById(id: String): NetworkResult<Unit> {
         val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
-        
-        // Exclusão Otimista
         try {
             Log.d("RepositoryImpl", "deleteTasksById: Deletando localmente. ID = $id")
             guardianLocalDataSourceImpl.deleteTaskById(id)
@@ -751,5 +749,16 @@ class RepositoryImpl(
         }
         
         return NetworkResult.Success(Unit)
+        var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
+        remoteDataSource.deleteTasks(token, id)
+            .onSuccess {
+                result = NetworkResult.Success(it)
+                try {
+                } catch (e: Exception) {
+                }
+            }
+            .onError { code, body -> result = NetworkResult.Error(code, body) }
+            .onException { result = NetworkResult.Exception(it) }
+        return result
     }
 }

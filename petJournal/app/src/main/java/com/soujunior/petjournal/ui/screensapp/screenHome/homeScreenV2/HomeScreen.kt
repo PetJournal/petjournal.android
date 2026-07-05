@@ -248,6 +248,7 @@ fun HomeScreen(navController: NavController) {
                                             onDelete = {
                                                 taskToDeleteId = task.id
                                                 showDeleteDialog = true
+                                                viewModel.onEvent(HomeEvent.OnDeleteTask(task.id))
                                             },
                                             modifier =
                                                 Modifier
