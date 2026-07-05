@@ -98,7 +98,7 @@ fun TaskCard(
             offsetX.animateTo(0f)
         }
     }
-    val offsetX = remember { Animatable(0f) }
+
     Box(
         modifier =
             modifier
@@ -162,28 +162,6 @@ fun TaskCard(
                                 dragJob?.cancel()
                                 coroutineScope.launch {
                                     offsetX.animateTo(0f)
-                    .pointerInput(enableSwipeToDelete) {
-                        if (!enableSwipeToDelete) return@pointerInput
-
-                        detectHorizontalDragGestures(
-                            onDragEnd = {
-                                coroutineScope.launch {
-                                    if (offsetX.value < -maxSwipePx * 0.5f) {
-                                        offsetX.animateTo(-maxSwipePx)
-                                        onDelete()
-                                    } else {
-                                        offsetX.animateTo(0f)
-                                    }
-                                }
-                            },
-                            onDragCancel = {
-                                coroutineScope.launch { offsetX.animateTo(0f) }
-                            },
-                            onHorizontalDrag = { change, dragAmount ->
-                                change.consume()
-                                coroutineScope.launch {
-                                    val newOffset = (offsetX.value + dragAmount).coerceIn(-maxSwipePx, 0f)
-                                    offsetX.snapTo(newOffset)
                                 }
                             },
                         )

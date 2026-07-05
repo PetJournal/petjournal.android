@@ -32,6 +32,7 @@ class HomeScreenViewModelImpl(
     private val checkNotificationPermissionRequestedUseCase: CheckNotificationPermissionRequestedUseCase,
     private val setNotificationPermissionRequestedUseCase: SetNotificationPermissionRequestedUseCase,
     private val getListCurrentDateTaskUseCase: GetListCurrentDateTaskUseCase,
+    private val deleteTaskUseCase: DeleteTasksByIdUseCase,
 ) : HomeScreenViewModel() {
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
