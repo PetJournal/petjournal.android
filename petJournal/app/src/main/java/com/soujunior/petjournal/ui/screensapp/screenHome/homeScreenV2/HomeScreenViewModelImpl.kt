@@ -136,7 +136,7 @@ class HomeScreenViewModelImpl(
                     val localTasksJob =
                         launch {
                             getListCurrentDateTaskUseCase.executeLocalOnly().handleResult({ value ->
-                                val taskDataList = with(Mapper) { value.toListOfTaskData() }
+                                val taskDataList = with(Mapper) { value.toListOfTaskData() }.distinctBy { it.id }
                                 _state.update { s ->
                                     s.copy(
                                         listScheduled = value,
@@ -196,7 +196,7 @@ class HomeScreenViewModelImpl(
                     val remoteTasksJob =
                         launch {
                             getListCurrentDateTaskUseCase.execute(true).handleResult({ value ->
-                                val taskDataList = with(Mapper) { value.toListOfTaskData() }
+                                val taskDataList = with(Mapper) { value.toListOfTaskData() }.distinctBy { it.id }
                                 _state.update { s ->
                                     s.copy(
                                         listScheduled = value,
@@ -244,13 +244,13 @@ class HomeScreenViewModelImpl(
                 getTags(forceRequest = false, isSilent = true)
             }
             is HomeEvent.OnDeleteTask -> {
-                _state.update { currentState ->
-                    val updatedTaskDataList = currentState.listTaskData?.filter { it.id != event.id }
-                    currentState.copy(listTaskData = updatedTaskDataList)
-                }
                 viewModelScope.launch {
                     val result = deleteTaskUseCase.execute(event.id)
                     result.handleResult({
+                        _state.update { currentState ->
+                            val updatedTaskDataList = currentState.listTaskData?.filter { it.id != event.id }
+                            currentState.copy(listTaskData = updatedTaskDataList)
+                        }
                         getTasks(forceRequest = false, isSilent = true)
                     }, { error ->
                         Log.e("HomeScreenViewModel", "Erro ao deletar task: ${error?.message}", error)
@@ -283,6 +283,7 @@ class HomeScreenViewModelImpl(
         forceRequest: Boolean = false,
         isSilent: Boolean = false,
     ) {
+        if (taskJob?.isActive == true && !forceRequest) return
         taskJob?.cancel()
         Log.d("HomeScreenViewModel", "getTasks: Iniciando carregamento. forceRequest=$forceRequest, isSilent=$isSilent")
         if (!isSilent) _state.update { it.copy(isLoadingListTask = true) }
@@ -292,8 +293,11 @@ class HomeScreenViewModelImpl(
                 val result = getListCurrentDateTaskUseCase.execute(forceRequest)
                 result.handleResult({ value: PaginatedScheduleResponseModel ->
                     Log.d("HomeScreenViewModel", "getTasks: Sucesso. Recebidas ${value.data?.size ?: 0} tarefas brutas da API/Cache.")
-                    val taskDataList = with(Mapper) { value.toListOfTaskData() }
-                    Log.d("HomeScreenViewModel", "getTasks: Mapeamento concluído. ${taskDataList.size} tarefas prontas para exibição.")
+                    val taskDataList = with(Mapper) { value.toListOfTaskData() }.distinctBy { it.id }
+                    Log.d(
+                        "HomeScreenViewModel",
+                        "getTasks: Mapeamento concluído (deduplicado). ${taskDataList.size} tarefas prontas para exibição.",
+                    )
                     _state.update {
                         it.copy(
                             listScheduled = value,
