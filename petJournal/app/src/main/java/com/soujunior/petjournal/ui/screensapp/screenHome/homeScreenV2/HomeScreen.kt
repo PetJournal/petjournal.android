@@ -469,6 +469,7 @@ private fun Preview() {
         )
         TaskDateComponent(
             tasks = TaskFakeData.sampleTasks.take(3),
+            onDeleteTask = {},
         )
     }
 }

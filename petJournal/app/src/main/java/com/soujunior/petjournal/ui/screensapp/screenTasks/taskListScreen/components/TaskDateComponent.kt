@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.soujunior.petjournal.ui.components.TaskCard
@@ -17,6 +19,8 @@ import ir.kaaveh.sdpcompose.sdp
 fun TaskDateComponent(
     modifier: Modifier = Modifier,
     date: String? = null,
+    enableSwipeToDelete: Boolean = true,
+    onDeleteTask: (String) -> Unit,
     tasks: List<TaskData>,
 ) {
     Column(
@@ -35,6 +39,10 @@ fun TaskDateComponent(
         tasks.forEach { taskData ->
             TaskCard(
                 taskData = taskData,
+                enableSwipeToDelete = enableSwipeToDelete,
+                onDelete = {
+                    onDeleteTask(taskData.id)
+                },
                 modifier = Modifier.padding(),
             )
         }
@@ -47,6 +55,7 @@ private fun Preview_With_date() {
     TaskDateComponent(
         date = "5 de Janeiro",
         tasks = TaskFakeData.sampleTasks.take(3),
+        onDeleteTask = {},
     )
 }
 
@@ -55,5 +64,6 @@ private fun Preview_With_date() {
 private fun Preview_Without_date() {
     TaskDateComponent(
         tasks = TaskFakeData.sampleTasks.take(3),
+        onDeleteTask = {},
     )
 }

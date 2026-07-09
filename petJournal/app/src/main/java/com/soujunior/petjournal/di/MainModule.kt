@@ -287,8 +287,8 @@ val mainModule =
                 androidContext(),
             )
         }
-        viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get()) }
-        viewModel<PetDetailsViewModel> { PetDetailsViewModelImpl(get(), get(), get()) }
+        viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get(), get()) }
+        viewModel<PetDetailsViewModel> { PetDetailsViewModelImpl(get(), get(), get(), get()) }
         viewModel<TutorViewModel> { TutorViewModelImpl(get(), get(), get()) }
         viewModel { SettingsViewModel(get(), get(), get(), get()) }
     }
