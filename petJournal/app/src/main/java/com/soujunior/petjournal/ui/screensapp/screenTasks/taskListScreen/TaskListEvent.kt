@@ -6,4 +6,8 @@ sealed class TaskListEvent {
     data class OnDateFilterChange(val dateFilter: DateFilter) : TaskListEvent()
 
     object OnRefresh : TaskListEvent()
+
+    data class OnDeleteOnlyThisTask(val id: String) : TaskListEvent()
+
+    data class OnDeleteAllTheseTask(val id: String) : TaskListEvent()
 }

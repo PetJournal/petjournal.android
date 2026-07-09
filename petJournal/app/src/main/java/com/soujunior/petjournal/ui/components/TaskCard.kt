@@ -1,8 +1,10 @@
 package com.soujunior.petjournal.ui.components
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,14 +18,18 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -31,9 +37,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
@@ -41,6 +50,9 @@ import com.soujunior.petjournal.ui.model.TaskData
 import com.soujunior.petjournal.ui.util.shimmerEffect
 import com.soujunior.petjournal.ui.util.toCardFormat
 import ir.kaaveh.sdpcompose.sdp
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @Composable
 fun TaskListItemShimmer() {
@@ -69,8 +81,23 @@ fun TaskCard(
     taskData: TaskData,
     modifier: Modifier = Modifier,
     expandValue: Boolean = false,
+    enableSwipeToDelete: Boolean = false,
+    onDelete: () -> Unit = {},
 ) {
     var expanded by rememberSaveable(taskData.id) { mutableStateOf(expandValue) }
+
+    val density = LocalDensity.current
+    val coroutineScope = rememberCoroutineScope()
+
+    val maxSwipePx = remember { with(density) { 60.dp.toPx() } }
+
+    val offsetX = remember(taskData.id) { Animatable(0f) }
+
+    LaunchedEffect(enableSwipeToDelete) {
+        if (!enableSwipeToDelete && offsetX.value != 0f) {
+            offsetX.animateTo(0f)
+        }
+    }
 
     Box(
         modifier =
@@ -78,11 +105,67 @@ fun TaskCard(
                 .fillMaxWidth()
                 .clip(RectangleShape),
     ) {
+        Box(
+            modifier =
+                Modifier
+                    .matchParentSize()
+                    .padding(2.sdp)
+                    .clip(RoundedCornerShape(10.sdp))
+                    .background(if (enableSwipeToDelete) MaterialTheme.colorScheme.error else Color.Transparent)
+                    .padding(start = 4.dp, end = 4.dp),
+            contentAlignment = Alignment.CenterEnd,
+        ) {
+            if (enableSwipeToDelete) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = stringResource(R.string.delete_task),
+                    tint = Color.White,
+                )
+            }
+        }
+
         Surface(
             shape = RoundedCornerShape(10.sdp),
             tonalElevation = 2.dp,
             modifier =
                 Modifier
+                    .offset { IntOffset(offsetX.value.roundToInt(), 0) }
+                    .pointerInput(enableSwipeToDelete, taskData.id) {
+                        if (!enableSwipeToDelete) return@pointerInput
+                        var accumulatedDrag = offsetX.value
+                        var dragJob: Job? = null
+                        detectHorizontalDragGestures(
+                            onDragStart = {
+                                accumulatedDrag = offsetX.value
+                                dragJob?.cancel()
+                                coroutineScope.launch { offsetX.stop() }
+                            },
+                            onHorizontalDrag = { change, dragAmount ->
+                                change.consume()
+                                accumulatedDrag = (accumulatedDrag + dragAmount).coerceIn(-maxSwipePx * 1.5f, 0f)
+                                dragJob?.cancel()
+                                dragJob =
+                                    coroutineScope.launch {
+                                        offsetX.snapTo(accumulatedDrag)
+                                    }
+                            },
+                            onDragEnd = {
+                                dragJob?.cancel()
+                                coroutineScope.launch {
+                                    if (offsetX.value < -maxSwipePx * 0.5f) {
+                                        onDelete()
+                                    }
+                                    offsetX.animateTo(0f)
+                                }
+                            },
+                            onDragCancel = {
+                                dragJob?.cancel()
+                                coroutineScope.launch {
+                                    offsetX.animateTo(0f)
+                                }
+                            },
+                        )
+                    }
                     .fillMaxWidth()
                     .padding(2.sdp)
                     .animateContentSize(),
@@ -245,6 +328,7 @@ private fun TaskCardPreview() {
     Column(Modifier) {
         TaskCard(
             taskData = TaskFakeData.sampleTasks[0],
+            enableSwipeToDelete = false,
         )
     }
 }
@@ -256,6 +340,7 @@ private fun TaskCardExpandedPreview() {
         TaskCard(
             taskData = TaskFakeData.sampleTasks[0],
             expandValue = true,
+            enableSwipeToDelete = true,
         )
     }
 }

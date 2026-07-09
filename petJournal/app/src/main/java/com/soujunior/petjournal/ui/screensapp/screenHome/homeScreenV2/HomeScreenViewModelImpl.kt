@@ -10,6 +10,8 @@ import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
 import com.soujunior.domain.use_case.preference.CheckNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.preference.SetNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
+import com.soujunior.domain.use_case.task.DeleteAllTheseTaskByIdUseCase
+import com.soujunior.domain.use_case.task.DeleteOnlyThisTaskByIdUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
 import com.soujunior.petjournal.ui.mapper.Mapper
 import com.soujunior.petjournal.ui.states.TaskState
@@ -31,6 +33,8 @@ class HomeScreenViewModelImpl(
     private val checkNotificationPermissionRequestedUseCase: CheckNotificationPermissionRequestedUseCase,
     private val setNotificationPermissionRequestedUseCase: SetNotificationPermissionRequestedUseCase,
     private val getListCurrentDateTaskUseCase: GetListCurrentDateTaskUseCase,
+    private val deleteOnlyThisTaskById: DeleteOnlyThisTaskByIdUseCase,
+    private val deleteAllTheseTaskById: DeleteAllTheseTaskByIdUseCase,
 ) : HomeScreenViewModel() {
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
@@ -70,7 +74,6 @@ class HomeScreenViewModelImpl(
     }
 
     init {
-        // Inicialização normal (COM Shimmer de carregamento)
         getGuardianNameInternal(forceRequest = false, isSilent = false)
         getPetList(forceRequest = false, isSilent = false)
         getTasks(forceRequest = false, isSilent = false)
@@ -115,7 +118,6 @@ class HomeScreenViewModelImpl(
                 _state.update { it.copy(isSyncingBackground = true) }
 
                 viewModelScope.launch {
-                    // Phase 1: Retrieve currently stored database data IMMEDIATELY
                     val localNameJob =
                         launch {
                             getGuardianNameUseCase.executeLocalOnly().handleResult({
@@ -136,7 +138,7 @@ class HomeScreenViewModelImpl(
                     val localTasksJob =
                         launch {
                             getListCurrentDateTaskUseCase.executeLocalOnly().handleResult({ value ->
-                                val taskDataList = with(Mapper) { value.toListOfTaskData() }
+                                val taskDataList = with(Mapper) { value.toListOfTaskData() }.distinctBy { it.id }
                                 _state.update { s ->
                                     s.copy(
                                         listScheduled = value,
@@ -164,13 +166,11 @@ class HomeScreenViewModelImpl(
                             })
                         }
 
-                    // Await local database data to display it on screen before network starts
                     localNameJob.join()
                     localPetsJob.join()
                     localTasksJob.join()
                     localTagsJob.join()
 
-                    // Phase 2: Start network requests in the background
                     val remoteNameJob =
                         launch {
                             getGuardianNameUseCase.execute(true).handleResult({
@@ -198,7 +198,7 @@ class HomeScreenViewModelImpl(
                     val remoteTasksJob =
                         launch {
                             getListCurrentDateTaskUseCase.execute(true).handleResult({ value ->
-                                val taskDataList = with(Mapper) { value.toListOfTaskData() }
+                                val taskDataList = with(Mapper) { value.toListOfTaskData() }.distinctBy { it.id }
                                 _state.update { s ->
                                     s.copy(
                                         listScheduled = value,
@@ -231,7 +231,6 @@ class HomeScreenViewModelImpl(
                         }
                     tagJob = remoteTagsJob
 
-                    // Wait for all background requests to complete
                     remoteNameJob.join()
                     remotePetsJob.join()
                     remoteTasksJob.join()
@@ -245,6 +244,34 @@ class HomeScreenViewModelImpl(
                 getPetList(forceRequest = false, isSilent = true)
                 getTasks(forceRequest = false, isSilent = true)
                 getTags(forceRequest = false, isSilent = true)
+            }
+            is HomeEvent.OnDeleteOnlyThisTask -> {
+                viewModelScope.launch {
+                    val result = deleteOnlyThisTaskById.execute(event.id)
+                    result.handleResult({
+                        _state.update { currentState ->
+                            val updatedTaskDataList = currentState.listTaskData?.filter { it.id != event.id }
+                            currentState.copy(listTaskData = updatedTaskDataList)
+                        }
+                        getTasks(forceRequest = false, isSilent = true)
+                    }, { error ->
+                        Log.e("HomeScreenViewModel", "Erro ao deletar task: ${error?.message}", error)
+                    })
+                }
+            }
+            is HomeEvent.OnDeleteAllTheseTask -> {
+                viewModelScope.launch {
+                    val result = deleteAllTheseTaskById.execute(event.id)
+                    result.handleResult({
+                        _state.update { currentState ->
+                            val updatedTaskDataList = currentState.listTaskData?.filter { it.id != event.id }
+                            currentState.copy(listTaskData = updatedTaskDataList)
+                        }
+                        getTasks(forceRequest = false, isSilent = true)
+                    }, { error ->
+                        Log.e("HomeScreenViewModel", "Erro ao deletar task: ${error?.message}", error)
+                    })
+                }
             }
         }
     }
@@ -272,6 +299,7 @@ class HomeScreenViewModelImpl(
         forceRequest: Boolean = false,
         isSilent: Boolean = false,
     ) {
+        if (taskJob?.isActive == true && !forceRequest) return
         taskJob?.cancel()
         Log.d("HomeScreenViewModel", "getTasks: Iniciando carregamento. forceRequest=$forceRequest, isSilent=$isSilent")
         if (!isSilent) _state.update { it.copy(isLoadingListTask = true) }
@@ -281,8 +309,11 @@ class HomeScreenViewModelImpl(
                 val result = getListCurrentDateTaskUseCase.execute(forceRequest)
                 result.handleResult({ value: PaginatedScheduleResponseModel ->
                     Log.d("HomeScreenViewModel", "getTasks: Sucesso. Recebidas ${value.data?.size ?: 0} tarefas brutas da API/Cache.")
-                    val taskDataList = with(Mapper) { value.toListOfTaskData() }
-                    Log.d("HomeScreenViewModel", "getTasks: Mapeamento concluído. ${taskDataList.size} tarefas prontas para exibição.")
+                    val taskDataList = with(Mapper) { value.toListOfTaskData() }.distinctBy { it.id }
+                    Log.d(
+                        "HomeScreenViewModel",
+                        "getTasks: Mapeamento concluído (deduplicado). ${taskDataList.size} tarefas prontas para exibição.",
+                    )
                     _state.update {
                         it.copy(
                             listScheduled = value,

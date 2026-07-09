@@ -304,20 +304,28 @@ fun RegisterPetScreen(navController: NavController) {
                             onButtonTopClick = {
                                 viewModel.onEvent(CreatePetEvent.OnCleanState)
                             },
-                            onButtonBottomClick = {
+                            onButtonCenterClick = {
                                 navController.navigate("home")
                             },
                         )
                     }
 
                     if (state.value.showDialogError) {
+                        val rawError = state.value.messageError ?: ""
+                        val displayError =
+                            when {
+                                rawError.contains("too large", ignoreCase = true) || rawError.contains("payload", ignoreCase = true) -> {
+                                    stringResource(R.string.error_image_too_large)
+                                }
+                                else -> rawError
+                            }
                         CardDialog(
                             title = stringResource(R.string.error_occurred_while_adding_the_companion),
-                            textBottomButton = stringResource(R.string.return_button_text),
-                            onButtonBottomClick = {
+                            textCenterButton = stringResource(R.string.return_button_text),
+                            onButtonCenterClick = {
                                 viewModel.onEvent(CreatePetEvent.OnCloseDialogError)
                             },
-                            subText = state.value.messageError,
+                            subText = displayError,
                         )
                     }
                 }

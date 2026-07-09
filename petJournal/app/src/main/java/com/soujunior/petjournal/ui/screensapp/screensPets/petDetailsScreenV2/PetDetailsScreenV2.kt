@@ -34,6 +34,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -43,6 +44,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,6 +55,7 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.GlideImage
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
+import com.soujunior.petjournal.ui.components.dialog.CardDialog
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TaskDateComponent
 import com.soujunior.petjournal.ui.states.TaskState
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
@@ -81,6 +84,8 @@ fun PetDetailsScreenV2(
     val state by viewModel.state.collectAsState()
     val taskState by viewModel.taskState.collectAsState()
 
+    var showDeleteDialog by remember { mutableStateOf(false) }
+    var taskToDeleteId by remember { mutableStateOf<Pair<String, String>?>(null) }
     val isInspectionMode = LocalInspectionMode.current
 
     LaunchedEffect(key1 = petId) {
@@ -188,8 +193,34 @@ fun PetDetailsScreenV2(
 
                                 TaskDateComponent(
                                     tasks = state.nextTasks,
+                                    onDeleteTask = { id ->
+                                        taskToDeleteId = id
+                                        showDeleteDialog = true
+                                    },
                                 )
                             }
+                        }
+
+                        if (showDeleteDialog) {
+                            CardDialog(
+                                title = stringResource(R.string.delete),
+                                textTopButton = stringResource(id = R.string.cancel),
+                                textCenterButton = stringResource(id = R.string.delete_only_this_task),
+                                textFooterButton = stringResource(R.string.delete_all_these_task),
+                                onButtonTopClick = { showDeleteDialog = false },
+                                onButtonCenterClick = {
+                                    taskToDeleteId?.let { id ->
+                                        viewModel.onDeleteOnlyThisTaskById(id.first)
+                                    }
+                                    showDeleteDialog = false
+                                },
+                                onButtonFooterClick = {
+                                    taskToDeleteId?.let { id ->
+                                        viewModel.onDeleteAllTheseTaskById(id.second)
+                                    }
+                                    showDeleteDialog = false
+                                },
+                            )
                         }
                     }
                 }
@@ -328,31 +359,29 @@ fun PetProfileHeader(
                     )
 
                     Text(
-                        text = "${specie.ifEmpty { "-" }}",
-                        style = MaterialTheme.typography.bodyMedium,
+                        text = specie.ifEmpty { "-" },
+                        style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.primary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
 
-                    gender?.let { g ->
-                        val formattedGender =
-                            when (g.uppercase()) {
-                                "F" -> "Fêmea"
-                                "M" -> "Macho"
-                                else -> g
-                            }
+                    val formattedGender =
+                        when (gender.uppercase()) {
+                            "F" -> "Fêmea"
+                            "M" -> "Macho"
+                            else -> gender
+                        }
 
-                        Text(
-                            text = formattedGender,
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.primary,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
+                    Text(
+                        text = formattedGender,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.primary,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
 
                     Text(
                         text = breed,
@@ -372,7 +401,7 @@ fun PetProfileHeader(
                         overflow = TextOverflow.Ellipsis,
                     )
 
-                    weight?.takeIf { it.isNotBlank() }?.let { validWeight ->
+                    weight.takeIf { it.isNotBlank() }?.let { validWeight ->
                         val formattedWeight =
                             if (validWeight.contains("(")) {
                                 val parts = validWeight.split("(")

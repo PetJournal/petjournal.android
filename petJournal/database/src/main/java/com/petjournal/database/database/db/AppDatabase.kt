@@ -23,7 +23,7 @@ import com.petjournal.database.database.entity.TaskEntity
         GuardianProfile::class, ApplicationInformation::class, PetInformation::class,
         PetSize::class, PetRace::class, PetDetailsEntity::class, TagEntity::class, TaskEntity::class
     ],
-    version = 12, exportSchema = false
+    version = 13, exportSchema = false
 )
 @TypeConverters(RoomConverters::class)
 abstract class AppDatabase : RoomDatabase() {

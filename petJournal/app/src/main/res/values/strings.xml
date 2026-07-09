@@ -235,4 +235,11 @@
     <string name="empty_task_list_day">Nenhum conteúdo para este dia</string>
     <string name="empty_task_list_week">Nenhum conteúdo para esta semana</string>
     <string name="empty_task_list_month">Nenhum conteúdo para este mês</string>
+    <string name="error_image_too_large">A imagem escolhida é muito grande. Por favor, selecione outra menor ou com menor resolução.</string>
+    <string name="delete_task">deleta tarefa</string>
+    <string name="confirm_delete_task">Deseja excluir esta tarefa?</string>
+    <string name="delete_only_this_task">Excluir somente esta tarefa</string>
+    <string name="footer_button">footer button</string>
+    <string name="delete_all_these_task">Esta e as tarefas seguintes</string>
+    <string name="delete">Excluir</string>
 </resources>

@@ -396,4 +396,8 @@ class LocalDataSourceImpl(
         val clean = dateString.split(".")[0]
         return if (clean.endsWith("Z")) clean else "${clean}Z"
     }
+
+    override suspend fun deleteTaskById(id: String) {
+        taskDao.deleteTaskById(id)
+    }
 }

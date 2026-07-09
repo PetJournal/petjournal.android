@@ -3,6 +3,7 @@ package com.soujunior.data.repository
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import com.soujunior.data.util.ImageHelper
 import com.soujunior.data.remote.RemoteDataSource
 import com.soujunior.data.util.manager.JwtManager
 import com.soujunior.data.util.manager.SyncDataManager
@@ -31,12 +32,13 @@ import com.soujunior.domain.repository.database.LocalDataSource
 import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.repository.task.TaskReminderScheduler
 import com.soujunior.domain.use_case.base.DataResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.first
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.File
-import java.io.FileOutputStream
 import java.time.LocalDate
 import java.util.UUID
 
@@ -51,7 +53,7 @@ class RepositoryImpl(
     private val syncDataManager: SyncDataManager = SyncDataManager.getInstance(context)
 
     companion object {
-        private const val CACHE_TIMEOUT_MILLIS = 15 * 60 * 1000L // 15 minutos de cache
+        private const val CACHE_TIMEOUT_MILLIS = 15 * 60 * 1000L
     }
 
     internal fun getToken(): String? {
@@ -300,7 +302,7 @@ class RepositoryImpl(
         val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
         return try {
             val imagePart: MultipartBody.Part? = if (imageUri != null) {
-                val imageFile = getFileFromUri(context = context, Uri.parse(imageUri))
+                val imageFile = ImageHelper.getFileFromUri(context = context, Uri.parse(imageUri))
                 if (imageFile != null && imageFile.exists()) {
                     val mediaType = MediaType.parse("image/*")
                     val requestFile = RequestBody.create(mediaType, imageFile)
@@ -335,7 +337,7 @@ class RepositoryImpl(
         return try {
             val isLocalUri = imageUri != null && !imageUri.startsWith("http", ignoreCase = true)
             val imagePart: MultipartBody.Part? = if (isLocalUri) {
-                val imageFile = getFileFromUri(context = context, Uri.parse(imageUri))
+                val imageFile = ImageHelper.getFileFromUri(context = context, Uri.parse(imageUri))
                 if (imageFile != null && imageFile.exists()) {
                     val mediaType = MediaType.parse("image/*")
                     val requestFile = RequestBody.create(mediaType, imageFile)
@@ -723,15 +725,73 @@ class RepositoryImpl(
 
     private fun String.toTextRequestBody(): RequestBody = RequestBody.create(MediaType.parse("text/plain"), this)
 
-    private fun getFileFromUri(context: Context, uri: Uri): File? {
-        return try {
-            val contentResolver = context.contentResolver
-            val fileName = "pet_image_${System.currentTimeMillis()}.jpg"
-            val tempFile = File(context.cacheDir, fileName)
-            contentResolver.openInputStream(uri)?.use { inputStream ->
-                FileOutputStream(tempFile).use { outputStream -> inputStream.copyTo(outputStream) }
+    override suspend fun deleteOnlyThisTaskById(id: String): NetworkResult<Unit> {
+        val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
+        try {
+            guardianLocalDataSourceImpl.deleteTaskById(id)
+        } catch (e: Exception) {
+            Log.e("RepositoryImpl", "Erro ao deletar task localmente", e)
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.deleteOnlyThisTaskById(token, id)
+                .onSuccess {
+                    Log.d("RepositoryImpl", "deleteTasksById: Sucesso na API, deletado remotamente. ID = $id")
+                }
+                .onError { code, body -> 
+                    Log.e("RepositoryImpl", "Erro remoto ao deletar task, código = $code")
+                }
+                .onException { e ->
+                    Log.e("RepositoryImpl", "Exceção remota ao deletar task", e)
+                }
+        }
+        
+        return NetworkResult.Success(Unit)
+        var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
+        remoteDataSource.deleteOnlyThisTaskById(token, id)
+            .onSuccess {
+                result = NetworkResult.Success(it)
+                try {
+                } catch (e: Exception) {
+                }
             }
-            tempFile
-        } catch (e: Exception) { null }
+            .onError { code, body -> result = NetworkResult.Error(code, body) }
+            .onException { result = NetworkResult.Exception(it) }
+        return result
+    }
+
+    override suspend fun deleteAllTheseTasksById(id: String): NetworkResult<Unit> {
+        val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
+        try {
+            guardianLocalDataSourceImpl.deleteTaskById(id)
+        } catch (e: Exception) {
+            Log.e("RepositoryImpl", "Erro ao deletar task localmente", e)
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            remoteDataSource.deleteAllTasksById(token, id)
+                .onSuccess {
+                    Log.d("RepositoryImpl", "deleteTasksById: Sucesso na API, deletado remotamente. ID = $id")
+                }
+                .onError { code, body ->
+                    Log.e("RepositoryImpl", "Erro remoto ao deletar task, código = $code")
+                }
+                .onException { e ->
+                    Log.e("RepositoryImpl", "Exceção remota ao deletar task", e)
+                }
+        }
+
+        return NetworkResult.Success(Unit)
+        var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
+        remoteDataSource.deleteOnlyThisTaskById(token, id)
+            .onSuccess {
+                result = NetworkResult.Success(it)
+                try {
+                } catch (e: Exception) {
+                }
+            }
+            .onError { code, body -> result = NetworkResult.Error(code, body) }
+            .onException { result = NetworkResult.Exception(it) }
+        return result
     }
 }
