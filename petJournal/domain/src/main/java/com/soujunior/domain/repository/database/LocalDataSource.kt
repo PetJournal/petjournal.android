@@ -37,4 +37,5 @@ interface LocalDataSource {
     suspend fun getTasksToSchedule(): List<ScheduleDataDTO>
     suspend fun updateAlarmStatus(id: String, isScheduled: Boolean)
     suspend fun deleteTaskById(id: String)
+    suspend fun deleteTasksBySchedulerId(schedulerId: String)
 }

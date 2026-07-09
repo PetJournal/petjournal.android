@@ -67,7 +67,7 @@ class TaskListViewModelImpl(
             }
             is TaskListEvent.OnDeleteAllTheseTask -> {
                 viewModelScope.launch {
-                    val result = deleteAllTheseTaskById.execute(event.id)
+                    val result = deleteAllTheseTaskById.execute(event.schedulerId)
                     result.handleResult({
                         loadTasks(
                             filter = _state.value.selectedDateFilter,

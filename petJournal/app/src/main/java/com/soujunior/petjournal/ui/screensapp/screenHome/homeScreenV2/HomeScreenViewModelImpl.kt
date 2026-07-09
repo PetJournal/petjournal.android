@@ -261,10 +261,10 @@ class HomeScreenViewModelImpl(
             }
             is HomeEvent.OnDeleteAllTheseTask -> {
                 viewModelScope.launch {
-                    val result = deleteAllTheseTaskById.execute(event.id)
+                    val result = deleteAllTheseTaskById.execute(event.schedulerId)
                     result.handleResult({
                         _state.update { currentState ->
-                            val updatedTaskDataList = currentState.listTaskData?.filter { it.id != event.id }
+                            val updatedTaskDataList = currentState.listTaskData?.filter { it.schedulerId != event.schedulerId }
                             currentState.copy(listTaskData = updatedTaskDataList)
                         }
                         getTasks(forceRequest = false, isSilent = true)

@@ -747,51 +747,30 @@ class RepositoryImpl(
         }
         
         return NetworkResult.Success(Unit)
-        var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
-        remoteDataSource.deleteOnlyThisTaskById(token, id)
-            .onSuccess {
-                result = NetworkResult.Success(it)
-                try {
-                } catch (e: Exception) {
-                }
-            }
-            .onError { code, body -> result = NetworkResult.Error(code, body) }
-            .onException { result = NetworkResult.Exception(it) }
-        return result
     }
 
     override suspend fun deleteAllTheseTasksById(id: String): NetworkResult<Unit> {
         val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
         try {
-            guardianLocalDataSourceImpl.deleteTaskById(id)
+            // Agora deletamos todas as tasks que pertencem ao mesmo schedulerId (ID da massa)
+            guardianLocalDataSourceImpl.deleteTasksBySchedulerId(id)
         } catch (e: Exception) {
-            Log.e("RepositoryImpl", "Erro ao deletar task localmente", e)
+            Log.e("RepositoryImpl", "Erro ao deletar tasks em massa localmente", e)
         }
 
         CoroutineScope(Dispatchers.IO).launch {
             remoteDataSource.deleteAllTasksById(token, id)
                 .onSuccess {
-                    Log.d("RepositoryImpl", "deleteTasksById: Sucesso na API, deletado remotamente. ID = $id")
+                    Log.d("RepositoryImpl", "deleteAllTasksById: Sucesso na API, deletado remotamente. ID = $id")
                 }
                 .onError { code, body ->
-                    Log.e("RepositoryImpl", "Erro remoto ao deletar task, código = $code")
+                    Log.e("RepositoryImpl", "Erro remoto ao deletar tasks em massa, código = $code")
                 }
                 .onException { e ->
-                    Log.e("RepositoryImpl", "Exceção remota ao deletar task", e)
+                    Log.e("RepositoryImpl", "Exceção remota ao deletar tasks em massa", e)
                 }
         }
 
         return NetworkResult.Success(Unit)
-        var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
-        remoteDataSource.deleteOnlyThisTaskById(token, id)
-            .onSuccess {
-                result = NetworkResult.Success(it)
-                try {
-                } catch (e: Exception) {
-                }
-            }
-            .onError { code, body -> result = NetworkResult.Error(code, body) }
-            .onException { result = NetworkResult.Exception(it) }
-        return result
     }
 }

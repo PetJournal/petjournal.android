@@ -96,7 +96,7 @@ import org.koin.androidx.compose.getViewModel
 fun HomeScreen(navController: NavController) {
     var showSheet by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
-    var taskToDeleteId by remember { mutableStateOf<String?>(null) }
+    var taskToDeleteId by remember { mutableStateOf<Pair<String, String>?>(null) }
     val viewModel: HomeScreenViewModel = getCorrectViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -240,7 +240,7 @@ fun HomeScreen(navController: NavController) {
                                             taskData = task,
                                             enableSwipeToDelete = true,
                                             onDelete = {
-                                                taskToDeleteId = task.id
+                                                taskToDeleteId = Pair(task.id, task.schedulerId)
                                                 showDeleteDialog = true
                                             },
                                             modifier =
@@ -281,14 +281,14 @@ fun HomeScreen(navController: NavController) {
                             textFooterButton = stringResource(R.string.delete_all_these_task),
                             onButtonTopClick = { showDeleteDialog = false },
                             onButtonCenterClick = {
-                                taskToDeleteId?.let { id ->
+                                taskToDeleteId?.let { (id, _) ->
                                     viewModel.onEvent(HomeEvent.OnDeleteOnlyThisTask(id))
                                 }
                                 showDeleteDialog = false
                             },
                             onButtonFooterClick = {
-                                taskToDeleteId?.let { id ->
-                                    viewModel.onEvent(HomeEvent.OnDeleteAllTheseTask(id))
+                                taskToDeleteId?.let { (_, schedulerId) ->
+                                    viewModel.onEvent(HomeEvent.OnDeleteAllTheseTask(schedulerId))
                                 }
                                 showDeleteDialog = false
                             },
