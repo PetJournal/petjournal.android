@@ -134,6 +134,8 @@ sealed class HomeEvent {
     object ReloadListTag : HomeEvent()
 
     object ReloadAll : HomeEvent()
+
+    data class OnDeleteTask(val id: String) : HomeEvent()
 }
 
 abstract class HomeScreenViewModel : ViewModel() {

@@ -65,8 +65,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -81,6 +79,7 @@ import com.soujunior.petjournal.ui.components.TaskListItemShimmer
 import com.soujunior.petjournal.ui.components.bottomSheet.CategoryMenu
 import com.soujunior.petjournal.ui.components.bottomSheet.MenuBottomSheet
 import com.soujunior.petjournal.ui.components.data.TaskFakeData
+import com.soujunior.petjournal.ui.components.dialog.CardDialog
 import com.soujunior.petjournal.ui.components.horizontalButtonList.HorizontalButtonList
 import com.soujunior.petjournal.ui.model.TagOption
 import com.soujunior.petjournal.ui.model.TaskData
@@ -96,12 +95,10 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun HomeScreen(navController: NavController) {
     var showSheet by remember { mutableStateOf(false) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
+    var taskToDeleteId by remember { mutableStateOf<String?>(null) }
     val viewModel: HomeScreenViewModel = getCorrectViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
-
-    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
-        viewModel.onEvent(HomeEvent.SilentRefresh)
-    }
 
     val permissionLauncher =
         rememberLauncherForActivityResult(
@@ -241,6 +238,11 @@ fun HomeScreen(navController: NavController) {
                                     items(items = taskDataList, key = { it.id }) { task ->
                                         TaskCard(
                                             taskData = task,
+                                            enableSwipeToDelete = true,
+                                            onDelete = {
+                                                taskToDeleteId = task.id
+                                                showDeleteDialog = true
+                                            },
                                             modifier =
                                                 Modifier
                                                     .fillMaxWidth()
@@ -270,6 +272,21 @@ fun HomeScreen(navController: NavController) {
                             },
                         )
                     }
+
+                    if (showDeleteDialog) {
+                        CardDialog(
+                            title = stringResource(id = R.string.confirm_delete_task),
+                            textTopButton = stringResource(id = R.string.cancel),
+                            textBottomButton = stringResource(id = R.string.delete),
+                            onButtonTopClick = { showDeleteDialog = false },
+                            onButtonBottomClick = {
+                                taskToDeleteId?.let { id ->
+                                    viewModel.onEvent(HomeEvent.OnDeleteTask(id))
+                                }
+                                showDeleteDialog = false
+                            },
+                        )
+                    }
                 }
             },
         )
@@ -291,6 +308,7 @@ private fun SectionHeader(
     title: String,
     showButton: Boolean = false,
     onAddClick: () -> Unit = {},
+    onDeleteTask: () -> Unit = {},
 ) {
     Row(
         modifier =
@@ -451,6 +469,7 @@ private fun Preview() {
         )
         TaskDateComponent(
             tasks = TaskFakeData.sampleTasks.take(3),
+            onDeleteTask = {},
         )
     }
 }
@@ -477,4 +496,19 @@ fun RotatingLoadingIcon(modifier: Modifier = Modifier) {
                 .size(24.dp)
                 .graphicsLayer(rotationZ = angle),
     )
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+private fun SectionHeaderPreview() {
+    MaterialTheme {
+        Column {
+            SectionHeader(
+                title = "Meus Pets",
+                showButton = true,
+                onAddClick = {},
+                onDeleteTask = {},
+            )
+        }
+    }
 }

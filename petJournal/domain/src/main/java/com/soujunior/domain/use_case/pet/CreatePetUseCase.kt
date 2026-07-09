@@ -18,9 +18,16 @@ class CreatePetUseCase(private val repository: Repository) : BaseUseCase<PetMode
             when (response) {
                 is NetworkResult.Success -> { DataResult.Success(Unit) }
                 is NetworkResult.Error -> {
-                    DataResult.Failure(
-                        Throwable(message = "${response.code} -> ${response.body?.error}")
-                    )
+                    val errorMessage = when {
+                        response.body?.error?.contains("breedName", ignoreCase = true) == true -> {
+                            "A raça selecionada é inválida."
+                        }
+                        response.body?.error?.contains("too large", ignoreCase = true) == true -> {
+                            "A imagem escolhida é muito grande. Por favor, selecione outra menor."
+                        }
+                        else -> response.body?.error ?: "Ocorreu um erro no servidor."
+                    }
+                    DataResult.Failure(Throwable(message = errorMessage))
                 }
                 is NetworkResult.Exception -> {
                     DataResult.Failure(response.e)

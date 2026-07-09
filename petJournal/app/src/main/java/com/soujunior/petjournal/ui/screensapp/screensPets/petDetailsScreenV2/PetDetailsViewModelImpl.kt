@@ -38,6 +38,8 @@ abstract class PetDetailsViewModel : ViewModel() {
 
     abstract fun getPetDetails(id: String)
 
+    abstract fun onDeleteTask(id: String)
+
     abstract fun failed(exception: Throwable?)
 }
 
@@ -45,6 +47,7 @@ class PetDetailsViewModelImpl(
     private val savedStateHandle: SavedStateHandle,
     private val getPetByIdUseCase: GetPetByIdUseCase,
     private val getNextEventsForPetUseCase: GetNextEventsForPetUseCase,
+    private val deleteTasksByIdUseCase: com.soujunior.domain.use_case.task.DeleteTasksByIdUseCase,
 ) : PetDetailsViewModel() {
     private val idPetFromRoute: String? = savedStateHandle.get<String>("idPet")
 
@@ -95,6 +98,20 @@ class PetDetailsViewModelImpl(
         }
     }
 
+    override fun onDeleteTask(id: String) {
+        viewModelScope.launch {
+            val result = deleteTasksByIdUseCase.execute(id)
+            result.handleResult(
+                success = {
+                    idPetFromRoute?.let { getPetDetails(it) }
+                },
+                error = {
+                    Log.e(TAG, "Error deleting task: $it")
+                },
+            )
+        }
+    }
+
     override fun failed(exception: Throwable?) {
         viewModelScope.launch {
             validationEventChannel.send(ValidationEvent.Failed)
@@ -123,6 +140,8 @@ class FakePetDetailsViewModel : PetDetailsViewModel() {
     override val validationEventChannel = Channel<ValidationEvent>()
 
     override fun getPetDetails(id: String) { /* No-op */ }
+
+    override fun onDeleteTask(id: String) { /* No-op */ }
 
     override fun failed(exception: Throwable?) { /* No-op */ }
 }

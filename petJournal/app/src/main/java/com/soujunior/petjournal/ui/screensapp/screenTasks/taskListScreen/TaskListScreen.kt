@@ -28,6 +28,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,6 +45,7 @@ import com.soujunior.petjournal.R
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.TaskListItemShimmer
+import com.soujunior.petjournal.ui.components.dialog.CardDialog
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TabSelector
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TaskDateComponent
 import com.soujunior.petjournal.ui.util.toDailyGroupFormat
@@ -65,6 +69,8 @@ private fun getCorrectViewModel(): TaskListViewModel {
 fun TaskListScreen(navController: NavController) {
     val viewModel: TaskListViewModel = getCorrectViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
+    var showDeleteDialog by remember { mutableStateOf(false) }
+    var taskToDeleteId by remember { mutableStateOf<String?>(null) }
 
     val pullRefreshState =
         rememberPullRefreshState(
@@ -189,10 +195,28 @@ fun TaskListScreen(navController: NavController) {
                                             date = dateStr,
                                             tasks = groupTasks,
                                             modifier = Modifier.padding(bottom = 16.sdp),
+                                            onDeleteTask = { id ->
+                                                taskToDeleteId = id
+                                                showDeleteDialog = true
+                                            },
                                         )
                                     }
                                 }
                             }
+                        }
+                        if (showDeleteDialog) {
+                            CardDialog(
+                                title = stringResource(id = R.string.confirm_delete_task),
+                                textTopButton = stringResource(id = R.string.cancel),
+                                textBottomButton = stringResource(id = R.string.delete),
+                                onButtonTopClick = { showDeleteDialog = false },
+                                onButtonBottomClick = {
+                                    taskToDeleteId?.let { id ->
+                                        viewModel.onEvent(TaskListEvent.OnDeleteTask(id))
+                                    }
+                                    showDeleteDialog = false
+                                },
+                            )
                         }
                     }
 
