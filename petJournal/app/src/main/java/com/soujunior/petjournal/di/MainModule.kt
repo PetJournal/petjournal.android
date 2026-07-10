@@ -58,7 +58,8 @@ import com.soujunior.domain.use_case.tag.DeleteTagUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.tag.UpdateTagUseCase
 import com.soujunior.domain.use_case.task.CreateTaskUseCase
-import com.soujunior.domain.use_case.task.DeleteTasksByIdUseCase
+import com.soujunior.domain.use_case.task.DeleteAllTheseTaskByIdUseCase
+import com.soujunior.domain.use_case.task.DeleteOnlyThisTaskByIdUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentMonthTaskUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
@@ -171,7 +172,8 @@ val mainModule =
         factory { UpdateTagUseCase(get()) }
         factory { DeleteTagUseCase(get()) }
         factory { CreateTaskUseCase(get()) }
-        factory { DeleteTasksByIdUseCase(get()) }
+        factory { DeleteOnlyThisTaskByIdUseCase(get()) }
+        factory { DeleteAllTheseTaskByIdUseCase(get()) }
         factory { GetListCurrentDateTaskUseCase(get()) }
         factory { GetListCurrentWeekTaskUseCase(get()) }
         factory { GetListCurrentMonthTaskUseCase(get()) }
@@ -218,6 +220,7 @@ val mainModule =
 
         viewModel<HomeScreenViewModel> {
             HomeScreenViewModelImpl(
+                get(),
                 get(),
                 get(),
                 get(),
@@ -287,8 +290,8 @@ val mainModule =
                 androidContext(),
             )
         }
-        viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get(), get()) }
-        viewModel<PetDetailsViewModel> { PetDetailsViewModelImpl(get(), get(), get(), get()) }
+        viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get(), get(), get()) }
+        viewModel<PetDetailsViewModel> { PetDetailsViewModelImpl(get(), get(), get(), get(), get()) }
         viewModel<TutorViewModel> { TutorViewModelImpl(get(), get(), get()) }
         viewModel { SettingsViewModel(get(), get(), get(), get()) }
     }

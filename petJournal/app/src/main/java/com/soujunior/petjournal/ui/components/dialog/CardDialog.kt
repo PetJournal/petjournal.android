@@ -7,18 +7,14 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -41,10 +37,12 @@ fun CardDialog(
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.label_task_added_successfully),
     textTopButton: String = stringResource(R.string.label_new_task),
-    textBottomButton: String = stringResource(R.string.label_go_to_home),
+    textCenterButton: String = stringResource(R.string.label_go_to_home),
+    textFooterButton: String = stringResource(R.string.footer_button),
     subText: String? = null,
     onButtonTopClick: (() -> Unit)? = null,
-    onButtonBottomClick: (() -> Unit)? = null,
+    onButtonCenterClick: (() -> Unit)? = null,
+    onButtonFooterClick: (() -> Unit)? = null,
 ) {
     Dialog(
         onDismissRequest = {},
@@ -92,7 +90,7 @@ fun CardDialog(
                             .size(width = 80.dp, height = 65.dp),
                 )
 
-                if (onButtonTopClick != null || onButtonBottomClick != null) {
+                if (onButtonTopClick != null || onButtonCenterClick != null) {
                     Column(
                         modifier = Modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -105,12 +103,6 @@ fun CardDialog(
                                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
                                 shape = RoundedCornerShape(12.dp),
                             ) {
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary,
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
                                 Text(
                                     text = textTopButton,
                                     style = MaterialTheme.typography.titleMedium,
@@ -119,7 +111,7 @@ fun CardDialog(
                             }
                         }
 
-                        onButtonBottomClick?.let {
+                        onButtonCenterClick?.let {
                             Button(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = it,
@@ -127,7 +119,22 @@ fun CardDialog(
                                 shape = RoundedCornerShape(12.dp),
                             ) {
                                 Text(
-                                    text = textBottomButton,
+                                    text = textCenterButton,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.background,
+                                )
+                            }
+                        }
+
+                        onButtonFooterClick?.let {
+                            Button(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = it,
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                                shape = RoundedCornerShape(12.dp),
+                            ) {
+                                Text(
+                                    text = textFooterButton,
                                     style = MaterialTheme.typography.titleMedium,
                                     color = MaterialTheme.colorScheme.background,
                                 )
@@ -159,14 +166,14 @@ fun CardDialogWithoutButtonsPreview() {
 @Preview
 @Composable
 fun CardDialogWithoutTopButtonPreview() {
-    CardDialog(onButtonBottomClick = {})
+    CardDialog(onButtonCenterClick = {})
 }
 
 @Preview
 @Composable
 fun CardDialogSubPreview() {
     CardDialog(
-        onButtonBottomClick = {},
+        onButtonCenterClick = {},
         subText = "Subtitulo",
     )
 }
@@ -174,11 +181,15 @@ fun CardDialogSubPreview() {
 @Preview
 @Composable
 fun CardDialogWithoutBottomButtonPreview() {
-    CardDialog(onButtonTopClick = {})
+    CardDialog(
+        onButtonTopClick = {},
+        onButtonCenterClick = {},
+        onButtonFooterClick = {},
+    )
 }
 
 @Preview
 @Composable
 fun CardDialogPreview() {
-    CardDialog(onButtonBottomClick = {}, onButtonTopClick = {})
+    CardDialog(onButtonCenterClick = {}, onButtonTopClick = {})
 }

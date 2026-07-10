@@ -53,7 +53,7 @@ class RepositoryImpl(
     private val syncDataManager: SyncDataManager = SyncDataManager.getInstance(context)
 
     companion object {
-        private const val CACHE_TIMEOUT_MILLIS = 15 * 60 * 1000L // 15 minutos de cache
+        private const val CACHE_TIMEOUT_MILLIS = 15 * 60 * 1000L
     }
 
     internal fun getToken(): String? {
@@ -725,40 +725,41 @@ class RepositoryImpl(
 
     private fun String.toTextRequestBody(): RequestBody = RequestBody.create(MediaType.parse("text/plain"), this)
 
-    override suspend fun deleteTasksById(id: String): NetworkResult<Unit> {
+    override suspend fun deleteOnlyThisTaskById(id: String): NetworkResult<Unit> {
         val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
-        try {
-            Log.d("RepositoryImpl", "deleteTasksById: Deletando localmente. ID = $id")
-            guardianLocalDataSourceImpl.deleteTaskById(id)
-            Log.d("RepositoryImpl", "deleteTasksById: Tarefa deletada com sucesso no banco de dados local. ID = $id")
-        } catch (e: Exception) {
-            Log.e("RepositoryImpl", "Erro ao deletar task localmente", e)
-        }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            remoteDataSource.deleteTasks(token, id)
-                .onSuccess {
-                    Log.d("RepositoryImpl", "deleteTasksById: Sucesso na API, deletado remotamente. ID = $id")
-                }
-                .onError { code, body -> 
-                    Log.e("RepositoryImpl", "Erro remoto ao deletar task, código = $code")
-                }
-                .onException { e ->
-                    Log.e("RepositoryImpl", "Exceção remota ao deletar task", e)
-                }
+        
+        val apiResult = remoteDataSource.deleteOnlyThisTaskById(token, id)
+        
+        if (apiResult is NetworkResult.Success) {
+            try {
+                guardianLocalDataSourceImpl.deleteTaskById(id)
+                Log.d("RepositoryImpl", "deleteOnlyThisTaskById: Sucesso na API e deletado localmente. ID = $id")
+            } catch (e: Exception) {
+                Log.e("RepositoryImpl", "Erro ao deletar task localmente", e)
+            }
+        } else if (apiResult is NetworkResult.Error) {
+            Log.e("RepositoryImpl", "Erro remoto ao deletar task, código = ${apiResult.code}")
         }
         
-        return NetworkResult.Success(Unit)
-        var result: NetworkResult<Unit> = NetworkResult.Error(0, null)
-        remoteDataSource.deleteTasks(token, id)
-            .onSuccess {
-                result = NetworkResult.Success(it)
-                try {
-                } catch (e: Exception) {
-                }
+        return apiResult
+    }
+
+    override suspend fun deleteAllTheseTasksById(id: String): NetworkResult<Unit> {
+        val token = getToken() ?: return NetworkResult.Exception(Throwable("Token não encontrado"))
+        
+        val apiResult = remoteDataSource.deleteAllTasksById(token, id)
+
+        if (apiResult is NetworkResult.Success) {
+            try {
+                guardianLocalDataSourceImpl.deleteTasksBySchedulerId(id)
+                Log.d("RepositoryImpl", "deleteAllTheseTasksById: Sucesso na API e deletado localmente. SchedulerID = $id")
+            } catch (e: Exception) {
+                Log.e("RepositoryImpl", "Erro ao deletar tasks em massa localmente", e)
             }
-            .onError { code, body -> result = NetworkResult.Error(code, body) }
-            .onException { result = NetworkResult.Exception(it) }
-        return result
+        } else if (apiResult is NetworkResult.Error) {
+            Log.e("RepositoryImpl", "Erro remoto ao deletar tasks em massa, código = ${apiResult.code}")
+        }
+
+        return apiResult
     }
 }

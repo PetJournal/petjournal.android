@@ -5,10 +5,10 @@ import com.soujunior.domain.repository.api.Repository
 import com.soujunior.domain.use_case.base.BaseUseCase
 import com.soujunior.domain.use_case.base.DataResult
 
-class DeleteTasksByIdUseCase(private val repository: Repository ) : BaseUseCase<String, Unit>() {
+class DeleteAllTheseTaskByIdUseCase(private val repository: Repository ) : BaseUseCase<String, Unit>() {
     override suspend fun doWork(value: String): DataResult<Unit> {
         return try {
-            when (val response = repository.deleteTasksById(value)) {
+            when (val response = repository.deleteAllTheseTasksById(value)) {
                 is NetworkResult.Success -> { DataResult.Success(response.data) }
                 is NetworkResult.Error -> {
                     DataResult.Failure(

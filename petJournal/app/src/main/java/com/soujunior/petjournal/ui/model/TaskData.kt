@@ -5,6 +5,7 @@ import com.soujunior.petjournal.ui.components.data.TaskType
 
 data class TaskData(
     val id: String,
+    val schedulerId: String = "",
     val title: String,
     val descriptionResumed: String,
     val descriptionCompleted: String,

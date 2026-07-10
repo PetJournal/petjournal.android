@@ -7,5 +7,7 @@ sealed class TaskListEvent {
 
     object OnRefresh : TaskListEvent()
 
-    data class OnDeleteTask(val id: String) : TaskListEvent()
+    data class OnDeleteOnlyThisTask(val id: String) : TaskListEvent()
+
+    data class OnDeleteAllTheseTask(val schedulerId: String) : TaskListEvent()
 }

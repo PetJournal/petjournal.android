@@ -400,4 +400,8 @@ class LocalDataSourceImpl(
     override suspend fun deleteTaskById(id: String) {
         taskDao.deleteTaskById(id)
     }
+
+    override suspend fun deleteTasksBySchedulerId(schedulerId: String) {
+        taskDao.deleteTasksBySchedulerId(schedulerId)
+    }
 }

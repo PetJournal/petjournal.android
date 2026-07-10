@@ -10,7 +10,8 @@ import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
 import com.soujunior.domain.use_case.preference.CheckNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.preference.SetNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
-import com.soujunior.domain.use_case.task.DeleteTasksByIdUseCase
+import com.soujunior.domain.use_case.task.DeleteAllTheseTaskByIdUseCase
+import com.soujunior.domain.use_case.task.DeleteOnlyThisTaskByIdUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
 import com.soujunior.petjournal.ui.mapper.Mapper
 import com.soujunior.petjournal.ui.states.TaskState
@@ -32,7 +33,8 @@ class HomeScreenViewModelImpl(
     private val checkNotificationPermissionRequestedUseCase: CheckNotificationPermissionRequestedUseCase,
     private val setNotificationPermissionRequestedUseCase: SetNotificationPermissionRequestedUseCase,
     private val getListCurrentDateTaskUseCase: GetListCurrentDateTaskUseCase,
-    private val deleteTaskUseCase: DeleteTasksByIdUseCase,
+    private val deleteOnlyThisTaskById: DeleteOnlyThisTaskByIdUseCase,
+    private val deleteAllTheseTaskById: DeleteAllTheseTaskByIdUseCase,
 ) : HomeScreenViewModel() {
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
@@ -243,12 +245,26 @@ class HomeScreenViewModelImpl(
                 getTasks(forceRequest = false, isSilent = true)
                 getTags(forceRequest = false, isSilent = true)
             }
-            is HomeEvent.OnDeleteTask -> {
+            is HomeEvent.OnDeleteOnlyThisTask -> {
                 viewModelScope.launch {
-                    val result = deleteTaskUseCase.execute(event.id)
+                    val result = deleteOnlyThisTaskById.execute(event.id)
                     result.handleResult({
                         _state.update { currentState ->
                             val updatedTaskDataList = currentState.listTaskData?.filter { it.id != event.id }
+                            currentState.copy(listTaskData = updatedTaskDataList)
+                        }
+                        getTasks(forceRequest = false, isSilent = true)
+                    }, { error ->
+                        Log.e("HomeScreenViewModel", "Erro ao deletar task: ${error?.message}", error)
+                    })
+                }
+            }
+            is HomeEvent.OnDeleteAllTheseTask -> {
+                viewModelScope.launch {
+                    val result = deleteAllTheseTaskById.execute(event.schedulerId)
+                    result.handleResult({
+                        _state.update { currentState ->
+                            val updatedTaskDataList = currentState.listTaskData?.filter { it.schedulerId != event.schedulerId }
                             currentState.copy(listTaskData = updatedTaskDataList)
                         }
                         getTasks(forceRequest = false, isSilent = true)

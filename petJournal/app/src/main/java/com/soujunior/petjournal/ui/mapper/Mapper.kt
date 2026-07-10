@@ -107,6 +107,7 @@ object Mapper {
             .map {
                 TaskData(
                     id = it.id ?: "",
+                    schedulerId = it.schedulerId ?: "",
                     title = it.scheduler.title ?: "",
                     descriptionResumed = it.scheduler.description ?: "",
                     descriptionCompleted = it.scheduler.note ?: "",

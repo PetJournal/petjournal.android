@@ -158,11 +158,18 @@ class MockRemoteDataSource : RemoteDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteTasks(
+    override suspend fun deleteOnlyThisTaskById(
         token: String,
         id: String
     ): NetworkResult<Unit> {
         return NetworkResult.Success(Unit)
+    }
+
+    override suspend fun deleteAllTasksById(
+        token: String,
+        id: String
+    ): NetworkResult<Unit> {
+        TODO("Not yet implemented")
     }
 }
 

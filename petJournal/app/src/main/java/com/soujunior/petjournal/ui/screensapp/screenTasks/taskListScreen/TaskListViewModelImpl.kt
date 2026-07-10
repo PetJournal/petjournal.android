@@ -4,7 +4,8 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.model.taskModel.PaginatedScheduleResponseModel
-import com.soujunior.domain.use_case.task.DeleteTasksByIdUseCase
+import com.soujunior.domain.use_case.task.DeleteAllTheseTaskByIdUseCase
+import com.soujunior.domain.use_case.task.DeleteOnlyThisTaskByIdUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentMonthTaskUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentWeekTaskUseCase
@@ -21,7 +22,8 @@ class TaskListViewModelImpl(
     private val getListCurrentDateTaskUseCase: GetListCurrentDateTaskUseCase,
     private val getListCurrentWeekTaskUseCase: GetListCurrentWeekTaskUseCase,
     private val getListCurrentMonthTaskUseCase: GetListCurrentMonthTaskUseCase,
-    private val deleteTaskUseCase: DeleteTasksByIdUseCase,
+    private val deleteOnlyThisTaskById: DeleteOnlyThisTaskByIdUseCase,
+    private val deleteAllTheseTaskById: DeleteAllTheseTaskByIdUseCase,
 ) : TaskListViewModel() {
     private val _state = MutableStateFlow(TaskListState(isLoading = false))
     override val state: StateFlow<TaskListState> = _state.asStateFlow()
@@ -49,9 +51,23 @@ class TaskListViewModelImpl(
             is TaskListEvent.OnDateFilterChange -> loadTasks(event.dateFilter, isSilent = false)
             is TaskListEvent.OnRefresh -> loadTasks(_state.value.selectedDateFilter, forceRequest = true, isSilent = false)
             is TaskListEvent.AddTaskButton -> { /* ... */ }
-            is TaskListEvent.OnDeleteTask -> {
+            is TaskListEvent.OnDeleteOnlyThisTask -> {
                 viewModelScope.launch {
-                    val result = deleteTaskUseCase.execute(event.id)
+                    val result = deleteOnlyThisTaskById.execute(event.id)
+                    result.handleResult({
+                        loadTasks(
+                            filter = _state.value.selectedDateFilter,
+                            forceRequest = true,
+                            isSilent = false,
+                        )
+                    }, { error ->
+                        Log.e("TaskListViewModel", "Erro ao deletar task: ${error?.message}", error)
+                    })
+                }
+            }
+            is TaskListEvent.OnDeleteAllTheseTask -> {
+                viewModelScope.launch {
+                    val result = deleteAllTheseTaskById.execute(event.schedulerId)
                     result.handleResult({
                         loadTasks(
                             filter = _state.value.selectedDateFilter,

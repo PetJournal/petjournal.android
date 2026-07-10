@@ -135,7 +135,9 @@ sealed class HomeEvent {
 
     object ReloadAll : HomeEvent()
 
-    data class OnDeleteTask(val id: String) : HomeEvent()
+    data class OnDeleteOnlyThisTask(val id: String) : HomeEvent()
+
+    data class OnDeleteAllTheseTask(val schedulerId: String) : HomeEvent()
 }
 
 abstract class HomeScreenViewModel : ViewModel() {

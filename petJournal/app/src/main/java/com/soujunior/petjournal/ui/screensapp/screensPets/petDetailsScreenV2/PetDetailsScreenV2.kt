@@ -85,8 +85,7 @@ fun PetDetailsScreenV2(
     val taskState by viewModel.taskState.collectAsState()
 
     var showDeleteDialog by remember { mutableStateOf(false) }
-    var taskToDeleteId by remember { mutableStateOf<String?>(null) }
-
+    var taskToDeleteId by remember { mutableStateOf<Pair<String, String>?>(null) }
     val isInspectionMode = LocalInspectionMode.current
 
     LaunchedEffect(key1 = petId) {
@@ -204,13 +203,20 @@ fun PetDetailsScreenV2(
 
                         if (showDeleteDialog) {
                             CardDialog(
-                                title = stringResource(id = R.string.confirm_delete_task),
+                                title = stringResource(R.string.delete),
                                 textTopButton = stringResource(id = R.string.cancel),
-                                textBottomButton = stringResource(id = R.string.delete),
+                                textCenterButton = stringResource(id = R.string.delete_only_this_task),
+                                textFooterButton = stringResource(R.string.delete_all_these_task),
                                 onButtonTopClick = { showDeleteDialog = false },
-                                onButtonBottomClick = {
+                                onButtonCenterClick = {
                                     taskToDeleteId?.let { id ->
-                                        viewModel.onDeleteTask(id)
+                                        viewModel.onDeleteOnlyThisTaskById(id.first)
+                                    }
+                                    showDeleteDialog = false
+                                },
+                                onButtonFooterClick = {
+                                    taskToDeleteId?.let { id ->
+                                        viewModel.onDeleteAllTheseTasksBySchedulerId(id.second)
                                     }
                                     showDeleteDialog = false
                                 },

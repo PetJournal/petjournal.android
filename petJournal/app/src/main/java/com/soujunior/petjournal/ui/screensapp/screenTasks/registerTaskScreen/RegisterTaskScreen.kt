@@ -378,12 +378,12 @@ fun RegisterTaskScreen(
                     if (state.showDialogSuccess) {
                         CardDialog(
                             title = "Sucesso ao criar tarefa",
-                            textBottomButton = "Voltar",
+                            textCenterButton = "Voltar",
                             textTopButton = "Criar outra tarefa",
                             onButtonTopClick = {
                                 viewModel.onEvent(RegisterTaskEvent.OnCardDialogAddNewTask)
                             },
-                            onButtonBottomClick = {
+                            onButtonCenterClick = {
                                 navController.navigateUp()
                             },
                         )
@@ -392,8 +392,8 @@ fun RegisterTaskScreen(
                     if (state.showDialogError) {
                         CardDialog(
                             title = "Ocorreu um erro ao criar tarefa",
-                            textBottomButton = stringResource(R.string.return_button_text),
-                            onButtonBottomClick = {
+                            textCenterButton = stringResource(R.string.return_button_text),
+                            onButtonCenterClick = {
                                 viewModel.onEvent(RegisterTaskEvent.OnCardDialogError)
                             },
                             subText = state.cardDialogMessage,

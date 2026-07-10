@@ -304,7 +304,7 @@ fun RegisterPetScreen(navController: NavController) {
                             onButtonTopClick = {
                                 viewModel.onEvent(CreatePetEvent.OnCleanState)
                             },
-                            onButtonBottomClick = {
+                            onButtonCenterClick = {
                                 navController.navigate("home")
                             },
                         )
@@ -321,8 +321,8 @@ fun RegisterPetScreen(navController: NavController) {
                             }
                         CardDialog(
                             title = stringResource(R.string.error_occurred_while_adding_the_companion),
-                            textBottomButton = stringResource(R.string.return_button_text),
-                            onButtonBottomClick = {
+                            textCenterButton = stringResource(R.string.return_button_text),
+                            onButtonCenterClick = {
                                 viewModel.onEvent(CreatePetEvent.OnCloseDialogError)
                             },
                             subText = displayError,

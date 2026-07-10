@@ -20,7 +20,7 @@ fun TaskDateComponent(
     modifier: Modifier = Modifier,
     date: String? = null,
     enableSwipeToDelete: Boolean = true,
-    onDeleteTask: (String) -> Unit,
+    onDeleteTask: (Pair<String, String>) -> Unit,
     tasks: List<TaskData>,
 ) {
     Column(
@@ -41,7 +41,7 @@ fun TaskDateComponent(
                 taskData = taskData,
                 enableSwipeToDelete = enableSwipeToDelete,
                 onDelete = {
-                    onDeleteTask(taskData.id)
+                    onDeleteTask(Pair(taskData.id, taskData.schedulerId))
                 },
                 modifier = Modifier.padding(),
             )
