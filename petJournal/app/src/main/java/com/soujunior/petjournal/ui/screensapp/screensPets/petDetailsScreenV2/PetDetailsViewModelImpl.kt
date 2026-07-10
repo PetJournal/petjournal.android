@@ -42,7 +42,7 @@ abstract class PetDetailsViewModel : ViewModel() {
 
     abstract fun onDeleteOnlyThisTaskById(id: String)
 
-    abstract fun onDeleteAllTheseTaskById(id: String)
+    abstract fun onDeleteAllTheseTasksBySchedulerId(schedulerId: String)
 
     abstract fun failed(exception: Throwable?)
 }
@@ -116,9 +116,9 @@ class PetDetailsViewModelImpl(
         }
     }
 
-    override fun onDeleteAllTheseTaskById(id: String) {
+    override fun onDeleteAllTheseTasksBySchedulerId(schedulerId: String) {
         viewModelScope.launch {
-            val result = deleteAllTheseTaskById.execute(id)
+            val result = deleteAllTheseTaskById.execute(schedulerId)
             result.handleResult(
                 success = {
                     idPetFromRoute?.let { getPetDetails(it) }
@@ -161,9 +161,7 @@ class FakePetDetailsViewModel : PetDetailsViewModel() {
 
     override fun onDeleteOnlyThisTaskById(id: String) { /* No-op */ }
 
-    override fun onDeleteAllTheseTaskById(id: String) {
-        TODO("Not yet implemented")
-    }
+    override fun onDeleteAllTheseTasksBySchedulerId(schedulerId: String) { /* No-op */ }
 
     override fun failed(exception: Throwable?) { /* No-op */ }
 }

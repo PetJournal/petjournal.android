@@ -216,7 +216,7 @@ fun PetDetailsScreenV2(
                                 },
                                 onButtonFooterClick = {
                                     taskToDeleteId?.let { id ->
-                                        viewModel.onDeleteAllTheseTaskById(id.second)
+                                        viewModel.onDeleteAllTheseTasksBySchedulerId(id.second)
                                     }
                                     showDeleteDialog = false
                                 },
