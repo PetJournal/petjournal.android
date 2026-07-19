@@ -498,14 +498,14 @@ class RepositoryImpl(
         forceRequest: Boolean,
         localOnly: Boolean
     ): NetworkResult<PaginatedScheduleResponseDTO> {
-        val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(startDate, endDate)
+        val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(startDate, endDate).distinctBy { it.scheduler.title to it.start }
         if (localOnly) {
             return NetworkResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
         }
         val localEmpty = localTasks.isEmpty()
 
         if (!forceRequest && !localEmpty) {
-            val lastSync = syncDataManager.getLastSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD).first() ?: 0L
+            val lastSync = syncDataManager.getLastSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD_CUSTOM).first() ?: 0L
             if (System.currentTimeMillis() - lastSync < CACHE_TIMEOUT_MILLIS) {
                 return NetworkResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
             }
@@ -516,14 +516,16 @@ class RepositoryImpl(
         return when (val apiResponse = remoteDataSource.getTaskListCurrentDate(token)) {
             is NetworkResult.Success -> {
                 try {
+                    guardianLocalDataSourceImpl.deleteAllTasks()
                     guardianLocalDataSourceImpl.saveAllTasks(apiResponse.data.data)
                     apiResponse.data.data.forEach { scheduleDataDto ->
                         taskReminderScheduler.schedule(scheduleDataDto.toDomain())
                         scheduleDataDto.id?.let { guardianLocalDataSourceImpl.updateAlarmStatus(it, true) }
                     }
-                    syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD)
+                    syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD_CUSTOM)
+                    syncDataManager.invalidateOtherTaskCaches(SyncDataManager.SyncKeys.TASKS_PERIOD_CUSTOM)
                 } catch (e: Exception) { Log.e("RepositoryImpl", "Erro local", e) }
-                val updatedLocal = guardianLocalDataSourceImpl.getTasksInPeriod(startDate, endDate)
+                val updatedLocal = guardianLocalDataSourceImpl.getTasksInPeriod(startDate, endDate).distinctBy { it.scheduler.title to it.start }
                 NetworkResult.Success(PaginatedScheduleResponseDTO(data = updatedLocal))
             }
             is NetworkResult.Error -> {
@@ -539,21 +541,21 @@ class RepositoryImpl(
 
     override suspend fun getLocalTasksByPeriod(startDate: String, endDate: String, considerTime: Boolean): DataResult<PaginatedScheduleResponseDTO> {
         return try {
-            val localTasks = guardianLocalDataSourceImpl.getLocalTasksByPeriod(startDate, endDate, considerTime)
+            val localTasks = guardianLocalDataSourceImpl.getLocalTasksByPeriod(startDate, endDate, considerTime).distinctBy { it.scheduler.title to it.start }
             DataResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
         } catch (e: Exception) { DataResult.Failure(e) }
     }
 
     override suspend fun listCurrentDateScheduled(forceRequest: Boolean, localOnly: Boolean): NetworkResult<PaginatedScheduleResponseDTO> {
         val today = LocalDate.now().toString()
-        val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(today, today)
+        val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(today, today).distinctBy { it.scheduler.title to it.start }
         if (localOnly) {
             return NetworkResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
         }
         val localEmpty = localTasks.isEmpty()
 
         if (!forceRequest && !localEmpty) {
-            val lastSync = syncDataManager.getLastSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD).first() ?: 0L
+            val lastSync = syncDataManager.getLastSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD_DAILY).first() ?: 0L
             if (System.currentTimeMillis() - lastSync < CACHE_TIMEOUT_MILLIS) {
                 return NetworkResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
             }
@@ -564,14 +566,16 @@ class RepositoryImpl(
         return when (val apiResponse = remoteDataSource.getTaskListCurrentDate(token)) {
             is NetworkResult.Success -> {
                 try {
+                    guardianLocalDataSourceImpl.deleteAllTasks()
                     guardianLocalDataSourceImpl.saveAllTasks(apiResponse.data.data)
                     apiResponse.data.data.forEach { scheduleDataDto ->
                         taskReminderScheduler.schedule(scheduleDataDto.toDomain())
                         scheduleDataDto.id?.let { guardianLocalDataSourceImpl.updateAlarmStatus(it, true) }
                     }
-                    syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD)
+                    syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD_DAILY)
+                    syncDataManager.invalidateOtherTaskCaches(SyncDataManager.SyncKeys.TASKS_PERIOD_DAILY)
                 } catch (e: Exception) { Log.e("RepositoryImpl", "Erro local", e) }
-                val updatedLocal = guardianLocalDataSourceImpl.getTasksInPeriod(today, today)
+                val updatedLocal = guardianLocalDataSourceImpl.getTasksInPeriod(today, today).distinctBy { it.scheduler.title to it.start }
                 NetworkResult.Success(PaginatedScheduleResponseDTO(data = updatedLocal))
             }
             is NetworkResult.Error -> {
@@ -589,14 +593,14 @@ class RepositoryImpl(
         val today = LocalDate.now()
         val sunday = today.minusDays(today.dayOfWeek.value % 7L).toString()
         val saturday = today.minusDays(today.dayOfWeek.value % 7L).plusDays(6).toString()
-        val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(sunday, saturday)
+        val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(sunday, saturday).distinctBy { it.scheduler.title to it.start }
         if (localOnly) {
             return NetworkResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
         }
         val localEmpty = localTasks.isEmpty()
 
         if (!forceRequest && !localEmpty) {
-            val lastSync = syncDataManager.getLastSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD).first() ?: 0L
+            val lastSync = syncDataManager.getLastSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD_WEEKLY).first() ?: 0L
             if (System.currentTimeMillis() - lastSync < CACHE_TIMEOUT_MILLIS) {
                 return NetworkResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
             }
@@ -607,14 +611,16 @@ class RepositoryImpl(
         return when (val apiResponse = remoteDataSource.getTaskListCurrentWeek(token)) {
             is NetworkResult.Success -> {
                 try {
+                    guardianLocalDataSourceImpl.deleteAllTasks()
                     guardianLocalDataSourceImpl.saveAllTasks(apiResponse.data.data)
                     apiResponse.data.data.forEach { scheduleDataDto ->
                         taskReminderScheduler.schedule(scheduleDataDto.toDomain())
                         scheduleDataDto.id?.let { guardianLocalDataSourceImpl.updateAlarmStatus(it, true) }
                     }
-                    syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD)
+                    syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD_WEEKLY)
+                    syncDataManager.invalidateOtherTaskCaches(SyncDataManager.SyncKeys.TASKS_PERIOD_WEEKLY)
                 } catch (e: Exception) { Log.e("RepositoryImpl", "Erro local", e) }
-                val updatedLocal = guardianLocalDataSourceImpl.getTasksInPeriod(sunday, saturday)
+                val updatedLocal = guardianLocalDataSourceImpl.getTasksInPeriod(sunday, saturday).distinctBy { it.scheduler.title to it.start }
                 NetworkResult.Success(PaginatedScheduleResponseDTO(data = updatedLocal))
             }
             is NetworkResult.Error -> {
@@ -632,14 +638,14 @@ class RepositoryImpl(
         val today = LocalDate.now()
         val start = today.withDayOfMonth(1).toString()
         val end = today.withDayOfMonth(today.lengthOfMonth()).toString()
-        val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(start, end)
+        val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(start, end).distinctBy { it.scheduler.title to it.start }
         if (localOnly) {
             return NetworkResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
         }
         val localEmpty = localTasks.isEmpty()
 
         if (!forceRequest && !localEmpty) {
-            val lastSync = syncDataManager.getLastSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD).first() ?: 0L
+            val lastSync = syncDataManager.getLastSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD_MONTHLY).first() ?: 0L
             if (System.currentTimeMillis() - lastSync < CACHE_TIMEOUT_MILLIS) {
                 return NetworkResult.Success(PaginatedScheduleResponseDTO(data = localTasks))
             }
@@ -650,14 +656,16 @@ class RepositoryImpl(
         return when (val apiResponse = remoteDataSource.getTaskListCurrentMonth(token)) {
             is NetworkResult.Success -> {
                 try {
+                    guardianLocalDataSourceImpl.deleteAllTasks()
                     guardianLocalDataSourceImpl.saveAllTasks(apiResponse.data.data)
                     apiResponse.data.data.forEach { scheduleDataDto ->
                         taskReminderScheduler.schedule(scheduleDataDto.toDomain())
                         scheduleDataDto.id?.let { guardianLocalDataSourceImpl.updateAlarmStatus(it, true) }
                     }
-                    syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD)
+                    syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_PERIOD_MONTHLY)
+                    syncDataManager.invalidateOtherTaskCaches(SyncDataManager.SyncKeys.TASKS_PERIOD_MONTHLY)
                 } catch (e: Exception) { Log.e("RepositoryImpl", "Erro local", e) }
-                val updatedLocal = guardianLocalDataSourceImpl.getTasksInPeriod(start, end)
+                val updatedLocal = guardianLocalDataSourceImpl.getTasksInPeriod(start, end).distinctBy { it.scheduler.title to it.start }
                 NetworkResult.Success(PaginatedScheduleResponseDTO(data = updatedLocal))
             }
             is NetworkResult.Error -> {
@@ -676,7 +684,7 @@ class RepositoryImpl(
         val start = today.atStartOfDay().toString()
         val end = today.plusYears(1).atTime(java.time.LocalTime.MAX).toString()
         
-        val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(start, end)
+        val localTasks = guardianLocalDataSourceImpl.getTasksInPeriod(start, end).distinctBy { it.scheduler.title to it.start }
         val filteredLocalTasks = localTasks.filter { task ->
             task.scheduler.pets.any { pet -> pet.id == petId }
         }
@@ -694,14 +702,16 @@ class RepositoryImpl(
         return when (val apiResponse = remoteDataSource.getNextEventsForPet(token, petId)) {
             is NetworkResult.Success -> {
                 try {
+                    guardianLocalDataSourceImpl.deleteAllTasks()
                     guardianLocalDataSourceImpl.saveAllTasks(apiResponse.data.nextEvents)
                     apiResponse.data.nextEvents.forEach { scheduleDataDto ->
                         taskReminderScheduler.schedule(scheduleDataDto.toDomain())
                         scheduleDataDto.id?.let { guardianLocalDataSourceImpl.updateAlarmStatus(it, true) }
                     }
                     syncDataManager.saveSyncTime(SyncDataManager.SyncKeys.TASKS_NEXT_PET)
+                    syncDataManager.invalidateOtherTaskCaches(SyncDataManager.SyncKeys.TASKS_NEXT_PET)
                 } catch (e: Exception) { Log.e("RepositoryImpl", "Erro local", e) }
-                val updatedLocal = guardianLocalDataSourceImpl.getTasksInPeriod(start, end)
+                val updatedLocal = guardianLocalDataSourceImpl.getTasksInPeriod(start, end).distinctBy { it.scheduler.title to it.start }
                 val updatedFiltered = updatedLocal.filter { task ->
                     task.scheduler.pets.any { pet -> pet.id == petId }
                 }
