@@ -1,4 +1,4 @@
-name: Envia versao para Google Play Console (Android Kotlin)
+name: Envia versao para Google Play Console (produção)
 
 on:
   workflow_dispatch:
