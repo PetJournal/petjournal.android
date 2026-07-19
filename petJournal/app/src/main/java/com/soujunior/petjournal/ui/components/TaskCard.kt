@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -105,13 +106,17 @@ fun TaskCard(
                 .fillMaxWidth()
                 .clip(RectangleShape),
     ) {
+        val errorColor = MaterialTheme.colorScheme.error
         Box(
             modifier =
                 Modifier
                     .matchParentSize()
+                    .graphicsLayer {
+                        alpha = if (offsetX.value < 0f) 1f else 0f
+                    }
                     .padding(2.sdp)
                     .clip(RoundedCornerShape(10.sdp))
-                    .background(if (enableSwipeToDelete) MaterialTheme.colorScheme.error else Color.Transparent)
+                    .background(if (enableSwipeToDelete) errorColor else Color.Transparent)
                     .padding(start = 4.dp, end = 4.dp),
             contentAlignment = Alignment.CenterEnd,
         ) {
@@ -295,7 +300,7 @@ fun TaskCard(
                             Modifier
                                 .fillMaxWidth()
                                 .height(20.sdp)
-                                .background(taskData.type.color ?: Color.Red)
+                                .background(taskData.type.color)
                                 .clickable(
                                     indication = null,
                                     interactionSource = remember { MutableInteractionSource() },
