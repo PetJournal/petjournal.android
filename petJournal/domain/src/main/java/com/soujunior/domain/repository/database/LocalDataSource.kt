@@ -31,6 +31,7 @@ interface LocalDataSource {
     suspend fun saveAllTags(tags: List<TagDTO>)
 
     suspend fun getAllTasks(): List<ScheduleDataDTO>
+    suspend fun deleteAllTasks()
     suspend fun getTasksInPeriod(startDate: String, endDate: String): List<ScheduleDataDTO>
     suspend fun getLocalTasksByPeriod(startDate: String, endDate: String, considerTime: Boolean): List<ScheduleDataDTO>
     suspend fun saveAllTasks(tasks: List<ScheduleDataDTO>)
