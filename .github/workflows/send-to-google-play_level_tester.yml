@@ -20,8 +20,8 @@ jobs:
         run: |
           echo "🌿 Branch atual: ${{ github.ref_name }}"
           echo "📦 App ID (Android): com.soujunior.petjournal"
-          echo "🔢 Version Code: $(({{ github.run_number }}+5))"
-          echo "🏷️ Version Name: 1.0.$(({{ github.run_number }}+28))"
+          echo "🔢 Version Code: $((${{ github.run_number }} + 5))"
+          echo "🏷️ Version Name: 1.0.$((${{ github.run_number }} + 28))"
 
       - name: Set up Java
         uses: actions/setup-java@v4
