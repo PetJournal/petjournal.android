@@ -37,7 +37,9 @@ interface Repository {
     suspend fun updatePet(id: String, pet: PetCreateDTO, imageUri: String?) : NetworkResult<PetDetailsDTO>
     suspend fun getListPetSizes(petSpecie: String): NetworkResult<List<PetSizeItemModel>>
     suspend fun getListPetRaces(petSpecie: String): NetworkResult<List<PetRaceItemModel>>
-
+ 
+    suspend fun deleteOnlyThisTaskById(id: String) : NetworkResult<Unit>
+    suspend fun deleteAllTheseTasksById(id: String) : NetworkResult<Unit>
     suspend fun saveTaskLocal(task: TaskDTO): DataResult<Unit>
     suspend fun scheduled(item: TaskDTO): NetworkResult<Unit>
     suspend fun listTasksByPeriod(

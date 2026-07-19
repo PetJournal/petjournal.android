@@ -249,6 +249,10 @@ class LocalDataSourceImpl(
         }
     }
 
+    override suspend fun deleteAllTasks() {
+        taskDao.deleteAll()
+    }
+
     override suspend fun getTasksInPeriod(startDate: String, endDate: String): List<ScheduleDataDTO> {
         val deleteThresholdRaw = java.time.Instant.now().minus(2, java.time.temporal.ChronoUnit.DAYS).toString()
         val deleteThreshold = cleanToUtcString(deleteThresholdRaw) ?: ""
@@ -395,5 +399,13 @@ class LocalDataSourceImpl(
         if (dateString == null) return null
         val clean = dateString.split(".")[0]
         return if (clean.endsWith("Z")) clean else "${clean}Z"
+    }
+
+    override suspend fun deleteTaskById(id: String) {
+        taskDao.deleteTaskById(id)
+    }
+
+    override suspend fun deleteTasksBySchedulerId(schedulerId: String) {
+        taskDao.deleteTasksBySchedulerId(schedulerId)
     }
 }

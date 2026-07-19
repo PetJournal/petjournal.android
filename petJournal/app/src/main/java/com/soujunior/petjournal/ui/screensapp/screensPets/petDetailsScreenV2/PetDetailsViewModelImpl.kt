@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.PetDetailsDTO
 import com.soujunior.domain.use_case.pet.GetPetByIdUseCase
+import com.soujunior.domain.use_case.task.DeleteAllTheseTaskByIdUseCase
+import com.soujunior.domain.use_case.task.DeleteOnlyThisTaskByIdUseCase
 import com.soujunior.domain.use_case.task.GetNextEventsForPetParams
 import com.soujunior.domain.use_case.task.GetNextEventsForPetUseCase
 import com.soujunior.petjournal.ui.mapper.Mapper.toTaskData
@@ -38,6 +40,10 @@ abstract class PetDetailsViewModel : ViewModel() {
 
     abstract fun getPetDetails(id: String)
 
+    abstract fun onDeleteOnlyThisTaskById(id: String)
+
+    abstract fun onDeleteAllTheseTasksBySchedulerId(schedulerId: String)
+
     abstract fun failed(exception: Throwable?)
 }
 
@@ -45,6 +51,8 @@ class PetDetailsViewModelImpl(
     private val savedStateHandle: SavedStateHandle,
     private val getPetByIdUseCase: GetPetByIdUseCase,
     private val getNextEventsForPetUseCase: GetNextEventsForPetUseCase,
+    private val deleteOnlyThisTaskByIdUseCase: DeleteOnlyThisTaskByIdUseCase,
+    private val deleteAllTheseTaskById: DeleteAllTheseTaskByIdUseCase,
 ) : PetDetailsViewModel() {
     private val idPetFromRoute: String? = savedStateHandle.get<String>("idPet")
 
@@ -77,7 +85,6 @@ class PetDetailsViewModelImpl(
             petResult.handleResult(
                 success = { pet ->
                     _state.update { it.copy(pet = pet) }
-                    Log.e(TAG, "OBJETO RECEBIDO: $pet")
                 },
                 error = { failed(it) },
             )
@@ -92,6 +99,34 @@ class PetDetailsViewModelImpl(
             )
 
             _taskState.value = TaskState.Idle
+        }
+    }
+
+    override fun onDeleteOnlyThisTaskById(id: String) {
+        viewModelScope.launch {
+            val result = deleteOnlyThisTaskByIdUseCase.execute(id)
+            result.handleResult(
+                success = {
+                    idPetFromRoute?.let { getPetDetails(it) }
+                },
+                error = {
+                    Log.e(TAG, "Error deleting task: $it")
+                },
+            )
+        }
+    }
+
+    override fun onDeleteAllTheseTasksBySchedulerId(schedulerId: String) {
+        viewModelScope.launch {
+            val result = deleteAllTheseTaskById.execute(schedulerId)
+            result.handleResult(
+                success = {
+                    idPetFromRoute?.let { getPetDetails(it) }
+                },
+                error = {
+                    Log.e(TAG, "Error deleting task: $it")
+                },
+            )
         }
     }
 
@@ -123,6 +158,10 @@ class FakePetDetailsViewModel : PetDetailsViewModel() {
     override val validationEventChannel = Channel<ValidationEvent>()
 
     override fun getPetDetails(id: String) { /* No-op */ }
+
+    override fun onDeleteOnlyThisTaskById(id: String) { /* No-op */ }
+
+    override fun onDeleteAllTheseTasksBySchedulerId(schedulerId: String) { /* No-op */ }
 
     override fun failed(exception: Throwable?) { /* No-op */ }
 }
