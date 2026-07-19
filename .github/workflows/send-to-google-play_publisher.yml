@@ -1,10 +1,10 @@
-name: Envia versao para Google Play Console (Android Kotlin)
+name: Envia versao para Google Play Console (produção)
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - developer
+      - main
 
 jobs:
   deploy-google-play:
@@ -68,15 +68,14 @@ jobs:
         env:
           SECRET_VAL: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
         run: echo "$SECRET_VAL" | base64 --decode > petJournal/service-account.json
-        
-      - name: Upload to Google Play
-        id: upload
+
+      - name: Upload to Google Play (Direct to Production)
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: petJournal/service-account.json
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_CONFIG_JSON }}
           packageName: com.soujunior.petjournal
           releaseFiles: petJournal/app/build/outputs/bundle/release/app-release.aab
-          tracks: internal
+          track: production
           status: completed
 
       - name: Resultado do Deploy
