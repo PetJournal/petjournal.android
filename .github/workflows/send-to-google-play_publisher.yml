@@ -1,0 +1,89 @@
+name: Envia versao para Google Play Console (Android Kotlin)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - developer
+
+jobs:
+  deploy-google-play:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 📋 Informações da Execução
+        run: |
+          echo "🌿 Branch atual: ${{ github.ref_name }}"
+          echo "📦 App ID (Android): com.soujunior.petjournal"
+          echo "🔢 Version Code: ${{ github.run_number }}"
+          echo "🏷️ Version Name: 1.0.${{ github.run_number }}"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: temurin
+          cache: 'gradle'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x petJournal/gradlew
+
+      - name: Setup Keystore
+        run: |
+          mkdir -p petJournal/app 
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > petJournal/app/keystore.jks
+
+      - name: Create key.properties
+        run: |
+          cat > petJournal/key.properties <<EOF
+          storeFile=${{ github.workspace }}/petJournal/app/keystore.jks
+          storePassword=${{ secrets.KEYSTORE_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          EOF
+
+      - name: Build App Bundle (Release)
+        working-directory: ./petJournal
+        run: |
+          ./gradlew :app:bundleRelease \
+            -PversionCode=${{ github.run_number }} \
+            -PversionName="1.0.${{ github.run_number }}"
+
+      - name: "Checar Secret do Google"
+        env:
+          SECRET: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
+        run: |
+          if [ -z "$SECRET" ]; then
+            echo "🚨 ERRO: A variável secreta está VAZIA."
+            exit 1
+          fi
+          echo "✅ SUCESSO: A variável foi encontrada e contém dados!"
+
+      - name: "Criar Arquivo JSON do Google"
+        env:
+          SECRET_VAL: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
+        run: echo "$SECRET_VAL" | base64 --decode > petJournal/service-account.json
+
+      - name: Upload to Google Play (Direct to Production)
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_CONFIG_JSON }}
+          packageName: com.soujunior.petjournal
+          releaseFiles: petJournal/app/build/outputs/bundle/release/app-release.aab
+          track: production
+          status: completed
+
+      - name: Resultado do Deploy
+        if: always()
+        run: |
+          if [ "${{ steps.upload.outcome }}" = "success" ]; then
+            echo "🎉 CONEXÃO E UPLOAD REALIZADOS COM SUCESSO!"
+          else
+            echo "❌ Falha no processo. Verifique os logs acima."
+            exit 1
+          fi
