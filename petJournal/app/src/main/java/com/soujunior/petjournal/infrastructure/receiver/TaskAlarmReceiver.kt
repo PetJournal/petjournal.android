@@ -117,6 +117,7 @@ class TaskAlarmReceiver : android.content.BroadcastReceiver() {
                 .setSound(notificationSound)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
+                .setFullScreenIntent(pendingIntent, true)
                 .build()
 
         notificationManager.notify(System.currentTimeMillis().toInt(), notification)
