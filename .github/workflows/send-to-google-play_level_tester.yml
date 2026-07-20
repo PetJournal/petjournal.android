@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      actions: write
 
     steps:
       - name: Checkout
@@ -21,8 +20,8 @@ jobs:
         run: |
           echo "🌿 Branch atual: ${{ github.ref_name }}"
           echo "📦 App ID (Android): com.soujunior.petjournal"
-          echo "🔢 Version Code: ${{ vars.NEXT_VERSION_CODE }}"
-          echo "🏷️ Version Name: 1.0.${{ vars.NEXT_VERSION_CODE }}"
+          echo "🔢 Version Code: $((${{ github.run_number }} + 40))"
+          echo "🏷️ Version Name: 1.0.$((${{ github.run_number }} + 40))"
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -52,9 +51,9 @@ jobs:
         working-directory: ./petJournal
         run: |
           ./gradlew :app:bundleRelease \
-            -PversionCode=${{ vars.NEXT_VERSION_CODE }} \
-            -PversionName="1.0.${{ vars.NEXT_VERSION_CODE }}"
-
+            -PversionCode=$((${{ github.run_number }} + 40)) \
+            -PversionName="1.0.$((${{ github.run_number }} + 40))"
+      
       - name: "Checar Secret do Google"
         env:
           SECRET: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
@@ -85,20 +84,7 @@ jobs:
         run: |
           if [ "${{ steps.upload.outcome }}" = "success" ]; then
             echo "🎉 CONEXÃO E UPLOAD REALIZADOS COM SUCESSO!"
-            echo "Version Code enviado: ${{ vars.NEXT_VERSION_CODE }}"
           else
             echo "❌ Falha no processo. Verifique os logs acima."
             exit 1
           fi
-
-      - name: Atualizar NEXT_VERSION_CODE após sucesso
-        if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }}
-          CURRENT_VERSION: ${{ vars.NEXT_VERSION_CODE }}
-        run: |
-          NEXT_VERSION=$((CURRENT_VERSION + 1))
-          echo "📈 Atualizando NEXT_VERSION_CODE de $CURRENT_VERSION para $NEXT_VERSION"
-          gh variable set NEXT_VERSION_CODE --body "$NEXT_VERSION" -R "$REPO"
-          echo "✅ Variável atualizada com sucesso para: $NEXT_VERSION"
