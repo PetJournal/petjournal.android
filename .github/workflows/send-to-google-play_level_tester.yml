@@ -20,7 +20,7 @@ jobs:
         run: |
           echo "🌿 Branch atual: ${{ github.ref_name }}"
           echo "📦 App ID (Android): com.soujunior.petjournal"
-          echo "🔢 Version Code: $((${{ github.run_number }} + 5))"
+          echo "🔢 Version Code: $((${{ github.run_number }} + 15))"
           echo "🏷️ Version Name: 1.0.$((${{ github.run_number }} + 28))"
 
       - name: Set up Java
@@ -51,7 +51,7 @@ jobs:
         working-directory: ./petJournal
         run: |
           ./gradlew :app:bundleRelease \
-            -PversionCode=$((${{ github.run_number }} + 5)) \
+            -PversionCode=$((${{ github.run_number }} + 15)) \
             -PversionName="1.0.$((${{ github.run_number }} + 28))"
       
       - name: "Checar Secret do Google"
