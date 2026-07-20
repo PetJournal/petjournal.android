@@ -51,9 +51,9 @@ jobs:
         working-directory: ./petJournal
         run: |
           ./gradlew :app:bundleRelease \
-            -PversionCode=$(({{ github.run_number }}+5)) \
-            -PversionName="1.0.$(({{ github.run_number }}+28))"
-
+            -PversionCode=$((${{ github.run_number }} + 5)) \
+            -PversionName="1.0.$((${{ github.run_number }} + 28))"
+      
       - name: "Checar Secret do Google"
         env:
           SECRET: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
