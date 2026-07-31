@@ -71,7 +71,7 @@ jobs:
         
       - name: Upload to Google Play
         id: upload
-        uses: r0adkll/upload-google-play@v1
+        uses: r0adkll/upload-google-play@v1.1.3
         with:
           serviceAccountJson: petJournal/service-account.json
           packageName: com.soujunior.petjournal
