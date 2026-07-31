@@ -7,6 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -19,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
+import kotlinx.coroutines.delay
 
 enum class ArrowDirection {
     TOP,
@@ -37,6 +43,15 @@ fun OnboardingPointer(
     arrowYProvider: ((totalHeight: Float) -> Float)? = null,
     onDismiss: () -> Unit = {},
 ) {
+    var showPopup by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        delay(150)
+        showPopup = true
+    }
+
+    if (!showPopup) return
+
     val finalAlignment =
         popupAlignment ?: when (direction) {
             ArrowDirection.TOP -> Alignment.BottomCenter
