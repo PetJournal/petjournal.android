@@ -34,7 +34,7 @@ spotless {
 
 android {
     namespace = "com.soujunior.petjournal"
-    compileSdk = 35
+    compileSdk = 36
 
     signingConfigs {
         create("release") {
@@ -48,7 +48,7 @@ android {
     defaultConfig {
         applicationId = "com.soujunior.petjournal"
         minSdk = 27
-        targetSdk = 35
+        targetSdk = 36
 
         versionCode = appVersionCode
         versionName = appVersionName
