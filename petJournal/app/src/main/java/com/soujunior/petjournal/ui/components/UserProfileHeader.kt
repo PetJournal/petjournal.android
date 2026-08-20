@@ -38,6 +38,7 @@ fun UserProfileHeader(
             imageUrl = imageUrl,
             onEditClick = onPhotoEditClick,
             size = 100.dp,
+            showEditIcon = false
         )
 
         Spacer(modifier = Modifier.width(16.dp))
