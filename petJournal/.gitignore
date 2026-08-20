@@ -26,3 +26,6 @@ key.properties
 
 # Default ignored files for Roborazzi Golden Images (snapshots)
 **/snapshots/**/*.png
+
+# Local env files
+.env
