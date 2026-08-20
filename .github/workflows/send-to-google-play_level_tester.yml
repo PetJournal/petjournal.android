@@ -78,7 +78,7 @@ jobs:
           releaseFiles: petJournal/app/build/outputs/bundle/release/app-release.aab
           tracks: internal
           status: completed
-          changesNotSentForReview: true
+          changesNotSentForReview: false
 
       - name: Resultado do Deploy
         if: always()
