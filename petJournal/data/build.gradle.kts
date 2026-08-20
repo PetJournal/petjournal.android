@@ -21,8 +21,8 @@ android {
             env.load(FileInputStream(envFile))
         }
 
-        buildConfigField("String", "DISCORD_WEBHOOK_URL", "\"${env.getProperty("DISCORD_WEBHOOK_URL") ?: ""}\"")
-        buildConfigField("String", "GIST_RAW_URL", "\"${env.getProperty("GIST_RAW_URL") ?: ""}\"")
+        buildConfigField("String", "DISCORD_WEBHOOK_URL", "\"${System.getenv("DISCORD_WEBHOOK_URL") ?: env.getProperty("DISCORD_WEBHOOK_URL") ?: ""}\"")
+        buildConfigField("String", "GIST_RAW_URL", "\"${System.getenv("GIST_RAW_URL") ?: env.getProperty("GIST_RAW_URL") ?: ""}\"")
     }
 
     buildTypes {
