@@ -10,6 +10,7 @@ import com.soujunior.domain.use_case.pet.GetListPetUseCaseV1
 import com.soujunior.domain.use_case.preference.CheckNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.preference.SetNotificationPermissionRequestedUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
+import com.soujunior.domain.use_case.feedback.GetFeedbackFeatureFlagUseCase
 import com.soujunior.domain.use_case.task.DeleteAllTheseTaskByIdUseCase
 import com.soujunior.domain.use_case.task.DeleteOnlyThisTaskByIdUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
@@ -35,6 +36,7 @@ class HomeScreenViewModelImpl(
     private val getListCurrentDateTaskUseCase: GetListCurrentDateTaskUseCase,
     private val deleteOnlyThisTaskById: DeleteOnlyThisTaskByIdUseCase,
     private val deleteAllTheseTaskById: DeleteAllTheseTaskByIdUseCase,
+    private val getFeedbackFeatureFlagUseCase: GetFeedbackFeatureFlagUseCase,
 ) : HomeScreenViewModel() {
     private val _taskState: MutableStateFlow<TaskState> = MutableStateFlow(TaskState.Idle)
     override val taskState: StateFlow<TaskState> = _taskState
@@ -78,6 +80,14 @@ class HomeScreenViewModelImpl(
         getPetList(forceRequest = false, isSilent = false)
         getTasks(forceRequest = false, isSilent = false)
         getTags(forceRequest = false, isSilent = false)
+        checkFeedbackEnabled()
+    }
+
+    override fun checkFeedbackEnabled() {
+        viewModelScope.launch {
+            val isEnabled = getFeedbackFeatureFlagUseCase()
+            _state.update { it.copy(isFeedbackEnabled = isEnabled) }
+        }
     }
 
     override fun getGuardianName(forceRequest: Boolean) {

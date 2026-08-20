@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -11,6 +14,15 @@ android {
         minSdk = 27
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("proguard-rules.pro")
+
+        val envFile = project.rootProject.file(".env")
+        val env = Properties()
+        if (envFile.exists()) {
+            env.load(FileInputStream(envFile))
+        }
+
+        buildConfigField("String", "DISCORD_WEBHOOK_URL", "\"${env.getProperty("DISCORD_WEBHOOK_URL") ?: ""}\"")
+        buildConfigField("String", "GIST_RAW_URL", "\"${env.getProperty("GIST_RAW_URL") ?: ""}\"")
     }
 
     buildTypes {

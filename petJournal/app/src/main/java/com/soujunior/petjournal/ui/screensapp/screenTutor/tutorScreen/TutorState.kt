@@ -5,4 +5,5 @@ data class TutorState(
     val email: String = "",
     val isLoadingUserName: Boolean = false,
     val hasErrorOnNameUser: Boolean = false,
+    val isFeedbackEnabled: Boolean = false,
 )

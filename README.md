@@ -124,3 +124,11 @@ Nossa abordagem de teste ajuda a manter a qualidade e estabilidade do software, 
 ## Licença
 
 Este projeto é licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## Variáveis de Ambiente (.env)
+No desenvolvimento local, crie um arquivo `.env` na pasta `petJournal` contendo as seguintes variáveis:
+```env
+DISCORD_WEBHOOK_URL=url_aqui
+GIST_RAW_URL=url_aqui
+```
+Essas variáveis serão injetadas via BuildConfig no módulo `data`.
