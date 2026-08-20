@@ -307,15 +307,8 @@ fun RegisterScreen(navController: NavController) {
                                 Button2(
                                     text = stringResource(id = R.string.register),
                                     border = null,
-                                    buttonColor =
-                                        if (isDarkMode) {
-                                            ButtonDefaults.buttonColors(
-                                                MaterialTheme.colorScheme.onPrimary,
-                                            )
-                                        } else {
-                                            ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
-                                        },
-                                    textColor = if (isDarkMode) MaterialTheme.colorScheme.primary else Color.White,
+                                    buttonColor = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                                    textColor = if (isDarkMode) MaterialTheme.colorScheme.onPrimary else Color.White,
                                     submit = {
                                         viewModel.onEvent(RegisterFormEvent.Submit)
                                     },
