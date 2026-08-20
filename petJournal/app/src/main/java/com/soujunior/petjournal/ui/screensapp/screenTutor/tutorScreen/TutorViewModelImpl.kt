@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.soujunior.domain.model.response.GuardianNameResponse
 import com.soujunior.domain.use_case.auth.LogoutUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianEmailUseCase
+import com.soujunior.domain.use_case.feedback.GetFeedbackFeatureFlagUseCase
 import com.soujunior.domain.use_case.guardian.GetGuardianNameUseCase
 import com.soujunior.petjournal.ui.util.ValidationEvent
 import kotlinx.coroutines.channels.Channel
@@ -16,6 +17,7 @@ class TutorViewModelImpl(
     private val getGuardianNameUseCase: GetGuardianNameUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val getGuardianEmailUseCase: GetGuardianEmailUseCase,
+    private val getFeedbackFeatureFlagUseCase: GetFeedbackFeatureFlagUseCase,
 ) : TutorViewModel() {
     private val _state = MutableStateFlow(TutorState())
     override val state: StateFlow<TutorState> get() = _state.asStateFlow()
@@ -25,6 +27,14 @@ class TutorViewModelImpl(
     init {
         getGuardianName()
         getLoginPreference()
+        checkFeedbackEnabled()
+    }
+
+    override fun checkFeedbackEnabled() {
+        viewModelScope.launch {
+            val isEnabled = getFeedbackFeatureFlagUseCase()
+            _state.value = _state.value.copy(isFeedbackEnabled = isEnabled)
+        }
     }
 
     private fun getLoginPreference() {

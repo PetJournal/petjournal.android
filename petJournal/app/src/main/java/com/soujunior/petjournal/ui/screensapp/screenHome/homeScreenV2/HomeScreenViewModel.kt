@@ -124,6 +124,10 @@ class FakeHomeViewModel : HomeScreenViewModel() {
     override fun checkNotificationPermission(onShouldRequest: () -> Unit) {
         // No-op for fake
     }
+
+    override fun checkFeedbackEnabled() {
+        // No-op for fake
+    }
 }
 
 sealed class HomeEvent {
@@ -158,6 +162,8 @@ abstract class HomeScreenViewModel : ViewModel() {
     abstract fun failed(exception: Throwable?)
 
     abstract fun checkNotificationPermission(onShouldRequest: () -> Unit)
+
+    abstract fun checkFeedbackEnabled()
 
     val carouselImages: List<Int> =
         listOf(

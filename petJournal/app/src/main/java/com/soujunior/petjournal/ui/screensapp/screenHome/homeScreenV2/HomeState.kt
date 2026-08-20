@@ -20,6 +20,7 @@ data class HomeState(
     val hasErrorOnListTag: Boolean = false,
     val listTag: List<TagOption> = emptyList(),
     val isSyncingBackground: Boolean = false,
+    val isFeedbackEnabled: Boolean = false,
 ) {
     val isGlobalLoading: Boolean
         get() = isLoadingUserName || isLoadingListPet || isLoadingListTask || isLoadingListTag

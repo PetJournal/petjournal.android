@@ -12,10 +12,16 @@ import com.soujunior.data.repository.AuthRepositoryImpl
 import com.soujunior.data.repository.PreferenceRepositoryImpl
 import com.soujunior.data.repository.RepositoryImpl
 import com.soujunior.data.repository.SyncStateRepositoryImpl
+import com.soujunior.data.repository.FeedbackRepositoryImpl
+import com.soujunior.data.remote.DiscordWebhookService
+import com.soujunior.data.remote.FeatureFlagService
+import com.soujunior.data.repository.FeatureFlagRepositoryImpl
 import com.soujunior.domain.repository.PreferenceRepository
 import com.soujunior.domain.repository.SyncStateRepository
 import com.soujunior.domain.repository.api.AuthRepository
 import com.soujunior.domain.repository.api.Repository
+import com.soujunior.domain.repository.api.FeedbackRepository
+import com.soujunior.domain.repository.api.FeatureFlagRepository
 import com.soujunior.domain.repository.appinfo.AppInfoDatabase
 import com.soujunior.domain.repository.appinfo.AppInfoDatabaseRepository
 import com.soujunior.domain.repository.database.LocalDataSource
@@ -58,6 +64,8 @@ import com.soujunior.domain.use_case.tag.DeleteTagUseCase
 import com.soujunior.domain.use_case.tag.GetListTagUseCase
 import com.soujunior.domain.use_case.tag.UpdateTagUseCase
 import com.soujunior.domain.use_case.task.CreateTaskUseCase
+import com.soujunior.domain.use_case.feedback.SendFeedbackUseCase
+import com.soujunior.domain.use_case.feedback.GetFeedbackFeatureFlagUseCase
 import com.soujunior.domain.use_case.task.DeleteAllTheseTaskByIdUseCase
 import com.soujunior.domain.use_case.task.DeleteOnlyThisTaskByIdUseCase
 import com.soujunior.domain.use_case.task.GetListCurrentDateTaskUseCase
@@ -83,6 +91,8 @@ import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskLis
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.TaskListViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenTutor.config.notifyScreen.SettingsViewModel
 import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorViewModel
+import com.soujunior.petjournal.ui.screensapp.feedback.FeedbackViewModel
+import com.soujunior.petjournal.ui.screensapp.feedback.FeedbackViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screenTutor.tutorScreen.TutorViewModelImpl
 import com.soujunior.petjournal.ui.screensapp.screensApresentation.splashScreen.SplashViewModel
 import com.soujunior.petjournal.ui.screensapp.screensPets.introRegisterPetScreen.IntroRegisterPetViewModel
@@ -122,6 +132,8 @@ val mainModule =
         single<LocalDataSource> { LocalDataSourceImpl(get(), get(), get(), get(), get(), get()) }
         single<AppInfoDatabase> { AppInfoDataBaseImpl(get()) }
         single<PreferenceRepository> { PreferenceRepositoryImpl(get()) }
+        single<FeedbackRepository> { FeedbackRepositoryImpl(get()) }
+        single<FeatureFlagRepository> { FeatureFlagRepositoryImpl(get()) }
         single<TaskReminderScheduler> { com.soujunior.petjournal.infrastructure.reminder.AndroidTaskScheduler(androidContext()) }
 
         single {
@@ -185,9 +197,13 @@ val mainModule =
         factory { SaveSystemThemePreferenceUseCase(get()) }
         factory { CheckNotificationPermissionRequestedUseCase(get()) }
         factory { SetNotificationPermissionRequestedUseCase(get()) }
+        factory { SendFeedbackUseCase(get()) }
+        factory { GetFeedbackFeatureFlagUseCase(get()) }
 
         single<AuthDataSource> { get<Retrofit>().create(AuthDataSource::class.java) }
         single<RemoteDataSource> { get<Retrofit>().create(RemoteDataSource::class.java) }
+        single<DiscordWebhookService> { get<Retrofit>().create(DiscordWebhookService::class.java) }
+        single<FeatureFlagService> { get<Retrofit>().create(FeatureFlagService::class.java) }
 
         single {
             Moshi.Builder()
@@ -229,6 +245,7 @@ val mainModule =
                 get(),
                 get(),
                 get(),
+                get(),
             )
         }
 
@@ -244,6 +261,7 @@ val mainModule =
         viewModel<AwaitingCodeViewModel> { AwaitingCodeViewModelImpl(get(), get(), get()) }
         viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModelImpl(get(), get()) }
         viewModel<ChangePasswordViewModel> { ChangePasswordViewModelImpl(get(), get()) }
+        viewModel<FeedbackViewModel> { FeedbackViewModelImpl(get()) }
         viewModel { SplashViewModel(get()) }
         viewModel<ViewModelChoiceSpecies> { ViewModelChoiceSpeciesImpl(get(), get(), get()) }
         viewModel<PetListViewModel> { PetListViewModelImpl(get(), get()) }
@@ -292,6 +310,6 @@ val mainModule =
         }
         viewModel<TaskListViewModel> { TaskListViewModelImpl(get(), get(), get(), get(), get()) }
         viewModel<PetDetailsViewModel> { PetDetailsViewModelImpl(get(), get(), get(), get(), get()) }
-        viewModel<TutorViewModel> { TutorViewModelImpl(get(), get(), get()) }
+        viewModel<TutorViewModel> { TutorViewModelImpl(get(), get(), get(), get()) }
         viewModel { SettingsViewModel(get(), get(), get(), get()) }
     }
