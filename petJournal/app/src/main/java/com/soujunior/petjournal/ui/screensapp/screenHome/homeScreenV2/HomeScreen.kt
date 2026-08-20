@@ -122,10 +122,10 @@ fun HomeScreen(navController: NavController) {
         )
 
     Column(
-        modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
+        modifier = Modifier.background(color = MaterialTheme.colorScheme.onPrimary),
     ) {
         ScaffoldCustom(
-            containerColor = MaterialTheme.colorScheme.background,
+            containerColor = MaterialTheme.colorScheme.onPrimary,
             titleTopBar =
                 if (state.hasErrorOnNameUser || state.nameUser.isEmpty()) {
                     stringResource(R.string.welcome)
