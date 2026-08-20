@@ -22,6 +22,8 @@ class FakeTutorViewModel : TutorViewModel() {
     override fun failed(exception: Throwable?) {}
 
     override fun logout() {}
+
+    override fun checkFeedbackEnabled() {}
 }
 
 abstract class TutorViewModel : ViewModel() {
@@ -36,4 +38,6 @@ abstract class TutorViewModel : ViewModel() {
     abstract fun failed(exception: Throwable?)
 
     abstract fun logout()
+
+    abstract fun checkFeedbackEnabled()
 }

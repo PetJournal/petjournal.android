@@ -17,6 +17,9 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -33,6 +36,7 @@ import com.soujunior.petjournal.ui.components.LogoutButton
 import com.soujunior.petjournal.ui.components.NavigationBar
 import com.soujunior.petjournal.ui.components.ScaffoldCustom
 import com.soujunior.petjournal.ui.components.UserProfileHeader
+import com.soujunior.petjournal.ui.components.bottomSheet.FeedbackBottomSheet
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
 import ir.kaaveh.sdpcompose.sdp
 import org.koin.androidx.compose.getViewModel
@@ -52,6 +56,20 @@ fun getTutorViewModelForPreview(): TutorViewModel {
 fun TutorScreen(navController: NavController) {
     val viewModel: TutorViewModel = getTutorViewModelForPreview()
     val state by viewModel.state.collectAsStateWithLifecycle()
+    var showFeedbackDialog by remember { mutableStateOf(false) }
+
+    val lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
+    androidx.compose.runtime.DisposableEffect(lifecycleOwner) {
+        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+            if (event == androidx.lifecycle.Lifecycle.Event.ON_RESUME) {
+                viewModel.checkFeedbackEnabled()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
     Column(
         modifier = Modifier.background(color = MaterialTheme.colorScheme.onPrimary),
@@ -126,21 +144,25 @@ fun TutorScreen(navController: NavController) {
                                     navController.navigate("forgotPassword")
                                 },
                             )
+                            if (state.isFeedbackEnabled) {
+                                ActionItem(
+                                    title = "Enviar Feedback",
+                                    onClick = { showFeedbackDialog = true },
+                                )
+                            }
                             ActionItem(
                                 title = stringResource(R.string.config),
                                 onClick = { navController.navigate("profile/settingsScreen") },
                             )
-//                            ActionItem(
-//                                title = stringResource(R.string.privacy_policy),
-//                                onClick = { navController.navigate("profile/privacyPolicyScreen") },
-//                            )
-//                        ActionItem(
-//                            title = stringResource(R.string.delete_account),
-//                            onClick = {},
-//                        )
                         }
                     }
                 }
+
+                FeedbackBottomSheet(
+                    isVisible = showFeedbackDialog,
+                    screenContext = "Perfil",
+                    onDismiss = { showFeedbackDialog = false }
+                )
             },
         )
     }

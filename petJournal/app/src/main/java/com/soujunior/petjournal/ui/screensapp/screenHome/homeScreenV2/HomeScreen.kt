@@ -44,6 +44,7 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -83,6 +84,7 @@ import com.soujunior.petjournal.ui.components.dialog.CardDialog
 import com.soujunior.petjournal.ui.components.horizontalButtonList.HorizontalButtonList
 import com.soujunior.petjournal.ui.model.TagOption
 import com.soujunior.petjournal.ui.model.TaskData
+import com.soujunior.petjournal.ui.components.bottomSheet.FeedbackBottomSheet
 import com.soujunior.petjournal.ui.screensapp.screenHome.homeScreenV2.components.Carousel
 import com.soujunior.petjournal.ui.screensapp.screenTasks.taskListScreen.components.TaskDateComponent
 import com.soujunior.petjournal.ui.theme.PetJournalTheme
@@ -97,6 +99,7 @@ fun HomeScreen(navController: NavController) {
     var showSheet by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
     var taskToDeleteId by remember { mutableStateOf<Pair<String, String>?>(null) }
+    var showFeedbackDialog by remember { mutableStateOf(false) }
     val viewModel: HomeScreenViewModel = getCorrectViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -105,6 +108,19 @@ fun HomeScreen(navController: NavController) {
             contract = ActivityResultContracts.RequestPermission(),
         ) { _ ->
         }
+
+    val lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
+    androidx.compose.runtime.DisposableEffect(lifecycleOwner) {
+        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+            if (event == androidx.lifecycle.Lifecycle.Event.ON_RESUME) {
+                viewModel.checkFeedbackEnabled()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.checkNotificationPermission {
@@ -122,10 +138,10 @@ fun HomeScreen(navController: NavController) {
         )
 
     Column(
-        modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
+        modifier = Modifier.background(color = MaterialTheme.colorScheme.onPrimary),
     ) {
         ScaffoldCustom(
-            containerColor = MaterialTheme.colorScheme.background,
+            containerColor = MaterialTheme.colorScheme.onPrimary,
             titleTopBar =
                 if (state.hasErrorOnNameUser || state.nameUser.isEmpty()) {
                     stringResource(R.string.welcome)
@@ -147,7 +163,11 @@ fun HomeScreen(navController: NavController) {
                         modifier = Modifier.padding(end = 8.dp),
                     )
                 }
-                HomeTopBarActions(onLogout = { viewModel.logout() })
+                HomeTopBarActions(
+                    onLogout = { viewModel.logout() },
+                    onFeedback = { showFeedbackDialog = true },
+                    isFeedbackEnabled = state.isFeedbackEnabled
+                )
             },
             shadowBelowTopBar = 0.dp,
             showButtonToReturn = false,
@@ -294,6 +314,12 @@ fun HomeScreen(navController: NavController) {
                             },
                         )
                     }
+
+                    FeedbackBottomSheet(
+                        isVisible = showFeedbackDialog,
+                        screenContext = "Home",
+                        onDismiss = { showFeedbackDialog = false }
+                    )
                 }
             },
         )
@@ -354,7 +380,7 @@ private fun SectionHeader(
 }
 
 @Composable
-private fun HomeTopBarActions(onLogout: () -> Unit) {
+private fun HomeTopBarActions(onLogout: () -> Unit, onFeedback: () -> Unit, isFeedbackEnabled: Boolean) {
     val showDropdownMenu = remember { mutableStateOf(false) }
 
     Box {
@@ -377,6 +403,26 @@ private fun HomeTopBarActions(onLogout: () -> Unit) {
             onDismissRequest = { showDropdownMenu.value = false },
             modifier = Modifier.padding(end = 16.dp),
         ) {
+            if (isFeedbackEnabled) {
+                DropdownMenuItem(
+                onClick = {
+                    showDropdownMenu.value = false
+                    onFeedback()
+                },
+                text = {
+                    Text(
+                        text = "Enviar Feedback",
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                },
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Send,
+                        contentDescription = "Enviar Feedback",
+                    )
+                },
+            )
+            }
             DropdownMenuItem(
                 onClick = {
                     showDropdownMenu.value = false
