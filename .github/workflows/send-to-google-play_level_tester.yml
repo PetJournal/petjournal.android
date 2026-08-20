@@ -49,6 +49,9 @@ jobs:
 
       - name: Build App Bundle (Release)
         working-directory: ./petJournal
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          GIST_RAW_URL: ${{ secrets.GIST_RAW_URL }}
         run: |
           ./gradlew :app:bundleRelease \
             -PversionCode=$((${{ github.run_number }} + 40)) \
