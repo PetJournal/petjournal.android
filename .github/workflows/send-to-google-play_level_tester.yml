@@ -5,39 +5,32 @@ on:
   push:
     branches:
       - developer
-
 jobs:
   deploy-google-play:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: 📋 Informações da Execução
         run: |
           echo "🌿 Branch atual: ${{ github.ref_name }}"
           echo "📦 App ID (Android): com.soujunior.petjournal"
           echo "🔢 Version Code: $((${{ github.run_number }} + 40))"
           echo "🏷️ Version Name: 1.0.$((${{ github.run_number }} + 40))"
-
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           java-version: "17"
           distribution: temurin
           cache: 'gradle'
-
       - name: Grant execute permission for gradlew
         run: chmod +x petJournal/gradlew
-
       - name: Setup Keystore
         run: |
           mkdir -p petJournal/app 
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > petJournal/app/keystore.jks
-
       - name: Create key.properties
         run: |
           cat > petJournal/key.properties <<EOF
@@ -55,7 +48,6 @@ jobs:
           ./gradlew :app:bundleRelease \
             -PversionCode=$((${{ github.run_number }} + 40)) \
             -PversionName="1.0.$((${{ github.run_number }} + 40))"
-      
       - name: "Checar Secret do Google"
         env:
           SECRET: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
@@ -65,12 +57,10 @@ jobs:
             exit 1
           fi
           echo "✅ SUCESSO: A variável foi encontrada e contém dados!"
-
       - name: "Criar Arquivo JSON do Google"
         env:
           SECRET_VAL: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
         run: echo "$SECRET_VAL" | base64 --decode > petJournal/service-account.json
-        
       - name: Upload to Google Play
         id: upload
         uses: r0adkll/upload-google-play@v1
@@ -81,7 +71,6 @@ jobs:
           tracks: internal
           status: completed
           changesNotSentForReview: false
-
       - name: Resultado do Deploy
         if: always()
         run: |
