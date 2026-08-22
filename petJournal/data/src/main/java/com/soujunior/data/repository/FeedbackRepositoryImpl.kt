@@ -1,5 +1,6 @@
 package com.soujunior.data.repository
 
+import android.util.Log
 import com.soujunior.data.remote.DiscordWebhookService
 import com.soujunior.data.remote.model.discord.DiscordEmbed
 import com.soujunior.data.remote.model.discord.DiscordEmbedField
@@ -20,6 +21,12 @@ class FeedbackRepositoryImpl(
 
     override suspend fun sendFeedback(message: String, screenContext: String): Result<Unit> {
         return try {
+            if (webhookUrl.isBlank()) {
+                val errorMsg = "DISCORD_WEBHOOK_URL is empty"
+                Log.e("FeedbackRepo", errorMsg)
+                return Result.failure(Exception(errorMsg))
+            }
+
             val timestamp = getCurrentIsoTimestamp()
             
             val payload = DiscordWebhookPayload(
@@ -41,9 +48,12 @@ class FeedbackRepositoryImpl(
             if (response.isSuccessful) {
                 Result.success(Unit)
             } else {
-                Result.failure(Exception("Failed to send feedback: ${response.code()} ${response.message()}"))
+                val errorMsg = "Failed to send feedback: ${response.code()} ${response.message()}"
+                Log.e("FeedbackRepo", errorMsg)
+                Result.failure(Exception(errorMsg))
             }
         } catch (e: Exception) {
+            Log.e("FeedbackRepo", "Exception in sendFeedback: ${e.message}", e)
             Result.failure(e)
         }
     }

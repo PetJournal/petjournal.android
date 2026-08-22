@@ -11,6 +11,10 @@ class FeatureFlagRepositoryImpl(
 
     override suspend fun isFeedbackEnabled(): Boolean {
         return try {
+            if (BuildConfig.GIST_RAW_URL.isBlank()) {
+                Log.e("FeatureFlagRepo", "GIST_RAW_URL is empty")
+                return false
+            }
             val flags = service.getFeatureFlags(BuildConfig.GIST_RAW_URL)
             flags["com.soujunior.petjournal"] ?: false
         } catch (e: Exception) {
