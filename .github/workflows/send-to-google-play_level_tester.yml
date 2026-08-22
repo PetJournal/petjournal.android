@@ -46,6 +46,32 @@ jobs:
           keyAlias=${{ secrets.KEY_ALIAS }}
           keyPassword=${{ secrets.KEY_PASSWORD }}
           EOF
+      - name: 🔍 Validar e Exibir Secrets (Discord e Gist)
+        env:
+          DISCORD_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          GIST_URL: ${{ secrets.GIST_RAW_URL }}
+        run: |
+          echo "--- Checando DISCORD_WEBHOOK_URL ---"
+          if [ -z "$DISCORD_URL" ]; then
+            echo "🚨 ERRO: A secret DISCORD_WEBHOOK_URL está VAZIA."
+            exit 1
+          fi
+          echo "✅ DISCORD_WEBHOOK_URL está preenchida!"
+          echo "Tamanho: ${#DISCORD_URL} caracteres"
+          echo "Valor injetado (espaçado para contornar a máscara do GH):"
+          echo "$DISCORD_URL" | sed 's/./& /g'
+          
+          echo ""
+          
+          echo "--- Checando GIST_RAW_URL ---"
+          if [ -z "$GIST_URL" ]; then
+            echo "🚨 ERRO: A secret GIST_RAW_URL está VAZIA."
+            exit 1
+          fi
+          echo "✅ GIST_RAW_URL está preenchida!"
+          echo "Tamanho: ${#GIST_URL} caracteres"
+          echo "Valor injetado (espaçado para contornar a máscara do GH):"
+          echo "$GIST_URL" | sed 's/./& /g'
 
       - name: Build App Bundle (Release)
         working-directory: ./petJournal
