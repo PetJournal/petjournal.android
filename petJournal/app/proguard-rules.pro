@@ -48,6 +48,8 @@
 # Interfaces de API do Retrofit (usadas por reflexão via Proxy)
 -keep interface com.soujunior.data.remote.AuthDataSource { *; }
 -keep interface com.soujunior.data.remote.RemoteDataSource { *; }
+-keep interface com.soujunior.data.remote.FeatureFlagService { *; }
+-keep interface com.soujunior.data.remote.DiscordWebhookService { *; }
 
 # Mantém classes que estendem Call/CallAdapter do Retrofit
 -keep class com.soujunior.data.remote.adapters.** { *; }
